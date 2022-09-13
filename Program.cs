@@ -4,6 +4,7 @@ namespace SSXMultiTool
     internal static class Program
     {
         public static string Version = "0.0.1";
+        public static bool Start = true;
         public static SSXMultitoolHubpage hubpage = new SSXMultitoolHubpage();
         /// <summary>
         ///  The main entry point for the application.
@@ -17,9 +18,20 @@ namespace SSXMultiTool
             Application.Run(hubpage);
         }
 
-        static void HideHubpage()
+        public static void HideHubpage()
         {
-            hubpage.Hide();
+            if (Start)
+            {
+                Start = false;
+                hubpage.Hide();
+            }
+        }
+
+        public static void ShowHubpage()
+        {
+            Start=true;
+            hubpage.Show();
         }
     }
 }
+//https://acharyarajasekhar.wordpress.com/2015/04/10/c-winforms-openfiledialog-with-mtathread/

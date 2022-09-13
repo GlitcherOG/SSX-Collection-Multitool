@@ -38,7 +38,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button7 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.button4 = new System.Windows.Forms.Button();
+            this.SSHImageButton = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.BigArchiveButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -136,7 +136,7 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.button4);
+            this.groupBox4.Controls.Add(this.SSHImageButton);
             this.groupBox4.Controls.Add(this.button8);
             this.groupBox4.Controls.Add(this.BigArchiveButton);
             this.groupBox4.Location = new System.Drawing.Point(12, 190);
@@ -146,14 +146,15 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Misc Tools";
             // 
-            // button4
+            // SSHImageButton
             // 
-            this.button4.Location = new System.Drawing.Point(206, 22);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(94, 50);
-            this.button4.TabIndex = 2;
-            this.button4.Text = "SSH Image File";
-            this.button4.UseVisualStyleBackColor = true;
+            this.SSHImageButton.Location = new System.Drawing.Point(206, 22);
+            this.SSHImageButton.Name = "SSHImageButton";
+            this.SSHImageButton.Size = new System.Drawing.Size(94, 50);
+            this.SSHImageButton.TabIndex = 2;
+            this.SSHImageButton.Text = "SSH Image File";
+            this.SSHImageButton.UseVisualStyleBackColor = true;
+            this.SSHImageButton.Click += new System.EventHandler(this.SSHImageButton_Click);
             // 
             // button8
             // 
@@ -205,7 +206,7 @@
         private GroupBox groupBox3;
         private Button button7;
         private GroupBox groupBox4;
-        private Button button4;
+        private Button SSHImageButton;
         private Button button8;
         private Button BigArchiveButton;
     }

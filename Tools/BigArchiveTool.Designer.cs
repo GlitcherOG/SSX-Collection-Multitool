@@ -93,33 +93,33 @@
             // LoadBigArchive
             // 
             this.LoadBigArchive.Name = "LoadBigArchive";
-            this.LoadBigArchive.Size = new System.Drawing.Size(180, 22);
+            this.LoadBigArchive.Size = new System.Drawing.Size(176, 22);
             this.LoadBigArchive.Text = "Load .Big Archive";
             this.LoadBigArchive.Click += new System.EventHandler(this.LoadBigArchive_Click);
             // 
             // LoadFolder
             // 
             this.LoadFolder.Name = "LoadFolder";
-            this.LoadFolder.Size = new System.Drawing.Size(180, 22);
+            this.LoadFolder.Size = new System.Drawing.Size(176, 22);
             this.LoadFolder.Text = "Load Folder";
             this.LoadFolder.Click += new System.EventHandler(this.LoadFolder_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(173, 6);
             // 
             // ExtractBigArchive
             // 
             this.ExtractBigArchive.Name = "ExtractBigArchive";
-            this.ExtractBigArchive.Size = new System.Drawing.Size(180, 22);
+            this.ExtractBigArchive.Size = new System.Drawing.Size(176, 22);
             this.ExtractBigArchive.Text = "Extract .Big Archive";
             this.ExtractBigArchive.Click += new System.EventHandler(this.ExtractBigArchive_Click);
             // 
             // BuildBigArchive
             // 
             this.BuildBigArchive.Name = "BuildBigArchive";
-            this.BuildBigArchive.Size = new System.Drawing.Size(180, 22);
+            this.BuildBigArchive.Size = new System.Drawing.Size(176, 22);
             this.BuildBigArchive.Text = "Build .Big Archive";
             this.BuildBigArchive.Click += new System.EventHandler(this.BuildBigArchive_Click);
             // 
@@ -157,6 +157,7 @@
             this.Controls.Add(this.BigDataView);
             this.Name = "BigArchiveTool";
             this.Text = "Big Archive";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BigArchiveTool_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.BigDataView)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

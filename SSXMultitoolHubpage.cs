@@ -19,7 +19,14 @@ namespace SSXMultiTool
 
         private void BigArchiveButton_Click(object sender, EventArgs e)
         {
-            new Thread(() => new BigArchiveTool().ShowDialog()).Start();
+            new BigArchiveTool().ShowDialog();
+            //new Thread(() => new BigArchiveTool().ShowDialog()).Start();
+        }
+
+        private void SSHImageButton_Click(object sender, EventArgs e)
+        {
+            new SSHImageTools().ShowDialog();
+            //new Thread(() => new SSHImageTools().ShowDialog()).Start();
         }
     }
 }

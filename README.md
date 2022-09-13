@@ -2,17 +2,37 @@
  
 This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX-PS2-Collection-Modder) created in .net framework. It was moved over to .net due to certain limitations discovered in the programs development that made loading of certain files next to impossible as such it was decided to just redo the entire project and improve it as i did.
 
+## Current Todo
+- SSH Colour Fix
+- SSH Change Order of Image
+- SSH Add/Remove
+- Redo Code So on importing of image it converts it to matrix rather than doing it at the end
+- Make Changing Textboxes work
+- Make buttons work
+
+## Next Todo
+- LOC Page
+- LOC Buttons Update
+- LOC Script Update
+- Export As Txt
+- Import As Txt if line count matches
+
+## Next Todo 2
+- Setup ISO Handler
+- Setup Settings Page
+
+## Next Todo 3
+- SSX 3 Page
+- Delete PAD files
+- Dropdown With tool access
+
 ## Todo
 - Hub Form To Connect all windows
 - Allow Arguments to boot certain forms at launch
-- SSH Importing/Editing.
-- Improve SSH to reduce lag and to allow adding/removing of images.
 - Character DB
 - Music INF Editor
 - Loc Files
 - Custom Forms For SSX, Tricky, SSX 3
-- Emulator Support
-- Easy ISO Extraction/Making
 
 - PBD Json Files
  - Particle Instance Json
