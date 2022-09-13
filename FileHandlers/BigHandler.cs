@@ -131,7 +131,7 @@ namespace SSXMultiTool.FileHandlers
             }
         }
 
-        public void ExtractBig(string path = null)
+        public void ExtractBig(string path)
         {
             using (Stream stream = File.Open(bigPath, FileMode.Open))
             {
@@ -360,6 +360,31 @@ namespace SSXMultiTool.FileHandlers
                 }
             }
         }
+        public struct BIGFHeader
+        {
+            public string MagicWords;
+            public int fileSize;
+            public int ammount;
+            public int startOffset;
+            public bool compression;
+            public byte[] footer;
+        }
+
+        public struct BIGFFiles
+        {
+            public string path;
+            public bool Compressed;
+            public int size;
+            public int offset;
+            public int UncompressedSize;
+        }
+
+        public enum BigType
+        {
+            BIGF,
+            C0FB,
+            BIG4
+        }
     }
 
 //00-03 - Magic Word
@@ -371,30 +396,4 @@ namespace SSXMultiTool.FileHandlers
 //14-17 - Size
 //17 - file path
 //80 ish blank bytes after each file (Done to make the file an even number?)
-
-    struct BIGFHeader
-    {
-        public string MagicWords;
-        public int fileSize;
-        public int ammount;
-        public int startOffset;
-        public bool compression;
-        public byte[] footer;
-    }
-
-    struct BIGFFiles
-    {
-        public string path;
-        public bool Compressed;
-        public int size;
-        public int offset;
-        public int UncompressedSize;
-    }
-
-    enum BigType
-    {
-        BIGF,
-        C0FB,
-        BIG4
-    }
 }

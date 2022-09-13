@@ -32,14 +32,14 @@
             this.BigDataView = new System.Windows.Forms.DataGridView();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.LoadBigArchive = new System.Windows.Forms.ToolStripMenuItem();
+            this.LoadFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.ExtractBigArchive = new System.Windows.Forms.ToolStripMenuItem();
+            this.BuildBigArchive = new System.Windows.Forms.ToolStripMenuItem();
             this.BigTypeCombobox = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.BigDataView)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -79,51 +79,61 @@
             // 
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.toolStripMenuItem2,
+            this.LoadBigArchive,
+            this.LoadFolder,
             this.toolStripSeparator1,
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem4});
+            this.ExtractBigArchive,
+            this.BuildBigArchive});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(38, 22);
             this.toolStripDropDownButton1.Text = "File";
             // 
-            // toolStripMenuItem1
+            // LoadBigArchive
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem1.Text = "Load .Big Archive";
+            this.LoadBigArchive.Name = "LoadBigArchive";
+            this.LoadBigArchive.Size = new System.Drawing.Size(180, 22);
+            this.LoadBigArchive.Text = "Load .Big Archive";
+            this.LoadBigArchive.Click += new System.EventHandler(this.LoadBigArchive_Click);
             // 
-            // toolStripMenuItem2
+            // LoadFolder
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem2.Text = "Load Folder";
+            this.LoadFolder.Name = "LoadFolder";
+            this.LoadFolder.Size = new System.Drawing.Size(180, 22);
+            this.LoadFolder.Text = "Load Folder";
+            this.LoadFolder.Click += new System.EventHandler(this.LoadFolder_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
-            // toolStripMenuItem3
+            // ExtractBigArchive
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem3.Text = "Extract .Big Archive";
+            this.ExtractBigArchive.Name = "ExtractBigArchive";
+            this.ExtractBigArchive.Size = new System.Drawing.Size(180, 22);
+            this.ExtractBigArchive.Text = "Extract .Big Archive";
+            this.ExtractBigArchive.Click += new System.EventHandler(this.ExtractBigArchive_Click);
             // 
-            // toolStripMenuItem4
+            // BuildBigArchive
             // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItem4.Text = "Build .Big Archive";
+            this.BuildBigArchive.Name = "BuildBigArchive";
+            this.BuildBigArchive.Size = new System.Drawing.Size(180, 22);
+            this.BuildBigArchive.Text = "Build .Big Archive";
+            this.BuildBigArchive.Click += new System.EventHandler(this.BuildBigArchive_Click);
             // 
-            // toolStripSeparator2
+            // BigTypeCombobox
             // 
-            this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.BigTypeCombobox.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.BigTypeCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.BigTypeCombobox.Enabled = false;
+            this.BigTypeCombobox.Items.AddRange(new object[] {
+            "BIGF",
+            "C0FB",
+            "BIG4"});
+            this.BigTypeCombobox.Name = "BigTypeCombobox";
+            this.BigTypeCombobox.Size = new System.Drawing.Size(121, 25);
             // 
             // toolStripLabel1
             // 
@@ -132,16 +142,11 @@
             this.toolStripLabel1.Size = new System.Drawing.Size(54, 22);
             this.toolStripLabel1.Text = "Big Type:";
             // 
-            // BigTypeCombobox
+            // toolStripSeparator2
             // 
-            this.BigTypeCombobox.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.BigTypeCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.BigTypeCombobox.Items.AddRange(new object[] {
-            "BIGF",
-            "C0FB",
-            "BIG4"});
-            this.BigTypeCombobox.Name = "BigTypeCombobox";
-            this.BigTypeCombobox.Size = new System.Drawing.Size(121, 25);
+            this.toolStripSeparator2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // BigArchiveTool
             // 
@@ -165,11 +170,11 @@
         private DataGridView BigDataView;
         private ToolStrip toolStrip1;
         private ToolStripDropDownButton toolStripDropDownButton1;
-        private ToolStripMenuItem toolStripMenuItem1;
-        private ToolStripMenuItem toolStripMenuItem2;
+        private ToolStripMenuItem LoadBigArchive;
+        private ToolStripMenuItem LoadFolder;
         private ToolStripSeparator toolStripSeparator1;
-        private ToolStripMenuItem toolStripMenuItem3;
-        private ToolStripMenuItem toolStripMenuItem4;
+        private ToolStripMenuItem ExtractBigArchive;
+        private ToolStripMenuItem BuildBigArchive;
         private ToolStripComboBox BigTypeCombobox;
         private ToolStripLabel toolStripLabel1;
         private ToolStripSeparator toolStripSeparator2;
