@@ -16,5 +16,10 @@ namespace SSXMultiTool
         {
             InitializeComponent();
         }
+
+        private void BigArchiveButton_Click(object sender, EventArgs e)
+        {
+            new Thread(() => new BigArchiveTool().ShowDialog()).Start();
+        }
     }
 }
