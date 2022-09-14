@@ -28,5 +28,10 @@ namespace SSXMultiTool
             new SSHImageTools().ShowDialog();
             //new Thread(() => new SSHImageTools().ShowDialog()).Start();
         }
+
+        private void TrickyLevelButton_Click(object sender, EventArgs e)
+        {
+            new TrickyProjectWindow().ShowDialog();
+        }
     }
 }

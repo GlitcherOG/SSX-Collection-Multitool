@@ -99,8 +99,57 @@ namespace SSXMultiTool
             instancesJson.CreateJson(ExportPath + "/Instances.json");
 
             //Create Particle Instances JSON
+            ParticleInstanceJson particleInstanceJson = new ParticleInstanceJson();
+            for (int i = 0; i < pbdHandler.particleInstances.Count; i++)
+            {
+                ParticleInstanceJson.ParticleJson TempParticle = new ParticleInstanceJson.ParticleJson();
+                TempParticle.ParticleName = mapHandler.ParticleInstances[i].Name;
+                TempParticle.MatrixCol1 = pbdHandler.particleInstances[i].MatrixCol1;
+                TempParticle.MatrixCol2 = pbdHandler.particleInstances[i].MatrixCol2;
+                TempParticle.MatrixCol3 = pbdHandler.particleInstances[i].MatrixCol3;
+                TempParticle.ParticleInstancePosition = pbdHandler.particleInstances[i].ParticleInstancePosition;
+                TempParticle.UnknownInt1 = pbdHandler.particleInstances[i].UnknownInt1;
+                TempParticle.LowestXYZ = pbdHandler.particleInstances[i].LowestXYZ;
+                TempParticle.HighestXYZ = pbdHandler.particleInstances[i].HighestXYZ;
+                TempParticle.UnknownInt8 = pbdHandler.particleInstances[i].UnknownInt8;
+                TempParticle.UnknownInt9 = pbdHandler.particleInstances[i].UnknownInt9;
+                TempParticle.UnknownInt10 = pbdHandler.particleInstances[i].UnknownInt10;
+                TempParticle.UnknownInt11 = pbdHandler.particleInstances[i].UnknownInt11;
+                TempParticle.UnknownInt12 = pbdHandler.particleInstances[i].UnknownInt12;
+                particleInstanceJson.particleJsons.Add(TempParticle);
+            }
+            particleInstanceJson.CreateJson(ExportPath + "/ParticleInstances.json");
 
             //Create Material Json
+            MaterialJson materialJson = new MaterialJson();
+            for (int i = 0; i < pbdHandler.materials.Count; i++)
+            {
+                MaterialJson.MaterialsJson TempMaterial = new MaterialJson.MaterialsJson();
+                TempMaterial.MaterialName = mapHandler.Materials[i].Name;
+
+                TempMaterial.UnknownInt1 = pbdHandler.materials[i].UnknownInt1;
+                TempMaterial.UnknownInt2 = pbdHandler.materials[i].UnknownInt2;
+                TempMaterial.UnknownInt3 = pbdHandler.materials[i].UnknownInt3;
+                TempMaterial.UnknownInt4 = pbdHandler.materials[i].UnknownInt4;
+                TempMaterial.UnknownInt5 = pbdHandler.materials[i].UnknownInt5;
+                TempMaterial.UnknownInt6 = pbdHandler.materials[i].UnknownInt6;
+                TempMaterial.UnknownInt7 = pbdHandler.materials[i].UnknownInt7;
+                TempMaterial.UnknownInt8 = pbdHandler.materials[i].UnknownInt8;
+                TempMaterial.UnknownInt9 = pbdHandler.materials[i].UnknownInt9;
+                TempMaterial.UnknownInt10 = pbdHandler.materials[i].UnknownInt10;
+                TempMaterial.UnknownInt11 = pbdHandler.materials[i].UnknownInt11;
+                TempMaterial.UnknownInt12 = pbdHandler.materials[i].UnknownInt12;
+                TempMaterial.UnknownInt13 = pbdHandler.materials[i].UnknownInt13;
+                TempMaterial.UnknownInt14 = pbdHandler.materials[i].UnknownInt14;
+                TempMaterial.UnknownInt15 = pbdHandler.materials[i].UnknownInt15;
+                TempMaterial.UnknownInt16 = pbdHandler.materials[i].UnknownInt16;
+                TempMaterial.UnknownInt17 = pbdHandler.materials[i].UnknownInt17;
+                TempMaterial.UnknownInt18 = pbdHandler.materials[i].UnknownInt18;
+                materialJson.MaterialsJsons.Add(TempMaterial);
+            }
+            materialJson.CreateJson(ExportPath + "/Material.json");
+
+            //Create Material Block Json
 
             //Create Lights Json
 

@@ -57,27 +57,27 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button10 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
+            this.HalfAlphaButton = new System.Windows.Forms.Button();
+            this.DoubleAlphaButton = new System.Windows.Forms.Button();
             this.ColourAmountLabel = new System.Windows.Forms.Label();
             this.ColourByteSwappedCheckbox = new System.Windows.Forms.CheckBox();
-            this.button11 = new System.Windows.Forms.Button();
+            this.HalfColourButton = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
-            this.button12 = new System.Windows.Forms.Button();
+            this.DoubleColourButton = new System.Windows.Forms.Button();
             this.ColourAlphaFix = new System.Windows.Forms.CheckBox();
             this.MetalAlphaCheckbox = new System.Windows.Forms.CheckBox();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.SSHBothImport = new System.Windows.Forms.Button();
+            this.SSHBothExtract = new System.Windows.Forms.Button();
+            this.SSHMetalExtract = new System.Windows.Forms.Button();
+            this.SSHMetalImport = new System.Windows.Forms.Button();
             this.BlackDisplayCheckBox = new System.Windows.Forms.CheckBox();
             this.PictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button14 = new System.Windows.Forms.Button();
-            this.button15 = new System.Windows.Forms.Button();
+            this.ImageMoveUpButton = new System.Windows.Forms.Button();
+            this.ImageMoveDownButton = new System.Windows.Forms.Button();
+            this.IamgeAddButton = new System.Windows.Forms.Button();
+            this.ImageRemoveButton = new System.Windows.Forms.Button();
+            this.ReplaceImageButton = new System.Windows.Forms.Button();
+            this.ExportImageButton = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -177,6 +177,7 @@
             this.GimxVersionTextBox.Name = "GimxVersionTextBox";
             this.GimxVersionTextBox.Size = new System.Drawing.Size(125, 23);
             this.GimxVersionTextBox.TabIndex = 3;
+            this.GimxVersionTextBox.TextChanged += new System.EventHandler(this.GimxVersionTextBox_TextChanged);
             // 
             // label3
             // 
@@ -233,6 +234,7 @@
             this.YAxisNum.Name = "YAxisNum";
             this.YAxisNum.Size = new System.Drawing.Size(112, 23);
             this.YAxisNum.TabIndex = 27;
+            this.YAxisNum.ValueChanged += new System.EventHandler(this.UpdateImageDetails);
             // 
             // XAxisNum
             // 
@@ -240,6 +242,7 @@
             this.XAxisNum.Name = "XAxisNum";
             this.XAxisNum.Size = new System.Drawing.Size(112, 23);
             this.XAxisNum.TabIndex = 26;
+            this.XAxisNum.ValueChanged += new System.EventHandler(this.UpdateImageDetails);
             // 
             // ImageSizeLabel
             // 
@@ -268,6 +271,7 @@
             this.ImageByteSwappedCheckbox.TabIndex = 6;
             this.ImageByteSwappedCheckbox.Text = "Byte Swapped";
             this.ImageByteSwappedCheckbox.UseVisualStyleBackColor = true;
+            this.ImageByteSwappedCheckbox.CheckStateChanged += new System.EventHandler(this.UpdateImageDetails);
             // 
             // MatrixTypeDropdown
             // 
@@ -282,6 +286,7 @@
             this.MatrixTypeDropdown.Name = "MatrixTypeDropdown";
             this.MatrixTypeDropdown.Size = new System.Drawing.Size(184, 23);
             this.MatrixTypeDropdown.TabIndex = 25;
+            this.MatrixTypeDropdown.SelectedIndexChanged += new System.EventHandler(this.UpdateImageDetails);
             // 
             // label8
             // 
@@ -316,6 +321,7 @@
             this.ImageLongNameTextbox.Name = "ImageLongNameTextbox";
             this.ImageLongNameTextbox.Size = new System.Drawing.Size(196, 23);
             this.ImageLongNameTextbox.TabIndex = 24;
+            this.ImageLongNameTextbox.TextChanged += new System.EventHandler(this.UpdateImageDetails);
             // 
             // ImageShortNameTextbox
             // 
@@ -324,6 +330,7 @@
             this.ImageShortNameTextbox.Name = "ImageShortNameTextbox";
             this.ImageShortNameTextbox.Size = new System.Drawing.Size(112, 23);
             this.ImageShortNameTextbox.TabIndex = 4;
+            this.ImageShortNameTextbox.TextChanged += new System.EventHandler(this.UpdateImageDetails);
             // 
             // label5
             // 
@@ -345,19 +352,19 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.button10);
-            this.groupBox3.Controls.Add(this.button9);
+            this.groupBox3.Controls.Add(this.HalfAlphaButton);
+            this.groupBox3.Controls.Add(this.DoubleAlphaButton);
             this.groupBox3.Controls.Add(this.ColourAmountLabel);
             this.groupBox3.Controls.Add(this.ColourByteSwappedCheckbox);
-            this.groupBox3.Controls.Add(this.button11);
+            this.groupBox3.Controls.Add(this.HalfColourButton);
             this.groupBox3.Controls.Add(this.label12);
-            this.groupBox3.Controls.Add(this.button12);
+            this.groupBox3.Controls.Add(this.DoubleColourButton);
             this.groupBox3.Controls.Add(this.ColourAlphaFix);
             this.groupBox3.Controls.Add(this.MetalAlphaCheckbox);
-            this.groupBox3.Controls.Add(this.button8);
-            this.groupBox3.Controls.Add(this.button7);
-            this.groupBox3.Controls.Add(this.button5);
-            this.groupBox3.Controls.Add(this.button6);
+            this.groupBox3.Controls.Add(this.SSHBothImport);
+            this.groupBox3.Controls.Add(this.SSHBothExtract);
+            this.groupBox3.Controls.Add(this.SSHMetalExtract);
+            this.groupBox3.Controls.Add(this.SSHMetalImport);
             this.groupBox3.Location = new System.Drawing.Point(192, 252);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(521, 169);
@@ -365,23 +372,25 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Colour Table Info";
             // 
-            // button10
+            // HalfAlphaButton
             // 
-            this.button10.Location = new System.Drawing.Point(118, 138);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(90, 23);
-            this.button10.TabIndex = 22;
-            this.button10.Text = "Half Alpha";
-            this.button10.UseVisualStyleBackColor = true;
+            this.HalfAlphaButton.Location = new System.Drawing.Point(118, 138);
+            this.HalfAlphaButton.Name = "HalfAlphaButton";
+            this.HalfAlphaButton.Size = new System.Drawing.Size(90, 23);
+            this.HalfAlphaButton.TabIndex = 22;
+            this.HalfAlphaButton.Text = "Half Alpha";
+            this.HalfAlphaButton.UseVisualStyleBackColor = true;
+            this.HalfAlphaButton.Click += new System.EventHandler(this.HalfAlphaButton_Click);
             // 
-            // button9
+            // DoubleAlphaButton
             // 
-            this.button9.Location = new System.Drawing.Point(118, 109);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(90, 23);
-            this.button9.TabIndex = 23;
-            this.button9.Text = "Double Alpha";
-            this.button9.UseVisualStyleBackColor = true;
+            this.DoubleAlphaButton.Location = new System.Drawing.Point(118, 109);
+            this.DoubleAlphaButton.Name = "DoubleAlphaButton";
+            this.DoubleAlphaButton.Size = new System.Drawing.Size(90, 23);
+            this.DoubleAlphaButton.TabIndex = 23;
+            this.DoubleAlphaButton.Text = "Double Alpha";
+            this.DoubleAlphaButton.UseVisualStyleBackColor = true;
+            this.DoubleAlphaButton.Click += new System.EventHandler(this.DoubleAlphaButton_Click);
             // 
             // ColourAmountLabel
             // 
@@ -401,15 +410,17 @@
             this.ColourByteSwappedCheckbox.TabIndex = 28;
             this.ColourByteSwappedCheckbox.Text = "Byte Swapped";
             this.ColourByteSwappedCheckbox.UseVisualStyleBackColor = true;
+            this.ColourByteSwappedCheckbox.CheckStateChanged += new System.EventHandler(this.UpdateImageDetails);
             // 
-            // button11
+            // HalfColourButton
             // 
-            this.button11.Location = new System.Drawing.Point(11, 138);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(101, 23);
-            this.button11.TabIndex = 21;
-            this.button11.Text = "Half Colours";
-            this.button11.UseVisualStyleBackColor = true;
+            this.HalfColourButton.Location = new System.Drawing.Point(11, 138);
+            this.HalfColourButton.Name = "HalfColourButton";
+            this.HalfColourButton.Size = new System.Drawing.Size(101, 23);
+            this.HalfColourButton.TabIndex = 21;
+            this.HalfColourButton.Text = "Half Colours";
+            this.HalfColourButton.UseVisualStyleBackColor = true;
+            this.HalfColourButton.Click += new System.EventHandler(this.HalfColourButton_Click);
             // 
             // label12
             // 
@@ -420,14 +431,15 @@
             this.label12.TabIndex = 28;
             this.label12.Text = "Colour Ammount";
             // 
-            // button12
+            // DoubleColourButton
             // 
-            this.button12.Location = new System.Drawing.Point(11, 109);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(101, 23);
-            this.button12.TabIndex = 20;
-            this.button12.Text = "Double Colours";
-            this.button12.UseVisualStyleBackColor = true;
+            this.DoubleColourButton.Location = new System.Drawing.Point(11, 109);
+            this.DoubleColourButton.Name = "DoubleColourButton";
+            this.DoubleColourButton.Size = new System.Drawing.Size(101, 23);
+            this.DoubleColourButton.TabIndex = 20;
+            this.DoubleColourButton.Text = "Double Colours";
+            this.DoubleColourButton.UseVisualStyleBackColor = true;
+            this.DoubleColourButton.Click += new System.EventHandler(this.DoubleColourButton_Click);
             // 
             // ColourAlphaFix
             // 
@@ -438,6 +450,7 @@
             this.ColourAlphaFix.TabIndex = 7;
             this.ColourAlphaFix.Text = "Alpha Fix";
             this.ColourAlphaFix.UseVisualStyleBackColor = true;
+            this.ColourAlphaFix.CheckStateChanged += new System.EventHandler(this.UpdateImageDetails);
             // 
             // MetalAlphaCheckbox
             // 
@@ -448,42 +461,47 @@
             this.MetalAlphaCheckbox.TabIndex = 8;
             this.MetalAlphaCheckbox.Text = "Metal Alpha";
             this.MetalAlphaCheckbox.UseVisualStyleBackColor = true;
+            this.MetalAlphaCheckbox.CheckStateChanged += new System.EventHandler(this.UpdateImageDetails);
             // 
-            // button8
+            // SSHBothImport
             // 
-            this.button8.Location = new System.Drawing.Point(427, 72);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(89, 23);
-            this.button8.TabIndex = 19;
-            this.button8.Text = "Both Import";
-            this.button8.UseVisualStyleBackColor = true;
+            this.SSHBothImport.Location = new System.Drawing.Point(427, 66);
+            this.SSHBothImport.Name = "SSHBothImport";
+            this.SSHBothImport.Size = new System.Drawing.Size(89, 23);
+            this.SSHBothImport.TabIndex = 19;
+            this.SSHBothImport.Text = "Both Import";
+            this.SSHBothImport.UseVisualStyleBackColor = true;
+            this.SSHBothImport.Click += new System.EventHandler(this.SSHBothImport_Click);
             // 
-            // button7
+            // SSHBothExtract
             // 
-            this.button7.Location = new System.Drawing.Point(331, 72);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(90, 23);
-            this.button7.TabIndex = 18;
-            this.button7.Text = "Both Extract";
-            this.button7.UseVisualStyleBackColor = true;
+            this.SSHBothExtract.Location = new System.Drawing.Point(331, 66);
+            this.SSHBothExtract.Name = "SSHBothExtract";
+            this.SSHBothExtract.Size = new System.Drawing.Size(90, 23);
+            this.SSHBothExtract.TabIndex = 18;
+            this.SSHBothExtract.Text = "Both Extract";
+            this.SSHBothExtract.UseVisualStyleBackColor = true;
+            this.SSHBothExtract.Click += new System.EventHandler(this.SSHBothExtract_Click);
             // 
-            // button5
+            // SSHMetalExtract
             // 
-            this.button5.Location = new System.Drawing.Point(331, 43);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(90, 23);
-            this.button5.TabIndex = 16;
-            this.button5.Text = "Metal Extract";
-            this.button5.UseVisualStyleBackColor = true;
+            this.SSHMetalExtract.Location = new System.Drawing.Point(331, 37);
+            this.SSHMetalExtract.Name = "SSHMetalExtract";
+            this.SSHMetalExtract.Size = new System.Drawing.Size(90, 23);
+            this.SSHMetalExtract.TabIndex = 16;
+            this.SSHMetalExtract.Text = "Metal Extract";
+            this.SSHMetalExtract.UseVisualStyleBackColor = true;
+            this.SSHMetalExtract.Click += new System.EventHandler(this.SSHMetalExtract_Click);
             // 
-            // button6
+            // SSHMetalImport
             // 
-            this.button6.Location = new System.Drawing.Point(427, 43);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(89, 23);
-            this.button6.TabIndex = 17;
-            this.button6.Text = "Metal Import";
-            this.button6.UseVisualStyleBackColor = true;
+            this.SSHMetalImport.Location = new System.Drawing.Point(427, 37);
+            this.SSHMetalImport.Name = "SSHMetalImport";
+            this.SSHMetalImport.Size = new System.Drawing.Size(89, 23);
+            this.SSHMetalImport.TabIndex = 17;
+            this.SSHMetalImport.Text = "Metal Import";
+            this.SSHMetalImport.UseVisualStyleBackColor = true;
+            this.SSHMetalImport.Click += new System.EventHandler(this.SSHMetalImport_Click);
             // 
             // BlackDisplayCheckBox
             // 
@@ -513,77 +531,83 @@
             this.PictureBox1.TabIndex = 11;
             this.PictureBox1.TabStop = false;
             // 
-            // button1
+            // ImageMoveUpButton
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(12, 538);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(83, 23);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "/\\";
-            this.button1.UseVisualStyleBackColor = true;
+            this.ImageMoveUpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ImageMoveUpButton.Location = new System.Drawing.Point(12, 538);
+            this.ImageMoveUpButton.Name = "ImageMoveUpButton";
+            this.ImageMoveUpButton.Size = new System.Drawing.Size(83, 23);
+            this.ImageMoveUpButton.TabIndex = 12;
+            this.ImageMoveUpButton.Text = "/\\";
+            this.ImageMoveUpButton.UseVisualStyleBackColor = true;
+            this.ImageMoveUpButton.Click += new System.EventHandler(this.ImageMoveUpButton_Click);
             // 
-            // button2
+            // ImageMoveDownButton
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button2.Location = new System.Drawing.Point(101, 538);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(85, 23);
-            this.button2.TabIndex = 13;
-            this.button2.Text = "\\/";
-            this.button2.UseVisualStyleBackColor = true;
+            this.ImageMoveDownButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ImageMoveDownButton.Location = new System.Drawing.Point(101, 538);
+            this.ImageMoveDownButton.Name = "ImageMoveDownButton";
+            this.ImageMoveDownButton.Size = new System.Drawing.Size(85, 23);
+            this.ImageMoveDownButton.TabIndex = 13;
+            this.ImageMoveDownButton.Text = "\\/";
+            this.ImageMoveDownButton.UseVisualStyleBackColor = true;
+            this.ImageMoveDownButton.Click += new System.EventHandler(this.ImageMoveDownButton_Click);
             // 
-            // button3
+            // IamgeAddButton
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button3.Location = new System.Drawing.Point(12, 567);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(83, 23);
-            this.button3.TabIndex = 14;
-            this.button3.Text = "Add";
-            this.button3.UseVisualStyleBackColor = true;
+            this.IamgeAddButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.IamgeAddButton.Location = new System.Drawing.Point(12, 567);
+            this.IamgeAddButton.Name = "IamgeAddButton";
+            this.IamgeAddButton.Size = new System.Drawing.Size(83, 23);
+            this.IamgeAddButton.TabIndex = 14;
+            this.IamgeAddButton.Text = "Add";
+            this.IamgeAddButton.UseVisualStyleBackColor = true;
+            this.IamgeAddButton.Click += new System.EventHandler(this.IamgeAddButton_Click);
             // 
-            // button4
+            // ImageRemoveButton
             // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button4.Location = new System.Drawing.Point(101, 567);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(85, 23);
-            this.button4.TabIndex = 15;
-            this.button4.Text = "Remove";
-            this.button4.UseVisualStyleBackColor = true;
+            this.ImageRemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ImageRemoveButton.Location = new System.Drawing.Point(101, 567);
+            this.ImageRemoveButton.Name = "ImageRemoveButton";
+            this.ImageRemoveButton.Size = new System.Drawing.Size(85, 23);
+            this.ImageRemoveButton.TabIndex = 15;
+            this.ImageRemoveButton.Text = "Remove";
+            this.ImageRemoveButton.UseVisualStyleBackColor = true;
+            this.ImageRemoveButton.Click += new System.EventHandler(this.ImageRemoveButton_Click);
             // 
-            // button14
+            // ReplaceImageButton
             // 
-            this.button14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button14.Location = new System.Drawing.Point(719, 567);
-            this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(93, 23);
-            this.button14.TabIndex = 16;
-            this.button14.Text = "Replace Image";
-            this.button14.UseVisualStyleBackColor = true;
+            this.ReplaceImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ReplaceImageButton.Location = new System.Drawing.Point(719, 567);
+            this.ReplaceImageButton.Name = "ReplaceImageButton";
+            this.ReplaceImageButton.Size = new System.Drawing.Size(93, 23);
+            this.ReplaceImageButton.TabIndex = 16;
+            this.ReplaceImageButton.Text = "Replace Image";
+            this.ReplaceImageButton.UseVisualStyleBackColor = true;
+            this.ReplaceImageButton.Click += new System.EventHandler(this.ReplaceImageButton_Click);
             // 
-            // button15
+            // ExportImageButton
             // 
-            this.button15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button15.Location = new System.Drawing.Point(1122, 567);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(97, 23);
-            this.button15.TabIndex = 17;
-            this.button15.Text = "Export Image";
-            this.button15.UseVisualStyleBackColor = true;
+            this.ExportImageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ExportImageButton.Location = new System.Drawing.Point(1122, 567);
+            this.ExportImageButton.Name = "ExportImageButton";
+            this.ExportImageButton.Size = new System.Drawing.Size(97, 23);
+            this.ExportImageButton.TabIndex = 17;
+            this.ExportImageButton.Text = "Export Image";
+            this.ExportImageButton.UseVisualStyleBackColor = true;
+            this.ExportImageButton.Click += new System.EventHandler(this.ExportImageButton_Click);
             // 
             // SSHImageTools
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1231, 599);
-            this.Controls.Add(this.button15);
-            this.Controls.Add(this.button14);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.ExportImageButton);
+            this.Controls.Add(this.ReplaceImageButton);
+            this.Controls.Add(this.ImageRemoveButton);
+            this.Controls.Add(this.IamgeAddButton);
+            this.Controls.Add(this.ImageMoveDownButton);
+            this.Controls.Add(this.ImageMoveUpButton);
             this.Controls.Add(this.PictureBox1);
             this.Controls.Add(this.BlackDisplayCheckBox);
             this.Controls.Add(this.groupBox3);
@@ -636,18 +660,18 @@
         private CheckBox ColourAlphaFix;
         private CheckBox BlackDisplayCheckBox;
         private PictureBox PictureBox1;
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private Button button4;
-        private Button button5;
-        private Button button6;
-        private Button button7;
-        private Button button8;
-        private Button button9;
-        private Button button10;
-        private Button button11;
-        private Button button12;
+        private Button ImageMoveUpButton;
+        private Button ImageMoveDownButton;
+        private Button IamgeAddButton;
+        private Button ImageRemoveButton;
+        private Button SSHMetalExtract;
+        private Button SSHMetalImport;
+        private Button SSHBothExtract;
+        private Button SSHBothImport;
+        private Button DoubleAlphaButton;
+        private Button HalfAlphaButton;
+        private Button HalfColourButton;
+        private Button DoubleColourButton;
         private TextBox GimxVersionTextBox;
         private Label ImageSizeLabel;
         private TextBox ImageShortNameTextbox;
@@ -656,8 +680,8 @@
         private Label ColourAmountLabel;
         private CheckBox ColourByteSwappedCheckbox;
         private Label label12;
-        private Button button14;
-        private Button button15;
+        private Button ReplaceImageButton;
+        private Button ExportImageButton;
         private NumericUpDown YAxisNum;
         private NumericUpDown XAxisNum;
     }

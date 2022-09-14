@@ -36,7 +36,7 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button7 = new System.Windows.Forms.Button();
+            this.TrickyLevelButton = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.SSHImageButton = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
@@ -117,7 +117,7 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.button7);
+            this.groupBox3.Controls.Add(this.TrickyLevelButton);
             this.groupBox3.Location = new System.Drawing.Point(12, 101);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(213, 83);
@@ -125,14 +125,15 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Game Level Tools";
             // 
-            // button7
+            // TrickyLevelButton
             // 
-            this.button7.Location = new System.Drawing.Point(6, 22);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(94, 50);
-            this.button7.TabIndex = 0;
-            this.button7.Text = "SSX Tricky Level Files";
-            this.button7.UseVisualStyleBackColor = true;
+            this.TrickyLevelButton.Location = new System.Drawing.Point(6, 22);
+            this.TrickyLevelButton.Name = "TrickyLevelButton";
+            this.TrickyLevelButton.Size = new System.Drawing.Size(94, 50);
+            this.TrickyLevelButton.TabIndex = 0;
+            this.TrickyLevelButton.Text = "SSX Tricky Level Files";
+            this.TrickyLevelButton.UseVisualStyleBackColor = true;
+            this.TrickyLevelButton.Click += new System.EventHandler(this.TrickyLevelButton_Click);
             // 
             // groupBox4
             // 
@@ -204,7 +205,7 @@
         private Button button5;
         private Button button6;
         private GroupBox groupBox3;
-        private Button button7;
+        private Button TrickyLevelButton;
         private GroupBox groupBox4;
         private Button SSHImageButton;
         private Button button8;

@@ -386,7 +386,6 @@ namespace SSXMultiTool.FileHandlers
 
         public void SSHColorCalculate(int i)
         {
-            int tempPos = 0;
             SSHImage temp = sshImages[i];
             SSHColourTable colourTable = new SSHColourTable();
             colourTable.colorTable = new List<Color>();
@@ -410,12 +409,11 @@ namespace SSXMultiTool.FileHandlers
 
                     if (!colourTable.colorTable.Contains(color))
                     {
-                        tempPos++;
                         colourTable.colorTable.Add(color);
                     }
                 }
             }
-            temp.sshTable.Total = tempPos;
+            temp.sshTable = colourTable;
             sshImages[i] = temp;
         }
 
@@ -707,6 +705,19 @@ namespace SSXMultiTool.FileHandlers
                     sshImages[i].bitmap.SetPixel(x, y, color);
                 }
             }
+        }
+
+        public void RemoveImage(int i)
+        {
+            sshImages.RemoveAt(i);
+        }
+
+        public void AddImage()
+        {
+            var NewSSHImage = new SSHImage();
+            NewSSHImage.sshHeader.MatrixFormat = 2;
+            NewSSHImage.bitmap = new Bitmap(64, 64, PixelFormat.Format32bppArgb);
+            sshImages.Add(NewSSHImage);
         }
 
         public void SaveSSH(string path, bool Test)

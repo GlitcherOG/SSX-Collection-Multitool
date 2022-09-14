@@ -6,9 +6,7 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - SSH Colour Fix
 - SSH Change Order of Image
 - SSH Add/Remove
-- Redo Code So on importing of image it converts it to matrix rather than doing it at the end
-- Make Changing Textboxes work
-- Make buttons work
+- Redo Folder Loading
 
 ## Next Todo
 - LOC Page
