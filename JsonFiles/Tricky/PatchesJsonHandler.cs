@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace SSXMultiTool.JsonFiles.Tricky
 {
     [Serializable]
-    public class PatchesJson
+    public class PatchesJsonHandler
     {
         public List<PatchJson> patches = new List<PatchJson>();
 
@@ -19,18 +19,18 @@ namespace SSXMultiTool.JsonFiles.Tricky
             File.WriteAllText(path, serializer);
         }
 
-        public static PatchesJson Load(string path)
+        public static PatchesJsonHandler Load(string path)
         {
             string paths = path;
             if (File.Exists(paths))
             {
                 var stream = File.ReadAllText(paths);
-                var container = JsonConvert.DeserializeObject<PatchesJson>(stream);
+                var container = JsonConvert.DeserializeObject<PatchesJsonHandler>(stream);
                 return container;
             }
             else
             {
-                return new PatchesJson();
+                return new PatchesJsonHandler();
             }
         }
 
@@ -47,22 +47,22 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public Vector4 UVPoint3;
             public Vector4 UVPoint4;
 
-            public Vector4 R4C4;
-            public Vector4 R4C3;
-            public Vector4 R4C2;
-            public Vector4 R4C1;
-            public Vector4 R3C4;
-            public Vector4 R3C3;
-            public Vector4 R3C2;
-            public Vector4 R3C1;
-            public Vector4 R2C4;
-            public Vector4 R2C3;
-            public Vector4 R2C2;
-            public Vector4 R2C1;
-            public Vector4 R1C4;
-            public Vector4 R1C3;
-            public Vector4 R1C2;
-            public Vector4 R1C1;
+            public float[] R4C4;
+            public float[] R4C3;
+            public float[] R4C2;
+            public float[] R4C1;
+            public float[] R3C4;
+            public float[] R3C3;
+            public float[] R3C2;
+            public float[] R3C1;
+            public float[] R2C4;
+            public float[] R2C3;
+            public float[] R2C2;
+            public float[] R2C1;
+            public float[] R1C4;
+            public float[] R1C3;
+            public float[] R1C2;
+            public float[] R1C1;
 
             public int PatchStyle;
             public int Unknown2;

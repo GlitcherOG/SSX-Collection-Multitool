@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace SSXMultiTool.JsonFiles.Tricky
 {
     [Serializable]
-    public class InstancesJson
+    public class InstanceJsonHandler
     {
         public List<InstanceJson> instances = new List<InstanceJson>();
 
@@ -19,18 +19,18 @@ namespace SSXMultiTool.JsonFiles.Tricky
             File.WriteAllText(path, serializer);
         }
 
-        public static InstancesJson Load(string path)
+        public static InstanceJsonHandler Load(string path)
         {
             string paths = path;
             if (File.Exists(paths))
             {
                 var stream = File.ReadAllText(paths);
-                var container = JsonConvert.DeserializeObject<InstancesJson>(stream);
+                var container = JsonConvert.DeserializeObject<InstanceJsonHandler>(stream);
                 return container;
             }
             else
             {
-                return new InstancesJson();
+                return new InstanceJsonHandler();
             }
         }
 

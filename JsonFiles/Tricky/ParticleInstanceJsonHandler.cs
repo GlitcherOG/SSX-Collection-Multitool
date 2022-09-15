@@ -9,7 +9,7 @@ using System.Numerics;
 namespace SSXMultiTool.JsonFiles.Tricky
 {
     [Serializable]
-    public class ParticleInstanceJson
+    public class ParticleInstanceJsonHandler
     {
         public List<ParticleJson> particleJsons = new List<ParticleJson>();
 
@@ -19,18 +19,18 @@ namespace SSXMultiTool.JsonFiles.Tricky
             File.WriteAllText(path, serializer);
         }
 
-        public static ParticleInstanceJson Load(string path)
+        public static ParticleInstanceJsonHandler Load(string path)
         {
             string paths = path;
             if (File.Exists(paths))
             {
                 var stream = File.ReadAllText(paths);
-                var container = JsonConvert.DeserializeObject<ParticleInstanceJson>(stream);
+                var container = JsonConvert.DeserializeObject<ParticleInstanceJsonHandler>(stream);
                 return container;
             }
             else
             {
-                return new ParticleInstanceJson();
+                return new ParticleInstanceJsonHandler();
             }
         }
 

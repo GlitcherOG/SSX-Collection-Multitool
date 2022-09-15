@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace SSXMultiTool.JsonFiles.Tricky
 {
     [Serializable]
-    public class MaterialJson
+    public class LightJsonHandler
     {
-        public List<MaterialsJson> MaterialsJsons = new List<MaterialsJson>();
+        public List<LightJson> LightJsons = new List<LightJson>();
 
         public void CreateJson(string path)
         {
@@ -18,25 +18,25 @@ namespace SSXMultiTool.JsonFiles.Tricky
             File.WriteAllText(path, serializer);
         }
 
-        public static MaterialJson Load(string path)
+        public static LightJsonHandler Load(string path)
         {
             string paths = path;
             if (File.Exists(paths))
             {
                 var stream = File.ReadAllText(paths);
-                var container = JsonConvert.DeserializeObject<MaterialJson>(stream);
+                var container = JsonConvert.DeserializeObject<LightJsonHandler>(stream);
                 return container;
             }
             else
             {
-                return new MaterialJson();
+                return new LightJsonHandler();
             }
         }
 
         [Serializable]
-        public struct MaterialsJson
+        public struct LightJson
         {
-            public string MaterialName;
+            public string LightName;
 
             public int UnknownInt1;
             public int UnknownInt2;
@@ -56,6 +56,11 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int UnknownInt16;
             public int UnknownInt17;
             public int UnknownInt18;
+            public int UnknownInt19;
+            public int UnknownInt20;
+            public int UnknownInt21;
+            public int UnknownInt22;
+            public int UnknownInt23;
         }
     }
 }

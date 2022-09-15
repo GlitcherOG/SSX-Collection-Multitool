@@ -33,8 +33,6 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - Custom Forms For SSX, Tricky, SSX 3
 
 - PBD Json Files
- - Particle Instance Json
- - Material Json
  - Lights Json
  - Spline Json
  - Texture Flipbook Json
