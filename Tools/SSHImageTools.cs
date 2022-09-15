@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using SSXMultiTool.FileHandlers;
 
 namespace SSXMultiTool
@@ -39,17 +41,43 @@ namespace SSXMultiTool
 
         private void LoadFolderButton_Click(object sender, EventArgs e)
         {
-
+            CommonOpenFileDialog openFileDialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+            };
+            if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                sshHandler = new SSHHandler();
+                sshHandler.LoadFolder(openFileDialog.FileName);
+            }
         }
 
         private void ExportAllButton_Click(object sender, EventArgs e)
         {
-
+            CommonOpenFileDialog openFileDialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+            };
+            if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                sshHandler.BMPExtract(openFileDialog.FileName);
+                GC.Collect();
+                Process.Start(openFileDialog.FileName);
+            }
         }
 
         private void SaveSSHButton_Click(object sender, EventArgs e)
         {
-
+            SaveFileDialog openFileDialog = new SaveFileDialog
+            {
+                Filter = "SSH File (*.ssh)|*.ssh|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                sshHandler.SaveSSH(openFileDialog.FileName, true);
+            }
         }
 
         void UpdateFileText()
@@ -356,22 +384,46 @@ namespace SSXMultiTool
 
         private void ImageMoveUpButton_Click(object sender, EventArgs e)
         {
-
+            if (ImageList.SelectedIndex != -1 && ImageList.SelectedIndex != 0)
+            {
+                int a = ImageList.SelectedIndex;
+                var Temp = sshHandler.sshImages[ImageList.SelectedIndex];
+                sshHandler.sshImages.RemoveAt(ImageList.SelectedIndex);
+                sshHandler.sshImages.Insert(ImageList.SelectedIndex-1, Temp);
+                UpdateFileText();
+                ImageList.SelectedIndex = a - 1;
+            }
         }
 
         private void ImageMoveDownButton_Click(object sender, EventArgs e)
         {
-
+            if (ImageList.SelectedIndex != -1 && ImageList.Items.Count-1 != ImageList.SelectedIndex)
+            {
+                int a = ImageList.SelectedIndex;
+                var Temp = sshHandler.sshImages[ImageList.SelectedIndex];
+                sshHandler.sshImages.RemoveAt(ImageList.SelectedIndex);
+                sshHandler.sshImages.Insert(ImageList.SelectedIndex + 1, Temp);
+                UpdateFileText();
+                ImageList.SelectedIndex = a + 1;
+            }
         }
 
         private void IamgeAddButton_Click(object sender, EventArgs e)
         {
-
+            int a = ImageList.SelectedIndex;
+            sshHandler.AddImage();
+            UpdateFileText();
+            ImageList.SelectedIndex = a;
         }
 
         private void ImageRemoveButton_Click(object sender, EventArgs e)
         {
-
+            if(ImageList.SelectedIndex!=-1)
+            {
+                sshHandler.RemoveImage(ImageList.SelectedIndex);
+                ImageList.SelectedIndex = -1;
+                UpdateFileText();
+            }
         }
     }
 }

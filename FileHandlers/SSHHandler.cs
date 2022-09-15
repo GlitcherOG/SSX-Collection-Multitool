@@ -716,7 +716,9 @@ namespace SSXMultiTool.FileHandlers
         {
             var NewSSHImage = new SSHImage();
             NewSSHImage.sshHeader.MatrixFormat = 2;
+            NewSSHImage.shortname = "????";
             NewSSHImage.bitmap = new Bitmap(64, 64, PixelFormat.Format32bppArgb);
+            NewSSHImage.sshTable.colorTable = new List<Color>();
             sshImages.Add(NewSSHImage);
         }
 
@@ -730,12 +732,12 @@ namespace SSXMultiTool.FileHandlers
                     SSHColorCalculate(i);
                     if (sshImages[i].sshTable.Total > 256 && sshImages[i].sshHeader.MatrixFormat == 2)
                     {
-                        MessageBox.Show(sshImages[i].longname + " Exceeds 256 Colours");
+                        MessageBox.Show(sshImages[i].shortname + " " + i.ToString() + " Exceeds 256 Colours");
                         check = true;
                     }
                     if (sshImages[i].sshTable.Total > 16 && sshImages[i].sshHeader.MatrixFormat == 1)
                     {
-                        MessageBox.Show(sshImages[i].longname + " Exceeds 16 Colours");
+                        MessageBox.Show(sshImages[i].shortname + " " + i.ToString() + " Exceeds 16 Colours");
                         check = true;
                     }
                 }

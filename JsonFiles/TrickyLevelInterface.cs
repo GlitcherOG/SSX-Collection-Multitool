@@ -152,6 +152,16 @@ namespace SSXMultiTool
             materialJson.CreateJson(ExportPath + "/Material.json");
 
             //Create Material Block Json
+            MaterialBlockJsonHandler materialBlockJson = new MaterialBlockJsonHandler();
+            for (int i = 0; i < pbdHandler.materialBlocks.Count; i++)
+            {
+                MaterialBlockJsonHandler.MaterialBlock TempBlock = new MaterialBlockJsonHandler.MaterialBlock();
+
+                TempBlock.BlockCount = pbdHandler.materialBlocks[i].ints.Count;
+                TempBlock.ints = pbdHandler.materialBlocks[i].ints;
+                materialBlockJson.MaterialBlockJsons.Add(TempBlock);
+            }
+            materialBlockJson.CreateJson(ExportPath + "/MaterialBlocks.json");
 
             //Create Lights Json
             LightJsonHandler lightJsonHandler = new LightJsonHandler();
@@ -184,18 +194,107 @@ namespace SSXMultiTool
                 TempLight.UnknownInt22 = pbdHandler.lights[i].UnknownInt22;
                 TempLight.UnknownInt23 = pbdHandler.lights[i].UnknownInt23;
 
-                lightJsonHandler.
+                lightJsonHandler.LightJsons.Add(TempLight);
 
             }
-
+            lightJsonHandler.CreateJson(ExportPath + "/Lights.json");
 
             //Create Spline Json
+            SplineJsonHandler splineJsonHandler = new SplineJsonHandler();
+            for (int i = 0; i < pbdHandler.splines.Count; i++)
+            {
+                SplineJsonHandler.SplineJson TempSpline = new SplineJsonHandler.SplineJson();
+                TempSpline.SplineName = mapHandler.Splines[i].Name;
+                TempSpline.Unknown1 = pbdHandler.splines[i].Unknown1;
+                TempSpline.Unknown2 = pbdHandler.splines[i].Unknown2;
+                TempSpline.SegmentCount = pbdHandler.splines[i].SplineSegmentCount;
+                TempSpline.Segments = new List<SplineJsonHandler.SegmentJson>();
+
+                for (int a = pbdHandler.splines[i].SplineSegmentPosition; a < pbdHandler.splines[i].SplineSegmentPosition+TempSpline.SegmentCount; a++)
+                {
+                    SplineJsonHandler.SegmentJson segmentJson = new SplineJsonHandler.SegmentJson();
+                    segmentJson.Point4 = JsonUtil.Vector4ToArray(pbdHandler.splinesSegments[a].Point4);
+                    segmentJson.Point3 = JsonUtil.Vector4ToArray(pbdHandler.splinesSegments[a].Point3);
+                    segmentJson.Point2 = JsonUtil.Vector4ToArray(pbdHandler.splinesSegments[a].Point2);
+                    segmentJson.Point1 = JsonUtil.Vector4ToArray(pbdHandler.splinesSegments[a].ControlPoint);
+
+                    segmentJson.Unknown = JsonUtil.Vector4ToArray(pbdHandler.splinesSegments[a].ScalingPoint);
+                    segmentJson.Unknown32 = pbdHandler.splinesSegments[a].Unknown32;
+                    TempSpline.Segments.Add(segmentJson);
+                }
+                splineJsonHandler.SplineJsons.Add(TempSpline);
+            }
+            splineJsonHandler.CreateJson(ExportPath + "/Splines.json");
 
             //Create Texture FLipbook Json
+            TextureFlipbookJsonHandler textureFlipbookJsonHandler = new TextureFlipbookJsonHandler();
+            for (int i = 0; i < pbdHandler.textureFlipbooks.Count; i++)
+            {
+                TextureFlipbookJsonHandler.FlipbookJson TempFlipbook = new TextureFlipbookJsonHandler.FlipbookJson();
+                TempFlipbook.ImageCount = pbdHandler.textureFlipbooks[i].ImagePositions.Count;
+                TempFlipbook.Images = pbdHandler.textureFlipbooks[i].ImagePositions;
+                textureFlipbookJsonHandler.FlipbookJsons.Add(TempFlipbook);
+            }
+            textureFlipbookJsonHandler.CreateJson(ExportPath + "/TextureFlipbook.json");
 
             //Create Model Json
+            ModelJsonHandler modelJsonHandler = new ModelJsonHandler();
+            for (int i = 0; i < pbdHandler.modelHeaders.Count; i++)
+            {
+                ModelJsonHandler.ModelJson TempModel = new ModelJsonHandler.ModelJson();
+                TempModel.ModelName = mapHandler.Models[i].Name;
+                TempModel.TotalLength = pbdHandler.modelHeaders[i].TotalLength;
+                TempModel.Unknown0 = pbdHandler.modelHeaders[i].Unknown0;
+                TempModel.Unknown1 = pbdHandler.modelHeaders[i].Unknown1;
+                TempModel.Unknown2 = pbdHandler.modelHeaders[i].Unknown2;
+                TempModel.Unknown3 = pbdHandler.modelHeaders[i].Unknown3;
+                TempModel.Unknown4 = pbdHandler.modelHeaders[i].Unknown4;
+                TempModel.ScaleX = pbdHandler.modelHeaders[i].ScaleX;
+                TempModel.ScaleZ = pbdHandler.modelHeaders[i].ScaleZ;
+                TempModel.ScaleY = pbdHandler.modelHeaders[i].ScaleY;
+                TempModel.Unknown8 = pbdHandler.modelHeaders[i].Unknown8;
+                TempModel.Unknown9 = pbdHandler.modelHeaders[i].Unknown9;
+                TempModel.TriStripCount = pbdHandler.modelHeaders[i].TriStripCount;
+                TempModel.VertexCount = pbdHandler.modelHeaders[i].VertexCount;
+                TempModel.Unknown12 = pbdHandler.modelHeaders[i].Unknown12;
+                TempModel.Unknown13 = pbdHandler.modelHeaders[i].Unknown13;
+                TempModel.Unknown14 = pbdHandler.modelHeaders[i].Unknown14;
+                TempModel.Unknown15 = pbdHandler.modelHeaders[i].Unknown15;
+                TempModel.Unknown16 = pbdHandler.modelHeaders[i].Unknown16;
+                TempModel.Unknown17 = pbdHandler.modelHeaders[i].Unknown17;
+                TempModel.Unknown18 = pbdHandler.modelHeaders[i].Unknown18;
+                TempModel.UnknownLength = pbdHandler.modelHeaders[i].UnknownLength;
+
+                TempModel.LowestXYZ = pbdHandler.modelHeaders[i].LowestXYZ;
+                TempModel.HighestXYZ = pbdHandler.modelHeaders[i].HighestXYZ;
+
+                TempModel.bytes = pbdHandler.modelHeaders[i].bytes;
+                modelJsonHandler.ModelJsons.Add(TempModel);
+            }
+            modelJsonHandler.CreateJson(ExportPath + "/ModelHeaders.json");
 
             //Create Particle Model Json
+            ParticleModelJsonHandler particleModelJsonHandler = new ParticleModelJsonHandler();
+            for (int i = 0; i < pbdHandler.particleModels.Count; i++)
+            {
+                ParticleModelJsonHandler.ParticleModelJson TempParticleModel = new ParticleModelJsonHandler.ParticleModelJson();
+                TempParticleModel.ParticleModelName = mapHandler.particelModels[i].Name;
+                TempParticleModel.Unknown0 = pbdHandler.particleModels[i].Unknown0;
+                TempParticleModel.Unknown1 = pbdHandler.particleModels[i].Unknown0;
+                TempParticleModel.Unknown2 = pbdHandler.particleModels[i].Unknown0;
+                TempParticleModel.Unknown3 = pbdHandler.particleModels[i].Unknown0;
+                TempParticleModel.Unknown4 = pbdHandler.particleModels[i].Unknown0;
+                TempParticleModel.Unknown5 = pbdHandler.particleModels[i].Unknown0;
+                TempParticleModel.Unknown6 = pbdHandler.particleModels[i].Unknown0;
+                TempParticleModel.Unknown7 = pbdHandler.particleModels[i].Unknown0;
+                TempParticleModel.Unknown8 = pbdHandler.particleModels[i].Unknown0;
+                TempParticleModel.Unknown9 = pbdHandler.particleModels[i].Unknown0;
+                TempParticleModel.Unknown10 = pbdHandler.particleModels[i].Unknown0;
+                TempParticleModel.UnknownLenght = pbdHandler.particleModels[i].UnknownLenght;
+                TempParticleModel.bytes = pbdHandler.particleModels[i].bytes;
+                particleModelJsonHandler.ParticleModelJsons.Add(TempParticleModel);
+            }
+            particleModelJsonHandler.CreateJson(ExportPath + "/ParticleModelHeaders.json");
 
             //Create Camera Json
 
