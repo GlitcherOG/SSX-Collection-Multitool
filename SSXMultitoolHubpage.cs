@@ -35,9 +35,10 @@ namespace SSXMultiTool
 
         private void TrickyLevelButton_Click(object sender, EventArgs e)
         {
-            Thread NewThread = new Thread(() => new TrickyProjectWindow().ShowDialog());
-            NewThread.SetApartmentState(ApartmentState.STA);
-            NewThread.Start();
+            new TrickyProjectWindow().ShowDialog();
+            //Thread NewThread = new Thread(() => new TrickyProjectWindow().ShowDialog());
+            //NewThread.SetApartmentState(ApartmentState.STA);
+            //NewThread.Start();
         }
 
         private void LocFileButton_Click(object sender, EventArgs e)

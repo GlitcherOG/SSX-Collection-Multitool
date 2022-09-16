@@ -10,8 +10,18 @@ using SSXMultiTool.Utilities;
 
 namespace SSXMultiTool
 {
-    internal class TrickyLevelInterface
+    public class TrickyLevelInterface
     {
+        public PatchesJsonHandler patchPoints = new PatchesJsonHandler();
+        public InstanceJsonHandler instancesJson = new InstanceJsonHandler();
+        public ParticleInstanceJsonHandler particleInstanceJson = new ParticleInstanceJsonHandler();
+        public MaterialJsonHandler materialJson = new MaterialJsonHandler();
+        public MaterialBlockJsonHandler materialBlockJson = new MaterialBlockJsonHandler();
+        public LightJsonHandler lightJsonHandler = new LightJsonHandler();
+        public SplineJsonHandler splineJsonHandler = new SplineJsonHandler();
+        public TextureFlipbookJsonHandler textureFlipbookJsonHandler = new TextureFlipbookJsonHandler();
+        public ModelJsonHandler modelJsonHandler = new ModelJsonHandler();
+        public ParticleModelJsonHandler particleModelJsonHandler = new ParticleModelJsonHandler();
 
         public void ExtractTrickyLevelFiles(string LoadPath, string ExportPath)
         {
@@ -24,7 +34,7 @@ namespace SSXMultiTool
             pbdHandler.LoadPBD(LoadPath + ".pbd");
 
             //Create Patches JSON
-            PatchesJsonHandler patchPoints = new PatchesJsonHandler();
+            patchPoints = new PatchesJsonHandler();
             for (int i = 0; i < pbdHandler.Patches.Count; i++)
             {
                 PatchesJsonHandler.PatchJson patch = new PatchesJsonHandler.PatchJson();
@@ -66,7 +76,7 @@ namespace SSXMultiTool
             patchPoints.CreateJson(ExportPath + "/Patches.json");
 
             //Create Instance JSON
-            InstanceJsonHandler instancesJson = new InstanceJsonHandler();
+            instancesJson = new InstanceJsonHandler();
             for (int i = 0; i < pbdHandler.Instances.Count; i++)
             {
                 InstanceJsonHandler.InstanceJson instanceJson = new InstanceJsonHandler.InstanceJson();
@@ -101,7 +111,7 @@ namespace SSXMultiTool
             instancesJson.CreateJson(ExportPath + "/Instances.json");
 
             //Create Particle Instances JSON
-            ParticleInstanceJsonHandler particleInstanceJson = new ParticleInstanceJsonHandler();
+            particleInstanceJson = new ParticleInstanceJsonHandler();
             for (int i = 0; i < pbdHandler.particleInstances.Count; i++)
             {
                 ParticleInstanceJsonHandler.ParticleJson TempParticle = new ParticleInstanceJsonHandler.ParticleJson();
@@ -123,7 +133,7 @@ namespace SSXMultiTool
             particleInstanceJson.CreateJson(ExportPath + "/ParticleInstances.json");
 
             //Create Material Json
-            MaterialJsonHandler materialJson = new MaterialJsonHandler();
+            materialJson = new MaterialJsonHandler();
             for (int i = 0; i < pbdHandler.materials.Count; i++)
             {
                 MaterialJsonHandler.MaterialsJson TempMaterial = new MaterialJsonHandler.MaterialsJson();
@@ -152,7 +162,7 @@ namespace SSXMultiTool
             materialJson.CreateJson(ExportPath + "/Material.json");
 
             //Create Material Block Json
-            MaterialBlockJsonHandler materialBlockJson = new MaterialBlockJsonHandler();
+            materialBlockJson = new MaterialBlockJsonHandler();
             for (int i = 0; i < pbdHandler.materialBlocks.Count; i++)
             {
                 MaterialBlockJsonHandler.MaterialBlock TempBlock = new MaterialBlockJsonHandler.MaterialBlock();
@@ -164,7 +174,7 @@ namespace SSXMultiTool
             materialBlockJson.CreateJson(ExportPath + "/MaterialBlocks.json");
 
             //Create Lights Json
-            LightJsonHandler lightJsonHandler = new LightJsonHandler();
+            lightJsonHandler = new LightJsonHandler();
             for (int i = 0; i < pbdHandler.lights.Count; i++)
             {
                 LightJsonHandler.LightJson TempLight = new LightJsonHandler.LightJson();
@@ -200,7 +210,7 @@ namespace SSXMultiTool
             lightJsonHandler.CreateJson(ExportPath + "/Lights.json");
 
             //Create Spline Json
-            SplineJsonHandler splineJsonHandler = new SplineJsonHandler();
+            splineJsonHandler = new SplineJsonHandler();
             for (int i = 0; i < pbdHandler.splines.Count; i++)
             {
                 SplineJsonHandler.SplineJson TempSpline = new SplineJsonHandler.SplineJson();
@@ -227,7 +237,7 @@ namespace SSXMultiTool
             splineJsonHandler.CreateJson(ExportPath + "/Splines.json");
 
             //Create Texture FLipbook Json
-            TextureFlipbookJsonHandler textureFlipbookJsonHandler = new TextureFlipbookJsonHandler();
+            textureFlipbookJsonHandler = new TextureFlipbookJsonHandler();
             for (int i = 0; i < pbdHandler.textureFlipbooks.Count; i++)
             {
                 TextureFlipbookJsonHandler.FlipbookJson TempFlipbook = new TextureFlipbookJsonHandler.FlipbookJson();
@@ -238,7 +248,7 @@ namespace SSXMultiTool
             textureFlipbookJsonHandler.CreateJson(ExportPath + "/TextureFlipbook.json");
 
             //Create Model Json
-            ModelJsonHandler modelJsonHandler = new ModelJsonHandler();
+            modelJsonHandler = new ModelJsonHandler();
             for (int i = 0; i < pbdHandler.modelHeaders.Count; i++)
             {
                 ModelJsonHandler.ModelJson TempModel = new ModelJsonHandler.ModelJson();
@@ -274,7 +284,7 @@ namespace SSXMultiTool
             modelJsonHandler.CreateJson(ExportPath + "/ModelHeaders.json");
 
             //Create Particle Model Json
-            ParticleModelJsonHandler particleModelJsonHandler = new ParticleModelJsonHandler();
+            particleModelJsonHandler = new ParticleModelJsonHandler();
             for (int i = 0; i < pbdHandler.particleModels.Count; i++)
             {
                 ParticleModelJsonHandler.ParticleModelJson TempParticleModel = new ParticleModelJsonHandler.ParticleModelJson();

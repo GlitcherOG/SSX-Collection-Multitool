@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SSXMultiTool.JsonFiles.Tricky
 {
     [Serializable]
-    internal class MaterialBlockJsonHandler
+    public class MaterialBlockJsonHandler
     {
         public List<MaterialBlock> MaterialBlockJsons = new List<MaterialBlock>();
 

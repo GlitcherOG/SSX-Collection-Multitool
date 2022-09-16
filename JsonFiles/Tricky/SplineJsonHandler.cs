@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SSXMultiTool.JsonFiles.Tricky
 {
-    internal class SplineJsonHandler
+    public class SplineJsonHandler
     {
         public List<SplineJson> SplineJsons = new List<SplineJson>();
 

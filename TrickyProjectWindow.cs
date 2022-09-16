@@ -48,13 +48,28 @@ namespace SSXMultiTool
                 }
             }
         }
-
+        TrickyLevelInterface trickyLevelInterface = new TrickyLevelInterface();
         void ExtractFiles(string StartPath, string ExportPath)
         {
             string LoadPath = StartPath.Substring(0, StartPath.Length - 4);
-            TrickyLevelInterface trickyLevelInterface = new TrickyLevelInterface();
+            trickyLevelInterface = new TrickyLevelInterface();
             trickyLevelInterface.ExtractTrickyLevelFiles(LoadPath, ExportPath);
             MessageBox.Show("Level Extracted");
+            UpdateText();
+        }
+
+        void UpdateText()
+        {
+            PatchesLabel.Text = trickyLevelInterface.patchPoints.patches.Count.ToString();
+            InstancesLabel.Text = trickyLevelInterface.instancesJson.instances.Count.ToString();
+            ParticleInstancesLabel.Text = trickyLevelInterface.particleInstanceJson.particleJsons.Count.ToString();
+            MaterialLabel.Text = trickyLevelInterface.materialJson.MaterialsJsons.Count.ToString();
+            MaterialBlockLabel.Text = trickyLevelInterface.materialBlockJson.MaterialBlockJsons.Count.ToString();
+            SplinesLabel.Text = trickyLevelInterface.splineJsonHandler.SplineJsons.Count.ToString();
+            LightLabel.Text = trickyLevelInterface.lightJsonHandler.LightJsons.Count.ToString();
+            TextureFlipLabel.Text = trickyLevelInterface.textureFlipbookJsonHandler.FlipbookJsons.Count.ToString();
+            ModelsLabel.Text = trickyLevelInterface.modelJsonHandler.ModelJsons.Count.ToString();
+            ParticleModelLabels.Text = trickyLevelInterface.particleModelJsonHandler.ParticleModelJsons.Count.ToString();
         }
 
         void ExtractBig(string BigPath, string ExportPath)
