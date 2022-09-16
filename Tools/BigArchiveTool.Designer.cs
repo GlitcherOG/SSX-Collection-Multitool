@@ -157,7 +157,6 @@
             this.Controls.Add(this.BigDataView);
             this.Name = "BigArchiveTool";
             this.Text = "Big Archive";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BigArchiveTool_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.BigDataView)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();

@@ -39,7 +39,7 @@
             this.TrickyLevelButton = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.SSHImageButton = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
+            this.LocFileButton = new System.Windows.Forms.Button();
             this.BigArchiveButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -138,7 +138,7 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.SSHImageButton);
-            this.groupBox4.Controls.Add(this.button8);
+            this.groupBox4.Controls.Add(this.LocFileButton);
             this.groupBox4.Controls.Add(this.BigArchiveButton);
             this.groupBox4.Location = new System.Drawing.Point(12, 190);
             this.groupBox4.Name = "groupBox4";
@@ -157,14 +157,15 @@
             this.SSHImageButton.UseVisualStyleBackColor = true;
             this.SSHImageButton.Click += new System.EventHandler(this.SSHImageButton_Click);
             // 
-            // button8
+            // LocFileButton
             // 
-            this.button8.Location = new System.Drawing.Point(106, 22);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(94, 50);
-            this.button8.TabIndex = 1;
-            this.button8.Text = "LOC Files";
-            this.button8.UseVisualStyleBackColor = true;
+            this.LocFileButton.Location = new System.Drawing.Point(106, 22);
+            this.LocFileButton.Name = "LocFileButton";
+            this.LocFileButton.Size = new System.Drawing.Size(94, 50);
+            this.LocFileButton.TabIndex = 1;
+            this.LocFileButton.Text = "LOC Files";
+            this.LocFileButton.UseVisualStyleBackColor = true;
+            this.LocFileButton.Click += new System.EventHandler(this.LocFileButton_Click);
             // 
             // BigArchiveButton
             // 
@@ -208,7 +209,7 @@
         private Button TrickyLevelButton;
         private GroupBox groupBox4;
         private Button SSHImageButton;
-        private Button button8;
+        private Button LocFileButton;
         private Button BigArchiveButton;
     }
 }

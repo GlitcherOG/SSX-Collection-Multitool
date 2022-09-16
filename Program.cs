@@ -1,3 +1,4 @@
+using System;
 
 namespace SSXMultiTool
 {
@@ -12,26 +13,35 @@ namespace SSXMultiTool
         [STAThread]
         static void Main(string[] args)
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(hubpage);
-        }
-
-        public static void HideHubpage()
-        {
-            if (Start)
+            if (args.Length == 0)
             {
-                Start = false;
-                hubpage.Hide();
+                // To customize application configuration such as set high DPI settings or default font,
+                // see https://aka.ms/applicationconfiguration.
+                ApplicationConfiguration.Initialize();
+                Application.Run(hubpage);
+            }
+            else
+            {
+                if (args[0].ToLower()=="-big")
+                {
+                    BigLaunchOptions(args);
+                }
             }
         }
 
-        public static void ShowHubpage()
+
+
+        static void BigLaunchOptions(string[] args)
         {
-            Start=true;
-            hubpage.Show();
+            if(args.Length == 1)
+            {
+                ApplicationConfiguration.Initialize();
+                Application.Run(new BigArchiveTool());
+            }
+            else
+            {
+                MessageBox.Show("Unknown Arguments");
+            }
         }
     }
 }
-//https://acharyarajasekhar.wordpress.com/2015/04/10/c-winforms-openfiledialog-with-mtathread/

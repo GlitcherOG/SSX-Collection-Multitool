@@ -16,7 +16,6 @@ namespace SSXMultiTool
     public partial class SSHImageTools : Form
     {
         SSHHandler sshHandler = new SSHHandler();
-        string path;
         bool DisableUpdate;
         public SSHImageTools()
         {
@@ -33,7 +32,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                path = openFileDialog.FileName;
+                sshHandler = new SSHHandler();
                 sshHandler.LoadSSH(openFileDialog.FileName);
                 UpdateFileText();
             }

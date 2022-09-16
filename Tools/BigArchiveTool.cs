@@ -19,7 +19,6 @@ namespace SSXMultiTool
         {
             InitializeComponent();
             SetupDataView(); 
-            Program.HideHubpage();
             ExtractBigArchive.Enabled = false;
             BuildBigArchive.Enabled=false;
         }
@@ -136,11 +135,6 @@ namespace SSXMultiTool
             {
                 CreateBigPath(openFileDialog.FileName);
             }
-        }
-
-        private void BigArchiveTool_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Program.ShowHubpage();
         }
     }
 }
