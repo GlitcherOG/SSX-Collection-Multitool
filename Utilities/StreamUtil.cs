@@ -121,6 +121,13 @@ namespace SSXMultiTool.Utilities
             return BitConverter.ToSingle(tempByte, 0);
         }
 
+        public static float ReadFloat16(Stream stream)
+        {
+            byte[] tempByte = new byte[2];
+            stream.Read(tempByte, 0, tempByte.Length);
+            return (float)BitConverter.ToHalf(tempByte, 0);
+        }
+
         public static float ReadFloatBig(Stream stream)
         {
             byte[] tempByte = new byte[4];

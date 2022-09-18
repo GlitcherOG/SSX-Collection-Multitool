@@ -10,7 +10,6 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - Import As Txt if line count matches
 - Backup All Project Files For Exporting
 - Convert All Vector3/4 to float arrays
-- Bezier Patch Equations apply before and after exporting
 
 ## Todo
 - Setup ISO Handler

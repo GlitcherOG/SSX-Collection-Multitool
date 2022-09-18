@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SSXMultiTool.Utilities;
+using System.Numerics;
 
 namespace SSXMultiTool
 {
@@ -40,29 +41,49 @@ namespace SSXMultiTool
                 PatchesJsonHandler.PatchJson patch = new PatchesJsonHandler.PatchJson();
                 patch.PatchName = mapHandler.Patchs[i].Name;
 
-                patch.LightMapPoint = pbdHandler.Patches[i].LightMapPoint;
+                patch.LightMapPoint = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].LightMapPoint);
 
-                patch.UVPoint1 = pbdHandler.Patches[i].UVPoint1;
-                patch.UVPoint2 = pbdHandler.Patches[i].UVPoint2;
-                patch.UVPoint3 = pbdHandler.Patches[i].UVPoint3;
-                patch.UVPoint4 = pbdHandler.Patches[i].UVPoint4;
+                patch.UVPoint1 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].UVPoint1);
+                patch.UVPoint2 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].UVPoint2);
+                patch.UVPoint3 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].UVPoint3);
+                patch.UVPoint4 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].UVPoint4);
 
-                patch.R4C4 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R4C4);
-                patch.R4C3 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R4C3);
-                patch.R4C2 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R4C2);
-                patch.R4C1 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R4C1);
-                patch.R3C4 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R3C4);
-                patch.R3C3 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R3C3);
-                patch.R3C2 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R3C2);
-                patch.R3C1 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R3C1);
-                patch.R2C4 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R2C4);
-                patch.R2C3 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R2C3);
-                patch.R2C2 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R2C2);
-                patch.R2C1 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R2C1);
-                patch.R1C4 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R1C4);
-                patch.R1C3 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R1C3);
-                patch.R1C2 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R1C2);
-                patch.R1C1 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].R1C1);
+                BezierUtil bezierUtil = new BezierUtil();
+                bezierUtil.ProcessedR1C1 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R1C1);
+                bezierUtil.ProcessedR1C2 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R1C2);
+                bezierUtil.ProcessedR1C3 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R1C3);
+                bezierUtil.ProcessedR1C4 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R1C4);
+                bezierUtil.ProcessedR2C1 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R2C1);
+                bezierUtil.ProcessedR2C2 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R2C2);
+                bezierUtil.ProcessedR2C3 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R2C3);
+                bezierUtil.ProcessedR2C4 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R2C4);
+                bezierUtil.ProcessedR3C1 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R3C1);
+                bezierUtil.ProcessedR3C2 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R3C2);
+                bezierUtil.ProcessedR3C3 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R3C3);
+                bezierUtil.ProcessedR3C4 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R3C4);
+                bezierUtil.ProcessedR4C1 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R4C1);
+                bezierUtil.ProcessedR4C2 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R4C2);
+                bezierUtil.ProcessedR4C3 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R4C3);
+                bezierUtil.ProcessedR4C4 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R4C4);
+
+                bezierUtil.GenerateRawPatch();
+
+                patch.R1C1 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C1);
+                patch.R1C2 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C2);
+                patch.R1C3 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C3);
+                patch.R1C4 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C4);
+                patch.R2C1 = JsonUtil.Vector3ToArray(bezierUtil.RawR2C1);
+                patch.R2C2 = JsonUtil.Vector3ToArray(bezierUtil.RawR2C2);
+                patch.R2C3 = JsonUtil.Vector3ToArray(bezierUtil.RawR2C3);
+                patch.R2C4 = JsonUtil.Vector3ToArray(bezierUtil.RawR2C4);
+                patch.R3C1 = JsonUtil.Vector3ToArray(bezierUtil.RawR3C1);
+                patch.R3C2 = JsonUtil.Vector3ToArray(bezierUtil.RawR3C2);
+                patch.R3C3 = JsonUtil.Vector3ToArray(bezierUtil.RawR3C3);
+                patch.R3C4 = JsonUtil.Vector3ToArray(bezierUtil.RawR3C4);
+                patch.R4C1 = JsonUtil.Vector3ToArray(bezierUtil.RawR4C1);
+                patch.R4C2 = JsonUtil.Vector3ToArray(bezierUtil.RawR4C2);
+                patch.R4C3 = JsonUtil.Vector3ToArray(bezierUtil.RawR4C3);
+                patch.R4C4 = JsonUtil.Vector3ToArray(bezierUtil.RawR4C4);
 
                 patch.PatchStyle = pbdHandler.Patches[i].PatchStyle;
                 patch.Unknown2 = pbdHandler.Patches[i].Unknown2;
@@ -223,12 +244,22 @@ namespace SSXMultiTool
                 for (int a = pbdHandler.splines[i].SplineSegmentPosition; a < pbdHandler.splines[i].SplineSegmentPosition+TempSpline.SegmentCount; a++)
                 {
                     SplineJsonHandler.SegmentJson segmentJson = new SplineJsonHandler.SegmentJson();
-                    segmentJson.Point4 = JsonUtil.Vector4ToArray(pbdHandler.splinesSegments[a].Point4);
-                    segmentJson.Point3 = JsonUtil.Vector4ToArray(pbdHandler.splinesSegments[a].Point3);
-                    segmentJson.Point2 = JsonUtil.Vector4ToArray(pbdHandler.splinesSegments[a].Point2);
-                    segmentJson.Point1 = JsonUtil.Vector4ToArray(pbdHandler.splinesSegments[a].ControlPoint);
+
+                    BezierUtil bezierUtil = new BezierUtil();
+                    bezierUtil.ProcessedR1C1 = JsonUtil.Vector4ToVector3(pbdHandler.splinesSegments[a].ControlPoint);
+                    bezierUtil.ProcessedR1C2 = JsonUtil.Vector4ToVector3(pbdHandler.splinesSegments[a].Point2);
+                    bezierUtil.ProcessedR1C3 = JsonUtil.Vector4ToVector3(pbdHandler.splinesSegments[a].Point3);
+                    bezierUtil.ProcessedR1C4 = JsonUtil.Vector4ToVector3(pbdHandler.splinesSegments[a].Point4);
+
+                    bezierUtil.GenerateRawCurve();
+
+                    segmentJson.Point4 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C4);
+                    segmentJson.Point3 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C3);
+                    segmentJson.Point2 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C2);
+                    segmentJson.Point1 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C1);
 
                     segmentJson.Unknown = JsonUtil.Vector4ToArray(pbdHandler.splinesSegments[a].ScalingPoint);
+
                     segmentJson.Unknown32 = pbdHandler.splinesSegments[a].Unknown32;
                     TempSpline.Segments.Add(segmentJson);
                 }
@@ -309,6 +340,8 @@ namespace SSXMultiTool
             //Create Camera Json
 
             //Create Mesh data
+            Directory.CreateDirectory(ExportPath + "/Models");
+            pbdHandler.SaveModel(ExportPath + "/Models/Test.glb");
 
             //Load and Export Textures
             SSHHandler TextureHandler = new SSHHandler();

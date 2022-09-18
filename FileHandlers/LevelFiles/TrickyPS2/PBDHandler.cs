@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 using SSXMultiTool.Utilities;
+using SSXMultiTool.FileHandlers;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
@@ -25,7 +26,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int NumModels;
         public int ParticleModelCount;
         public int NumTextures;
-
         public int NumCameras;
         public int LightMapSize;
 
@@ -41,8 +41,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int TextureFlipbookOffset;
         public int ModelPointerOffset;
         public int ModelsOffset;
-
-
         public int ParticleModelPointerOffset;
         public int ParticleModelsOffset;
         public int CameraPointerOffset;
@@ -66,6 +64,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<int> ParticleModelPointers;
         public List<ParticleModel> particleModels;
         public List<int> CameraPointers;
+        public List<Camera> Cameras = new List<Camera>();
 
         public List<MeshData> models;
 
@@ -398,34 +397,45 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     CameraPointers.Add(StreamUtil.ReadInt32(stream));
                 }
 
-                ////ModelData
-                //stream.Position = ModelDataOffset;
-                //models = new List<MeshData>();
-                //MeshData model = new MeshData();
-                //model.staticMeshes = new List<StaticMesh>();
-                //int count = 0;
-                //while (true)
-                //{
-                //    var temp = ReadMesh(stream);
-                //    if (temp.Equals(new StaticMesh()))
-                //    {
-                //        break;
-                //    }
-                //    count++;
-                //    model.staticMeshes.Add(GenerateFaces(temp));
-                //    stream.Position += 31;
-                //    if (StreamUtil.ReadByte(stream) == 0x6C)
-                //    {
-                //        stream.Position -= 32;
-                //    }
-                //    else
-                //    {
-                //        stream.Position += 48;
-                //        models.Add(model);
-                //        model = new MeshData();
-                //        model.staticMeshes = new List<StaticMesh>();
-                //    }
-                //}
+                //Camera Data
+                Cameras = new List<Camera>();
+                for (int i = 0; i < NumCameras; i++)
+                {
+                    stream.Position = CamerasOffset + CameraPointers[i];
+                    Camera TempCamera = new Camera();
+                    TempCamera.TotalLength = StreamUtil.ReadInt32(stream);
+                    TempCamera.bytes = StreamUtil.ReadBytes(stream, TempCamera.TotalLength - 4);
+                    Cameras.Add(TempCamera);
+                }
+
+                //ModelData
+                stream.Position = ModelDataOffset;
+                models = new List<MeshData>();
+                MeshData model = new MeshData();
+                model.staticMeshes = new List<StaticMesh>();
+                int count = 0;
+                while (true)
+                {
+                    var temp = ReadMesh(stream);
+                    if (temp.Equals(new StaticMesh()))
+                    {
+                        break;
+                    }
+                    count++;
+                    model.staticMeshes.Add(GenerateFaces(temp));
+                    stream.Position += 31;
+                    if (StreamUtil.ReadByte(stream) == 0x6C)
+                    {
+                        stream.Position -= 32;
+                    }
+                    else
+                    {
+                        stream.Position += 48;
+                        models.Add(model);
+                        model = new MeshData();
+                        model.staticMeshes = new List<StaticMesh>();
+                    }
+                }
             }
         }
 
@@ -684,28 +694,27 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             {
                 UVNormal normal = new UVNormal();
                 normal.X = StreamUtil.ReadInt16(stream);
-                normal.Y = StreamUtil.ReadInt16(stream);
                 normal.Z = StreamUtil.ReadInt16(stream);
+                normal.Y = StreamUtil.ReadInt16(stream);
                 Normals.Add(normal);
             }
             StreamUtil.AlignBy16(stream);
             ModelData.uvNormals = Normals;
 
-            //List<UshortVertex3> vertices = new List<UshortVertex3>();
-            //stream.Position += 16;
-            ////Load Vertex
-            //for (int a = 0; a < ModelData.VertexCount; a++)
-            //{
-            //    UshortVertex3 vertex = new UshortVertex3();
-            //    //Float 16's
-            //    vertex.X = (ushort)StreamUtil.ReadInt16(stream);
-            //    vertex.Y = (ushort)StreamUtil.ReadInt16(stream);
-            //    vertex.Z = (ushort)StreamUtil.ReadInt16(stream);
-            //    vertices.Add(vertex);
-            //}
-            //StreamUtil.AlignBy16(stream);
-            //ModelData.vertices = vertices;
-            //stream.Position += 16;
+            List<Vector3> vertices = new List<Vector3>();
+            stream.Position += 16;
+            //Load Vertex
+            for (int a = 0; a < ModelData.VertexCount; a++)
+            {
+                Vector3 vertex = new Vector3();
+                vertex.X = StreamUtil.ReadInt16(stream);
+                vertex.Z = StreamUtil.ReadInt16(stream);
+                vertex.Y = StreamUtil.ReadInt16(stream);
+                vertices.Add(vertex);
+            }
+            StreamUtil.AlignBy16(stream);
+            ModelData.vertices = vertices;
+            stream.Position += 16;
 
             return ModelData;
         }
@@ -864,20 +873,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             return face;
         }
 
-        //public void SaveVector4(Stream stream, Vector4 vertex3)
-        //{
-        //    StreamUtil.WriteFloat32(stream, vertex3.X);
-        //    StreamUtil.WriteFloat32(stream, vertex3.Y);
-        //    StreamUtil.WriteFloat32(stream, vertex3.Z);
-        //    if (w)
-        //    {
-        //        StreamUtil.WriteFloat32(stream, vertex3.W);
-        //    }
-        //}
 
         public void SaveModel(string path)
         {
-            //glstHandler.SavePDBModelglTF(path, this);
+            glstHandler.SavePDBModelglTF(path, this);
         }
     }
 
@@ -1062,6 +1061,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     {
         public int BlockCount;
         public List<int> ints;
+    }
+
+    public struct Camera
+    {
+        public int TotalLength;
+        public byte[] bytes;
     }
 
     public struct MeshData

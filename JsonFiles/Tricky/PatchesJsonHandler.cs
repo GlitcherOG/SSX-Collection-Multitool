@@ -40,12 +40,12 @@ namespace SSXMultiTool.JsonFiles.Tricky
         {
             public string PatchName;
 
-            public Vector4 LightMapPoint;
+            public float[] LightMapPoint;
 
-            public Vector4 UVPoint1;
-            public Vector4 UVPoint2;
-            public Vector4 UVPoint3;
-            public Vector4 UVPoint4;
+            public float[] UVPoint1;
+            public float[] UVPoint2;
+            public float[] UVPoint3;
+            public float[] UVPoint4;
 
             public float[] R4C4;
             public float[] R4C3;
