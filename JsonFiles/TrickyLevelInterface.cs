@@ -26,6 +26,8 @@ namespace SSXMultiTool
 
         public void ExtractTrickyLevelFiles(string LoadPath, string ExportPath)
         {
+            File.Create(ExportPath + "/Config.ssx");
+
             //Load Map
             MapHandler mapHandler = new MapHandler();
             mapHandler.Load(LoadPath + ".map");
@@ -49,41 +51,41 @@ namespace SSXMultiTool
                 patch.UVPoint4 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].UVPoint4);
 
                 BezierUtil bezierUtil = new BezierUtil();
-                bezierUtil.ProcessedR1C1 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R1C1);
-                bezierUtil.ProcessedR1C2 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R1C2);
-                bezierUtil.ProcessedR1C3 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R1C3);
-                bezierUtil.ProcessedR1C4 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R1C4);
-                bezierUtil.ProcessedR2C1 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R2C1);
-                bezierUtil.ProcessedR2C2 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R2C2);
-                bezierUtil.ProcessedR2C3 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R2C3);
-                bezierUtil.ProcessedR2C4 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R2C4);
-                bezierUtil.ProcessedR3C1 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R3C1);
-                bezierUtil.ProcessedR3C2 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R3C2);
-                bezierUtil.ProcessedR3C3 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R3C3);
-                bezierUtil.ProcessedR3C4 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R3C4);
-                bezierUtil.ProcessedR4C1 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R4C1);
-                bezierUtil.ProcessedR4C2 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R4C2);
-                bezierUtil.ProcessedR4C3 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R4C3);
-                bezierUtil.ProcessedR4C4 = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R4C4);
+                bezierUtil.ProcessedPoints[0] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R1C1);
+                bezierUtil.ProcessedPoints[1] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R1C2);
+                bezierUtil.ProcessedPoints[2] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R1C3);
+                bezierUtil.ProcessedPoints[3] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R1C4);
+                bezierUtil.ProcessedPoints[4] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R2C1);
+                bezierUtil.ProcessedPoints[5] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R2C2);
+                bezierUtil.ProcessedPoints[6] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R2C3);
+                bezierUtil.ProcessedPoints[7] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R2C4);
+                bezierUtil.ProcessedPoints[8] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R3C1);
+                bezierUtil.ProcessedPoints[9] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R3C2);
+                bezierUtil.ProcessedPoints[10] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R3C3);
+                bezierUtil.ProcessedPoints[11] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R3C4);
+                bezierUtil.ProcessedPoints[12] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R4C1);
+                bezierUtil.ProcessedPoints[13] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R4C2);
+                bezierUtil.ProcessedPoints[14] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R4C3);
+                bezierUtil.ProcessedPoints[15] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R4C4);
 
-                bezierUtil.GenerateRawPatch();
+                bezierUtil.GenerateRawPoints();
 
-                patch.R1C1 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C1);
-                patch.R1C2 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C2);
-                patch.R1C3 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C3);
-                patch.R1C4 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C4);
-                patch.R2C1 = JsonUtil.Vector3ToArray(bezierUtil.RawR2C1);
-                patch.R2C2 = JsonUtil.Vector3ToArray(bezierUtil.RawR2C2);
-                patch.R2C3 = JsonUtil.Vector3ToArray(bezierUtil.RawR2C3);
-                patch.R2C4 = JsonUtil.Vector3ToArray(bezierUtil.RawR2C4);
-                patch.R3C1 = JsonUtil.Vector3ToArray(bezierUtil.RawR3C1);
-                patch.R3C2 = JsonUtil.Vector3ToArray(bezierUtil.RawR3C2);
-                patch.R3C3 = JsonUtil.Vector3ToArray(bezierUtil.RawR3C3);
-                patch.R3C4 = JsonUtil.Vector3ToArray(bezierUtil.RawR3C4);
-                patch.R4C1 = JsonUtil.Vector3ToArray(bezierUtil.RawR4C1);
-                patch.R4C2 = JsonUtil.Vector3ToArray(bezierUtil.RawR4C2);
-                patch.R4C3 = JsonUtil.Vector3ToArray(bezierUtil.RawR4C3);
-                patch.R4C4 = JsonUtil.Vector3ToArray(bezierUtil.RawR4C4);
+                patch.R1C1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[0]);
+                patch.R1C2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[1]);
+                patch.R1C3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[2]);
+                patch.R1C4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[3]);
+                patch.R2C1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[4]);
+                patch.R2C2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[5]);
+                patch.R2C3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[6]);
+                patch.R2C4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[7]);
+                patch.R3C1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[8]);
+                patch.R3C2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[9]);
+                patch.R3C3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[10]);
+                patch.R3C4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[11]);
+                patch.R4C1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[12]);
+                patch.R4C2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[13]);
+                patch.R4C3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[14]);
+                patch.R4C4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[15]);
 
                 patch.PatchStyle = pbdHandler.Patches[i].PatchStyle;
                 patch.Unknown2 = pbdHandler.Patches[i].Unknown2;
@@ -246,17 +248,17 @@ namespace SSXMultiTool
                     SplineJsonHandler.SegmentJson segmentJson = new SplineJsonHandler.SegmentJson();
 
                     BezierUtil bezierUtil = new BezierUtil();
-                    bezierUtil.ProcessedR1C1 = JsonUtil.Vector4ToVector3(pbdHandler.splinesSegments[a].ControlPoint);
-                    bezierUtil.ProcessedR1C2 = JsonUtil.Vector4ToVector3(pbdHandler.splinesSegments[a].Point2);
-                    bezierUtil.ProcessedR1C3 = JsonUtil.Vector4ToVector3(pbdHandler.splinesSegments[a].Point3);
-                    bezierUtil.ProcessedR1C4 = JsonUtil.Vector4ToVector3(pbdHandler.splinesSegments[a].Point4);
+                    bezierUtil.ProcessedPoints[0] = JsonUtil.Vector4ToVector3(pbdHandler.splinesSegments[a].ControlPoint);
+                    bezierUtil.ProcessedPoints[1] = JsonUtil.Vector4ToVector3(pbdHandler.splinesSegments[a].Point2);
+                    bezierUtil.ProcessedPoints[2] = JsonUtil.Vector4ToVector3(pbdHandler.splinesSegments[a].Point3);
+                    bezierUtil.ProcessedPoints[3] = JsonUtil.Vector4ToVector3(pbdHandler.splinesSegments[a].Point4);
 
-                    bezierUtil.GenerateRawCurve();
+                    bezierUtil.GenerateRawPoints();
 
-                    segmentJson.Point4 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C4);
-                    segmentJson.Point3 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C3);
-                    segmentJson.Point2 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C2);
-                    segmentJson.Point1 = JsonUtil.Vector3ToArray(bezierUtil.RawR1C1);
+                    segmentJson.Point4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[0]);
+                    segmentJson.Point3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[1]);
+                    segmentJson.Point2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[2]);
+                    segmentJson.Point1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[3]);
 
                     segmentJson.Unknown = JsonUtil.Vector4ToArray(pbdHandler.splinesSegments[a].ScalingPoint);
 
