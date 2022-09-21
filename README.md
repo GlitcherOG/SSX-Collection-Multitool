@@ -17,7 +17,6 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - Setup Settings Page
 - SSX 3 Page
 - Delete PAD files
-- Hub Form To Connect all windows
 - Allow Arguments to boot certain forms at launch
 - Character DB
 - Music INF Editor

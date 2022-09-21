@@ -394,18 +394,37 @@ namespace SSXMultiTool
             File.Copy(LoadPath + ".ltg", ExportPath + "/Original" + "/ltg.ltg");
             File.Copy(LoadPath + ".sop", ExportPath + "/Original" + "/sop.sop");
             File.Copy(LoadPath + ".ssf", ExportPath + "/Original" + "/ssf.ssf");
-            File.Copy(LoadPath + "_sky.pbd", ExportPath + "/Original" + "/sky.pbd");
             File.Copy(LoadPath + ".pbd", ExportPath + "/Original" + "/level.pbd");
             File.Copy(LoadPath + ".map", ExportPath + "/Original" + "/level.map");
+            if (File.Exists(LoadPath + "_sky.pbd"))
+            {
+                File.Copy(LoadPath + "_sky.pbd", ExportPath + "/Original/sky.pbd");
+            }
         }
 
         public void BuildTrickyLevelFiles(string LoadPath, string ExportPath)
         {
             ExportPath = ExportPath.Substring(0, ExportPath.Length - 4);
 
+            File.Copy(LoadPath + "/Original/ald.ald", ExportPath + ".adl");
+            File.Copy(LoadPath + "/Original/aip.aip", ExportPath + ".aip");
+            File.Copy(LoadPath + "/Original/ltg.ltg", ExportPath + ".ltg");
+            File.Copy(LoadPath + "/Original/sop.sop", ExportPath + ".sop");
+            File.Copy(LoadPath + "/Original/ssf.ssf", ExportPath + ".ssf");
+            File.Copy(LoadPath + "/Original/level.pbd", ExportPath + ".pbd");
+            if(File.Exists(LoadPath + "/Original/sky.pbd"))
+            {
+                File.Copy(LoadPath + "/Original/sky.pbd", ExportPath + "_sky.pbd");
+            }
+
+            MapHandler mapHandler = new MapHandler();
+            mapHandler.Load(LoadPath + "/Original/level.map");
 
 
 
+
+
+            mapHandler.Save(ExportPath + ".map");
 
             //Build Textures
             SSHHandler TextureHandler = new SSHHandler();
@@ -446,6 +465,27 @@ namespace SSXMultiTool
 
                 SkyboxHandler.SaveSSH(ExportPath + "_sky.ssh", true);
             }
+
+            //Build Lightmap
+            SSHHandler LightmapHandler = new SSHHandler();
+            LightmapHandler.format = "G278";
+
+            string[] LightmapFiles = Directory.GetFiles(LoadPath + "/Lightmaps", "*.png");
+            for (int i = 0; i < LightmapFiles.Length; i++)
+            {
+                LightmapHandler.AddImage();
+                var temp = LightmapHandler.sshImages[i];
+                temp.sshHeader.MatrixFormat = 5;
+                LightmapHandler.sshImages[i] = temp;
+                LightmapHandler.LoadSingle(LightmapFiles[i], i);
+                LightmapHandler.DarkenImage(i);
+                temp = LightmapHandler.sshImages[i];
+                temp.shortname = i.ToString().PadLeft(4, '0');
+                //temp.AlphaFix = true;
+                LightmapHandler.sshImages[i] = temp;
+            }
+
+            LightmapHandler.SaveSSH(ExportPath + "_L.ssh", true);
         }
 
         public void LoadAndVerifyFiles(string LoadPath)
