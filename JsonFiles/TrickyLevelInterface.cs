@@ -406,24 +406,145 @@ namespace SSXMultiTool
         {
             ExportPath = ExportPath.Substring(0, ExportPath.Length - 4);
 
-            File.Copy(LoadPath + "/Original/ald.ald", ExportPath + ".adl");
-            File.Copy(LoadPath + "/Original/aip.aip", ExportPath + ".aip");
-            File.Copy(LoadPath + "/Original/ltg.ltg", ExportPath + ".ltg");
-            File.Copy(LoadPath + "/Original/sop.sop", ExportPath + ".sop");
-            File.Copy(LoadPath + "/Original/ssf.ssf", ExportPath + ".ssf");
-            File.Copy(LoadPath + "/Original/level.pbd", ExportPath + ".pbd");
+            File.Copy(LoadPath + "/Original/ald.ald", ExportPath + ".adl",true);
+            File.Copy(LoadPath + "/Original/aip.aip", ExportPath + ".aip", true);
+            File.Copy(LoadPath + "/Original/ltg.ltg", ExportPath + ".ltg", true);
+            File.Copy(LoadPath + "/Original/sop.sop", ExportPath + ".sop", true);
+            File.Copy(LoadPath + "/Original/ssf.ssf", ExportPath + ".ssf", true);
+            File.Copy(LoadPath + "/Original/level.pbd", ExportPath + ".pbd", true);
             if(File.Exists(LoadPath + "/Original/sky.pbd"))
             {
-                File.Copy(LoadPath + "/Original/sky.pbd", ExportPath + "_sky.pbd");
+                File.Copy(LoadPath + "/Original/sky.pbd", ExportPath + "_sky.pbd", true);
             }
 
+            //Reset mapHandler
             MapHandler mapHandler = new MapHandler();
             mapHandler.Load(LoadPath + "/Original/level.map");
 
+            //Load PBDHandler
+            PBDHandler pbdHandler = new PBDHandler();
+            pbdHandler.LoadPBD(ExportPath + ".pbd");
+
+            //Export Patches
+            patchPoints = new PatchesJsonHandler();
+            patchPoints = PatchesJsonHandler.Load(LoadPath + "/Patches.json");
+            pbdHandler.Patches = new List<Patch>();
+            mapHandler.Patchs = new List<LinkerItem>();
+            for (int i = 0; i < patchPoints.patches.Count; i++)
+            {
+                Patch patch = new Patch();
+                var ImportPatch = patchPoints.patches[i];
+                patch.LightMapPoint = JsonUtil.ArrayToVector4(ImportPatch.LightMapPoint);
+
+                patch.UVPoint1 = JsonUtil.ArrayToVector4(ImportPatch.UVPoint1);
+                patch.UVPoint2 = JsonUtil.ArrayToVector4(ImportPatch.UVPoint2);
+                patch.UVPoint3 = JsonUtil.ArrayToVector4(ImportPatch.UVPoint3);
+                patch.UVPoint4 = JsonUtil.ArrayToVector4(ImportPatch.UVPoint4);
+
+                BezierUtil bezierUtil = new BezierUtil();
+
+                bezierUtil.RawPoints[0] = JsonUtil.ArrayToVector3(ImportPatch.R1C1);
+                bezierUtil.RawPoints[1] = JsonUtil.ArrayToVector3(ImportPatch.R1C2);
+                bezierUtil.RawPoints[2] = JsonUtil.ArrayToVector3(ImportPatch.R1C3);
+                bezierUtil.RawPoints[3] = JsonUtil.ArrayToVector3(ImportPatch.R1C4);
+                bezierUtil.RawPoints[4] = JsonUtil.ArrayToVector3(ImportPatch.R2C1);
+                bezierUtil.RawPoints[5] = JsonUtil.ArrayToVector3(ImportPatch.R2C2);
+                bezierUtil.RawPoints[6] = JsonUtil.ArrayToVector3(ImportPatch.R2C3);
+                bezierUtil.RawPoints[7] = JsonUtil.ArrayToVector3(ImportPatch.R2C4);
+                bezierUtil.RawPoints[8] = JsonUtil.ArrayToVector3(ImportPatch.R3C1);
+                bezierUtil.RawPoints[9] = JsonUtil.ArrayToVector3(ImportPatch.R3C2);
+                bezierUtil.RawPoints[10] = JsonUtil.ArrayToVector3(ImportPatch.R3C3);
+                bezierUtil.RawPoints[11] = JsonUtil.ArrayToVector3(ImportPatch.R3C4);
+                bezierUtil.RawPoints[12] = JsonUtil.ArrayToVector3(ImportPatch.R4C1);
+                bezierUtil.RawPoints[13] = JsonUtil.ArrayToVector3(ImportPatch.R4C2);
+                bezierUtil.RawPoints[14] = JsonUtil.ArrayToVector3(ImportPatch.R4C3);
+                bezierUtil.RawPoints[15] = JsonUtil.ArrayToVector3(ImportPatch.R4C4);
+
+                bezierUtil.GenerateProcessedPoints();
+
+                patch.R1C1 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[0]);
+                patch.R1C2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[1]);
+                patch.R1C3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[2]);
+                patch.R1C4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[3]);
+                patch.R2C1 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[4]);
+                patch.R2C2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[5]);
+                patch.R2C3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[6]);
+                patch.R2C4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[7]);
+                patch.R3C1 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[8]);
+                patch.R3C2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[9]);
+                patch.R3C3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[10]);
+                patch.R3C4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[11]);
+                patch.R4C1 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[12]);
+                patch.R4C2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[13]);
+                patch.R4C3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[14]);
+                patch.R4C4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[15]);
+
+                Vector3 HighestXYZ = bezierUtil.RawPoints[0];
+                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[1]);
+                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[2]);
+                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[3]);
+                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[4]);
+                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[5]);
+                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[6]);
+                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[7]);
+                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[8]);
+                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[9]);
+                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[10]);
+                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[11]);
+                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[12]);
+                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[13]);
+                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[14]);
+                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[15]);
+
+                Vector3 LowestXYZ = bezierUtil.RawPoints[0];
+                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[1]);
+                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[2]);
+                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[3]);
+                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[4]);
+                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[5]);
+                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[6]);
+                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[7]);
+                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[8]);
+                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[9]);
+                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[10]);
+                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[11]);
+                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[12]);
+                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[13]);
+                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[14]);
+                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[15]);
+
+                patch.HighestXYZ = HighestXYZ;
+                patch.LowestXYZ = LowestXYZ;
+
+                patch.Point1 = JsonUtil.Vector3ToVector4(bezierUtil.RawPoints[0]);
+                patch.Point2 = JsonUtil.Vector3ToVector4(bezierUtil.RawPoints[12]);
+                patch.Point3 = JsonUtil.Vector3ToVector4(bezierUtil.RawPoints[3]);
+                patch.Point4 = JsonUtil.Vector3ToVector4(bezierUtil.RawPoints[15]);
+
+                patch.PatchStyle = ImportPatch.PatchStyle;
+                patch.Unknown2 = ImportPatch.Unknown2;
+                patch.TextureAssigment = ImportPatch.TextureAssigment;
+                patch.LightmapID = ImportPatch.LightmapID;
+                patch.Unknown4 = ImportPatch.Unknown4;
+                patch.Unknown5 = ImportPatch.Unknown5;
+                patch.Unknown6 = ImportPatch.Unknown6;
+
+                pbdHandler.Patches.Add(patch);
+
+                LinkerItem linkerItem = new LinkerItem();
+                linkerItem.Name = ImportPatch.PatchName;
+                linkerItem.Ref = 1;
+                linkerItem.UID = i;
+                linkerItem.Hashvalue = "";
+                mapHandler.Patchs.Add(linkerItem);
+            }
 
 
 
 
+
+
+            pbdHandler.Save(ExportPath + ".pbd");
             mapHandler.Save(ExportPath + ".map");
 
             //Build Textures

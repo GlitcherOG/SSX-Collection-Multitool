@@ -48,5 +48,40 @@ namespace SSXMultiTool.Utilities
             return new Vector3(floats[0], floats[1], floats[2]);
         }
 
+        public static Vector3 Highest(Vector3 current, Vector3 vector3)
+        {
+            Vector3 vertex = vector3;
+            if (vertex.X > current.X)
+            {
+                current.X = vertex.X;
+            }
+            if (vertex.Y > current.Y)
+            {
+                current.Y = vertex.Y;
+            }
+            if (vertex.Z > current.Z)
+            {
+                current.Z = vertex.Z;
+            }
+            return current;
+        }
+
+        public static Vector3 Lowest(Vector3 current, Vector3 vector3)
+        {
+            Vector3 vertex = vector3;
+            if (vertex.X < current.X)
+            {
+                current.X = vertex.X;
+            }
+            if (vertex.Y < current.Y)
+            {
+                current.Y = vertex.Y;
+            }
+            if (vertex.Z < current.Z)
+            {
+                current.Z = vertex.Z;
+            }
+            return current;
+        }
     }
 }

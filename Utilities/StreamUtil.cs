@@ -273,5 +273,20 @@ namespace SSXMultiTool.Utilities
                 stream.Position += Num;
             }
         }
+
+        public static void WriteVector3(Stream stream, Vector3 vertex3)
+        {
+            StreamUtil.WriteFloat32(stream, vertex3.X);
+            StreamUtil.WriteFloat32(stream, vertex3.Y);
+            StreamUtil.WriteFloat32(stream, vertex3.Z);
+        }
+
+        public static void WriteVector4(Stream stream, Vector4 vertex4)
+        {
+            StreamUtil.WriteFloat32(stream, vertex4.X);
+            StreamUtil.WriteFloat32(stream, vertex4.Y);
+            StreamUtil.WriteFloat32(stream, vertex4.Z);
+            StreamUtil.WriteFloat32(stream, vertex4.W);
+        }
     }
 }

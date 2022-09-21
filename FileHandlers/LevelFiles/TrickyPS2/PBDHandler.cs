@@ -439,204 +439,204 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
         }
 
-        //public void Save(string path)
-        //{
-        //    using (Stream stream = File.Open(path, FileMode.Open))
-        //    {
-        //        MagicBytes = StreamUtil.ReadBytes(stream, 4);
-        //        NumPlayerStarts = StreamUtil.ReadInt32(stream);
+        public void Save(string path)
+        {
+            using (Stream stream = File.Open(path, FileMode.Open))
+            {
+                MagicBytes = StreamUtil.ReadBytes(stream, 4);
+                NumPlayerStarts = StreamUtil.ReadInt32(stream);
 
-        //        StreamUtil.WriteInt32(stream, Patches.Count);
-        //        StreamUtil.WriteInt32(stream, Instances.Count);
-        //        StreamUtil.WriteInt32(stream, particleInstances.Count);
+                StreamUtil.WriteInt32(stream, Patches.Count);
+                StreamUtil.WriteInt32(stream, Instances.Count);
+                StreamUtil.WriteInt32(stream, particleInstances.Count);
 
-        //        NumMaterials = StreamUtil.ReadInt32(stream);
-        //        NumMaterialBlocks = StreamUtil.ReadInt32(stream);
-        //        NumLights = StreamUtil.ReadInt32(stream);
+                NumMaterials = StreamUtil.ReadInt32(stream);
+                NumMaterialBlocks = StreamUtil.ReadInt32(stream);
+                NumLights = StreamUtil.ReadInt32(stream);
 
-        //        StreamUtil.WriteInt32(stream, splines.Count);
-        //        StreamUtil.WriteInt32(stream, splinesSegments.Count);
-        //        StreamUtil.WriteInt32(stream, textureFlipbooks.Count);
+                StreamUtil.WriteInt32(stream, splines.Count);
+                StreamUtil.WriteInt32(stream, splinesSegments.Count);
+                StreamUtil.WriteInt32(stream, textureFlipbooks.Count);
 
-        //        NumModels = StreamUtil.ReadInt32(stream);
-        //        ParticleModelCount = StreamUtil.ReadInt32(stream);
+                NumModels = StreamUtil.ReadInt32(stream);
+                ParticleModelCount = StreamUtil.ReadInt32(stream);
 
-        //        StreamUtil.WriteInt32(stream, NumTextures);
+                StreamUtil.WriteInt32(stream, NumTextures);
 
-        //        NumCameras = StreamUtil.ReadInt32(stream); //Used in SSXFE MAP
+                NumCameras = StreamUtil.ReadInt32(stream); //Used in SSXFE MAP
 
-        //        StreamUtil.WriteInt32(stream, 0); //Lightmap size 
+                StreamUtil.WriteInt32(stream, 0); //Lightmap size 
 
-        //        PlayerStartOffset = StreamUtil.ReadInt32(stream);
-        //        PatchOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
-        //        InstanceOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
-        //        ParticleInstancesOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
-        //        MaterialOffset = StreamUtil.ReadInt32(stream);
-        //        MaterialBlocksOffset = StreamUtil.ReadInt32(stream);
-        //        LightsOffset = StreamUtil.ReadInt32(stream);
-        //        SplineOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
-        //        SplineSegmentOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
-        //        TextureFlipbookOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
-        //        ModelPointerOffset = StreamUtil.ReadInt32(stream);
-        //        ModelsOffset = StreamUtil.ReadInt32(stream);
+                PlayerStartOffset = StreamUtil.ReadInt32(stream);
+                PatchOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
+                InstanceOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
+                ParticleInstancesOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
+                MaterialOffset = StreamUtil.ReadInt32(stream);
+                MaterialBlocksOffset = StreamUtil.ReadInt32(stream);
+                LightsOffset = StreamUtil.ReadInt32(stream);
+                SplineOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
+                SplineSegmentOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
+                TextureFlipbookOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
+                ModelPointerOffset = StreamUtil.ReadInt32(stream);
+                ModelsOffset = StreamUtil.ReadInt32(stream);
 
-        //        ParticleModelPointerOffset = StreamUtil.ReadInt32(stream);
-        //        ParticleModelsOffset = StreamUtil.ReadInt32(stream);
-        //        CameraPointerOffset = StreamUtil.ReadInt32(stream);
-        //        CamerasOffset = StreamUtil.ReadInt32(stream);
-        //        HashOffset = StreamUtil.ReadInt32(stream);
-        //        ModelDataOffset = StreamUtil.ReadInt32(stream);
-        //        Unknown34 = StreamUtil.ReadInt32(stream);
-        //        Unknown35 = StreamUtil.ReadInt32(stream);
+                ParticleModelPointerOffset = StreamUtil.ReadInt32(stream);
+                ParticleModelsOffset = StreamUtil.ReadInt32(stream);
+                CameraPointerOffset = StreamUtil.ReadInt32(stream);
+                CamerasOffset = StreamUtil.ReadInt32(stream);
+                HashOffset = StreamUtil.ReadInt32(stream);
+                ModelDataOffset = StreamUtil.ReadInt32(stream);
+                Unknown34 = StreamUtil.ReadInt32(stream);
+                Unknown35 = StreamUtil.ReadInt32(stream);
 
-        //        //Patches
-        //        stream.Position = PatchOffset;
-        //        for (int i = 0; i < Patches.Count; i++)
-        //        {
-        //            var TempPatch = Patches[i];
-        //            SaveVertices(stream, TempPatch.ScalePoint, true);
+                //Patches
+                stream.Position = PatchOffset;
+                for (int i = 0; i < Patches.Count; i++)
+                {
+                    var TempPatch = Patches[i];
+                    StreamUtil.WriteVector4(stream, TempPatch.LightMapPoint);
 
-        //            SaveVertices(stream, TempPatch.UVPoint1, true);
-        //            SaveVertices(stream, TempPatch.UVPoint2, true);
-        //            SaveVertices(stream, TempPatch.UVPoint3, true);
-        //            SaveVertices(stream, TempPatch.UVPoint4, true);
+                    StreamUtil.WriteVector4(stream, TempPatch.UVPoint1);
+                    StreamUtil.WriteVector4(stream, TempPatch.UVPoint2);
+                    StreamUtil.WriteVector4(stream, TempPatch.UVPoint3);
+                    StreamUtil.WriteVector4(stream, TempPatch.UVPoint4);
 
-        //            SaveVertices(stream, TempPatch.R4C4, true);
-        //            SaveVertices(stream, TempPatch.R4C3, true);
-        //            SaveVertices(stream, TempPatch.R4C2, true);
-        //            SaveVertices(stream, TempPatch.R4C1, true);
-        //            SaveVertices(stream, TempPatch.R3C4, true);
-        //            SaveVertices(stream, TempPatch.R3C3, true);
-        //            SaveVertices(stream, TempPatch.R3C2, true);
-        //            SaveVertices(stream, TempPatch.R3C1, true);
-        //            SaveVertices(stream, TempPatch.R2C4, true);
-        //            SaveVertices(stream, TempPatch.R2C3, true);
-        //            SaveVertices(stream, TempPatch.R2C2, true);
-        //            SaveVertices(stream, TempPatch.R2C1, true);
-        //            SaveVertices(stream, TempPatch.R1C4, true);
-        //            SaveVertices(stream, TempPatch.R1C3, true);
-        //            SaveVertices(stream, TempPatch.R1C2, true);
-        //            SaveVertices(stream, TempPatch.R1C1, true);
+                    StreamUtil.WriteVector4(stream, TempPatch.R4C4);
+                    StreamUtil.WriteVector4(stream, TempPatch.R4C3);
+                    StreamUtil.WriteVector4(stream, TempPatch.R4C2);
+                    StreamUtil.WriteVector4(stream, TempPatch.R4C1);
+                    StreamUtil.WriteVector4(stream, TempPatch.R3C4);
+                    StreamUtil.WriteVector4(stream, TempPatch.R3C3);
+                    StreamUtil.WriteVector4(stream, TempPatch.R3C2);
+                    StreamUtil.WriteVector4(stream, TempPatch.R3C1);
+                    StreamUtil.WriteVector4(stream, TempPatch.R2C4);
+                    StreamUtil.WriteVector4(stream, TempPatch.R2C3);
+                    StreamUtil.WriteVector4(stream, TempPatch.R2C2);
+                    StreamUtil.WriteVector4(stream, TempPatch.R2C1);
+                    StreamUtil.WriteVector4(stream, TempPatch.R1C4);
+                    StreamUtil.WriteVector4(stream, TempPatch.R1C3);
+                    StreamUtil.WriteVector4(stream, TempPatch.R1C2);
+                    StreamUtil.WriteVector4(stream, TempPatch.R1C1);
 
-        //            SaveVertices(stream, TempPatch.LowestXYZ, false);
-        //            SaveVertices(stream, TempPatch.HighestXYZ, false);
+                    StreamUtil.WriteVector3(stream, TempPatch.LowestXYZ);
+                    StreamUtil.WriteVector3(stream, TempPatch.HighestXYZ);
 
-        //            SaveVertices(stream, TempPatch.Point1, true);
-        //            SaveVertices(stream, TempPatch.Point2, true);
-        //            SaveVertices(stream, TempPatch.Point3, true);
-        //            SaveVertices(stream, TempPatch.Point4, true);
+                    StreamUtil.WriteVector4(stream, TempPatch.Point1);
+                    StreamUtil.WriteVector4(stream, TempPatch.Point2);
+                    StreamUtil.WriteVector4(stream, TempPatch.Point3);
+                    StreamUtil.WriteVector4(stream, TempPatch.Point4);
 
-        //            StreamUtil.WriteInt32(stream, TempPatch.PatchStyle);
-        //            StreamUtil.WriteInt32(stream, TempPatch.Unknown2);
-        //            StreamUtil.WriteInt16(stream, TempPatch.TextureAssigment);
-        //            StreamUtil.WriteInt16(stream, TempPatch.LightmapID);
-        //            StreamUtil.WriteInt32(stream, TempPatch.Unknown4);
-        //            StreamUtil.WriteInt32(stream, TempPatch.Unknown5);
-        //            StreamUtil.WriteInt32(stream, TempPatch.Unknown6);
-        //        }
+                    StreamUtil.WriteInt32(stream, TempPatch.PatchStyle);
+                    StreamUtil.WriteInt32(stream, TempPatch.Unknown2);
+                    StreamUtil.WriteInt16(stream, TempPatch.TextureAssigment);
+                    StreamUtil.WriteInt16(stream, TempPatch.LightmapID);
+                    StreamUtil.WriteInt32(stream, TempPatch.Unknown4);
+                    StreamUtil.WriteInt32(stream, TempPatch.Unknown5);
+                    StreamUtil.WriteInt32(stream, TempPatch.Unknown6);
+                }
 
-        //        //Texture Flipbooks
-        //        stream.Position = TextureFlipbookOffset;
-        //        for (int i = 0; i < textureFlipbooks.Count; i++)
-        //        {
-        //            StreamUtil.WriteInt32(stream, textureFlipbooks[i].ImagePositions.Count);
-        //            for (int a = 0; a < textureFlipbooks[i].ImagePositions.Count; a++)
-        //            {
-        //                StreamUtil.WriteInt32(stream, textureFlipbooks[i].ImagePositions[a]);
-        //            }
-        //        }
+                ////Texture Flipbooks
+                //stream.Position = TextureFlipbookOffset;
+                //for (int i = 0; i < textureFlipbooks.Count; i++)
+                //{
+                //    StreamUtil.WriteInt32(stream, textureFlipbooks[i].ImagePositions.Count);
+                //    for (int a = 0; a < textureFlipbooks[i].ImagePositions.Count; a++)
+                //    {
+                //        StreamUtil.WriteInt32(stream, textureFlipbooks[i].ImagePositions[a]);
+                //    }
+                //}
 
-        //        //Spline
-        //        stream.Position = SplineOffset;
-        //        for (int i = 0; i < splines.Count; i++)
-        //        {
-        //            var spline = splines[i];
-        //            SaveVertices(stream, spline.LowestXYZ, false);
-        //            SaveVertices(stream, spline.HighestXYZ, false);
-        //            StreamUtil.WriteInt32(stream, spline.Unknown1);
-        //            StreamUtil.WriteInt32(stream, spline.SplineSegmentCount);
-        //            StreamUtil.WriteInt32(stream, spline.SplineSegmentPosition);
-        //            StreamUtil.WriteInt32(stream, spline.Unknown2);
-        //        }
+                ////Spline
+                //stream.Position = SplineOffset;
+                //for (int i = 0; i < splines.Count; i++)
+                //{
+                //    var spline = splines[i];
+                //    StreamUtil.WriteVector3(stream, spline.LowestXYZ);
+                //    StreamUtil.WriteVector3(stream, spline.HighestXYZ);
+                //    StreamUtil.WriteInt32(stream, spline.Unknown1);
+                //    StreamUtil.WriteInt32(stream, spline.SplineSegmentCount);
+                //    StreamUtil.WriteInt32(stream, spline.SplineSegmentPosition);
+                //    StreamUtil.WriteInt32(stream, spline.Unknown2);
+                //}
 
-        //        //Spline Segments
-        //        stream.Position = SplineSegmentOffset;
-        //        for (int i = 0; i < splinesSegments.Count; i++)
-        //        {
-        //            var SplineSegment = splinesSegments[i];
-        //            SaveVertices(stream, SplineSegment.Point4, true);
-        //            SaveVertices(stream, SplineSegment.Point3, true);
-        //            SaveVertices(stream, SplineSegment.Point2, true);
-        //            SaveVertices(stream, SplineSegment.ControlPoint, true);
+                ////Spline Segments
+                //stream.Position = SplineSegmentOffset;
+                //for (int i = 0; i < splinesSegments.Count; i++)
+                //{
+                //    var SplineSegment = splinesSegments[i];
+                //    SaveVertices(stream, SplineSegment.Point4, true);
+                //    SaveVertices(stream, SplineSegment.Point3, true);
+                //    SaveVertices(stream, SplineSegment.Point2, true);
+                //    SaveVertices(stream, SplineSegment.ControlPoint, true);
 
-        //            SaveVertices(stream, SplineSegment.ScalingPoint, true);
+                //    SaveVertices(stream, SplineSegment.ScalingPoint, true);
 
-        //            StreamUtil.WriteInt32(stream, SplineSegment.PreviousSegment);
-        //            StreamUtil.WriteInt32(stream, SplineSegment.NextSegment);
-        //            StreamUtil.WriteInt32(stream, SplineSegment.SplineParent);
+                //    StreamUtil.WriteInt32(stream, SplineSegment.PreviousSegment);
+                //    StreamUtil.WriteInt32(stream, SplineSegment.NextSegment);
+                //    StreamUtil.WriteInt32(stream, SplineSegment.SplineParent);
 
-        //            SaveVertices(stream, SplineSegment.LowestXYZ, false);
-        //            SaveVertices(stream, SplineSegment.HighestXYZ, false);
+                //    SaveVertices(stream, SplineSegment.LowestXYZ, false);
+                //    SaveVertices(stream, SplineSegment.HighestXYZ, false);
 
-        //            StreamUtil.WriteFloat32(stream, SplineSegment.SegmentDisatnce);
-        //            StreamUtil.WriteFloat32(stream, SplineSegment.PreviousSegmentsDistance);
-        //            StreamUtil.WriteInt32(stream, SplineSegment.Unknown32);
-        //        }
+                //    StreamUtil.WriteFloat32(stream, SplineSegment.SegmentDisatnce);
+                //    StreamUtil.WriteFloat32(stream, SplineSegment.PreviousSegmentsDistance);
+                //    StreamUtil.WriteInt32(stream, SplineSegment.Unknown32);
+                //}
 
-        //        //Instances
-        //        stream.Position = InstanceOffset;
-        //        for (int i = 0; i < Instances.Count; i++)
-        //        {
-        //            var TempInstance = Instances[i];
-        //            SaveVertices(stream, TempInstance.MatrixCol1, true);
-        //            SaveVertices(stream, TempInstance.MatrixCol2, true);
-        //            SaveVertices(stream, TempInstance.MatrixCol3, true);
-        //            SaveVertices(stream, TempInstance.InstancePosition, true);
-        //            SaveVertices(stream, TempInstance.Unknown5, true);
-        //            SaveVertices(stream, TempInstance.Unknown6, true);
-        //            SaveVertices(stream, TempInstance.Unknown7, true);
-        //            SaveVertices(stream, TempInstance.Unknown8, true);
-        //            SaveVertices(stream, TempInstance.Unknown9, true);
-        //            SaveVertices(stream, TempInstance.Unknown10, true);
-        //            SaveVertices(stream, TempInstance.Unknown11, true);
-        //            SaveVertices(stream, TempInstance.RGBA, true);
+                ////Instances
+                //stream.Position = InstanceOffset;
+                //for (int i = 0; i < Instances.Count; i++)
+                //{
+                //    var TempInstance = Instances[i];
+                //    SaveVertices(stream, TempInstance.MatrixCol1, true);
+                //    SaveVertices(stream, TempInstance.MatrixCol2, true);
+                //    SaveVertices(stream, TempInstance.MatrixCol3, true);
+                //    SaveVertices(stream, TempInstance.InstancePosition, true);
+                //    SaveVertices(stream, TempInstance.Unknown5, true);
+                //    SaveVertices(stream, TempInstance.Unknown6, true);
+                //    SaveVertices(stream, TempInstance.Unknown7, true);
+                //    SaveVertices(stream, TempInstance.Unknown8, true);
+                //    SaveVertices(stream, TempInstance.Unknown9, true);
+                //    SaveVertices(stream, TempInstance.Unknown10, true);
+                //    SaveVertices(stream, TempInstance.Unknown11, true);
+                //    SaveVertices(stream, TempInstance.RGBA, true);
 
-        //            StreamUtil.WriteInt32(stream, TempInstance.ModelID);
-        //            StreamUtil.WriteInt32(stream, TempInstance.PrevInstance);
-        //            StreamUtil.WriteInt32(stream, TempInstance.NextInstance);
+                //    StreamUtil.WriteInt32(stream, TempInstance.ModelID);
+                //    StreamUtil.WriteInt32(stream, TempInstance.PrevInstance);
+                //    StreamUtil.WriteInt32(stream, TempInstance.NextInstance);
 
-        //            SaveVertices(stream, TempInstance.LowestXYZ, false);
-        //            SaveVertices(stream, TempInstance.HighestXYZ, false);
+                //    SaveVertices(stream, TempInstance.LowestXYZ, false);
+                //    SaveVertices(stream, TempInstance.HighestXYZ, false);
 
-        //            StreamUtil.WriteInt32(stream, TempInstance.UnknownInt26);
-        //            StreamUtil.WriteInt32(stream, TempInstance.UnknownInt27);
-        //            StreamUtil.WriteInt32(stream, TempInstance.UnknownInt28);
-        //            StreamUtil.WriteInt32(stream, TempInstance.ModelID2);
-        //            StreamUtil.WriteInt32(stream, TempInstance.UnknownInt30);
-        //            StreamUtil.WriteInt32(stream, TempInstance.UnknownInt31);
-        //            StreamUtil.WriteInt32(stream, TempInstance.UnknownInt32);
-        //        }
+                //    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt26);
+                //    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt27);
+                //    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt28);
+                //    StreamUtil.WriteInt32(stream, TempInstance.ModelID2);
+                //    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt30);
+                //    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt31);
+                //    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt32);
+                //}
 
-        //        //Particle Instances
-        //        stream.Position = ParticleInstancesOffset;
-        //        for (int i = 0; i < particleInstances.Count; i++)
-        //        {
-        //            var TempParticle = particleInstances[i];
-        //            SaveVertices(stream, TempParticle.MatrixCol1, true);
-        //            SaveVertices(stream, TempParticle.MatrixCol2, true);
-        //            SaveVertices(stream, TempParticle.MatrixCol3, true);
-        //            SaveVertices(stream, TempParticle.ParticleInstancePosition, true);
-        //            StreamUtil.WriteInt32(stream, TempParticle.UnknownInt1);
-        //            SaveVertices(stream, TempParticle.LowestXYZ, false);
-        //            SaveVertices(stream, TempParticle.HighestXYZ, false);
-        //            StreamUtil.WriteInt32(stream, TempParticle.UnknownInt8);
-        //            StreamUtil.WriteInt32(stream, TempParticle.UnknownInt9);
-        //            StreamUtil.WriteInt32(stream, TempParticle.UnknownInt10);
-        //            StreamUtil.WriteInt32(stream, TempParticle.UnknownInt11);
-        //            StreamUtil.WriteInt32(stream, TempParticle.UnknownInt12);
-        //        }
-        //    }
-        //}
+                ////Particle Instances
+                //stream.Position = ParticleInstancesOffset;
+                //for (int i = 0; i < particleInstances.Count; i++)
+                //{
+                //    var TempParticle = particleInstances[i];
+                //    SaveVertices(stream, TempParticle.MatrixCol1, true);
+                //    SaveVertices(stream, TempParticle.MatrixCol2, true);
+                //    SaveVertices(stream, TempParticle.MatrixCol3, true);
+                //    SaveVertices(stream, TempParticle.ParticleInstancePosition, true);
+                //    StreamUtil.WriteInt32(stream, TempParticle.UnknownInt1);
+                //    SaveVertices(stream, TempParticle.LowestXYZ, false);
+                //    SaveVertices(stream, TempParticle.HighestXYZ, false);
+                //    StreamUtil.WriteInt32(stream, TempParticle.UnknownInt8);
+                //    StreamUtil.WriteInt32(stream, TempParticle.UnknownInt9);
+                //    StreamUtil.WriteInt32(stream, TempParticle.UnknownInt10);
+                //    StreamUtil.WriteInt32(stream, TempParticle.UnknownInt11);
+                //    StreamUtil.WriteInt32(stream, TempParticle.UnknownInt12);
+                //}
+            }
+        }
         #region Standard Mesh Stuff
         public StaticMesh ReadMesh(Stream stream)
         {
