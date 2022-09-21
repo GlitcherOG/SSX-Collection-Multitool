@@ -19,18 +19,19 @@ namespace SSXMultiTool
 
         private void BigArchiveButton_Click(object sender, EventArgs e)
         {
-            //new BigArchiveTool().ShowDialog();
+            new BigArchiveTool().ShowDialog();
 
-            Thread NewThread = new Thread(() => new BigArchiveTool().ShowDialog());
-            NewThread.SetApartmentState(ApartmentState.STA);
-            NewThread.Start();
+            //Thread NewThread = new Thread(() => new BigArchiveTool().ShowDialog());
+            //NewThread.SetApartmentState(ApartmentState.STA);
+            //NewThread.Start();
         }
 
         private void SSHImageButton_Click(object sender, EventArgs e)
         {
-            Thread NewThread = new Thread(() => new SSHImageTools().ShowDialog());
-            NewThread.SetApartmentState(ApartmentState.STA);
-            NewThread.Start();
+            new SSHImageTools().ShowDialog();
+            //Thread NewThread = new Thread(() => new SSHImageTools().ShowDialog());
+            //NewThread.SetApartmentState(ApartmentState.STA);
+            //NewThread.Start();
         }
 
         private void TrickyLevelButton_Click(object sender, EventArgs e)
@@ -43,9 +44,10 @@ namespace SSXMultiTool
 
         private void LocFileButton_Click(object sender, EventArgs e)
         {
-            Thread NewThread = new Thread(() => new LOCEditorTools().ShowDialog());
-            NewThread.SetApartmentState(ApartmentState.STA);
-            NewThread.Start();
+            new LOCEditorTools().ShowDialog();
+            //Thread NewThread = new Thread(() => new LOCEditorTools().ShowDialog());
+            //NewThread.SetApartmentState(ApartmentState.STA);
+            //NewThread.Start();
         }
     }
 }

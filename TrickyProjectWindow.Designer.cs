@@ -71,6 +71,9 @@
             this.label33 = new System.Windows.Forms.Label();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label34 = new System.Windows.Forms.Label();
+            this.RebuildButton = new System.Windows.Forms.Button();
+            this.LoadProject = new System.Windows.Forms.Button();
+            this.SaveConfig = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ExtractLevel
@@ -97,18 +100,18 @@
             this.TextureLabel.AutoSize = true;
             this.TextureLabel.Location = new System.Drawing.Point(12, 225);
             this.TextureLabel.Name = "TextureLabel";
-            this.TextureLabel.Size = new System.Drawing.Size(38, 15);
+            this.TextureLabel.Size = new System.Drawing.Size(13, 15);
             this.TextureLabel.TabIndex = 2;
-            this.TextureLabel.Text = "label2";
+            this.TextureLabel.Text = "0";
             // 
             // LightmapLabel
             // 
             this.LightmapLabel.AutoSize = true;
             this.LightmapLabel.Location = new System.Drawing.Point(71, 225);
             this.LightmapLabel.Name = "LightmapLabel";
-            this.LightmapLabel.Size = new System.Drawing.Size(38, 15);
+            this.LightmapLabel.Size = new System.Drawing.Size(13, 15);
             this.LightmapLabel.TabIndex = 4;
-            this.LightmapLabel.Text = "label3";
+            this.LightmapLabel.Text = "0";
             // 
             // label4
             // 
@@ -124,9 +127,9 @@
             this.SykboxLabel.AutoSize = true;
             this.SykboxLabel.Location = new System.Drawing.Point(140, 225);
             this.SykboxLabel.Name = "SykboxLabel";
-            this.SykboxLabel.Size = new System.Drawing.Size(38, 15);
+            this.SykboxLabel.Size = new System.Drawing.Size(13, 15);
             this.SykboxLabel.TabIndex = 6;
-            this.SykboxLabel.Text = "label5";
+            this.SykboxLabel.Text = "0";
             // 
             // label6
             // 
@@ -142,9 +145,9 @@
             this.PatchesLabel.AutoSize = true;
             this.PatchesLabel.Location = new System.Drawing.Point(12, 308);
             this.PatchesLabel.Name = "PatchesLabel";
-            this.PatchesLabel.Size = new System.Drawing.Size(38, 15);
+            this.PatchesLabel.Size = new System.Drawing.Size(13, 15);
             this.PatchesLabel.TabIndex = 8;
-            this.PatchesLabel.Text = "label7";
+            this.PatchesLabel.Text = "0";
             // 
             // label8
             // 
@@ -160,9 +163,9 @@
             this.InstancesLabel.AutoSize = true;
             this.InstancesLabel.Location = new System.Drawing.Point(66, 308);
             this.InstancesLabel.Name = "InstancesLabel";
-            this.InstancesLabel.Size = new System.Drawing.Size(38, 15);
+            this.InstancesLabel.Size = new System.Drawing.Size(13, 15);
             this.InstancesLabel.TabIndex = 10;
-            this.InstancesLabel.Text = "label9";
+            this.InstancesLabel.Text = "0";
             // 
             // label10
             // 
@@ -178,9 +181,9 @@
             this.ParticleInstancesLabel.AutoSize = true;
             this.ParticleInstancesLabel.Location = new System.Drawing.Point(127, 308);
             this.ParticleInstancesLabel.Name = "ParticleInstancesLabel";
-            this.ParticleInstancesLabel.Size = new System.Drawing.Size(44, 15);
+            this.ParticleInstancesLabel.Size = new System.Drawing.Size(13, 15);
             this.ParticleInstancesLabel.TabIndex = 12;
-            this.ParticleInstancesLabel.Text = "label11";
+            this.ParticleInstancesLabel.Text = "0";
             // 
             // label12
             // 
@@ -196,9 +199,9 @@
             this.MaterialLabel.AutoSize = true;
             this.MaterialLabel.Location = new System.Drawing.Point(231, 308);
             this.MaterialLabel.Name = "MaterialLabel";
-            this.MaterialLabel.Size = new System.Drawing.Size(44, 15);
+            this.MaterialLabel.Size = new System.Drawing.Size(13, 15);
             this.MaterialLabel.TabIndex = 14;
-            this.MaterialLabel.Text = "label13";
+            this.MaterialLabel.Text = "0";
             // 
             // label14
             // 
@@ -214,9 +217,9 @@
             this.MaterialBlockLabel.AutoSize = true;
             this.MaterialBlockLabel.Location = new System.Drawing.Point(287, 308);
             this.MaterialBlockLabel.Name = "MaterialBlockLabel";
-            this.MaterialBlockLabel.Size = new System.Drawing.Size(44, 15);
+            this.MaterialBlockLabel.Size = new System.Drawing.Size(13, 15);
             this.MaterialBlockLabel.TabIndex = 16;
-            this.MaterialBlockLabel.Text = "label15";
+            this.MaterialBlockLabel.Text = "0";
             // 
             // label16
             // 
@@ -232,9 +235,9 @@
             this.ModelsLabel.AutoSize = true;
             this.ModelsLabel.Location = new System.Drawing.Point(12, 365);
             this.ModelsLabel.Name = "ModelsLabel";
-            this.ModelsLabel.Size = new System.Drawing.Size(44, 15);
+            this.ModelsLabel.Size = new System.Drawing.Size(13, 15);
             this.ModelsLabel.TabIndex = 18;
-            this.ModelsLabel.Text = "label17";
+            this.ModelsLabel.Text = "0";
             // 
             // label18
             // 
@@ -250,9 +253,9 @@
             this.ParticleModelLabels.AutoSize = true;
             this.ParticleModelLabels.Location = new System.Drawing.Point(65, 365);
             this.ParticleModelLabels.Name = "ParticleModelLabels";
-            this.ParticleModelLabels.Size = new System.Drawing.Size(44, 15);
+            this.ParticleModelLabels.Size = new System.Drawing.Size(13, 15);
             this.ParticleModelLabels.TabIndex = 20;
-            this.ParticleModelLabels.Text = "label19";
+            this.ParticleModelLabels.Text = "0";
             // 
             // label20
             // 
@@ -268,9 +271,9 @@
             this.SplinesLabel.AutoSize = true;
             this.SplinesLabel.Location = new System.Drawing.Point(375, 308);
             this.SplinesLabel.Name = "SplinesLabel";
-            this.SplinesLabel.Size = new System.Drawing.Size(44, 15);
+            this.SplinesLabel.Size = new System.Drawing.Size(13, 15);
             this.SplinesLabel.TabIndex = 22;
-            this.SplinesLabel.Text = "label21";
+            this.SplinesLabel.Text = "0";
             // 
             // label22
             // 
@@ -286,9 +289,9 @@
             this.LightLabel.AutoSize = true;
             this.LightLabel.Location = new System.Drawing.Point(425, 308);
             this.LightLabel.Name = "LightLabel";
-            this.LightLabel.Size = new System.Drawing.Size(44, 15);
+            this.LightLabel.Size = new System.Drawing.Size(13, 15);
             this.LightLabel.TabIndex = 24;
-            this.LightLabel.Text = "label23";
+            this.LightLabel.Text = "0";
             // 
             // label24
             // 
@@ -304,9 +307,9 @@
             this.TextureFlipLabel.AutoSize = true;
             this.TextureFlipLabel.Location = new System.Drawing.Point(475, 308);
             this.TextureFlipLabel.Name = "TextureFlipLabel";
-            this.TextureFlipLabel.Size = new System.Drawing.Size(44, 15);
+            this.TextureFlipLabel.Size = new System.Drawing.Size(13, 15);
             this.TextureFlipLabel.TabIndex = 26;
-            this.TextureFlipLabel.Text = "label25";
+            this.TextureFlipLabel.Text = "0";
             // 
             // label26
             // 
@@ -446,11 +449,46 @@
             this.label34.TabIndex = 41;
             this.label34.Text = "Difficulty";
             // 
+            // RebuildButton
+            // 
+            this.RebuildButton.Enabled = false;
+            this.RebuildButton.Location = new System.Drawing.Point(671, 415);
+            this.RebuildButton.Name = "RebuildButton";
+            this.RebuildButton.Size = new System.Drawing.Size(117, 23);
+            this.RebuildButton.TabIndex = 43;
+            this.RebuildButton.Text = "Build Level";
+            this.RebuildButton.UseVisualStyleBackColor = true;
+            this.RebuildButton.Click += new System.EventHandler(this.RebuildButton_Click);
+            // 
+            // LoadProject
+            // 
+            this.LoadProject.Location = new System.Drawing.Point(115, 415);
+            this.LoadProject.Name = "LoadProject";
+            this.LoadProject.Size = new System.Drawing.Size(97, 23);
+            this.LoadProject.TabIndex = 44;
+            this.LoadProject.Text = "Load Project";
+            this.LoadProject.UseVisualStyleBackColor = true;
+            this.LoadProject.Click += new System.EventHandler(this.LoadProject_Click);
+            // 
+            // SaveConfig
+            // 
+            this.SaveConfig.Enabled = false;
+            this.SaveConfig.Location = new System.Drawing.Point(568, 415);
+            this.SaveConfig.Name = "SaveConfig";
+            this.SaveConfig.Size = new System.Drawing.Size(97, 23);
+            this.SaveConfig.TabIndex = 45;
+            this.SaveConfig.Text = "Save Config";
+            this.SaveConfig.UseVisualStyleBackColor = true;
+            this.SaveConfig.Click += new System.EventHandler(this.SaveConfig_Click);
+            // 
             // TrickyProjectWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.SaveConfig);
+            this.Controls.Add(this.LoadProject);
+            this.Controls.Add(this.RebuildButton);
             this.Controls.Add(this.textBox7);
             this.Controls.Add(this.label34);
             this.Controls.Add(this.textBox4);
@@ -495,7 +533,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ExtractLevel);
             this.Name = "TrickyProjectWindow";
-            this.Text = "Form1";
+            this.Text = "Tricky Project Window";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -546,5 +584,8 @@
         private Label label33;
         private TextBox textBox7;
         private Label label34;
+        private Button RebuildButton;
+        private Button LoadProject;
+        private Button SaveConfig;
     }
 }

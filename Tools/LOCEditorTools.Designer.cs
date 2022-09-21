@@ -126,7 +126,7 @@
             this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.LoadButton);
             this.Name = "LOCEditorTools";
-            this.Text = "LOCEditorTools";
+            this.Text = "LOC Editor";
             this.ResumeLayout(false);
             this.PerformLayout();
 

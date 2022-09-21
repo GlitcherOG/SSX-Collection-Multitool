@@ -8,8 +8,9 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - LOC Script Update
 - Export As Txt
 - Import As Txt if line count matches
-- Backup All Project Files For Exporting
 - Convert All Vector3/4 to float arrays
+- export hash data
+- export raw mesh data
 
 ## Todo
 - Setup ISO Handler

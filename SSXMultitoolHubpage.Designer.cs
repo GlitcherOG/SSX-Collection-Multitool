@@ -49,6 +49,7 @@
             // 
             // button1
             // 
+            this.button1.Enabled = false;
             this.button1.Location = new System.Drawing.Point(6, 22);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(94, 50);
@@ -70,6 +71,7 @@
             // 
             // button3
             // 
+            this.button3.Enabled = false;
             this.button3.Location = new System.Drawing.Point(206, 22);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(94, 50);
@@ -79,6 +81,7 @@
             // 
             // button2
             // 
+            this.button2.Enabled = false;
             this.button2.Location = new System.Drawing.Point(106, 22);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(94, 50);
@@ -99,6 +102,7 @@
             // 
             // button5
             // 
+            this.button5.Enabled = false;
             this.button5.Location = new System.Drawing.Point(106, 22);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(94, 50);
@@ -108,6 +112,7 @@
             // 
             // button6
             // 
+            this.button6.Enabled = false;
             this.button6.Location = new System.Drawing.Point(6, 22);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(94, 50);
@@ -187,7 +192,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "SSXMultitoolHubpage";
-            this.Text = "SSX_Multitool_Hubpage";
+            this.Text = "SSX Multitool Hubpage";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);

@@ -359,20 +359,126 @@ namespace SSXMultiTool
                 TextureHandler.BrightenBitmap(i);
                 TextureHandler.BMPOneExtract(ExportPath + "\\Textures\\" + TextureHandler.sshImages[i].shortname + ".png", i);
             }
-
-            SkyboxHandler.LoadSSH(LoadPath + "_sky.ssh");
-            for (int i = 0; i < SkyboxHandler.sshImages.Count; i++)
+            if (File.Exists(LoadPath + "_sky.ssh"))
             {
-                SkyboxHandler.BrightenBitmap(i);
-                SkyboxHandler.BMPOneExtract(ExportPath + "\\Skybox\\" + SkyboxHandler.sshImages[i].shortname + ".png", i);
+                SkyboxHandler.LoadSSH(LoadPath + "_sky.ssh");
+                for (int i = 0; i < SkyboxHandler.sshImages.Count; i++)
+                {
+                    SkyboxHandler.BrightenBitmap(i);
+                    SkyboxHandler.BMPOneExtract(ExportPath + "\\Skybox\\" + SkyboxHandler.sshImages[i].shortname + ".png", i);
+                }
             }
 
-            LightmapHandler.LoadSSH(LoadPath + "_L.ssh");
-            for (int i = 0; i < LightmapHandler.sshImages.Count; i++)
+            if (File.Exists(LoadPath + "_L.ssh"))
             {
-                LightmapHandler.BrightenBitmap(i);
-                LightmapHandler.BMPOneExtract(ExportPath + "\\Lightmaps\\" + LightmapHandler.sshImages[i].shortname + ".png", i);
+                LightmapHandler.LoadSSH(LoadPath + "_L.ssh");
+                for (int i = 0; i < LightmapHandler.sshImages.Count; i++)
+                {
+                    LightmapHandler.BrightenBitmap(i);
+                    LightmapHandler.BMPOneExtract(ExportPath + "\\Lightmaps\\" + LightmapHandler.sshImages[i].shortname + ".png", i);
+                }
             }
+            else
+            {
+                LightmapHandler.LoadSSH(LoadPath.Substring(0,LoadPath.Length-1) + "_L.ssh");
+                for (int i = 0; i < LightmapHandler.sshImages.Count; i++)
+                {
+                    LightmapHandler.BrightenBitmap(i);
+                    LightmapHandler.BMPOneExtract(ExportPath + "\\Lightmaps\\" + LightmapHandler.sshImages[i].shortname + ".png", i);
+                }
+            }
+
+            Directory.CreateDirectory(ExportPath + "/Original");
+            File.Copy(LoadPath + ".adl", ExportPath + "/Original" + "/ald.ald");
+            File.Copy(LoadPath + ".aip", ExportPath + "/Original" + "/aip.aip");
+            File.Copy(LoadPath + ".ltg", ExportPath + "/Original" + "/ltg.ltg");
+            File.Copy(LoadPath + ".sop", ExportPath + "/Original" + "/sop.sop");
+            File.Copy(LoadPath + ".ssf", ExportPath + "/Original" + "/ssf.ssf");
+            File.Copy(LoadPath + "_sky.pbd", ExportPath + "/Original" + "/sky.pbd");
+            File.Copy(LoadPath + ".pbd", ExportPath + "/Original" + "/level.pbd");
+            File.Copy(LoadPath + ".map", ExportPath + "/Original" + "/level.map");
+        }
+
+        public void BuildTrickyLevelFiles(string LoadPath, string ExportPath)
+        {
+            ExportPath = ExportPath.Substring(0, ExportPath.Length - 4);
+
+
+
+
+
+            //Build Textures
+            SSHHandler TextureHandler = new SSHHandler();
+            TextureHandler.format = "G278";
+
+            string[] ImageFiles = Directory.GetFiles(LoadPath + "/Textures", "*.png");
+            for (int i = 0; i < ImageFiles.Length; i++)
+            {
+                TextureHandler.AddImage();
+                TextureHandler.LoadSingle(ImageFiles[i], i);
+                TextureHandler.DarkenImage(i);
+                var temp = TextureHandler.sshImages[i];
+                temp.shortname = i.ToString().PadLeft(4, '0');
+                temp.AlphaFix = true;
+                TextureHandler.sshImages[i] = temp;
+            }
+
+            TextureHandler.SaveSSH(ExportPath+".ssh", true);
+
+
+            string[] SkyboxFiles = Directory.GetFiles(LoadPath + "/Skybox", "*.png");
+            if (SkyboxFiles.Length != 0)
+            {
+                //Build Skybox
+                SSHHandler SkyboxHandler = new SSHHandler();
+                SkyboxHandler.format = "G278";
+
+                for (int i = 0; i < SkyboxFiles.Length; i++)
+                {
+                    SkyboxHandler.AddImage();
+                    SkyboxHandler.LoadSingle(SkyboxFiles[i], i);
+                    SkyboxHandler.DarkenImage(i);
+                    var temp = SkyboxHandler.sshImages[i];
+                    temp.shortname = i.ToString().PadLeft(4, '0');
+                    temp.AlphaFix = true;
+                    SkyboxHandler.sshImages[i] = temp;
+                }
+
+                SkyboxHandler.SaveSSH(ExportPath + "_sky.ssh", true);
+            }
+        }
+
+        public void LoadAndVerifyFiles(string LoadPath)
+        {
+            //Create Patches JSON
+            patchPoints = PatchesJsonHandler.Load(LoadPath + "/Patches.json");
+
+            //Create Instance JSON
+            instancesJson=InstanceJsonHandler.Load(LoadPath + "/Instances.json");
+
+            //Create Particle Instances JSON
+            particleInstanceJson = ParticleInstanceJsonHandler.Load(LoadPath + "/ParticleInstances.json");
+
+            //Create Material Json
+            materialJson = MaterialJsonHandler.Load(LoadPath + "/Material.json");
+
+            //Create Material Block Json
+            materialBlockJson = MaterialBlockJsonHandler.Load(LoadPath + "/MaterialBlocks.json");
+
+            //Create Lights Json
+            lightJsonHandler = LightJsonHandler.Load(LoadPath + "/Lights.json");
+
+            //Create Spline Json
+            splineJsonHandler = SplineJsonHandler.Load(LoadPath + "/Splines.json");
+
+            //Create Texture FLipbook Json
+            textureFlipbookJsonHandler = TextureFlipbookJsonHandler.Load(LoadPath + "/TextureFlipbook.json");
+
+            //Create Model Json
+            modelJsonHandler = ModelJsonHandler.Load(LoadPath + "/ModelHeaders.json");
+
+            //Create Particle Model Json
+            particleModelJsonHandler = ParticleModelJsonHandler.Load(LoadPath + "/ParticleModelHeaders.json");
         }
     }
 }

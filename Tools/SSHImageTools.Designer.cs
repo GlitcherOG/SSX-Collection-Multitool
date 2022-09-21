@@ -616,7 +616,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.ImageList);
             this.Name = "SSHImageTools";
-            this.Text = "SSHImageTools";
+            this.Text = "SSH Image Editor";
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
