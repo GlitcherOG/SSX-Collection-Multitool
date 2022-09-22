@@ -620,6 +620,14 @@ namespace SSXMultiTool
 
                 spline.LowestXYZ = LowestXYZSpline;
                 spline.HighestXYZ = HighestXYZSpline;
+
+
+                LinkerItem linkerItem = new LinkerItem();
+                linkerItem.Name = TempSpline.SplineName;
+                linkerItem.Ref = 1;
+                linkerItem.UID = i;
+                linkerItem.Hashvalue = "";
+                mapHandler.Splines.Add(linkerItem);
                 pbdHandler.splines.Add(spline);
             }
 
