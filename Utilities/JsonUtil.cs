@@ -83,5 +83,14 @@ namespace SSXMultiTool.Utilities
             }
             return current;
         }
+
+        public static float GenerateDistance(Vector3 Point1 , Vector3 Point2, Vector3 Point3, Vector3 Point4)
+        {
+            float Distance = 0;
+            Distance += Vector3.Distance(Point1, Point2);
+            Distance += Vector3.Distance(Point2, Point3);
+            Distance += Vector3.Distance(Point3, Point4);
+            return Distance;
+        }
     }
 }

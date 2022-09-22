@@ -26,7 +26,6 @@ namespace SSXMultiTool
 
         public void ExtractTrickyLevelFiles(string LoadPath, string ExportPath)
         {
-            File.Create(ExportPath + "/Config.ssx");
 
             //Load Map
             MapHandler mapHandler = new MapHandler();
@@ -539,9 +538,90 @@ namespace SSXMultiTool
                 mapHandler.Patchs.Add(linkerItem);
             }
 
+            splineJsonHandler = new SplineJsonHandler();
+            splineJsonHandler = SplineJsonHandler.Load(LoadPath + "/Splines.json");
+            pbdHandler.splines = new List<Spline>();
+            pbdHandler.splinesSegments = new List<SplinesSegments>();
+            mapHandler.Splines = new List<LinkerItem>();
+            int SegmentPos = 0;
+            for (int i = 0; i < splineJsonHandler.SplineJsons.Count; i++)
+            {
+                var TempSpline = splineJsonHandler.SplineJsons[i];
+                Spline spline = new Spline();
+                spline.SplineSegmentPosition = SegmentPos;
+                spline.SplineSegmentCount = TempSpline.Segments.Count;
+                spline.Unknown1 = TempSpline.Unknown1;
+                spline.Unknown2 = TempSpline.Unknown2;
 
+                Vector3 HighestXYZSpline = JsonUtil.ArrayToVector3(TempSpline.Segments[0].Point1);
+                Vector3 LowestXYZSpline = JsonUtil.ArrayToVector3(TempSpline.Segments[0].Point1);
+                float PreviousSegmentDiffrence = 0f;
+                for (int a = 0; a < TempSpline.Segments.Count; a++)
+                {
+                    SplinesSegments segments = new SplinesSegments();
+                    var TempSegment = TempSpline.Segments[a];
+                    BezierUtil bezierUtil = new BezierUtil();
 
+                    bezierUtil.RawPoints[0] = JsonUtil.ArrayToVector3(TempSegment.Point1);
+                    bezierUtil.RawPoints[1] = JsonUtil.ArrayToVector3(TempSegment.Point2);
+                    bezierUtil.RawPoints[2] = JsonUtil.ArrayToVector3(TempSegment.Point3);
+                    bezierUtil.RawPoints[3] = JsonUtil.ArrayToVector3(TempSegment.Point4);
 
+                    bezierUtil.GenerateProcessedPoints();
+
+                    segments.ControlPoint = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[0]);
+                    segments.Point2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[1],0);
+                    segments.Point3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[2],0);
+                    segments.Point4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[3],0);
+                    segments.ScalingPoint = JsonUtil.ArrayToVector4(TempSegment.Unknown);
+                    
+                    
+                    if (a == 0)
+                    {
+                        segments.PreviousSegment = -1;
+                    }
+                    else
+                    {
+                        segments.PreviousSegment = a-1;
+                    }
+                    if (a == TempSpline.Segments.Count-1)
+                    {
+                        segments.NextSegment = -1;
+                    }
+                    else
+                    {
+                        segments.NextSegment = a + 1;
+                    }
+                    segments.SplineParent = i;
+
+                    Vector3 HighestXYZSegment = bezierUtil.RawPoints[0];
+                    HighestXYZSegment = JsonUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[1]);
+                    HighestXYZSegment = JsonUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[2]);
+                    HighestXYZSegment = JsonUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[3]);
+
+                    segments.HighestXYZ = HighestXYZSegment;
+                    HighestXYZSpline = JsonUtil.Highest(HighestXYZSpline, HighestXYZSegment);
+
+                    Vector3 LowestXYZSegment = bezierUtil.RawPoints[0];
+                    LowestXYZSegment = JsonUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[1]);
+                    LowestXYZSegment = JsonUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[2]);
+                    LowestXYZSegment = JsonUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[3]);
+
+                    segments.LowestXYZ = LowestXYZSegment;
+                    LowestXYZSpline = JsonUtil.Highest(LowestXYZSpline, LowestXYZSegment);
+
+                    segments.SegmentDisatnce = JsonUtil.GenerateDistance(bezierUtil.RawPoints[0], bezierUtil.RawPoints[1], bezierUtil.RawPoints[2], bezierUtil.RawPoints[3]);
+                    segments.PreviousSegmentsDistance = PreviousSegmentDiffrence;
+                    PreviousSegmentDiffrence += segments.SegmentDisatnce;
+                    segments.Unknown32 = TempSegment.Unknown32;
+                    pbdHandler.splinesSegments.Add(segments);
+                    SegmentPos++;
+                }
+
+                spline.LowestXYZ = LowestXYZSpline;
+                spline.HighestXYZ = HighestXYZSpline;
+                pbdHandler.splines.Add(spline);
+            }
 
 
             pbdHandler.Save(ExportPath + ".pbd");

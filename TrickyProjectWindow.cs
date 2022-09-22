@@ -4,6 +4,7 @@ using System.IO;
 using SSXMultiTool.FileHandlers;
 using System.Windows.Forms;
 using SSXMultiTool.JsonFiles;
+using SSXMultiTool.JsonFiles.Tricky;
 
 namespace SSXMultiTool
 {
@@ -49,6 +50,7 @@ namespace SSXMultiTool
             }
         }
         TrickyLevelInterface trickyLevelInterface = new TrickyLevelInterface();
+        SSXTrickyConfig trickyConfig = new SSXTrickyConfig();
         public string ProjectPath;
         void ExtractFiles(string StartPath, string ExportPath)
         {
@@ -58,6 +60,8 @@ namespace SSXMultiTool
             ProjectPath = ExportPath;
             SaveConfig.Enabled = true;
             RebuildButton.Enabled = true;
+            trickyConfig = new SSXTrickyConfig();
+            trickyConfig.CreateJson(ExportPath + "/Config.ssx");
             MessageBox.Show("Level Extracted");
             UpdateText();
         }
@@ -80,6 +84,14 @@ namespace SSXMultiTool
                 SykboxLabel.Text = Directory.GetFiles(ProjectPath + "/Skybox", "*.png").Length.ToString();
                 LightmapLabel.Text = Directory.GetFiles(ProjectPath + "/Lightmaps", "*.png").Length.ToString();
             }
+            LevelNameTextbox.Text = trickyConfig.LevelName;
+            AuthorTextbox.Text = trickyConfig.Author;
+            VersionTextbox.Text = trickyConfig.LevelVersion;
+            DifficultyTextbox.Text = trickyConfig.Difficulty;
+            LocationTextbox.Text = trickyConfig.Location;
+            VerticalDropTextbox.Text = trickyConfig.Vertical;
+            CourseLengthTextbox.Text = trickyConfig.Length;
+            DescriptionTextbox.Text = trickyConfig.Description;
         }
 
         void ExtractBig(string BigPath, string ExportPath)
@@ -120,18 +132,34 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                trickyLevelInterface = new TrickyLevelInterface();
-                SaveConfig.Enabled = true;
-                RebuildButton.Enabled = true;
-                ProjectPath = Path.GetDirectoryName(openFileDialog.FileName);
-                trickyLevelInterface.LoadAndVerifyFiles(ProjectPath);
-                UpdateText();
+                trickyConfig = SSXTrickyConfig.Load(openFileDialog.FileName);
+                if (trickyConfig.Version == 1)
+                {
+                    trickyLevelInterface = new TrickyLevelInterface();
+                    SaveConfig.Enabled = true;
+                    RebuildButton.Enabled = true;
+                    ProjectPath = Path.GetDirectoryName(openFileDialog.FileName);
+                    trickyLevelInterface.LoadAndVerifyFiles(ProjectPath);
+                    UpdateText();
+                }
+                else
+                {
+                    MessageBox.Show("Cannont Open Due to Incorrect Version");
+                }
             }
         }
 
         private void SaveConfig_Click(object sender, EventArgs e)
         {
-
+            trickyConfig.LevelName = LevelNameTextbox.Text;
+            trickyConfig.Author = AuthorTextbox.Text;
+            trickyConfig.LevelVersion = VersionTextbox.Text;
+            trickyConfig.Difficulty = DifficultyTextbox.Text;
+            trickyConfig.Location = LocationTextbox.Text;
+            trickyConfig.Vertical = VerticalDropTextbox.Text;
+            trickyConfig.Length = CourseLengthTextbox.Text;
+            trickyConfig.Description = DescriptionTextbox.Text;
+            trickyConfig.CreateJson(ProjectPath + "/Config.ssx");
         }
     }
 }

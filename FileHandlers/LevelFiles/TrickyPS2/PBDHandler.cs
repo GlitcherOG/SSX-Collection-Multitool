@@ -547,41 +547,41 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 //}
 
                 ////Spline
-                //stream.Position = SplineOffset;
-                //for (int i = 0; i < splines.Count; i++)
-                //{
-                //    var spline = splines[i];
-                //    StreamUtil.WriteVector3(stream, spline.LowestXYZ);
-                //    StreamUtil.WriteVector3(stream, spline.HighestXYZ);
-                //    StreamUtil.WriteInt32(stream, spline.Unknown1);
-                //    StreamUtil.WriteInt32(stream, spline.SplineSegmentCount);
-                //    StreamUtil.WriteInt32(stream, spline.SplineSegmentPosition);
-                //    StreamUtil.WriteInt32(stream, spline.Unknown2);
-                //}
+                stream.Position = SplineOffset;
+                for (int i = 0; i < splines.Count; i++)
+                {
+                    var spline = splines[i];
+                    StreamUtil.WriteVector3(stream, spline.LowestXYZ);
+                    StreamUtil.WriteVector3(stream, spline.HighestXYZ);
+                    StreamUtil.WriteInt32(stream, spline.Unknown1);
+                    StreamUtil.WriteInt32(stream, spline.SplineSegmentCount);
+                    StreamUtil.WriteInt32(stream, spline.SplineSegmentPosition);
+                    StreamUtil.WriteInt32(stream, spline.Unknown2);
+                }
 
-                ////Spline Segments
-                //stream.Position = SplineSegmentOffset;
-                //for (int i = 0; i < splinesSegments.Count; i++)
-                //{
-                //    var SplineSegment = splinesSegments[i];
-                //    SaveVertices(stream, SplineSegment.Point4, true);
-                //    SaveVertices(stream, SplineSegment.Point3, true);
-                //    SaveVertices(stream, SplineSegment.Point2, true);
-                //    SaveVertices(stream, SplineSegment.ControlPoint, true);
+                //Spline Segments
+                stream.Position = SplineSegmentOffset;
+                for (int i = 0; i < splinesSegments.Count; i++)
+                {
+                    var SplineSegment = splinesSegments[i];
+                    StreamUtil.WriteVector4(stream, SplineSegment.Point4);
+                    StreamUtil.WriteVector4(stream, SplineSegment.Point3);
+                    StreamUtil.WriteVector4(stream, SplineSegment.Point2);
+                    StreamUtil.WriteVector4(stream, SplineSegment.ControlPoint);
 
-                //    SaveVertices(stream, SplineSegment.ScalingPoint, true);
+                    StreamUtil.WriteVector4(stream, SplineSegment.ScalingPoint);
 
-                //    StreamUtil.WriteInt32(stream, SplineSegment.PreviousSegment);
-                //    StreamUtil.WriteInt32(stream, SplineSegment.NextSegment);
-                //    StreamUtil.WriteInt32(stream, SplineSegment.SplineParent);
+                    StreamUtil.WriteInt32(stream, SplineSegment.PreviousSegment);
+                    StreamUtil.WriteInt32(stream, SplineSegment.NextSegment);
+                    StreamUtil.WriteInt32(stream, SplineSegment.SplineParent);
 
-                //    SaveVertices(stream, SplineSegment.LowestXYZ, false);
-                //    SaveVertices(stream, SplineSegment.HighestXYZ, false);
+                    StreamUtil.WriteVector3(stream, SplineSegment.LowestXYZ);
+                    StreamUtil.WriteVector3(stream, SplineSegment.HighestXYZ);
 
-                //    StreamUtil.WriteFloat32(stream, SplineSegment.SegmentDisatnce);
-                //    StreamUtil.WriteFloat32(stream, SplineSegment.PreviousSegmentsDistance);
-                //    StreamUtil.WriteInt32(stream, SplineSegment.Unknown32);
-                //}
+                    StreamUtil.WriteFloat32(stream, SplineSegment.SegmentDisatnce);
+                    StreamUtil.WriteFloat32(stream, SplineSegment.PreviousSegmentsDistance);
+                    StreamUtil.WriteInt32(stream, SplineSegment.Unknown32);
+                }
 
                 ////Instances
                 //stream.Position = InstanceOffset;
