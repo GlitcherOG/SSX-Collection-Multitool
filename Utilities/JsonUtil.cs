@@ -84,6 +84,21 @@ namespace SSXMultiTool.Utilities
             return current;
         }
 
+        public static float[] QuaternionToArray(Quaternion quaternion)
+        {
+            float[] array = new float[4];
+            array[0] = quaternion.X;
+            array[1] = quaternion.Y;
+            array[2] = quaternion.Z;
+            array[3] = quaternion.W;
+            return array;
+        }
+
+        public static Quaternion ArrayToQuaternion(float[] array)
+        {
+            return new Quaternion(array[0], array[1], array[2], array[3]);
+        }
+
         public static float GenerateDistance(Vector3 Point1 , Vector3 Point2, Vector3 Point3, Vector3 Point4)
         {
             float Distance = 0;

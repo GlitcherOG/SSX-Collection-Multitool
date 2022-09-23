@@ -185,53 +185,13 @@ namespace SSXMultiTool.FileHandlers
         //    model.SaveGLB(Output);
         //}
 
-        public static void SavePBDglTF(string Output, PBDHandler Handler)
-        {
-            var scene = new SharpGLTF.Scenes.SceneBuilder();
-            var material = new MaterialBuilder("Default").WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
-            var mesh = new MeshBuilder<VertexPosition, VertexEmpty, VertexEmpty>("Ground");
-            for (int i = 0; i < Handler.Patches.Count; i++)
-            {
-                var modelHeader = Handler.Patches[i];
-
-                VertexPosition TempPos1 = new VertexPosition();
-                TempPos1.Position.X = modelHeader.Point1.X;
-                TempPos1.Position.Y = modelHeader.Point1.Z;
-                TempPos1.Position.Z = modelHeader.Point1.Y;
-
-                VertexPosition TempPos2 = new VertexPosition();
-                TempPos2.Position.X = modelHeader.Point2.X;
-                TempPos2.Position.Y = modelHeader.Point2.Z;
-                TempPos2.Position.Z = modelHeader.Point2.Y;
-
-                VertexPosition TempPos3 = new VertexPosition();
-                TempPos3.Position.X = modelHeader.Point3.X;
-                TempPos3.Position.Y = modelHeader.Point3.Z;
-                TempPos3.Position.Z = modelHeader.Point3.Y;
-
-                VertexPosition TempPos4 = new VertexPosition();
-                TempPos4.Position.X = modelHeader.Point4.X;
-                TempPos4.Position.Y = modelHeader.Point4.Z;
-                TempPos4.Position.Z = modelHeader.Point4.Y;
-
-                mesh.UsePrimitive(material).AddTriangle(TempPos1, TempPos2, TempPos3);
-
-                mesh.UsePrimitive(material).AddTriangle(TempPos3, TempPos2, TempPos4);
-
-            }
-            scene.AddRigidMesh(mesh, Matrix4x4.Identity);
-
-            var model = scene.ToGltf2();
-            model.SaveGLB(Output);
-        }
-
         public static void SavePDBModelglTF(string Output, PBDHandler Handler)
         {
-            var scene = new SharpGLTF.Scenes.SceneBuilder();
-            var material = new MaterialBuilder("Default").WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
 
             for (int ax = 0; ax < Handler.models.Count; ax++)
             {
+                var scene = new SharpGLTF.Scenes.SceneBuilder();
+                var material = new MaterialBuilder("Default").WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
                 var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1, VertexEmpty>(ax.ToString() + " " + Handler.models[ax].staticMeshes.Count);
 
                 for (int i = 0; i < Handler.models[ax].staticMeshes.Count; i++)
@@ -283,10 +243,9 @@ namespace SSXMultiTool.FileHandlers
                     }
                 }
                 scene.AddRigidMesh(mesh, Matrix4x4.Identity);
+                var model = scene.ToGltf2();
+                model.SaveGLB(Output+"/"+ax.ToString()+".glb");
             }
-
-            var model = scene.ToGltf2();
-            model.SaveGLB(Output);
         }
 
     }

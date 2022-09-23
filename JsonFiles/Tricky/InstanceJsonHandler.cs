@@ -40,24 +40,24 @@ namespace SSXMultiTool.JsonFiles.Tricky
         {
             public string InstanceName;
 
-            public Vector4 MatrixCol1;
-            public Vector4 MatrixCol2;
-            public Vector4 MatrixCol3;
-            public Vector4 InstancePosition;
-            public Vector4 Unknown5;
-            public Vector4 Unknown6;
-            public Vector4 Unknown7;
-            public Vector4 Unknown8;
-            public Vector4 Unknown9;
-            public Vector4 Unknown10;
-            public Vector4 Unknown11;
-            public Vector4 RGBA;
+            public float[] Location;
+            public float[] Rotation;
+            public float[] Scale; 
+
+            public float[] Unknown5;
+            public float[] Unknown6;
+            public float[] Unknown7;
+            public float[] Unknown8;
+            public float[] Unknown9;
+            public float[] Unknown10;
+            public float[] Unknown11;
+            public float[] RGBA;
             public int ModelID;
             public int PrevInstance;
             public int NextInstance;
 
-            public Vector3 LowestXYZ;
-            public Vector3 HighestXYZ;
+            public float[] LowestXYZ;
+            public float[] HighestXYZ;
 
             public int UnknownInt26;
             public int UnknownInt27;

@@ -103,23 +103,51 @@ namespace SSXMultiTool
             {
                 InstanceJsonHandler.InstanceJson instanceJson = new InstanceJsonHandler.InstanceJson();
                 instanceJson.InstanceName = mapHandler.InternalInstances[i].Name;
-                instanceJson.MatrixCol1 = pbdHandler.Instances[i].MatrixCol1;
-                instanceJson.MatrixCol2 = pbdHandler.Instances[i].MatrixCol2;
-                instanceJson.MatrixCol3 = pbdHandler.Instances[i].MatrixCol3;
-                instanceJson.InstancePosition = pbdHandler.Instances[i].InstancePosition;
-                instanceJson.Unknown5 = pbdHandler.Instances[i].Unknown5;
-                instanceJson.Unknown6 = pbdHandler.Instances[i].Unknown6;
-                instanceJson.Unknown7 = pbdHandler.Instances[i].Unknown7;
-                instanceJson.Unknown8 = pbdHandler.Instances[i].Unknown8;
-                instanceJson.Unknown9 = pbdHandler.Instances[i].Unknown9;
-                instanceJson.Unknown10 = pbdHandler.Instances[i].Unknown10;
-                instanceJson.Unknown11 = pbdHandler.Instances[i].Unknown11;
-                instanceJson.RGBA = pbdHandler.Instances[i].RGBA;
-                instanceJson.ModelID = pbdHandler.Instances[i].ModelID;
-                instanceJson.PrevInstance = pbdHandler.Instances[i].NextInstance;
 
-                instanceJson.LowestXYZ = pbdHandler.Instances[i].LowestXYZ;
-                instanceJson.HighestXYZ = pbdHandler.Instances[i].HighestXYZ;
+                Matrix4x4 matrix4X4 = new Matrix4x4();
+                matrix4X4.M11 = pbdHandler.Instances[i].MatrixCol1.X;
+                matrix4X4.M21 = pbdHandler.Instances[i].MatrixCol2.X;
+                matrix4X4.M31 = pbdHandler.Instances[i].MatrixCol3.X;
+                matrix4X4.M41 = pbdHandler.Instances[i].InstancePosition.X;
+
+                matrix4X4.M12 = pbdHandler.Instances[i].MatrixCol1.Y;
+                matrix4X4.M22 = pbdHandler.Instances[i].MatrixCol2.Y;
+                matrix4X4.M32 = pbdHandler.Instances[i].MatrixCol3.Y;
+                matrix4X4.M42 = pbdHandler.Instances[i].InstancePosition.Y;
+
+                matrix4X4.M13 = pbdHandler.Instances[i].MatrixCol1.Z;
+                matrix4X4.M23 = pbdHandler.Instances[i].MatrixCol2.Z;
+                matrix4X4.M33 = pbdHandler.Instances[i].MatrixCol3.Z;
+                matrix4X4.M43 = pbdHandler.Instances[i].InstancePosition.Z;
+
+                matrix4X4.M14 = pbdHandler.Instances[i].MatrixCol1.W;
+                matrix4X4.M24 = pbdHandler.Instances[i].MatrixCol2.W;
+                matrix4X4.M34 = pbdHandler.Instances[i].MatrixCol3.W;
+                matrix4X4.M44 = pbdHandler.Instances[i].InstancePosition.W;
+
+                Vector3 Scale;
+                Quaternion Rotation;
+                Vector3 Location;
+
+                Matrix4x4.Decompose(matrix4X4, out Scale, out Rotation, out Location);
+                instanceJson.Location = JsonUtil.Vector3ToArray(Location);
+                instanceJson.Rotation = JsonUtil.QuaternionToArray(Rotation);
+                instanceJson.Scale = JsonUtil.Vector3ToArray(Scale);
+
+                instanceJson.Unknown5 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown5);
+                instanceJson.Unknown6 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown6);
+                instanceJson.Unknown7 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown7);
+                instanceJson.Unknown8 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown8);
+                instanceJson.Unknown9 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown9);
+                instanceJson.Unknown10 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown10);
+                instanceJson.Unknown11 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown11);
+                instanceJson.RGBA = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].RGBA);
+                instanceJson.ModelID = pbdHandler.Instances[i].ModelID;
+                instanceJson.PrevInstance = pbdHandler.Instances[i].PrevInstance;
+                instanceJson.NextInstance = pbdHandler.Instances[i].NextInstance;
+
+                instanceJson.LowestXYZ = JsonUtil.Vector3ToArray(pbdHandler.Instances[i].LowestXYZ);
+                instanceJson.HighestXYZ = JsonUtil.Vector3ToArray(pbdHandler.Instances[i].HighestXYZ);
 
                 instanceJson.UnknownInt26 = pbdHandler.Instances[i].UnknownInt26;
                 instanceJson.UnknownInt27 = pbdHandler.Instances[i].UnknownInt27;
@@ -138,6 +166,31 @@ namespace SSXMultiTool
             {
                 ParticleInstanceJsonHandler.ParticleJson TempParticle = new ParticleInstanceJsonHandler.ParticleJson();
                 TempParticle.ParticleName = mapHandler.ParticleInstances[i].Name;
+
+                Matrix4x4 matrix4X4 = new Matrix4x4();
+                matrix4X4.M11 = pbdHandler.particleInstances[i].MatrixCol1.X;
+                matrix4X4.M12 = pbdHandler.particleInstances[i].MatrixCol2.X;
+                matrix4X4.M13 = pbdHandler.particleInstances[i].MatrixCol3.X;
+                matrix4X4.M14 = pbdHandler.particleInstances[i].ParticleInstancePosition.X;
+
+                matrix4X4.M21 = pbdHandler.particleInstances[i].MatrixCol1.Y;
+                matrix4X4.M22 = pbdHandler.particleInstances[i].MatrixCol2.Y;
+                matrix4X4.M23 = pbdHandler.particleInstances[i].MatrixCol3.Y;
+                matrix4X4.M24 = pbdHandler.particleInstances[i].ParticleInstancePosition.Y;
+
+                matrix4X4.M31 = pbdHandler.particleInstances[i].MatrixCol1.Z;
+                matrix4X4.M32 = pbdHandler.particleInstances[i].MatrixCol2.Z;
+                matrix4X4.M33 = pbdHandler.particleInstances[i].MatrixCol3.Z;
+                matrix4X4.M34 = pbdHandler.particleInstances[i].ParticleInstancePosition.Z;
+
+                matrix4X4.M41 = pbdHandler.particleInstances[i].MatrixCol1.W;
+                matrix4X4.M42 = pbdHandler.particleInstances[i].MatrixCol2.W;
+                matrix4X4.M43 = pbdHandler.particleInstances[i].MatrixCol3.W;
+                matrix4X4.M44 = pbdHandler.particleInstances[i].ParticleInstancePosition.W;
+
+                
+
+
                 TempParticle.MatrixCol1 = pbdHandler.particleInstances[i].MatrixCol1;
                 TempParticle.MatrixCol2 = pbdHandler.particleInstances[i].MatrixCol2;
                 TempParticle.MatrixCol3 = pbdHandler.particleInstances[i].MatrixCol3;
@@ -342,7 +395,7 @@ namespace SSXMultiTool
 
             //Create Mesh data
             Directory.CreateDirectory(ExportPath + "/Models");
-            pbdHandler.SaveModel(ExportPath + "/Models/Test.glb");
+            pbdHandler.SaveModel(ExportPath + "/Models/");
 
             //Load and Export Textures
             SSHHandler TextureHandler = new SSHHandler();
