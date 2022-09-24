@@ -76,6 +76,7 @@ namespace SSXMultiTool
         public void ExtractBigPath(string path)
         {
             bigHandler.ExtractBig(path);
+            MessageBox.Show("Extracted");
         }
 
         public void CreateBigPath(string path)
@@ -83,6 +84,7 @@ namespace SSXMultiTool
             bigHandler.LoadFolder(path);
             bigHandler.bigType = (BigHandler.BigType)Enum.Parse(typeof(BigHandler.BigType), BigTypeCombobox.Text);
             bigHandler.BuildBig(path);
+            MessageBox.Show("Big File Created");
         }
 
         private void LoadBigArchive_Click(object sender, EventArgs e)

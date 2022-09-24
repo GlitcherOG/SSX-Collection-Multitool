@@ -13,7 +13,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
 
         public void CreateJson(string path)
         {
-            var serializer = JsonConvert.SerializeObject(this, Formatting.Indented);
+            var serializer = JsonConvert.SerializeObject(this, Formatting.None);
             File.WriteAllText(path, serializer);
         }
 

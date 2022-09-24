@@ -10,7 +10,7 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - Import As Txt if line count matches
 - Convert All Vector3/4 to float arrays
 - export hash data
-- export raw mesh data
+- export Camera Data
 
 ## Todo
 - Setup ISO Handler
