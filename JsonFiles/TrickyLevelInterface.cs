@@ -106,23 +106,23 @@ namespace SSXMultiTool
 
                 Matrix4x4 matrix4X4 = new Matrix4x4();
                 matrix4X4.M11 = pbdHandler.Instances[i].MatrixCol1.X;
-                matrix4X4.M21 = pbdHandler.Instances[i].MatrixCol2.X;
-                matrix4X4.M31 = pbdHandler.Instances[i].MatrixCol3.X;
-                matrix4X4.M41 = pbdHandler.Instances[i].InstancePosition.X;
-
                 matrix4X4.M12 = pbdHandler.Instances[i].MatrixCol1.Y;
-                matrix4X4.M22 = pbdHandler.Instances[i].MatrixCol2.Y;
-                matrix4X4.M32 = pbdHandler.Instances[i].MatrixCol3.Y;
-                matrix4X4.M42 = pbdHandler.Instances[i].InstancePosition.Y;
-
                 matrix4X4.M13 = pbdHandler.Instances[i].MatrixCol1.Z;
-                matrix4X4.M23 = pbdHandler.Instances[i].MatrixCol2.Z;
-                matrix4X4.M33 = pbdHandler.Instances[i].MatrixCol3.Z;
-                matrix4X4.M43 = pbdHandler.Instances[i].InstancePosition.Z;
-
                 matrix4X4.M14 = pbdHandler.Instances[i].MatrixCol1.W;
-                matrix4X4.M24 = pbdHandler.Instances[i].MatrixCol2.W;
-                matrix4X4.M34 = pbdHandler.Instances[i].MatrixCol3.W;
+
+                matrix4X4.M31 = pbdHandler.Instances[i].MatrixCol2.X;
+                matrix4X4.M32 = pbdHandler.Instances[i].MatrixCol2.Y;
+                matrix4X4.M33 = pbdHandler.Instances[i].MatrixCol2.Z;
+                matrix4X4.M34 = pbdHandler.Instances[i].MatrixCol2.W;
+
+                matrix4X4.M21 = pbdHandler.Instances[i].MatrixCol3.X;
+                matrix4X4.M22 = pbdHandler.Instances[i].MatrixCol3.Y;
+                matrix4X4.M23 = pbdHandler.Instances[i].MatrixCol3.Z;
+                matrix4X4.M24 = pbdHandler.Instances[i].MatrixCol3.W;
+
+                matrix4X4.M41 = pbdHandler.Instances[i].InstancePosition.X;
+                matrix4X4.M42 = pbdHandler.Instances[i].InstancePosition.Y;
+                matrix4X4.M43 = pbdHandler.Instances[i].InstancePosition.Z;
                 matrix4X4.M44 = pbdHandler.Instances[i].InstancePosition.W;
 
                 Vector3 Scale;
@@ -188,9 +188,6 @@ namespace SSXMultiTool
                 matrix4X4.M43 = pbdHandler.particleInstances[i].MatrixCol3.W;
                 matrix4X4.M44 = pbdHandler.particleInstances[i].ParticleInstancePosition.W;
 
-                
-
-
                 TempParticle.MatrixCol1 = pbdHandler.particleInstances[i].MatrixCol1;
                 TempParticle.MatrixCol2 = pbdHandler.particleInstances[i].MatrixCol2;
                 TempParticle.MatrixCol3 = pbdHandler.particleInstances[i].MatrixCol3;
@@ -214,24 +211,26 @@ namespace SSXMultiTool
                 MaterialJsonHandler.MaterialsJson TempMaterial = new MaterialJsonHandler.MaterialsJson();
                 TempMaterial.MaterialName = mapHandler.Materials[i].Name;
 
-                TempMaterial.UnknownInt1 = pbdHandler.materials[i].UnknownInt1;
+                TempMaterial.TextureID = pbdHandler.materials[i].TextureID;
                 TempMaterial.UnknownInt2 = pbdHandler.materials[i].UnknownInt2;
                 TempMaterial.UnknownInt3 = pbdHandler.materials[i].UnknownInt3;
-                TempMaterial.UnknownInt4 = pbdHandler.materials[i].UnknownInt4;
-                TempMaterial.UnknownInt5 = pbdHandler.materials[i].UnknownInt5;
-                TempMaterial.UnknownInt6 = pbdHandler.materials[i].UnknownInt6;
-                TempMaterial.UnknownInt7 = pbdHandler.materials[i].UnknownInt7;
+                TempMaterial.UnknownFloat1 = pbdHandler.materials[i].UnknownFloat1;
+                TempMaterial.UnknownFloat2 = pbdHandler.materials[i].UnknownFloat2;
+                TempMaterial.UnknownFloat3 = pbdHandler.materials[i].UnknownFloat3;
+                TempMaterial.UnknownFloat4 = pbdHandler.materials[i].UnknownFloat4;
                 TempMaterial.UnknownInt8 = pbdHandler.materials[i].UnknownInt8;
-                TempMaterial.UnknownInt9 = pbdHandler.materials[i].UnknownInt9;
-                TempMaterial.UnknownInt10 = pbdHandler.materials[i].UnknownInt10;
-                TempMaterial.UnknownInt11 = pbdHandler.materials[i].UnknownInt11;
-                TempMaterial.UnknownInt12 = pbdHandler.materials[i].UnknownInt12;
+                TempMaterial.UnknownFloat5 = pbdHandler.materials[i].UnknownFloat5;
+                TempMaterial.UnknownFloat6 = pbdHandler.materials[i].UnknownFloat6;
+                TempMaterial.UnknownFloat7 = pbdHandler.materials[i].UnknownFloat7;
+                TempMaterial.UnknownFloat8 = pbdHandler.materials[i].UnknownFloat8;
                 TempMaterial.UnknownInt13 = pbdHandler.materials[i].UnknownInt13;
                 TempMaterial.UnknownInt14 = pbdHandler.materials[i].UnknownInt14;
                 TempMaterial.UnknownInt15 = pbdHandler.materials[i].UnknownInt15;
                 TempMaterial.UnknownInt16 = pbdHandler.materials[i].UnknownInt16;
                 TempMaterial.UnknownInt17 = pbdHandler.materials[i].UnknownInt17;
                 TempMaterial.UnknownInt18 = pbdHandler.materials[i].UnknownInt18;
+                TempMaterial.TextureFlipbookID = pbdHandler.materials[i].TextureFlipbookID;
+                TempMaterial.UnknownInt20 = pbdHandler.materials[i].UnknownInt20;
                 materialJson.MaterialsJsons.Add(TempMaterial);
             }
             materialJson.CreateJson(ExportPath + "/Material.json");
@@ -344,10 +343,8 @@ namespace SSXMultiTool
                 TempModel.Unknown2 = pbdHandler.modelHeaders[i].Unknown2;
                 TempModel.Unknown3 = pbdHandler.modelHeaders[i].Unknown3;
                 TempModel.Unknown4 = pbdHandler.modelHeaders[i].Unknown4;
-                TempModel.ScaleX = pbdHandler.modelHeaders[i].ScaleX;
-                TempModel.ScaleZ = pbdHandler.modelHeaders[i].ScaleZ;
-                TempModel.ScaleY = pbdHandler.modelHeaders[i].ScaleY;
-                TempModel.Unknown8 = pbdHandler.modelHeaders[i].Unknown8;
+                TempModel.Scale = JsonUtil.Vector3ToArray(pbdHandler.modelHeaders[i].scale);
+                TempModel.ModelDataCount = pbdHandler.modelHeaders[i].ModelDataCount;
                 TempModel.Unknown9 = pbdHandler.modelHeaders[i].Unknown9;
                 TempModel.TriStripCount = pbdHandler.modelHeaders[i].TriStripCount;
                 TempModel.VertexCount = pbdHandler.modelHeaders[i].VertexCount;
@@ -360,8 +357,8 @@ namespace SSXMultiTool
                 TempModel.Unknown18 = pbdHandler.modelHeaders[i].Unknown18;
                 TempModel.UnknownLength = pbdHandler.modelHeaders[i].UnknownLength;
 
-                TempModel.LowestXYZ = pbdHandler.modelHeaders[i].LowestXYZ;
-                TempModel.HighestXYZ = pbdHandler.modelHeaders[i].HighestXYZ;
+                TempModel.LowestXYZ = JsonUtil.Vector3ToArray(pbdHandler.modelHeaders[i].LowestXYZ);
+                TempModel.HighestXYZ = JsonUtil.Vector3ToArray(pbdHandler.modelHeaders[i].HighestXYZ);
 
                 TempModel.bytes = pbdHandler.modelHeaders[i].bytes;
                 modelJsonHandler.ModelJsons.Add(TempModel);

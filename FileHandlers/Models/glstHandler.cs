@@ -244,7 +244,7 @@ namespace SSXMultiTool.FileHandlers
                 }
                 scene.AddRigidMesh(mesh, Matrix4x4.Identity);
                 var model = scene.ToGltf2();
-                model.SaveGLB(Output+"/"+ax.ToString()+".glb");
+                model.SaveAsWavefront(Output+"/"+ax.ToString());
             }
         }
 

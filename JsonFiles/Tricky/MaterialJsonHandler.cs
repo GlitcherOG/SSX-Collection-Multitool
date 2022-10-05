@@ -38,24 +38,31 @@ namespace SSXMultiTool.JsonFiles.Tricky
         {
             public string MaterialName;
 
-            public int UnknownInt1;
+            public int TextureID;
             public int UnknownInt2;
             public int UnknownInt3;
-            public int UnknownInt4;
-            public int UnknownInt5;
-            public int UnknownInt6;
-            public int UnknownInt7;
+
+            public float UnknownFloat1;
+            public float UnknownFloat2;
+            public float UnknownFloat3;
+            public float UnknownFloat4;
+
             public int UnknownInt8;
-            public int UnknownInt9;
-            public int UnknownInt10;
-            public int UnknownInt11;
-            public int UnknownInt12;
+
+            public float UnknownFloat5;
+            public float UnknownFloat6;
+            public float UnknownFloat7;
+            public float UnknownFloat8;
+
             public int UnknownInt13;
             public int UnknownInt14;
             public int UnknownInt15;
             public int UnknownInt16;
             public int UnknownInt17;
             public int UnknownInt18;
+
+            public int TextureFlipbookID;
+            public int UnknownInt20;
         }
     }
 }

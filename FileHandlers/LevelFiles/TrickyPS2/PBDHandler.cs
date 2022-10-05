@@ -179,24 +179,32 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 for (int i = 0; i < NumMaterials; i++)
                 {
                     var TempMaterial = new TrickyMaterial();
-                    TempMaterial.UnknownInt1 = StreamUtil.ReadInt32(stream);
-                    TempMaterial.UnknownInt2 = StreamUtil.ReadInt32(stream);
+                    TempMaterial.TextureID = StreamUtil.ReadInt16(stream);
+                    TempMaterial.UnknownInt2 = StreamUtil.ReadInt16(stream);
                     TempMaterial.UnknownInt3 = StreamUtil.ReadInt32(stream);
-                    TempMaterial.UnknownInt4 = StreamUtil.ReadInt32(stream);
-                    TempMaterial.UnknownInt5 = StreamUtil.ReadInt32(stream);
-                    TempMaterial.UnknownInt6 = StreamUtil.ReadInt32(stream);
-                    TempMaterial.UnknownInt7 = StreamUtil.ReadInt32(stream);
+
+                    TempMaterial.UnknownFloat1 = StreamUtil.ReadFloat(stream);
+                    TempMaterial.UnknownFloat2 = StreamUtil.ReadFloat(stream);
+                    TempMaterial.UnknownFloat3 = StreamUtil.ReadFloat(stream);
+                    TempMaterial.UnknownFloat4 = StreamUtil.ReadFloat(stream);
+
                     TempMaterial.UnknownInt8 = StreamUtil.ReadInt32(stream);
-                    TempMaterial.UnknownInt9 = StreamUtil.ReadInt32(stream);
-                    TempMaterial.UnknownInt10 = StreamUtil.ReadInt32(stream);
-                    TempMaterial.UnknownInt11 = StreamUtil.ReadInt32(stream);
-                    TempMaterial.UnknownInt12 = StreamUtil.ReadInt32(stream);
+
+                    TempMaterial.UnknownFloat5 = StreamUtil.ReadFloat(stream);
+                    TempMaterial.UnknownFloat6 = StreamUtil.ReadFloat(stream);
+                    TempMaterial.UnknownFloat7 = StreamUtil.ReadFloat(stream);
+                    TempMaterial.UnknownFloat8 = StreamUtil.ReadFloat(stream);
+
                     TempMaterial.UnknownInt13 = StreamUtil.ReadInt32(stream);
                     TempMaterial.UnknownInt14 = StreamUtil.ReadInt32(stream);
                     TempMaterial.UnknownInt15 = StreamUtil.ReadInt32(stream);
                     TempMaterial.UnknownInt16 = StreamUtil.ReadInt32(stream);
                     TempMaterial.UnknownInt17 = StreamUtil.ReadInt32(stream);
                     TempMaterial.UnknownInt18 = StreamUtil.ReadInt32(stream);
+
+                    TempMaterial.TextureFlipbookID = StreamUtil.ReadInt16(stream);
+                    TempMaterial.UnknownInt20 = StreamUtil.ReadInt16(stream);
+
                     materials.Add(TempMaterial);
                 }
 
@@ -325,10 +333,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempHeader.Unknown2 = StreamUtil.ReadInt32(stream);
                     TempHeader.Unknown3 = StreamUtil.ReadInt32(stream);
                     TempHeader.Unknown4 = StreamUtil.ReadFloat(stream);
-                    TempHeader.ScaleX = StreamUtil.ReadFloat(stream);
-                    TempHeader.ScaleZ = StreamUtil.ReadFloat(stream);
-                    TempHeader.ScaleY = StreamUtil.ReadFloat(stream);
-                    TempHeader.Unknown8 = StreamUtil.ReadInt32(stream);
+                    TempHeader.scale = StreamUtil.ReadVector3(stream);
+                    TempHeader.ModelDataCount = StreamUtil.ReadInt32(stream);
                     TempHeader.Unknown9 = StreamUtil.ReadInt32(stream);
                     TempHeader.TriStripCount = StreamUtil.ReadInt32(stream);
                     TempHeader.VertexCount = StreamUtil.ReadInt32(stream);
@@ -354,7 +360,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempHeader.bytes = StreamUtil.ReadBytes(stream, TempInt);
                     modelHeaders.Add(TempHeader);
 
-                    test += TempHeader.Unknown8;
+                    test += TempHeader.ModelDataCount;
 
                 }
 
@@ -414,6 +420,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 MeshData model = new MeshData();
                 model.staticMeshes = new List<StaticMesh>();
                 int count = 0;
+
                 while (true)
                 {
                     var temp = ReadMesh(stream);
@@ -676,8 +683,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 UV uv = new UV();
                 uv.X = StreamUtil.ReadInt16(stream);
                 uv.Y = StreamUtil.ReadInt16(stream);
-                //uv.XU = StreamUtil.ReadInt16(stream);
-                //uv.YU = StreamUtil.ReadInt16(stream);
                 UVs.Add(uv);
             }
             StreamUtil.AlignBy16(stream);
@@ -764,7 +769,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         {
             foreach (var item in splits)
             {
-                if (item == Number)
+                if (item/3 == Number)
                 {
                     return true;
                 }
@@ -783,15 +788,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             //0-Counter Clocwise
             if (roatation == 1)
             {
-                Index1 = Index;
-                Index2 = Index - 1;
+                Index1 = Index - 1;
+                Index2 = Index;
                 Index3 = Index - 2;
             }
             if (roatation == 0)
             {
                 Index1 = Index;
-                Index2 = Index - 2;
-                Index3 = Index - 1;
+                Index2 = Index - 1;
+                Index3 = Index - 2;
             }
             face.V1 = ModelData.vertices[Index1];
             face.V2 = ModelData.vertices[Index2];
@@ -888,10 +893,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int Unknown2;
         public int Unknown3; //ID
         public float Unknown4;
-        public float ScaleX; //Scale X
-        public float ScaleZ; //Scale Z
-        public float ScaleY; //Scale Y
-        public int Unknown8; //Model Data Count?
+        public Vector3 scale;
+        public int ModelDataCount; //Model Data Count?
         public int Unknown9;
         public int TriStripCount; //Tristrip Count
         public int VertexCount; //Vertex Count
@@ -1010,24 +1013,32 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
     public struct TrickyMaterial
     {
-        public int UnknownInt1;
+        public int TextureID;
         public int UnknownInt2;
         public int UnknownInt3;
-        public int UnknownInt4;
-        public int UnknownInt5;
-        public int UnknownInt6;
-        public int UnknownInt7;
+
+        public float UnknownFloat1;
+        public float UnknownFloat2;
+        public float UnknownFloat3;
+        public float UnknownFloat4;
+
         public int UnknownInt8;
-        public int UnknownInt9;
-        public int UnknownInt10;
-        public int UnknownInt11;
-        public int UnknownInt12;
+
+        public float UnknownFloat5;
+        public float UnknownFloat6;
+        public float UnknownFloat7;
+        public float UnknownFloat8;
+
         public int UnknownInt13;
         public int UnknownInt14;
         public int UnknownInt15;
         public int UnknownInt16;
         public int UnknownInt17;
         public int UnknownInt18;
+
+        public int TextureFlipbookID;
+        public int UnknownInt20; 
+
     }
 
     public struct Light
