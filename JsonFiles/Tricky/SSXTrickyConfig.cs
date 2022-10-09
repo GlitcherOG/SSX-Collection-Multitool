@@ -9,7 +9,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
 {
     public class SSXTrickyConfig
     {
-        public int Version = 1;
+        public int Version = 2;
         public string LevelName = "";
         public string Author = "";
         public string LevelVersion = "";

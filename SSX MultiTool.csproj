@@ -16,8 +16,4 @@
     <PackageReference Include="SharpGLTF.Toolkit" Version="1.0.0-alpha0026" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="FileHandlers\Models\" />
-  </ItemGroup>
-
 </Project>

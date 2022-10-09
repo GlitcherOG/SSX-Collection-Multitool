@@ -590,39 +590,39 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     StreamUtil.WriteInt32(stream, SplineSegment.Unknown32);
                 }
 
-                ////Instances
-                //stream.Position = InstanceOffset;
-                //for (int i = 0; i < Instances.Count; i++)
-                //{
-                //    var TempInstance = Instances[i];
-                //    SaveVertices(stream, TempInstance.MatrixCol1, true);
-                //    SaveVertices(stream, TempInstance.MatrixCol2, true);
-                //    SaveVertices(stream, TempInstance.MatrixCol3, true);
-                //    SaveVertices(stream, TempInstance.InstancePosition, true);
-                //    SaveVertices(stream, TempInstance.Unknown5, true);
-                //    SaveVertices(stream, TempInstance.Unknown6, true);
-                //    SaveVertices(stream, TempInstance.Unknown7, true);
-                //    SaveVertices(stream, TempInstance.Unknown8, true);
-                //    SaveVertices(stream, TempInstance.Unknown9, true);
-                //    SaveVertices(stream, TempInstance.Unknown10, true);
-                //    SaveVertices(stream, TempInstance.Unknown11, true);
-                //    SaveVertices(stream, TempInstance.RGBA, true);
+                //Instances
+                stream.Position = InstanceOffset;
+                for (int i = 0; i < Instances.Count; i++)
+                {
+                    var TempInstance = Instances[i];
+                    StreamUtil.WriteVector4(stream, TempInstance.MatrixCol1);
+                    StreamUtil.WriteVector4(stream, TempInstance.MatrixCol2);
+                    StreamUtil.WriteVector4(stream, TempInstance.MatrixCol3);
+                    StreamUtil.WriteVector4(stream, TempInstance.InstancePosition);
+                    StreamUtil.WriteVector4(stream, TempInstance.Unknown5);
+                    StreamUtil.WriteVector4(stream, TempInstance.Unknown6);
+                    StreamUtil.WriteVector4(stream, TempInstance.Unknown7);
+                    StreamUtil.WriteVector4(stream, TempInstance.Unknown8);
+                    StreamUtil.WriteVector4(stream, TempInstance.Unknown9);
+                    StreamUtil.WriteVector4(stream, TempInstance.Unknown10);
+                    StreamUtil.WriteVector4(stream, TempInstance.Unknown11);
+                    StreamUtil.WriteVector4(stream, TempInstance.RGBA);
 
-                //    StreamUtil.WriteInt32(stream, TempInstance.ModelID);
-                //    StreamUtil.WriteInt32(stream, TempInstance.PrevInstance);
-                //    StreamUtil.WriteInt32(stream, TempInstance.NextInstance);
+                    StreamUtil.WriteInt32(stream, TempInstance.ModelID);
+                    StreamUtil.WriteInt32(stream, TempInstance.PrevInstance);
+                    StreamUtil.WriteInt32(stream, TempInstance.NextInstance);
 
-                //    SaveVertices(stream, TempInstance.LowestXYZ, false);
-                //    SaveVertices(stream, TempInstance.HighestXYZ, false);
+                    StreamUtil.WriteVector3(stream, TempInstance.LowestXYZ);
+                    StreamUtil.WriteVector3(stream, TempInstance.HighestXYZ);
 
-                //    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt26);
-                //    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt27);
-                //    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt28);
-                //    StreamUtil.WriteInt32(stream, TempInstance.ModelID2);
-                //    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt30);
-                //    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt31);
-                //    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt32);
-                //}
+                    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt26);
+                    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt27);
+                    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt28);
+                    StreamUtil.WriteInt32(stream, TempInstance.ModelID2);
+                    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt30);
+                    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt31);
+                    StreamUtil.WriteInt32(stream, TempInstance.UnknownInt32);
+                }
 
                 ////Particle Instances
                 //stream.Position = ParticleInstancesOffset;
@@ -675,14 +675,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             ModelData.Strips = TempStrips;
 
 
-            List<UV> UVs = new List<UV>();
+            List<Vector2> UVs = new List<Vector2>();
             //Read UV Texture Points
             stream.Position += 48;
             for (int a = 0; a < ModelData.VertexCount; a++)
             {
-                UV uv = new UV();
-                uv.X = StreamUtil.ReadInt16(stream);
-                uv.Y = StreamUtil.ReadInt16(stream);
+                Vector2 uv = new Vector2();
+                uv.X = StreamUtil.ReadInt16(stream) / 4096f;
+                uv.Y = StreamUtil.ReadInt16(stream) / 4096f;
                 UVs.Add(uv);
             }
             StreamUtil.AlignBy16(stream);
@@ -692,15 +692,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             ModelData.uv = UVs;
 
-            List<UVNormal> Normals = new List<UVNormal>();
+            List<Vector3> Normals = new List<Vector3>();
             //Read Normals
             stream.Position += 32;
             for (int a = 0; a < ModelData.VertexCount; a++)
             {
-                UVNormal normal = new UVNormal();
-                normal.X = StreamUtil.ReadInt16(stream);
-                normal.Z = StreamUtil.ReadInt16(stream);
-                normal.Y = StreamUtil.ReadInt16(stream);
+                Vector3 normal = new Vector3();
+                normal.X = StreamUtil.ReadInt16(stream) / 32768f;
+                normal.Y = StreamUtil.ReadInt16(stream) / 32768f;
+                normal.Z = StreamUtil.ReadInt16(stream) / 32768f;
                 Normals.Add(normal);
             }
             StreamUtil.AlignBy16(stream);
@@ -712,9 +712,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             for (int a = 0; a < ModelData.VertexCount; a++)
             {
                 Vector3 vertex = new Vector3();
-                vertex.X = StreamUtil.ReadInt16(stream);
-                vertex.Z = StreamUtil.ReadInt16(stream);
-                vertex.Y = StreamUtil.ReadInt16(stream);
+                vertex.X = (float)StreamUtil.ReadInt16(stream) / 32768f;
+                vertex.Y = (float)StreamUtil.ReadInt16(stream) / 32768f;
+                vertex.Z = (float)StreamUtil.ReadInt16(stream) / 32768f;
                 vertices.Add(vertex);
             }
             StreamUtil.AlignBy16(stream);
@@ -788,15 +788,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             //0-Counter Clocwise
             if (roatation == 1)
             {
-                Index1 = Index - 1;
-                Index2 = Index;
+                Index1 = Index;
+                Index2 = Index - 1;
                 Index3 = Index - 2;
             }
             if (roatation == 0)
             {
                 Index1 = Index;
-                Index2 = Index - 1;
-                Index3 = Index - 2;
+                Index2 = Index - 2;
+                Index3 = Index - 1;
             }
             face.V1 = ModelData.vertices[Index1];
             face.V2 = ModelData.vertices[Index2];
@@ -868,6 +868,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             face.PatchStyle = StreamUtil.ReadInt32(stream);
             face.Unknown2 = StreamUtil.ReadInt32(stream); //Material/Lighting
             face.TextureAssigment = StreamUtil.ReadInt16(stream);
+
             face.LightmapID = StreamUtil.ReadInt16(stream);
 
             //Always the same
@@ -881,7 +882,126 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public void SaveModel(string path)
         {
-            glstHandler.SavePDBModelglTF(path, this);
+            //glstHandler.SavePDBModelglTF(path, this);
+
+            int Pos1 = 0;
+            for (int a = 0; a < modelHeaders.Count; a++)
+            {
+                int VStartPoint = 0;
+                int NStartPoint = 0;
+                int UStartPoint = 0;
+                int StartPos = Pos1;
+                string output = "# Exported From SSX Using SSX Multitool Modder by GlitcherOG \n";
+                for (int ax = Pos1; ax < StartPos + modelHeaders[a].ModelDataCount; ax++)
+                {
+                    output += "o Mesh" + ax.ToString() + "\n";
+                    string outputString = "";
+                    List<Vector3> vertices = new List<Vector3>();
+                    List<Vector3> Normals = new List<Vector3>();
+                    List<Vector2> UV = new List<Vector2>();
+                    Vector3 Scale = modelHeaders[a].scale;
+                    if (Scale.X == 0)
+                    {
+                        Scale.X = 1;
+                    }
+                    if (Scale.Y == 0)
+                    {
+                        Scale.Y = 1;
+                    }
+                    if (Scale.Z == 0)
+                    {
+                        Scale.Z = 1;
+                    }
+                    for (int i = 0; i < models[ax].staticMeshes.Count; i++)
+                    {
+                        var Data = models[ax].staticMeshes[i];
+                        for (int b = 0; b < Data.faces.Count; b++)
+                        {
+                            var Face = Data.faces[b];
+
+                            //Vertices
+                            if (!vertices.Contains(Face.V1))
+                            {
+                                vertices.Add(Face.V1);
+                            }
+                            int VPos1 = vertices.IndexOf(Face.V1) + 1 + VStartPoint;
+
+                            if (!vertices.Contains(Face.V2))
+                            {
+                                vertices.Add(Face.V2);
+                            }
+                            int VPos2 = vertices.IndexOf(Face.V2) + 1 + VStartPoint;
+
+                            if (!vertices.Contains(Face.V3))
+                            {
+                                vertices.Add(Face.V3);
+                            }
+                            int VPos3 = vertices.IndexOf(Face.V3) + 1 + VStartPoint;
+
+                            //UVs
+                            if (!UV.Contains(Face.UV1))
+                            {
+                                UV.Add(Face.UV1);
+                            }
+                            int UPos1 = UV.IndexOf(Face.UV1) + 1 + UStartPoint;
+
+                            if (!UV.Contains(Face.UV2))
+                            {
+                                UV.Add(Face.UV2);
+                            }
+                            int UPos2 = UV.IndexOf(Face.UV2) + 1 + UStartPoint;
+
+                            if (!UV.Contains(Face.UV3))
+                            {
+                                UV.Add(Face.UV3);
+                            }
+                            int UPos3 = UV.IndexOf(Face.UV3) + 1 + UStartPoint;
+
+                            //Normals
+                            if (!Normals.Contains(Face.Normal1))
+                            {
+                                Normals.Add(Face.Normal1);
+                            }
+                            int NPos1 = Normals.IndexOf(Face.Normal1) + 1 + NStartPoint;
+
+                            if (!Normals.Contains(Face.Normal2))
+                            {
+                                Normals.Add(Face.Normal2);
+                            }
+                            int NPos2 = Normals.IndexOf(Face.Normal2) + 1 + NStartPoint;
+
+                            if (!Normals.Contains(Face.Normal3))
+                            {
+                                Normals.Add(Face.Normal3);
+                            }
+                            int NPos3 = Normals.IndexOf(Face.Normal3) + 1 + NStartPoint;
+
+                            outputString += "f " + VPos1.ToString() + "/" + UPos1.ToString() + "/" + NPos1.ToString() + " " + VPos2.ToString() + "/" + UPos2.ToString() + "/" + NPos2.ToString() + " " + VPos3.ToString() + "/" + UPos3.ToString() + "/" + NPos3.ToString() + "\n";
+                        }
+
+                    }
+
+                    for (int i = 0; i < vertices.Count; i++)
+                    {
+                        output += "v " + vertices[i].X * Scale.X + " " + vertices[i].Y * Scale.Y + " " + vertices[i].Z * Scale.Z + "\n";
+                    }
+                    for (int i = 0; i < UV.Count; i++)
+                    {
+                        output += "vt " + UV[i].X + " " + -UV[i].Y + "\n";
+                    }
+                    for (int i = 0; i < Normals.Count; i++)
+                    {
+                        output += "vn " + Normals[i].X + " " + Normals[i].Y + " " + Normals[i].Z + "\n";
+                    }
+                    VStartPoint += vertices.Count;
+                    NStartPoint += Normals.Count;
+                    UStartPoint += UV.Count;
+                    output += outputString;
+                    Pos1++;
+                }
+                File.WriteAllText(path + "/" + a.ToString() + ".obj", output);
+
+            }
         }
     }
 
@@ -894,7 +1014,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int Unknown3; //ID
         public float Unknown4;
         public Vector3 scale;
-        public int ModelDataCount; //Model Data Count?
+        public int ModelDataCount;
         public int Unknown9;
         public int TriStripCount; //Tristrip Count
         public int VertexCount; //Vertex Count
@@ -1095,27 +1215,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int Unknown3;
         public List<int> Strips;
 
-        public List<UV> uv;
+        public List<Vector2> uv;
         public List<Vector3> vertices;
         public List<Face> faces;
-        public List<UVNormal> uvNormals;
+        public List<Vector3> uvNormals;
     }
 
-    //Since there both int 16's They need to be divided by 4096
-    public struct UV
-    {
-        public int X;
-        public int Y;
-        public int XU;
-        public int YU;
-    }
-
-    public struct UVNormal
-    {
-        public int X;
-        public int Y;
-        public int Z;
-    }
 
     public struct Face
     {
@@ -1127,17 +1232,17 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int V2Pos;
         public int V3Pos;
 
-        public UV UV1;
-        public UV UV2;
-        public UV UV3;
+        public Vector2 UV1;
+        public Vector2 UV2;
+        public Vector2 UV3;
 
         public int UV1Pos;
         public int UV2Pos;
         public int UV3Pos;
 
-        public UVNormal Normal1;
-        public UVNormal Normal2;
-        public UVNormal Normal3;
+        public Vector3 Normal1;
+        public Vector3 Normal2;
+        public Vector3 Normal3;
 
         public int Normal1Pos;
         public int Normal2Pos;

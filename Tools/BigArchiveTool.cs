@@ -81,7 +81,6 @@ namespace SSXMultiTool
 
         public void CreateBigPath(string path)
         {
-            bigHandler.LoadFolder(path);
             bigHandler.bigType = (BigHandler.BigType)Enum.Parse(typeof(BigHandler.BigType), BigTypeCombobox.Text);
             bigHandler.BuildBig(path);
             MessageBox.Show("Big File Created");

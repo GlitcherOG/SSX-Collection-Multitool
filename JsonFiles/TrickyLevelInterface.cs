@@ -110,15 +110,15 @@ namespace SSXMultiTool
                 matrix4X4.M13 = pbdHandler.Instances[i].MatrixCol1.Z;
                 matrix4X4.M14 = pbdHandler.Instances[i].MatrixCol1.W;
 
-                matrix4X4.M31 = pbdHandler.Instances[i].MatrixCol2.X;
-                matrix4X4.M32 = pbdHandler.Instances[i].MatrixCol2.Y;
-                matrix4X4.M33 = pbdHandler.Instances[i].MatrixCol2.Z;
-                matrix4X4.M34 = pbdHandler.Instances[i].MatrixCol2.W;
+                matrix4X4.M21 = pbdHandler.Instances[i].MatrixCol2.X;
+                matrix4X4.M22 = pbdHandler.Instances[i].MatrixCol2.Y;
+                matrix4X4.M23 = pbdHandler.Instances[i].MatrixCol2.Z;
+                matrix4X4.M24 = pbdHandler.Instances[i].MatrixCol2.W;
 
-                matrix4X4.M21 = pbdHandler.Instances[i].MatrixCol3.X;
-                matrix4X4.M22 = pbdHandler.Instances[i].MatrixCol3.Y;
-                matrix4X4.M23 = pbdHandler.Instances[i].MatrixCol3.Z;
-                matrix4X4.M24 = pbdHandler.Instances[i].MatrixCol3.W;
+                matrix4X4.M31 = pbdHandler.Instances[i].MatrixCol3.X;
+                matrix4X4.M32 = pbdHandler.Instances[i].MatrixCol3.Y;
+                matrix4X4.M33 = pbdHandler.Instances[i].MatrixCol3.Z;
+                matrix4X4.M34 = pbdHandler.Instances[i].MatrixCol3.W;
 
                 matrix4X4.M41 = pbdHandler.Instances[i].InstancePosition.X;
                 matrix4X4.M42 = pbdHandler.Instances[i].InstancePosition.Y;
@@ -438,15 +438,15 @@ namespace SSXMultiTool
             }
 
             Directory.CreateDirectory(ExportPath + "/Original");
-            File.Copy(LoadPath + ".adl", ExportPath + "/Original" + "/ald.ald");
-            File.Copy(LoadPath + ".aip", ExportPath + "/Original" + "/aip.aip");
             File.Copy(LoadPath + ".ltg", ExportPath + "/Original" + "/ltg.ltg");
-            File.Copy(LoadPath + ".sop", ExportPath + "/Original" + "/sop.sop");
             File.Copy(LoadPath + ".ssf", ExportPath + "/Original" + "/ssf.ssf");
             File.Copy(LoadPath + ".pbd", ExportPath + "/Original" + "/level.pbd");
             File.Copy(LoadPath + ".map", ExportPath + "/Original" + "/level.map");
             if (File.Exists(LoadPath + "_sky.pbd"))
             {
+                File.Copy(LoadPath + ".adl", ExportPath + "/Original" + "/ald.ald"); //Not in Menu
+                File.Copy(LoadPath + ".aip", ExportPath + "/Original" + "/aip.aip"); //Not in Menu
+                File.Copy(LoadPath + ".sop", ExportPath + "/Original" + "/sop.sop"); //Not in menu
                 File.Copy(LoadPath + "_sky.pbd", ExportPath + "/Original/sky.pbd");
             }
         }
@@ -455,15 +455,15 @@ namespace SSXMultiTool
         {
             ExportPath = ExportPath.Substring(0, ExportPath.Length - 4);
 
-            File.Copy(LoadPath + "/Original/ald.ald", ExportPath + ".adl",true);
-            File.Copy(LoadPath + "/Original/aip.aip", ExportPath + ".aip", true);
             File.Copy(LoadPath + "/Original/ltg.ltg", ExportPath + ".ltg", true);
-            File.Copy(LoadPath + "/Original/sop.sop", ExportPath + ".sop", true);
             File.Copy(LoadPath + "/Original/ssf.ssf", ExportPath + ".ssf", true);
             File.Copy(LoadPath + "/Original/level.pbd", ExportPath + ".pbd", true);
             if(File.Exists(LoadPath + "/Original/sky.pbd"))
             {
+                File.Copy(LoadPath + "/Original/ald.ald", ExportPath + ".adl", true);
+                File.Copy(LoadPath + "/Original/aip.aip", ExportPath + ".aip", true);
                 File.Copy(LoadPath + "/Original/sky.pbd", ExportPath + "_sky.pbd", true);
+                File.Copy(LoadPath + "/Original/sop.sop", ExportPath + ".sop", true);
             }
 
             //Reset mapHandler
@@ -679,6 +679,58 @@ namespace SSXMultiTool
                 linkerItem.Hashvalue = "";
                 mapHandler.Splines.Add(linkerItem);
                 pbdHandler.splines.Add(spline);
+            }
+
+            instancesJson = new InstanceJsonHandler();
+            instancesJson = InstanceJsonHandler.Load(LoadPath + "/Instances.json");
+            pbdHandler.Instances = new List<Instance>();
+            mapHandler.InternalInstances = new List<LinkerItem>();
+            for (int i = 0; i < instancesJson.instances.Count; i++)
+            {
+                var Oldinstance = instancesJson.instances[i];
+                Instance NewInstance = new Instance();
+
+                Matrix4x4 scale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(Oldinstance.Scale));
+                Matrix4x4 Rotation = Matrix4x4.CreateFromQuaternion(JsonUtil.ArrayToQuaternion(Oldinstance.Rotation));
+                Matrix4x4 matrix4X4 = Matrix4x4.Multiply(scale, Rotation);
+                matrix4X4.Translation = JsonUtil.ArrayToVector3(Oldinstance.Location);
+
+                NewInstance.MatrixCol1 = new Vector4(matrix4X4.M11, matrix4X4.M12, matrix4X4.M13, matrix4X4.M14);
+                NewInstance.MatrixCol2 = new Vector4(matrix4X4.M21, matrix4X4.M22, matrix4X4.M23, matrix4X4.M24);
+                NewInstance.MatrixCol3 = new Vector4(matrix4X4.M31, matrix4X4.M32, matrix4X4.M33, matrix4X4.M34);
+                NewInstance.InstancePosition = new Vector4(matrix4X4.M41, matrix4X4.M42, matrix4X4.M43, matrix4X4.M44);
+
+                NewInstance.Unknown5 = JsonUtil.ArrayToVector4(Oldinstance.Unknown5);
+                NewInstance.Unknown6 = JsonUtil.ArrayToVector4(Oldinstance.Unknown6);
+                NewInstance.Unknown7 = JsonUtil.ArrayToVector4(Oldinstance.Unknown7);
+                NewInstance.Unknown8 = JsonUtil.ArrayToVector4(Oldinstance.Unknown8);
+                NewInstance.Unknown9 = JsonUtil.ArrayToVector4(Oldinstance.Unknown9);
+                NewInstance.Unknown10 = JsonUtil.ArrayToVector4(Oldinstance.Unknown10);
+                NewInstance.Unknown11 = JsonUtil.ArrayToVector4(Oldinstance.Unknown11);
+                NewInstance.RGBA = JsonUtil.ArrayToVector4(Oldinstance.RGBA);
+
+                NewInstance.ModelID = Oldinstance.ModelID;
+                NewInstance.PrevInstance = Oldinstance.PrevInstance;
+                NewInstance.NextInstance = Oldinstance.NextInstance;
+
+                NewInstance.LowestXYZ = JsonUtil.ArrayToVector3(Oldinstance.LowestXYZ);
+                NewInstance.HighestXYZ = JsonUtil.ArrayToVector3(Oldinstance.HighestXYZ);
+
+                NewInstance.UnknownInt26 = Oldinstance.UnknownInt26;
+                NewInstance.UnknownInt27 = Oldinstance.UnknownInt27;
+                NewInstance.UnknownInt28 = Oldinstance.UnknownInt28;
+                NewInstance.ModelID2 = Oldinstance.ModelID2;
+                NewInstance.UnknownInt30 = Oldinstance.UnknownInt30;
+                NewInstance.UnknownInt31 = Oldinstance.UnknownInt31;
+                NewInstance.UnknownInt32 = Oldinstance.UnknownInt32;
+                pbdHandler.Instances.Add(NewInstance);
+
+                LinkerItem linkerItem = new LinkerItem();
+                linkerItem.Ref = 1;
+                linkerItem.UID = i;
+                linkerItem.Hashvalue = "";
+                linkerItem.Name = Oldinstance.InstanceName;
+                mapHandler.InternalInstances.Add(linkerItem);
             }
 
 
