@@ -392,7 +392,7 @@ namespace SSXMultiTool
 
             //Create Mesh data
             Directory.CreateDirectory(ExportPath + "/Models");
-            pbdHandler.SaveModel(ExportPath + "/Models/");
+            pbdHandler.ExportModels(ExportPath + "/Models/");
 
             //Load and Export Textures
             SSHHandler TextureHandler = new SSHHandler();

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Numerics;
 using SSXMultiTool.Utilities;
 using SSXMultiTool.FileHandlers;
+using SSXMultiTool.FileHandlers.Models;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
@@ -338,7 +339,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempHeader.Unknown9 = StreamUtil.ReadInt32(stream);
                     TempHeader.TriStripCount = StreamUtil.ReadInt32(stream);
                     TempHeader.VertexCount = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown12 = StreamUtil.ReadInt32(stream);
+                    TempHeader.Unknown12 = StreamUtil.ReadInt32(stream); //Non-Triangle
                     TempHeader.Unknown13 = StreamUtil.ReadInt32(stream);
                     TempHeader.Unknown14 = StreamUtil.ReadInt32(stream);
                     TempHeader.Unknown15 = StreamUtil.ReadInt32(stream);
@@ -350,6 +351,24 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     TempHeader.LowestXYZ = StreamUtil.ReadVector3(stream);
                     TempHeader.HighestXYZ = StreamUtil.ReadVector3(stream);
+
+                    //Unknown (Blank?)
+
+                    //EntryCount
+                    //Face Count
+                    //Unknown
+
+                    //By EntryCount
+                    //Unknown
+
+                    //By EntryCount
+                    //Entry Length
+                    //MeshID only out of positions starting from 0
+                    //LengthFac
+                    //StartPos
+                    //Lenght-3*16
+                    //Lenght-2*16
+                    //Lenght-1*16
 
                     int TempInt = TempHeader.UnknownLength;
                     if (TempHeader.UnknownLength - 24 > 0)
@@ -445,7 +464,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
             }
         }
-
         public void Save(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
@@ -667,13 +685,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             List<int> TempStrips = new List<int>();
             for (int a = 0; a < ModelData.StripCount; a++)
             {
-                TempStrips.Add(StreamUtil.ReadInt16(stream));
+                TempStrips.Add(StreamUtil.ReadInt16(stream)/3);
+               
             }
             StreamUtil.AlignBy16(stream);
 
             stream.Position += 16;
             ModelData.Strips = TempStrips;
-
 
             List<Vector2> UVs = new List<Vector2>();
             //Read UV Texture Points
@@ -769,7 +787,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         {
             foreach (var item in splits)
             {
-                if (item/3 == Number)
+                if (item == Number)
                 {
                     return true;
                 }
@@ -880,7 +898,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         }
 
 
-        public void SaveModel(string path)
+        public void ExportModels(string path)
         {
             //glstHandler.SavePDBModelglTF(path, this);
 
@@ -1003,6 +1021,289 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             }
         }
+
+        public void ImportModels(string path, objHandler objHandler)
+        {
+            MemoryStream memoryStream = new MemoryStream();
+
+            for (int a = 0; a < objHandler.modelObjects.Count; a++)
+            {
+                for (int b = 0; b < objHandler.modelObjects[a].Mesh.Count; b++)
+                {
+                    var MeshData = objHandler.modelObjects[a].Mesh[b];
+                    long ModelStart = 0;
+                    long OldPos = 0;
+                    long NewPos = 0;
+                    List<long> TotalModelLengthPos = new List<long>();
+                    List<long> TotalModelLengthPos1 = new List<long>();
+                    byte[] TempBytes = new byte[1];
+
+                    //Tristrip Split
+
+
+                    ModelStart = memoryStream.Position;
+                    bool FirstChunk = true;
+                    //Start Mesh Write
+                    for (int c = 0; c < MeshData.meshChunk.Count; c++)
+                    {
+                        var TempMeshChunk = MeshData.meshChunk[c];
+
+                        #region Tristrip Data
+                        //Line 1
+                        OldPos = memoryStream.Position;
+                        memoryStream.Position += 3;
+                        TempBytes = new byte[13] { 0x10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+                        StreamUtil.WriteBytes(memoryStream, TempBytes);
+
+                        //Line2
+                        TempBytes = new byte[12] { 0, 0, 0, 0, 0x01, 0x01, 0, 0x01, 0, 0, 0, 0 };
+                        StreamUtil.WriteBytes(memoryStream, TempBytes);
+
+                        //Check if first chunk
+                        if (FirstChunk)
+                        {
+                            TempBytes = new byte[1] { 0x0B };
+                            StreamUtil.WriteBytes(memoryStream, TempBytes);
+                        }
+                        else
+                        {
+                            TempBytes = new byte[1] { 0 };
+                            StreamUtil.WriteBytes(memoryStream, TempBytes);
+                        }
+
+                        TempBytes = new byte[3] { 0x80, 0x02, 0x6C };
+                        StreamUtil.WriteBytes(memoryStream, TempBytes);
+
+                        //Line 3
+
+                        //Write Vertice count
+                        StreamUtil.WriteInt8(memoryStream, TempMeshChunk.vertices.Count);
+
+                        TempBytes = new byte[15] { 0x80, 0, 0, 0, 0x40, 0x2E, 0x30, 0x12, 0x04, 0, 0, 0, 0, 0, 0 };
+                        StreamUtil.WriteBytes(memoryStream, TempBytes);
+
+                        //Line 4
+
+                        //Write Tristrip Count
+                        StreamUtil.WriteInt32(memoryStream, TempMeshChunk.Tristrip.Count);
+
+                        StreamUtil.WriteInt32(memoryStream, 0);
+
+                        //Write Vertice count
+                        StreamUtil.WriteInt32(memoryStream, TempMeshChunk.vertices.Count);
+
+                        StreamUtil.WriteInt32(memoryStream, 0);
+
+                        //Line 5
+
+                        TempBytes = new byte[12] { 0, 0, 0, 0, 0x01, 0x01, 0, 0x01, 0, 0, 0, 0 };
+                        StreamUtil.WriteBytes(memoryStream, TempBytes);
+
+                        //Check if first chunk
+                        if (FirstChunk)
+                        {
+                            TempBytes = new byte[1] { 0x0D };
+                            StreamUtil.WriteBytes(memoryStream, TempBytes);
+                        }
+                        else
+                        {
+                            TempBytes = new byte[1] { 0x02 };
+                            StreamUtil.WriteBytes(memoryStream, TempBytes);
+                        }
+
+                        TempBytes = new byte[1] { 0x80 };
+                        StreamUtil.WriteBytes(memoryStream, TempBytes);
+
+                        StreamUtil.WriteInt8(memoryStream, TempMeshChunk.Tristrip.Count);
+
+                        TempBytes = new byte[1] { 0x66 };
+                        StreamUtil.WriteBytes(memoryStream, TempBytes);
+
+                        //Tristrip Chunk Generation
+
+                        for (int i = 0; i < TempMeshChunk.Tristrip.Count; i++)
+                        {
+                            StreamUtil.WriteInt16(memoryStream, TempMeshChunk.Tristrip[i] * 6);
+                        }
+                        StreamUtil.AlignBy16(memoryStream);
+
+                        //Line 6
+                        StreamUtil.WriteInt24(memoryStream, 1);
+
+                        StreamUtil.WriteInt8(memoryStream, 48);
+
+                        TotalModelLengthPos.Add(memoryStream.Position);
+
+                        StreamUtil.AlignBy16(memoryStream);
+
+                        ///Generate HeaderSize
+                        NewPos = memoryStream.Position;
+                        memoryStream.Position = OldPos;
+
+                        int Size = ((int)(NewPos - OldPos) / 16) - 2;
+                        StreamUtil.WriteInt24(memoryStream, Size);
+
+                        memoryStream.Position = NewPos;
+                        #endregion
+
+                        OldPos = memoryStream.Position;
+                        memoryStream.Position += 3;
+                        TempBytes = new byte[13] { 0x10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+                        StreamUtil.WriteBytes(memoryStream, TempBytes);
+
+                        #region UVCords
+
+                        //Line 2
+                        TempBytes = new byte[16] { 0, 0x10, 0, 0, 0, 0x10, 0, 0, 0, 0, 0, 0x20, 0x50, 0x50, 0x50, 0x50 };
+                        StreamUtil.WriteBytes(memoryStream, TempBytes);
+
+                        //Line 3
+                        TempBytes = new byte[12] { 0, 0, 0, 0, 0x03, 0x01, 0, 0x01, 0, 0, 0, 0 };
+                        StreamUtil.WriteBytes(memoryStream, TempBytes);
+                        if (FirstChunk)
+                        {
+                            StreamUtil.WriteInt8(memoryStream, 13+ TempMeshChunk.Tristrip.Count);
+                        }
+                        else
+                        {
+                            StreamUtil.WriteInt8(memoryStream, 2 + TempMeshChunk.Tristrip.Count);
+                        }
+                        StreamUtil.WriteInt8(memoryStream, 128);
+                        StreamUtil.WriteInt8(memoryStream, TempMeshChunk.TextureCords.Count);
+                        StreamUtil.WriteInt8(memoryStream, 117);
+
+                        //UVCord Save
+                        for (int i = 0; i < TempMeshChunk.TextureCords.Count; i++)
+                        {
+                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.TextureCords[i].X) * 4096f));
+                            StreamUtil.WriteInt16(memoryStream, -(int)((TempMeshChunk.TextureCords[i].Y) * 4096f));
+                        }
+                        StreamUtil.AlignBy16(memoryStream);
+
+                        #endregion
+
+                        #region Normals
+                        //Line1
+                        TempBytes = new byte[16] { 0, 0, 0, 0x05, 0, 0, 0, 0x30, 0, 0, 0, 0, 0, 0, 0, 0 };
+                        StreamUtil.WriteBytes(memoryStream, TempBytes);
+                        //Line2
+                        TempBytes = new byte[16] { 0, 0, 0, 0, 0, 0x80, 0, 0, 0, 0, 0, 0x20, 0x40, 0x40, 0x40, 0x40 };
+                        StreamUtil.WriteBytes(memoryStream, TempBytes);
+                        //Line3
+                        TempBytes = new byte[12] { 0, 0, 0,0, 0x03, 0x01, 0, 0x01, 0, 0, 0, 0 };
+                        StreamUtil.WriteBytes(memoryStream, TempBytes);
+                        if (FirstChunk)
+                        {
+                            StreamUtil.WriteInt8(memoryStream, 14 + TempMeshChunk.Tristrip.Count);
+                        }
+                        else
+                        {
+                            StreamUtil.WriteInt8(memoryStream, 3 + TempMeshChunk.Tristrip.Count);
+                        }
+                        StreamUtil.WriteInt8(memoryStream, 128);
+                        StreamUtil.WriteInt8(memoryStream, TempMeshChunk.normals.Count);
+                        StreamUtil.WriteInt8(memoryStream, 121);
+                        //Normals Generation
+                        for (int i = 0; i < TempMeshChunk.normals.Count; i++)
+                        {
+                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.normals[i].X) * 32768f));
+                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.normals[i].Y) * 32768f));
+                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.normals[i].Z) * 32768f));
+                        }
+                        StreamUtil.AlignBy16(memoryStream);
+                        #endregion
+
+                        #region Vertices
+                        //Line 1
+                        TempBytes = new byte[12] { 0, 0, 0, 0, 0x03, 0x01, 0, 0x01, 0, 0, 0, 0 };
+                        StreamUtil.WriteBytes(memoryStream, TempBytes);
+                        if (FirstChunk)
+                        {
+                            StreamUtil.WriteInt8(memoryStream, 15 + TempMeshChunk.Tristrip.Count);
+                        }
+                        else
+                        {
+                            StreamUtil.WriteInt8(memoryStream, 4 + TempMeshChunk.Tristrip.Count);
+                        }
+                        StreamUtil.WriteInt8(memoryStream, 128);
+                        StreamUtil.WriteInt8(memoryStream, TempMeshChunk.vertices.Count);
+                        StreamUtil.WriteInt8(memoryStream, 121);
+
+                        //Vertices Generation
+                        for (int i = 0; i < TempMeshChunk.vertices.Count; i++)
+                        {
+                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.vertices[i].X * 32768f )/ modelHeaders[a].scale.X));
+                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.vertices[i].Y * 32768f )/ modelHeaders[a].scale.Y));
+                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.vertices[i].Z * 32768f )/ modelHeaders[a].scale.Z));
+                        }
+                        StreamUtil.AlignBy16(memoryStream);
+
+                        #endregion
+
+                        //Total Model Size
+                        StreamUtil.WriteInt24(memoryStream, 1);
+
+                        StreamUtil.WriteInt8(memoryStream, 48);
+
+                        TotalModelLengthPos1.Add(memoryStream.Position);
+
+                        StreamUtil.AlignBy16(memoryStream);
+
+                        //Generate LineSize
+                        NewPos = memoryStream.Position;
+                        memoryStream.Position = OldPos;
+
+                        Size = ((int)(NewPos - OldPos) / 16) - 2;
+                        StreamUtil.WriteInt24(memoryStream, Size);
+
+                        memoryStream.Position = NewPos;
+
+
+                        FirstChunk = false;
+                    }
+
+                    TempBytes = new byte[16] { 0x01, 0, 0, 0x60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+                    StreamUtil.WriteBytes(memoryStream, TempBytes);
+
+                    TempBytes = new byte[16] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x01, 0x01, 0, 0x01 };
+                    StreamUtil.WriteBytes(memoryStream, TempBytes);
+
+                    //Generate TotalModelSize Parts
+
+                    long TotalByteLenght = (memoryStream.Position-ModelStart);
+                    OldPos = memoryStream.Position;
+                    for (int i = 0; i < TotalModelLengthPos.Count; i++)
+                    {
+                        memoryStream.Position = TotalModelLengthPos[i];
+                        StreamUtil.WriteInt32(memoryStream, (int)TotalByteLenght);
+                    }
+                    for (int i = 0; i < TotalModelLengthPos1.Count; i++)
+                    {
+                        memoryStream.Position = TotalModelLengthPos1[i];
+                        StreamUtil.WriteInt32(memoryStream, (int)TotalByteLenght+(1+i)*16);
+                    }
+                    memoryStream.Position = OldPos;
+
+                    //Mesh Endbytes
+                    TempBytes = new byte[16] { 0x01, 0, 0, 0x05, 0, 0, 0, 0x30, 0, 0, 0, 0, 0, 0, 0, 0 };
+                    StreamUtil.WriteBytes(memoryStream, TempBytes);
+                    TempBytes = new byte[16] { 0,0,0,0,0,0,0,0,0,0,0,0,0xEF,0xBE,0xAD,0xDE };
+                    StreamUtil.WriteBytes(memoryStream, TempBytes);
+                    StreamUtil.WriteBytes(memoryStream, TempBytes);
+                }
+            }
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            var file = File.Create(path);
+            memoryStream.Position = 0;
+            memoryStream.CopyTo(file);
+            memoryStream.Dispose();
+            file.Close();
+        }
+
     }
 
     public struct Model

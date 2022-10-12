@@ -5,6 +5,8 @@ using SSXMultiTool.FileHandlers;
 using System.Windows.Forms;
 using SSXMultiTool.JsonFiles;
 using SSXMultiTool.JsonFiles.Tricky;
+using SSXMultiTool.FileHandlers.Models;
+using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
 
 namespace SSXMultiTool
 {
@@ -139,6 +141,14 @@ namespace SSXMultiTool
                     SaveConfig.Enabled = true;
                     RebuildButton.Enabled = true;
                     ProjectPath = Path.GetDirectoryName(openFileDialog.FileName);
+
+                    objHandler handler = new objHandler();
+                    handler.LoadFiles(ProjectPath+"/Models");
+                    handler.GenerateTristripData();
+                    PBDHandler pBDHandler = new PBDHandler();
+                    pBDHandler.LoadPBD(ProjectPath + "/original/level.pbd");
+                    pBDHandler.ImportModels(ProjectPath + "/test.mpf", handler);
+
                     trickyLevelInterface.LoadAndVerifyFiles(ProjectPath);
                     UpdateText();
                 }
