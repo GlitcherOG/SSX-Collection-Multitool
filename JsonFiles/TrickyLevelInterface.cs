@@ -344,7 +344,7 @@ namespace SSXMultiTool
                 TempModel.Unknown3 = pbdHandler.modelHeaders[i].Unknown3;
                 TempModel.Unknown4 = pbdHandler.modelHeaders[i].Unknown4;
                 TempModel.Scale = JsonUtil.Vector3ToArray(pbdHandler.modelHeaders[i].scale);
-                TempModel.ModelDataCount = pbdHandler.modelHeaders[i].ModelDataCount;
+                TempModel.ModelDataCount = pbdHandler.modelHeaders[i].MeshCount;
                 TempModel.Unknown9 = pbdHandler.modelHeaders[i].Unknown9;
                 TempModel.TriStripCount = pbdHandler.modelHeaders[i].TriStripCount;
                 TempModel.VertexCount = pbdHandler.modelHeaders[i].VertexCount;

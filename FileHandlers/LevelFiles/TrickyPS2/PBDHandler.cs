@@ -321,7 +321,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
 
                 //ModelHeaders
-                int test = 0;
                 stream.Position = ModelsOffset;
                 modelHeaders = new List<Model>();
                 for (int i = 0; i < ModelPointers.Count; i++)
@@ -335,7 +334,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempHeader.Unknown3 = StreamUtil.ReadInt32(stream);
                     TempHeader.Unknown4 = StreamUtil.ReadFloat(stream);
                     TempHeader.scale = StreamUtil.ReadVector3(stream);
-                    TempHeader.ModelDataCount = StreamUtil.ReadInt32(stream);
+                    TempHeader.MeshCount = StreamUtil.ReadInt32(stream);
                     TempHeader.Unknown9 = StreamUtil.ReadInt32(stream);
                     TempHeader.TriStripCount = StreamUtil.ReadInt32(stream);
                     TempHeader.VertexCount = StreamUtil.ReadInt32(stream);
@@ -351,35 +350,42 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     TempHeader.LowestXYZ = StreamUtil.ReadVector3(stream);
                     TempHeader.HighestXYZ = StreamUtil.ReadVector3(stream);
+                    //
+                    //TempHeader.Unknown19 = StreamUtil.ReadInt32(stream);
 
-                    //Unknown (Blank?)
+                    //TempHeader.EntryCount = StreamUtil.ReadInt32(stream);
+                    //TempHeader.FaceCount = StreamUtil.ReadInt32(stream);
+                    //TempHeader.Unknown20 = StreamUtil.ReadInt32(stream);
 
-                    //EntryCount
-                    //Face Count
-                    //Unknown
+                    //TempHeader.UnknownInts = new List<int>();
+                    //for (int a = 0; a < TempHeader.EntryCount; a++)
+                    //{
+                    //    TempHeader.UnknownInts.Add(StreamUtil.ReadInt32(stream));
+                    //}
 
-                    //By EntryCount
-                    //Unknown
+                    //TempHeader.meshDatas = new List<MeshHeader>();
+                    //for (int a = 0; a < TempHeader.EntryCount; a++)
+                    //{
+                    //    MeshHeader meshHeader = new MeshHeader();
+                    //    meshHeader.Entrylenght = StreamUtil.ReadInt32(stream);
 
-                    //By EntryCount
-                    //Entry Length
-                    //MeshID only out of positions starting from 0
-                    //LengthFac
-                    //StartPos
-                    //Lenght-3*16
-                    //Lenght-2*16
-                    //Lenght-1*16
+                    //    meshHeader.MeshID = StreamUtil.ReadInt32(stream);
+                    //    meshHeader.MeshDataLength = StreamUtil.ReadInt32(stream);
+                    //    meshHeader.StartPos = StreamUtil.ReadInt32(stream);
+                    //    meshHeader.Length1 = StreamUtil.ReadInt32(stream);
+                    //    meshHeader.Length2 = StreamUtil.ReadInt32(stream);
+                    //    meshHeader.Length3 = StreamUtil.ReadInt32(stream);
+                    //    TempHeader.meshDatas.Add(meshHeader);
+                    //}
 
                     int TempInt = TempHeader.UnknownLength;
                     if (TempHeader.UnknownLength - 24 > 0)
                     {
                         TempInt = TempHeader.UnknownLength - 24;
                     }
-
                     TempHeader.bytes = StreamUtil.ReadBytes(stream, TempInt);
-                    modelHeaders.Add(TempHeader);
 
-                    test += TempHeader.ModelDataCount;
+                    modelHeaders.Add(TempHeader);
 
                 }
 
@@ -910,7 +916,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 int UStartPoint = 0;
                 int StartPos = Pos1;
                 string output = "# Exported From SSX Using SSX Multitool Modder by GlitcherOG \n";
-                for (int ax = Pos1; ax < StartPos + modelHeaders[a].ModelDataCount; ax++)
+                for (int ax = Pos1; ax < StartPos + modelHeaders[a].MeshCount; ax++)
                 {
                     output += "o Mesh" + ax.ToString() + "\n";
                     string outputString = "";
@@ -1315,7 +1321,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int Unknown3; //ID
         public float Unknown4;
         public Vector3 scale;
-        public int ModelDataCount;
+        public int MeshCount;
         public int Unknown9;
         public int TriStripCount; //Tristrip Count
         public int VertexCount; //Vertex Count
@@ -1332,7 +1338,28 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public Vector3 LowestXYZ;
         public Vector3 HighestXYZ;
 
+        public int Unknown19;
+
+        public int EntryCount;
+        public int FaceCount;
+        public int Unknown20;
+
+        public List<int> UnknownInts;
+
+        public List<MeshHeader> meshDatas;
+
         public byte[] bytes;
+    }
+
+    public struct MeshHeader
+    {
+        public int Entrylenght;
+        public int MeshID;
+        public int MeshDataLength;
+        public int StartPos;
+        public int Length1;
+        public int Length2;
+        public int Length3;
     }
 
     public struct ParticleModel

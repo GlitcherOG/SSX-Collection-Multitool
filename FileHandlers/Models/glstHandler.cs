@@ -193,7 +193,7 @@ namespace SSXMultiTool.FileHandlers
                 var scene = new SharpGLTF.Scenes.SceneBuilder();
                 var material = new MaterialBuilder("Default").WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
                 int StartPos = Pos1;
-                for (int ax = Pos1; ax < StartPos + Handler.modelHeaders[a].ModelDataCount; ax++)
+                for (int ax = Pos1; ax < StartPos + Handler.modelHeaders[a].MeshCount; ax++)
                 {
                     var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1, VertexEmpty>(a.ToString() + " " + Handler.models[a].staticMeshes.Count);
                     for (int i = 0; i < Handler.models[ax].staticMeshes.Count; i++)
