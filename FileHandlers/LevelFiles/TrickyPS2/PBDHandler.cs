@@ -25,7 +25,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int NumSplineSegments;
         public int NumTextureFlipbooks;
         public int NumModels;
-        public int ParticleModelCount;
+        public int NumParticleModel;
         public int NumTextures;
         public int NumCameras;
         public int LightMapSize;
@@ -47,7 +47,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int CameraPointerOffset;
         public int CamerasOffset;
         public int HashOffset;
-        public int ModelDataOffset;
+        public int MeshDataOffset;
         public int Unknown34;
         public int Unknown35;
 
@@ -85,7 +85,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 NumSplineSegments = StreamUtil.ReadInt32(stream); //Done
                 NumTextureFlipbooks = StreamUtil.ReadInt32(stream); //Done
                 NumModels = StreamUtil.ReadInt32(stream); //Done
-                ParticleModelCount = StreamUtil.ReadInt32(stream); //Done
+                NumParticleModel = StreamUtil.ReadInt32(stream); //Done
                 NumTextures = StreamUtil.ReadInt32(stream); //Done
                 NumCameras = StreamUtil.ReadInt32(stream); //Used in SSXFE MAP
                 LightMapSize = StreamUtil.ReadInt32(stream); //Always blank?
@@ -107,7 +107,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 CameraPointerOffset = StreamUtil.ReadInt32(stream); //Done
                 CamerasOffset = StreamUtil.ReadInt32(stream); //Unknown
                 HashOffset = StreamUtil.ReadInt32(stream);
-                ModelDataOffset = StreamUtil.ReadInt32(stream); //Loading
+                MeshDataOffset = StreamUtil.ReadInt32(stream); //Loading
                 Unknown34 = StreamUtil.ReadInt32(stream); //Possibly Just Blank
                 Unknown35 = StreamUtil.ReadInt32(stream); //Possibly Just Blank
 
@@ -328,14 +328,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     stream.Position = ModelsOffset + ModelPointers[i];
                     var TempHeader = new Model();
                     TempHeader.TotalLength = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown0 = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown1 = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown2 = StreamUtil.ReadInt32(stream);
+                    TempHeader.Unknown0 = StreamUtil.ReadInt32(stream); //Type
+                    TempHeader.Unknown1 = StreamUtil.ReadInt32(stream); //Length 1
+                    TempHeader.Unknown2 = StreamUtil.ReadInt32(stream); //ID of some Kind?
                     TempHeader.Unknown3 = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown4 = StreamUtil.ReadFloat(stream);
+                    TempHeader.Unknown4 = StreamUtil.ReadFloat(stream); //Anim time
                     TempHeader.scale = StreamUtil.ReadVector3(stream);
                     TempHeader.MeshCount = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown9 = StreamUtil.ReadInt32(stream);
+                    TempHeader.Unknown9 = StreamUtil.ReadInt32(stream); //Context Count
                     TempHeader.TriStripCount = StreamUtil.ReadInt32(stream);
                     TempHeader.VertexCount = StreamUtil.ReadInt32(stream);
                     TempHeader.Unknown12 = StreamUtil.ReadInt32(stream); //Non-Triangle
@@ -399,7 +399,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 //Particle Models
                 particleModels = new List<ParticleModel>();
-                for (int i = 0; i < ParticleModelCount; i++)
+                for (int i = 0; i < NumParticleModel; i++)
                 {
                     stream.Position = ParticleModelsOffset + ParticleModelPointers[i];
                     ParticleModel TempParticleModel = new ParticleModel();
@@ -440,7 +440,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
 
                 //ModelData
-                stream.Position = ModelDataOffset;
+                stream.Position = MeshDataOffset;
                 models = new List<MeshData>();
                 MeshData model = new MeshData();
                 model.staticMeshes = new List<StaticMesh>();
@@ -490,7 +490,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, textureFlipbooks.Count);
 
                 NumModels = StreamUtil.ReadInt32(stream);
-                ParticleModelCount = StreamUtil.ReadInt32(stream);
+                NumParticleModel = StreamUtil.ReadInt32(stream);
 
                 StreamUtil.WriteInt32(stream, NumTextures);
 
@@ -516,7 +516,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 CameraPointerOffset = StreamUtil.ReadInt32(stream);
                 CamerasOffset = StreamUtil.ReadInt32(stream);
                 HashOffset = StreamUtil.ReadInt32(stream);
-                ModelDataOffset = StreamUtil.ReadInt32(stream);
+                MeshDataOffset = StreamUtil.ReadInt32(stream);
                 Unknown34 = StreamUtil.ReadInt32(stream);
                 Unknown35 = StreamUtil.ReadInt32(stream);
 
@@ -1316,8 +1316,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     {
         public int TotalLength;
         public int Unknown0;
-        public int Unknown1;
-        public int Unknown2;
+        public int Unknown1; //Length
+        public int Unknown2; //Length
         public int Unknown3; //ID
         public float Unknown4;
         public Vector3 scale;
