@@ -49,5 +49,10 @@ namespace SSXMultiTool
             //NewThread.SetApartmentState(ApartmentState.STA);
             //NewThread.Start();
         }
+
+        private void SSX3ToolsButton_Click(object sender, EventArgs e)
+        {
+            new SSX3ToolsWindow().ShowDialog();
+        }
     }
 }

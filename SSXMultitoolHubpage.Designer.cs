@@ -30,7 +30,7 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.SSX3ToolsButton = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button5 = new System.Windows.Forms.Button();
@@ -59,7 +59,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.SSX3ToolsButton);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -69,15 +69,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Per Game Tools";
             // 
-            // button3
+            // SSX3ToolsButton
             // 
-            this.button3.Enabled = false;
-            this.button3.Location = new System.Drawing.Point(206, 22);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(94, 50);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "SSX 3 Tools";
-            this.button3.UseVisualStyleBackColor = true;
+            this.SSX3ToolsButton.Location = new System.Drawing.Point(206, 22);
+            this.SSX3ToolsButton.Name = "SSX3ToolsButton";
+            this.SSX3ToolsButton.Size = new System.Drawing.Size(94, 50);
+            this.SSX3ToolsButton.TabIndex = 2;
+            this.SSX3ToolsButton.Text = "SSX 3 Tools";
+            this.SSX3ToolsButton.UseVisualStyleBackColor = true;
+            this.SSX3ToolsButton.Click += new System.EventHandler(this.SSX3ToolsButton_Click);
             // 
             // button2
             // 
@@ -205,7 +205,7 @@
 
         private Button button1;
         private GroupBox groupBox1;
-        private Button button3;
+        private Button SSX3ToolsButton;
         private Button button2;
         private GroupBox groupBox2;
         private Button button5;
