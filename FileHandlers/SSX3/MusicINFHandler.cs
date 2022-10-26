@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SSX_Modder.FileHandlers
+namespace SSXMultiTool.FileHandlers
 {
     class MusicINFHandler
     {
