@@ -584,7 +584,7 @@ namespace SSXMultiTool
                 linkerItem.Name = ImportPatch.PatchName;
                 linkerItem.Ref = 1;
                 linkerItem.UID = i;
-                linkerItem.Hashvalue = "";
+                linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
                 mapHandler.Patchs.Add(linkerItem);
             }
 
@@ -676,7 +676,7 @@ namespace SSXMultiTool
                 linkerItem.Name = TempSpline.SplineName;
                 linkerItem.Ref = 1;
                 linkerItem.UID = i;
-                linkerItem.Hashvalue = "";
+                linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
                 mapHandler.Splines.Add(linkerItem);
                 pbdHandler.splines.Add(spline);
             }
@@ -728,8 +728,8 @@ namespace SSXMultiTool
                 LinkerItem linkerItem = new LinkerItem();
                 linkerItem.Ref = 1;
                 linkerItem.UID = i;
-                linkerItem.Hashvalue = "";
                 linkerItem.Name = Oldinstance.InstanceName;
+                linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
                 mapHandler.InternalInstances.Add(linkerItem);
             }
 

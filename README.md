@@ -3,7 +3,6 @@
 This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX-PS2-Collection-Modder) created in .net framework. It was moved over to .net due to certain limitations discovered in the programs development that made loading of certain files next to impossible as such it was decided to just redo the entire project and improve it as i did.
 
 ## Current Todo
-- Music Config
 - Get Cameras and Hash exporting so i can start rebuilding the file from scratch
 - Redo Folder Loading SSH
 - LOC Script Update

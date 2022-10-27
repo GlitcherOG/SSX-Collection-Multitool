@@ -292,6 +292,33 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
             return TempList;
         }
+
+        public static string GenerateHash(string InputString)
+        {
+            byte[] Temp = BitConverter.GetBytes(bxStringHash(InputString));
+            Temp = Temp.Reverse().ToArray();
+            return BitConverter.ToString(Temp).Replace("-","").TrimStart('0').ToLower();
+        }
+
+        public static UInt32 bxStringHash(string stringInput)
+        {
+            char[] input = stringInput.ToCharArray();
+
+            UInt32 hash = 0;
+            UInt32 high = 0;
+
+            foreach (var item in input)
+            {
+                hash = (hash << 4) + item;
+                high = hash & 0xf0000000;
+                if (high > 0)
+                    hash ^= high >> 23;
+
+                hash &= ~high;
+            }
+
+            return hash;
+        }
     }
 
     public struct LinkerItem
