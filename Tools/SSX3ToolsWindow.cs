@@ -366,5 +366,138 @@ namespace SSXMultiTool
 
         #endregion
 
+        #region MusicINF File
+        MusicINFHandler musicINFHandler = new MusicINFHandler();
+
+        private void MusicLoad_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Music Config |MUSIC.INF|Config File (*.INF)|*.INF|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                musiclistBox1.Items.Clear();
+                musicINFHandler.musPath = openFileDialog.FileName;
+                musicINFHandler.LoadMusFile(openFileDialog.FileName);
+                for (int i = 0; i < musicINFHandler.musFileSongs.Count; i++)
+                {
+                    musiclistBox1.Items.Add(musicINFHandler.musFileSongs[i].ID);
+                }
+            }
+        }
+        bool musHold;
+        private void musiclistBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            musHold = true;
+            if (musiclistBox1.SelectedIndex != -1)
+            {
+                MusicID.Text = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].ID;
+                MusicTitleBox.Text = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].Title;
+                MusicArtistBox.Text = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].Artist;
+                MusicAlbumBox.Text = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].Album;
+                MusicPathDataBox.Text = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].PathData;
+                MusicDataBox.Text = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].MusicData;
+                MusicLoopData.Text = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].loopData;
+                MusINFnumericUpDown1.Value = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].BeatsPerMeasure;
+                MusINFnumericUpDown2.Value = (decimal)musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].BPM;
+                MusINFnumericUpDown3.Value = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].SEDValue;
+                MusINFnumericUpDown4.Value = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].Lowpass;
+                MusINFnumericUpDown5.Value = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].Preview;
+                MusINFnumericUpDown6.Value = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].MeasuresPerBar;
+                MusINFnumericUpDown7.Value = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].PhrasesPerBank;
+                MusINFnumericUpDown8.Value = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].BeatsPerMeasure;
+                MusINFnumericUpDown9.Value = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].BeatsPerPhrase;
+                MusINFnumericUpDown10.Value = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].AsyncLevel;
+                MusINFnumericUpDown11.Value = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].SongBig;
+                MusINFnumericUpDown12.Value = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].DuckToLoops;
+                MusnumericUpDown0.Value = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].AADTOFE;
+                MuscheckBox1.Checked = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].Category0;
+                MuscheckBox2.Checked = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].Category1;
+                MuscheckBox3.Checked = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].Category2;
+                MuscheckBox4.Checked = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].Category3;
+                MuscheckBox5.Checked = musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex].Category4;
+            }
+            musHold = false;
+        }
+
+        private void MusUpdate(object sender, EventArgs e)
+        {
+            if (musiclistBox1.SelectedIndex != -1 && !musHold)
+            {
+                MusFileSong temp = new MusFileSong();
+                temp.ID = MusicID.Text;
+                temp.Title = MusicTitleBox.Text;
+                temp.Artist = MusicArtistBox.Text;
+                temp.Album = MusicAlbumBox.Text;
+                temp.PathData = MusicPathDataBox.Text;
+                temp.MusicData = MusicDataBox.Text;
+                temp.loopData = MusicLoopData.Text;
+                temp.BeatsPerMeasure = (int)MusINFnumericUpDown1.Value;
+                temp.BPM = (int)MusINFnumericUpDown2.Value;
+                temp.SEDValue = (int)MusINFnumericUpDown3.Value;
+                temp.Lowpass = (int)MusINFnumericUpDown4.Value;
+                temp.Preview = (int)MusINFnumericUpDown5.Value;
+                temp.MeasuresPerBar = (int)MusINFnumericUpDown6.Value;
+                temp.PhrasesPerBank = (int)MusINFnumericUpDown7.Value;
+                temp.BeatsPerMeasure = (int)MusINFnumericUpDown8.Value;
+                temp.BeatsPerPhrase = (int)MusINFnumericUpDown9.Value;
+                temp.AsyncLevel = (int)MusINFnumericUpDown10.Value;
+                temp.SongBig = (int)MusINFnumericUpDown11.Value;
+                temp.DuckToLoops = (int)MusINFnumericUpDown12.Value;
+                temp.AADTOFE = (int)MusnumericUpDown0.Value;
+                temp.Category0 = MuscheckBox1.Checked;
+                temp.Category1 = MuscheckBox2.Checked;
+                temp.Category2 = MuscheckBox3.Checked;
+                temp.Category3 = MuscheckBox4.Checked;
+                temp.Category4 = MuscheckBox5.Checked;
+
+                musicINFHandler.musFileSongs[musiclistBox1.SelectedIndex] = temp;
+
+            }
+        }
+
+        private void MusSaveAs_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog openFileDialog = new SaveFileDialog
+            {
+                Filter = "Config File (*.INF)|*.INF|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                musicINFHandler.SaveMusFile(openFileDialog.FileName);
+            }
+        }
+
+        private void MusAdd_Click(object sender, EventArgs e)
+        {
+            MusFileSong song = new MusFileSong();
+            song.ID = "[Null]";
+            musicINFHandler.musFileSongs.Add(song);
+            musiclistBox1.Items.Clear();
+            for (int i = 0; i < musicINFHandler.musFileSongs.Count; i++)
+            {
+                musiclistBox1.Items.Add(musicINFHandler.musFileSongs[i].ID);
+            }
+        }
+
+        private void MusRemove_Click(object sender, EventArgs e)
+        {
+            if (musiclistBox1.SelectedIndex != -1)
+            {
+                musicINFHandler.musFileSongs.RemoveAt(musiclistBox1.SelectedIndex);
+                musiclistBox1.Items.Clear();
+                for (int i = 0; i < musicINFHandler.musFileSongs.Count; i++)
+                {
+                    musiclistBox1.Items.Add(musicINFHandler.musFileSongs[i].ID);
+                }
+            }
+        }
+        #endregion
     }
 }

@@ -59,6 +59,56 @@
             this.label1 = new System.Windows.Forms.Label();
             this.charBox1 = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.MusINFnumericUpDown12 = new System.Windows.Forms.NumericUpDown();
+            this.label56 = new System.Windows.Forms.Label();
+            this.MusINFnumericUpDown11 = new System.Windows.Forms.NumericUpDown();
+            this.label55 = new System.Windows.Forms.Label();
+            this.MusINFnumericUpDown5 = new System.Windows.Forms.NumericUpDown();
+            this.label54 = new System.Windows.Forms.Label();
+            this.MusINFnumericUpDown4 = new System.Windows.Forms.NumericUpDown();
+            this.label53 = new System.Windows.Forms.Label();
+            this.MusINFnumericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.label52 = new System.Windows.Forms.Label();
+            this.MusINFnumericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.label51 = new System.Windows.Forms.Label();
+            this.MusINFnumericUpDown10 = new System.Windows.Forms.NumericUpDown();
+            this.label50 = new System.Windows.Forms.Label();
+            this.MusINFnumericUpDown9 = new System.Windows.Forms.NumericUpDown();
+            this.label49 = new System.Windows.Forms.Label();
+            this.MusINFnumericUpDown8 = new System.Windows.Forms.NumericUpDown();
+            this.label48 = new System.Windows.Forms.Label();
+            this.MusINFnumericUpDown7 = new System.Windows.Forms.NumericUpDown();
+            this.label47 = new System.Windows.Forms.Label();
+            this.MusINFnumericUpDown6 = new System.Windows.Forms.NumericUpDown();
+            this.label46 = new System.Windows.Forms.Label();
+            this.MusicLoopData = new System.Windows.Forms.TextBox();
+            this.label45 = new System.Windows.Forms.Label();
+            this.MusINFnumericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.label44 = new System.Windows.Forms.Label();
+            this.MusnumericUpDown0 = new System.Windows.Forms.NumericUpDown();
+            this.label43 = new System.Windows.Forms.Label();
+            this.MuscheckBox5 = new System.Windows.Forms.CheckBox();
+            this.MuscheckBox4 = new System.Windows.Forms.CheckBox();
+            this.MuscheckBox3 = new System.Windows.Forms.CheckBox();
+            this.MuscheckBox2 = new System.Windows.Forms.CheckBox();
+            this.MuscheckBox1 = new System.Windows.Forms.CheckBox();
+            this.MusicDataBox = new System.Windows.Forms.TextBox();
+            this.label42 = new System.Windows.Forms.Label();
+            this.MusicPathDataBox = new System.Windows.Forms.TextBox();
+            this.label41 = new System.Windows.Forms.Label();
+            this.MusicAlbumBox = new System.Windows.Forms.TextBox();
+            this.label40 = new System.Windows.Forms.Label();
+            this.MusicArtistBox = new System.Windows.Forms.TextBox();
+            this.label39 = new System.Windows.Forms.Label();
+            this.MusicTitleBox = new System.Windows.Forms.TextBox();
+            this.label38 = new System.Windows.Forms.Label();
+            this.MusicID = new System.Windows.Forms.TextBox();
+            this.label37 = new System.Windows.Forms.Label();
+            this.MusicLoad = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.musiclistBox1 = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.BoltApply = new System.Windows.Forms.Button();
             this.BoltSave = new System.Windows.Forms.Button();
@@ -122,6 +172,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.charnumericUpDown4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.charnumericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.charnumericUpDown1)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusnumericUpDown0)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BoltUnkown9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BoltSpecialThree)).BeginInit();
@@ -464,6 +528,56 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown12);
+            this.tabPage2.Controls.Add(this.label56);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown11);
+            this.tabPage2.Controls.Add(this.label55);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown5);
+            this.tabPage2.Controls.Add(this.label54);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown4);
+            this.tabPage2.Controls.Add(this.label53);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown3);
+            this.tabPage2.Controls.Add(this.label52);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown2);
+            this.tabPage2.Controls.Add(this.label51);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown10);
+            this.tabPage2.Controls.Add(this.label50);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown9);
+            this.tabPage2.Controls.Add(this.label49);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown8);
+            this.tabPage2.Controls.Add(this.label48);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown7);
+            this.tabPage2.Controls.Add(this.label47);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown6);
+            this.tabPage2.Controls.Add(this.label46);
+            this.tabPage2.Controls.Add(this.MusicLoopData);
+            this.tabPage2.Controls.Add(this.label45);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown1);
+            this.tabPage2.Controls.Add(this.label44);
+            this.tabPage2.Controls.Add(this.MusnumericUpDown0);
+            this.tabPage2.Controls.Add(this.label43);
+            this.tabPage2.Controls.Add(this.MuscheckBox5);
+            this.tabPage2.Controls.Add(this.MuscheckBox4);
+            this.tabPage2.Controls.Add(this.MuscheckBox3);
+            this.tabPage2.Controls.Add(this.MuscheckBox2);
+            this.tabPage2.Controls.Add(this.MuscheckBox1);
+            this.tabPage2.Controls.Add(this.MusicDataBox);
+            this.tabPage2.Controls.Add(this.label42);
+            this.tabPage2.Controls.Add(this.MusicPathDataBox);
+            this.tabPage2.Controls.Add(this.label41);
+            this.tabPage2.Controls.Add(this.MusicAlbumBox);
+            this.tabPage2.Controls.Add(this.label40);
+            this.tabPage2.Controls.Add(this.MusicArtistBox);
+            this.tabPage2.Controls.Add(this.label39);
+            this.tabPage2.Controls.Add(this.MusicTitleBox);
+            this.tabPage2.Controls.Add(this.label38);
+            this.tabPage2.Controls.Add(this.MusicID);
+            this.tabPage2.Controls.Add(this.label37);
+            this.tabPage2.Controls.Add(this.MusicLoad);
+            this.tabPage2.Controls.Add(this.button3);
+            this.tabPage2.Controls.Add(this.button2);
+            this.tabPage2.Controls.Add(this.button1);
+            this.tabPage2.Controls.Add(this.musiclistBox1);
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -471,6 +585,576 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Music Config";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // MusINFnumericUpDown12
+            // 
+            this.MusINFnumericUpDown12.Location = new System.Drawing.Point(605, 244);
+            this.MusINFnumericUpDown12.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
+            this.MusINFnumericUpDown12.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.MusINFnumericUpDown12.Name = "MusINFnumericUpDown12";
+            this.MusINFnumericUpDown12.Size = new System.Drawing.Size(120, 23);
+            this.MusINFnumericUpDown12.TabIndex = 49;
+            this.MusINFnumericUpDown12.ValueChanged += new System.EventHandler(this.MusUpdate);
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.Location = new System.Drawing.Point(605, 226);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(79, 15);
+            this.label56.TabIndex = 48;
+            this.label56.Text = "Duck To Loop";
+            // 
+            // MusINFnumericUpDown11
+            // 
+            this.MusINFnumericUpDown11.Location = new System.Drawing.Point(605, 200);
+            this.MusINFnumericUpDown11.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
+            this.MusINFnumericUpDown11.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.MusINFnumericUpDown11.Name = "MusINFnumericUpDown11";
+            this.MusINFnumericUpDown11.Size = new System.Drawing.Size(120, 23);
+            this.MusINFnumericUpDown11.TabIndex = 47;
+            this.MusINFnumericUpDown11.ValueChanged += new System.EventHandler(this.MusUpdate);
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(605, 182);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(51, 15);
+            this.label55.TabIndex = 46;
+            this.label55.Text = "Songbig";
+            // 
+            // MusINFnumericUpDown5
+            // 
+            this.MusINFnumericUpDown5.Location = new System.Drawing.Point(605, 156);
+            this.MusINFnumericUpDown5.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
+            this.MusINFnumericUpDown5.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.MusINFnumericUpDown5.Name = "MusINFnumericUpDown5";
+            this.MusINFnumericUpDown5.Size = new System.Drawing.Size(120, 23);
+            this.MusINFnumericUpDown5.TabIndex = 45;
+            this.MusINFnumericUpDown5.ValueChanged += new System.EventHandler(this.MusUpdate);
+            // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Location = new System.Drawing.Point(605, 138);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(48, 15);
+            this.label54.TabIndex = 44;
+            this.label54.Text = "Preview";
+            // 
+            // MusINFnumericUpDown4
+            // 
+            this.MusINFnumericUpDown4.Location = new System.Drawing.Point(605, 112);
+            this.MusINFnumericUpDown4.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
+            this.MusINFnumericUpDown4.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.MusINFnumericUpDown4.Name = "MusINFnumericUpDown4";
+            this.MusINFnumericUpDown4.Size = new System.Drawing.Size(120, 23);
+            this.MusINFnumericUpDown4.TabIndex = 43;
+            this.MusINFnumericUpDown4.ValueChanged += new System.EventHandler(this.MusUpdate);
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(605, 94);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(52, 15);
+            this.label53.TabIndex = 42;
+            this.label53.Text = "Lowpass";
+            // 
+            // MusINFnumericUpDown3
+            // 
+            this.MusINFnumericUpDown3.Location = new System.Drawing.Point(605, 68);
+            this.MusINFnumericUpDown3.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.MusINFnumericUpDown3.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.MusINFnumericUpDown3.Name = "MusINFnumericUpDown3";
+            this.MusINFnumericUpDown3.Size = new System.Drawing.Size(120, 23);
+            this.MusINFnumericUpDown3.TabIndex = 41;
+            this.MusINFnumericUpDown3.ValueChanged += new System.EventHandler(this.MusUpdate);
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(605, 50);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(47, 15);
+            this.label52.TabIndex = 40;
+            this.label52.Text = "DJ Intro";
+            // 
+            // MusINFnumericUpDown2
+            // 
+            this.MusINFnumericUpDown2.Location = new System.Drawing.Point(605, 24);
+            this.MusINFnumericUpDown2.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
+            this.MusINFnumericUpDown2.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.MusINFnumericUpDown2.Name = "MusINFnumericUpDown2";
+            this.MusINFnumericUpDown2.Size = new System.Drawing.Size(120, 23);
+            this.MusINFnumericUpDown2.TabIndex = 39;
+            this.MusINFnumericUpDown2.ValueChanged += new System.EventHandler(this.MusUpdate);
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(605, 6);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(32, 15);
+            this.label51.TabIndex = 38;
+            this.label51.Text = "BPM";
+            // 
+            // MusINFnumericUpDown10
+            // 
+            this.MusINFnumericUpDown10.Location = new System.Drawing.Point(461, 288);
+            this.MusINFnumericUpDown10.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
+            this.MusINFnumericUpDown10.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.MusINFnumericUpDown10.Name = "MusINFnumericUpDown10";
+            this.MusINFnumericUpDown10.Size = new System.Drawing.Size(120, 23);
+            this.MusINFnumericUpDown10.TabIndex = 37;
+            this.MusINFnumericUpDown10.ValueChanged += new System.EventHandler(this.MusUpdate);
+            // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(461, 270);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(85, 15);
+            this.label50.TabIndex = 36;
+            this.label50.Text = "Big Air Volume";
+            // 
+            // MusINFnumericUpDown9
+            // 
+            this.MusINFnumericUpDown9.Location = new System.Drawing.Point(461, 244);
+            this.MusINFnumericUpDown9.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
+            this.MusINFnumericUpDown9.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.MusINFnumericUpDown9.Name = "MusINFnumericUpDown9";
+            this.MusINFnumericUpDown9.Size = new System.Drawing.Size(120, 23);
+            this.MusINFnumericUpDown9.TabIndex = 35;
+            this.MusINFnumericUpDown9.ValueChanged += new System.EventHandler(this.MusUpdate);
+            // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Location = new System.Drawing.Point(461, 226);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(47, 15);
+            this.label49.TabIndex = 34;
+            this.label49.Text = "Volume";
+            // 
+            // MusINFnumericUpDown8
+            // 
+            this.MusINFnumericUpDown8.Location = new System.Drawing.Point(461, 200);
+            this.MusINFnumericUpDown8.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
+            this.MusINFnumericUpDown8.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.MusINFnumericUpDown8.Name = "MusINFnumericUpDown8";
+            this.MusINFnumericUpDown8.Size = new System.Drawing.Size(120, 23);
+            this.MusINFnumericUpDown8.TabIndex = 33;
+            this.MusINFnumericUpDown8.ValueChanged += new System.EventHandler(this.MusUpdate);
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(461, 182);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(96, 15);
+            this.label48.TabIndex = 32;
+            this.label48.Text = "Beats Per Phrase ";
+            // 
+            // MusINFnumericUpDown7
+            // 
+            this.MusINFnumericUpDown7.Location = new System.Drawing.Point(461, 156);
+            this.MusINFnumericUpDown7.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.MusINFnumericUpDown7.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.MusINFnumericUpDown7.Name = "MusINFnumericUpDown7";
+            this.MusINFnumericUpDown7.Size = new System.Drawing.Size(120, 23);
+            this.MusINFnumericUpDown7.TabIndex = 31;
+            this.MusINFnumericUpDown7.ValueChanged += new System.EventHandler(this.MusUpdate);
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(461, 138);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(96, 15);
+            this.label47.TabIndex = 30;
+            this.label47.Text = "Phrases Per Bank";
+            // 
+            // MusINFnumericUpDown6
+            // 
+            this.MusINFnumericUpDown6.Location = new System.Drawing.Point(461, 112);
+            this.MusINFnumericUpDown6.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.MusINFnumericUpDown6.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.MusINFnumericUpDown6.Name = "MusINFnumericUpDown6";
+            this.MusINFnumericUpDown6.Size = new System.Drawing.Size(120, 23);
+            this.MusINFnumericUpDown6.TabIndex = 29;
+            this.MusINFnumericUpDown6.ValueChanged += new System.EventHandler(this.MusUpdate);
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(461, 94);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(94, 15);
+            this.label46.TabIndex = 28;
+            this.label46.Text = "Measures PerBar";
+            // 
+            // MusicLoopData
+            // 
+            this.MusicLoopData.Location = new System.Drawing.Point(209, 288);
+            this.MusicLoopData.Name = "MusicLoopData";
+            this.MusicLoopData.Size = new System.Drawing.Size(246, 23);
+            this.MusicLoopData.TabIndex = 27;
+            this.MusicLoopData.Click += new System.EventHandler(this.MusUpdate);
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(209, 270);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(61, 15);
+            this.label45.TabIndex = 26;
+            this.label45.Text = "Loop Data";
+            // 
+            // MusINFnumericUpDown1
+            // 
+            this.MusINFnumericUpDown1.Location = new System.Drawing.Point(461, 68);
+            this.MusINFnumericUpDown1.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.MusINFnumericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.MusINFnumericUpDown1.Name = "MusINFnumericUpDown1";
+            this.MusINFnumericUpDown1.Size = new System.Drawing.Size(120, 23);
+            this.MusINFnumericUpDown1.TabIndex = 25;
+            this.MusINFnumericUpDown1.ValueChanged += new System.EventHandler(this.MusUpdate);
+            // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Location = new System.Drawing.Point(461, 50);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(103, 15);
+            this.label44.TabIndex = 24;
+            this.label44.Text = "Beats Per Measure";
+            // 
+            // MusnumericUpDown0
+            // 
+            this.MusnumericUpDown0.Location = new System.Drawing.Point(461, 24);
+            this.MusnumericUpDown0.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
+            this.MusnumericUpDown0.Name = "MusnumericUpDown0";
+            this.MusnumericUpDown0.Size = new System.Drawing.Size(120, 23);
+            this.MusnumericUpDown0.TabIndex = 23;
+            this.MusnumericUpDown0.ValueChanged += new System.EventHandler(this.MusUpdate);
+            // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(461, 6);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(56, 15);
+            this.label43.TabIndex = 22;
+            this.label43.Text = "AADTOFE";
+            // 
+            // MuscheckBox5
+            // 
+            this.MuscheckBox5.AutoSize = true;
+            this.MuscheckBox5.Location = new System.Drawing.Point(209, 417);
+            this.MuscheckBox5.Name = "MuscheckBox5";
+            this.MuscheckBox5.Size = new System.Drawing.Size(135, 19);
+            this.MuscheckBox5.TabIndex = 21;
+            this.MuscheckBox5.Text = "Play in Back Country";
+            this.MuscheckBox5.UseVisualStyleBackColor = true;
+            this.MuscheckBox5.Click += new System.EventHandler(this.MusUpdate);
+            // 
+            // MuscheckBox4
+            // 
+            this.MuscheckBox4.AutoSize = true;
+            this.MuscheckBox4.Location = new System.Drawing.Point(209, 392);
+            this.MuscheckBox4.Name = "MuscheckBox4";
+            this.MuscheckBox4.Size = new System.Drawing.Size(138, 19);
+            this.MuscheckBox4.TabIndex = 20;
+            this.MuscheckBox4.Text = "Play During Half Pipe";
+            this.MuscheckBox4.UseVisualStyleBackColor = true;
+            this.MuscheckBox4.Click += new System.EventHandler(this.MusUpdate);
+            // 
+            // MuscheckBox3
+            // 
+            this.MuscheckBox3.AutoSize = true;
+            this.MuscheckBox3.Location = new System.Drawing.Point(209, 367);
+            this.MuscheckBox3.Name = "MuscheckBox3";
+            this.MuscheckBox3.Size = new System.Drawing.Size(125, 19);
+            this.MuscheckBox3.TabIndex = 19;
+            this.MuscheckBox3.Text = "Play During Big Air";
+            this.MuscheckBox3.UseVisualStyleBackColor = true;
+            this.MuscheckBox3.Click += new System.EventHandler(this.MusUpdate);
+            // 
+            // MuscheckBox2
+            // 
+            this.MuscheckBox2.AutoSize = true;
+            this.MuscheckBox2.Location = new System.Drawing.Point(209, 342);
+            this.MuscheckBox2.Name = "MuscheckBox2";
+            this.MuscheckBox2.Size = new System.Drawing.Size(144, 19);
+            this.MuscheckBox2.TabIndex = 18;
+            this.MuscheckBox2.Text = "Play During SlopeStyle";
+            this.MuscheckBox2.UseVisualStyleBackColor = true;
+            this.MuscheckBox2.Click += new System.EventHandler(this.MusUpdate);
+            // 
+            // MuscheckBox1
+            // 
+            this.MuscheckBox1.AutoSize = true;
+            this.MuscheckBox1.Location = new System.Drawing.Point(209, 317);
+            this.MuscheckBox1.Name = "MuscheckBox1";
+            this.MuscheckBox1.Size = new System.Drawing.Size(115, 19);
+            this.MuscheckBox1.TabIndex = 17;
+            this.MuscheckBox1.Text = "Play During Race";
+            this.MuscheckBox1.UseVisualStyleBackColor = true;
+            this.MuscheckBox1.Click += new System.EventHandler(this.MusUpdate);
+            // 
+            // MusicDataBox
+            // 
+            this.MusicDataBox.Location = new System.Drawing.Point(209, 244);
+            this.MusicDataBox.Name = "MusicDataBox";
+            this.MusicDataBox.Size = new System.Drawing.Size(246, 23);
+            this.MusicDataBox.TabIndex = 16;
+            this.MusicDataBox.Click += new System.EventHandler(this.MusUpdate);
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(209, 226);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(66, 15);
+            this.label42.TabIndex = 15;
+            this.label42.Text = "Music Data";
+            // 
+            // MusicPathDataBox
+            // 
+            this.MusicPathDataBox.Location = new System.Drawing.Point(209, 200);
+            this.MusicPathDataBox.Name = "MusicPathDataBox";
+            this.MusicPathDataBox.Size = new System.Drawing.Size(246, 23);
+            this.MusicPathDataBox.TabIndex = 14;
+            this.MusicPathDataBox.Click += new System.EventHandler(this.MusUpdate);
+            // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(209, 182);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(58, 15);
+            this.label41.TabIndex = 13;
+            this.label41.Text = "Path Data";
+            // 
+            // MusicAlbumBox
+            // 
+            this.MusicAlbumBox.Location = new System.Drawing.Point(209, 156);
+            this.MusicAlbumBox.Name = "MusicAlbumBox";
+            this.MusicAlbumBox.Size = new System.Drawing.Size(246, 23);
+            this.MusicAlbumBox.TabIndex = 12;
+            this.MusicAlbumBox.Click += new System.EventHandler(this.MusUpdate);
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(209, 138);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(43, 15);
+            this.label40.TabIndex = 11;
+            this.label40.Text = "Album";
+            // 
+            // MusicArtistBox
+            // 
+            this.MusicArtistBox.Location = new System.Drawing.Point(209, 112);
+            this.MusicArtistBox.Name = "MusicArtistBox";
+            this.MusicArtistBox.Size = new System.Drawing.Size(246, 23);
+            this.MusicArtistBox.TabIndex = 10;
+            this.MusicArtistBox.Click += new System.EventHandler(this.MusUpdate);
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(209, 94);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(35, 15);
+            this.label39.TabIndex = 9;
+            this.label39.Text = "Artist";
+            // 
+            // MusicTitleBox
+            // 
+            this.MusicTitleBox.Location = new System.Drawing.Point(209, 68);
+            this.MusicTitleBox.Name = "MusicTitleBox";
+            this.MusicTitleBox.Size = new System.Drawing.Size(246, 23);
+            this.MusicTitleBox.TabIndex = 8;
+            this.MusicTitleBox.Click += new System.EventHandler(this.MusUpdate);
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(209, 50);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(29, 15);
+            this.label38.TabIndex = 7;
+            this.label38.Text = "Title";
+            // 
+            // MusicID
+            // 
+            this.MusicID.Location = new System.Drawing.Point(209, 24);
+            this.MusicID.Name = "MusicID";
+            this.MusicID.Size = new System.Drawing.Size(246, 23);
+            this.MusicID.TabIndex = 6;
+            this.MusicID.Click += new System.EventHandler(this.MusUpdate);
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(209, 6);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(18, 15);
+            this.label37.TabIndex = 5;
+            this.label37.Text = "ID";
+            // 
+            // MusicLoad
+            // 
+            this.MusicLoad.Location = new System.Drawing.Point(779, 499);
+            this.MusicLoad.Name = "MusicLoad";
+            this.MusicLoad.Size = new System.Drawing.Size(75, 23);
+            this.MusicLoad.TabIndex = 4;
+            this.MusicLoad.Text = "Load";
+            this.MusicLoad.UseVisualStyleBackColor = true;
+            this.MusicLoad.Click += new System.EventHandler(this.MusicLoad_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(860, 499);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 3;
+            this.button3.Text = "Save As";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.MusSaveAs_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(128, 496);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "Remove";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.MusRemove_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(6, 496);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Add";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.MusAdd_Click);
+            // 
+            // musiclistBox1
+            // 
+            this.musiclistBox1.FormattingEnabled = true;
+            this.musiclistBox1.ItemHeight = 15;
+            this.musiclistBox1.Location = new System.Drawing.Point(6, 6);
+            this.musiclistBox1.Name = "musiclistBox1";
+            this.musiclistBox1.Size = new System.Drawing.Size(197, 484);
+            this.musiclistBox1.TabIndex = 0;
+            this.musiclistBox1.SelectedIndexChanged += new System.EventHandler(this.musiclistBox1_SelectedIndexChanged);
             // 
             // tabPage3
             // 
@@ -1118,6 +1802,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.charnumericUpDown4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.charnumericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.charnumericUpDown1)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MusnumericUpDown0)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BoltUnkown9)).EndInit();
@@ -1228,5 +1927,55 @@
         private Button BoltApply;
         private Button BoltSave;
         private Button boltLoad;
+        private NumericUpDown MusINFnumericUpDown12;
+        private Label label56;
+        private NumericUpDown MusINFnumericUpDown11;
+        private Label label55;
+        private NumericUpDown MusINFnumericUpDown5;
+        private Label label54;
+        private NumericUpDown MusINFnumericUpDown4;
+        private Label label53;
+        private NumericUpDown MusINFnumericUpDown3;
+        private Label label52;
+        private NumericUpDown MusINFnumericUpDown2;
+        private Label label51;
+        private NumericUpDown MusINFnumericUpDown10;
+        private Label label50;
+        private NumericUpDown MusINFnumericUpDown9;
+        private Label label49;
+        private NumericUpDown MusINFnumericUpDown8;
+        private Label label48;
+        private NumericUpDown MusINFnumericUpDown7;
+        private Label label47;
+        private NumericUpDown MusINFnumericUpDown6;
+        private Label label46;
+        private TextBox MusicLoopData;
+        private Label label45;
+        private NumericUpDown MusINFnumericUpDown1;
+        private Label label44;
+        private NumericUpDown MusnumericUpDown0;
+        private Label label43;
+        private CheckBox MuscheckBox5;
+        private CheckBox MuscheckBox4;
+        private CheckBox MuscheckBox3;
+        private CheckBox MuscheckBox2;
+        private CheckBox MuscheckBox1;
+        private TextBox MusicDataBox;
+        private Label label42;
+        private TextBox MusicPathDataBox;
+        private Label label41;
+        private TextBox MusicAlbumBox;
+        private Label label40;
+        private TextBox MusicArtistBox;
+        private Label label39;
+        private TextBox MusicTitleBox;
+        private Label label38;
+        private TextBox MusicID;
+        private Label label37;
+        private Button MusicLoad;
+        private Button button3;
+        private Button button2;
+        private Button button1;
+        private ListBox musiclistBox1;
     }
 }

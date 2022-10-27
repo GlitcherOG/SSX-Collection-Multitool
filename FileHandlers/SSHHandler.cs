@@ -599,6 +599,7 @@ namespace SSXMultiTool.FileHandlers
 
         public void BrightenBitmap(int i)
         {
+            Bitmap bitmap = new Bitmap(sshImages[i].bitmap.Width, sshImages[i].bitmap.Height, PixelFormat.Format32bppArgb);
             for (int y = 0; y < sshImages[i].bitmap.Height; y++)
             {
                 for (int x = 0; x < sshImages[i].bitmap.Width; x++)
@@ -634,13 +635,17 @@ namespace SSXMultiTool.FileHandlers
                     }
 
                     color = Color.FromArgb(A, R, G, B);
-                    sshImages[i].bitmap.SetPixel(x, y, color);
+                    bitmap.SetPixel(x, y, color);
                 }
             }
+            var tempimage = sshImages[i];
+            tempimage.bitmap = bitmap;
+            sshImages[i] = tempimage;
         }
 
         public void DarkenImage(int i)
         {
+            Bitmap bitmap = new Bitmap(sshImages[i].bitmap.Width, sshImages[i].bitmap.Height, PixelFormat.Format32bppArgb);
             for (int y = 0; y < sshImages[i].bitmap.Height; y++)
             {
                 for (int x = 0; x < sshImages[i].bitmap.Width; x++)
@@ -656,13 +661,17 @@ namespace SSXMultiTool.FileHandlers
                     B = (B + 1) / 2;
 
                     color = Color.FromArgb(A, R, G, B);
-                    sshImages[i].bitmap.SetPixel(x, y, color);
+                    bitmap.SetPixel(x, y, color);
                 }
             }
+            var tempimage = sshImages[i];
+            tempimage.bitmap = bitmap;
+            sshImages[i] = tempimage;
         }
 
         public void HalfAlphaImage(int i)
         {
+            Bitmap bitmap = new Bitmap(sshImages[i].bitmap.Width, sshImages[i].bitmap.Height, PixelFormat.Format32bppArgb);
             for (int y = 0; y < sshImages[i].bitmap.Height; y++)
             {
                 for (int x = 0; x < sshImages[i].bitmap.Width; x++)
@@ -676,13 +685,17 @@ namespace SSXMultiTool.FileHandlers
                     A = (A + 1) / 2;
 
                     color = Color.FromArgb(A, R, G, B);
-                    sshImages[i].bitmap.SetPixel(x, y, color);
+                    bitmap.SetPixel(x, y, color);
                 }
             }
+            var tempimage = sshImages[i];
+            tempimage.bitmap = bitmap;
+            sshImages[i] = tempimage;
         }
 
         public void DoubleAlphaImage(int i)
         {
+            Bitmap bitmap = new Bitmap(sshImages[i].bitmap.Width, sshImages[i].bitmap.Height, PixelFormat.Format32bppArgb);
             for (int y = 0; y < sshImages[i].bitmap.Height; y++)
             {
                 for (int x = 0; x < sshImages[i].bitmap.Width; x++)
@@ -702,9 +715,12 @@ namespace SSXMultiTool.FileHandlers
                     int B = color.B;
 
                     color = Color.FromArgb(A, R, G, B);
-                    sshImages[i].bitmap.SetPixel(x, y, color);
+                    bitmap.SetPixel(x, y, color);
                 }
             }
+            var tempimage = sshImages[i];
+            tempimage.bitmap = bitmap;
+            sshImages[i] = tempimage;
         }
 
         public void RemoveImage(int i)
