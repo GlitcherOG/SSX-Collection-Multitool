@@ -38,6 +38,8 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 https://github.com/Erickson400/SSXTrickyModelExporter <br>
 https://github.com/WouterBaeyens/Ssx3SshConverter <br>
 https://github.com/SSXModding/bigfile <br>
+https://github.com/SSXModding/ <br>
+https://github.com/gibbed/Gibbed.RefPack <br>
 
 ## Donate
 [![Donate](https://www.paypalobjects.com/en_AU/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?business=VT6TG8KKZM98E&no_recurring=0&currency_code=AUD)
