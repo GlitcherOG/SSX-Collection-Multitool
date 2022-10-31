@@ -461,7 +461,7 @@ namespace SSXMultiTool.FileHandlers
 
         public void SaveModel(string path)
         {
-            //glstHandler.SaveTrickyglTF(path, this);
+            glstHandler.SaveTrickyglTF(path, this);
         }
 
 

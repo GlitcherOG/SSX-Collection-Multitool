@@ -31,18 +31,18 @@
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.SSX3ToolsButton = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.TrickyToolsButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.SSX3LevelButton = new System.Windows.Forms.Button();
             this.TrickyLevelButton = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.SSHImageButton = new System.Windows.Forms.Button();
             this.LocFileButton = new System.Windows.Forms.Button();
             this.BigArchiveButton = new System.Windows.Forms.Button();
-            this.SSX3LevelButton = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -51,18 +51,18 @@
             // 
             // button1
             // 
-            this.button1.Enabled = false;
             this.button1.Location = new System.Drawing.Point(6, 22);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(94, 50);
             this.button1.TabIndex = 0;
             this.button1.Text = "SSX Tools";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.SSX3ToolsButton);
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.TrickyToolsButton);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
@@ -81,15 +81,15 @@
             this.SSX3ToolsButton.UseVisualStyleBackColor = true;
             this.SSX3ToolsButton.Click += new System.EventHandler(this.SSX3ToolsButton_Click);
             // 
-            // button2
+            // TrickyToolsButton
             // 
-            this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(106, 22);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(94, 50);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "SSX Tricky Tools";
-            this.button2.UseVisualStyleBackColor = true;
+            this.TrickyToolsButton.Location = new System.Drawing.Point(106, 22);
+            this.TrickyToolsButton.Name = "TrickyToolsButton";
+            this.TrickyToolsButton.Size = new System.Drawing.Size(94, 50);
+            this.TrickyToolsButton.TabIndex = 1;
+            this.TrickyToolsButton.Text = "SSX Tricky Tools";
+            this.TrickyToolsButton.UseVisualStyleBackColor = true;
+            this.TrickyToolsButton.Click += new System.EventHandler(this.TrickyToolsButton_Click);
             // 
             // groupBox2
             // 
@@ -133,6 +133,26 @@
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Game Level Tools";
+            // 
+            // button4
+            // 
+            this.button4.Enabled = false;
+            this.button4.Location = new System.Drawing.Point(6, 22);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(94, 50);
+            this.button4.TabIndex = 2;
+            this.button4.Text = "SSX Level Files";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // SSX3LevelButton
+            // 
+            this.SSX3LevelButton.Location = new System.Drawing.Point(206, 22);
+            this.SSX3LevelButton.Name = "SSX3LevelButton";
+            this.SSX3LevelButton.Size = new System.Drawing.Size(94, 50);
+            this.SSX3LevelButton.TabIndex = 1;
+            this.SSX3LevelButton.Text = "SSX 3 Level Files";
+            this.SSX3LevelButton.UseVisualStyleBackColor = true;
+            this.SSX3LevelButton.Click += new System.EventHandler(this.SSX3LevelButton_Click);
             // 
             // TrickyLevelButton
             // 
@@ -186,26 +206,6 @@
             this.BigArchiveButton.UseVisualStyleBackColor = true;
             this.BigArchiveButton.Click += new System.EventHandler(this.BigArchiveButton_Click);
             // 
-            // SSX3LevelButton
-            // 
-            this.SSX3LevelButton.Location = new System.Drawing.Point(206, 22);
-            this.SSX3LevelButton.Name = "SSX3LevelButton";
-            this.SSX3LevelButton.Size = new System.Drawing.Size(94, 50);
-            this.SSX3LevelButton.TabIndex = 1;
-            this.SSX3LevelButton.Text = "SSX 3 Level Files";
-            this.SSX3LevelButton.UseVisualStyleBackColor = true;
-            this.SSX3LevelButton.Click += new System.EventHandler(this.SSX3LevelButton_Click);
-            // 
-            // button4
-            // 
-            this.button4.Enabled = false;
-            this.button4.Location = new System.Drawing.Point(6, 22);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(94, 50);
-            this.button4.TabIndex = 2;
-            this.button4.Text = "SSX Level Files";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
             // SSXMultitoolHubpage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -230,7 +230,7 @@
         private Button button1;
         private GroupBox groupBox1;
         private Button SSX3ToolsButton;
-        private Button button2;
+        private Button TrickyToolsButton;
         private GroupBox groupBox2;
         private Button button5;
         private Button button6;

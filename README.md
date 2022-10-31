@@ -2,6 +2,16 @@
  
 This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX-PS2-Collection-Modder) created in .net framework. It was moved over to .net due to certain limitations discovered in the programs development that made loading of certain files next to impossible as such it was decided to just redo the entire project and improve it as i did.
 
+##Current Features
+- SSH (SHPS) Texture Extractor/Maker (SSX, Tricky, SSX 3)
+- Big (BigF, Big4 And C0FB) Decompressor/Extractor and Making/Compressor (BigF, Big4 And C0FB)
+- Character DB Editor (SSX 3)
+- Music Inf Editor (SSX 3)
+- Loc (Language) Files Editor
+- (WIP) SSX 3 Store/Item Editing (BoltPS2.Dat)
+- SSX 3 SSB Unpacker
+- (WIP) SSX Tricky MPF Extractor
+
 ## Current Todo
 - Get Cameras and Hash exporting so i can start rebuilding the file from scratch
 - Redo Folder Loading SSH

@@ -33,11 +33,11 @@
             // 
             // LevelExtract
             // 
-            this.LevelExtract.Location = new System.Drawing.Point(12, 415);
+            this.LevelExtract.Location = new System.Drawing.Point(12, 404);
             this.LevelExtract.Name = "LevelExtract";
-            this.LevelExtract.Size = new System.Drawing.Size(75, 23);
+            this.LevelExtract.Size = new System.Drawing.Size(118, 34);
             this.LevelExtract.TabIndex = 0;
-            this.LevelExtract.Text = "Extract";
+            this.LevelExtract.Text = "Unpack SSB";
             this.LevelExtract.UseVisualStyleBackColor = true;
             this.LevelExtract.Click += new System.EventHandler(this.LevelExtract_Click);
             // 

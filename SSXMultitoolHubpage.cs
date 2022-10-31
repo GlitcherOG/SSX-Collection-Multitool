@@ -59,5 +59,15 @@ namespace SSXMultiTool
         {
             new SSX3ProjectWindow().ShowDialog();
         }
+
+        private void TrickyToolsButton_Click(object sender, EventArgs e)
+        {
+            new TrickyToolsWindow().ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            new OGToolsWindow().ShowDialog();
+        }
     }
 }
