@@ -54,5 +54,10 @@ namespace SSXMultiTool
         {
             new SSX3ToolsWindow().ShowDialog();
         }
+
+        private void SSX3LevelButton_Click(object sender, EventArgs e)
+        {
+            new SSX3ProjectWindow().ShowDialog();
+        }
     }
 }

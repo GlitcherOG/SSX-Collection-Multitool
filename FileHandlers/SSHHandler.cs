@@ -746,7 +746,7 @@ namespace SSXMultiTool.FileHandlers
                 if (Test)
                 {
                     SSHColorCalculate(i);
-                    if (sshImages[i].sshTable.Total > 256 && sshImages[i].sshHeader.MatrixFormat == 2)
+                    if (sshImages[i].sshTable.Total > 256 && (sshImages[i].sshHeader.MatrixFormat == 2|| sshImages[i].sshHeader.MatrixFormat == 130))
                     {
                         MessageBox.Show(sshImages[i].shortname + " " + i.ToString() + " Exceeds 256 Colours");
                         check = true;
@@ -757,7 +757,7 @@ namespace SSXMultiTool.FileHandlers
                         check = true;
                     }
                 }
-                if(sshImages[i].sshHeader.MatrixFormat == 130)
+                if (sshImages[i].sshHeader.MatrixFormat == 130)
                 {
                     MessageBox.Show("Error Unable to write to matrix 130");
                     check = true;
@@ -811,7 +811,7 @@ namespace SSXMultiTool.FileHandlers
                     StreamUtil.WriteInt24(stream, (sshImages[i].bitmap.Width * sshImages[i].bitmap.Height / 2) + 16);
                 }
                 else
-                if (sshImages[i].sshHeader.MatrixFormat == 2)
+                if (sshImages[i].sshHeader.MatrixFormat == 2 || sshImages[i].sshHeader.MatrixFormat == 130)
                 {
                     StreamUtil.WriteInt24(stream, sshImages[i].bitmap.Width * sshImages[i].bitmap.Height + 16);
                 }

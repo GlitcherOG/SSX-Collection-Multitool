@@ -41,6 +41,8 @@
             this.SSHImageButton = new System.Windows.Forms.Button();
             this.LocFileButton = new System.Windows.Forms.Button();
             this.BigArchiveButton = new System.Windows.Forms.Button();
+            this.SSX3LevelButton = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -122,17 +124,19 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.button4);
+            this.groupBox3.Controls.Add(this.SSX3LevelButton);
             this.groupBox3.Controls.Add(this.TrickyLevelButton);
             this.groupBox3.Location = new System.Drawing.Point(12, 101);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(213, 83);
+            this.groupBox3.Size = new System.Drawing.Size(308, 83);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Game Level Tools";
             // 
             // TrickyLevelButton
             // 
-            this.TrickyLevelButton.Location = new System.Drawing.Point(6, 22);
+            this.TrickyLevelButton.Location = new System.Drawing.Point(106, 22);
             this.TrickyLevelButton.Name = "TrickyLevelButton";
             this.TrickyLevelButton.Size = new System.Drawing.Size(94, 50);
             this.TrickyLevelButton.TabIndex = 0;
@@ -182,6 +186,26 @@
             this.BigArchiveButton.UseVisualStyleBackColor = true;
             this.BigArchiveButton.Click += new System.EventHandler(this.BigArchiveButton_Click);
             // 
+            // SSX3LevelButton
+            // 
+            this.SSX3LevelButton.Location = new System.Drawing.Point(206, 22);
+            this.SSX3LevelButton.Name = "SSX3LevelButton";
+            this.SSX3LevelButton.Size = new System.Drawing.Size(94, 50);
+            this.SSX3LevelButton.TabIndex = 1;
+            this.SSX3LevelButton.Text = "SSX 3 Level Files";
+            this.SSX3LevelButton.UseVisualStyleBackColor = true;
+            this.SSX3LevelButton.Click += new System.EventHandler(this.SSX3LevelButton_Click);
+            // 
+            // button4
+            // 
+            this.button4.Enabled = false;
+            this.button4.Location = new System.Drawing.Point(6, 22);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(94, 50);
+            this.button4.TabIndex = 2;
+            this.button4.Text = "SSX Level Files";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
             // SSXMultitoolHubpage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -216,5 +240,7 @@
         private Button SSHImageButton;
         private Button LocFileButton;
         private Button BigArchiveButton;
+        private Button button4;
+        private Button SSX3LevelButton;
     }
 }
