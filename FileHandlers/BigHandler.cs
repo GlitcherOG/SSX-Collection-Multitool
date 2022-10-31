@@ -12,9 +12,10 @@ namespace SSXMultiTool.FileHandlers
     class BigHandler
     {
         public BigType bigType;
+        public bool CompressBuild;
         public BIGFHeader bigHeader;
         public List<BIGFFiles> bigFiles;
-        string bigPath;
+        public string bigPath;
         //bool BuildMode;
         public void LoadBig(string path)
         {
@@ -181,7 +182,20 @@ namespace SSXMultiTool.FileHandlers
                 tempFile.path = paths[i].Remove(0, path.Length+1).Replace("//",@"\");
                 FileOffset += tempFile.path.Length + 9;
                 Stream stream = File.OpenRead(paths[i]);
-                tempFile.size = (int)stream.Length;
+                if (CompressBuild)
+                {
+                    tempFile.Compressed = true;
+                    byte[] CompressedInput = new byte[stream.Length];
+                    byte[] CompressedOutput = new byte[1];
+                    stream.Read(CompressedInput, 0, CompressedInput.Length);
+                    RefpackHandler.Compress(CompressedInput, out CompressedOutput, CompressionLevel.Max);
+                    tempFile.size = CompressedOutput.Length;
+                    tempFile.UncompressedSize = (int)stream.Length;
+                }
+                else
+                {
+                    tempFile.size = (int)stream.Length;
+                }
                 stream.Dispose();
                 bigFiles.Add(tempFile);
             }
@@ -208,7 +222,20 @@ namespace SSXMultiTool.FileHandlers
                 tempFile.path = paths[i].Remove(0, bigPath.Length + 1).Replace("//", @"\");
                 FileOffset += tempFile.path.Length + 7;
                 Stream stream1 = File.OpenRead(paths[i]);
-                tempFile.size = (int)stream1.Length;
+                if (CompressBuild)
+                {
+                    tempFile.Compressed = true;
+                    byte[] CompressedInput = new byte[stream1.Length];
+                    byte[] CompressedOutput = new byte[1];
+                    stream1.Read(CompressedInput, 0, CompressedInput.Length);
+                    RefpackHandler.Compress(CompressedInput, out CompressedOutput, CompressionLevel.Max);
+                    tempFile.size = CompressedOutput.Length;
+                    tempFile.UncompressedSize = (int)stream1.Length;
+                }
+                else
+                {
+                    tempFile.size = (int)stream1.Length;
+                }
                 stream1.Dispose();
                 stream1.Close();
                 bigFiles.Add(tempFile);
@@ -284,9 +311,11 @@ namespace SSXMultiTool.FileHandlers
                 //Write size
                 StreamUtil.WriteInt32Big(stream, bigFiles[i].size);
 
+
                 //Write Path
                 StreamUtil.WriteNullString(stream, bigFiles[i].path);
             }
+
             //Write Footer
             tempByte = new byte[8];
             Encoding.ASCII.GetBytes("L222").CopyTo(tempByte, 0);
@@ -305,9 +334,20 @@ namespace SSXMultiTool.FileHandlers
             {
                 using (Stream stream1 = File.Open(bigPath + "\\" + bigFiles[i].path, FileMode.Open))
                 {
-                    tempByte = new byte[stream1.Length];
-                    stream1.Read(tempByte, 0, tempByte.Length);
-                    stream.Write(tempByte, 0, tempByte.Length);
+                    if (!CompressBuild)
+                    {
+                        tempByte = new byte[stream1.Length];
+                        stream1.Read(tempByte, 0, tempByte.Length);
+                        stream.Write(tempByte, 0, tempByte.Length);
+                    }
+                    else
+                    {
+                        tempByte = new byte[stream1.Length];
+                        stream1.Read(tempByte, 0, tempByte.Length);
+                        byte[] Output = new byte[stream1.Length];
+                        RefpackHandler.Compress(tempByte, out Output, CompressionLevel.Max);
+                        stream.Write(Output, 0, Output.Length);
+                    }
                 }
             }
 
@@ -354,9 +394,20 @@ namespace SSXMultiTool.FileHandlers
             {
                 using (Stream stream1 = File.Open(bigPath + "\\" + bigFiles[i].path, FileMode.Open))
                 {
-                    tempByte = new byte[stream1.Length];
-                    stream1.Read(tempByte, 0, tempByte.Length);
-                    stream.Write(tempByte, 0, tempByte.Length);
+                    if (!CompressBuild)
+                    {
+                        tempByte = new byte[stream1.Length];
+                        stream1.Read(tempByte, 0, tempByte.Length);
+                        stream.Write(tempByte, 0, tempByte.Length);
+                    }
+                    else
+                    {
+                        tempByte = new byte[stream1.Length];
+                        stream1.Read(tempByte, 0, tempByte.Length);
+                        byte[] Output = new byte[stream1.Length];
+                        RefpackHandler.Compress(tempByte, out Output, CompressionLevel.Max);
+                        stream.Write(Output, 0, Output.Length);
+                    }
                 }
             }
         }
@@ -366,7 +417,6 @@ namespace SSXMultiTool.FileHandlers
             public int fileSize;
             public int ammount;
             public int startOffset;
-            public bool compression;
             public byte[] footer;
         }
 

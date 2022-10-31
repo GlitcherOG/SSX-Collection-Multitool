@@ -40,6 +40,7 @@
             this.BigTypeCombobox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.CompressionButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.BigDataView)).BeginInit();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -68,7 +69,8 @@
             this.toolStripDropDownButton1,
             this.BigTypeCombobox,
             this.toolStripLabel1,
-            this.toolStripSeparator2});
+            this.toolStripSeparator2,
+            this.CompressionButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(800, 25);
@@ -148,6 +150,17 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
+            // CompressionButton
+            // 
+            this.CompressionButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.CompressionButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.CompressionButton.Image = ((System.Drawing.Image)(resources.GetObject("CompressionButton.Image")));
+            this.CompressionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CompressionButton.Name = "CompressionButton";
+            this.CompressionButton.Size = new System.Drawing.Size(139, 22);
+            this.CompressionButton.Text = "Compressed Build: False";
+            this.CompressionButton.Click += new System.EventHandler(this.CompressionButton_Click);
+            // 
             // BigArchiveTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -178,5 +191,6 @@
         private ToolStripComboBox BigTypeCombobox;
         private ToolStripLabel toolStripLabel1;
         private ToolStripSeparator toolStripSeparator2;
+        private ToolStripButton CompressionButton;
     }
 }

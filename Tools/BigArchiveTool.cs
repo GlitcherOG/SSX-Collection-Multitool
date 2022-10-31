@@ -61,9 +61,13 @@ namespace SSXMultiTool
             LoadDataRows();
         }
 
-        public void LoadFolderPath(string path)
+        public void LoadFolderPath(string path, bool compressed = false)
         {
             bigHandler = new BigHandler();
+            if(compressed)
+            {
+                bigHandler.CompressBuild = true;
+            }
             ExtractBigArchive.Enabled = false;
             BuildBigArchive.Enabled = true;
             bigHandler.LoadFolder(path);
@@ -135,6 +139,15 @@ namespace SSXMultiTool
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 CreateBigPath(openFileDialog.FileName);
+            }
+        }
+
+        private void CompressionButton_Click(object sender, EventArgs e)
+        {
+            if (BigTypeCombobox.Enabled)
+            {
+                LoadFolderPath(bigHandler.bigPath, !bigHandler.CompressBuild);
+                CompressionButton.Text = "Compressed Build: "+bigHandler.CompressBuild.ToString();
             }
         }
     }

@@ -770,7 +770,7 @@ namespace SSXMultiTool
                     SkyboxHandler.DarkenImage(i);
                     var temp = SkyboxHandler.sshImages[i];
                     temp.shortname = i.ToString().PadLeft(4, '0');
-                    temp.AlphaFix = true;
+                   temp.AlphaFix = true;
                     SkyboxHandler.sshImages[i] = temp;
                 }
 
