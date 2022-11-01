@@ -33,7 +33,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     DecompressedData=refpackHandler.Decompress(Data);
                     StreamUtil.WriteBytes(memoryStream, DecompressedData);
 
-                    if (true/*MagicWords.ToUpper() == "CEND"*/)
+                    if (MagicWords.ToUpper() == "CEND")
                     {
                         var file = File.Create(extractPath + "//" + a + ".BSX");
                         memoryStream.Position = 0;
@@ -63,7 +63,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                         int ReadLength = 40000;
                         if (ReadLength+stream.Position>stream.Length)
                         {
-                            ReadLength = (int)(stream.Length - 1 - stream.Position);
+                            ReadLength = (int)(stream.Length - stream.Position);
                             End = true;
                         }
                         long StartPos = stream.Position;
@@ -74,13 +74,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             {
                                 stream.Position = StartPos;
                                 ReadLength -= 32768 / 4;
+                                End = false;
                             }
                             bytes = StreamUtil.ReadBytes(stream, ReadLength);
-                            bool temp = RefpackHandler.Compress(bytes, out output, CompressionLevel.Max);
-                            if(!temp)
-                            {
-                                break;
-                            }
+                            RefpackHandler.Compress(bytes, out output, CompressionLevel.Max);
                             Start = false;
                         }
                         
@@ -117,7 +114,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
             memoryStream.CopyTo(file);
             memoryStream.Dispose();
             file.Close();
-
+            GC.Collect();
         }
     }
 }
