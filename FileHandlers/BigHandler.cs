@@ -179,7 +179,7 @@ namespace SSXMultiTool.FileHandlers
             for (int i = 0; i < paths.Length; i++)
             {
                 BIGFFiles tempFile = new BIGFFiles();
-                tempFile.path = paths[i].Remove(0, path.Length+1).Replace("//",@"\");
+                tempFile.path = paths[i].Remove(0, path.Length+1).Replace("//",@"/");
                 FileOffset += tempFile.path.Length + 9;
                 Stream stream = File.OpenRead(paths[i]);
                 if (CompressBuild)
@@ -219,7 +219,7 @@ namespace SSXMultiTool.FileHandlers
             for (int i = 0; i < paths.Length; i++)
             {
                 BIGFFiles tempFile = new BIGFFiles();
-                tempFile.path = paths[i].Remove(0, bigPath.Length + 1).Replace("//", @"\");
+                tempFile.path = paths[i].Remove(0, bigPath.Length + 1).Replace("//", @"/");
                 FileOffset += tempFile.path.Length + 7;
                 Stream stream1 = File.OpenRead(paths[i]);
                 if (CompressBuild)
