@@ -2,7 +2,7 @@
  
 This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX-PS2-Collection-Modder) created in .net framework. It was moved over to .net due to certain limitations discovered in the programs development that made loading of certain files next to impossible as such it was decided to just redo the entire project and improve it as i did.
 
-##Current Features
+## Current Features
 - SSH (SHPS) Texture Extractor/Maker (SSX, Tricky, SSX 3)
 - Big (BigF, Big4 And C0FB) Decompressor/Extractor and Making/Compressor (BigF, Big4 And C0FB)
 - Character DB Editor (SSX 3)
