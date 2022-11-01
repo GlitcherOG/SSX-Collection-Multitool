@@ -33,7 +33,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     DecompressedData=refpackHandler.Decompress(Data);
                     StreamUtil.WriteBytes(memoryStream, DecompressedData);
 
-                    if (MagicWords.ToUpper() == "CEND")
+                    if (true/*MagicWords.ToUpper() == "CEND"*/)
                     {
                         var file = File.Create(extractPath + "//" + a + ".BSX");
                         memoryStream.Position = 0;
@@ -45,6 +45,79 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     }
                 }
             }
+        }
+
+        public void PackSSB(string Folder, string BuildPath)
+        {
+            MemoryStream memoryStream = new MemoryStream();
+            string[] AllFiles = Directory.GetFiles(Folder, "*.BSX");
+            for (int i = 0; i < AllFiles.Length; i++)
+            {
+                using (Stream stream = File.Open(Folder +"//"+ i.ToString()+".BSX", FileMode.Open))
+                {
+                    byte[] bytes = new byte[1];
+                    while (true)
+                    {
+                        byte[] output = new byte[32768];
+                        bool End = false;
+                        int ReadLength = 40000;
+                        if (ReadLength+stream.Position>stream.Length)
+                        {
+                            ReadLength = (int)(stream.Length - 1 - stream.Position);
+                            End = true;
+                        }
+                        long StartPos = stream.Position;
+                        bool Start = true;
+                        while(output.Length> 32768-8)
+                        {
+                            if (!Start)
+                            {
+                                stream.Position = StartPos;
+                                ReadLength -= 32768 / 4;
+                            }
+                            bytes = StreamUtil.ReadBytes(stream, ReadLength);
+                            bool temp = RefpackHandler.Compress(bytes, out output, CompressionLevel.Max);
+                            if(!temp)
+                            {
+                                break;
+                            }
+                            Start = false;
+                        }
+                        
+                        
+                        if(!End)
+                        {
+                            StreamUtil.WriteString(memoryStream,"CBSX");
+                        }
+                        else
+                        {
+                            StreamUtil.WriteString(memoryStream, "CEND");
+                        }
+
+                        StreamUtil.WriteInt32(memoryStream, 32768);
+
+                        StreamUtil.WriteBytes(memoryStream, output);
+
+                        StreamUtil.AlignBy(memoryStream, 32768);
+
+                        if(End)
+                        {
+                            break;
+                        }
+
+                    }
+                }
+            }
+            if (File.Exists(BuildPath))
+            {
+                File.Delete(BuildPath);
+            }
+            var file = File.Create(BuildPath);
+            memoryStream.Position = 0;
+            memoryStream.CopyTo(file);
+            memoryStream.Dispose();
+            file.Close();
+
         }
     }
 }

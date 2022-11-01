@@ -274,6 +274,15 @@ namespace SSXMultiTool.Utilities
             }
         }
 
+        public static void AlignBy(Stream stream, int Alignment)
+        {
+            long Num = Alignment - ((int)stream.Position % Alignment);
+            if (Num != Alignment)
+            {
+                stream.Position += Num;
+            }
+        }
+
         public static void WriteVector3(Stream stream, Vector3 vertex3)
         {
             StreamUtil.WriteFloat32(stream, vertex3.X);

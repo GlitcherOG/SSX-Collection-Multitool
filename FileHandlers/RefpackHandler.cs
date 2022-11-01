@@ -431,7 +431,7 @@ namespace SSXMultiTool.FileHandlers
                 }
             }
 
-            if (compressedLength + 6 < input.Length)
+            if (/*compressedLength + 6 < input.Length*/true)
             {
                 int chunkPosition;
 

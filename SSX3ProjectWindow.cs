@@ -47,5 +47,27 @@ namespace SSXMultiTool
                 }
             }
         }
+
+        private void PackSSB_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog commonDialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true
+            };
+            if (commonDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                SaveFileDialog openFileDialog = new SaveFileDialog
+                {
+                    Filter = "SSB File (*.ssb)|*.ssb|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    ssbHandler.PackSSB(commonDialog.FileName,openFileDialog.FileName);
+                }
+            }
+
+        }
     }
 }
