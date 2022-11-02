@@ -9,21 +9,23 @@ namespace SSXMultiTool.FileHandlers
 {
     internal class SSX3MPFModelHandler
     {
+        public byte[] magicWords = new byte[4];
+        public int NumModels;
+        public int HeaderSize;
+        public int DataOffset;
         public List<MPFModelHeader> ModelList = new List<MPFModelHeader>();
 
         public void load(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
-                //Load Headers
-                while (true)
+                magicWords = StreamUtil.ReadBytes(stream, 4);
+                NumModels = StreamUtil.ReadInt16(stream);
+                HeaderSize = StreamUtil.ReadInt16(stream);
+                DataOffset = StreamUtil.ReadInt32(stream);
+                for (int i = 0; i < NumModels; i++)
                 {
                     MPFModelHeader modelHeader = new MPFModelHeader();
-
-                    modelHeader.U1 = StreamUtil.ReadInt32(stream);
-                    modelHeader.SubHeaders = StreamUtil.ReadInt16(stream);
-                    modelHeader.HeaderSize = StreamUtil.ReadInt16(stream);
-                    modelHeader.FileStart = StreamUtil.ReadInt32(stream);
 
                     int Test = StreamUtil.ReadInt32(stream);
                     if (Test == 0)
@@ -59,11 +61,18 @@ namespace SSXMultiTool.FileHandlers
                     modelHeader.U22 = StreamUtil.ReadInt16(stream);
                     modelHeader.U23 = StreamUtil.ReadInt16(stream);
                     modelHeader.U24 = StreamUtil.ReadInt16(stream);
+                    modelHeader.U25 = StreamUtil.ReadInt16(stream);
+                    modelHeader.U26 = StreamUtil.ReadInt16(stream);
+                    modelHeader.U27 = StreamUtil.ReadInt16(stream);
+                    modelHeader.U28 = StreamUtil.ReadInt16(stream);
+                    modelHeader.U29 = StreamUtil.ReadInt16(stream);
+                    modelHeader.U30 = StreamUtil.ReadInt16(stream);
+
                     ModelList.Add(modelHeader);
                 }
 
                 //Read Matrix And Decompress
-                int StartPos = ModelList[0].FileStart;
+                int StartPos = DataOffset;
                 for (int i = 0; i < ModelList.Count - 1; i++)
                 {
                     stream.Position = StartPos + ModelList[i].DataOffset;
@@ -85,126 +94,126 @@ namespace SSXMultiTool.FileHandlers
                 }
             }
 
-            //Read Matrix Data
-            for (int i = 0; i < ModelList.Count - 1; i++)
-            {
-                Stream streamMatrix = new MemoryStream();
-                var Model = ModelList[i];
-                streamMatrix.Write(ModelList[i].Matrix, 0, ModelList[i].Matrix.Length);
+            ////Read Matrix Data
+            //for (int i = 0; i < ModelList.Count - 1; i++)
+            //{
+            //    Stream streamMatrix = new MemoryStream();
+            //    var Model = ModelList[i];
+            //    streamMatrix.Write(ModelList[i].Matrix, 0, ModelList[i].Matrix.Length);
 
-                //U7 IDK
-                streamMatrix.Position = Model.U7;
-                List<MPFUnkownArray1> TempArrayListU7 = new List<MPFUnkownArray1>();
-                for (int a = 0; a < Model.U17; a++)
-                {
-                    MPFUnkownArray1 TempArray = new MPFUnkownArray1();
-                    TempArray.Count = StreamUtil.ReadInt32(streamMatrix);
-                    TempArray.StartOffset = StreamUtil.ReadInt32(streamMatrix);
-                    TempArray.EndOffset = StreamUtil.ReadInt32(streamMatrix);
-                    long Position = streamMatrix.Position;
+            //    //U7 IDK
+            //    streamMatrix.Position = Model.U7;
+            //    List<MPFUnkownArray1> TempArrayListU7 = new List<MPFUnkownArray1>();
+            //    for (int a = 0; a < Model.U17; a++)
+            //    {
+            //        MPFUnkownArray1 TempArray = new MPFUnkownArray1();
+            //        TempArray.Count = StreamUtil.ReadInt32(streamMatrix);
+            //        TempArray.StartOffset = StreamUtil.ReadInt32(streamMatrix);
+            //        TempArray.EndOffset = StreamUtil.ReadInt32(streamMatrix);
+            //        long Position = streamMatrix.Position;
 
-                    //Read Ints
-                    TempArray.IntList = new List<int>();
-                    streamMatrix.Position = TempArray.StartOffset;
-                    for (int b = 0; b < TempArray.Count; b++)
-                    {
-                        TempArray.IntList.Add(StreamUtil.ReadInt32(streamMatrix));
-                    }
-                    streamMatrix.Position = Position;
-                    TempArrayListU7.Add(TempArray);
-                }
-                Model.U7UnkownArray1 = TempArrayListU7;
+            //        //Read Ints
+            //        TempArray.IntList = new List<int>();
+            //        streamMatrix.Position = TempArray.StartOffset;
+            //        for (int b = 0; b < TempArray.Count; b++)
+            //        {
+            //            TempArray.IntList.Add(StreamUtil.ReadInt32(streamMatrix));
+            //        }
+            //        streamMatrix.Position = Position;
+            //        TempArrayListU7.Add(TempArray);
+            //    }
+            //    Model.U7UnkownArray1 = TempArrayListU7;
 
-                //U12
-                streamMatrix.Position = Model.U12;
-                List<MPFUnkownArray1> TempArrayListU12 = new List<MPFUnkownArray1>();
-                for (int a = 0; a < 3; a++)
-                {
-                    MPFUnkownArray1 TempArray = new MPFUnkownArray1();
-                    TempArray.Count = StreamUtil.ReadInt32(streamMatrix);
-                    TempArray.StartOffset = StreamUtil.ReadInt32(streamMatrix);
-                    long Position = streamMatrix.Position;
+            //    //U12
+            //    streamMatrix.Position = Model.U12;
+            //    List<MPFUnkownArray1> TempArrayListU12 = new List<MPFUnkownArray1>();
+            //    for (int a = 0; a < 3; a++)
+            //    {
+            //        MPFUnkownArray1 TempArray = new MPFUnkownArray1();
+            //        TempArray.Count = StreamUtil.ReadInt32(streamMatrix);
+            //        TempArray.StartOffset = StreamUtil.ReadInt32(streamMatrix);
+            //        long Position = streamMatrix.Position;
 
-                    TempArray.IntList = new List<int>();
-                    streamMatrix.Position = TempArray.StartOffset;
-                    for (int b = 0; b < TempArray.Count; b++)
-                    {
-                        TempArray.IntList.Add(StreamUtil.ReadInt32(streamMatrix));
-                    }
-                    streamMatrix.Position = Position;
-                    TempArrayListU12.Add(TempArray);
-                }
-                Model.U12UnkownArray2 = TempArrayListU12;
-
-
+            //        TempArray.IntList = new List<int>();
+            //        streamMatrix.Position = TempArray.StartOffset;
+            //        for (int b = 0; b < TempArray.Count; b++)
+            //        {
+            //            TempArray.IntList.Add(StreamUtil.ReadInt32(streamMatrix));
+            //        }
+            //        streamMatrix.Position = Position;
+            //        TempArrayListU12.Add(TempArray);
+            //    }
+            //    Model.U12UnkownArray2 = TempArrayListU12;
 
 
-                //Just a translation of whats going on in someone elses program
 
-                //Read StripCounter
-                byte[] tempByte = new byte[] { 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, };
-                streamMatrix.Position = ByteUtil.FindPosition(streamMatrix, tempByte, 0);
-                streamMatrix.Position += 47;
-                int StripCount = StreamUtil.ReadInt32(streamMatrix);
-                streamMatrix.Position += 12;
 
-                List<int> TempStrips = new List<int>();
-                for (int a = 0; a < StripCount; a++)
-                {
-                    TempStrips.Add(StreamUtil.ReadInt32(streamMatrix));
-                    streamMatrix.Position += 12;
-                }
-                // Incrament the stripcount
-                List<int> stripCounts2 = new List<int>();
-                stripCounts2.Add(0);
-                foreach (var item in TempStrips)
-                {
-                    stripCounts2.Add(stripCounts2[stripCounts2.Count - 1] + item);
-                }
+            //    //Just a translation of whats going on in someone elses program
 
-                Model.Strips = stripCounts2;
+            //    //Read StripCounter
+            //    byte[] tempByte = new byte[] { 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, };
+            //    streamMatrix.Position = ByteUtil.FindPosition(streamMatrix, tempByte, 0);
+            //    streamMatrix.Position += 47;
+            //    int StripCount = StreamUtil.ReadInt32(streamMatrix);
+            //    streamMatrix.Position += 12;
 
-                //Read Vertexes
-                tempByte = new byte[] { 0x80, 0x3F, 0x00, 0x00, 0x00, 0x20, 0x40, 0x40, 0x40, 0x40, };
-                streamMatrix.Position = ByteUtil.FindPosition(streamMatrix, tempByte, 0);
-                streamMatrix.Position += 24;
-                int VertexCount = StreamUtil.ReadByte(streamMatrix);
-                streamMatrix.Position++;
-                List<Vertex3> vertices = new List<Vertex3>();
-                for (int a = 0; a < VertexCount; a++)
-                {
-                    Vertex3 vertex = new Vertex3();
-                    vertex.X = StreamUtil.ReadFloat(streamMatrix);
-                    vertex.Y = StreamUtil.ReadFloat(streamMatrix);
-                    vertex.Z = StreamUtil.ReadFloat(streamMatrix);
-                    vertices.Add(vertex);
-                }
-                Model.vertices = vertices;
+            //    List<int> TempStrips = new List<int>();
+            //    for (int a = 0; a < StripCount; a++)
+            //    {
+            //        TempStrips.Add(StreamUtil.ReadInt32(streamMatrix));
+            //        streamMatrix.Position += 12;
+            //    }
+            //    // Incrament the stripcount
+            //    List<int> stripCounts2 = new List<int>();
+            //    stripCounts2.Add(0);
+            //    foreach (var item in TempStrips)
+            //    {
+            //        stripCounts2.Add(stripCounts2[stripCounts2.Count - 1] + item);
+            //    }
 
-                Model.faces = new List<Face>();
-                int localIndex = 0;
-                //Make Faces
-                for (int a = 0; a < Model.vertices.Count; a++)
-                {
-                    if (InsideSplits(a, Model.Strips))
-                    {
-                        localIndex = 1;
-                        continue;
-                    }
-                    if (localIndex < 2)
-                    {
-                        localIndex++;
-                        continue;
-                    }
+            //    Model.Strips = stripCounts2;
 
-                    Model.faces.Add(CreateFaces(a));
-                    localIndex++;
-                }
-                ModelList[i] = Model;
+            //    //Read Vertexes
+            //    tempByte = new byte[] { 0x80, 0x3F, 0x00, 0x00, 0x00, 0x20, 0x40, 0x40, 0x40, 0x40, };
+            //    streamMatrix.Position = ByteUtil.FindPosition(streamMatrix, tempByte, 0);
+            //    streamMatrix.Position += 24;
+            //    int VertexCount = StreamUtil.ReadByte(streamMatrix);
+            //    streamMatrix.Position++;
+            //    List<Vertex3> vertices = new List<Vertex3>();
+            //    for (int a = 0; a < VertexCount; a++)
+            //    {
+            //        Vertex3 vertex = new Vertex3();
+            //        vertex.X = StreamUtil.ReadFloat(streamMatrix);
+            //        vertex.Y = StreamUtil.ReadFloat(streamMatrix);
+            //        vertex.Z = StreamUtil.ReadFloat(streamMatrix);
+            //        vertices.Add(vertex);
+            //    }
+            //    Model.vertices = vertices;
 
-                streamMatrix.Dispose();
-                streamMatrix.Close();
-            }
+            //    Model.faces = new List<Face>();
+            //    int localIndex = 0;
+            //    //Make Faces
+            //    for (int a = 0; a < Model.vertices.Count; a++)
+            //    {
+            //        if (InsideSplits(a, Model.Strips))
+            //        {
+            //            localIndex = 1;
+            //            continue;
+            //        }
+            //        if (localIndex < 2)
+            //        {
+            //            localIndex++;
+            //            continue;
+            //        }
+
+            //        Model.faces.Add(CreateFaces(a));
+            //        localIndex++;
+            //    }
+            //    ModelList[i] = Model;
+
+            //    streamMatrix.Dispose();
+            //    streamMatrix.Close();
+            //}
         }
 
         public bool InsideSplits(int Number, List<int> splits)
@@ -231,25 +240,16 @@ namespace SSXMultiTool.FileHandlers
         public void Save(string path)
         {
             Stream stream = new MemoryStream();
-            List<long> StreamPos = new List<long>();
+            StreamUtil.WriteBytes(stream, magicWords);
+            StreamUtil.WriteInt16(stream, NumModels);
+            StreamUtil.WriteInt16(stream, HeaderSize);
+            StreamUtil.WriteInt32(stream, DataOffset);
+
             for (int i = 0; i < 1; i++)
             {
-                StreamUtil.WriteInt32(stream, ModelList[i].U1);
-                StreamUtil.WriteInt32(stream, ModelList[i].SubHeaders);
-                StreamUtil.WriteInt32(stream, ModelList[i].HeaderSize);
-                StreamUtil.WriteInt32(stream, 0);
-
-                if (ModelList[i].ModelName == null)
-                {
-                    byte[] bytes = new byte[4];
-                    StreamUtil.WriteBytes(stream, bytes);
-                    break;
-                }
                 StreamUtil.WriteString(stream, ModelList[i].ModelName, 16);
 
-                StreamPos.Add(stream.Position);
-                StreamUtil.WriteInt32(stream, 0);
-
+                StreamUtil.WriteInt32(stream, ModelList[i].DataOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].EntrySize);
                 StreamUtil.WriteInt32(stream, ModelList[i].NameOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].U7);
@@ -271,20 +271,20 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteInt16(stream, ModelList[i].U22);
                 StreamUtil.WriteInt16(stream, ModelList[i].U23);
                 StreamUtil.WriteInt16(stream, ModelList[i].U24);
+                StreamUtil.WriteInt16(stream, ModelList[i].U25);
+                StreamUtil.WriteInt16(stream, ModelList[i].U26);
+                StreamUtil.WriteInt16(stream, ModelList[i].U27);
+                StreamUtil.WriteInt16(stream, ModelList[i].U28);
+                StreamUtil.WriteInt16(stream, ModelList[i].U29);
+                StreamUtil.WriteInt16(stream, ModelList[i].U30);
             }
+            StreamUtil.AlignBy16(stream);
 
-            stream.Position = 8;
-            int FileStart = (int)stream.Length;
-            StreamUtil.WriteInt32(stream, FileStart);
-            stream.Position = stream.Length;
 
             for (int i = 0; i < 1; i++)
             {
                 //Save current pos go back and set start pos
-                long CurPos = stream.Position - FileStart;
-                stream.Position = StreamPos[i];
-                StreamUtil.WriteInt32(stream, (int)CurPos);
-                stream.Position = CurPos + FileStart;
+                stream.Position = DataOffset + ModelList[i].DataOffset;
                 //Write Matrix
                 StreamUtil.WriteBytes(stream, ModelList[i].Matrix);
             }
@@ -330,11 +330,6 @@ namespace SSXMultiTool.FileHandlers
 
         public struct MPFModelHeader
         {
-            //GlobalHeader
-            public int U1;
-            public int SubHeaders;
-            public int HeaderSize;
-            public int FileStart;
             //Main Header
             public string ModelName;
             public int DataOffset;
@@ -360,6 +355,12 @@ namespace SSXMultiTool.FileHandlers
             public int U22;
             public int U23;
             public int U24; //VertexCount?
+            public int U25;
+            public int U26;
+            public int U27;
+            public int U28;
+            public int U29;
+            public int U30;
 
             public byte[] Matrix;
 
