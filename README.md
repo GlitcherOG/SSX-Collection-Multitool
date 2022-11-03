@@ -9,7 +9,7 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - Music Inf Editor (SSX 3)
 - Loc (Language) Files Editor
 - (WIP) SSX 3 Store/Item Editing (BoltPS2.Dat)
-- SSX 3 SSB Unpacker
+- (WIP) SSX 3 SSB Unpacker
 - (WIP) SSX Tricky MPF Extractor
 
 ## Current Todo
