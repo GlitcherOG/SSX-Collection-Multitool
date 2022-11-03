@@ -70,6 +70,64 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                     locations.Add(TempLocation);
                 }
+                StreamUtil.AlignBy16(stream);
+                Unknown1s = new List<Unknown1>();
+                for (int i = 0; i < numUnknown1; i++)
+                {
+                    var TempUnknown1 = new Unknown1();
+                    TempUnknown1.UnknownFloat1 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat2 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat3 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat4 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat5 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat6 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat7 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat8 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat9 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat10 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat11 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat12 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat13 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat14 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat15 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat16 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat17 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat18 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat19 = StreamUtil.ReadFloat(stream);
+                    TempUnknown1.UnknownFloat20 = StreamUtil.ReadFloat(stream);
+
+                    TempUnknown1.UnknownInt1 = StreamUtil.ReadInt32(stream);
+                    TempUnknown1.UnknownInt2 = StreamUtil.ReadInt32(stream);
+                    TempUnknown1.UnknownInt3 = StreamUtil.ReadInt32(stream);
+                    TempUnknown1.UnknownInt4 = StreamUtil.ReadInt32(stream);
+
+                    Unknown1s.Add(TempUnknown1);
+                }
+
+                unknown2s = new List<Unknown2>();
+
+                for (int i = 0; i < numUnknown2; i++)
+                {
+                    var TempUnknown2 = new Unknown2();
+                    TempUnknown2.UnknownInt1 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt2 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt3 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt4 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt5 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt6 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt7 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt8 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt9 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt10 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt11 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt12 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt13 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt14 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt15 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt16 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt17 = StreamUtil.ReadInt32(stream);
+                    unknown2s.Add(TempUnknown2);
+                }
             }
 
         }
@@ -162,6 +220,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
             public int UnknownInt8;
             public int UnknownInt9;
             public int UnknownInt10;
+
+            //Doesnt Seem to Change
             public int UnknownInt11;
             public int UnknownInt12;
             public int UnknownInt13;

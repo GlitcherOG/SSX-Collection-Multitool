@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspose.3D" Version="22.10.0" />
     <PackageReference Include="Microsoft.WindowsAPICodePack-Shell" Version="1.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta2" />
     <PackageReference Include="SharpGLTF.Core" Version="1.0.0-alpha0026" />
