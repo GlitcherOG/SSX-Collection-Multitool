@@ -85,5 +85,20 @@ namespace SSXMultiTool
                 sdbHandler.LoadSBD(openFileDialog.FileName);
             }
         }
+        PSMHandler psmHandler = new PSMHandler();
+        private void PSMLoad_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "PSM File (*.PSM)|*.PSM|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                psmHandler = new PSMHandler();
+                psmHandler.LoadPSM(openFileDialog.FileName);
+            }
+        }
     }
 }

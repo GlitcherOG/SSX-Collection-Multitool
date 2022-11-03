@@ -31,6 +31,7 @@
             this.LevelExtract = new System.Windows.Forms.Button();
             this.PackSSB = new System.Windows.Forms.Button();
             this.LoadSDB = new System.Windows.Forms.Button();
+            this.PSMLoad = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // LevelExtract
@@ -63,11 +64,22 @@
             this.LoadSDB.UseVisualStyleBackColor = true;
             this.LoadSDB.Click += new System.EventHandler(this.LoadSDB_Click);
             // 
+            // PSMLoad
+            // 
+            this.PSMLoad.Location = new System.Drawing.Point(12, 324);
+            this.PSMLoad.Name = "PSMLoad";
+            this.PSMLoad.Size = new System.Drawing.Size(118, 34);
+            this.PSMLoad.TabIndex = 3;
+            this.PSMLoad.Text = "Load PSM";
+            this.PSMLoad.UseVisualStyleBackColor = true;
+            this.PSMLoad.Click += new System.EventHandler(this.PSMLoad_Click);
+            // 
             // SSX3ProjectWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.PSMLoad);
             this.Controls.Add(this.LoadSDB);
             this.Controls.Add(this.PackSSB);
             this.Controls.Add(this.LevelExtract);
@@ -82,5 +94,6 @@
         private Button LevelExtract;
         private Button PackSSB;
         private Button LoadSDB;
+        private Button PSMLoad;
     }
 }
