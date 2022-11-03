@@ -30,6 +30,7 @@
         {
             this.LevelExtract = new System.Windows.Forms.Button();
             this.PackSSB = new System.Windows.Forms.Button();
+            this.LoadSDB = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // LevelExtract
@@ -52,11 +53,22 @@
             this.PackSSB.UseVisualStyleBackColor = true;
             this.PackSSB.Click += new System.EventHandler(this.PackSSB_Click);
             // 
+            // LoadSDB
+            // 
+            this.LoadSDB.Location = new System.Drawing.Point(12, 364);
+            this.LoadSDB.Name = "LoadSDB";
+            this.LoadSDB.Size = new System.Drawing.Size(118, 34);
+            this.LoadSDB.TabIndex = 2;
+            this.LoadSDB.Text = "Load SDB";
+            this.LoadSDB.UseVisualStyleBackColor = true;
+            this.LoadSDB.Click += new System.EventHandler(this.LoadSDB_Click);
+            // 
             // SSX3ProjectWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.LoadSDB);
             this.Controls.Add(this.PackSSB);
             this.Controls.Add(this.LevelExtract);
             this.Name = "SSX3ProjectWindow";
@@ -69,5 +81,6 @@
 
         private Button LevelExtract;
         private Button PackSSB;
+        private Button LoadSDB;
     }
 }

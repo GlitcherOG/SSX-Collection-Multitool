@@ -29,13 +29,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     byte[] DecompressedData = new byte[1];
                     Data = StreamUtil.ReadBytes(stream, Size-8);
 
+                    MemoryStream DecomMemoryStream = new MemoryStream();
+
                     RefpackHandler refpackHandler = new RefpackHandler();
                     DecompressedData=refpackHandler.Decompress(Data);
-                    StreamUtil.WriteBytes(memoryStream, DecompressedData);
+                    StreamUtil.WriteBytes(DecomMemoryStream, DecompressedData);
+
+                    int ID = StreamUtil.ReadByte(DecomMemoryStream);
+                    int ChunkSize = StreamUtil.ReadInt24(DecomMemoryStream);
+                    int RID = StreamUtil.ReadInt32(DecomMemoryStream);
 
                     if (MagicWords.ToUpper() == "CEND")
                     {
-                        var file = File.Create(extractPath + "//" + a + ".BSX");
+                        var file = File.Create(extractPath + "//" + a + ".bin");
                         memoryStream.Position = 0;
                         memoryStream.CopyTo(file);
                         memoryStream.Dispose();

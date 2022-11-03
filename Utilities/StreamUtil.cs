@@ -191,9 +191,9 @@ namespace SSXMultiTool.Utilities
             stream.Write(tempByte, 0, tempByte.Length);
         }
 
-        public static void WriteBytes(Stream stream, byte[] bytes)
+        public static void WriteBytes(Stream stream, byte[] bytes, int startPos = 0)
         {
-            stream.Write(bytes, 0, bytes.Length);
+            stream.Write(bytes, startPos, bytes.Length);
         }
 
         public static void WriteInt8(Stream stream, int Int)

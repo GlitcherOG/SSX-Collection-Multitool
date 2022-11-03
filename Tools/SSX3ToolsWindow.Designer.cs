@@ -164,6 +164,9 @@
             this.label13 = new System.Windows.Forms.Label();
             this.BoltCharacter = new System.Windows.Forms.ComboBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.MPFLoad = new System.Windows.Forms.Button();
+            this.MPFSave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.charnumericUpDown5)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -203,6 +206,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.BoltUnkownTwo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BoltUnlock)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BoltUnkownOne)).BeginInit();
+            this.tabPage5.SuspendLayout();
             this.SuspendLayout();
             // 
             // charnumericUpDown5
@@ -221,6 +225,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
@@ -1220,7 +1225,8 @@
             // 
             // BoltApply
             // 
-            this.BoltApply.Location = new System.Drawing.Point(707, 502);
+            this.BoltApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.BoltApply.Location = new System.Drawing.Point(863, 502);
             this.BoltApply.Name = "BoltApply";
             this.BoltApply.Size = new System.Drawing.Size(75, 23);
             this.BoltApply.TabIndex = 53;
@@ -1230,6 +1236,7 @@
             // 
             // BoltSave
             // 
+            this.BoltSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.BoltSave.Location = new System.Drawing.Point(364, 502);
             this.BoltSave.Name = "BoltSave";
             this.BoltSave.Size = new System.Drawing.Size(75, 23);
@@ -1240,6 +1247,7 @@
             // 
             // boltLoad
             // 
+            this.boltLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.boltLoad.Location = new System.Drawing.Point(283, 502);
             this.boltLoad.Name = "boltLoad";
             this.boltLoad.Size = new System.Drawing.Size(75, 23);
@@ -1250,6 +1258,8 @@
             // 
             // BoltPS2TreeView
             // 
+            this.BoltPS2TreeView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.BoltPS2TreeView.Location = new System.Drawing.Point(3, 29);
             this.BoltPS2TreeView.Name = "BoltPS2TreeView";
             this.BoltPS2TreeView.Size = new System.Drawing.Size(274, 496);
@@ -1785,6 +1795,37 @@
             this.tabPage4.Text = "Tools";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.MPFSave);
+            this.tabPage5.Controls.Add(this.MPFLoad);
+            this.tabPage5.Location = new System.Drawing.Point(4, 24);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(941, 528);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "SSX 3 MPF(Models)";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // MPFLoad
+            // 
+            this.MPFLoad.Location = new System.Drawing.Point(184, 305);
+            this.MPFLoad.Name = "MPFLoad";
+            this.MPFLoad.Size = new System.Drawing.Size(75, 23);
+            this.MPFLoad.TabIndex = 0;
+            this.MPFLoad.Text = "button4";
+            this.MPFLoad.UseVisualStyleBackColor = true;
+            this.MPFLoad.Click += new System.EventHandler(this.MPFLoad_Click);
+            // 
+            // MPFSave
+            // 
+            this.MPFSave.Location = new System.Drawing.Point(420, 252);
+            this.MPFSave.Name = "MPFSave";
+            this.MPFSave.Size = new System.Drawing.Size(75, 23);
+            this.MPFSave.TabIndex = 1;
+            this.MPFSave.Text = "button5";
+            this.MPFSave.UseVisualStyleBackColor = true;
+            this.MPFSave.Click += new System.EventHandler(this.MPFSave_Click);
+            // 
             // SSX3ToolsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1835,6 +1876,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.BoltUnkownTwo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BoltUnlock)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BoltUnkownOne)).EndInit();
+            this.tabPage5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1977,5 +2019,8 @@
         private Button button2;
         private Button button1;
         private ListBox musiclistBox1;
+        private TabPage tabPage5;
+        private Button MPFSave;
+        private Button MPFLoad;
     }
 }

@@ -69,5 +69,21 @@ namespace SSXMultiTool
             }
 
         }
+
+        SDBHandler sdbHandler = new SDBHandler();
+        private void LoadSDB_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "SDB File (*.SDB)|*.SDB|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                sdbHandler = new SDBHandler();
+                sdbHandler.LoadSBD(openFileDialog.FileName);
+            }
+        }
     }
 }
