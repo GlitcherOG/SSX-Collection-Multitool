@@ -20,6 +20,7 @@ namespace SSXMultiTool
 
         #region CharDB File
         CHARDBLHandler charHandler = new CHARDBLHandler();
+        bool DisableUpdate;
         private void charLoad_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -43,30 +44,34 @@ namespace SSXMultiTool
 
         private void CharApply(object sender, EventArgs e)
         {
-            CharDB temp = new CharDB
+            if (!DisableUpdate)
             {
-                LongName = chartextBox1.Text,
-                FirstName = chartextBox2.Text,
-                NickName = chartextBox3.Text,
-                BloodType = chartextBox4.Text,
-                Height = chartextBox5.Text,
-                Nationality = chartextBox6.Text,
-                Unkown1 = (int)charnumericUpDown1.Value,
-                Stance = (int)charnumericUpDown2.Value,
-                ModelSize = (int)charnumericUpDown3.Value,
-                Gender = (int)charnumericUpDown4.Value,
-                Age = (int)charnumericUpDown5.Value,
-                Position = (int)charnumericUpDown6.Value
-            };
-            charHandler.charDBs[charBox1.SelectedIndex] = temp;
-            int temp1 = charBox1.SelectedIndex;
-            charBox1.Items[temp1] = temp.LongName;
+                CharDB temp = new CharDB
+                {
+                    LongName = chartextBox1.Text,
+                    FirstName = chartextBox2.Text,
+                    NickName = chartextBox3.Text,
+                    BloodType = chartextBox4.Text,
+                    Height = chartextBox5.Text,
+                    Nationality = chartextBox6.Text,
+                    Unkown1 = (int)charnumericUpDown1.Value,
+                    Stance = (int)charnumericUpDown2.Value,
+                    ModelSize = (int)charnumericUpDown3.Value,
+                    Gender = (int)charnumericUpDown4.Value,
+                    Age = (int)charnumericUpDown5.Value,
+                    Position = (int)charnumericUpDown6.Value
+                };
+                charHandler.charDBs[charBox1.SelectedIndex] = temp;
+                int temp1 = charBox1.SelectedIndex;
+                charBox1.Items[temp1] = temp.LongName;
+            }
         }
 
         private void charBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (charBox1.SelectedIndex != -1)
             {
+                DisableUpdate = true;
                 CharDB temp = charHandler.charDBs[charBox1.SelectedIndex];
                 chartextBox1.Text = temp.LongName;
                 chartextBox2.Text = temp.FirstName;
@@ -80,6 +85,7 @@ namespace SSXMultiTool
                 charnumericUpDown4.Value = temp.Gender;
                 charnumericUpDown5.Value = temp.Age;
                 charnumericUpDown6.Value = temp.Position;
+                DisableUpdate = false;
             }
         }
 
