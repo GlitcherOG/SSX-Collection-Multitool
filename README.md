@@ -13,6 +13,7 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - (WIP) SSX Tricky MPF Extractor
 
 ## Current Todo
+- Level Generate Hardware Fix
 - Get Cameras and Hash exporting so i can start rebuilding the file from scratch
 - Redo Folder Loading SSH
 - LOC Script Update

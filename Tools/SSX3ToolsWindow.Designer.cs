@@ -163,10 +163,10 @@
             this.BoltUnkownOne = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
             this.BoltCharacter = new System.Windows.Forms.ComboBox();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.MPFLoad = new System.Windows.Forms.Button();
             this.MPFSave = new System.Windows.Forms.Button();
+            this.MPFLoad = new System.Windows.Forms.Button();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.charnumericUpDown5)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -212,6 +212,16 @@
             // charnumericUpDown5
             // 
             this.charnumericUpDown5.Location = new System.Drawing.Point(642, 156);
+            this.charnumericUpDown5.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.charnumericUpDown5.Minimum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            -2147483648});
             this.charnumericUpDown5.Name = "charnumericUpDown5";
             this.charnumericUpDown5.Size = new System.Drawing.Size(75, 23);
             this.charnumericUpDown5.TabIndex = 22;
@@ -307,6 +317,16 @@
             // charnumericUpDown6
             // 
             this.charnumericUpDown6.Location = new System.Drawing.Point(726, 156);
+            this.charnumericUpDown6.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.charnumericUpDown6.Minimum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            -2147483648});
             this.charnumericUpDown6.Name = "charnumericUpDown6";
             this.charnumericUpDown6.Size = new System.Drawing.Size(75, 23);
             this.charnumericUpDown6.TabIndex = 24;
@@ -333,6 +353,16 @@
             // charnumericUpDown3
             // 
             this.charnumericUpDown3.Location = new System.Drawing.Point(560, 156);
+            this.charnumericUpDown3.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.charnumericUpDown3.Minimum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            -2147483648});
             this.charnumericUpDown3.Name = "charnumericUpDown3";
             this.charnumericUpDown3.Size = new System.Drawing.Size(75, 23);
             this.charnumericUpDown3.TabIndex = 20;
@@ -350,6 +380,16 @@
             // charnumericUpDown4
             // 
             this.charnumericUpDown4.Location = new System.Drawing.Point(478, 156);
+            this.charnumericUpDown4.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.charnumericUpDown4.Minimum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            -2147483648});
             this.charnumericUpDown4.Name = "charnumericUpDown4";
             this.charnumericUpDown4.Size = new System.Drawing.Size(75, 23);
             this.charnumericUpDown4.TabIndex = 18;
@@ -367,6 +407,16 @@
             // charnumericUpDown2
             // 
             this.charnumericUpDown2.Location = new System.Drawing.Point(392, 156);
+            this.charnumericUpDown2.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.charnumericUpDown2.Minimum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            -2147483648});
             this.charnumericUpDown2.Name = "charnumericUpDown2";
             this.charnumericUpDown2.Size = new System.Drawing.Size(80, 23);
             this.charnumericUpDown2.TabIndex = 16;
@@ -384,6 +434,16 @@
             // charnumericUpDown1
             // 
             this.charnumericUpDown1.Location = new System.Drawing.Point(241, 156);
+            this.charnumericUpDown1.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
+            this.charnumericUpDown1.Minimum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            -2147483648});
             this.charnumericUpDown1.Name = "charnumericUpDown1";
             this.charnumericUpDown1.Size = new System.Drawing.Size(120, 23);
             this.charnumericUpDown1.TabIndex = 14;
@@ -1786,15 +1846,6 @@
             this.BoltCharacter.TabIndex = 1;
             this.BoltCharacter.SelectedIndexChanged += new System.EventHandler(this.BoltCharacter_SelectedIndexChanged);
             // 
-            // tabPage4
-            // 
-            this.tabPage4.Location = new System.Drawing.Point(4, 24);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(941, 528);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Tools";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this.MPFSave);
@@ -1806,6 +1857,16 @@
             this.tabPage5.Text = "SSX 3 MPF(Models)";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
+            // MPFSave
+            // 
+            this.MPFSave.Location = new System.Drawing.Point(420, 252);
+            this.MPFSave.Name = "MPFSave";
+            this.MPFSave.Size = new System.Drawing.Size(75, 23);
+            this.MPFSave.TabIndex = 1;
+            this.MPFSave.Text = "button5";
+            this.MPFSave.UseVisualStyleBackColor = true;
+            this.MPFSave.Click += new System.EventHandler(this.MPFSave_Click);
+            // 
             // MPFLoad
             // 
             this.MPFLoad.Location = new System.Drawing.Point(184, 305);
@@ -1816,15 +1877,14 @@
             this.MPFLoad.UseVisualStyleBackColor = true;
             this.MPFLoad.Click += new System.EventHandler(this.MPFLoad_Click);
             // 
-            // MPFSave
+            // tabPage4
             // 
-            this.MPFSave.Location = new System.Drawing.Point(420, 252);
-            this.MPFSave.Name = "MPFSave";
-            this.MPFSave.Size = new System.Drawing.Size(75, 23);
-            this.MPFSave.TabIndex = 1;
-            this.MPFSave.Text = "button5";
-            this.MPFSave.UseVisualStyleBackColor = true;
-            this.MPFSave.Click += new System.EventHandler(this.MPFSave_Click);
+            this.tabPage4.Location = new System.Drawing.Point(4, 24);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(941, 528);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Tools";
+            this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // SSX3ToolsWindow
             // 
