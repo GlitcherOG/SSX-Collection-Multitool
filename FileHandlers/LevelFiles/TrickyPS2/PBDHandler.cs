@@ -48,8 +48,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int CamerasOffset;
         public int HashOffset;
         public int MeshDataOffset;
-        public int Unknown34;
-        public int Unknown35;
 
         public List<Patch> Patches;
         public List<Spline> splines;
@@ -108,8 +106,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 CamerasOffset = StreamUtil.ReadInt32(stream); //Unknown
                 HashOffset = StreamUtil.ReadInt32(stream);
                 MeshDataOffset = StreamUtil.ReadInt32(stream); //Loading
-                Unknown34 = StreamUtil.ReadInt32(stream); //Possibly Just Blank
-                Unknown35 = StreamUtil.ReadInt32(stream); //Possibly Just Blank
 
                 //Patch Loading
                 stream.Position = PatchOffset;
@@ -444,7 +440,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 models = new List<MeshData>();
                 MeshData model = new MeshData();
                 model.staticMeshes = new List<StaticMesh>();
-                int count = 0;
 
                 while (true)
                 {
@@ -453,7 +448,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     {
                         break;
                     }
-                    count++;
                     model.staticMeshes.Add(GenerateFaces(temp));
                     stream.Position += 31;
                     if (StreamUtil.ReadByte(stream) == 0x6C)
@@ -517,8 +511,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 CamerasOffset = StreamUtil.ReadInt32(stream);
                 HashOffset = StreamUtil.ReadInt32(stream);
                 MeshDataOffset = StreamUtil.ReadInt32(stream);
-                Unknown34 = StreamUtil.ReadInt32(stream);
-                Unknown35 = StreamUtil.ReadInt32(stream);
 
                 //Patches
                 stream.Position = PatchOffset;

@@ -400,6 +400,8 @@ namespace SSXMultiTool
             SSHHandler LightmapHandler = new SSHHandler();
             Directory.CreateDirectory(ExportPath + "/Textures");
             Directory.CreateDirectory(ExportPath + "/Skybox");
+            Directory.CreateDirectory(ExportPath + "/Skybox/Textures");
+            Directory.CreateDirectory(ExportPath + "/Skybox/Models");
             Directory.CreateDirectory(ExportPath + "/Lightmaps");
 
             TextureHandler.LoadSSH(LoadPath + ".ssh");
@@ -410,12 +412,95 @@ namespace SSXMultiTool
             }
             if (File.Exists(LoadPath + "_sky.ssh"))
             {
+                //Load PBD Sky
+                PBDHandler skypbdHandler = new PBDHandler();
+                skypbdHandler.LoadPBD(LoadPath + "_sky.pbd");
+
+                //Create Material Json
+                materialJson = new MaterialJsonHandler();
+                for (int i = 0; i < skypbdHandler.materials.Count; i++)
+                {
+                    MaterialJsonHandler.MaterialsJson TempMaterial = new MaterialJsonHandler.MaterialsJson();
+
+                    TempMaterial.TextureID = skypbdHandler.materials[i].TextureID;
+                    TempMaterial.UnknownInt2 = skypbdHandler.materials[i].UnknownInt2;
+                    TempMaterial.UnknownInt3 = skypbdHandler.materials[i].UnknownInt3;
+                    TempMaterial.UnknownFloat1 = skypbdHandler.materials[i].UnknownFloat1;
+                    TempMaterial.UnknownFloat2 = skypbdHandler.materials[i].UnknownFloat2;
+                    TempMaterial.UnknownFloat3 = skypbdHandler.materials[i].UnknownFloat3;
+                    TempMaterial.UnknownFloat4 = skypbdHandler.materials[i].UnknownFloat4;
+                    TempMaterial.UnknownInt8 = skypbdHandler.materials[i].UnknownInt8;
+                    TempMaterial.UnknownFloat5 = skypbdHandler.materials[i].UnknownFloat5;
+                    TempMaterial.UnknownFloat6 = skypbdHandler.materials[i].UnknownFloat6;
+                    TempMaterial.UnknownFloat7 = skypbdHandler.materials[i].UnknownFloat7;
+                    TempMaterial.UnknownFloat8 = skypbdHandler.materials[i].UnknownFloat8;
+                    TempMaterial.UnknownInt13 = skypbdHandler.materials[i].UnknownInt13;
+                    TempMaterial.UnknownInt14 = skypbdHandler.materials[i].UnknownInt14;
+                    TempMaterial.UnknownInt15 = skypbdHandler.materials[i].UnknownInt15;
+                    TempMaterial.UnknownInt16 = skypbdHandler.materials[i].UnknownInt16;
+                    TempMaterial.UnknownInt17 = skypbdHandler.materials[i].UnknownInt17;
+                    TempMaterial.UnknownInt18 = skypbdHandler.materials[i].UnknownInt18;
+                    TempMaterial.TextureFlipbookID = skypbdHandler.materials[i].TextureFlipbookID;
+                    TempMaterial.UnknownInt20 = skypbdHandler.materials[i].UnknownInt20;
+                    materialJson.MaterialsJsons.Add(TempMaterial);
+                }
+                materialJson.CreateJson(ExportPath + "/Skybox/Material.json");
+
+                //Create Material Block Json
+                materialBlockJson = new MaterialBlockJsonHandler();
+                for (int i = 0; i < skypbdHandler.materialBlocks.Count; i++)
+                {
+                    MaterialBlockJsonHandler.MaterialBlock TempBlock = new MaterialBlockJsonHandler.MaterialBlock();
+
+                    TempBlock.BlockCount = skypbdHandler.materialBlocks[i].ints.Count;
+                    TempBlock.ints = skypbdHandler.materialBlocks[i].ints;
+                    materialBlockJson.MaterialBlockJsons.Add(TempBlock);
+                }
+                materialBlockJson.CreateJson(ExportPath + "/Skybox/MaterialBlocks.json");
+
+                //Create Model Json
+                modelJsonHandler = new ModelJsonHandler();
+                for (int i = 0; i < skypbdHandler.modelHeaders.Count; i++)
+                {
+                    ModelJsonHandler.ModelJson TempModel = new ModelJsonHandler.ModelJson();
+                    TempModel.TotalLength = skypbdHandler.modelHeaders[i].TotalLength;
+                    TempModel.Unknown0 = skypbdHandler.modelHeaders[i].Unknown0;
+                    TempModel.Unknown1 = skypbdHandler.modelHeaders[i].Unknown1;
+                    TempModel.Unknown2 = skypbdHandler.modelHeaders[i].Unknown2;
+                    TempModel.Unknown3 = skypbdHandler.modelHeaders[i].Unknown3;
+                    TempModel.Unknown4 = skypbdHandler.modelHeaders[i].Unknown4;
+                    TempModel.Scale = JsonUtil.Vector3ToArray(skypbdHandler.modelHeaders[i].scale);
+                    TempModel.ModelDataCount = skypbdHandler.modelHeaders[i].MeshCount;
+                    TempModel.Unknown9 = skypbdHandler.modelHeaders[i].Unknown9;
+                    TempModel.TriStripCount = skypbdHandler.modelHeaders[i].TriStripCount;
+                    TempModel.VertexCount = skypbdHandler.modelHeaders[i].VertexCount;
+                    TempModel.Unknown12 = skypbdHandler.modelHeaders[i].Unknown12;
+                    TempModel.Unknown13 = skypbdHandler.modelHeaders[i].Unknown13;
+                    TempModel.Unknown14 = skypbdHandler.modelHeaders[i].Unknown14;
+                    TempModel.Unknown15 = skypbdHandler.modelHeaders[i].Unknown15;
+                    TempModel.Unknown16 = skypbdHandler.modelHeaders[i].Unknown16;
+                    TempModel.Unknown17 = skypbdHandler.modelHeaders[i].Unknown17;
+                    TempModel.Unknown18 = skypbdHandler.modelHeaders[i].Unknown18;
+                    TempModel.UnknownLength = skypbdHandler.modelHeaders[i].UnknownLength;
+
+                    TempModel.LowestXYZ = JsonUtil.Vector3ToArray(skypbdHandler.modelHeaders[i].LowestXYZ);
+                    TempModel.HighestXYZ = JsonUtil.Vector3ToArray(skypbdHandler.modelHeaders[i].HighestXYZ);
+
+                    TempModel.bytes = skypbdHandler.modelHeaders[i].bytes;
+                    modelJsonHandler.ModelJsons.Add(TempModel);
+                }
+                modelJsonHandler.CreateJson(ExportPath + "/Skybox/ModelHeaders.json");
+
+                skypbdHandler.ExportModels(ExportPath + "/Skybox/Models/");
+
                 SkyboxHandler.LoadSSH(LoadPath + "_sky.ssh");
                 for (int i = 0; i < SkyboxHandler.sshImages.Count; i++)
                 {
                     SkyboxHandler.BrightenBitmap(i);
-                    SkyboxHandler.BMPOneExtract(ExportPath + "\\Skybox\\" + SkyboxHandler.sshImages[i].shortname + ".png", i);
+                    SkyboxHandler.BMPOneExtract(ExportPath + "\\Skybox\\Textures\\" + SkyboxHandler.sshImages[i].shortname + ".png", i);
                 }
+
+
             }
 
             if (File.Exists(LoadPath + "_L.ssh"))
