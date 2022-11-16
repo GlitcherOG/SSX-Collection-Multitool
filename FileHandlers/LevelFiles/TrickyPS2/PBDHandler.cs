@@ -658,6 +658,37 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 //    StreamUtil.WriteInt32(stream, TempParticle.UnknownInt11);
                 //    StreamUtil.WriteInt32(stream, TempParticle.UnknownInt12);
                 //}
+
+                stream.Position = MaterialOffset;
+                for (int i = 0; i < materials.Count; i++)
+                {
+                    var TempMaterial = materials[i];
+                    StreamUtil.WriteInt16(stream, TempMaterial.TextureID);
+                    StreamUtil.WriteInt16(stream, TempMaterial.UnknownInt2);
+                    StreamUtil.WriteInt32(stream, TempMaterial.UnknownInt3);
+
+                    StreamUtil.WriteFloat32(stream, TempMaterial.UnknownFloat1);
+                    StreamUtil.WriteFloat32(stream, TempMaterial.UnknownFloat2);
+                    StreamUtil.WriteFloat32(stream, TempMaterial.UnknownFloat3);
+                    StreamUtil.WriteFloat32(stream, TempMaterial.UnknownFloat4);
+
+                    StreamUtil.WriteInt32(stream, TempMaterial.UnknownInt8);
+
+                    StreamUtil.WriteFloat32(stream, TempMaterial.UnknownFloat5);
+                    StreamUtil.WriteFloat32(stream, TempMaterial.UnknownFloat6);
+                    StreamUtil.WriteFloat32(stream, TempMaterial.UnknownFloat7);
+                    StreamUtil.WriteFloat32(stream, TempMaterial.UnknownFloat8);
+
+                    StreamUtil.WriteInt32(stream, TempMaterial.UnknownInt13);
+                    StreamUtil.WriteInt32(stream, TempMaterial.UnknownInt14);
+                    StreamUtil.WriteInt32(stream, TempMaterial.UnknownInt15);
+                    StreamUtil.WriteInt32(stream, TempMaterial.UnknownInt16);
+                    StreamUtil.WriteInt32(stream, TempMaterial.UnknownInt17);
+                    StreamUtil.WriteInt32(stream, TempMaterial.UnknownInt18);
+
+                    StreamUtil.WriteInt16(stream, TempMaterial.TextureFlipbookID);
+                    StreamUtil.WriteInt16(stream, TempMaterial.UnknownInt20);
+                }
             }
         }
         #region Standard Mesh Stuff

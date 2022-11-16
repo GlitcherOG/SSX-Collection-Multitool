@@ -13,6 +13,8 @@ namespace SSXMultiTool
 {
     public class TrickyLevelInterface
     {
+        public bool AttemptLightingFix;
+
         public PatchesJsonHandler patchPoints = new PatchesJsonHandler();
         public InstanceJsonHandler instancesJson = new InstanceJsonHandler();
         public ParticleInstanceJsonHandler particleInstanceJson = new ParticleInstanceJsonHandler();
@@ -793,6 +795,10 @@ namespace SSXMultiTool
                 NewInstance.Unknown10 = JsonUtil.ArrayToVector4(Oldinstance.Unknown10);
                 NewInstance.Unknown11 = JsonUtil.ArrayToVector4(Oldinstance.Unknown11);
                 NewInstance.RGBA = JsonUtil.ArrayToVector4(Oldinstance.RGBA);
+                //if (AttemptLightingFix)
+                //{
+                //    NewInstance.RGBA = new Vector4(NewInstance.RGBA.X / 2, NewInstance.RGBA.Y / 2, NewInstance.RGBA.Z / 2, NewInstance.RGBA.W);
+                //}
 
                 NewInstance.ModelID = Oldinstance.ModelID;
                 NewInstance.PrevInstance = Oldinstance.PrevInstance;
@@ -819,6 +825,48 @@ namespace SSXMultiTool
             }
 
 
+            materialJson = new MaterialJsonHandler();
+            materialJson = MaterialJsonHandler.Load(LoadPath + "/Material.json");
+            pbdHandler.materials = new List<TrickyMaterial>();
+            mapHandler.Materials = new List<LinkerItem>();
+            for (int i = 0; i < materialJson.MaterialsJsons.Count; i++)
+            {
+                var NewMaterial = new TrickyMaterial();
+
+                NewMaterial.TextureID = materialJson.MaterialsJsons[i].TextureID;
+                NewMaterial.UnknownInt2 = materialJson.MaterialsJsons[i].UnknownInt2;
+                NewMaterial.UnknownInt3 = materialJson.MaterialsJsons[i].UnknownInt3;
+                NewMaterial.UnknownFloat1 = materialJson.MaterialsJsons[i].UnknownFloat1;
+                NewMaterial.UnknownFloat2 = materialJson.MaterialsJsons[i].UnknownFloat2;
+                NewMaterial.UnknownFloat3 = materialJson.MaterialsJsons[i].UnknownFloat3;
+                NewMaterial.UnknownFloat4 = materialJson.MaterialsJsons[i].UnknownFloat4;
+                NewMaterial.UnknownInt8 = materialJson.MaterialsJsons[i].UnknownInt8;
+                NewMaterial.UnknownFloat5 = 0f;
+
+                NewMaterial.UnknownFloat6 = materialJson.MaterialsJsons[i].UnknownFloat6;
+                NewMaterial.UnknownFloat7 = materialJson.MaterialsJsons[i].UnknownFloat7;
+                NewMaterial.UnknownFloat8 = materialJson.MaterialsJsons[i].UnknownFloat8;
+
+                NewMaterial.UnknownInt13 = materialJson.MaterialsJsons[i].UnknownInt13;
+                NewMaterial.UnknownInt14 = materialJson.MaterialsJsons[i].UnknownInt14;
+                NewMaterial.UnknownInt15 = materialJson.MaterialsJsons[i].UnknownInt15;
+                NewMaterial.UnknownInt16 = materialJson.MaterialsJsons[i].UnknownInt16;
+                NewMaterial.UnknownInt17 = materialJson.MaterialsJsons[i].UnknownInt17;
+                NewMaterial.UnknownInt18 = materialJson.MaterialsJsons[i].UnknownInt18;
+                NewMaterial.TextureFlipbookID = materialJson.MaterialsJsons[i].TextureFlipbookID;
+                NewMaterial.UnknownInt20 = materialJson.MaterialsJsons[i].UnknownInt20;
+
+                pbdHandler.materials.Add(NewMaterial);
+
+                LinkerItem linkerItem = new LinkerItem();
+                linkerItem.Name = materialJson.MaterialsJsons[i].MaterialName;
+                linkerItem.Ref = -1; //FIX Later
+                linkerItem.UID = i;
+                linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
+                mapHandler.Materials.Add(linkerItem);
+            }
+
+
             pbdHandler.Save(ExportPath + ".pbd");
             mapHandler.Save(ExportPath + ".map");
 
@@ -831,7 +879,10 @@ namespace SSXMultiTool
             {
                 TextureHandler.AddImage();
                 TextureHandler.LoadSingle(ImageFiles[i], i);
-                TextureHandler.DarkenImage(i);
+                if (!AttemptLightingFix)
+                {
+                    TextureHandler.DarkenImage(i);
+                }
                 var temp = TextureHandler.sshImages[i];
                 temp.shortname = i.ToString().PadLeft(4, '0');
                 temp.AlphaFix = true;
@@ -841,7 +892,7 @@ namespace SSXMultiTool
             TextureHandler.SaveSSH(ExportPath+".ssh", true);
 
 
-            string[] SkyboxFiles = Directory.GetFiles(LoadPath + "/Skybox", "*.png");
+            string[] SkyboxFiles = Directory.GetFiles(LoadPath + "\\Skybox\\Textures", "*.png");
             if (SkyboxFiles.Length != 0)
             {
                 //Build Skybox

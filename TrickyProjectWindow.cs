@@ -114,6 +114,7 @@ namespace SSXMultiTool
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     trickyLevelInterface = new TrickyLevelInterface();
+                    trickyLevelInterface.AttemptLightingFix = EmulatorLigthFix.Checked;
                     trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, openFileDialog.FileName);
                     MessageBox.Show("Level Built");
                 }

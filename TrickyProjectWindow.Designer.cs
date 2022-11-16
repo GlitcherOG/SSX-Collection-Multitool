@@ -76,6 +76,7 @@
             this.SaveConfig = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.EmulatorLigthFix = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -529,11 +530,22 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PBD Data";
             // 
+            // EmulatorLigthFix
+            // 
+            this.EmulatorLigthFix.AutoSize = true;
+            this.EmulatorLigthFix.Location = new System.Drawing.Point(617, 390);
+            this.EmulatorLigthFix.Name = "EmulatorLigthFix";
+            this.EmulatorLigthFix.Size = new System.Drawing.Size(171, 19);
+            this.EmulatorLigthFix.TabIndex = 48;
+            this.EmulatorLigthFix.Text = "Emulator Lighting Fix (WIP)";
+            this.EmulatorLigthFix.UseVisualStyleBackColor = true;
+            // 
             // TrickyProjectWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.EmulatorLigthFix);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.SaveConfig);
@@ -617,5 +629,6 @@
         private Button SaveConfig;
         private GroupBox groupBox1;
         private GroupBox groupBox2;
+        private CheckBox EmulatorLigthFix;
     }
 }

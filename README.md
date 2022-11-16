@@ -14,6 +14,9 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 
 ## Current Todo
 - Level Generate Hardware Fix
+- Fix Skybox Texture Loading
+
+
 - Get Cameras and Hash exporting so i can start rebuilding the file from scratch
 - Redo Folder Loading SSH
 - LOC Script Update

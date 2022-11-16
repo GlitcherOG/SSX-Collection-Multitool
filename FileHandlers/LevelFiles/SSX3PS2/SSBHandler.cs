@@ -10,11 +10,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 {
     internal class SSBHandler
     {
+        /*
+            
+        All IDS
+         */
         public void LoadAndExtractSSB(string path, string extractPath)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
                 MemoryStream memoryStream = new MemoryStream();
+                List<int> ints = new List<int>();
                 int a = 0;
                 while(true)
                 {
@@ -34,10 +39,18 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     RefpackHandler refpackHandler = new RefpackHandler();
                     DecompressedData=refpackHandler.Decompress(Data);
                     StreamUtil.WriteBytes(DecomMemoryStream, DecompressedData);
+                    StreamUtil.WriteBytes(memoryStream, DecompressedData);
+
+                    DecomMemoryStream.Position = 0;
 
                     int ID = StreamUtil.ReadByte(DecomMemoryStream);
                     int ChunkSize = StreamUtil.ReadInt24(DecomMemoryStream);
                     int RID = StreamUtil.ReadInt32(DecomMemoryStream);
+
+                    if(!ints.Contains(ID))
+                    {
+                        ints.Add(ID);
+                    }
 
                     if (MagicWords.ToUpper() == "CEND")
                     {
