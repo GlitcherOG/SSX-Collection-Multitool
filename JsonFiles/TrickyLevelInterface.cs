@@ -795,10 +795,10 @@ namespace SSXMultiTool
                 NewInstance.Unknown10 = JsonUtil.ArrayToVector4(Oldinstance.Unknown10);
                 NewInstance.Unknown11 = JsonUtil.ArrayToVector4(Oldinstance.Unknown11);
                 NewInstance.RGBA = JsonUtil.ArrayToVector4(Oldinstance.RGBA);
-                //if (AttemptLightingFix)
-                //{
-                //    NewInstance.RGBA = new Vector4(NewInstance.RGBA.X / 2, NewInstance.RGBA.Y / 2, NewInstance.RGBA.Z / 2, NewInstance.RGBA.W);
-                //}
+                if (AttemptLightingFix)
+                {
+                    NewInstance.RGBA = new Vector4(NewInstance.RGBA.X / 2, NewInstance.RGBA.Y / 2, NewInstance.RGBA.Z / 2, NewInstance.RGBA.W);
+                }
 
                 NewInstance.ModelID = Oldinstance.ModelID;
                 NewInstance.PrevInstance = Oldinstance.PrevInstance;
@@ -841,7 +841,7 @@ namespace SSXMultiTool
                 NewMaterial.UnknownFloat3 = materialJson.MaterialsJsons[i].UnknownFloat3;
                 NewMaterial.UnknownFloat4 = materialJson.MaterialsJsons[i].UnknownFloat4;
                 NewMaterial.UnknownInt8 = materialJson.MaterialsJsons[i].UnknownInt8;
-                NewMaterial.UnknownFloat5 = 0f;
+                NewMaterial.UnknownFloat5 = materialJson.MaterialsJsons[i].UnknownFloat5;
 
                 NewMaterial.UnknownFloat6 = materialJson.MaterialsJsons[i].UnknownFloat6;
                 NewMaterial.UnknownFloat7 = materialJson.MaterialsJsons[i].UnknownFloat7;
@@ -925,7 +925,10 @@ namespace SSXMultiTool
                 temp.sshHeader.MatrixFormat = 5;
                 LightmapHandler.sshImages[i] = temp;
                 LightmapHandler.LoadSingle(LightmapFiles[i], i);
-                LightmapHandler.DarkenImage(i);
+                if (!AttemptLightingFix)
+                {
+                    LightmapHandler.DarkenImage(i);
+                }
                 temp = LightmapHandler.sshImages[i];
                 temp.shortname = i.ToString().PadLeft(4, '0');
                 //temp.AlphaFix = true;

@@ -34,32 +34,36 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     byte[] DecompressedData = new byte[1];
                     Data = StreamUtil.ReadBytes(stream, Size-8);
 
-                    MemoryStream DecomMemoryStream = new MemoryStream();
-
                     RefpackHandler refpackHandler = new RefpackHandler();
                     DecompressedData=refpackHandler.Decompress(Data);
-                    StreamUtil.WriteBytes(DecomMemoryStream, DecompressedData);
                     StreamUtil.WriteBytes(memoryStream, DecompressedData);
 
-                    DecomMemoryStream.Position = 0;
-
-                    int ID = StreamUtil.ReadByte(DecomMemoryStream);
-                    int ChunkSize = StreamUtil.ReadInt24(DecomMemoryStream);
-                    int RID = StreamUtil.ReadInt32(DecomMemoryStream);
-
-                    if(!ints.Contains(ID))
-                    {
-                        ints.Add(ID);
-                    }
 
                     if (MagicWords.ToUpper() == "CEND")
                     {
-                        var file = File.Create(extractPath + "//" + a + ".bin");
+                        int FilePos = 0;
                         memoryStream.Position = 0;
-                        memoryStream.CopyTo(file);
+                        Directory.CreateDirectory(extractPath + "//" + a);
+                        while (memoryStream.Position< memoryStream.Length)
+                        {
+                            MemoryStream memoryStream1 = new MemoryStream();
+                            int ID = StreamUtil.ReadByte(memoryStream);
+                            int ChunkSize = StreamUtil.ReadInt24(memoryStream);
+                            int RID = StreamUtil.ReadInt32(memoryStream);
+
+                            byte[] NewData= StreamUtil.ReadBytes(memoryStream, ChunkSize);
+                            StreamUtil.WriteBytes(memoryStream1, NewData);
+
+                            var file = File.Create(extractPath + "//" + a + "//" + FilePos + "." + ID + "bin");
+                            memoryStream1.Position = 0;
+                            memoryStream1.CopyTo(file);
+                            memoryStream1 = new MemoryStream();
+                            memoryStream1.Dispose();
+                            file.Close();
+                            FilePos++;
+                        }
                         memoryStream.Dispose();
                         memoryStream = new MemoryStream();
-                        file.Close();
                         a++;
                     }
                 }
