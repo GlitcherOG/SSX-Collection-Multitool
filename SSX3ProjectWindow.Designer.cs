@@ -46,6 +46,7 @@
             // 
             // PackSSB
             // 
+            this.PackSSB.Enabled = false;
             this.PackSSB.Location = new System.Drawing.Point(670, 404);
             this.PackSSB.Name = "PackSSB";
             this.PackSSB.Size = new System.Drawing.Size(118, 34);

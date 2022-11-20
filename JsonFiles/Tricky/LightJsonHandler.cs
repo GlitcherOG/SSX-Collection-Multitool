@@ -38,29 +38,19 @@ namespace SSXMultiTool.JsonFiles.Tricky
         {
             public string LightName;
 
+            public int Type;
+            public int spriteRes;
+            public float UnknownFloat1;
             public int UnknownInt1;
+            public float[] Colour;
+            public float[] Direction;
+            public float[] Postion;
+            public float[] LowestXYZ;
+            public float[] HighestXYZ;
+            public float UnknownFloat2;
             public int UnknownInt2;
+            public float UnknownFloat3;
             public int UnknownInt3;
-            public int UnknownInt4;
-            public int UnknownInt5;
-            public int UnknownInt6;
-            public int UnknownInt7;
-            public int UnknownInt8;
-            public int UnknownInt9;
-            public int UnknownInt10;
-            public int UnknownInt11;
-            public int UnknownInt12;
-            public int UnknownInt13;
-            public int UnknownInt14;
-            public int UnknownInt15;
-            public int UnknownInt16;
-            public int UnknownInt17;
-            public int UnknownInt18;
-            public int UnknownInt19;
-            public int UnknownInt20;
-            public int UnknownInt21;
-            public int UnknownInt22;
-            public int UnknownInt23;
         }
     }
 }

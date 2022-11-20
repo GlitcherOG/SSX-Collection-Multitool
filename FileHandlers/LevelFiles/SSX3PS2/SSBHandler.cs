@@ -13,6 +13,28 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         /*
             
         All IDS
+        0 - Unknown
+        2 - WorldMDR (Def Contains Model Info)
+        3 - Unknown
+        4 - Unknown
+        5 - 
+        6 -
+        7 -
+        8 -
+        9 - Shape
+        10 - 
+        11 - 
+        12 - 
+        13 - 
+        14 - 
+        15 - 
+        16 - 
+        17 -
+        18 - 
+        19 - 
+        20 - AudioBank
+        21 - 
+        22 - End
          */
         public void LoadAndExtractSSB(string path, string extractPath)
         {

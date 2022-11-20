@@ -225,29 +225,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 for (int i = 0; i < NumLights; i++)
                 {
                     var TempLights = new Light();
+                    TempLights.Type = StreamUtil.ReadInt32(stream);
+                    TempLights.spriteRes = StreamUtil.ReadInt32(stream);
+                    TempLights.UnknownFloat1 = StreamUtil.ReadFloat(stream);
                     TempLights.UnknownInt1 = StreamUtil.ReadInt32(stream);
+                    TempLights.Colour = StreamUtil.ReadVector3(stream);
+                    TempLights.Direction = StreamUtil.ReadVector3(stream);
+                    TempLights.Postion = StreamUtil.ReadVector3(stream);
+                    TempLights.LowestXYZ = StreamUtil.ReadVector3(stream);
+                    TempLights.HighestXYZ = StreamUtil.ReadVector3(stream);
+                    TempLights.UnknownFloat2 = StreamUtil.ReadInt32(stream);
                     TempLights.UnknownInt2 = StreamUtil.ReadInt32(stream);
+                    TempLights.UnknownFloat3 = StreamUtil.ReadInt32(stream);
                     TempLights.UnknownInt3 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt4 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt5 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt6 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt7 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt8 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt9 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt10 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt11 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt12 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt13 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt14 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt15 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt16 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt17 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt18 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt19 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt20 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt21 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt22 = StreamUtil.ReadInt32(stream);
-                    TempLights.UnknownInt23 = StreamUtil.ReadInt32(stream);
                     lights.Add(TempLights);
                 }
 
@@ -1514,29 +1504,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
     public struct Light
     {
+        public int Type;
+        public int spriteRes;
+        public float UnknownFloat1;
         public int UnknownInt1;
+        public Vector3 Colour;
+        public Vector3 Direction;
+        public Vector3 Postion;
+        public Vector3 LowestXYZ;
+        public Vector3 HighestXYZ;
+        public float UnknownFloat2;
         public int UnknownInt2;
+        public float UnknownFloat3;
         public int UnknownInt3;
-        public int UnknownInt4;
-        public int UnknownInt5;
-        public int UnknownInt6;
-        public int UnknownInt7;
-        public int UnknownInt8;
-        public int UnknownInt9;
-        public int UnknownInt10;
-        public int UnknownInt11;
-        public int UnknownInt12;
-        public int UnknownInt13;
-        public int UnknownInt14;
-        public int UnknownInt15;
-        public int UnknownInt16;
-        public int UnknownInt17;
-        public int UnknownInt18;
-        public int UnknownInt19;
-        public int UnknownInt20;
-        public int UnknownInt21;
-        public int UnknownInt22;
-        public int UnknownInt23;
     }
 
     public struct MaterialBlock

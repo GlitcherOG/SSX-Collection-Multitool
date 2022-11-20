@@ -256,29 +256,19 @@ namespace SSXMultiTool
                 LightJsonHandler.LightJson TempLight = new LightJsonHandler.LightJson();
                 TempLight.LightName = mapHandler.Lights[i].Name;
 
+                TempLight.Type = pbdHandler.lights[i].Type;
+                TempLight.spriteRes = pbdHandler.lights[i].spriteRes;
+                TempLight.UnknownFloat1 = pbdHandler.lights[i].UnknownFloat1;
                 TempLight.UnknownInt1 = pbdHandler.lights[i].UnknownInt1;
+                TempLight.Colour = JsonUtil.Vector3ToArray(pbdHandler.lights[i].Colour);
+                TempLight.Direction = JsonUtil.Vector3ToArray(pbdHandler.lights[i].Direction);
+                TempLight.Postion = JsonUtil.Vector3ToArray(pbdHandler.lights[i].Postion);
+                TempLight.LowestXYZ = JsonUtil.Vector3ToArray(pbdHandler.lights[i].LowestXYZ);
+                TempLight.HighestXYZ = JsonUtil.Vector3ToArray(pbdHandler.lights[i].HighestXYZ);
+                TempLight.UnknownFloat2 = pbdHandler.lights[i].UnknownFloat2;
                 TempLight.UnknownInt2 = pbdHandler.lights[i].UnknownInt2;
+                TempLight.UnknownFloat3 = pbdHandler.lights[i].UnknownFloat3;
                 TempLight.UnknownInt3 = pbdHandler.lights[i].UnknownInt3;
-                TempLight.UnknownInt4 = pbdHandler.lights[i].UnknownInt4;
-                TempLight.UnknownInt5 = pbdHandler.lights[i].UnknownInt5;
-                TempLight.UnknownInt6 = pbdHandler.lights[i].UnknownInt6;
-                TempLight.UnknownInt7 = pbdHandler.lights[i].UnknownInt7;
-                TempLight.UnknownInt8 = pbdHandler.lights[i].UnknownInt8;
-                TempLight.UnknownInt9 = pbdHandler.lights[i].UnknownInt9;
-                TempLight.UnknownInt10 = pbdHandler.lights[i].UnknownInt10;
-                TempLight.UnknownInt11 = pbdHandler.lights[i].UnknownInt11;
-                TempLight.UnknownInt12 = pbdHandler.lights[i].UnknownInt12;
-                TempLight.UnknownInt13 = pbdHandler.lights[i].UnknownInt13;
-                TempLight.UnknownInt14 = pbdHandler.lights[i].UnknownInt14;
-                TempLight.UnknownInt15 = pbdHandler.lights[i].UnknownInt15;
-                TempLight.UnknownInt16 = pbdHandler.lights[i].UnknownInt16;
-                TempLight.UnknownInt17 = pbdHandler.lights[i].UnknownInt17;
-                TempLight.UnknownInt18 = pbdHandler.lights[i].UnknownInt18;
-                TempLight.UnknownInt19 = pbdHandler.lights[i].UnknownInt19;
-                TempLight.UnknownInt20 = pbdHandler.lights[i].UnknownInt20;
-                TempLight.UnknownInt21 = pbdHandler.lights[i].UnknownInt21;
-                TempLight.UnknownInt22 = pbdHandler.lights[i].UnknownInt22;
-                TempLight.UnknownInt23 = pbdHandler.lights[i].UnknownInt23;
 
                 lightJsonHandler.LightJsons.Add(TempLight);
 
