@@ -37,6 +37,10 @@ namespace SSXMultiTool
             PBDHandler pbdHandler = new PBDHandler();
             pbdHandler.LoadPBD(LoadPath + ".pbd");
 
+            //Load LTG
+            LTGHandler ltgHandler = new LTGHandler();
+            ltgHandler.LoadLTG(LoadPath + ".ltg");
+
             //Create Patches JSON
             patchPoints = new PatchesJsonHandler();
             for (int i = 0; i < pbdHandler.Patches.Count; i++)

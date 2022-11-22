@@ -79,58 +79,61 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     for (int x = 0; x < pointerCount; x++)
                     {
-                        stream.Position = offsetList[x, y] + bboxDataListOffset;
-                        mainBbox tempbBox = new mainBbox();
-                        tempbBox.WorldBounds1 = StreamUtil.ReadVector3(stream);
-                        tempbBox.WorldBounds2 = StreamUtil.ReadVector3(stream);
-                        tempbBox.WorldBounds3 = StreamUtil.ReadVector3(stream);
-
-                        tempbBox.totalPatchCount = StreamUtil.ReadInt32(stream);
-                        tempbBox.totalInstanceCount = StreamUtil.ReadInt32(stream);
-                        tempbBox.unknown = StreamUtil.ReadInt32(stream);
-                        tempbBox.totalLightCount = StreamUtil.ReadInt32(stream);
-                        tempbBox.totallightsCrossingCount = StreamUtil.ReadInt32(stream);
-                        tempbBox.totalParticleInstanceCount = StreamUtil.ReadInt32(stream);
-                        tempbBox.Unknown1 = StreamUtil.ReadInt32(stream);
-                        tempbBox.Unknown2 = StreamUtil.ReadInt32(stream);
-                        tempbBox.Unknown3 = StreamUtil.ReadInt32(stream);
-                        tempbBox.Unknown4 = StreamUtil.ReadInt32(stream);
-                        tempbBox.Unknown5 = StreamUtil.ReadInt32(stream);
-                        tempbBox.Unknown6 = StreamUtil.ReadInt32(stream);
-                        tempbBox.Unknown7 = StreamUtil.ReadInt32(stream);
-                        tempbBox.Unknown8 = StreamUtil.ReadInt32(stream);
-
-                        tempbBox.nodeBBoxes = new nodeBBox[nodeBoxWidth, nodeBoxWidth];
-
-                        for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                        if (offsetList[x, y] != 0)
                         {
-                            for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                            stream.Position = offsetList[x, y];
+                            mainBbox tempbBox = new mainBbox();
+                            tempbBox.WorldBounds1 = StreamUtil.ReadVector3(stream);
+                            tempbBox.WorldBounds2 = StreamUtil.ReadVector3(stream);
+                            tempbBox.WorldBounds3 = StreamUtil.ReadVector3(stream);
+
+                            tempbBox.totalPatchCount = StreamUtil.ReadInt16(stream);
+                            tempbBox.totalInstanceCount = StreamUtil.ReadInt16(stream);
+                            tempbBox.unknown = StreamUtil.ReadInt16(stream);
+                            tempbBox.totalLightCount = StreamUtil.ReadInt16(stream);
+                            tempbBox.totallightsCrossingCount = StreamUtil.ReadInt16(stream);
+                            tempbBox.totalParticleInstanceCount = StreamUtil.ReadInt16(stream);
+                            tempbBox.Unknown1 = StreamUtil.ReadInt32(stream);
+                            tempbBox.Unknown2 = StreamUtil.ReadInt32(stream);
+                            tempbBox.Unknown3 = StreamUtil.ReadInt32(stream);
+                            tempbBox.Unknown4 = StreamUtil.ReadInt32(stream);
+                            tempbBox.Unknown5 = StreamUtil.ReadInt32(stream);
+                            tempbBox.Unknown6 = StreamUtil.ReadInt32(stream);
+                            tempbBox.Unknown7 = StreamUtil.ReadInt32(stream);
+                            tempbBox.Unknown8 = StreamUtil.ReadInt32(stream);
+
+                            tempbBox.nodeBBoxes = new nodeBBox[nodeBoxWidth, nodeBoxWidth];
+
+                            for (int y1 = 0; y1 < nodeBoxWidth; y1++)
                             {
-                                nodeBBox tempNode = new nodeBBox();
-                                tempNode.WorldBounds1 = StreamUtil.ReadVector3(stream);
-                                tempNode.WorldBounds2 = StreamUtil.ReadVector3(stream);
-                                tempNode.WorldBounds3 = StreamUtil.ReadVector3(stream);
+                                for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                                {
+                                    nodeBBox tempNode = new nodeBBox();
+                                    tempNode.WorldBounds1 = StreamUtil.ReadVector3(stream);
+                                    tempNode.WorldBounds2 = StreamUtil.ReadVector3(stream);
+                                    tempNode.WorldBounds3 = StreamUtil.ReadVector3(stream);
 
-                                tempNode.patchCount = StreamUtil.ReadInt32(stream);
-                                tempNode.instanceCount = StreamUtil.ReadInt32(stream);
-                                tempNode.instAndGemCount = StreamUtil.ReadInt32(stream);
-                                tempNode.splineCount = StreamUtil.ReadInt32(stream);
-                                tempNode.lightCount = StreamUtil.ReadInt32(stream);
-                                tempNode.lightsCrossingCount = StreamUtil.ReadInt32(stream);
-                                tempNode.particleCount = StreamUtil.ReadInt32(stream);
+                                    tempNode.patchCount = StreamUtil.ReadInt16(stream);
+                                    tempNode.instanceCount = StreamUtil.ReadInt16(stream);
+                                    tempNode.instAndGemCount = StreamUtil.ReadInt16(stream);
+                                    tempNode.splineCount = StreamUtil.ReadInt16(stream);
+                                    tempNode.lightCount = StreamUtil.ReadInt16(stream);
+                                    tempNode.lightsCrossingCount = StreamUtil.ReadInt16(stream);
+                                    tempNode.particleCount = StreamUtil.ReadInt32(stream);
 
-                                tempNode.patchesOffset = StreamUtil.ReadInt32(stream);
-                                tempNode.instancesOffset = StreamUtil.ReadInt32(stream);
-                                tempNode.splinesOffset = StreamUtil.ReadInt32(stream);
-                                tempNode.lightsOffset = StreamUtil.ReadInt32(stream);
-                                tempNode.lightsCrossingOffset = StreamUtil.ReadInt32(stream);
-                                tempNode.particleModelsOffset = StreamUtil.ReadInt32(stream);
+                                    tempNode.patchesOffset = StreamUtil.ReadInt32(stream);
+                                    tempNode.instancesOffset = StreamUtil.ReadInt32(stream);
+                                    tempNode.splinesOffset = StreamUtil.ReadInt32(stream);
+                                    tempNode.lightsOffset = StreamUtil.ReadInt32(stream);
+                                    tempNode.lightsCrossingOffset = StreamUtil.ReadInt32(stream);
+                                    tempNode.particleModelsOffset = StreamUtil.ReadInt32(stream);
 
-                                tempbBox.nodeBBoxes[x1, y1] = tempNode;
+                                    tempbBox.nodeBBoxes[x1, y1] = tempNode;
+                                }
                             }
-                        }
 
-                        mainBboxes[x, y] = tempbBox;
+                            mainBboxes[x, y] = tempbBox;
+                        }
                     }
                 }
             }
