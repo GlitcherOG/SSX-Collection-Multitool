@@ -17,6 +17,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         Vector3 WorldBounds1;
         Vector3 WorldBounds2;
+        Vector3 WorldBounds3;
 
         float mainBboxSize;
         int pointerCount;
@@ -32,7 +33,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         int pointerListOffset;
         int bboxDataListOffset;
 
-        public int[,] offsetList;
+        public int[,]? offsetList;
+
+        public mainBbox[,]? mainBboxes;
 
         public void LoadLTG(string path)
         {
@@ -45,6 +48,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 WorldBounds1 = StreamUtil.ReadVector3(stream);
                 WorldBounds2 = StreamUtil.ReadVector3(stream);
+                WorldBounds3 = StreamUtil.ReadVector3(stream);
 
                 mainBboxSize = StreamUtil.ReadFloat(stream);
                 pointerCount = StreamUtil.ReadInt32(stream);
@@ -61,12 +65,72 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 bboxDataListOffset = StreamUtil.ReadInt32(stream);
 
                 offsetList = new int[pointerCount, pointerListCount];
-
+                stream.Position = pointerListOffset;
                 for (int y = 0; y < pointerListCount; y++)
                 {
                     for (int x = 0; x < pointerCount; x++)
                     {
-                        offsetList[y, x] = StreamUtil.ReadInt32(stream);
+                        offsetList[x, y] = StreamUtil.ReadInt32(stream);
+                    }
+                }
+
+                mainBboxes = new mainBbox[pointerCount, pointerListCount];
+                for (int y = 0; y < pointerListCount; y++)
+                {
+                    for (int x = 0; x < pointerCount; x++)
+                    {
+                        stream.Position = offsetList[x, y] + bboxDataListOffset;
+                        mainBbox tempbBox = new mainBbox();
+                        tempbBox.WorldBounds1 = StreamUtil.ReadVector3(stream);
+                        tempbBox.WorldBounds2 = StreamUtil.ReadVector3(stream);
+                        tempbBox.WorldBounds3 = StreamUtil.ReadVector3(stream);
+
+                        tempbBox.totalPatchCount = StreamUtil.ReadInt32(stream);
+                        tempbBox.totalInstanceCount = StreamUtil.ReadInt32(stream);
+                        tempbBox.unknown = StreamUtil.ReadInt32(stream);
+                        tempbBox.totalLightCount = StreamUtil.ReadInt32(stream);
+                        tempbBox.totallightsCrossingCount = StreamUtil.ReadInt32(stream);
+                        tempbBox.totalParticleInstanceCount = StreamUtil.ReadInt32(stream);
+                        tempbBox.Unknown1 = StreamUtil.ReadInt32(stream);
+                        tempbBox.Unknown2 = StreamUtil.ReadInt32(stream);
+                        tempbBox.Unknown3 = StreamUtil.ReadInt32(stream);
+                        tempbBox.Unknown4 = StreamUtil.ReadInt32(stream);
+                        tempbBox.Unknown5 = StreamUtil.ReadInt32(stream);
+                        tempbBox.Unknown6 = StreamUtil.ReadInt32(stream);
+                        tempbBox.Unknown7 = StreamUtil.ReadInt32(stream);
+                        tempbBox.Unknown8 = StreamUtil.ReadInt32(stream);
+
+                        tempbBox.nodeBBoxes = new nodeBBox[nodeBoxWidth, nodeBoxWidth];
+
+                        for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                        {
+                            for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                            {
+                                nodeBBox tempNode = new nodeBBox();
+                                tempNode.WorldBounds1 = StreamUtil.ReadVector3(stream);
+                                tempNode.WorldBounds2 = StreamUtil.ReadVector3(stream);
+                                tempNode.WorldBounds3 = StreamUtil.ReadVector3(stream);
+
+                                tempNode.patchCount = StreamUtil.ReadInt32(stream);
+                                tempNode.instanceCount = StreamUtil.ReadInt32(stream);
+                                tempNode.instAndGemCount = StreamUtil.ReadInt32(stream);
+                                tempNode.splineCount = StreamUtil.ReadInt32(stream);
+                                tempNode.lightCount = StreamUtil.ReadInt32(stream);
+                                tempNode.lightsCrossingCount = StreamUtil.ReadInt32(stream);
+                                tempNode.particleCount = StreamUtil.ReadInt32(stream);
+
+                                tempNode.patchesOffset = StreamUtil.ReadInt32(stream);
+                                tempNode.instancesOffset = StreamUtil.ReadInt32(stream);
+                                tempNode.splinesOffset = StreamUtil.ReadInt32(stream);
+                                tempNode.lightsOffset = StreamUtil.ReadInt32(stream);
+                                tempNode.lightsCrossingOffset = StreamUtil.ReadInt32(stream);
+                                tempNode.particleModelsOffset = StreamUtil.ReadInt32(stream);
+
+                                tempbBox.nodeBBoxes[x1, y1] = tempNode;
+                            }
+                        }
+
+                        mainBboxes[x, y] = tempbBox;
                     }
                 }
             }
@@ -75,48 +139,50 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
 
 
-        struct mainBbox
+        public struct mainBbox
         {
-            Vector3 WorldBounds1;
-            Vector3 WorldBounds2;
-            Vector3 WorldBounds3;
+            public Vector3 WorldBounds1;
+            public Vector3 WorldBounds2;
+            public Vector3 WorldBounds3;
 
-            int totalPatchCount;            // Total Patch count
-            int totalInstanceCount;         // Total Instance count
-            int unknown;
-            int totalLightCount;            // Total Light count
-            int totallightsCrossingCount;   // Total Lights crossing count. Whatever that means
-            int totalParticleInstanceCount;
-            int Unknown1; // number of elements?
-            int Unknown2; // offset to first nodeBbox? or mainBbox byte size
-            int Unknown3; // index list offset
-            int Unknown4;
-            int Unknown5;
-            int Unknown6;
-            int Unknown7; // offset leads to list of extraThing lists
-            int Unknown8;
+            public int totalPatchCount;            // Total Patch count
+            public int totalInstanceCount;         // Total Instance count
+            public int unknown;
+            public int totalLightCount;            // Total Light count
+            public int totallightsCrossingCount;   // Total Lights crossing count. Whatever that means
+            public int totalParticleInstanceCount;
+            public int Unknown1; // number of elements?
+            public int Unknown2; // offset to first nodeBbox? or mainBbox byte size
+            public int Unknown3; // index list offset
+            public int Unknown4;
+            public int Unknown5;
+            public int Unknown6;
+            public int Unknown7; // offset leads to list of extraThing lists
+            public int Unknown8;
+
+            public nodeBBox[,] nodeBBoxes;
         }
 
-        struct nodeBBox
+        public struct nodeBBox
         {
-            Vector3 WorldBounds1;
-            Vector3 WorldBounds2;
-            Vector3 WorldBounds3;
+            public Vector3 WorldBounds1;
+            public Vector3 WorldBounds2;
+            public Vector3 WorldBounds3;
 
-            int patchCount;          // Patch count
-            int instanceCount;       // Instance count
-            int instAndGemCount;     // Models/Instances & Gems apparently
-            int splineCount;         // Spline count
-            int lightCount;          // Light count
-            int lightsCrossingCount; // Lights crossing count
-            int particleCount;       // Particle model count
+            public int patchCount;          // Patch count
+            public int instanceCount;       // Instance count
+            public int instAndGemCount;     // Models/Instances & Gems apparently
+            public int splineCount;         // Spline count
+            public int lightCount;          // Light count
+            public int lightsCrossingCount; // Lights crossing count
+            public int particleCount;       // Particle model count
 
-            int patchesOffset;        // offset leads to it's own index list
-            int instancesOffset;      // or models
-            int splinesOffset;
-            int lightsOffset;
-            int lightsCrossingOffset; // offset of it's own extraThing list, usually hex 00000000 01000000
-            int particleModelsOffset;
+            public int patchesOffset;        // offset leads to it's own index list
+            public int instancesOffset;      // or models
+            public int splinesOffset;
+            public int lightsOffset;
+            public int lightsCrossingOffset; // offset of it's own extraThing list, usually hex 00000000 01000000
+            public int particleModelsOffset;
         }
 
     }
