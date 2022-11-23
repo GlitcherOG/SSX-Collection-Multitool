@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using SSXMultiTool.Utilities;
 
@@ -10,28 +11,28 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
     internal class LTGHandler
     {
-        byte Unknown;
-        byte ColdFusionVersion;
-        byte ColdFusionRevision;
-        byte endianess;
+        public byte Unknown;
+        public byte ColdFusionVersion;
+        public byte ColdFusionRevision;
+        public byte endianess;
 
-        Vector3 WorldBounds1;
-        Vector3 WorldBounds2;
-        Vector3 WorldBounds3;
+        public Vector3 WorldBounds1;
+        public Vector3 WorldBounds2;
+        public Vector3 WorldBounds3;
 
-        float mainBboxSize;
-        int pointerCount;
-        int pointerListCount;
-        int totalGridCount;
-        int mainBboxCount;
-        int mainBboxEmptyCount;
+        public float mainBboxSize;
+        public int pointerCount;
+        public int pointerListCount;
+        public int totalGridCount;
+        public int mainBboxCount;
+        public int mainBboxEmptyCount;
 
-        float nodeBoxSize;
-        int nodeBoxWidth;
-        int nodeBoxCount;
+        public float nodeBoxSize;
+        public int nodeBoxWidth;
+        public int nodeBoxCount;
 
-        int pointerListOffset;
-        int bboxDataListOffset;
+        public int pointerListOffset;
+        public int bboxDataListOffset;
 
         public int[,]? offsetList;
 
@@ -93,14 +94,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             tempbBox.totalLightCount = StreamUtil.ReadInt16(stream);
                             tempbBox.totallightsCrossingCount = StreamUtil.ReadInt16(stream);
                             tempbBox.totalParticleInstanceCount = StreamUtil.ReadInt16(stream);
-                            tempbBox.Unknown1 = StreamUtil.ReadInt32(stream);
-                            tempbBox.Unknown2 = StreamUtil.ReadInt32(stream);
-                            tempbBox.Unknown3 = StreamUtil.ReadInt32(stream);
+                            tempbBox.Unknown1 = StreamUtil.ReadInt32(stream); // number of elements?
+                            tempbBox.Unknown2 = StreamUtil.ReadInt32(stream); // offset to first nodeBbox? or mainBbox byte size
+                            tempbBox.Unknown3 = StreamUtil.ReadInt32(stream); // index list offset
                             tempbBox.Unknown4 = StreamUtil.ReadInt32(stream);
                             tempbBox.Unknown5 = StreamUtil.ReadInt32(stream);
                             tempbBox.Unknown6 = StreamUtil.ReadInt32(stream);
-                            tempbBox.Unknown7 = StreamUtil.ReadInt32(stream);
+                            tempbBox.Unknown7 = StreamUtil.ReadInt32(stream); // offset leads to list of extraThing lists
                             tempbBox.Unknown8 = StreamUtil.ReadInt32(stream);
+                            tempbBox.Unknown9 = StreamUtil.ReadInt32(stream);
 
                             tempbBox.nodeBBoxes = new nodeBBox[nodeBoxWidth, nodeBoxWidth];
 
@@ -150,7 +152,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             public int totalPatchCount;            // Total Patch count
             public int totalInstanceCount;         // Total Instance count
-            public int unknown;
+            public int unknown;                    // Total Particle Instance
             public int totalLightCount;            // Total Light count
             public int totallightsCrossingCount;   // Total Lights crossing count. Whatever that means
             public int totalParticleInstanceCount;
@@ -162,6 +164,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int Unknown6;
             public int Unknown7; // offset leads to list of extraThing lists
             public int Unknown8;
+            public int Unknown9;
 
             public nodeBBox[,] nodeBBoxes;
         }
@@ -179,6 +182,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int lightCount;          // Light count
             public int lightsCrossingCount; // Lights crossing count
             public int particleCount;       // Particle model count
+            public int Unknown1;
 
             public int patchesOffset;        // offset leads to it's own index list
             public int instancesOffset;      // or models
