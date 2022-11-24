@@ -154,42 +154,73 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             MemoryStream MainFileStream = new MemoryStream();
 
             //Generate Array Bounds
-            Vector3 TopLeft = new Vector3(WorldBounds1.X, WorldBounds2.Y, 0);
-            Vector3 BottomRight = new Vector3(WorldBounds2.X, WorldBounds1.Y, 0);
-            Vector3 StartTopLeft;
-            Vector3 EndBottomRight;
+            Vector3 BottomLeft = new Vector3(WorldBounds1.X, WorldBounds1.Y, 0);
+            Vector3 TopRight = new Vector3(WorldBounds2.X, WorldBounds2.Y, 0);
+            Vector3 StartBottomLeft;
+            Vector3 EndTopRight;
 
             Vector3 Size;
 
-            float TempXPosition = MathF.Round(TopLeft.X / (nodeBoxSize * 4), MidpointRounding.ToZero);
-            if (TopLeft.X % (nodeBoxSize * 4)!=0)
+            float TempXPosition = (int)(BottomLeft.X / (nodeBoxSize * nodeBoxWidth));
+            if (BottomLeft.X % (nodeBoxSize * nodeBoxWidth) !=0)
             {
                 TempXPosition += -1;
             }
-            StartTopLeft.X = TempXPosition;
-            float TempYPosition = MathF.Round(TopLeft.Y / (nodeBoxSize * 4), MidpointRounding.ToZero);
-            if (TopLeft.Y % (nodeBoxSize * 4) != 0)
-            {
-                TempYPosition += 1;
-            }
-            StartTopLeft.Y = TempYPosition;
-            TempXPosition = MathF.Round(BottomRight.X / (nodeBoxSize * 4), MidpointRounding.ToZero);
-            if (BottomRight.X % (nodeBoxSize * 4) != 0)
-            {
-                TempXPosition += 1;
-            }
-            EndBottomRight.X = TempXPosition;
-            TempYPosition = MathF.Round(BottomRight.Y / (nodeBoxSize * 4), MidpointRounding.ToZero);
-            if (BottomRight.Y % (nodeBoxSize * 4) != 0)
+            StartBottomLeft.X = TempXPosition;
+            float TempYPosition = (int)(BottomLeft.Y / (nodeBoxSize * nodeBoxWidth));
+            if (BottomLeft.Y % (nodeBoxSize * nodeBoxWidth) != 0)
             {
                 TempYPosition += -1;
             }
-            EndBottomRight.Y = TempYPosition;
+            StartBottomLeft.Y = TempYPosition;
+            TempXPosition = (int)(TopRight.X / (nodeBoxSize * nodeBoxWidth));
+            if (TopRight.X % (nodeBoxSize * nodeBoxWidth) != 0)
+            {
+                TempXPosition += 1;
+            }
+            EndTopRight.X = TempXPosition;
+            TempYPosition = (int)(TopRight.Y / (nodeBoxSize * nodeBoxWidth));
+            if (TopRight.Y % (nodeBoxSize * nodeBoxWidth) != 0)
+            {
+                TempYPosition += 1;
+            }
+            EndTopRight.Y = TempYPosition;
 
-            Size.X = EndBottomRight.X - StartTopLeft.X;
-            Size.Y = StartTopLeft.Y - EndBottomRight.Y;
+            Size.X = EndTopRight.X - StartBottomLeft.X;
+            Size.Y = EndTopRight.Y - StartBottomLeft.Y;
 
+            //Generate MainBoxes
             mainBboxes = new mainBbox[(int)Size.X, (int)Size.Y];
+
+            for (int y = 0; y < (int)Size.Y; y++)
+            {
+                for (int x = 0; x < (int)Size.X; x++)
+                {
+                    var TempMainBox = mainBboxes[x, y];
+
+                    TempMainBox.WorldBounds1 = new Vector3((StartBottomLeft.X+x)*(nodeBoxSize * nodeBoxWidth), (StartBottomLeft.Y+y)*(nodeBoxSize * nodeBoxWidth), 0);
+                    TempMainBox.WorldBounds2 = new Vector3((StartBottomLeft.X + x) * (nodeBoxSize * nodeBoxWidth), (StartBottomLeft.Y + y) * (nodeBoxSize * nodeBoxWidth), 0);
+                    TempMainBox.WorldBounds2 += new Vector3((nodeBoxSize * nodeBoxWidth), (nodeBoxSize * nodeBoxWidth), 0);
+                    TempMainBox.WorldBounds3 = Vector3.Lerp(TempMainBox.WorldBounds1, TempMainBox.WorldBounds2, 0.5f);
+
+                    TempMainBox.nodeBBoxes = new nodeBBox[nodeBoxWidth, nodeBoxWidth];
+                    for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                    {
+                        for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                        {
+                            var TempNode = TempMainBox.nodeBBoxes[x1, y1];
+
+                            TempNode.WorldBounds1 = new Vector3(TempMainBox.WorldBounds1.X + (nodeBoxSize)*x1, TempMainBox.WorldBounds1.Y + (nodeBoxSize) * y1, 0);
+                            TempNode.WorldBounds2 = new Vector3(TempMainBox.WorldBounds1.X + (nodeBoxSize) * (x1+1), TempMainBox.WorldBounds1.Y + (nodeBoxSize) * (y1+1), 0);
+                            TempNode.WorldBounds3 = Vector3.Lerp(TempNode.WorldBounds1, TempNode.WorldBounds2, 0.5f);
+
+                            TempMainBox.nodeBBoxes[x1, y1] = TempNode;
+                        }
+                    }
+
+                    mainBboxes[x, y] = TempMainBox;
+                }
+            }
 
 
             //if (File.Exists(path))
