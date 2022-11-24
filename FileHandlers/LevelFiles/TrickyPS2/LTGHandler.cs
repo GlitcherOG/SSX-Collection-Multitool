@@ -130,6 +130,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     tempNode.lightsCrossingOffset = StreamUtil.ReadInt32(stream);
                                     tempNode.particleModelsOffset = StreamUtil.ReadInt32(stream);
 
+                                    tempNode.PatchIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.patchesOffset, tempNode.patchCount);
+                                    tempNode.InstanceIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.instancesOffset, tempNode.instanceCount);
+                                    tempNode.InstAndGemIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.instancesOffset, tempNode.instAndGemCount);
+                                    tempNode.SplineIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.splinesOffset, tempNode.splineCount);
+                                    tempNode.LightIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.lightsOffset, tempNode.lightCount);
+                                    tempNode.LightCrossingIndex = ReadOffsetDataCorssing(stream, offsetList[x, y] + tempNode.lightsCrossingOffset, tempNode.lightsCrossingCount);
+                                    tempNode.ParticleIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.particleModelsOffset, tempNode.particleCount);
+
                                     tempbBox.nodeBBoxes[x1, y1] = tempNode;
                                 }
                             }
@@ -139,6 +147,36 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     }
                 }
             }
+        }
+
+
+        public List<int> ReadOffsetData(Stream stream, int offset, int count)
+        {
+            int OldPos = (int)stream.Position;
+            List<int> ints = new List<int>();
+            stream.Position = offset;
+            for (int i = 0; i < count; i++)
+            {
+                ints.Add(StreamUtil.ReadInt32(stream));
+            }
+            stream.Position = OldPos;
+            return ints;
+        }
+
+        public List<lightCrossing> ReadOffsetDataCorssing(Stream stream, int offset, int count)
+        {
+            int OldPos = (int)stream.Position;
+            List<lightCrossing> ints = new List<lightCrossing>();
+            stream.Position = offset;
+            for (int i = 0; i < count; i++)
+            {
+                var Temp = new lightCrossing();
+                Temp.Int1 = StreamUtil.ReadInt32(stream);
+                Temp.Int2 = StreamUtil.ReadInt32(stream);
+                ints.Add(Temp);
+            }
+            stream.Position = OldPos;
+            return ints;
         }
 
 
@@ -152,11 +190,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             public int totalPatchCount;            // Total Patch count
             public int totalInstanceCount;         // Total Instance count
-            public int unknown;                    // Total Particle Instance
+            public int unknown;                    
             public int totalLightCount;            // Total Light count
             public int totallightsCrossingCount;   // Total Lights crossing count. Whatever that means
             public int totalParticleInstanceCount;
             public int Unknown1; // number of elements?
+            
             public int Unknown2; // offset to first nodeBbox? or mainBbox byte size
             public int Unknown3; // index list offset
             public int Unknown4;
@@ -165,6 +204,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int Unknown7; // offset leads to list of extraThing lists
             public int Unknown8;
             public int Unknown9;
+
+            //Num Num Patches
+            //Num Instance
+            //Num Particle Instance
+            //Num Splines
+            //Num Lights Inside
+            //Num Lights Crossing
+            //Num Elements
 
             public nodeBBox[,] nodeBBoxes;
         }
@@ -182,7 +229,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int lightCount;          // Light count
             public int lightsCrossingCount; // Lights crossing count
             public int particleCount;       // Particle model count
-            public int Unknown1;
 
             public int patchesOffset;        // offset leads to it's own index list
             public int instancesOffset;      // or models
@@ -190,6 +236,20 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int lightsOffset;
             public int lightsCrossingOffset; // offset of it's own extraThing list, usually hex 00000000 01000000
             public int particleModelsOffset;
+
+            public List<int> PatchIndex;
+            public List<int> InstanceIndex;
+            public List<int> InstAndGemIndex;
+            public List<int> SplineIndex;
+            public List<int> LightIndex;
+            public List<lightCrossing> LightCrossingIndex;
+            public List<int> ParticleIndex;
+        }
+
+        public struct lightCrossing
+        {
+            public int Int1;
+            public int Int2;
         }
 
     }
