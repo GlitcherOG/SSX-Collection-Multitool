@@ -13,6 +13,7 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - (WIP) SSX Tricky MPF Extractor
 
 ## Current Todo
+- LTG Generation
 - Level Generate Hardware Fix
 - Fix Skybox Texture Loading
 - Fix Model Header

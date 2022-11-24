@@ -41,7 +41,8 @@ namespace SSXMultiTool
             LTGHandler ltgHandler = new LTGHandler();
             ltgHandler.LoadLTG(LoadPath + ".ltg");
 
-            ltgHandler.RegenerateLTG(pbdHandler);
+            //ltgHandler.RegenerateLTG(pbdHandler);
+            ltgHandler.SaveLTGFile(LoadPath + "1.ltg");
 
             //Create Patches JSON
             patchPoints = new PatchesJsonHandler();

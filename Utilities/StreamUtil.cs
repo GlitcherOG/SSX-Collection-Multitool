@@ -297,5 +297,13 @@ namespace SSXMultiTool.Utilities
             StreamUtil.WriteFloat32(stream, vertex4.Z);
             StreamUtil.WriteFloat32(stream, vertex4.W);
         }
+
+        public static void WriteStreamIntoStream(Stream MainStream, Stream Input)
+        {
+            Input.Position = 0;
+            byte[] Buffer = new byte[Input.Length];
+            Buffer = ReadBytes(Input, (int)Input.Length);
+            WriteBytes(MainStream, Buffer);
+        }
     }
 }

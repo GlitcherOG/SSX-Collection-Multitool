@@ -11,9 +11,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
     public class LTGHandler
     {
-        public byte Unknown;
-        public byte ColdFusionVersion;
-        public byte ColdFusionRevision;
+        public byte Unknown = 0x00;
+        public byte ColdFusionVersion = 0x15;
+        public byte ColdFusionRevision = 0x1B;
         public byte endianess = 0x00;
 
         public Vector3 WorldBounds1;
@@ -84,6 +84,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         {
                             stream.Position = offsetList[x, y];
                             mainBbox tempbBox = new mainBbox();
+                            tempbBox.Modified = true;
                             tempbBox.WorldBounds1 = StreamUtil.ReadVector3(stream);
                             tempbBox.WorldBounds2 = StreamUtil.ReadVector3(stream);
                             tempbBox.WorldBounds3 = StreamUtil.ReadVector3(stream);
@@ -111,6 +112,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 for (int x1 = 0; x1 < nodeBoxWidth; x1++)
                                 {
                                     nodeBBox tempNode = new nodeBBox();
+                                    tempNode.Modified = true;
                                     tempNode.WorldBounds1 = StreamUtil.ReadVector3(stream);
                                     tempNode.WorldBounds2 = StreamUtil.ReadVector3(stream);
                                     tempNode.WorldBounds3 = StreamUtil.ReadVector3(stream);
@@ -121,7 +123,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     tempNode.splineCount = StreamUtil.ReadInt16(stream);
                                     tempNode.lightCount = StreamUtil.ReadInt16(stream);
                                     tempNode.lightsCrossingCount = StreamUtil.ReadInt16(stream);
-                                    tempNode.particleCount = StreamUtil.ReadInt32(stream);
+                                    tempNode.particleCount = StreamUtil.ReadInt16(stream);
+                                    tempNode.Unknown1 = StreamUtil.ReadInt16(stream);
 
                                     tempNode.patchesOffset = StreamUtil.ReadInt32(stream);
                                     tempNode.instancesOffset = StreamUtil.ReadInt32(stream);
@@ -227,17 +230,252 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     mainBboxes[x, y] = TempMainBox;
                 }
             }
+        }
 
+        public void SaveLTGFile(string path)
+        {
+            MemoryStream MainFileStream = new MemoryStream();
 
-            //if (File.Exists(path))
-            //{
-            //    File.Delete(path);
-            //}
-            //var file = File.Create(path);
-            //MainFileStream.Position = 0;
-            //MainFileStream.CopyTo(file);
-            //MainFileStream.Dispose();
-            //file.Close();
+            //Header Write
+            StreamUtil.WriteInt8(MainFileStream, Unknown);
+            StreamUtil.WriteInt8(MainFileStream, ColdFusionVersion);
+            StreamUtil.WriteInt8(MainFileStream, ColdFusionRevision);
+            StreamUtil.WriteInt8(MainFileStream, endianess);
+
+            StreamUtil.WriteVector3(MainFileStream, WorldBounds1);
+            StreamUtil.WriteVector3(MainFileStream, WorldBounds2);
+            StreamUtil.WriteVector3(MainFileStream, WorldBounds3);
+
+            StreamUtil.WriteFloat32(MainFileStream, mainBboxSize);
+            StreamUtil.WriteInt32(MainFileStream, pointerCount);
+            StreamUtil.WriteInt32(MainFileStream, pointerListCount);
+            StreamUtil.WriteInt32(MainFileStream, totalGridCount);
+            StreamUtil.WriteInt32(MainFileStream, mainBboxCount);
+            StreamUtil.WriteInt32(MainFileStream, mainBboxEmptyCount);
+
+            StreamUtil.WriteFloat32(MainFileStream, nodeBoxSize);
+            StreamUtil.WriteInt32(MainFileStream, nodeBoxWidth);
+            StreamUtil.WriteInt32(MainFileStream, nodeBoxCount);
+
+            StreamUtil.WriteInt32(MainFileStream, (int)MainFileStream.Position+8);
+            StreamUtil.WriteInt32(MainFileStream, ((int)MainFileStream.Position + 4) + totalGridCount*4);
+            long PositionOffsetList = MainFileStream.Position;
+            List<int> OffsetList = new List<int>();
+
+            MainFileStream.Position = (int)MainFileStream.Position + totalGridCount * 4;
+            for (int y = 0; y < pointerListCount; y++)
+            {
+                for (int x = 0; x < pointerCount; x++)
+                {
+                    if (mainBboxes[x,y].Modified)
+                    {
+                        OffsetList.Add((int)MainFileStream.Position);
+                        MemoryStream MainBoxData = new MemoryStream();
+                        var TempMainBox = mainBboxes[x, y];
+                        StreamUtil.WriteVector3(MainBoxData, TempMainBox.WorldBounds1);
+                        StreamUtil.WriteVector3(MainBoxData, TempMainBox.WorldBounds2);
+                        StreamUtil.WriteVector3(MainBoxData, TempMainBox.WorldBounds3);
+
+                        StreamUtil.WriteInt16(MainBoxData, TempMainBox.totalPatchCount);
+                        StreamUtil.WriteInt16(MainBoxData, TempMainBox.totalInstanceCount);
+                        StreamUtil.WriteInt16(MainBoxData, TempMainBox.totalSplineCount);
+                        StreamUtil.WriteInt16(MainBoxData, TempMainBox.totalLightCount);
+                        StreamUtil.WriteInt16(MainBoxData, TempMainBox.totalLightsCrossingCount);
+                        StreamUtil.WriteInt16(MainBoxData, TempMainBox.totalParticleInstanceCount);
+
+                        StreamUtil.WriteInt32(MainBoxData, TempMainBox.Unknown1);
+                        StreamUtil.WriteInt32(MainBoxData, TempMainBox.totalElements);
+                        StreamUtil.WriteInt32(MainBoxData, 84); //Header Size/Node Data Offset
+                        long MainBoxDataOffsets = MainBoxData.Position;
+                        long PatchOffset=0;
+                        long InstanceOffset=0;
+                        long SplineOffset=0;
+                        long LightOffset=0;
+                        long LightCrossingOffset=0;
+                        long ParticleOffset=0;
+                        MainBoxData.Position += 6 * 4;
+
+                        MainBoxData.Position += 76*nodeBoxCount;
+
+                        #region Write All Index Lists
+                        if (TempMainBox.totalPatchCount != 0)
+                        {
+                            PatchOffset = MainBoxData.Position;
+                            for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                            {
+                                for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                                {
+                                    if (TempMainBox.nodeBBoxes[x1, y1].patchCount != 0)
+                                    {
+                                        TempMainBox.nodeBBoxes[x1, y1].patchesOffset = (int)MainBoxData.Position;
+                                        for (int i = 0; i < TempMainBox.nodeBBoxes[x1, y1].PatchIndex.Count; i++)
+                                        {
+                                            StreamUtil.WriteInt32(MainBoxData, TempMainBox.nodeBBoxes[x1, y1].PatchIndex[i]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (TempMainBox.totalInstanceCount != 0)
+                        {
+                            InstanceOffset = MainBoxData.Position;
+                            for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                            {
+                                for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                                {
+                                    if (TempMainBox.nodeBBoxes[x1, y1].instAndGemCount != 0)
+                                    {
+                                        TempMainBox.nodeBBoxes[x1, y1].instancesOffset = (int)MainBoxData.Position;
+                                        for (int i = 0; i < TempMainBox.nodeBBoxes[x1, y1].InstAndGemIndex.Count; i++)
+                                        {
+                                            StreamUtil.WriteInt32(MainBoxData, TempMainBox.nodeBBoxes[x1, y1].InstAndGemIndex[i]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (TempMainBox.totalSplineCount != 0)
+                        {
+                            SplineOffset = MainBoxData.Position;
+                            for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                            {
+                                for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                                {
+                                    if (TempMainBox.nodeBBoxes[x1, y1].splineCount != 0)
+                                    {
+                                        TempMainBox.nodeBBoxes[x1, y1].splinesOffset = (int)MainBoxData.Position;
+                                        for (int i = 0; i < TempMainBox.nodeBBoxes[x1, y1].SplineIndex.Count; i++)
+                                        {
+                                            StreamUtil.WriteInt32(MainBoxData, TempMainBox.nodeBBoxes[x1, y1].SplineIndex[i]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (TempMainBox.totalLightCount != 0)
+                        {
+                            LightOffset = MainBoxData.Position;
+                            for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                            {
+                                for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                                {
+                                    if (TempMainBox.nodeBBoxes[x1, y1].lightCount != 0)
+                                    {
+                                        TempMainBox.nodeBBoxes[x1, y1].lightsOffset = (int)MainBoxData.Position;
+                                        for (int i = 0; i < TempMainBox.nodeBBoxes[x1, y1].LightIndex.Count; i++)
+                                        {
+                                            StreamUtil.WriteInt32(MainBoxData, TempMainBox.nodeBBoxes[x1, y1].LightIndex[i]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (TempMainBox.totalLightsCrossingCount != 0)
+                        {
+                            LightCrossingOffset = MainBoxData.Position;
+                            for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                            {
+                                for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                                {
+                                    if (TempMainBox.nodeBBoxes[x1, y1].lightsCrossingCount != 0)
+                                    {
+                                        TempMainBox.nodeBBoxes[x1, y1].lightsCrossingOffset = (int)MainBoxData.Position;
+                                        for (int i = 0; i < TempMainBox.nodeBBoxes[x1, y1].LightCrossingIndex.Count; i++)
+                                        {
+                                            StreamUtil.WriteInt32(MainBoxData, TempMainBox.nodeBBoxes[x1, y1].LightCrossingIndex[i]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (TempMainBox.totalParticleInstanceCount != 0)
+                        {
+                            ParticleOffset = MainBoxData.Position;
+                            for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                            {
+                                for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                                {
+                                    if (TempMainBox.nodeBBoxes[x1, y1].particleCount != 0)
+                                    {
+                                        TempMainBox.nodeBBoxes[x1, y1].particleModelsOffset = (int)MainBoxData.Position;
+                                        for (int i = 0; i < TempMainBox.nodeBBoxes[x1, y1].ParticleIndex.Count; i++)
+                                        {
+                                            StreamUtil.WriteInt32(MainBoxData, TempMainBox.nodeBBoxes[x1, y1].ParticleIndex[i]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        #endregion
+
+                        MainBoxData.Position = MainBoxDataOffsets;
+                        StreamUtil.WriteInt32(MainBoxData, (int)PatchOffset);
+                        StreamUtil.WriteInt32(MainBoxData, (int)InstanceOffset);
+                        StreamUtil.WriteInt32(MainBoxData, (int)SplineOffset);
+                        StreamUtil.WriteInt32(MainBoxData, (int)LightOffset);
+                        StreamUtil.WriteInt32(MainBoxData, (int)LightCrossingOffset);
+                        StreamUtil.WriteInt32(MainBoxData, (int)ParticleOffset);
+
+                        for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                        {
+                            for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                            {
+                                var TempNode = TempMainBox.nodeBBoxes[x1, y1];
+
+                                StreamUtil.WriteVector3(MainBoxData, TempNode.WorldBounds1);
+                                StreamUtil.WriteVector3(MainBoxData, TempNode.WorldBounds2);
+                                StreamUtil.WriteVector3(MainBoxData, TempNode.WorldBounds3);
+
+                                StreamUtil.WriteInt16(MainBoxData, TempNode.patchCount);
+                                StreamUtil.WriteInt16(MainBoxData, TempNode.instanceCount);
+                                StreamUtil.WriteInt16(MainBoxData, TempNode.instAndGemCount);
+                                StreamUtil.WriteInt16(MainBoxData, TempNode.splineCount);
+                                StreamUtil.WriteInt16(MainBoxData, TempNode.lightCount);
+                                StreamUtil.WriteInt16(MainBoxData, TempNode.lightsCrossingCount);
+                                StreamUtil.WriteInt16(MainBoxData, TempNode.particleCount);
+                                StreamUtil.WriteInt16(MainBoxData, TempNode.Unknown1);
+
+                                StreamUtil.WriteInt32(MainBoxData, TempNode.patchesOffset);
+                                StreamUtil.WriteInt32(MainBoxData, TempNode.instancesOffset);
+                                StreamUtil.WriteInt32(MainBoxData, TempNode.splinesOffset);
+                                StreamUtil.WriteInt32(MainBoxData, TempNode.lightsOffset);
+                                StreamUtil.WriteInt32(MainBoxData, TempNode.lightsCrossingOffset);
+                                StreamUtil.WriteInt32(MainBoxData, TempNode.particleModelsOffset);
+
+                            }
+                        }
+                        StreamUtil.WriteStreamIntoStream(MainFileStream, MainBoxData);
+                        MainBoxData.Position = 0;
+                        MainBoxData.Dispose();
+                    }
+                    else
+                    {
+                        OffsetList.Add(0);
+                    }
+                }
+            }
+
+            //Update PointerList
+            MainFileStream.Position = PositionOffsetList;
+            for (int i = 0; i < OffsetList.Count; i++)
+            {
+                StreamUtil.WriteInt32(MainFileStream, OffsetList[i]);
+            }
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            var file = File.Create(path);
+            MainFileStream.Position = 0;
+            MainFileStream.CopyTo(file);
+            MainFileStream.Dispose();
+            file.Close();
         }
 
 
@@ -307,6 +545,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int lightCount;          // Light count
             public int lightsCrossingCount; // Lights crossing count
             public int particleCount;       // Particle model count
+            public int Unknown1;
 
             public int patchesOffset;        // offset leads to it's own index list
             public int instancesOffset;      // or models
