@@ -9,27 +9,27 @@ using SSXMultiTool.Utilities;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
-    internal class LTGHandler
+    public class LTGHandler
     {
         public byte Unknown;
         public byte ColdFusionVersion;
         public byte ColdFusionRevision;
-        public byte endianess;
+        public byte endianess = 0x00;
 
         public Vector3 WorldBounds1;
         public Vector3 WorldBounds2;
         public Vector3 WorldBounds3;
 
-        public float mainBboxSize;
-        public int pointerCount;
-        public int pointerListCount;
-        public int totalGridCount;
-        public int mainBboxCount;
+        public float mainBboxSize = 10000f; //Done
+        public int pointerCount; //Generating
+        public int pointerListCount; //Generating
+        public int totalGridCount; //Generating
+        public int mainBboxCount; 
         public int mainBboxEmptyCount;
 
-        public float nodeBoxSize;
-        public int nodeBoxWidth;
-        public int nodeBoxCount;
+        public float nodeBoxSize = 2500f; //Generating
+        public int nodeBoxWidth = 4; //Generating
+        public int nodeBoxCount = 16; //Generating
 
         public int pointerListOffset;
         public int bboxDataListOffset;
@@ -90,19 +90,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                             tempbBox.totalPatchCount = StreamUtil.ReadInt16(stream);
                             tempbBox.totalInstanceCount = StreamUtil.ReadInt16(stream);
-                            tempbBox.unknown = StreamUtil.ReadInt16(stream);
+                            tempbBox.totalSplineCount = StreamUtil.ReadInt16(stream);
                             tempbBox.totalLightCount = StreamUtil.ReadInt16(stream);
-                            tempbBox.totallightsCrossingCount = StreamUtil.ReadInt16(stream);
+                            tempbBox.totalLightsCrossingCount = StreamUtil.ReadInt16(stream);
                             tempbBox.totalParticleInstanceCount = StreamUtil.ReadInt16(stream);
-                            tempbBox.Unknown1 = StreamUtil.ReadInt32(stream); // number of elements?
-                            tempbBox.Unknown2 = StreamUtil.ReadInt32(stream); // offset to first nodeBbox? or mainBbox byte size
-                            tempbBox.Unknown3 = StreamUtil.ReadInt32(stream); // index list offset
-                            tempbBox.Unknown4 = StreamUtil.ReadInt32(stream);
-                            tempbBox.Unknown5 = StreamUtil.ReadInt32(stream);
-                            tempbBox.Unknown6 = StreamUtil.ReadInt32(stream);
-                            tempbBox.Unknown7 = StreamUtil.ReadInt32(stream); // offset leads to list of extraThing lists
-                            tempbBox.Unknown8 = StreamUtil.ReadInt32(stream);
-                            tempbBox.Unknown9 = StreamUtil.ReadInt32(stream);
+                            tempbBox.Unknown1 = StreamUtil.ReadInt32(stream); // Unknown
+                            tempbBox.totalElements = StreamUtil.ReadInt32(stream); // Total Elements
+                            tempbBox.mainBoxHeaderSize = StreamUtil.ReadInt32(stream); // Mainbox Header Size?
+                            tempbBox.patchIndexOffset = StreamUtil.ReadInt32(stream); // Patch Index Offset
+                            tempbBox.instanceIndexOffset = StreamUtil.ReadInt32(stream); // Instance Index Offset
+                            tempbBox.splineIndexOffset = StreamUtil.ReadInt32(stream); // Spline Index Offset
+                            tempbBox.lightIndexOffset = StreamUtil.ReadInt32(stream); // Light Index Offset
+                            tempbBox.lightCrossingIndexOffset = StreamUtil.ReadInt32(stream); // Light Corssing Index Offset
+                            tempbBox.particleIndexOffset = StreamUtil.ReadInt32(stream); // Particle Index Offset
 
                             tempbBox.nodeBBoxes = new nodeBBox[nodeBoxWidth, nodeBoxWidth];
 
@@ -131,11 +131,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     tempNode.particleModelsOffset = StreamUtil.ReadInt32(stream);
 
                                     tempNode.PatchIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.patchesOffset, tempNode.patchCount);
-                                    tempNode.InstanceIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.instancesOffset, tempNode.instanceCount);
                                     tempNode.InstAndGemIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.instancesOffset, tempNode.instAndGemCount);
                                     tempNode.SplineIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.splinesOffset, tempNode.splineCount);
                                     tempNode.LightIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.lightsOffset, tempNode.lightCount);
-                                    tempNode.LightCrossingIndex = ReadOffsetDataCorssing(stream, offsetList[x, y] + tempNode.lightsCrossingOffset, tempNode.lightsCrossingCount);
+                                    tempNode.LightCrossingIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.lightsCrossingOffset, tempNode.lightsCrossingCount);
                                     tempNode.ParticleIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.particleModelsOffset, tempNode.particleCount);
 
                                     tempbBox.nodeBBoxes[x1, y1] = tempNode;
@@ -149,9 +148,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
         }
 
-        public void RegenerateAndSaveLTG(PBDHandler pbdHandler, string path)
+        public void RegenerateLTG(PBDHandler pbdHandler, float NewMainBoxSize = 10000f, int NewNodeWidth = 4)
         {
-            MemoryStream MainFileStream = new MemoryStream();
+            mainBboxSize = NewMainBoxSize;
+            nodeBoxWidth = NewNodeWidth;
+            nodeBoxSize = mainBboxSize / (float)nodeBoxWidth;
+            nodeBoxCount = nodeBoxWidth * nodeBoxWidth;
 
             //Generate Array Bounds
             Vector3 BottomLeft = new Vector3(WorldBounds1.X, WorldBounds1.Y, 0);
@@ -161,26 +163,26 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             Vector3 Size;
 
-            float TempXPosition = (int)(BottomLeft.X / (nodeBoxSize * nodeBoxWidth));
-            if (BottomLeft.X % (nodeBoxSize * nodeBoxWidth) !=0)
+            float TempXPosition = (int)(BottomLeft.X / mainBboxSize);
+            if (BottomLeft.X % mainBboxSize != 0)
             {
                 TempXPosition += -1;
             }
             StartBottomLeft.X = TempXPosition;
-            float TempYPosition = (int)(BottomLeft.Y / (nodeBoxSize * nodeBoxWidth));
-            if (BottomLeft.Y % (nodeBoxSize * nodeBoxWidth) != 0)
+            float TempYPosition = (int)(BottomLeft.Y / mainBboxSize);
+            if (BottomLeft.Y % mainBboxSize != 0)
             {
                 TempYPosition += -1;
             }
             StartBottomLeft.Y = TempYPosition;
-            TempXPosition = (int)(TopRight.X / (nodeBoxSize * nodeBoxWidth));
-            if (TopRight.X % (nodeBoxSize * nodeBoxWidth) != 0)
+            TempXPosition = (int)(TopRight.X / mainBboxSize);
+            if (TopRight.X % mainBboxSize != 0)
             {
                 TempXPosition += 1;
             }
             EndTopRight.X = TempXPosition;
-            TempYPosition = (int)(TopRight.Y / (nodeBoxSize * nodeBoxWidth));
-            if (TopRight.Y % (nodeBoxSize * nodeBoxWidth) != 0)
+            TempYPosition = (int)(TopRight.Y / mainBboxSize);
+            if (TopRight.Y % mainBboxSize != 0)
             {
                 TempYPosition += 1;
             }
@@ -192,15 +194,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             //Generate MainBoxes
             mainBboxes = new mainBbox[(int)Size.X, (int)Size.Y];
 
+            pointerCount = (int)Size.X;
+            pointerListCount = (int)Size.Y;
+            totalGridCount = pointerCount * pointerListCount;
+
             for (int y = 0; y < (int)Size.Y; y++)
             {
                 for (int x = 0; x < (int)Size.X; x++)
                 {
                     var TempMainBox = mainBboxes[x, y];
 
-                    TempMainBox.WorldBounds1 = new Vector3((StartBottomLeft.X+x)*(nodeBoxSize * nodeBoxWidth), (StartBottomLeft.Y+y)*(nodeBoxSize * nodeBoxWidth), 0);
-                    TempMainBox.WorldBounds2 = new Vector3((StartBottomLeft.X + x) * (nodeBoxSize * nodeBoxWidth), (StartBottomLeft.Y + y) * (nodeBoxSize * nodeBoxWidth), 0);
-                    TempMainBox.WorldBounds2 += new Vector3((nodeBoxSize * nodeBoxWidth), (nodeBoxSize * nodeBoxWidth), 0);
+                    TempMainBox.WorldBounds1 = new Vector3((StartBottomLeft.X+x)* mainBboxSize, (StartBottomLeft.Y+y)* mainBboxSize, 0);
+                    TempMainBox.WorldBounds2 = new Vector3((StartBottomLeft.X + x) * mainBboxSize, (StartBottomLeft.Y + y) * mainBboxSize, 0);
+                    TempMainBox.WorldBounds2 += new Vector3(mainBboxSize, mainBboxSize, 0);
                     TempMainBox.WorldBounds3 = Vector3.Lerp(TempMainBox.WorldBounds1, TempMainBox.WorldBounds2, 0.5f);
 
                     TempMainBox.nodeBBoxes = new nodeBBox[nodeBoxWidth, nodeBoxWidth];
@@ -248,23 +254,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             return ints;
         }
 
-        public List<lightCrossing> ReadOffsetDataCorssing(Stream stream, int offset, int count)
-        {
-            int OldPos = (int)stream.Position;
-            List<lightCrossing> ints = new List<lightCrossing>();
-            stream.Position = offset;
-            for (int i = 0; i < count; i++)
-            {
-                var Temp = new lightCrossing();
-                Temp.Int1 = StreamUtil.ReadInt32(stream);
-                Temp.Int2 = StreamUtil.ReadInt32(stream);
-                ints.Add(Temp);
-            }
-            stream.Position = OldPos;
-            return ints;
-        }
-
-
+        [System.Serializable]
         public struct mainBbox
         {
             public bool Modified;
@@ -274,21 +264,22 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public Vector3 WorldBounds3;
 
             public int totalPatchCount;            // Total Patch count
-            public int totalInstanceCount;         // Total Instance count
-            public int unknown;                    
+            public int totalInstanceCount;         // Total Instance and Gem count
+            public int totalSplineCount;                    
             public int totalLightCount;            // Total Light count
-            public int totallightsCrossingCount;   // Total Lights crossing count. Whatever that means
+            public int totalLightsCrossingCount;   // Total Lights crossing count. Whatever that means
             public int totalParticleInstanceCount;
-            public int Unknown1; // number of elements?
+
+            public int Unknown1;
             
-            public int Unknown2; // offset to first nodeBbox? or mainBbox byte size
-            public int Unknown3; // index list offset
-            public int Unknown4;
-            public int Unknown5;
-            public int Unknown6;
-            public int Unknown7; // offset leads to list of extraThing lists
-            public int Unknown8;
-            public int Unknown9;
+            public int totalElements; 
+            public int mainBoxHeaderSize; 
+            public int patchIndexOffset;
+            public int instanceIndexOffset;
+            public int splineIndexOffset;
+            public int lightIndexOffset; 
+            public int lightCrossingIndexOffset;
+            public int particleIndexOffset;
 
             //Num Num Patches
             //Num Instance
@@ -300,7 +291,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             public nodeBBox[,] nodeBBoxes;
         }
-
+        [System.Serializable]
         public struct nodeBBox
         {
             public bool Modified;
@@ -325,18 +316,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int particleModelsOffset;
 
             public List<int> PatchIndex;
-            public List<int> InstanceIndex;
             public List<int> InstAndGemIndex;
             public List<int> SplineIndex;
             public List<int> LightIndex;
-            public List<lightCrossing> LightCrossingIndex;
+            public List<int> LightCrossingIndex;
             public List<int> ParticleIndex;
-        }
-
-        public struct lightCrossing
-        {
-            public int Int1;
-            public int Int2;
         }
 
     }
