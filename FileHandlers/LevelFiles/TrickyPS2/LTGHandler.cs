@@ -149,6 +149,60 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
         }
 
+        public void RegenerateAndSaveLTG(PBDHandler pbdHandler, string path)
+        {
+            MemoryStream MainFileStream = new MemoryStream();
+
+            //Generate Array Bounds
+            Vector3 TopLeft = new Vector3(WorldBounds1.X, WorldBounds2.Y, 0);
+            Vector3 BottomRight = new Vector3(WorldBounds2.X, WorldBounds1.Y, 0);
+            Vector3 StartTopLeft;
+            Vector3 EndBottomRight;
+
+            Vector3 Size;
+
+            float TempXPosition = MathF.Round(TopLeft.X / (nodeBoxSize * 4), MidpointRounding.ToZero);
+            if (TopLeft.X % (nodeBoxSize * 4)!=0)
+            {
+                TempXPosition += -1;
+            }
+            StartTopLeft.X = TempXPosition;
+            float TempYPosition = MathF.Round(TopLeft.Y / (nodeBoxSize * 4), MidpointRounding.ToZero);
+            if (TopLeft.Y % (nodeBoxSize * 4) != 0)
+            {
+                TempYPosition += 1;
+            }
+            StartTopLeft.Y = TempYPosition;
+            TempXPosition = MathF.Round(BottomRight.X / (nodeBoxSize * 4), MidpointRounding.ToZero);
+            if (BottomRight.X % (nodeBoxSize * 4) != 0)
+            {
+                TempXPosition += 1;
+            }
+            EndBottomRight.X = TempXPosition;
+            TempYPosition = MathF.Round(BottomRight.Y / (nodeBoxSize * 4), MidpointRounding.ToZero);
+            if (BottomRight.Y % (nodeBoxSize * 4) != 0)
+            {
+                TempYPosition += -1;
+            }
+            EndBottomRight.Y = TempYPosition;
+
+            Size.X = EndBottomRight.X - StartTopLeft.X;
+            Size.Y = StartTopLeft.Y - EndBottomRight.Y;
+
+            mainBboxes = new mainBbox[(int)Size.X, (int)Size.Y];
+
+
+            //if (File.Exists(path))
+            //{
+            //    File.Delete(path);
+            //}
+            //var file = File.Create(path);
+            //MainFileStream.Position = 0;
+            //MainFileStream.CopyTo(file);
+            //MainFileStream.Dispose();
+            //file.Close();
+        }
+
 
         public List<int> ReadOffsetData(Stream stream, int offset, int count)
         {
@@ -180,10 +234,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         }
 
 
-
-
         public struct mainBbox
         {
+            public bool Modified;
+
             public Vector3 WorldBounds1;
             public Vector3 WorldBounds2;
             public Vector3 WorldBounds3;
@@ -218,6 +272,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public struct nodeBBox
         {
+            public bool Modified;
+
             public Vector3 WorldBounds1;
             public Vector3 WorldBounds2;
             public Vector3 WorldBounds3;
