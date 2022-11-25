@@ -230,6 +230,100 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     mainBboxes[x, y] = TempMainBox;
                 }
             }
+
+            bool[] Patchbools = new bool[pbdHandler.Patches.Count];
+            //SetBoxes
+            for (int y = 0; y < pointerListCount; y++)
+            {
+                for (int x = 0; x < pointerCount; x++)
+                {
+                    //Find Out Whats In Box Patches
+                    var TempMainBox = mainBboxes[x, y];
+                    TempMainBox.patchIndex = new List<int>();
+                    for (int i = 0; i < pbdHandler.Patches.Count; i++)
+                    {
+                        Vector3 MidPoint = Vector3.Lerp(pbdHandler.Patches[i].LowestXYZ, pbdHandler.Patches[i].HighestXYZ, 0.5f);
+
+                        if (JsonUtil.WithinXY(MidPoint, TempMainBox.WorldBounds1, TempMainBox.WorldBounds2) && !Patchbools[i])
+                        {
+                            TempMainBox.Modified = true;
+                            Patchbools[i] = true;
+                            TempMainBox.patchIndex.Add(i);
+                        }
+                    }
+
+                    bool[] NodePatchBools = new bool[TempMainBox.patchIndex.Count];
+                    for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                    {
+                        for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                        {
+                            var TempNodeBox = TempMainBox.nodeBBoxes[x1, y1];
+                            TempNodeBox.PatchIndex = new List<int>();
+                            for (int i = 0; i < TempMainBox.patchIndex.Count; i++)
+                            {
+                                Vector3 MidPoint = Vector3.Lerp(pbdHandler.Patches[TempMainBox.patchIndex[i]].LowestXYZ, pbdHandler.Patches[TempMainBox.patchIndex[i]].HighestXYZ, 0.5f);
+                                if (JsonUtil.WithinXY(MidPoint, TempNodeBox.WorldBounds1, TempNodeBox.WorldBounds2) && !NodePatchBools[i])
+                                {
+                                    TempNodeBox.Modified = true;
+                                    NodePatchBools[i] = true;
+                                    TempNodeBox.PatchIndex.Add(TempMainBox.patchIndex[i]);
+                                }
+                            }
+                            if (TempNodeBox.PatchIndex.Count != 0)
+                            {
+                                TempNodeBox.patchCount = TempNodeBox.PatchIndex.Count;
+                                TempNodeBox.WorldBounds1 = pbdHandler.Patches[TempNodeBox.PatchIndex[0]].LowestXYZ;
+                                TempNodeBox.WorldBounds2 = pbdHandler.Patches[TempNodeBox.PatchIndex[0]].HighestXYZ;
+                                for (int i = 0; i < TempNodeBox.PatchIndex.Count; i++)
+                                {
+                                    TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.Patches[TempNodeBox.PatchIndex[i]].LowestXYZ);
+                                    TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.Patches[TempNodeBox.PatchIndex[i]].HighestXYZ);
+                                }
+                            }
+
+                            TempNodeBox.WorldBounds3 = Vector3.Lerp(TempNodeBox.WorldBounds1, TempNodeBox.WorldBounds2, 0.5f);
+                            TempMainBox.nodeBBoxes[x1, y1] = TempNodeBox;
+                        }
+                    }
+
+
+                    //Update Total NodeData
+                    for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                    {
+                        for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                        {
+                            var TempNodeBox = TempMainBox.nodeBBoxes[x1, y1];
+                            TempMainBox.totalPatchCount += TempNodeBox.patchCount;
+                        }
+                    }
+
+
+                    bool defaultset = false;
+                    //Reset MainBox Bounds
+                    for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                    {
+                        for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                        {
+                            if (TempMainBox.nodeBBoxes[x1, y1].Modified)
+                            {
+                                if (defaultset)
+                                {
+                                    TempMainBox.WorldBounds1 = JsonUtil.Lowest(TempMainBox.WorldBounds1, TempMainBox.nodeBBoxes[x1, y1].WorldBounds1);
+                                    TempMainBox.WorldBounds2 = JsonUtil.Highest(TempMainBox.WorldBounds2, TempMainBox.nodeBBoxes[x1, y1].WorldBounds2);
+                                }
+                                else
+                                {
+                                    defaultset = true;
+                                    TempMainBox.WorldBounds1 = TempMainBox.nodeBBoxes[x1, y1].WorldBounds1;
+                                    TempMainBox.WorldBounds2 = TempMainBox.nodeBBoxes[x1, y1].WorldBounds2;
+                                }
+                            }
+                        }
+                    }
+                    TempMainBox.WorldBounds3 = Vector3.Lerp(TempMainBox.WorldBounds1, TempMainBox.WorldBounds2, 0.5f);
+                    mainBboxes[x, y] = TempMainBox;
+                }
+            }
         }
 
         public void SaveLTGFile(string path)
@@ -519,6 +613,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int lightCrossingIndexOffset;
             public int particleIndexOffset;
 
+            public List<int> patchIndex;
             //Num Num Patches
             //Num Instance
             //Num Particle Instance

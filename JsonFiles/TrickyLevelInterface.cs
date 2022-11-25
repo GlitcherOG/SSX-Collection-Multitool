@@ -37,13 +37,6 @@ namespace SSXMultiTool
             PBDHandler pbdHandler = new PBDHandler();
             pbdHandler.LoadPBD(LoadPath + ".pbd");
 
-            //Load LTG
-            LTGHandler ltgHandler = new LTGHandler();
-            ltgHandler.LoadLTG(LoadPath + ".ltg");
-
-            //ltgHandler.RegenerateLTG(pbdHandler);
-            ltgHandler.SaveLTGFile(LoadPath + "1.ltg");
-
             //Create Patches JSON
             patchPoints = new PatchesJsonHandler();
             for (int i = 0; i < pbdHandler.Patches.Count; i++)
@@ -539,7 +532,6 @@ namespace SSXMultiTool
         {
             ExportPath = ExportPath.Substring(0, ExportPath.Length - 4);
 
-            File.Copy(LoadPath + "/Original/ltg.ltg", ExportPath + ".ltg", true);
             File.Copy(LoadPath + "/Original/ssf.ssf", ExportPath + ".ssf", true);
             File.Copy(LoadPath + "/Original/level.pbd", ExportPath + ".pbd", true);
             if(File.Exists(LoadPath + "/Original/sky.pbd"))
@@ -866,6 +858,19 @@ namespace SSXMultiTool
 
             pbdHandler.Save(ExportPath + ".pbd");
             mapHandler.Save(ExportPath + ".map");
+
+            //Build LTG
+            if(false)
+            {
+                LTGHandler ltgHandler = new LTGHandler();
+                ltgHandler.LoadLTG(LoadPath + "/Original/ltg.ltg");
+                ltgHandler.RegenerateLTG(pbdHandler);
+                ltgHandler.SaveLTGFile(ExportPath + ".ltg");
+            }
+            else
+            {
+                File.Copy(LoadPath + "/Original/ltg.ltg", ExportPath + ".ltg", true);
+            }
 
             //Build Textures
             SSHHandler TextureHandler = new SSHHandler();

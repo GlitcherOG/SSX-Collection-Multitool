@@ -107,5 +107,14 @@ namespace SSXMultiTool.Utilities
             Distance += Vector3.Distance(Point3, Point4);
             return Distance;
         }
+
+        public static bool WithinXY(Vector3 Object, Vector3 LowestXYZ, Vector3 HighestXYZ)
+        {
+            if (Object.X >= LowestXYZ.X&& Object.X <= HighestXYZ.X && Object.Y >= LowestXYZ.Y && Object.Y <= HighestXYZ.Y)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
