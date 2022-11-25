@@ -14,6 +14,7 @@ namespace SSXMultiTool
     public class TrickyLevelInterface
     {
         public bool AttemptLightingFix;
+        public bool LTGRegenerate;
 
         public PatchesJsonHandler patchPoints = new PatchesJsonHandler();
         public InstanceJsonHandler instancesJson = new InstanceJsonHandler();
@@ -860,7 +861,7 @@ namespace SSXMultiTool
             mapHandler.Save(ExportPath + ".map");
 
             //Build LTG
-            if(false)
+            if(LTGRegenerate)
             {
                 LTGHandler ltgHandler = new LTGHandler();
                 ltgHandler.LoadLTG(LoadPath + "/Original/ltg.ltg");

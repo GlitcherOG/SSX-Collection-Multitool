@@ -77,6 +77,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.EmulatorLigthFix = new System.Windows.Forms.CheckBox();
+            this.RegenLTG = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -540,11 +541,22 @@
             this.EmulatorLigthFix.Text = "Emulator Lighting Fix (WIP)";
             this.EmulatorLigthFix.UseVisualStyleBackColor = true;
             // 
+            // RegenLTG
+            // 
+            this.RegenLTG.AutoSize = true;
+            this.RegenLTG.Location = new System.Drawing.Point(617, 365);
+            this.RegenLTG.Name = "RegenLTG";
+            this.RegenLTG.Size = new System.Drawing.Size(138, 19);
+            this.RegenLTG.TabIndex = 49;
+            this.RegenLTG.Text = "Regenerate LTG (WIP)";
+            this.RegenLTG.UseVisualStyleBackColor = true;
+            // 
             // TrickyProjectWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.RegenLTG);
             this.Controls.Add(this.EmulatorLigthFix);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -630,5 +642,6 @@
         private GroupBox groupBox1;
         private GroupBox groupBox2;
         private CheckBox EmulatorLigthFix;
+        private CheckBox RegenLTG;
     }
 }

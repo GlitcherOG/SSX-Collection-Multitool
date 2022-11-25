@@ -115,6 +115,7 @@ namespace SSXMultiTool
                 {
                     trickyLevelInterface = new TrickyLevelInterface();
                     trickyLevelInterface.AttemptLightingFix = EmulatorLigthFix.Checked;
+                    trickyLevelInterface.LTGRegenerate = RegenLTG.Checked;
                     trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, openFileDialog.FileName);
                     MessageBox.Show("Level Built");
                 }
