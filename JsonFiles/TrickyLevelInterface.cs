@@ -38,6 +38,9 @@ namespace SSXMultiTool
             PBDHandler pbdHandler = new PBDHandler();
             pbdHandler.LoadPBD(LoadPath + ".pbd");
 
+            LTGHandler ltgHandler = new LTGHandler();
+            ltgHandler.LoadLTG(LoadPath + ".ltg");
+
             //Create Patches JSON
             patchPoints = new PatchesJsonHandler();
             for (int i = 0; i < pbdHandler.Patches.Count; i++)
@@ -159,6 +162,8 @@ namespace SSXMultiTool
                 instanceJson.UnknownInt30 = pbdHandler.Instances[i].UnknownInt30;
                 instanceJson.UnknownInt31 = pbdHandler.Instances[i].UnknownInt31;
                 instanceJson.UnknownInt32 = pbdHandler.Instances[i].UnknownInt32;
+
+                instanceJson.ShowOffInstance = ltgHandler.FindIfInstaneGem(i);
                 instancesJson.instances.Add(instanceJson);
             }
             instancesJson.CreateJson(ExportPath + "/Instances.json");
@@ -804,6 +809,8 @@ namespace SSXMultiTool
                 NewInstance.UnknownInt30 = Oldinstance.UnknownInt30;
                 NewInstance.UnknownInt31 = Oldinstance.UnknownInt31;
                 NewInstance.UnknownInt32 = Oldinstance.UnknownInt32;
+
+                NewInstance.ShowoffInstance = Oldinstance.ShowOffInstance;
                 pbdHandler.Instances.Add(NewInstance);
 
                 LinkerItem linkerItem = new LinkerItem();

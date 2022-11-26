@@ -134,7 +134,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     tempNode.particleModelsOffset = StreamUtil.ReadInt32(stream);
 
                                     tempNode.PatchIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.patchesOffset, tempNode.patchCount);
-                                    tempNode.InstAndGemIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.instancesOffset, tempNode.instAndGemCount);
+                                    tempNode.InstanceIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.instancesOffset, tempNode.instanceCount);
+                                    tempNode.GemIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.instancesOffset + tempNode.instanceCount*4, tempNode.instAndGemCount - tempNode.instanceCount);
                                     tempNode.SplineIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.splinesOffset, tempNode.splineCount);
                                     tempNode.LightIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.lightsOffset, tempNode.lightCount);
                                     tempNode.LightCrossingIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.lightsCrossingOffset, tempNode.lightsCrossingCount);
@@ -200,6 +201,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             pointerCount = (int)Size.X;
             pointerListCount = (int)Size.Y;
             totalGridCount = pointerCount * pointerListCount;
+            int UsedBoxesCount = 0;
 
             for (int y = 0; y < (int)Size.Y; y++)
             {
@@ -286,7 +288,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 }
                             }
                             //Generate Instance List
-                            TempNodeBox.InstAndGemIndex = new List<int>();
+                            TempNodeBox.InstanceIndex = new List<int>();
+                            TempNodeBox.GemIndex = new List<int>();
                             for (int i = 0; i < TempMainBox.instanceIndex.Count; i++)
                             {
                                 Vector3 MidPoint = Vector3.Lerp(pbdHandler.Instances[TempMainBox.instanceIndex[i]].LowestXYZ, pbdHandler.Instances[TempMainBox.instanceIndex[i]].HighestXYZ, 0.5f);
@@ -294,7 +297,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 {
                                     TempNodeBox.Modified = true;
                                     NodeInstanceBools[i] = true;
-                                    TempNodeBox.InstAndGemIndex.Add(TempMainBox.instanceIndex[i]);
+                                    if(pbdHandler.Instances[TempMainBox.instanceIndex[i]].ShowoffInstance)
+                                    {
+                                        TempNodeBox.GemIndex.Add(TempMainBox.instanceIndex[i]);
+                                    }
+                                    else
+                                    {
+                                        TempNodeBox.InstanceIndex.Add(TempMainBox.instanceIndex[i]);
+                                    }
                                 }
                             }
 
@@ -318,20 +328,37 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 }
                             }
                             //Resize For Instances
-                            if (TempNodeBox.InstAndGemIndex.Count != 0)
+                            if (TempNodeBox.InstanceIndex.Count != 0)
                             {
-                                TempNodeBox.instAndGemCount = TempNodeBox.InstAndGemIndex.Count;
-                                TempNodeBox.instanceCount = TempNodeBox.InstAndGemIndex.Count;
+                                TempNodeBox.instAndGemCount = TempNodeBox.InstanceIndex.Count+TempNodeBox.GemIndex.Count;
+                                TempNodeBox.instanceCount = TempNodeBox.InstanceIndex.Count;
                                 if (ModifiedSize == false)
                                 {
                                     ModifiedSize = true;
-                                    TempNodeBox.WorldBounds1 = pbdHandler.Instances[TempNodeBox.InstAndGemIndex[0]].LowestXYZ;
-                                    TempNodeBox.WorldBounds2 = pbdHandler.Instances[TempNodeBox.InstAndGemIndex[0]].HighestXYZ;
+                                    TempNodeBox.WorldBounds1 = pbdHandler.Instances[TempNodeBox.InstanceIndex[0]].LowestXYZ;
+                                    TempNodeBox.WorldBounds2 = pbdHandler.Instances[TempNodeBox.InstanceIndex[0]].HighestXYZ;
                                 }
-                                for (int i = 0; i < TempNodeBox.InstAndGemIndex.Count; i++)
+                                for (int i = 0; i < TempNodeBox.InstanceIndex.Count; i++)
                                 {
-                                    TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.Instances[TempNodeBox.InstAndGemIndex[i]].LowestXYZ);
-                                    TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.Instances[TempNodeBox.InstAndGemIndex[i]].HighestXYZ);
+                                    TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.Instances[TempNodeBox.InstanceIndex[i]].LowestXYZ);
+                                    TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.Instances[TempNodeBox.InstanceIndex[i]].HighestXYZ);
+                                }
+                            }
+                            //Gem Instances
+                            if (TempNodeBox.GemIndex.Count != 0)
+                            {
+                                TempNodeBox.instAndGemCount = TempNodeBox.InstanceIndex.Count + TempNodeBox.GemIndex.Count;
+                                TempNodeBox.instanceCount = TempNodeBox.InstanceIndex.Count;
+                                if (ModifiedSize == false)
+                                {
+                                    ModifiedSize = true;
+                                    TempNodeBox.WorldBounds1 = pbdHandler.Instances[TempNodeBox.GemIndex[0]].LowestXYZ;
+                                    TempNodeBox.WorldBounds2 = pbdHandler.Instances[TempNodeBox.GemIndex[0]].HighestXYZ;
+                                }
+                                for (int i = 0; i < TempNodeBox.GemIndex.Count; i++)
+                                {
+                                    TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.Instances[TempNodeBox.GemIndex[i]].LowestXYZ);
+                                    TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.Instances[TempNodeBox.GemIndex[i]].HighestXYZ);
                                 }
                             }
 
@@ -380,9 +407,48 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         }
                     }
                     TempMainBox.WorldBounds3 = Vector3.Lerp(TempMainBox.WorldBounds1, TempMainBox.WorldBounds2, 0.5f);
+
+                    if (TempMainBox.Modified == true)
+                    {
+                        UsedBoxesCount++;
+                    }
+
                     mainBboxes[x, y] = TempMainBox;
                 }
             }
+
+            mainBboxCount = UsedBoxesCount;
+            mainBboxEmptyCount = totalGridCount - UsedBoxesCount;
+        }
+
+        public bool FindIfInstaneGem(int Index)
+        {
+            for (int y = 0; y < pointerListCount; y++)
+            {
+                for (int x = 0; x < pointerCount; x++)
+                {
+                    //Find Out Whats In Box Patches
+                    var TempMainBox = mainBboxes[x, y];
+
+
+                    if (TempMainBox.Modified)
+                    {
+                        for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                        {
+                            for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                            {
+                                var TempNodeBox = TempMainBox.nodeBBoxes[x1, y1];
+                                if (TempNodeBox.GemIndex.Contains(Index))
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
 
         public void SaveLTGFile(string path)
@@ -480,9 +546,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     if (TempMainBox.nodeBBoxes[x1, y1].instAndGemCount != 0)
                                     {
                                         TempMainBox.nodeBBoxes[x1, y1].instancesOffset = (int)MainBoxData.Position;
-                                        for (int i = 0; i < TempMainBox.nodeBBoxes[x1, y1].InstAndGemIndex.Count; i++)
+                                        for (int i = 0; i < TempMainBox.nodeBBoxes[x1, y1].InstanceIndex.Count; i++)
                                         {
-                                            StreamUtil.WriteInt32(MainBoxData, TempMainBox.nodeBBoxes[x1, y1].InstAndGemIndex[i]);
+                                            StreamUtil.WriteInt32(MainBoxData, TempMainBox.nodeBBoxes[x1, y1].InstanceIndex[i]);
+                                        }
+                                        for (int i = 0; i < TempMainBox.nodeBBoxes[x1, y1].GemIndex.Count; i++)
+                                        {
+                                            StreamUtil.WriteInt32(MainBoxData, TempMainBox.nodeBBoxes[x1, y1].GemIndex[i]);
                                         }
                                     }
                                 }
@@ -711,7 +781,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int particleModelsOffset;
 
             public List<int> PatchIndex;
-            public List<int> InstAndGemIndex;
+            public List<int> InstanceIndex;
+            public List<int> GemIndex;
             public List<int> SplineIndex;
             public List<int> LightIndex;
             public List<int> LightCrossingIndex;

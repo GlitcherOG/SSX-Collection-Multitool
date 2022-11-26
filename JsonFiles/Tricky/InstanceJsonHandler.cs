@@ -66,6 +66,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int UnknownInt30;
             public int UnknownInt31;
             public int UnknownInt32;
+
+            public bool ShowOffInstance;
         }
     }
 }
