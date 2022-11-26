@@ -1455,7 +1455,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int UnknownInt31;
         public int UnknownInt32;
 
-        public bool ShowoffInstance;
+        public int LTGState;
     }
 
     public struct ParticleInstance

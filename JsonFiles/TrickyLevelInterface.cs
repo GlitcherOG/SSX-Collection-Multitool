@@ -163,7 +163,7 @@ namespace SSXMultiTool
                 instanceJson.UnknownInt31 = pbdHandler.Instances[i].UnknownInt31;
                 instanceJson.UnknownInt32 = pbdHandler.Instances[i].UnknownInt32;
 
-                instanceJson.ShowOffInstance = ltgHandler.FindIfInstaneGem(i);
+                instanceJson.LTGState = ltgHandler.FindIfInstaneState(i);
                 instancesJson.instances.Add(instanceJson);
             }
             instancesJson.CreateJson(ExportPath + "/Instances.json");
@@ -810,7 +810,7 @@ namespace SSXMultiTool
                 NewInstance.UnknownInt31 = Oldinstance.UnknownInt31;
                 NewInstance.UnknownInt32 = Oldinstance.UnknownInt32;
 
-                NewInstance.ShowoffInstance = Oldinstance.ShowOffInstance;
+                NewInstance.LTGState = Oldinstance.LTGState;
                 pbdHandler.Instances.Add(NewInstance);
 
                 LinkerItem linkerItem = new LinkerItem();

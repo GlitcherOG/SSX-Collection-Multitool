@@ -134,8 +134,18 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     tempNode.particleModelsOffset = StreamUtil.ReadInt32(stream);
 
                                     tempNode.PatchIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.patchesOffset, tempNode.patchCount);
-                                    tempNode.InstanceIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.instancesOffset, tempNode.instanceCount);
-                                    tempNode.GemIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.instancesOffset + tempNode.instanceCount*4, tempNode.instAndGemCount - tempNode.instanceCount);
+                                    if (tempNode.instAndGemCount >= tempNode.instanceCount)
+                                    {
+                                        tempNode.InstanceIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.instancesOffset, tempNode.instanceCount);
+                                        tempNode.RaceInstanceIndex = new List<int>();
+                                        tempNode.GemIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.instancesOffset + tempNode.instanceCount * 4, tempNode.instAndGemCount - tempNode.instanceCount);
+                                    }
+                                    else
+                                    {
+                                        tempNode.InstanceIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.instancesOffset, tempNode.instAndGemCount);
+                                        tempNode.RaceInstanceIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.instancesOffset + tempNode.instAndGemCount * 4, tempNode.instanceCount - tempNode.instAndGemCount);
+                                        tempNode.GemIndex = new List<int>();
+                                    }
                                     tempNode.SplineIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.splinesOffset, tempNode.splineCount);
                                     tempNode.LightIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.lightsOffset, tempNode.lightCount);
                                     tempNode.LightCrossingIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.lightsCrossingOffset, tempNode.lightsCrossingCount);
@@ -268,6 +278,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         }
                     }
 
+                    //Add To Nodes
                     bool[] NodeInstanceBools = new bool[TempMainBox.instanceIndex.Count];
                     bool[] NodePatchBools = new bool[TempMainBox.patchIndex.Count];
                     for (int y1 = 0; y1 < nodeBoxWidth; y1++)
@@ -290,26 +301,86 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             //Generate Instance List
                             TempNodeBox.InstanceIndex = new List<int>();
                             TempNodeBox.GemIndex = new List<int>();
+                            TempNodeBox.RaceInstanceIndex = new List<int>();
                             for (int i = 0; i < TempMainBox.instanceIndex.Count; i++)
                             {
                                 Vector3 MidPoint = Vector3.Lerp(pbdHandler.Instances[TempMainBox.instanceIndex[i]].LowestXYZ, pbdHandler.Instances[TempMainBox.instanceIndex[i]].HighestXYZ, 0.5f);
                                 if (JsonUtil.WithinXY(MidPoint, TempNodeBox.WorldBounds1, TempNodeBox.WorldBounds2) && !NodeInstanceBools[i])
                                 {
                                     TempNodeBox.Modified = true;
-                                    NodeInstanceBools[i] = true;
-                                    if(pbdHandler.Instances[TempMainBox.instanceIndex[i]].ShowoffInstance)
+                                    if (pbdHandler.Instances[TempMainBox.instanceIndex[i]].LTGState == 1 && TempNodeBox.GemIndex.Count == 0)
                                     {
+                                        NodeInstanceBools[i] = true;
+                                        TempNodeBox.RaceInstanceIndex.Add(TempMainBox.instanceIndex[i]);
+                                    }
+                                    else if (pbdHandler.Instances[TempMainBox.instanceIndex[i]].LTGState == 2 && TempNodeBox.RaceInstanceIndex.Count == 0)
+                                    {
+                                        NodeInstanceBools[i] = true;
                                         TempNodeBox.GemIndex.Add(TempMainBox.instanceIndex[i]);
                                     }
-                                    else
+                                    else if (pbdHandler.Instances[TempMainBox.instanceIndex[i]].LTGState == 0)
                                     {
+                                        NodeInstanceBools[i] = true;
                                         TempNodeBox.InstanceIndex.Add(TempMainBox.instanceIndex[i]);
+                                    }
+                                    else if (pbdHandler.Instances[TempMainBox.instanceIndex[i]].LTGState == -1)
+                                    {
+                                        NodeInstanceBools[i] = true;
                                     }
                                 }
                             }
+                            TempMainBox.nodeBBoxes[x1, y1] = TempNodeBox;
+                        }
+                    }
 
+                    //Check All Instances Were Added To Nodes
+                    if(NodeInstanceBools.Contains(false))
+                    {
+                        for (int i = 0; i < NodeInstanceBools.Length; i++)
+                        {
+                            if (NodeInstanceBools[i]==false)
+                            {
+                                for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                                {
+                                    for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                                    {
+                                        if (NodeInstanceBools[i] == true)
+                                        {
+                                            break;
+                                        }
+                                        var TempNodeBox = TempMainBox.nodeBBoxes[x1, y1];
+                                        if (pbdHandler.Instances[TempMainBox.instanceIndex[i]].LTGState == 1 && TempNodeBox.GemIndex.Count == 0)
+                                        {
+                                            NodeInstanceBools[i] = true;
+                                            TempNodeBox.RaceInstanceIndex.Add(TempMainBox.instanceIndex[i]);
+                                        }
+                                        else if (pbdHandler.Instances[TempMainBox.instanceIndex[i]].LTGState == 2 && TempNodeBox.RaceInstanceIndex.Count == 0)
+                                        {
+                                            NodeInstanceBools[i] = true;
+                                            TempNodeBox.GemIndex.Add(TempMainBox.instanceIndex[i]);
+                                        }
+                                        TempMainBox.nodeBBoxes[x1, y1] = TempNodeBox;
+                                    }
+                                }
+                            }
+                        }
+                        if (NodeInstanceBools.Contains(false))
+                        {
+                            for (int i = 0; i < NodeInstanceBools.Length; i++)
+                            {
+                                if (NodeInstanceBools[i])
+                                {
+                                    MessageBox.Show("Instance Not Added To LTG " + TempMainBox.instanceIndex[i]);
+                                }
+                            }
+                        }
+                    }
 
-
+                    for (int y1 = 0; y1 < nodeBoxWidth; y1++)
+                    {
+                        for (int x1 = 0; x1 < nodeBoxWidth; x1++)
+                        {
+                            var TempNodeBox = TempMainBox.nodeBBoxes[x1, y1];
                             bool ModifiedSize = false;
                             //Resize For Patches
                             if (TempNodeBox.PatchIndex.Count != 0)
@@ -331,7 +402,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             if (TempNodeBox.InstanceIndex.Count != 0)
                             {
                                 TempNodeBox.instAndGemCount = TempNodeBox.InstanceIndex.Count+TempNodeBox.GemIndex.Count;
-                                TempNodeBox.instanceCount = TempNodeBox.InstanceIndex.Count;
+                                TempNodeBox.instanceCount = TempNodeBox.InstanceIndex.Count + TempNodeBox.RaceInstanceIndex.Count;
                                 if (ModifiedSize == false)
                                 {
                                     ModifiedSize = true;
@@ -348,7 +419,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             if (TempNodeBox.GemIndex.Count != 0)
                             {
                                 TempNodeBox.instAndGemCount = TempNodeBox.InstanceIndex.Count + TempNodeBox.GemIndex.Count;
-                                TempNodeBox.instanceCount = TempNodeBox.InstanceIndex.Count;
+                                TempNodeBox.instanceCount = TempNodeBox.InstanceIndex.Count + TempNodeBox.RaceInstanceIndex.Count;
                                 if (ModifiedSize == false)
                                 {
                                     ModifiedSize = true;
@@ -359,6 +430,23 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 {
                                     TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.Instances[TempNodeBox.GemIndex[i]].LowestXYZ);
                                     TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.Instances[TempNodeBox.GemIndex[i]].HighestXYZ);
+                                }
+                            }
+                            //Race Instances
+                            if (TempNodeBox.RaceInstanceIndex.Count != 0)
+                            {
+                                TempNodeBox.instAndGemCount = TempNodeBox.InstanceIndex.Count + TempNodeBox.GemIndex.Count;
+                                TempNodeBox.instanceCount = TempNodeBox.InstanceIndex.Count + TempNodeBox.RaceInstanceIndex.Count;
+                                if (ModifiedSize == false)
+                                {
+                                    ModifiedSize = true;
+                                    TempNodeBox.WorldBounds1 = pbdHandler.Instances[TempNodeBox.RaceInstanceIndex[0]].LowestXYZ;
+                                    TempNodeBox.WorldBounds2 = pbdHandler.Instances[TempNodeBox.RaceInstanceIndex[0]].HighestXYZ;
+                                }
+                                for (int i = 0; i < TempNodeBox.RaceInstanceIndex.Count; i++)
+                                {
+                                    TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.Instances[TempNodeBox.RaceInstanceIndex[i]].LowestXYZ);
+                                    TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.Instances[TempNodeBox.RaceInstanceIndex[i]].HighestXYZ);
                                 }
                             }
 
@@ -421,7 +509,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             mainBboxEmptyCount = totalGridCount - UsedBoxesCount;
         }
 
-        public bool FindIfInstaneGem(int Index)
+        public int FindIfInstaneState(int Index)
         {
             for (int y = 0; y < pointerListCount; y++)
             {
@@ -438,9 +526,17 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             for (int x1 = 0; x1 < nodeBoxWidth; x1++)
                             {
                                 var TempNodeBox = TempMainBox.nodeBBoxes[x1, y1];
+                                if (TempNodeBox.InstanceIndex.Contains(Index))
+                                {
+                                    return 0;
+                                }
                                 if (TempNodeBox.GemIndex.Contains(Index))
                                 {
-                                    return true;
+                                    return 2;
+                                }
+                                if (TempNodeBox.RaceInstanceIndex.Contains(Index))
+                                {
+                                    return 1;
                                 }
                             }
                         }
@@ -448,7 +544,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
             }
 
-            return false;
+            return -1;
         }
 
         public void SaveLTGFile(string path)
@@ -553,6 +649,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                         for (int i = 0; i < TempMainBox.nodeBBoxes[x1, y1].GemIndex.Count; i++)
                                         {
                                             StreamUtil.WriteInt32(MainBoxData, TempMainBox.nodeBBoxes[x1, y1].GemIndex[i]);
+                                        }
+                                        for (int i = 0; i < TempMainBox.nodeBBoxes[x1, y1].RaceInstanceIndex.Count; i++)
+                                        {
+                                            StreamUtil.WriteInt32(MainBoxData, TempMainBox.nodeBBoxes[x1, y1].RaceInstanceIndex[i]);
                                         }
                                     }
                                 }
@@ -782,6 +882,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             public List<int> PatchIndex;
             public List<int> InstanceIndex;
+            public List<int> RaceInstanceIndex;
             public List<int> GemIndex;
             public List<int> SplineIndex;
             public List<int> LightIndex;
