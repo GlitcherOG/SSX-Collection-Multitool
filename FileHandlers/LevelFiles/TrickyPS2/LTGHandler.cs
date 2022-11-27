@@ -246,6 +246,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             bool[] Patchbools = new bool[pbdHandler.Patches.Count];
             bool[] InstanceBools = new bool[pbdHandler.Instances.Count];
             bool[] SplineBools = new bool[pbdHandler.splinesSegments.Count];
+            //Lights
+
+
             //SetBoxes
             for (int y = 0; y < pointerListCount; y++)
             {
@@ -289,6 +292,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             TempMainBox.Modified = true;
                             SplineBools[i] = true;
                             TempMainBox.splineIndex.Add(i);
+                        }
+                    }
+                    //Find out What Light Corssing
+                    TempMainBox.lightCrossingIndex = new List<int>();
+                    for (int i = 0; i < pbdHandler.lights.Count; i++)
+                    {
+                        if (JsonUtil.IntersectingSquares(TempMainBox.WorldBounds1, TempMainBox.WorldBounds2, pbdHandler.lights[i].LowestXYZ, pbdHandler.lights[i].HighestXYZ))
+                        {
+                            TempMainBox.lightCrossingIndex.Add(i);
+                        }
+                        if (pbdHandler.lights[i].Type == 3)
+                        {
+                            TempMainBox.lightCrossingIndex.Add(i);
                         }
                     }
 
@@ -358,6 +374,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     TempNodeBox.SplineIndex.Add(TempMainBox.splineIndex[i]);
                                 }
                             }
+
+                            //Generate LightCrossing List
+                            TempNodeBox.LightCrossingIndex = new List<int>();
+                            for (int i = 0; i < TempMainBox.lightCrossingIndex.Count; i++)
+                            {
+                                if (JsonUtil.IntersectingSquares(TempNodeBox.WorldBounds1, TempNodeBox.WorldBounds2, pbdHandler.lights[TempMainBox.lightCrossingIndex[i]].LowestXYZ, pbdHandler.lights[TempMainBox.lightCrossingIndex[i]].HighestXYZ))
+                                {
+                                    TempNodeBox.LightCrossingIndex.Add(TempMainBox.lightCrossingIndex[i]);
+                                }
+                                if(pbdHandler.lights[TempMainBox.lightCrossingIndex[i]].Type==3)
+                                {
+                                    TempNodeBox.LightCrossingIndex.Add(TempMainBox.lightCrossingIndex[i]);
+                                }
+                            }
+                            TempNodeBox.lightsCrossingCount = TempNodeBox.LightCrossingIndex.Count;
 
 
                             TempMainBox.nodeBBoxes[x1, y1] = TempNodeBox;
@@ -892,6 +923,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public List<int> patchIndex;
             public List<int> instanceIndex;
             public List<int> splineIndex;
+            public List<int> lightIndex;
+            public List<int> lightCrossingIndex;
             //Num Num Patches
             //Num Instance
             //Num Particle Instance
