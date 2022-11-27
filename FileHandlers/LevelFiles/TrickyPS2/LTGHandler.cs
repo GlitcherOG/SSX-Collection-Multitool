@@ -245,6 +245,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             bool[] Patchbools = new bool[pbdHandler.Patches.Count];
             bool[] InstanceBools = new bool[pbdHandler.Instances.Count];
+            bool[] SplineBools = new bool[pbdHandler.splinesSegments.Count];
             //SetBoxes
             for (int y = 0; y < pointerListCount; y++)
             {
@@ -277,10 +278,25 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             TempMainBox.instanceIndex.Add(i);
                         }
                     }
+                    //Find out What Spline Segments
+                    TempMainBox.splineIndex = new List<int>();
+                    for (int i = 0; i < pbdHandler.splinesSegments.Count; i++)
+                    {
+                        Vector3 MidPoint = Vector3.Lerp(pbdHandler.splinesSegments[i].LowestXYZ, pbdHandler.splinesSegments[i].HighestXYZ, 0.5f);
+
+                        if (JsonUtil.WithinXY(MidPoint, TempMainBox.WorldBounds1, TempMainBox.WorldBounds2) && !SplineBools[i])
+                        {
+                            TempMainBox.Modified = true;
+                            SplineBools[i] = true;
+                            TempMainBox.splineIndex.Add(i);
+                        }
+                    }
+
 
                     //Add To Nodes
                     bool[] NodeInstanceBools = new bool[TempMainBox.instanceIndex.Count];
                     bool[] NodePatchBools = new bool[TempMainBox.patchIndex.Count];
+                    bool[] NodeSplineBools = new bool[TempMainBox.splineIndex.Count];
                     for (int y1 = 0; y1 < nodeBoxWidth; y1++)
                     {
                         for (int x1 = 0; x1 < nodeBoxWidth; x1++)
@@ -329,6 +345,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     }
                                 }
                             }
+
+                            //Generate Spline List
+                            TempNodeBox.SplineIndex = new List<int>();
+                            for (int i = 0; i < TempMainBox.splineIndex.Count; i++)
+                            {
+                                Vector3 MidPoint = Vector3.Lerp(pbdHandler.splinesSegments[TempMainBox.splineIndex[i]].LowestXYZ, pbdHandler.splinesSegments[TempMainBox.splineIndex[i]].HighestXYZ, 0.5f);
+                                if (JsonUtil.WithinXY(MidPoint, TempNodeBox.WorldBounds1, TempNodeBox.WorldBounds2) && !NodeSplineBools[i])
+                                {
+                                    TempNodeBox.Modified = true;
+                                    NodeSplineBools[i] = true;
+                                    TempNodeBox.SplineIndex.Add(TempMainBox.splineIndex[i]);
+                                }
+                            }
+
+
                             TempMainBox.nodeBBoxes[x1, y1] = TempNodeBox;
                         }
                     }
@@ -447,6 +478,22 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 {
                                     TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.Instances[TempNodeBox.RaceInstanceIndex[i]].LowestXYZ);
                                     TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.Instances[TempNodeBox.RaceInstanceIndex[i]].HighestXYZ);
+                                }
+                            }
+                            //Spline Segments
+                            if (TempNodeBox.SplineIndex.Count != 0)
+                            {
+                                TempNodeBox.splineCount = TempNodeBox.SplineIndex.Count;
+                                if (ModifiedSize == false)
+                                {
+                                    ModifiedSize = true;
+                                    TempNodeBox.WorldBounds1 = pbdHandler.splinesSegments[TempNodeBox.SplineIndex[0]].LowestXYZ;
+                                    TempNodeBox.WorldBounds2 = pbdHandler.splinesSegments[TempNodeBox.SplineIndex[0]].HighestXYZ;
+                                }
+                                for (int i = 0; i < TempNodeBox.SplineIndex.Count; i++)
+                                {
+                                    TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.splinesSegments[TempNodeBox.SplineIndex[i]].LowestXYZ);
+                                    TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.splinesSegments[TempNodeBox.SplineIndex[i]].HighestXYZ);
                                 }
                             }
 
@@ -844,6 +891,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             public List<int> patchIndex;
             public List<int> instanceIndex;
+            public List<int> splineIndex;
             //Num Num Patches
             //Num Instance
             //Num Particle Instance
@@ -858,7 +906,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public struct nodeBBox
         {
             public bool Modified;
-
             
             public Vector3 WorldBounds1;
             public Vector3 WorldBounds2;
