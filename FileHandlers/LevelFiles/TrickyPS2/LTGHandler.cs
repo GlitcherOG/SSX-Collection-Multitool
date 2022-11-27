@@ -164,6 +164,37 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public void RegenerateLTG(PBDHandler pbdHandler, float NewMainBoxSize = 10000f, int NewNodeWidth = 4)
         {
+            WorldBounds1 = new Vector3(0, 0, 0);
+            WorldBounds2 = new Vector3(0, 0, 0);
+            //Generate New High/Lowest World Map
+            for (int i = 0; i < pbdHandler.Patches.Count; i++)
+            {
+                WorldBounds1 = JsonUtil.Lowest(WorldBounds1, pbdHandler.Patches[i].LowestXYZ);
+                WorldBounds2 = JsonUtil.Highest(WorldBounds2, pbdHandler.Patches[i].HighestXYZ);
+            }
+            for (int i = 0; i < pbdHandler.Instances.Count; i++)
+            {
+                WorldBounds1 = JsonUtil.Lowest(WorldBounds1, pbdHandler.Instances[i].LowestXYZ);
+                WorldBounds2 = JsonUtil.Highest(WorldBounds2, pbdHandler.Instances[i].HighestXYZ);
+            }
+            for (int i = 0; i < pbdHandler.splinesSegments.Count; i++)
+            {
+                WorldBounds1 = JsonUtil.Lowest(WorldBounds1, pbdHandler.splinesSegments[i].LowestXYZ);
+                WorldBounds2 = JsonUtil.Highest(WorldBounds2, pbdHandler.splinesSegments[i].HighestXYZ);
+            }
+            for (int i = 0; i < pbdHandler.lights.Count; i++)
+            {
+                WorldBounds1 = JsonUtil.Lowest(WorldBounds1, pbdHandler.lights[i].LowestXYZ);
+                WorldBounds2 = JsonUtil.Highest(WorldBounds2, pbdHandler.lights[i].HighestXYZ);
+            }
+            for (int i = 0; i < pbdHandler.particleInstances.Count; i++)
+            {
+                WorldBounds1 = JsonUtil.Lowest(WorldBounds1, pbdHandler.particleInstances[i].LowestXYZ);
+                WorldBounds2 = JsonUtil.Highest(WorldBounds2, pbdHandler.particleInstances[i].HighestXYZ);
+            }
+
+
+
             mainBboxSize = NewMainBoxSize;
             nodeBoxWidth = NewNodeWidth;
             nodeBoxSize = mainBboxSize / (float)nodeBoxWidth;
@@ -246,7 +277,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             bool[] Patchbools = new bool[pbdHandler.Patches.Count];
             bool[] InstanceBools = new bool[pbdHandler.Instances.Count];
             bool[] SplineBools = new bool[pbdHandler.splinesSegments.Count];
-            //Lights
+            bool[] LightBools = new bool[pbdHandler.lights.Count];
+            bool[] ParticleBools = new bool[pbdHandler.particleInstances.Count];
 
 
             //SetBoxes
@@ -294,6 +326,18 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             TempMainBox.splineIndex.Add(i);
                         }
                     }
+                    //Lights
+                    TempMainBox.lightIndex = new List<int>();
+                    for (int i = 0; i < pbdHandler.lights.Count; i++)
+                    {
+                        if (JsonUtil.WithinXY(pbdHandler.lights[i].Postion, TempMainBox.WorldBounds1, TempMainBox.WorldBounds2) && !LightBools[i] && pbdHandler.lights[i].spriteRes != 0)
+                        {
+                            TempMainBox.Modified = true;
+                            LightBools[i] = true;
+                            TempMainBox.lightIndex.Add(i);
+                        }
+                    }
+
                     //Find out What Light Corssing
                     TempMainBox.lightCrossingIndex = new List<int>();
                     for (int i = 0; i < pbdHandler.lights.Count; i++)
@@ -307,12 +351,27 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             TempMainBox.lightCrossingIndex.Add(i);
                         }
                     }
+                    //Particle Instance
+                    TempMainBox.particleIndex = new List<int>();
+                    for (int i = 0; i < pbdHandler.particleInstances.Count; i++)
+                    {
+                        Vector3 MidPoint = Vector3.Lerp(pbdHandler.particleInstances[i].LowestXYZ, pbdHandler.particleInstances[i].HighestXYZ, 0.5f);
+
+                        if (JsonUtil.WithinXY(MidPoint, TempMainBox.WorldBounds1, TempMainBox.WorldBounds2) && !ParticleBools[i])
+                        {
+                            TempMainBox.Modified = true;
+                            ParticleBools[i] = true;
+                            TempMainBox.particleIndex.Add(i);
+                        }
+                    }
 
 
                     //Add To Nodes
                     bool[] NodeInstanceBools = new bool[TempMainBox.instanceIndex.Count];
                     bool[] NodePatchBools = new bool[TempMainBox.patchIndex.Count];
                     bool[] NodeSplineBools = new bool[TempMainBox.splineIndex.Count];
+                    bool[] NodeLightBools = new bool[TempMainBox.lightIndex.Count];
+                    bool[] NodeParticleBools = new bool[TempMainBox.particleIndex.Count];
                     for (int y1 = 0; y1 < nodeBoxWidth; y1++)
                     {
                         for (int x1 = 0; x1 < nodeBoxWidth; x1++)
@@ -374,6 +433,18 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     TempNodeBox.SplineIndex.Add(TempMainBox.splineIndex[i]);
                                 }
                             }
+                            //Generate Light List
+                            //Generate Patches List
+                            TempNodeBox.LightIndex = new List<int>();
+                            for (int i = 0; i < TempMainBox.lightIndex.Count; i++)
+                            {
+                                if (JsonUtil.WithinXY(pbdHandler.lights[TempMainBox.lightIndex[i]].Postion, TempNodeBox.WorldBounds1, TempNodeBox.WorldBounds2) && !NodeLightBools[i])
+                                {
+                                    TempNodeBox.Modified = true;
+                                    NodeLightBools[i] = true;
+                                    TempNodeBox.LightIndex.Add(TempMainBox.lightIndex[i]);
+                                }
+                            }
 
                             //Generate LightCrossing List
                             TempNodeBox.LightCrossingIndex = new List<int>();
@@ -389,6 +460,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 }
                             }
                             TempNodeBox.lightsCrossingCount = TempNodeBox.LightCrossingIndex.Count;
+
+                            //Generate Particle List
+                            TempNodeBox.ParticleIndex = new List<int>();
+                            for (int i = 0; i < TempMainBox.particleIndex.Count; i++)
+                            {
+                                Vector3 MidPoint = Vector3.Lerp(pbdHandler.particleInstances[TempMainBox.particleIndex[i]].LowestXYZ, pbdHandler.particleInstances[TempMainBox.particleIndex[i]].HighestXYZ, 0.5f);
+                                if (JsonUtil.WithinXY(MidPoint, TempNodeBox.WorldBounds1, TempNodeBox.WorldBounds2) && !NodeParticleBools[i])
+                                {
+                                    TempNodeBox.Modified = true;
+                                    NodeParticleBools[i] = true;
+                                    TempNodeBox.ParticleIndex.Add(TempMainBox.particleIndex[i]);
+                                }
+                            }
 
 
                             TempMainBox.nodeBBoxes[x1, y1] = TempNodeBox;
@@ -527,6 +611,42 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.splinesSegments[TempNodeBox.SplineIndex[i]].HighestXYZ);
                                 }
                             }
+                            //Light
+                            if (TempNodeBox.LightIndex.Count != 0)
+                            {
+                                TempNodeBox.lightCount = TempNodeBox.LightIndex.Count;
+                                if (ModifiedSize == false)
+                                {
+                                    ModifiedSize = true;
+                                    TempNodeBox.WorldBounds1 = pbdHandler.lights[TempNodeBox.LightIndex[0]].LowestXYZ;
+                                    TempNodeBox.WorldBounds2 = pbdHandler.lights[TempNodeBox.LightIndex[0]].HighestXYZ;
+                                }
+                                for (int i = 0; i < TempNodeBox.LightIndex.Count; i++)
+                                {
+                                    TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.lights[TempNodeBox.LightIndex[i]].LowestXYZ);
+                                    TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.lights[TempNodeBox.LightIndex[i]].HighestXYZ);
+                                }
+                            }
+                            //ParticleInstance
+                            if (TempNodeBox.ParticleIndex.Count != 0)
+                            {
+                                TempNodeBox.particleCount = TempNodeBox.ParticleIndex.Count;
+                                if (ModifiedSize == false)
+                                {
+                                    ModifiedSize = true;
+                                    TempNodeBox.WorldBounds1 = pbdHandler.particleInstances[TempNodeBox.ParticleIndex[0]].LowestXYZ;
+                                    TempNodeBox.WorldBounds2 = pbdHandler.particleInstances[TempNodeBox.ParticleIndex[0]].HighestXYZ;
+                                }
+                                for (int i = 0; i < TempNodeBox.ParticleIndex.Count; i++)
+                                {
+                                    TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.particleInstances[TempNodeBox.ParticleIndex[i]].LowestXYZ);
+                                    TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.particleInstances[TempNodeBox.ParticleIndex[i]].HighestXYZ);
+                                }
+                            }
+
+                            TempNodeBox.WorldBounds1 -= new Vector3(50, 50, 50);
+                            TempNodeBox.WorldBounds2 += new Vector3(50, 50, 50);
+
 
                             TempNodeBox.WorldBounds3 = Vector3.Lerp(TempNodeBox.WorldBounds1, TempNodeBox.WorldBounds2, 0.5f);
                             TempMainBox.nodeBBoxes[x1, y1] = TempNodeBox;
@@ -925,6 +1045,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public List<int> splineIndex;
             public List<int> lightIndex;
             public List<int> lightCrossingIndex;
+            public List<int> particleIndex;
             //Num Num Patches
             //Num Instance
             //Num Particle Instance
