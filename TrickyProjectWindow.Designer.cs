@@ -78,8 +78,16 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.EmulatorLigthFix = new System.Windows.Forms.CheckBox();
             this.RegenLTG = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // ExtractLevel
@@ -544,18 +552,90 @@
             // RegenLTG
             // 
             this.RegenLTG.AutoSize = true;
+            this.RegenLTG.Checked = true;
+            this.RegenLTG.CheckState = System.Windows.Forms.CheckState.Checked;
             this.RegenLTG.Location = new System.Drawing.Point(617, 365);
             this.RegenLTG.Name = "RegenLTG";
-            this.RegenLTG.Size = new System.Drawing.Size(138, 19);
+            this.RegenLTG.Size = new System.Drawing.Size(106, 19);
             this.RegenLTG.TabIndex = 49;
-            this.RegenLTG.Text = "Regenerate LTG (WIP)";
+            this.RegenLTG.Text = "Regenerate LTG";
             this.RegenLTG.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.label3);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.label11);
+            this.groupBox3.Location = new System.Drawing.Point(13, 208);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(200, 62);
+            this.groupBox3.TabIndex = 47;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Skybox";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(148, 19);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(46, 15);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Models";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(9, 19);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(55, 15);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Materials";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 34);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(13, 15);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "0";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(62, 19);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(87, 15);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "Material Blocks";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(67, 34);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(13, 15);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "0";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(148, 34);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(13, 15);
+            this.label11.TabIndex = 6;
+            this.label11.Text = "0";
             // 
             // TrickyProjectWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.RegenLTG);
             this.Controls.Add(this.EmulatorLigthFix);
             this.Controls.Add(this.groupBox2);
@@ -586,6 +666,8 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -643,5 +725,12 @@
         private GroupBox groupBox2;
         private CheckBox EmulatorLigthFix;
         private CheckBox RegenLTG;
+        private GroupBox groupBox3;
+        private Label label2;
+        private Label label3;
+        private Label label5;
+        private Label label7;
+        private Label label9;
+        private Label label11;
     }
 }

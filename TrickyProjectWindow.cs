@@ -83,7 +83,7 @@ namespace SSXMultiTool
             if(ProjectPath!=null && ProjectPath != "")
             {
                 TextureLabel.Text = Directory.GetFiles(ProjectPath + "/Textures", "*.png").Length.ToString();
-                SykboxLabel.Text = Directory.GetFiles(ProjectPath + "/Skybox", "*.png").Length.ToString();
+                SykboxLabel.Text = Directory.GetFiles(ProjectPath + "/Skybox/Textures", "*.png").Length.ToString();
                 LightmapLabel.Text = Directory.GetFiles(ProjectPath + "/Lightmaps", "*.png").Length.ToString();
             }
             LevelNameTextbox.Text = trickyConfig.LevelName;

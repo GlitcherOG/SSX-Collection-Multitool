@@ -13,7 +13,6 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - (WIP) SSX Tricky MPF Extractor
 
 ## Current Todo
-- LTG Light, Spline, Particle Model
 - Level Generate Hardware Fix (Make it so that it tests if texture is used for world and object if so make new one and set patch to it)
 - Fix Skybox Texture Loading
 - Fix Model Header
