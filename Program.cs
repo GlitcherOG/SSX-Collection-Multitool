@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace SSXMultiTool
 {
@@ -22,9 +23,13 @@ namespace SSXMultiTool
             }
             else
             {
-                if (args[0].ToLower()=="-big")
+                if (args[0].ToLower()=="big")
                 {
                     BigLaunchOptions(args);
+                }
+                if(args[0].ToLower() == "trickylevel")
+                {
+                    SSXTrickyProjectBuild(args);
                 }
             }
         }
@@ -41,6 +46,75 @@ namespace SSXMultiTool
             else
             {
                 MessageBox.Show("Unknown Arguments");
+            }
+        }
+
+        static void SSXTrickyProjectBuild(string[] args)
+        {
+            if(args.Length==1)
+            {
+                ApplicationConfiguration.Initialize();
+                Application.Run(new TrickyProjectWindow());
+            }
+            else
+            {
+                if (args[1].ToLower() == "build")
+                {
+                    if (Directory.Exists(args[2]))
+                    {
+                        try
+                        {
+                            TrickyLevelInterface trickyLevelInterface = new TrickyLevelInterface();
+                            trickyLevelInterface.BuildTrickyLevelFiles(args[2], args[3]);
+                            if (args[4].ToLower() == "run")
+                            {
+                                if (File.Exists(args[5]))
+                                {
+                                    ProcessStartInfo startInfo = new ProcessStartInfo();
+                                    startInfo.FileName = args[5];
+                                    string path = args[6];
+
+                                    if (File.Exists(path))
+                                    {
+                                        if (path.ToLower().Contains(".iso"))
+                                        {
+                                            startInfo.Arguments = "\"" + path + "\"";
+                                        }
+                                        else if (path.ToLower().Contains(".elf"))
+                                        {
+                                            startInfo.Arguments = "-elf \"" + path + "\"";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("No .Elf or ISO Path set");
+                                    }
+                                    Process.Start(startInfo);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Unknown Emulator Path");
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Level Built");
+                            }
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Unknown Error Building");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unknown Input Path");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Unknown Arguments");
+                }
             }
         }
     }

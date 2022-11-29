@@ -14,7 +14,7 @@ namespace SSXMultiTool
     public class TrickyLevelInterface
     {
         public bool AttemptLightingFix;
-        public bool LTGRegenerate;
+        public bool LTGRegenerate = true;
 
         public PatchesJsonHandler patchPoints = new PatchesJsonHandler();
         public InstanceJsonHandler instancesJson = new InstanceJsonHandler();
