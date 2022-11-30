@@ -14,8 +14,8 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 
 ## Current Todo
 - Level Generate Hardware Fix (Make it so that it tests if texture is used for world and object if so make new one and set patch to it)
-- Fix Skybox Texture Loading
 - Fix Model Header
+- Instance XYZ High/Lowest
 
 - Get Cameras and Hash exporting so i can start rebuilding the file from scratch
 - Redo Folder Loading SSH

@@ -212,6 +212,8 @@ namespace SSXMultiTool.FileHandlers
         public void LoadFolderC0FB(string path)
         {
             bigHeader = new BIGFHeader();
+            bigType = BigType.C0FB;
+            bigPath = path;
             bigFiles = new List<BIGFFiles>();
             string[] paths = Directory.GetFiles(bigPath, "*.*", SearchOption.AllDirectories);
             bigHeader.ammount = paths.Length;

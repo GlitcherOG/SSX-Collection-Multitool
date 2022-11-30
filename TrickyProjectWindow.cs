@@ -21,7 +21,7 @@ namespace SSXMultiTool
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Map File (*.map)|*.map|Big File (*.big)|*.big|All files (*.*)|*.*",
+                Filter = "Map File (*.map,*.big)|*.map;*.big|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };
@@ -35,13 +35,27 @@ namespace SSXMultiTool
                 {
                     if (Directory.GetFiles(commonDialog.FileName).Count() != 1)
                     {
-                        if (openFileDialog.FileName.Contains(".big"))
+                        if (openFileDialog.FileName.ToLower().Contains(".big"))
                         {
-
+                            BigHandler bigHandler = new BigHandler();
+                            bigHandler.LoadBig(openFileDialog.FileName);
+                            bigHandler.ExtractBig(Application.StartupPath + "\\TempExtract");
+                            string[] strings = Directory.GetFiles(Application.StartupPath + "\\TempExtract", "*.map", SearchOption.AllDirectories);
+                            if(strings.Length!=0)
+                            {
+                                ExtractFiles(strings[0], commonDialog.FileName);
+                                MessageBox.Show("Level Extracted");
+                            }
+                            else
+                            {
+                                MessageBox.Show("Missing Level Files");
+                            }
+                            Directory.Delete(Application.StartupPath + "\\TempExtract", true);
                         }
                         else
                         {
                             ExtractFiles(openFileDialog.FileName, commonDialog.FileName);
+                            MessageBox.Show("Level Extracted");
                         }
                     }
                     else
@@ -64,7 +78,6 @@ namespace SSXMultiTool
             RebuildButton.Enabled = true;
             trickyConfig = new SSXTrickyConfig();
             trickyConfig.CreateJson(ExportPath + "/Config.ssx");
-            MessageBox.Show("Level Extracted");
             UpdateText();
         }
 
@@ -107,7 +120,7 @@ namespace SSXMultiTool
             {
                 SaveFileDialog openFileDialog = new SaveFileDialog
                 {
-                    Filter = "Map File (*.map)|*.map|Big File (*.big)|*.big|All files (*.*)|*.*",
+                    Filter = "Map File (*.map,*.big)|*.map;*.big|All files (*.*)|*.*",
                     FilterIndex = 1,
                     RestoreDirectory = false
                 };
@@ -116,7 +129,23 @@ namespace SSXMultiTool
                     trickyLevelInterface = new TrickyLevelInterface();
                     trickyLevelInterface.AttemptLightingFix = EmulatorLigthFix.Checked;
                     trickyLevelInterface.LTGRegenerate = RegenLTG.Checked;
-                    trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, openFileDialog.FileName);
+                    if (openFileDialog.FileName.ToLower().Contains(".big"))
+                    {
+                        Directory.CreateDirectory(Application.StartupPath + "\\TempExtract");
+                        Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\Data");
+                        Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\data\\models");
+                        string InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(openFileDialog.FileName.ToLower()).Substring(0, Path.GetFileName(openFileDialog.FileName).Length-3) + "map";
+                        trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, InputPath);
+                        BigHandler bigHandler = new BigHandler();
+                        bigHandler.LoadFolderC0FB(Application.StartupPath + "\\TempExtract");
+                        bigHandler.CompressBuild = true;
+                        bigHandler.BuildBig(openFileDialog.FileName);
+                        Directory.Delete(Application.StartupPath + "\\TempExtract", true);
+                    }
+                    else
+                    {
+                        trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, openFileDialog.FileName);
+                    }
                     MessageBox.Show("Level Built");
                 }
             }
@@ -137,7 +166,7 @@ namespace SSXMultiTool
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 trickyConfig = SSXTrickyConfig.Load(openFileDialog.FileName);
-                if (trickyConfig.Version == 3)
+                if (trickyConfig.Version == 4)
                 {
                     trickyLevelInterface = new TrickyLevelInterface();
                     SaveConfig.Enabled = true;
