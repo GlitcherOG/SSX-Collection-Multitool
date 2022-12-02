@@ -60,11 +60,11 @@ namespace SSXMultiTool.FileHandlers
 
             bigHeader.fileSize = StreamUtil.ReadInt32(stream);
 
-            bigHeader.ammount = StreamUtil.ReadInt32Big(stream);
+            bigHeader.fileCount = StreamUtil.ReadInt32Big(stream);
 
             bigHeader.startOffset = StreamUtil.ReadInt32Big(stream);
 
-            for (int i = 0; i < bigHeader.ammount; i++)
+            for (int i = 0; i < bigHeader.fileCount; i++)
             {
                 BIGFFiles temp = new BIGFFiles();
 
@@ -80,7 +80,7 @@ namespace SSXMultiTool.FileHandlers
             bigHeader.footer = new byte[8];
             stream.Read(bigHeader.footer, 0, bigHeader.footer.Length);
 
-            for (int i = 0; i < bigHeader.ammount; i++)
+            for (int i = 0; i < bigHeader.fileCount; i++)
             {
                 stream.Position = bigFiles[i].offset;
                 BIGFFiles tempFile = bigFiles[i];
@@ -102,9 +102,9 @@ namespace SSXMultiTool.FileHandlers
 
             bigHeader.startOffset = StreamUtil.ReadInt16Big(stream);
 
-            bigHeader.ammount = StreamUtil.ReadInt16Big(stream);
+            bigHeader.fileCount = StreamUtil.ReadInt16Big(stream);
 
-            for (int i = 0; i < bigHeader.ammount; i++)
+            for (int i = 0; i < bigHeader.fileCount; i++)
             {
                 BIGFFiles temp = new BIGFFiles();
 
@@ -117,7 +117,7 @@ namespace SSXMultiTool.FileHandlers
                 stream.Position += 1;
             }
 
-            for (int i = 0; i < bigHeader.ammount; i++)
+            for (int i = 0; i < bigHeader.fileCount; i++)
             {
                 stream.Position = bigFiles[i].offset;
                 BIGFFiles tempFile = bigFiles[i];
@@ -174,7 +174,7 @@ namespace SSXMultiTool.FileHandlers
             bigHeader = new BIGFHeader();
             bigFiles = new List<BIGFFiles>();
             string[] paths = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
-            bigHeader.ammount = paths.Length;
+            bigHeader.fileCount = paths.Length;
             int FileOffset = 16;
             for (int i = 0; i < paths.Length; i++)
             {
@@ -216,7 +216,7 @@ namespace SSXMultiTool.FileHandlers
             bigPath = path;
             bigFiles = new List<BIGFFiles>();
             string[] paths = Directory.GetFiles(bigPath, "*.*", SearchOption.AllDirectories);
-            bigHeader.ammount = paths.Length;
+            bigHeader.fileCount = paths.Length;
             int FileOffset = 6;
             for (int i = 0; i < paths.Length; i++)
             {
@@ -299,7 +299,7 @@ namespace SSXMultiTool.FileHandlers
             stream.Write(tempByte, 0, tempByte.Length);
 
             //Set Ammount
-            StreamUtil.WriteInt32Big(stream, bigHeader.ammount);
+            StreamUtil.WriteInt32Big(stream, bigHeader.fileCount);
 
             //Set Blank Start of file offset
             tempByte = new byte[4];
@@ -369,7 +369,7 @@ namespace SSXMultiTool.FileHandlers
             stream.Write(tempByte, 0, tempByte.Length);
 
             //Set Ammount
-            StreamUtil.WriteInt16Big(stream, bigHeader.ammount);
+            StreamUtil.WriteInt16Big(stream, bigHeader.fileCount);
 
             for (int i = 0; i < bigFiles.Count; i++)
             {
@@ -417,7 +417,7 @@ namespace SSXMultiTool.FileHandlers
         {
             public string MagicWords;
             public int fileSize;
-            public int ammount;
+            public int fileCount;
             public int startOffset;
             public byte[] footer;
         }

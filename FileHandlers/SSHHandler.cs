@@ -12,8 +12,8 @@ namespace SSXMultiTool.FileHandlers
     public class SSHHandler
     {
         public string MagicWord;
-        public int Size;
-        public int Ammount;
+        public int fileSize;
+        public int imageCount;
         public string format;
         public string group;
         public string endingstring;
@@ -27,13 +27,13 @@ namespace SSXMultiTool.FileHandlers
 
                 if (MagicWord == "SHPS")
                 {
-                    Size = StreamUtil.ReadInt32(stream);
+                    fileSize = StreamUtil.ReadInt32(stream);
 
-                    Ammount = StreamUtil.ReadInt32(stream);
+                    imageCount = StreamUtil.ReadInt32(stream);
 
                     format = StreamUtil.ReadString(stream, 4);
 
-                    for (int i = 0; i < Ammount; i++)
+                    for (int i = 0; i < imageCount; i++)
                     {
                         SSHImage tempImage = new SSHImage();
 
@@ -60,13 +60,13 @@ namespace SSXMultiTool.FileHandlers
                 }
                 else if (MagicWord == "ShpS")
                 {
-                    Size = StreamUtil.ReadInt32(stream);
+                    fileSize = StreamUtil.ReadInt32(stream);
 
-                    Ammount = StreamUtil.ReadInt32Big(stream);
+                    imageCount = StreamUtil.ReadInt32Big(stream);
 
                     stream.Position += 4; //Find Out
 
-                    for (int i = 0; i < Ammount; i++)
+                    for (int i = 0; i < imageCount; i++)
                     {
                         SSHImage tempImage = new SSHImage();
 
@@ -536,7 +536,7 @@ namespace SSXMultiTool.FileHandlers
         public void LoadFolder(string path)
         {
             MagicWord = "";
-            Size = 0;
+            fileSize = 0;
             group = "";
             endingstring = "";
             sshImages = new List<SSHImage>();
@@ -544,7 +544,7 @@ namespace SSXMultiTool.FileHandlers
             {
                 string[] paths = File.ReadAllLines(path + "\\Index.txt");
                 format = paths[0].Replace(Environment.NewLine, "");
-                Ammount = paths.Length - 1;
+                imageCount = paths.Length - 1;
                 int[] Maxtrixarray = new int[paths.Length - 1];
                 for (int i = 1; i < paths.Length; i++)
                 {
