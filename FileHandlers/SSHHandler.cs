@@ -728,12 +728,12 @@ namespace SSXMultiTool.FileHandlers
             sshImages.RemoveAt(i);
         }
 
-        public void AddImage()
+        public void AddImage(int imageSize = 64)
         {
             var NewSSHImage = new SSHImage();
             NewSSHImage.sshHeader.MatrixFormat = 2;
             NewSSHImage.shortname = "????";
-            NewSSHImage.bitmap = new Bitmap(64, 64, PixelFormat.Format32bppArgb);
+            NewSSHImage.bitmap = new Bitmap(imageSize, imageSize, PixelFormat.Format32bppArgb);
             NewSSHImage.sshTable.colorTable = new List<Color>();
             sshImages.Add(NewSSHImage);
         }

@@ -85,6 +85,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -630,11 +631,22 @@
             this.label11.TabIndex = 6;
             this.label11.Text = "0";
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(617, 340);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(155, 19);
+            this.checkBox1.TabIndex = 50;
+            this.checkBox1.Text = "Generate Unlit Lightmap";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // TrickyProjectWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.RegenLTG);
             this.Controls.Add(this.EmulatorLigthFix);
@@ -732,5 +744,6 @@
         private Label label7;
         private Label label9;
         private Label label11;
+        private CheckBox checkBox1;
     }
 }

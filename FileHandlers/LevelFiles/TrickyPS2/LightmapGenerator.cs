@@ -13,7 +13,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         }
 
-        public void GenerateNewLightmapPoints(PBDHandler handler, int LightmapPatchRes = 8)
+        public static PBDHandler GenerateNewLightmapPoints(PBDHandler handler, int LightmapPatchRes = 8)
         {
             int GridSize = 128 / LightmapPatchRes;
             int X = 0;
@@ -40,6 +40,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
                 handler.Patches[i] = patch;
             }
+            return handler;
         }
 
         public static SSHHandler GenerateUnlitLightmap(PBDHandler pbdHandler)
@@ -57,9 +58,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             for (int i = 0; i < maxLightmap+1; i++)
             {
-                LightmapHandler.AddImage();
+                LightmapHandler.AddImage(128);
                 var temp = LightmapHandler.sshImages[i];
-                temp.bitmap = new Bitmap(128, 128, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 temp.sshHeader.MatrixFormat = 5;
                 temp.shortname = i.ToString().PadLeft(4, '0');
                 for (int y = 0; y < temp.bitmap.Height; y++)

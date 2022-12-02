@@ -15,6 +15,7 @@ namespace SSXMultiTool
     {
         public bool AttemptLightingFix;
         public bool LTGRegenerate = true;
+        public bool Unilightmap;
 
         public PatchesJsonHandler patchPoints = new PatchesJsonHandler();
         public InstanceJsonHandler instancesJson = new InstanceJsonHandler();
@@ -923,26 +924,34 @@ namespace SSXMultiTool
                 SkyboxHandler.SaveSSH(ExportPath + "_sky.ssh", true);
             }
 
-            //Build Lightmap
             SSHHandler LightmapHandler = new SSHHandler();
-            LightmapHandler.format = "G278";
-
-            string[] LightmapFiles = Directory.GetFiles(LoadPath + "/Lightmaps", "*.png");
-            for (int i = 0; i < LightmapFiles.Length; i++)
+            //Build Lightmap
+            if (Unilightmap)
             {
-                LightmapHandler.AddImage();
-                var temp = LightmapHandler.sshImages[i];
-                temp.sshHeader.MatrixFormat = 5;
-                LightmapHandler.sshImages[i] = temp;
-                LightmapHandler.LoadSingle(LightmapFiles[i], i);
-                if (!AttemptLightingFix)
+                LightmapHandler.format = "G278";
+
+                string[] LightmapFiles = Directory.GetFiles(LoadPath + "/Lightmaps", "*.png");
+                for (int i = 0; i < LightmapFiles.Length; i++)
                 {
-                    LightmapHandler.DarkenImage(i);
+                    LightmapHandler.AddImage();
+                    var temp = LightmapHandler.sshImages[i];
+                    temp.sshHeader.MatrixFormat = 5;
+                    LightmapHandler.sshImages[i] = temp;
+                    LightmapHandler.LoadSingle(LightmapFiles[i], i);
+                    if (!AttemptLightingFix)
+                    {
+                        LightmapHandler.DarkenImage(i);
+                    }
+                    temp = LightmapHandler.sshImages[i];
+                    temp.shortname = i.ToString().PadLeft(4, '0');
+                    //temp.AlphaFix = true;
+                    LightmapHandler.sshImages[i] = temp;
                 }
-                temp = LightmapHandler.sshImages[i];
-                temp.shortname = i.ToString().PadLeft(4, '0');
-                //temp.AlphaFix = true;
-                LightmapHandler.sshImages[i] = temp;
+            }
+            else
+            {
+                pbdHandler = LightmapGenerator.GenerateNewLightmapPoints(pbdHandler);
+                LightmapHandler = LightmapGenerator.GenerateUnlitLightmap(pbdHandler);
             }
 
             LightmapHandler.SaveSSH(ExportPath + "_L.ssh", true);
