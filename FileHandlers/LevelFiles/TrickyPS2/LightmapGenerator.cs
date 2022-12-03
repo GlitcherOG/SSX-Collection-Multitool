@@ -8,9 +8,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
     public class LightmapGenerator
     {
-        public void GenerateNewLightmap()
+        public static SSHHandler GenerateNewLightmap(PBDHandler handler)
         {
-
+            return GenerateUnlitLightmap(handler);
         }
 
         public static PBDHandler GenerateNewLightmapPoints(PBDHandler handler, int LightmapPatchRes = 8)
@@ -22,8 +22,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             for (int i = 0; i < handler.Patches.Count; i++)
             {
                 var patch = handler.Patches[i];
-                patch.LightMapPoint.X = 1 / GridSize * X; //X position
-                patch.LightMapPoint.Y = 1 / GridSize * Y; //Y position
+                patch.LightMapPoint.X = (1 / GridSize) * X; //X position
+                patch.LightMapPoint.Y = (1 / GridSize) * Y; //Y position
                 patch.LightMapPoint.Z = 1 / GridSize; //Width
                 patch.LightMapPoint.W = 1 / GridSize; //Hight
                 patch.LightmapID = LightmapID;
@@ -66,7 +66,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     for (int x = 0; x < temp.bitmap.Width; x++)
                     {
-                        Color color = Color.FromArgb(1, 0, 0, 0);
+                        Color color = Color.FromArgb(255, 0, 0, 0);
                         temp.bitmap.SetPixel(x, y, color);
                     }
                 }
