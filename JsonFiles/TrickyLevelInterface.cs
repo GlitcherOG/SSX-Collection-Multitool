@@ -42,6 +42,12 @@ namespace SSXMultiTool
             LTGHandler ltgHandler = new LTGHandler();
             ltgHandler.LoadLTG(LoadPath + ".ltg");
 
+            AIPSOPHandler aipHandler = new AIPSOPHandler();
+            aipHandler.LoadAIPSOP(LoadPath + ".aip");
+
+            AIPSOPHandler sopHandler = new AIPSOPHandler();
+            sopHandler.LoadAIPSOP(LoadPath + ".sop");
+
             //Create Patches JSON
             patchPoints = new PatchesJsonHandler();
             for (int i = 0; i < pbdHandler.Patches.Count; i++)

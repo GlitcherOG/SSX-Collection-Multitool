@@ -35,7 +35,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 pathACount = StreamUtil.ReadInt32(stream);
 
                 //Skip to path A
-                stream.Position += 0x30;
+                stream.Position = 0x30;
                 typeAs = new List<PathTypeA>();
 
                 for (int i = 0; i < pathACount; i++)
@@ -74,7 +74,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         TempUnknownListTypeA.Unknown4 = StreamUtil.ReadFloat(stream);
                         TempTypeA.unkownListTypeAs.Add(TempUnknownListTypeA);
                     }
-
+                    typeAs.Add(TempTypeA);
                 }
 
                 //Skip to PathB
@@ -84,6 +84,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 pathBCount = StreamUtil.ReadInt32(stream);
                 pathBUnknown = StreamUtil.ReadInt32(stream);
 
+                typeBs = new List<PathTypeB>();
                 for (int i = 0; i < pathBCount; i++)
                 {
                     var TempTypeB = new PathTypeB();
@@ -117,6 +118,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         TempUnknownListTypeA.Unknown4 = StreamUtil.ReadFloat(stream);
                         TempTypeB.unkownListTypeAs.Add(TempUnknownListTypeA);
                     }
+                    typeBs.Add(TempTypeB);
                 }
 
 
