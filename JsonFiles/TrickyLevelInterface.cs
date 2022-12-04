@@ -932,7 +932,7 @@ namespace SSXMultiTool
 
             SSHHandler LightmapHandler = new SSHHandler();
             //Build Lightmap
-            if (Unilightmap)
+            if (!Unilightmap)
             {
                 LightmapHandler.format = "G278";
 
