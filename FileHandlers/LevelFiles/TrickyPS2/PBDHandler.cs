@@ -431,7 +431,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 MeshData model = new MeshData();
                 model.staticMeshes = new List<StaticMesh>();
 
-                while (true)
+                while (true&& MeshDataOffset!=0)
                 {
                     var temp = ReadMesh(stream);
                     if (temp.Equals(new StaticMesh()))

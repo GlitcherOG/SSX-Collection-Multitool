@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SSXMultiTool.JsonFiles.Tricky
 {
+    [System.Serializable]
     public class AIPSOPJsonHandler
     {
         public List<PathTypeAJson> PathTypeA = new List<PathTypeAJson>();
@@ -31,6 +32,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
                 return new AIPSOPJsonHandler();
             }
         }
+        [System.Serializable]
         public struct PathTypeAJson
         {
             public int Unknown1;
@@ -42,14 +44,12 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int Unknown7;
 
             public float[] pathPos;
-            public float[] bboxMin;
-            public float[] bboxMax;
 
-            public List<float[]> patchPoints;
+            public List<float[]> vectorPoints;
             public List<UnkownListTypeAJson> unkownListTypeAs;
 
         }
-
+        [System.Serializable]
         public struct PathTypeBJson
         {
             public int Unknown1;
@@ -58,13 +58,11 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public float Unknown4;
 
             public float[] pathPos;
-            public float[] bboxMin;
-            public float[] bboxMax;
 
-            public List<float[]> patchPoints;
+            public List<float[]> vectorPoints;
             public List<UnkownListTypeAJson> unkownListTypeAs;
         }
-
+        [System.Serializable]
         public struct UnkownListTypeAJson
         {
             public int Unknown1;
