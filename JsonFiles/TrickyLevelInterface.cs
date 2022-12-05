@@ -1129,6 +1129,121 @@ namespace SSXMultiTool
             }
 
             LightmapHandler.SaveSSH(ExportPath + "_L.ssh", true);
+
+            //Edit AIP
+            AIPSOPJsonHandler aipJsonHandler = AIPSOPJsonHandler.Load(LoadPath + "/AIP.json");
+            AIPSOPHandler aipHandler = new AIPSOPHandler();
+            aipHandler.typeAs = new List<AIPSOPHandler.PathTypeA>();
+            for (int i = 0; i < aipJsonHandler.PathTypeA.Count; i++)
+            {
+                var TempPath = aipJsonHandler.PathTypeA[i];
+                var NewPath = new AIPSOPHandler.PathTypeA();
+
+                NewPath.Unknown1 = TempPath.Unknown1;
+                NewPath.Unknown2 = TempPath.Unknown2;
+                NewPath.Unknown3 = TempPath.Unknown3;
+                NewPath.Unknown4 = TempPath.Unknown4;
+                NewPath.Unknown5 = TempPath.Unknown5;
+                NewPath.Unknown6 = TempPath.Unknown6;
+                NewPath.Unknown7 = TempPath.Unknown7;
+
+                NewPath.pathPos = JsonUtil.ArrayToVector3(TempPath.pathPos);
+
+                Vector3 bboxMin = NewPath.pathPos;
+                Vector3 bboxMax = NewPath.pathPos;
+                for (int a = 0; a < TempPath.vectorPoints.Count; a++)
+                {
+                    bboxMin = JsonUtil.Lowest(bboxMin, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
+                    bboxMax = JsonUtil.Highest(bboxMax, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
+                }
+                NewPath.bboxMin = bboxMin;
+                NewPath.bboxMax = bboxMax;
+
+                Vector3 CurrentPosition= NewPath.pathPos;
+                NewPath.vectorPoints = new List<Vector4>();
+                for (int a = 0; a < TempPath.vectorPoints.Count; a++)
+                {
+                    Vector3 NewPosition = JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]);
+
+                    Vector3 Direction = Vector3.Normalize(NewPosition - CurrentPosition);
+                    float Distance = Vector3.Distance(NewPosition, CurrentPosition);
+
+                    Vector4 NewPointVector = JsonUtil.Vector3ToVector4(Direction, Distance);
+                    NewPath.vectorPoints.Add(NewPointVector);
+                    CurrentPosition = NewPosition;
+                }
+
+                NewPath.unkownListTypeAs = new List<AIPSOPHandler.UnkownListTypeA>();
+                for (int a = 0; a < TempPath.unkownListTypeAs.Count; a++)
+                {
+                    var NewListTypeA = new AIPSOPHandler.UnkownListTypeA();
+
+                    NewListTypeA.Unknown1 = TempPath.unkownListTypeAs[a].Unknown1;
+                    NewListTypeA.Unknown2 = TempPath.unkownListTypeAs[a].Unknown2;
+                    NewListTypeA.Unknown3 = TempPath.unkownListTypeAs[a].Unknown3;
+                    NewListTypeA.Unknown4 = TempPath.unkownListTypeAs[a].Unknown4;
+
+                    NewPath.unkownListTypeAs.Add(NewListTypeA);
+                }
+
+                aipHandler.typeAs.Add(NewPath);
+            }
+
+            aipHandler.typeBs = new List<AIPSOPHandler.PathTypeB>();
+            for (int i = 0; i < aipJsonHandler.PathTypeB.Count; i++)
+            {
+                var TempPath = aipJsonHandler.PathTypeB[i];
+                var NewPath = new AIPSOPHandler.PathTypeB();
+
+                NewPath.Unknown1 = TempPath.Unknown1;
+                NewPath.Unknown2 = TempPath.Unknown2;
+                NewPath.Unknown3 = TempPath.Unknown3;
+                NewPath.Unknown4 = TempPath.Unknown4;
+
+                NewPath.pathPos = JsonUtil.ArrayToVector3(TempPath.pathPos);
+
+                Vector3 bboxMin = NewPath.pathPos;
+                Vector3 bboxMax = NewPath.pathPos;
+                for (int a = 0; a < TempPath.vectorPoints.Count; a++)
+                {
+                    bboxMin = JsonUtil.Lowest(bboxMin, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
+                    bboxMax = JsonUtil.Highest(bboxMax, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
+                }
+                NewPath.bboxMin = bboxMin;
+                NewPath.bboxMax = bboxMax;
+
+                Vector3 CurrentPosition = NewPath.pathPos;
+                NewPath.vectorPoints = new List<Vector4>();
+                for (int a = 0; a < TempPath.vectorPoints.Count; a++)
+                {
+                    Vector3 NewPosition = JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]);
+
+                    Vector3 Direction = Vector3.Normalize(NewPosition - CurrentPosition);
+                    float Distance = Vector3.Distance(NewPosition, CurrentPosition);
+
+                    Vector4 NewPointVector = JsonUtil.Vector3ToVector4(Direction, Distance);
+                    NewPath.vectorPoints.Add(NewPointVector);
+                    CurrentPosition = NewPosition;
+                }
+
+                NewPath.unkownListTypeAs = new List<AIPSOPHandler.UnkownListTypeA>();
+                for (int a = 0; a < TempPath.unkownListTypeAs.Count; a++)
+                {
+                    var NewListTypeA = new AIPSOPHandler.UnkownListTypeA();
+
+                    NewListTypeA.Unknown1 = TempPath.unkownListTypeAs[a].Unknown1;
+                    NewListTypeA.Unknown2 = TempPath.unkownListTypeAs[a].Unknown2;
+                    NewListTypeA.Unknown3 = TempPath.unkownListTypeAs[a].Unknown3;
+                    NewListTypeA.Unknown4 = TempPath.unkownListTypeAs[a].Unknown4;
+
+                    NewPath.unkownListTypeAs.Add(NewListTypeA);
+                }
+
+                aipHandler.typeBs.Add(NewPath);
+            }
+
+            aipHandler.SaveAIPSOP(ExportPath + ".aip");
+
         }
 
         public void LoadAndVerifyFiles(string LoadPath)
