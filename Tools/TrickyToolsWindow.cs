@@ -1,4 +1,5 @@
-﻿using SSXMultiTool.FileHandlers;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
+using SSXMultiTool.FileHandlers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -51,6 +52,63 @@ namespace SSXMultiTool
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 trickyMPF.SaveModel(openFileDialog.FileName);
+            }
+        }
+
+        private void ELFLdrSetup_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog commonDialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true
+            };
+            if (commonDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                if (File.Exists(commonDialog.FileName + "\\DATA\\MODELS\\ALASKA.BIG"))
+                {
+                    BigHandler bigHandler = new BigHandler();
+                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\ALASKA.BIG");
+                    bigHandler.ExtractBig(commonDialog.FileName);
+                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\ALOHA.BIG");
+                    bigHandler.ExtractBig(commonDialog.FileName);
+                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\ELYSIUM.BIG");
+                    bigHandler.ExtractBig(commonDialog.FileName);
+                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\GARI.BIG");
+                    bigHandler.ExtractBig(commonDialog.FileName);
+                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\MEGAPLE.BIG");
+                    bigHandler.ExtractBig(commonDialog.FileName);
+                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\MERQUER.BIG");
+                    bigHandler.ExtractBig(commonDialog.FileName);
+                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\MESA.BIG");
+                    bigHandler.ExtractBig(commonDialog.FileName);
+                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\PIPE.BIG");
+                    bigHandler.ExtractBig(commonDialog.FileName);
+                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\SNOW.BIG");
+                    bigHandler.ExtractBig(commonDialog.FileName);
+                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\SSXFE.BIG");
+                    bigHandler.ExtractBig(commonDialog.FileName);
+                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\TRICK.BIG");
+                    bigHandler.ExtractBig(commonDialog.FileName);
+                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\UNTRACK.BIG");
+                    bigHandler.ExtractBig(commonDialog.FileName);
+                    File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\ALASKA.BIG");
+                    File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\ALOHA.BIG");
+                    File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\ELYSIUM.BIG");
+                    File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\GARI.BIG");
+                    File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\MEGAPLE.BIG");
+                    File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\MERQUER.BIG");
+                    File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\MESA.BIG");
+                    File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\PIPE.BIG");
+                    File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\SNOW.BIG");
+                    File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\SSXFE.BIG");
+                    File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\TRICK.BIG");
+                    File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\UNTRACK.BIG");
+
+                    MessageBox.Show("Finished Setting up Path.");
+                }
+                else
+                {
+                    MessageBox.Show("Unknown Game Path or Game Already Extracted");
+                }
             }
         }
     }

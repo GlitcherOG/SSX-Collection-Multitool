@@ -33,13 +33,17 @@
             this.MpfExtract = new System.Windows.Forms.Button();
             this.MpfLoad = new System.Windows.Forms.Button();
             this.MPFList = new System.Windows.Forms.ListBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.ELFLdrSetup = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -65,7 +69,7 @@
             this.MpfExtract.Name = "MpfExtract";
             this.MpfExtract.Size = new System.Drawing.Size(75, 23);
             this.MpfExtract.TabIndex = 2;
-            this.MpfExtract.Text = "button2";
+            this.MpfExtract.Text = "Extract";
             this.MpfExtract.UseVisualStyleBackColor = true;
             this.MpfExtract.Click += new System.EventHandler(this.MpfExtract_Click);
             // 
@@ -75,7 +79,7 @@
             this.MpfLoad.Name = "MpfLoad";
             this.MpfLoad.Size = new System.Drawing.Size(75, 23);
             this.MpfLoad.TabIndex = 1;
-            this.MpfLoad.Text = "button1";
+            this.MpfLoad.Text = "Load";
             this.MpfLoad.UseVisualStyleBackColor = true;
             this.MpfLoad.Click += new System.EventHandler(this.MpfLoad_Click);
             // 
@@ -88,6 +92,26 @@
             this.MPFList.Size = new System.Drawing.Size(245, 379);
             this.MPFList.TabIndex = 0;
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.ELFLdrSetup);
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(768, 398);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Tools";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // ELFLdrSetup
+            // 
+            this.ELFLdrSetup.Location = new System.Drawing.Point(3, 3);
+            this.ELFLdrSetup.Name = "ELFLdrSetup";
+            this.ELFLdrSetup.Size = new System.Drawing.Size(132, 72);
+            this.ELFLdrSetup.TabIndex = 1;
+            this.ELFLdrSetup.Text = "Setup For ELFLdr";
+            this.ELFLdrSetup.UseVisualStyleBackColor = true;
+            this.ELFLdrSetup.Click += new System.EventHandler(this.ELFLdrSetup_Click);
+            // 
             // OGToolsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -98,6 +122,7 @@
             this.Text = "OGToolsWindow";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -109,5 +134,7 @@
         private Button MpfExtract;
         private Button MpfLoad;
         private ListBox MPFList;
+        private TabPage tabPage2;
+        private Button ELFLdrSetup;
     }
 }
