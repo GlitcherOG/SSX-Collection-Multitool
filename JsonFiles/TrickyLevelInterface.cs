@@ -28,8 +28,15 @@ namespace SSXMultiTool
         public ModelJsonHandler modelJsonHandler = new ModelJsonHandler();
         public ParticleModelJsonHandler particleModelJsonHandler = new ParticleModelJsonHandler();
 
+        public struct LightingFixObject
+        {
+            public List<int> Object;
+            public List<int> Patch;
+        }
+
         public void ExtractTrickyLevelFiles(string LoadPath, string ExportPath)
         {
+
 
             //Load Map
             MapHandler mapHandler = new MapHandler();
@@ -711,6 +718,16 @@ namespace SSXMultiTool
 
         public void BuildTrickyLevelFiles(string LoadPath, string ExportPath)
         {
+            List<LightingFixObject> lightingFixObjects = new List<LightingFixObject>();
+            int Length = Directory.GetFiles(LoadPath + "/Textures", "*.png").Length;
+            for (int i = 0; i < Length; i++)
+            {
+                LightingFixObject temp = new LightingFixObject();
+                temp.Object = new List<int>();
+                temp.Patch = new List<int>();
+                lightingFixObjects.Add(temp);
+            }
+
             ExportPath = ExportPath.Substring(0, ExportPath.Length - 4);
 
             File.Copy(LoadPath + "/Original/ssf.ssf", ExportPath + ".ssf", true);
@@ -830,6 +847,10 @@ namespace SSXMultiTool
                 patch.PatchStyle = ImportPatch.PatchStyle;
                 patch.Unknown2 = ImportPatch.Unknown2;
                 patch.TextureAssigment = ImportPatch.TextureAssigment;
+                if (lightingFixObjects.Count-1 >= patch.TextureAssigment)
+                {
+                    lightingFixObjects[patch.TextureAssigment].Patch.Add(i);
+                }
                 patch.LightmapID = ImportPatch.LightmapID;
                 patch.Unknown4 = ImportPatch.Unknown4;
                 patch.Unknown5 = ImportPatch.Unknown5;
@@ -965,10 +986,6 @@ namespace SSXMultiTool
                 NewInstance.Unknown10 = JsonUtil.ArrayToVector4(Oldinstance.Unknown10);
                 NewInstance.Unknown11 = JsonUtil.ArrayToVector4(Oldinstance.Unknown11);
                 NewInstance.RGBA = JsonUtil.ArrayToVector4(Oldinstance.RGBA);
-                if (AttemptLightingFix)
-                {
-                    NewInstance.RGBA = new Vector4(NewInstance.RGBA.X / 2, NewInstance.RGBA.Y / 2, NewInstance.RGBA.Z / 2, NewInstance.RGBA.W);
-                }
 
                 NewInstance.ModelID = Oldinstance.ModelID;
                 NewInstance.PrevInstance = Oldinstance.PrevInstance;
@@ -1006,6 +1023,10 @@ namespace SSXMultiTool
                 var NewMaterial = new TrickyMaterial();
 
                 NewMaterial.TextureID = materialJson.MaterialsJsons[i].TextureID;
+                if (lightingFixObjects.Count - 1 >= NewMaterial.TextureID)
+                {
+                    lightingFixObjects[NewMaterial.TextureID].Object.Add(i);
+                }
                 NewMaterial.UnknownInt2 = materialJson.MaterialsJsons[i].UnknownInt2;
                 NewMaterial.UnknownInt3 = materialJson.MaterialsJsons[i].UnknownInt3;
                 NewMaterial.UnknownFloat1 = materialJson.MaterialsJsons[i].UnknownFloat1;
@@ -1037,9 +1058,6 @@ namespace SSXMultiTool
                 linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
                 mapHandler.Materials.Add(linkerItem);
             }
-
-
-            pbdHandler.Save(ExportPath + ".pbd");
             mapHandler.Save(ExportPath + ".map");
 
             //Build LTG
@@ -1074,6 +1092,36 @@ namespace SSXMultiTool
                 TextureHandler.sshImages[i] = temp;
             }
 
+            if(AttemptLightingFix)
+            {
+                int OldCount = TextureHandler.sshImages.Count;
+                for (int i = 0; i < OldCount; i++)
+                {
+                    if (lightingFixObjects[i].Object.Count != 0 && lightingFixObjects[i].Patch.Count != 0)
+                    {
+                        var TempImage = TextureHandler.sshImages[i];
+                        TempImage.shortname = (TextureHandler.sshImages.Count).ToString().PadLeft(4, '0');
+                        for (int a = 0; a < lightingFixObjects[i].Object.Count; a++)
+                        {
+                            var TempMatieral = pbdHandler.materials[lightingFixObjects[i].Object[a]];
+                            TempMatieral.TextureID = TextureHandler.sshImages.Count;
+                            pbdHandler.materials[lightingFixObjects[i].Object[a]] = TempMatieral;
+                        }
+                        TextureHandler.sshImages.Add(TempImage);
+                    }
+                    else if (lightingFixObjects[i].Patch.Count == 0)
+                    {
+                        TextureHandler.DarkenImage(i);
+                    }
+                }
+
+                for (int i = OldCount; i < TextureHandler.sshImages.Count; i++)
+                {
+                    TextureHandler.DarkenImage(i);
+                }
+            }
+
+            pbdHandler.Save(ExportPath + ".pbd");
             TextureHandler.SaveSSH(ExportPath+".ssh", true);
 
 
@@ -1242,7 +1290,7 @@ namespace SSXMultiTool
                 aipHandler.typeBs.Add(NewPath);
             }
 
-            aipHandler.SaveAIPSOP(ExportPath + ".aip");
+            //aipHandler.SaveAIPSOP(ExportPath + ".aip");
 
         }
 

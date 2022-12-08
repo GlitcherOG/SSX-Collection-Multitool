@@ -146,6 +146,7 @@
             // 
             // SSX3LevelButton
             // 
+            this.SSX3LevelButton.Enabled = false;
             this.SSX3LevelButton.Location = new System.Drawing.Point(206, 22);
             this.SSX3LevelButton.Name = "SSX3LevelButton";
             this.SSX3LevelButton.Size = new System.Drawing.Size(94, 50);
