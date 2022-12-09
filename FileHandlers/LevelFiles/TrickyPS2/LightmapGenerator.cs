@@ -22,9 +22,18 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 //Go generate per patch data
                 patchObject.patchData = handler.Patches[i];
-                patchObject.patchTexture = new Bitmap(textures.sshImages[handler.Patches[i].TextureAssigment].bitmap, new Size(8, 8));
                 patchObject.lightingImage = new Bitmap(8, 8, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 patchObject.trickyCorreted = new Bitmap(8, 8, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                var TempTexture = textures.sshImages[handler.Patches[i].TextureAssigment].bitmap;
+
+                //Apply UV To Texture and then Scale
+                //Note for future me
+                //The best bet i think to pull this off would be to take the uv cords run them through nurbs
+                //Take the nerbs points converting them to standard x y ensure theres is negatvie correction and set the colors on the texture
+
+                patchObject.patchTexture = new Bitmap(TempTexture, new Size(8, 8));
+
 
                 for (int a = 0; a < handler.lights.Count; a++)
                 {
