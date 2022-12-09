@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SSXMultiTool.Utilities;
 using System.Numerics;
+using System.IO;
 
 namespace SSXMultiTool
 {
