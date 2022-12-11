@@ -29,11 +29,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 var TempTexture = textures.sshImages[handler.Patches[i].TextureAssigment].bitmap;
 
-                //Apply UV To Texture and then Scale
-                //Note for future me
-                //The best bet i think to pull this off would be to take the uv cords run them through nurbs
-                //Take the nerbs points converting them to standard x y ensure theres is negatvie correction and set the colors on the texture
-
                 //Build UV Points
                 NURBS.Surface surface;
                 NURBS.ControlPoint[,] cps = new NURBS.ControlPoint[2, 2];
@@ -46,22 +41,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 surface = new NURBS.Surface(cps, degreeU, degreeV);
 
-                List<Vector2> vector2s = new List<Vector2>();
-                vector2s.Add(new Vector2(patchObject.patchData.UVPoint1.X,patchObject.patchData.UVPoint1.Y));
-                vector2s.Add(new Vector2(patchObject.patchData.UVPoint2.X, patchObject.patchData.UVPoint2.Y));
-                vector2s.Add(new Vector2(patchObject.patchData.UVPoint3.X, patchObject.patchData.UVPoint3.Y));
-                vector2s.Add(new Vector2(patchObject.patchData.UVPoint4.X, patchObject.patchData.UVPoint4.Y));
-
-                vector2s = PointCorrection(vector2s);
-
-                cps[0, 0] = new NURBS.ControlPoint(vector2s[0].X, vector2s[0].Y, 0, 1);
-                cps[0, 1] = new NURBS.ControlPoint(vector2s[1].X, vector2s[1].Y, 0, 1);
-                cps[1, 0] = new NURBS.ControlPoint(vector2s[2].X, vector2s[2].Y, 0, 1);
-                cps[1, 1] = new NURBS.ControlPoint(vector2s[3].X, vector2s[3].Y, 0, 1);
+                cps[0, 0] = new NURBS.ControlPoint(patchObject.patchData.UVPoint1.X, -patchObject.patchData.UVPoint1.Y, 0, 1);
+                cps[0, 1] = new NURBS.ControlPoint(patchObject.patchData.UVPoint2.X, -patchObject.patchData.UVPoint2.Y, 0, 1);
+                cps[1, 0] = new NURBS.ControlPoint(patchObject.patchData.UVPoint3.X, -patchObject.patchData.UVPoint3.Y, 0, 1);
+                cps[1, 1] = new NURBS.ControlPoint(patchObject.patchData.UVPoint4.X, -patchObject.patchData.UVPoint4.Y, 0, 1);
 
                 surface = new NURBS.Surface(cps, 1, 1);
 
-                Vector3[] UV = surface.ReturnVertices(resolutionU, resolutionV);
+                Vector3[] UV = surface.ReturnVertices(resolutionU-1, resolutionV-1);
                 Vector2[] NewUVPoints = new Vector2[UV.Length];
 
                 for (int a = 0; a < UV.Length; a++)
@@ -71,7 +58,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 //Convert to 2D Array
                 Vector2[,] UVPoints = new Vector2[resolutionU, resolutionV];
-                int f = resolutionV + 1;
+                int f = resolutionV;
                 for (int a = 0; a < resolutionU; a++)
                 {
                     for (int b = 0; b < resolutionV; b++)
@@ -98,25 +85,25 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     for (int x = 0; x < bitTexture.Width; x++)
                     {
-                        int NewXPos = (int)(UVPoints[y, x].X * 255);
-                        int NewYPos = (int)(UVPoints[y, x].Y * 255);
+                        int NewXPos = (int)(UVPoints[y, x].X * TempTexture.Width);
+                        int NewYPos = (int)(UVPoints[y, x].Y * TempTexture.Height);
 
                         if (NewXPos < 0)
                         {
-                            NewXPos = 255 - (NewXPos % 255);
+                            NewXPos = TempTexture.Width - 1 - (NewXPos % TempTexture.Width);
                         }
                         else
                         {
-                            NewXPos = (NewXPos % 255);
+                            NewXPos = (NewXPos % TempTexture.Width);
                         }
 
                         if(NewYPos < 0)
                         {
-                            NewYPos = 255 - (NewYPos % 255);
+                            NewYPos = TempTexture.Height - 1 - (NewYPos % TempTexture.Height);
                         }
                         else
                         {
-                            NewYPos = (NewYPos % 255);
+                            NewYPos = (NewYPos % TempTexture.Height);
                         }
 
                         Color NewColor = TempTexture.GetPixel(NewXPos, NewYPos);
@@ -182,19 +169,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
 
             //Return Data
-            return GenerateUnlitLightmap(handler);
-        }
-
-        public static List<Vector2> PointCorrection(List<Vector2> NewList)
-        {
-            for (int i = 0; i < NewList.Count; i++)
-            {
-                var TempPoint = NewList[i];
-                TempPoint.Y = -TempPoint.Y;
-                NewList[i] = TempPoint;
-            }
-
-            return NewList;
+            return LightmapHandler;
         }
 
 
