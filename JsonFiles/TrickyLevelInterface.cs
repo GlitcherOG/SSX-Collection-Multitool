@@ -345,29 +345,19 @@ namespace SSXMultiTool
                 ModelJsonHandler.ModelJson TempModel = new ModelJsonHandler.ModelJson();
                 TempModel.ModelName = mapHandler.Models[i].Name;
                 TempModel.TotalLength = pbdHandler.modelHeaders[i].TotalLength;
-                TempModel.Unknown0 = pbdHandler.modelHeaders[i].Unknown0;
+                TempModel.Unknown0 = pbdHandler.modelHeaders[i].PrefabCount;
                 TempModel.Unknown1 = pbdHandler.modelHeaders[i].Unknown1;
-                TempModel.Unknown2 = pbdHandler.modelHeaders[i].Unknown2;
+                TempModel.Unknown2 = pbdHandler.modelHeaders[i].MaterialBlockID;
                 TempModel.Unknown3 = pbdHandler.modelHeaders[i].Unknown3;
-                TempModel.Unknown4 = pbdHandler.modelHeaders[i].Unknown4;
-                TempModel.Scale = JsonUtil.Vector3ToArray(pbdHandler.modelHeaders[i].scale);
+                TempModel.Unknown4 = pbdHandler.modelHeaders[i].AnimTime;
+                TempModel.Scale = JsonUtil.Vector3ToArray(pbdHandler.modelHeaders[i].Scale);
                 TempModel.ModelDataCount = pbdHandler.modelHeaders[i].MeshCount;
-                TempModel.Unknown9 = pbdHandler.modelHeaders[i].Unknown9;
+                TempModel.Unknown9 = pbdHandler.modelHeaders[i].ContextCount;
                 TempModel.TriStripCount = pbdHandler.modelHeaders[i].TriStripCount;
                 TempModel.VertexCount = pbdHandler.modelHeaders[i].VertexCount;
-                TempModel.Unknown12 = pbdHandler.modelHeaders[i].Unknown12;
-                TempModel.Unknown13 = pbdHandler.modelHeaders[i].Unknown13;
-                TempModel.Unknown14 = pbdHandler.modelHeaders[i].Unknown14;
-                TempModel.Unknown15 = pbdHandler.modelHeaders[i].Unknown15;
-                TempModel.Unknown16 = pbdHandler.modelHeaders[i].Unknown16;
-                TempModel.Unknown17 = pbdHandler.modelHeaders[i].Unknown17;
-                TempModel.Unknown18 = pbdHandler.modelHeaders[i].Unknown18;
-                TempModel.UnknownLength = pbdHandler.modelHeaders[i].UnknownLength;
+                TempModel.Unknown12 = pbdHandler.modelHeaders[i].NonTriCount;
 
-                TempModel.LowestXYZ = JsonUtil.Vector3ToArray(pbdHandler.modelHeaders[i].LowestXYZ);
-                TempModel.HighestXYZ = JsonUtil.Vector3ToArray(pbdHandler.modelHeaders[i].HighestXYZ);
 
-                TempModel.bytes = pbdHandler.modelHeaders[i].bytes;
                 modelJsonHandler.ModelJsons.Add(TempModel);
             }
             modelJsonHandler.CreateJson(ExportPath + "/ModelHeaders.json");
@@ -471,29 +461,18 @@ namespace SSXMultiTool
                 {
                     ModelJsonHandler.ModelJson TempModel = new ModelJsonHandler.ModelJson();
                     TempModel.TotalLength = skypbdHandler.modelHeaders[i].TotalLength;
-                    TempModel.Unknown0 = skypbdHandler.modelHeaders[i].Unknown0;
+                    TempModel.Unknown0 = skypbdHandler.modelHeaders[i].PrefabCount;
                     TempModel.Unknown1 = skypbdHandler.modelHeaders[i].Unknown1;
-                    TempModel.Unknown2 = skypbdHandler.modelHeaders[i].Unknown2;
+                    TempModel.Unknown2 = skypbdHandler.modelHeaders[i].MaterialBlockID;
                     TempModel.Unknown3 = skypbdHandler.modelHeaders[i].Unknown3;
-                    TempModel.Unknown4 = skypbdHandler.modelHeaders[i].Unknown4;
-                    TempModel.Scale = JsonUtil.Vector3ToArray(skypbdHandler.modelHeaders[i].scale);
+                    TempModel.Unknown4 = skypbdHandler.modelHeaders[i].AnimTime;
+                    TempModel.Scale = JsonUtil.Vector3ToArray(skypbdHandler.modelHeaders[i].Scale);
                     TempModel.ModelDataCount = skypbdHandler.modelHeaders[i].MeshCount;
-                    TempModel.Unknown9 = skypbdHandler.modelHeaders[i].Unknown9;
+                    TempModel.Unknown9 = skypbdHandler.modelHeaders[i].ContextCount;
                     TempModel.TriStripCount = skypbdHandler.modelHeaders[i].TriStripCount;
                     TempModel.VertexCount = skypbdHandler.modelHeaders[i].VertexCount;
-                    TempModel.Unknown12 = skypbdHandler.modelHeaders[i].Unknown12;
-                    TempModel.Unknown13 = skypbdHandler.modelHeaders[i].Unknown13;
-                    TempModel.Unknown14 = skypbdHandler.modelHeaders[i].Unknown14;
-                    TempModel.Unknown15 = skypbdHandler.modelHeaders[i].Unknown15;
-                    TempModel.Unknown16 = skypbdHandler.modelHeaders[i].Unknown16;
-                    TempModel.Unknown17 = skypbdHandler.modelHeaders[i].Unknown17;
-                    TempModel.Unknown18 = skypbdHandler.modelHeaders[i].Unknown18;
-                    TempModel.UnknownLength = skypbdHandler.modelHeaders[i].UnknownLength;
+                    TempModel.Unknown12 = skypbdHandler.modelHeaders[i].NonTriCount;
 
-                    TempModel.LowestXYZ = JsonUtil.Vector3ToArray(skypbdHandler.modelHeaders[i].LowestXYZ);
-                    TempModel.HighestXYZ = JsonUtil.Vector3ToArray(skypbdHandler.modelHeaders[i].HighestXYZ);
-
-                    TempModel.bytes = skypbdHandler.modelHeaders[i].bytes;
                     modelJsonHandler.ModelJsons.Add(TempModel);
                 }
                 modelJsonHandler.CreateJson(ExportPath + "/Skybox/ModelHeaders.json");

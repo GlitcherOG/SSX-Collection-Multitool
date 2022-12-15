@@ -314,62 +314,68 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     stream.Position = ModelsOffset + ModelPointers[i];
                     var TempHeader = new Model();
                     TempHeader.TotalLength = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown0 = StreamUtil.ReadInt32(stream); //Type
-                    TempHeader.Unknown1 = StreamUtil.ReadInt32(stream); //Length 1
-                    TempHeader.Unknown2 = StreamUtil.ReadInt32(stream); //ID of some Kind?
+                    TempHeader.PrefabCount = StreamUtil.ReadInt32(stream);
+                    TempHeader.Unknown1 = StreamUtil.ReadInt32(stream);
+                    TempHeader.MaterialBlockID = StreamUtil.ReadInt32(stream);
                     TempHeader.Unknown3 = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown4 = StreamUtil.ReadFloat(stream); //Anim time
-                    TempHeader.scale = StreamUtil.ReadVector3(stream);
+                    TempHeader.AnimTime = StreamUtil.ReadFloat(stream);
+                    TempHeader.Scale = StreamUtil.ReadVector3(stream);
                     TempHeader.MeshCount = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown9 = StreamUtil.ReadInt32(stream); //Context Count
+                    TempHeader.ContextCount = StreamUtil.ReadInt32(stream);
                     TempHeader.TriStripCount = StreamUtil.ReadInt32(stream);
                     TempHeader.VertexCount = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown12 = StreamUtil.ReadInt32(stream); //Non-Triangle
-                    TempHeader.Unknown13 = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown14 = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown15 = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown16 = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown17 = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown18 = StreamUtil.ReadInt32(stream);
+                    TempHeader.NonTriCount = StreamUtil.ReadInt32(stream);
 
-                    TempHeader.UnknownLength = StreamUtil.ReadInt32(stream);
-
-                    TempHeader.LowestXYZ = StreamUtil.ReadVector3(stream);
-                    TempHeader.HighestXYZ = StreamUtil.ReadVector3(stream);
-
-                    TempHeader.Unknown19 = StreamUtil.ReadInt32(stream);
-
-                    TempHeader.EntryCount = StreamUtil.ReadInt32(stream);
-                    TempHeader.FaceCount = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown20 = StreamUtil.ReadInt32(stream);
-
-                    TempHeader.UnknownInts = new List<int>();
-                    for (int a = 0; a < TempHeader.EntryCount; a++)
+                    int MatrixsRead = 0;
+                    TempHeader.PrefabHeaders = new List<PrefabHeader>();
+                    for (int a = 0; a < TempHeader.PrefabCount; a++)
                     {
-                        TempHeader.UnknownInts.Add(StreamUtil.ReadInt32(stream));
+                        var TempPrefab = new PrefabHeader();
+                        long StartPos = stream.Position;
+                        TempPrefab.ParentID = StreamUtil.ReadInt32(stream);
+                        TempPrefab.meshHighOffset = StreamUtil.ReadInt32(stream);
+                        TempPrefab.meshMediumOffset = StreamUtil.ReadInt32(stream);
+                        TempPrefab.meshLowOffset = StreamUtil.ReadInt32(stream);
+                        TempPrefab.animOffset = StreamUtil.ReadInt32(stream);
+                        TempPrefab.Matrix4x4Offset = StreamUtil.ReadInt32(stream);
+
+                        if (TempPrefab.Matrix4x4Offset != 0)
+                        {
+                            long tempPos = stream.Position;
+                            stream.Position = StartPos + TempPrefab.Matrix4x4Offset;
+                            TempPrefab.matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
+                            stream.Position = tempPos;
+                            MatrixsRead++;
+                        }
+                        TempHeader.PrefabHeaders.Add(TempPrefab);
                     }
 
-                    TempHeader.meshDatas = new List<MeshHeader>();
-                    for (int a = 0; a < TempHeader.EntryCount; a++)
+                    //Fix With proper method
+                    stream.Position += MatrixsRead * 48;
+
+                    TempHeader.MeshEntries = new List<MeshHeader>();
+                    for (int a = 0; a < TempHeader.MeshCount; a++)
                     {
                         MeshHeader meshHeader = new MeshHeader();
-                        meshHeader.Entrylenght = StreamUtil.ReadInt32(stream);
+                        meshHeader.EntryLength1 = StreamUtil.ReadInt32(stream);
+                        meshHeader.LowestXYZ = StreamUtil.ReadVector3(stream);
+                        meshHeader.HighestXYZ = StreamUtil.ReadVector3(stream);
 
+                        meshHeader.Flags = StreamUtil.ReadInt32(stream);
+                        meshHeader.ContextsCount = StreamUtil.ReadInt32(stream);
+                        meshHeader.FaceCount = StreamUtil.ReadInt32(stream);
+                        meshHeader.Unknown20 = StreamUtil.ReadInt32(stream);
+                        meshHeader.Unknown21 = StreamUtil.ReadInt32(stream);
+
+                        meshHeader.EntryLength1 = StreamUtil.ReadInt32(stream);
                         meshHeader.MeshID = StreamUtil.ReadInt32(stream);
                         meshHeader.MeshDataLength = StreamUtil.ReadInt32(stream);
                         meshHeader.StartPos = StreamUtil.ReadInt32(stream);
                         meshHeader.Length1 = StreamUtil.ReadInt32(stream);
                         meshHeader.Length2 = StreamUtil.ReadInt32(stream);
                         meshHeader.Length3 = StreamUtil.ReadInt32(stream);
-                        TempHeader.meshDatas.Add(meshHeader);
+                        TempHeader.MeshEntries.Add(meshHeader);
                     }
-
-                    int TempInt = TempHeader.UnknownLength;
-                    if (TempHeader.UnknownLength - 24 > 0)
-                    {
-                        TempInt = TempHeader.UnknownLength - 24;
-                    }
-                    TempHeader.bytes = StreamUtil.ReadBytes(stream, TempInt);
 
                     modelHeaders.Add(TempHeader);
 
@@ -936,7 +942,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     List<Vector3> vertices = new List<Vector3>();
                     List<Vector3> Normals = new List<Vector3>();
                     List<Vector2> UV = new List<Vector2>();
-                    Vector3 Scale = modelHeaders[a].scale;
+                    Vector3 Scale = modelHeaders[a].Scale;
                     if (Scale.X == 0)
                     {
                         Scale.X = 1;
@@ -1251,9 +1257,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         //Vertices Generation
                         for (int i = 0; i < TempMeshChunk.vertices.Count; i++)
                         {
-                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.vertices[i].X * 32768f )/ modelHeaders[a].scale.X));
-                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.vertices[i].Y * 32768f )/ modelHeaders[a].scale.Y));
-                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.vertices[i].Z * 32768f )/ modelHeaders[a].scale.Z));
+                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.vertices[i].X * 32768f )/ modelHeaders[a].Scale.X));
+                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.vertices[i].Y * 32768f )/ modelHeaders[a].Scale.Y));
+                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.vertices[i].Z * 32768f )/ modelHeaders[a].Scale.Z));
                         }
                         StreamUtil.AlignBy16(memoryStream);
 
@@ -1328,45 +1334,47 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     public struct Model
     {
         public int TotalLength;
-        public int Unknown0;
-        public int Unknown1; //Length
-        public int Unknown2; //Length
-        public int Unknown3; //ID
-        public float Unknown4;
-        public Vector3 scale;
+        public int PrefabCount;
+        public int Unknown1;
+        public int MaterialBlockID;
+        public int Unknown3;
+        public float AnimTime;
+        public Vector3 Scale;
         public int MeshCount;
-        public int Unknown9;
-        public int TriStripCount; //Tristrip Count
-        public int VertexCount; //Vertex Count
-        public int Unknown12;
-        public int Unknown13;
-        public int Unknown14;
-        public int Unknown15;
-        public int Unknown16;
-        public int Unknown17;
-        public int Unknown18;
+        public int ContextCount;
+        public int TriStripCount;
+        public int VertexCount;
+        public int NonTriCount;
+        public List<PrefabHeader> PrefabHeaders;
+        public List<Matrix4x4> Matrix4X4s;
+        public List<MeshHeader> MeshEntries;
+    }
 
-        public int UnknownLength;
+    public struct PrefabHeader
+    {
+        public int ParentID;
+        public int meshHighOffset;
+        public int meshMediumOffset;
+        public int meshLowOffset;
+        public int animOffset;
+        public int Matrix4x4Offset;
 
-        public Vector3 LowestXYZ;
-        public Vector3 HighestXYZ;
-
-        public int Unknown19;
-
-        public int EntryCount;
-        public int FaceCount;
-        public int Unknown20;
-
-        public List<int> UnknownInts;
-
-        public List<MeshHeader> meshDatas;
-
-        public byte[] bytes;
+        public Matrix4x4 matrix4X4;
     }
 
     public struct MeshHeader
     {
-        public int Entrylenght;
+        public int TotalEntryLength;
+        public Vector3 LowestXYZ;
+        public Vector3 HighestXYZ;
+
+        public int Flags;
+        public int ContextsCount;
+        public int FaceCount;
+        public int Unknown20;
+        public int Unknown21;
+
+        public int EntryLength1;
         public int MeshID;
         public int MeshDataLength;
         public int StartPos;
@@ -1645,3 +1653,83 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int Unknown6; //Same
     }
 }
+
+
+//Model Offset
+//struct Vector3
+//{
+//    float x;
+//    float y;
+//    float z;
+//};
+
+//struct Vector4
+//{
+//    float x;
+//    float y;
+//    float z;
+//    float w;
+//};
+
+//struct ModelHeader
+//{
+//    s32 ParentID;
+//    u32 meshHighOffset;
+//    u32 meshMediumOffset;
+//    u32 meshLowOffset;
+//    u32 animOffset;
+//    s32 Matrix4x4Offset; //Relative start off this
+//};
+
+//struct Matrix4x4
+//{
+//    Vector4 Row1;
+//    Vector4 Row2;
+//    Vector4 Row3;
+//    Vector4 Row4;
+//};
+
+//struct MeshHeader
+//{
+//    u32 EntrySize;
+//    Vector3 LowestSize;
+//    Vector3 HighestSize;
+
+//    u32 Flags;
+//    u32 Contexts;
+//    u32 Faces;
+
+//    u32 Unknown[2];
+
+//    u32 EntrySize1;
+//    u32 MeshID;
+//    u32 MeshDataLength;
+//    u32 StartPos;
+//    u32 Length1;
+//    u32 Length2;
+//    u32 Length3;
+
+//};
+
+
+//u32 TotalByteSize @0x00;
+//u32 TotalPrefab @0x04;
+//u32 Unknown1 @ 0x08;
+//u32 MaterialBlockID @ 12;
+//u32 Unknown3 @ 16;
+//float AnimTime @ 20;
+//Vector3 Scale @ 24;
+//u32 MeshCount @ 36;
+//u32 ContextCount @ 40;
+//u32 TriStripCount @ 44;
+//u32 VertexCount @ 48;
+//u32 NonTriCount @ 52;
+//ModelHeader modelHeader[TotalPrefab] @ 56;
+
+//u8 filler[8] @ 0x278; //Just a guess really idk
+
+////While this works for this needs to use offset in model header
+//Matrix4x4 Matrixs[TotalPrefab - 2] @ 0x280;
+
+////MeshHeader mheader @ 0x800;
+//MeshHeader mheader[MeshCount] @ 0x800;

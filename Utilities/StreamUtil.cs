@@ -165,6 +165,32 @@ namespace SSXMultiTool.Utilities
             return vertex;
         }
 
+        public static Matrix4x4 ReadMatrix4x4(Stream stream)
+        {
+            Matrix4x4 matrix4X4 = new Matrix4x4();
+            matrix4X4.M11 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M12 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M13 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M14 = StreamUtil.ReadFloat(stream);
+
+            matrix4X4.M21 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M22 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M23 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M24 = StreamUtil.ReadFloat(stream);
+
+            matrix4X4.M31 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M32 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M33 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M34 = StreamUtil.ReadFloat(stream);
+
+            matrix4X4.M41 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M42 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M43 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M44 = StreamUtil.ReadFloat(stream);
+
+            return matrix4X4;
+        }
+
 
         #endregion
 

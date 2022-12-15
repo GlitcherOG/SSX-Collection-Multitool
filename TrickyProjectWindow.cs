@@ -109,11 +109,6 @@ namespace SSXMultiTool
             DescriptionTextbox.Text = trickyConfig.Description;
         }
 
-        void ExtractBig(string BigPath, string ExportPath)
-        {
-
-        }
-
         private void RebuildButton_Click(object sender, EventArgs e)
         {
             if (File.Exists(ProjectPath + "/config.ssx"))

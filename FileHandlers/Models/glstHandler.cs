@@ -201,7 +201,7 @@ namespace SSXMultiTool.FileHandlers
                         var Data = Handler.models[ax].staticMeshes[i];
                         for (int b = 0; b < Data.faces.Count; b++)
                         {
-                            Vector3 Scale = Handler.modelHeaders[a].scale;
+                            Vector3 Scale = Handler.modelHeaders[a].Scale;
                             if (Scale.X == 0)
                             {
                                 Scale.X = 1;
