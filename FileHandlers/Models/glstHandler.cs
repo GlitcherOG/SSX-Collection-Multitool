@@ -188,12 +188,12 @@ namespace SSXMultiTool.FileHandlers
         public static void SavePDBModelglTF(string Output, PBDHandler Handler)
         {
             int Pos1 = 0;
-            for (int a = 0; a < Handler.modelHeaders.Count; a++)
+            for (int a = 0; a < Handler.PrefabData.Count; a++)
             {
                 var scene = new SharpGLTF.Scenes.SceneBuilder();
                 var material = new MaterialBuilder("Default").WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
                 int StartPos = Pos1;
-                for (int ax = Pos1; ax < StartPos + Handler.modelHeaders[a].MeshCount; ax++)
+                for (int ax = Pos1; ax < StartPos + Handler.PrefabData[a].TotalMeshCount; ax++)
                 {
                     var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1, VertexEmpty>(a.ToString() + " " + Handler.models[a].staticMeshes.Count);
                     for (int i = 0; i < Handler.models[ax].staticMeshes.Count; i++)
@@ -201,7 +201,7 @@ namespace SSXMultiTool.FileHandlers
                         var Data = Handler.models[ax].staticMeshes[i];
                         for (int b = 0; b < Data.faces.Count; b++)
                         {
-                            Vector3 Scale = Handler.modelHeaders[a].Scale;
+                            Vector3 Scale = Handler.PrefabData[a].Scale;
                             if (Scale.X == 0)
                             {
                                 Scale.X = 1;

@@ -338,29 +338,29 @@ namespace SSXMultiTool
             }
             textureFlipbookJsonHandler.CreateJson(ExportPath + "/TextureFlipbook.json");
 
-            //Create Model Json
-            modelJsonHandler = new ModelJsonHandler();
-            for (int i = 0; i < pbdHandler.modelHeaders.Count; i++)
-            {
-                ModelJsonHandler.ModelJson TempModel = new ModelJsonHandler.ModelJson();
-                TempModel.ModelName = mapHandler.Models[i].Name;
-                TempModel.TotalLength = pbdHandler.modelHeaders[i].TotalLength;
-                TempModel.Unknown0 = pbdHandler.modelHeaders[i].PrefabCount;
-                TempModel.Unknown1 = pbdHandler.modelHeaders[i].Unknown1;
-                TempModel.Unknown2 = pbdHandler.modelHeaders[i].MaterialBlockID;
-                TempModel.Unknown3 = pbdHandler.modelHeaders[i].Unknown3;
-                TempModel.Unknown4 = pbdHandler.modelHeaders[i].AnimTime;
-                TempModel.Scale = JsonUtil.Vector3ToArray(pbdHandler.modelHeaders[i].Scale);
-                TempModel.ModelDataCount = pbdHandler.modelHeaders[i].MeshCount;
-                TempModel.Unknown9 = pbdHandler.modelHeaders[i].ContextCount;
-                TempModel.TriStripCount = pbdHandler.modelHeaders[i].TriStripCount;
-                TempModel.VertexCount = pbdHandler.modelHeaders[i].VertexCount;
-                TempModel.Unknown12 = pbdHandler.modelHeaders[i].NonTriCount;
+            ////Create Model Json
+            //modelJsonHandler = new ModelJsonHandler();
+            //for (int i = 0; i < pbdHandler.modelHeaders.Count; i++)
+            //{
+            //    ModelJsonHandler.ModelJson TempModel = new ModelJsonHandler.ModelJson();
+            //    TempModel.ModelName = mapHandler.Models[i].Name;
+            //    TempModel.TotalLength = pbdHandler.modelHeaders[i].TotalLength;
+            //    TempModel.Unknown0 = pbdHandler.modelHeaders[i].ObjectCount;
+            //    TempModel.Unknown1 = pbdHandler.modelHeaders[i].PrefabHeaderOffset;
+            //    TempModel.Unknown2 = pbdHandler.modelHeaders[i].MaterialBlockID;
+            //    TempModel.Unknown3 = pbdHandler.modelHeaders[i].Unknown3;
+            //    TempModel.Unknown4 = pbdHandler.modelHeaders[i].AnimTime;
+            //    TempModel.Scale = JsonUtil.Vector3ToArray(pbdHandler.modelHeaders[i].Scale);
+            //    TempModel.ModelDataCount = pbdHandler.modelHeaders[i].MeshCount;
+            //    TempModel.Unknown9 = pbdHandler.modelHeaders[i].Unknown4;
+            //    TempModel.TriStripCount = pbdHandler.modelHeaders[i].TriStripCount;
+            //    TempModel.VertexCount = pbdHandler.modelHeaders[i].VertexCount;
+            //    TempModel.Unknown12 = pbdHandler.modelHeaders[i].NonTriCount;
 
 
-                modelJsonHandler.ModelJsons.Add(TempModel);
-            }
-            modelJsonHandler.CreateJson(ExportPath + "/ModelHeaders.json");
+            //    modelJsonHandler.ModelJsons.Add(TempModel);
+            //}
+            //modelJsonHandler.CreateJson(ExportPath + "/ModelHeaders.json");
 
             //Create Particle Model Json
             particleModelJsonHandler = new ParticleModelJsonHandler();
@@ -455,27 +455,27 @@ namespace SSXMultiTool
                 }
                 materialBlockJson.CreateJson(ExportPath + "/Skybox/MaterialBlocks.json");
 
-                //Create Model Json
-                modelJsonHandler = new ModelJsonHandler();
-                for (int i = 0; i < skypbdHandler.modelHeaders.Count; i++)
-                {
-                    ModelJsonHandler.ModelJson TempModel = new ModelJsonHandler.ModelJson();
-                    TempModel.TotalLength = skypbdHandler.modelHeaders[i].TotalLength;
-                    TempModel.Unknown0 = skypbdHandler.modelHeaders[i].PrefabCount;
-                    TempModel.Unknown1 = skypbdHandler.modelHeaders[i].Unknown1;
-                    TempModel.Unknown2 = skypbdHandler.modelHeaders[i].MaterialBlockID;
-                    TempModel.Unknown3 = skypbdHandler.modelHeaders[i].Unknown3;
-                    TempModel.Unknown4 = skypbdHandler.modelHeaders[i].AnimTime;
-                    TempModel.Scale = JsonUtil.Vector3ToArray(skypbdHandler.modelHeaders[i].Scale);
-                    TempModel.ModelDataCount = skypbdHandler.modelHeaders[i].MeshCount;
-                    TempModel.Unknown9 = skypbdHandler.modelHeaders[i].ContextCount;
-                    TempModel.TriStripCount = skypbdHandler.modelHeaders[i].TriStripCount;
-                    TempModel.VertexCount = skypbdHandler.modelHeaders[i].VertexCount;
-                    TempModel.Unknown12 = skypbdHandler.modelHeaders[i].NonTriCount;
+                ////Create Model Json
+                //modelJsonHandler = new ModelJsonHandler();
+                //for (int i = 0; i < skypbdHandler.modelHeaders.Count; i++)
+                //{
+                //    ModelJsonHandler.ModelJson TempModel = new ModelJsonHandler.ModelJson();
+                //    TempModel.TotalLength = skypbdHandler.modelHeaders[i].TotalLength;
+                //    TempModel.Unknown0 = skypbdHandler.modelHeaders[i].ObjectCount;
+                //    TempModel.Unknown1 = skypbdHandler.modelHeaders[i].PrefabHeaderOffset;
+                //    TempModel.Unknown2 = skypbdHandler.modelHeaders[i].MaterialBlockID;
+                //    TempModel.Unknown3 = skypbdHandler.modelHeaders[i].Unknown3;
+                //    TempModel.Unknown4 = skypbdHandler.modelHeaders[i].AnimTime;
+                //    TempModel.Scale = JsonUtil.Vector3ToArray(skypbdHandler.modelHeaders[i].Scale);
+                //    TempModel.ModelDataCount = skypbdHandler.modelHeaders[i].MeshCount;
+                //    TempModel.Unknown9 = skypbdHandler.modelHeaders[i].Unknown4;
+                //    TempModel.TriStripCount = skypbdHandler.modelHeaders[i].TriStripCount;
+                //    TempModel.VertexCount = skypbdHandler.modelHeaders[i].VertexCount;
+                //    TempModel.Unknown12 = skypbdHandler.modelHeaders[i].NonTriCount;
 
-                    modelJsonHandler.ModelJsons.Add(TempModel);
-                }
-                modelJsonHandler.CreateJson(ExportPath + "/Skybox/ModelHeaders.json");
+                //    modelJsonHandler.ModelJsons.Add(TempModel);
+                //}
+                //modelJsonHandler.CreateJson(ExportPath + "/Skybox/ModelHeaders.json");
 
                 skypbdHandler.ExportModels(ExportPath + "/Skybox/Models/");
 
