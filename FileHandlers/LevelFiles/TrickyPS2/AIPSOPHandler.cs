@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
+using System.IO;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {

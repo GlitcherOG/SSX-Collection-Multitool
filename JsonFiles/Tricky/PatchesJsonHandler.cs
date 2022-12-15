@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace SSXMultiTool.JsonFiles.Tricky
 {

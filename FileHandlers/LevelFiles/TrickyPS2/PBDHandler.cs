@@ -336,33 +336,33 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     TempHeader.LowestXYZ = StreamUtil.ReadVector3(stream);
                     TempHeader.HighestXYZ = StreamUtil.ReadVector3(stream);
-                    //
-                    //TempHeader.Unknown19 = StreamUtil.ReadInt32(stream);
 
-                    //TempHeader.EntryCount = StreamUtil.ReadInt32(stream);
-                    //TempHeader.FaceCount = StreamUtil.ReadInt32(stream);
-                    //TempHeader.Unknown20 = StreamUtil.ReadInt32(stream);
+                    TempHeader.Unknown19 = StreamUtil.ReadInt32(stream);
 
-                    //TempHeader.UnknownInts = new List<int>();
-                    //for (int a = 0; a < TempHeader.EntryCount; a++)
-                    //{
-                    //    TempHeader.UnknownInts.Add(StreamUtil.ReadInt32(stream));
-                    //}
+                    TempHeader.EntryCount = StreamUtil.ReadInt32(stream);
+                    TempHeader.FaceCount = StreamUtil.ReadInt32(stream);
+                    TempHeader.Unknown20 = StreamUtil.ReadInt32(stream);
 
-                    //TempHeader.meshDatas = new List<MeshHeader>();
-                    //for (int a = 0; a < TempHeader.EntryCount; a++)
-                    //{
-                    //    MeshHeader meshHeader = new MeshHeader();
-                    //    meshHeader.Entrylenght = StreamUtil.ReadInt32(stream);
+                    TempHeader.UnknownInts = new List<int>();
+                    for (int a = 0; a < TempHeader.EntryCount; a++)
+                    {
+                        TempHeader.UnknownInts.Add(StreamUtil.ReadInt32(stream));
+                    }
 
-                    //    meshHeader.MeshID = StreamUtil.ReadInt32(stream);
-                    //    meshHeader.MeshDataLength = StreamUtil.ReadInt32(stream);
-                    //    meshHeader.StartPos = StreamUtil.ReadInt32(stream);
-                    //    meshHeader.Length1 = StreamUtil.ReadInt32(stream);
-                    //    meshHeader.Length2 = StreamUtil.ReadInt32(stream);
-                    //    meshHeader.Length3 = StreamUtil.ReadInt32(stream);
-                    //    TempHeader.meshDatas.Add(meshHeader);
-                    //}
+                    TempHeader.meshDatas = new List<MeshHeader>();
+                    for (int a = 0; a < TempHeader.EntryCount; a++)
+                    {
+                        MeshHeader meshHeader = new MeshHeader();
+                        meshHeader.Entrylenght = StreamUtil.ReadInt32(stream);
+
+                        meshHeader.MeshID = StreamUtil.ReadInt32(stream);
+                        meshHeader.MeshDataLength = StreamUtil.ReadInt32(stream);
+                        meshHeader.StartPos = StreamUtil.ReadInt32(stream);
+                        meshHeader.Length1 = StreamUtil.ReadInt32(stream);
+                        meshHeader.Length2 = StreamUtil.ReadInt32(stream);
+                        meshHeader.Length3 = StreamUtil.ReadInt32(stream);
+                        TempHeader.meshDatas.Add(meshHeader);
+                    }
 
                     int TempInt = TempHeader.UnknownLength;
                     if (TempHeader.UnknownLength - 24 > 0)
