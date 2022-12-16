@@ -438,6 +438,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
 
                 //New Model Reading Method
+                //Make a way to combine models
                 stream.Position = MeshDataOffset;
                 models = new List<MeshData>();
                 for (int i = 0; i < PrefabData.Count; i++)
@@ -451,39 +452,29 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             TempObjects.objectData.meshes = new();
                             for (int b = 0; b < TempObjects.objectData.MeshOffsets.Count; b++)
                             {
+                                var TempMeshData = new MeshData();
+                                TempMeshData.staticMeshes = new List<StaticMesh>();
                                 stream.Position = TempObjects.objectData.MeshOffsets[b].StartPos + MeshDataOffset;
-                                var temp = ReadMesh(stream);
-                                TempObjects.objectData.meshes.Add(GenerateFaces(temp));
+                                while (true)
+                                {
+                                    var temp = ReadMesh(stream);
+                                    TempMeshData.staticMeshes.Add(GenerateFaces(temp));
+                                    stream.Position += 31;
+                                    if (StreamUtil.ReadByte(stream) == 0x6C)
+                                    {
+                                        stream.Position -= 32;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                TempObjects.objectData.meshes.Add(TempMeshData);
                             }
                         }
                         TempPrefabData.PrefabObjects[a] = TempObjects;
                     }
                     PrefabData[i] = TempPrefabData;
-                }
-
-                //Old Model Reading Method
-                MeshData model = new MeshData();
-                model.staticMeshes = new List<StaticMesh>();
-                while (true && MeshDataOffset != 0)
-                {
-                    var temp = ReadMesh(stream);
-                    if (temp.Equals(new StaticMesh()))
-                    {
-                        break;
-                    }
-                    model.staticMeshes.Add(GenerateFaces(temp));
-                    stream.Position += 31;
-                    if (StreamUtil.ReadByte(stream) == 0x6C)
-                    {
-                        stream.Position -= 32;
-                    }
-                    else
-                    {
-                        stream.Position += 48;
-                        models.Add(model);
-                        model = new MeshData();
-                        model.staticMeshes = new List<StaticMesh>();
-                    }
                 }
             }
         }
@@ -949,20 +940,17 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             return face;
         }
 
-
-        public void ExportModels(string path)
+        public void ExportModelsNew(string path)
         {
             //glstHandler.SavePDBModelglTF(path, this);
 
-            int Pos1 = 0;
             for (int a = 0; a < PrefabData.Count; a++)
             {
                 int VStartPoint = 0;
                 int NStartPoint = 0;
                 int UStartPoint = 0;
-                int StartPos = Pos1;
                 string output = "# Exported From SSX Using SSX Multitool Modder by GlitcherOG \n";
-                for (int ax = Pos1; ax < StartPos + PrefabData[a].TotalMeshCount; ax++)
+                for (int ax = 0; ax < PrefabData[a].PrefabObjects.Count; ax++)
                 {
                     output += "o Mesh" + ax.ToString() + "\n";
                     string outputString = "";
@@ -982,75 +970,77 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     {
                         Scale.Z = 1;
                     }
-                    if (models[ax].staticMeshes != null)
+                    if (PrefabData[a].PrefabObjects[ax].objectData.meshes != null)
                     {
-                        for (int i = 0; i < models[ax].staticMeshes.Count; i++)
+                        for (int i = 0; i < PrefabData[a].PrefabObjects[ax].objectData.meshes.Count; i++)
                         {
-                            var Data = models[ax].staticMeshes[i];
-                            for (int b = 0; b < Data.faces.Count; b++)
+                            for (int ab = 0; ab < PrefabData[a].PrefabObjects[ax].objectData.meshes[i].staticMeshes.Count; ab++)
                             {
-                                var Face = Data.faces[b];
-
-                                //Vertices
-                                if (!vertices.Contains(Face.V1))
+                                var Data = PrefabData[a].PrefabObjects[ax].objectData.meshes[i].staticMeshes[ab];
+                                for (int b = 0; b < Data.faces.Count; b++)
                                 {
-                                    vertices.Add(Face.V1);
-                                }
-                                int VPos1 = vertices.IndexOf(Face.V1) + 1 + VStartPoint;
+                                    var Face = Data.faces[b];
 
-                                if (!vertices.Contains(Face.V2))
-                                {
-                                    vertices.Add(Face.V2);
-                                }
-                                int VPos2 = vertices.IndexOf(Face.V2) + 1 + VStartPoint;
+                                    //Vertices
+                                    if (!vertices.Contains(Face.V1))
+                                    {
+                                        vertices.Add(Face.V1);
+                                    }
+                                    int VPos1 = vertices.IndexOf(Face.V1) + 1 + VStartPoint;
 
-                                if (!vertices.Contains(Face.V3))
-                                {
-                                    vertices.Add(Face.V3);
-                                }
-                                int VPos3 = vertices.IndexOf(Face.V3) + 1 + VStartPoint;
+                                    if (!vertices.Contains(Face.V2))
+                                    {
+                                        vertices.Add(Face.V2);
+                                    }
+                                    int VPos2 = vertices.IndexOf(Face.V2) + 1 + VStartPoint;
 
-                                //UVs
-                                if (!UV.Contains(Face.UV1))
-                                {
-                                    UV.Add(Face.UV1);
-                                }
-                                int UPos1 = UV.IndexOf(Face.UV1) + 1 + UStartPoint;
+                                    if (!vertices.Contains(Face.V3))
+                                    {
+                                        vertices.Add(Face.V3);
+                                    }
+                                    int VPos3 = vertices.IndexOf(Face.V3) + 1 + VStartPoint;
 
-                                if (!UV.Contains(Face.UV2))
-                                {
-                                    UV.Add(Face.UV2);
-                                }
-                                int UPos2 = UV.IndexOf(Face.UV2) + 1 + UStartPoint;
+                                    //UVs
+                                    if (!UV.Contains(Face.UV1))
+                                    {
+                                        UV.Add(Face.UV1);
+                                    }
+                                    int UPos1 = UV.IndexOf(Face.UV1) + 1 + UStartPoint;
 
-                                if (!UV.Contains(Face.UV3))
-                                {
-                                    UV.Add(Face.UV3);
-                                }
-                                int UPos3 = UV.IndexOf(Face.UV3) + 1 + UStartPoint;
+                                    if (!UV.Contains(Face.UV2))
+                                    {
+                                        UV.Add(Face.UV2);
+                                    }
+                                    int UPos2 = UV.IndexOf(Face.UV2) + 1 + UStartPoint;
 
-                                //Normals
-                                if (!Normals.Contains(Face.Normal1))
-                                {
-                                    Normals.Add(Face.Normal1);
-                                }
-                                int NPos1 = Normals.IndexOf(Face.Normal1) + 1 + NStartPoint;
+                                    if (!UV.Contains(Face.UV3))
+                                    {
+                                        UV.Add(Face.UV3);
+                                    }
+                                    int UPos3 = UV.IndexOf(Face.UV3) + 1 + UStartPoint;
 
-                                if (!Normals.Contains(Face.Normal2))
-                                {
-                                    Normals.Add(Face.Normal2);
-                                }
-                                int NPos2 = Normals.IndexOf(Face.Normal2) + 1 + NStartPoint;
+                                    //Normals
+                                    if (!Normals.Contains(Face.Normal1))
+                                    {
+                                        Normals.Add(Face.Normal1);
+                                    }
+                                    int NPos1 = Normals.IndexOf(Face.Normal1) + 1 + NStartPoint;
 
-                                if (!Normals.Contains(Face.Normal3))
-                                {
-                                    Normals.Add(Face.Normal3);
-                                }
-                                int NPos3 = Normals.IndexOf(Face.Normal3) + 1 + NStartPoint;
+                                    if (!Normals.Contains(Face.Normal2))
+                                    {
+                                        Normals.Add(Face.Normal2);
+                                    }
+                                    int NPos2 = Normals.IndexOf(Face.Normal2) + 1 + NStartPoint;
 
-                                outputString += "f " + VPos1.ToString() + "/" + UPos1.ToString() + "/" + NPos1.ToString() + " " + VPos2.ToString() + "/" + UPos2.ToString() + "/" + NPos2.ToString() + " " + VPos3.ToString() + "/" + UPos3.ToString() + "/" + NPos3.ToString() + "\n";
+                                    if (!Normals.Contains(Face.Normal3))
+                                    {
+                                        Normals.Add(Face.Normal3);
+                                    }
+                                    int NPos3 = Normals.IndexOf(Face.Normal3) + 1 + NStartPoint;
+
+                                    outputString += "f " + VPos1.ToString() + "/" + UPos1.ToString() + "/" + NPos1.ToString() + " " + VPos2.ToString() + "/" + UPos2.ToString() + "/" + NPos2.ToString() + " " + VPos3.ToString() + "/" + UPos3.ToString() + "/" + NPos3.ToString() + "\n";
+                                }
                             }
-
                         }
                     }
 
@@ -1070,7 +1060,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     NStartPoint += Normals.Count;
                     UStartPoint += UV.Count;
                     output += outputString;
-                    Pos1++;
                 }
                 File.WriteAllText(path + "/" + a.ToString() + ".obj", output);
 
@@ -1405,7 +1394,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<int> MeshOffsetPositions;
 
         public List<MeshOffsets> MeshOffsets;
-        public List<StaticMesh> meshes;
+        public List<MeshData> meshes;
     }
 
     public struct MeshOffsets

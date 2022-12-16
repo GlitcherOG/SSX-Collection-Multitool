@@ -379,7 +379,7 @@ namespace SSXMultiTool
 
             //Create Mesh data
             Directory.CreateDirectory(ExportPath + "/Models");
-            pbdHandler.ExportModels(ExportPath + "/Models/");
+            pbdHandler.ExportModelsNew(ExportPath + "/Models/");
 
             //Load and Export Textures
             SSHHandler TextureHandler = new SSHHandler();
@@ -467,7 +467,7 @@ namespace SSXMultiTool
                 //}
                 //modelJsonHandler.CreateJson(ExportPath + "/Skybox/ModelHeaders.json");
 
-                skypbdHandler.ExportModels(ExportPath + "/Skybox/Models/");
+                skypbdHandler.ExportModelsNew(ExportPath + "/Skybox/Models/");
 
                 SkyboxHandler.LoadSSH(LoadPath + "_sky.ssh");
                 for (int i = 0; i < SkyboxHandler.sshImages.Count; i++)
