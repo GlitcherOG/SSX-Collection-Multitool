@@ -65,6 +65,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<int> CameraPointers;
         public List<Camera> Cameras = new List<Camera>();
 
+        public HashData hashData = new HashData();
+
         public List<MeshData> models;
 
         public void LoadPBD(string path)
@@ -112,7 +114,51 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 Patches = new List<Patch>();
                 for (int i = 0; i < NumPatches; i++)
                 {
-                    Patch patch = LoadPatch(stream);
+                    Patch patch = new Patch();
+
+                    patch.LightMapPoint = StreamUtil.ReadVector4(stream);
+
+                    patch.UVPoint1 = StreamUtil.ReadVector4(stream);
+                    patch.UVPoint2 = StreamUtil.ReadVector4(stream);
+                    patch.UVPoint3 = StreamUtil.ReadVector4(stream);
+                    patch.UVPoint4 = StreamUtil.ReadVector4(stream);
+
+                    patch.R4C4 = StreamUtil.ReadVector4(stream);
+                    patch.R4C3 = StreamUtil.ReadVector4(stream);
+                    patch.R4C2 = StreamUtil.ReadVector4(stream);
+                    patch.R4C1 = StreamUtil.ReadVector4(stream);
+                    patch.R3C4 = StreamUtil.ReadVector4(stream);
+                    patch.R3C3 = StreamUtil.ReadVector4(stream);
+                    patch.R3C2 = StreamUtil.ReadVector4(stream);
+                    patch.R3C1 = StreamUtil.ReadVector4(stream);
+                    patch.R2C4 = StreamUtil.ReadVector4(stream);
+                    patch.R2C3 = StreamUtil.ReadVector4(stream);
+                    patch.R2C2 = StreamUtil.ReadVector4(stream);
+                    patch.R2C1 = StreamUtil.ReadVector4(stream);
+                    patch.R1C4 = StreamUtil.ReadVector4(stream);
+                    patch.R1C3 = StreamUtil.ReadVector4(stream);
+                    patch.R1C2 = StreamUtil.ReadVector4(stream);
+                    patch.R1C1 = StreamUtil.ReadVector4(stream);
+
+                    patch.LowestXYZ = StreamUtil.ReadVector3(stream);
+                    patch.HighestXYZ = StreamUtil.ReadVector3(stream);
+
+                    patch.Point1 = StreamUtil.ReadVector4(stream);
+                    patch.Point2 = StreamUtil.ReadVector4(stream);
+                    patch.Point3 = StreamUtil.ReadVector4(stream);
+                    patch.Point4 = StreamUtil.ReadVector4(stream);
+
+                    patch.PatchStyle = StreamUtil.ReadInt32(stream);
+                    patch.Unknown2 = StreamUtil.ReadInt32(stream); //Material/Lighting
+                    patch.TextureAssigment = StreamUtil.ReadInt16(stream);
+
+                    patch.LightmapID = StreamUtil.ReadInt16(stream);
+
+                    //Always the same
+                    patch.Unknown4 = StreamUtil.ReadInt32(stream); //Negitive one
+                    patch.Unknown5 = StreamUtil.ReadInt32(stream);
+                    patch.Unknown6 = StreamUtil.ReadInt32(stream);
+
                     Patches.Add(patch);
                 }
 
@@ -170,7 +216,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     particleInstances.Add(TempParticle);
                 }
 
-
                 stream.Position = MaterialOffset;
                 materials = new List<TrickyMaterial>();
                 for (int i = 0; i < NumMaterials; i++)
@@ -204,7 +249,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     materials.Add(TempMaterial);
                 }
-
 
                 stream.Position = MaterialBlocksOffset;
                 materialBlocks = new List<MaterialBlock>();
@@ -395,28 +439,28 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     ParticleModelPointers.Add(StreamUtil.ReadInt32(stream));
                 }
 
-                ////Particle Models
-                //particleModels = new List<ParticleModel>();
-                //for (int i = 0; i < NumParticleModel; i++)
-                //{
-                //    stream.Position = ParticleModelsOffset + ParticleModelPointers[i];
-                //    ParticleModel TempParticleModel = new ParticleModel();
-                //    TempParticleModel.TotalLength = StreamUtil.ReadInt32(stream);
-                //    TempParticleModel.Unknown0 = StreamUtil.ReadInt32(stream);
-                //    TempParticleModel.Unknown1 = StreamUtil.ReadInt32(stream);
-                //    TempParticleModel.Unknown2 = StreamUtil.ReadInt32(stream);
-                //    TempParticleModel.Unknown3 = StreamUtil.ReadInt32(stream);
-                //    TempParticleModel.Unknown4 = StreamUtil.ReadInt32(stream);
-                //    TempParticleModel.Unknown5 = StreamUtil.ReadInt32(stream);
-                //    TempParticleModel.Unknown6 = StreamUtil.ReadInt32(stream);
-                //    TempParticleModel.Unknown7 = StreamUtil.ReadInt32(stream);
-                //    TempParticleModel.Unknown8 = StreamUtil.ReadInt32(stream);
-                //    TempParticleModel.Unknown9 = StreamUtil.ReadInt32(stream);
-                //    TempParticleModel.Unknown10 = StreamUtil.ReadInt32(stream);
-                //    TempParticleModel.UnknownLenght = StreamUtil.ReadInt32(stream);
-                //    TempParticleModel.bytes = StreamUtil.ReadBytes(stream, TempParticleModel.UnknownLenght - 4);
-                //    particleModels.Add(TempParticleModel);
-                //}
+                //Particle Models
+                particleModels = new List<ParticleModel>();
+                for (int i = 0; i < NumParticleModel; i++)
+                {
+                    stream.Position = ParticleModelsOffset + ParticleModelPointers[i];
+                    ParticleModel TempParticleModel = new ParticleModel();
+                    TempParticleModel.TotalLength = StreamUtil.ReadInt32(stream);
+                    TempParticleModel.ObjectCount = StreamUtil.ReadInt32(stream);
+                    TempParticleModel.ObjectOffset = StreamUtil.ReadInt32(stream);
+                    TempParticleModel.Unknown2 = StreamUtil.ReadInt32(stream);
+                    TempParticleModel.Unknown3 = StreamUtil.ReadInt32(stream);
+                    TempParticleModel.Unknown4 = StreamUtil.ReadInt32(stream);
+                    TempParticleModel.Unknown5 = StreamUtil.ReadInt32(stream);
+                    TempParticleModel.Unknown6 = StreamUtil.ReadInt32(stream);
+                    TempParticleModel.Unknown7 = StreamUtil.ReadInt32(stream);
+                    TempParticleModel.Unknown8 = StreamUtil.ReadInt32(stream);
+                    TempParticleModel.Unknown9 = StreamUtil.ReadInt32(stream);
+                    TempParticleModel.Unknown10 = StreamUtil.ReadInt32(stream);
+                    TempParticleModel.UnknownLenght = StreamUtil.ReadInt32(stream);
+                    TempParticleModel.bytes = StreamUtil.ReadBytes(stream, TempParticleModel.UnknownLenght - 4);
+                    particleModels.Add(TempParticleModel);
+                }
 
                 //Camera Pointers
                 stream.Position = CameraPointerOffset;
@@ -437,8 +481,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     Cameras.Add(TempCamera);
                 }
 
+                stream.Position = HashOffset;
+                hashData = new HashData();
+                hashData.TotalLength = StreamUtil.ReadInt32(stream);
+                hashData.bytes = StreamUtil.ReadBytes(stream, hashData.TotalLength - 4);
+
                 //New Model Reading Method
                 //Make a way to combine models
+                int MeshID = 0;
                 stream.Position = MeshDataOffset;
                 models = new List<MeshData>();
                 for (int i = 0; i < PrefabData.Count; i++)
@@ -450,6 +500,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         if (TempObjects.objectData.MeshOffsets != null)
                         {
                             TempObjects.objectData.meshes = new();
+                            TempObjects.objectData.ModelIDs = new();
                             for (int b = 0; b < TempObjects.objectData.MeshOffsets.Count; b++)
                             {
                                 var TempMeshData = new MeshData();
@@ -469,6 +520,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                         break;
                                     }
                                 }
+                                TempObjects.objectData.ModelIDs.Add(MeshID);
+                                MeshID++;
                                 TempObjects.objectData.meshes.Add(TempMeshData);
                             }
                         }
@@ -482,52 +535,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
-                MagicBytes = StreamUtil.ReadBytes(stream, 4);
-                NumPlayerStarts = StreamUtil.ReadInt32(stream);
+                //Skip writing header info
+                stream.Position += 4 * 34;
 
-                StreamUtil.WriteInt32(stream, Patches.Count);
-                StreamUtil.WriteInt32(stream, Instances.Count);
-                StreamUtil.WriteInt32(stream, particleInstances.Count);
 
-                NumMaterials = StreamUtil.ReadInt32(stream);
-                NumMaterialBlocks = StreamUtil.ReadInt32(stream);
-                NumLights = StreamUtil.ReadInt32(stream);
-
-                StreamUtil.WriteInt32(stream, splines.Count);
-                StreamUtil.WriteInt32(stream, splinesSegments.Count);
-                StreamUtil.WriteInt32(stream, textureFlipbooks.Count);
-
-                NumModels = StreamUtil.ReadInt32(stream);
-                NumParticleModel = StreamUtil.ReadInt32(stream);
-
-                StreamUtil.WriteInt32(stream, NumTextures);
-
-                NumCameras = StreamUtil.ReadInt32(stream); //Used in SSXFE MAP
-
-                StreamUtil.WriteInt32(stream, 0); //Lightmap size 
-
-                PlayerStartOffset = StreamUtil.ReadInt32(stream);
-                PatchOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
-                InstanceOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
-                ParticleInstancesOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
-                MaterialOffset = StreamUtil.ReadInt32(stream);
-                MaterialBlocksOffset = StreamUtil.ReadInt32(stream);
-                LightsOffset = StreamUtil.ReadInt32(stream);
-                SplineOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
-                SplineSegmentOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
-                TextureFlipbookOffset = StreamUtil.ReadInt32(stream); //Done Need to make custom write later
-                ModelPointerOffset = StreamUtil.ReadInt32(stream);
-                ModelsOffset = StreamUtil.ReadInt32(stream);
-
-                ParticleModelPointerOffset = StreamUtil.ReadInt32(stream);
-                ParticleModelsOffset = StreamUtil.ReadInt32(stream);
-                CameraPointerOffset = StreamUtil.ReadInt32(stream);
-                CamerasOffset = StreamUtil.ReadInt32(stream);
-                HashOffset = StreamUtil.ReadInt32(stream);
-                MeshDataOffset = StreamUtil.ReadInt32(stream);
+                StreamUtil.AlignBy16(stream);
 
                 //Patches
-                stream.Position = PatchOffset;
+                PatchOffset = (int)stream.Position;
                 for (int i = 0; i < Patches.Count; i++)
                 {
                     var TempPatch = Patches[i];
@@ -572,56 +587,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     StreamUtil.WriteInt32(stream, TempPatch.Unknown6);
                 }
 
-                ////Texture Flipbooks
-                //stream.Position = TextureFlipbookOffset;
-                //for (int i = 0; i < textureFlipbooks.Count; i++)
-                //{
-                //    StreamUtil.WriteInt32(stream, textureFlipbooks[i].ImagePositions.Count);
-                //    for (int a = 0; a < textureFlipbooks[i].ImagePositions.Count; a++)
-                //    {
-                //        StreamUtil.WriteInt32(stream, textureFlipbooks[i].ImagePositions[a]);
-                //    }
-                //}
-
-                ////Spline
-                stream.Position = SplineOffset;
-                for (int i = 0; i < splines.Count; i++)
-                {
-                    var spline = splines[i];
-                    StreamUtil.WriteVector3(stream, spline.LowestXYZ);
-                    StreamUtil.WriteVector3(stream, spline.HighestXYZ);
-                    StreamUtil.WriteInt32(stream, spline.Unknown1);
-                    StreamUtil.WriteInt32(stream, spline.SplineSegmentCount);
-                    StreamUtil.WriteInt32(stream, spline.SplineSegmentPosition);
-                    StreamUtil.WriteInt32(stream, spline.Unknown2);
-                }
-
-                //Spline Segments
-                stream.Position = SplineSegmentOffset;
-                for (int i = 0; i < splinesSegments.Count; i++)
-                {
-                    var SplineSegment = splinesSegments[i];
-                    StreamUtil.WriteVector4(stream, SplineSegment.Point4);
-                    StreamUtil.WriteVector4(stream, SplineSegment.Point3);
-                    StreamUtil.WriteVector4(stream, SplineSegment.Point2);
-                    StreamUtil.WriteVector4(stream, SplineSegment.ControlPoint);
-
-                    StreamUtil.WriteVector4(stream, SplineSegment.ScalingPoint);
-
-                    StreamUtil.WriteInt32(stream, SplineSegment.PreviousSegment);
-                    StreamUtil.WriteInt32(stream, SplineSegment.NextSegment);
-                    StreamUtil.WriteInt32(stream, SplineSegment.SplineParent);
-
-                    StreamUtil.WriteVector3(stream, SplineSegment.LowestXYZ);
-                    StreamUtil.WriteVector3(stream, SplineSegment.HighestXYZ);
-
-                    StreamUtil.WriteFloat32(stream, SplineSegment.SegmentDisatnce);
-                    StreamUtil.WriteFloat32(stream, SplineSegment.PreviousSegmentsDistance);
-                    StreamUtil.WriteInt32(stream, SplineSegment.Unknown32);
-                }
+                StreamUtil.AlignBy16(stream);
 
                 //Instances
                 stream.Position = InstanceOffset;
+                //InstanceOffset = (int)stream.Position;
                 for (int i = 0; i < Instances.Count; i++)
                 {
                     var TempInstance = Instances[i];
@@ -703,6 +673,98 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     StreamUtil.WriteInt16(stream, TempMaterial.TextureFlipbookID);
                     StreamUtil.WriteInt16(stream, TempMaterial.UnknownInt20);
                 }
+
+                //StreamUtil.AlignBy16(stream);
+
+                ////Texture Flipbooks
+                //stream.Position = TextureFlipbookOffset;
+                //for (int i = 0; i < textureFlipbooks.Count; i++)
+                //{
+                //    StreamUtil.WriteInt32(stream, textureFlipbooks[i].ImagePositions.Count);
+                //    for (int a = 0; a < textureFlipbooks[i].ImagePositions.Count; a++)
+                //    {
+                //        StreamUtil.WriteInt32(stream, textureFlipbooks[i].ImagePositions[a]);
+                //    }
+                //}
+
+
+                ////Spline
+                stream.Position = SplineOffset;
+                for (int i = 0; i < splines.Count; i++)
+                {
+                    var spline = splines[i];
+                    StreamUtil.WriteVector3(stream, spline.LowestXYZ);
+                    StreamUtil.WriteVector3(stream, spline.HighestXYZ);
+                    StreamUtil.WriteInt32(stream, spline.Unknown1);
+                    StreamUtil.WriteInt32(stream, spline.SplineSegmentCount);
+                    StreamUtil.WriteInt32(stream, spline.SplineSegmentPosition);
+                    StreamUtil.WriteInt32(stream, spline.Unknown2);
+                }
+
+                //Spline Segments
+                stream.Position = SplineSegmentOffset;
+                for (int i = 0; i < splinesSegments.Count; i++)
+                {
+                    var SplineSegment = splinesSegments[i];
+                    StreamUtil.WriteVector4(stream, SplineSegment.Point4);
+                    StreamUtil.WriteVector4(stream, SplineSegment.Point3);
+                    StreamUtil.WriteVector4(stream, SplineSegment.Point2);
+                    StreamUtil.WriteVector4(stream, SplineSegment.ControlPoint);
+
+                    StreamUtil.WriteVector4(stream, SplineSegment.ScalingPoint);
+
+                    StreamUtil.WriteInt32(stream, SplineSegment.PreviousSegment);
+                    StreamUtil.WriteInt32(stream, SplineSegment.NextSegment);
+                    StreamUtil.WriteInt32(stream, SplineSegment.SplineParent);
+
+                    StreamUtil.WriteVector3(stream, SplineSegment.LowestXYZ);
+                    StreamUtil.WriteVector3(stream, SplineSegment.HighestXYZ);
+
+                    StreamUtil.WriteFloat32(stream, SplineSegment.SegmentDisatnce);
+                    StreamUtil.WriteFloat32(stream, SplineSegment.PreviousSegmentsDistance);
+                    StreamUtil.WriteInt32(stream, SplineSegment.Unknown32);
+                }
+
+
+                
+                //Go back and write Positions and shit
+                stream.Position = 0;
+
+                StreamUtil.WriteBytes(stream, new byte[4] { 0x00, 0x15, 0x1B, 0x01 });
+                StreamUtil.WriteInt32(stream, 0);
+                StreamUtil.WriteInt32(stream, Patches.Count);
+                StreamUtil.WriteInt32(stream, Instances.Count);
+                StreamUtil.WriteInt32(stream, particleInstances.Count);
+                StreamUtil.WriteInt32(stream, materials.Count);
+                StreamUtil.WriteInt32(stream, materialBlocks.Count);
+                StreamUtil.WriteInt32(stream, lights.Count);
+                StreamUtil.WriteInt32(stream, splines.Count);
+                StreamUtil.WriteInt32(stream, splinesSegments.Count);
+                StreamUtil.WriteInt32(stream, textureFlipbooks.Count);
+                StreamUtil.WriteInt32(stream, PrefabData.Count);
+                StreamUtil.WriteInt32(stream, particleModels.Count);
+                StreamUtil.WriteInt32(stream, NumTextures);
+                StreamUtil.WriteInt32(stream, Cameras.Count);
+                StreamUtil.WriteInt32(stream, 0); //Lightmap size 
+
+                StreamUtil.WriteInt32(stream, 0);
+                StreamUtil.WriteInt32(stream, PatchOffset);
+                StreamUtil.WriteInt32(stream, InstanceOffset);
+                StreamUtil.WriteInt32(stream, ParticleInstancesOffset);
+                StreamUtil.WriteInt32(stream, MaterialOffset);
+                StreamUtil.WriteInt32(stream, MaterialBlocksOffset);
+                StreamUtil.WriteInt32(stream, LightsOffset);
+                StreamUtil.WriteInt32(stream, SplineOffset);
+                StreamUtil.WriteInt32(stream, SplineSegmentOffset);
+                StreamUtil.WriteInt32(stream, TextureFlipbookOffset);
+                StreamUtil.WriteInt32(stream, ModelPointerOffset);
+                StreamUtil.WriteInt32(stream, ModelsOffset);
+                StreamUtil.WriteInt32(stream, ParticleModelPointerOffset);
+                StreamUtil.WriteInt32(stream, ParticleModelsOffset);
+                StreamUtil.WriteInt32(stream, CameraPointerOffset);
+                StreamUtil.WriteInt32(stream, CamerasOffset);
+                StreamUtil.WriteInt32(stream, HashOffset);
+                StreamUtil.WriteInt32(stream, MeshDataOffset);
             }
         }
         #region Standard Mesh Stuff
@@ -889,56 +951,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             return face;
         }
         #endregion
-
-        public Patch LoadPatch(Stream stream)
-        {
-            Patch face = new Patch();
-
-            face.LightMapPoint = StreamUtil.ReadVector4(stream);
-
-            face.UVPoint1 = StreamUtil.ReadVector4(stream);
-            face.UVPoint2 = StreamUtil.ReadVector4(stream);
-            face.UVPoint3 = StreamUtil.ReadVector4(stream);
-            face.UVPoint4 = StreamUtil.ReadVector4(stream);
-
-            face.R4C4 = StreamUtil.ReadVector4(stream);
-            face.R4C3 = StreamUtil.ReadVector4(stream);
-            face.R4C2 = StreamUtil.ReadVector4(stream);
-            face.R4C1 = StreamUtil.ReadVector4(stream);
-            face.R3C4 = StreamUtil.ReadVector4(stream);
-            face.R3C3 = StreamUtil.ReadVector4(stream);
-            face.R3C2 = StreamUtil.ReadVector4(stream);
-            face.R3C1 = StreamUtil.ReadVector4(stream);
-            face.R2C4 = StreamUtil.ReadVector4(stream);
-            face.R2C3 = StreamUtil.ReadVector4(stream);
-            face.R2C2 = StreamUtil.ReadVector4(stream);
-            face.R2C1 = StreamUtil.ReadVector4(stream);
-            face.R1C4 = StreamUtil.ReadVector4(stream);
-            face.R1C3 = StreamUtil.ReadVector4(stream);
-            face.R1C2 = StreamUtil.ReadVector4(stream);
-            face.R1C1 = StreamUtil.ReadVector4(stream);
-
-            face.LowestXYZ = StreamUtil.ReadVector3(stream);
-            face.HighestXYZ = StreamUtil.ReadVector3(stream);
-
-            face.Point1 = StreamUtil.ReadVector4(stream);
-            face.Point2 = StreamUtil.ReadVector4(stream);
-            face.Point3 = StreamUtil.ReadVector4(stream);
-            face.Point4 = StreamUtil.ReadVector4(stream);
-
-            face.PatchStyle = StreamUtil.ReadInt32(stream);
-            face.Unknown2 = StreamUtil.ReadInt32(stream); //Material/Lighting
-            face.TextureAssigment = StreamUtil.ReadInt16(stream);
-
-            face.LightmapID = StreamUtil.ReadInt16(stream);
-
-            //Always the same
-            face.Unknown4 = StreamUtil.ReadInt32(stream); //Negitive one
-            face.Unknown5 = StreamUtil.ReadInt32(stream);
-            face.Unknown6 = StreamUtil.ReadInt32(stream);
-
-            return face;
-        }
 
         public void ExportModelsNew(string path)
         {
@@ -1395,6 +1407,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public List<MeshOffsets> MeshOffsets;
         public List<MeshData> meshes;
+        public List<int> ModelIDs;
     }
 
     public struct MeshOffsets
@@ -1561,6 +1574,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     }
 
     public struct Camera
+    {
+        public int TotalLength;
+        public byte[] bytes;
+    }
+
+    public struct HashData
     {
         public int TotalLength;
         public byte[] bytes;

@@ -41,15 +41,13 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int MaterialBlockID;
             public int Unknown3;
             public float AnimTime;
-            public float[] Scale;
-            public int TotalMeshCount;
             public List<ObjectHeader> PrefabObjects;
         }
         [Serializable]
         public struct ObjectHeader
         {
             public int ParentID;
-            public int[] MeshIDs;
+            public List<int> MeshIDs;
             public int Flags;
             public int AnimOffset; //Replace With animation ID or something later
 

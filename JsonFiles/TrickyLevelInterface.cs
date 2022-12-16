@@ -346,7 +346,29 @@ namespace SSXMultiTool
                 TempModel.PrefabName = mapHandler.Models[i].Name;
                 TempModel.MaterialBlockID = pbdHandler.PrefabData[i].MaterialBlockID;
                 TempModel.Unknown3 = pbdHandler.PrefabData[i].Unknown3;
-                TempModel.Scale = JsonUtil.Vector3ToArray(pbdHandler.PrefabData[i].Scale);
+                TempModel.AnimTime = pbdHandler.PrefabData[i].AnimTime;
+                TempModel.PrefabObjects = new();
+
+                for (int a = 0; a < pbdHandler.PrefabData[i].PrefabObjects.Count; a++)
+                {
+                    var TempPrefabObject = new PrefabJsonHandler.ObjectHeader();
+                    TempPrefabObject.ParentID = pbdHandler.PrefabData[i].PrefabObjects[a].ParentID;
+                    TempPrefabObject.MeshIDs = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.ModelIDs;
+                    TempPrefabObject.Flags = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.Flags;
+                    TempPrefabObject.AnimOffset = pbdHandler.PrefabData[i].PrefabObjects[a].AnimOffset;
+
+                    Vector3 Scale;
+                    Quaternion Rotation;
+                    Vector3 Location;
+
+                    Matrix4x4.Decompose(pbdHandler.PrefabData[i].PrefabObjects[a].matrix4X4, out Scale, out Rotation, out Location);
+
+                    TempPrefabObject.Position = JsonUtil.Vector3ToArray(Location);
+                    TempPrefabObject.Rotation = JsonUtil.QuaternionToArray(Rotation);
+                    TempPrefabObject.Scale = JsonUtil.Vector3ToArray(Scale);
+
+                    TempModel.PrefabObjects.Add(TempPrefabObject);
+                }
 
                 prefabJsonHandler.PrefabJsons.Add(TempModel);
             }
@@ -446,26 +468,40 @@ namespace SSXMultiTool
                 materialBlockJson.CreateJson(ExportPath + "/Skybox/MaterialBlocks.json");
 
                 ////Create Model Json
-                //modelJsonHandler = new ModelJsonHandler();
-                //for (int i = 0; i < skypbdHandler.modelHeaders.Count; i++)
-                //{
-                //    ModelJsonHandler.ModelJson TempModel = new ModelJsonHandler.ModelJson();
-                //    TempModel.TotalLength = skypbdHandler.modelHeaders[i].TotalLength;
-                //    TempModel.Unknown0 = skypbdHandler.modelHeaders[i].ObjectCount;
-                //    TempModel.Unknown1 = skypbdHandler.modelHeaders[i].PrefabHeaderOffset;
-                //    TempModel.Unknown2 = skypbdHandler.modelHeaders[i].MaterialBlockID;
-                //    TempModel.Unknown3 = skypbdHandler.modelHeaders[i].Unknown3;
-                //    TempModel.Unknown4 = skypbdHandler.modelHeaders[i].AnimTime;
-                //    TempModel.Scale = JsonUtil.Vector3ToArray(skypbdHandler.modelHeaders[i].Scale);
-                //    TempModel.ModelDataCount = skypbdHandler.modelHeaders[i].MeshCount;
-                //    TempModel.Unknown9 = skypbdHandler.modelHeaders[i].Unknown4;
-                //    TempModel.TriStripCount = skypbdHandler.modelHeaders[i].TriStripCount;
-                //    TempModel.VertexCount = skypbdHandler.modelHeaders[i].VertexCount;
-                //    TempModel.Unknown12 = skypbdHandler.modelHeaders[i].NonTriCount;
+                prefabJsonHandler = new PrefabJsonHandler();
+                for (int i = 0; i < pbdHandler.PrefabData.Count; i++)
+                {
+                    PrefabJsonHandler.PrefabJson TempModel = new PrefabJsonHandler.PrefabJson();
+                    TempModel.PrefabName = mapHandler.Models[i].Name;
+                    TempModel.MaterialBlockID = pbdHandler.PrefabData[i].MaterialBlockID;
+                    TempModel.Unknown3 = pbdHandler.PrefabData[i].Unknown3;
+                    TempModel.AnimTime = pbdHandler.PrefabData[i].AnimTime;
+                    TempModel.PrefabObjects = new();
 
-                //    modelJsonHandler.ModelJsons.Add(TempModel);
-                //}
-                //modelJsonHandler.CreateJson(ExportPath + "/Skybox/ModelHeaders.json");
+                    for (int a = 0; a < pbdHandler.PrefabData[i].PrefabObjects.Count; a++)
+                    {
+                        var TempPrefabObject = new PrefabJsonHandler.ObjectHeader();
+                        TempPrefabObject.ParentID = pbdHandler.PrefabData[i].PrefabObjects[a].ParentID;
+                        TempPrefabObject.MeshIDs = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.ModelIDs;
+                        TempPrefabObject.Flags = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.Flags;
+                        TempPrefabObject.AnimOffset = pbdHandler.PrefabData[i].PrefabObjects[a].AnimOffset;
+
+                        Vector3 Scale;
+                        Quaternion Rotation;
+                        Vector3 Location;
+
+                        Matrix4x4.Decompose(pbdHandler.PrefabData[i].PrefabObjects[a].matrix4X4, out Scale, out Rotation, out Location);
+
+                        TempPrefabObject.Position = JsonUtil.Vector3ToArray(Location);
+                        TempPrefabObject.Rotation = JsonUtil.QuaternionToArray(Rotation);
+                        TempPrefabObject.Scale = JsonUtil.Vector3ToArray(Scale);
+
+                        TempModel.PrefabObjects.Add(TempPrefabObject);
+                    }
+
+                    prefabJsonHandler.PrefabJsons.Add(TempModel);
+                }
+                prefabJsonHandler.CreateJson(ExportPath + "/Skybox/Prefabs.json");
 
                 skypbdHandler.ExportModelsNew(ExportPath + "/Skybox/Models/");
 
