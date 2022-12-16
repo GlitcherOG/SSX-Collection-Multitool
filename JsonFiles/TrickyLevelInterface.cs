@@ -26,7 +26,7 @@ namespace SSXMultiTool
         public LightJsonHandler lightJsonHandler = new LightJsonHandler();
         public SplineJsonHandler splineJsonHandler = new SplineJsonHandler();
         public TextureFlipbookJsonHandler textureFlipbookJsonHandler = new TextureFlipbookJsonHandler();
-        public ModelJsonHandler modelJsonHandler = new ModelJsonHandler();
+        public PrefabJsonHandler prefabJsonHandler = new PrefabJsonHandler();
         public ParticleModelJsonHandler particleModelJsonHandler = new ParticleModelJsonHandler();
 
         public struct LightingFixObject
@@ -338,52 +338,42 @@ namespace SSXMultiTool
             }
             textureFlipbookJsonHandler.CreateJson(ExportPath + "/TextureFlipbook.json");
 
-            ////Create Model Json
-            //modelJsonHandler = new ModelJsonHandler();
-            //for (int i = 0; i < pbdHandler.modelHeaders.Count; i++)
-            //{
-            //    ModelJsonHandler.ModelJson TempModel = new ModelJsonHandler.ModelJson();
-            //    TempModel.ModelName = mapHandler.Models[i].Name;
-            //    TempModel.TotalLength = pbdHandler.modelHeaders[i].TotalLength;
-            //    TempModel.Unknown0 = pbdHandler.modelHeaders[i].ObjectCount;
-            //    TempModel.Unknown1 = pbdHandler.modelHeaders[i].PrefabHeaderOffset;
-            //    TempModel.Unknown2 = pbdHandler.modelHeaders[i].MaterialBlockID;
-            //    TempModel.Unknown3 = pbdHandler.modelHeaders[i].Unknown3;
-            //    TempModel.Unknown4 = pbdHandler.modelHeaders[i].AnimTime;
-            //    TempModel.Scale = JsonUtil.Vector3ToArray(pbdHandler.modelHeaders[i].Scale);
-            //    TempModel.ModelDataCount = pbdHandler.modelHeaders[i].MeshCount;
-            //    TempModel.Unknown9 = pbdHandler.modelHeaders[i].Unknown4;
-            //    TempModel.TriStripCount = pbdHandler.modelHeaders[i].TriStripCount;
-            //    TempModel.VertexCount = pbdHandler.modelHeaders[i].VertexCount;
-            //    TempModel.Unknown12 = pbdHandler.modelHeaders[i].NonTriCount;
+            //Create Model Json
+            prefabJsonHandler = new PrefabJsonHandler();
+            for (int i = 0; i < pbdHandler.PrefabData.Count; i++)
+            {
+                PrefabJsonHandler.PrefabJson TempModel = new PrefabJsonHandler.PrefabJson();
+                TempModel.PrefabName = mapHandler.Models[i].Name;
+                TempModel.MaterialBlockID = pbdHandler.PrefabData[i].MaterialBlockID;
+                TempModel.Unknown3 = pbdHandler.PrefabData[i].Unknown3;
+                TempModel.Scale = JsonUtil.Vector3ToArray(pbdHandler.PrefabData[i].Scale);
 
-
-            //    modelJsonHandler.ModelJsons.Add(TempModel);
-            //}
-            //modelJsonHandler.CreateJson(ExportPath + "/ModelHeaders.json");
+                prefabJsonHandler.PrefabJsons.Add(TempModel);
+            }
+            prefabJsonHandler.CreateJson(ExportPath + "/Prefabs.json");
 
             //Create Particle Model Json
-            particleModelJsonHandler = new ParticleModelJsonHandler();
-            for (int i = 0; i < pbdHandler.particleModels.Count; i++)
-            {
-                ParticleModelJsonHandler.ParticleModelJson TempParticleModel = new ParticleModelJsonHandler.ParticleModelJson();
-                TempParticleModel.ParticleModelName = mapHandler.particelModels[i].Name;
-                TempParticleModel.Unknown0 = pbdHandler.particleModels[i].Unknown0;
-                TempParticleModel.Unknown1 = pbdHandler.particleModels[i].Unknown0;
-                TempParticleModel.Unknown2 = pbdHandler.particleModels[i].Unknown0;
-                TempParticleModel.Unknown3 = pbdHandler.particleModels[i].Unknown0;
-                TempParticleModel.Unknown4 = pbdHandler.particleModels[i].Unknown0;
-                TempParticleModel.Unknown5 = pbdHandler.particleModels[i].Unknown0;
-                TempParticleModel.Unknown6 = pbdHandler.particleModels[i].Unknown0;
-                TempParticleModel.Unknown7 = pbdHandler.particleModels[i].Unknown0;
-                TempParticleModel.Unknown8 = pbdHandler.particleModels[i].Unknown0;
-                TempParticleModel.Unknown9 = pbdHandler.particleModels[i].Unknown0;
-                TempParticleModel.Unknown10 = pbdHandler.particleModels[i].Unknown0;
-                TempParticleModel.UnknownLenght = pbdHandler.particleModels[i].UnknownLenght;
-                TempParticleModel.bytes = pbdHandler.particleModels[i].bytes;
-                particleModelJsonHandler.ParticleModelJsons.Add(TempParticleModel);
-            }
-            particleModelJsonHandler.CreateJson(ExportPath + "/ParticleModelHeaders.json");
+            //particleModelJsonHandler = new ParticleModelJsonHandler();
+            //for (int i = 0; i < pbdHandler.particleModels.Count; i++)
+            //{
+            //    ParticleModelJsonHandler.ParticleModelJson TempParticleModel = new ParticleModelJsonHandler.ParticleModelJson();
+            //    TempParticleModel.ParticleModelName = mapHandler.particelModels[i].Name;
+            //    TempParticleModel.Unknown0 = pbdHandler.particleModels[i].Unknown0;
+            //    TempParticleModel.Unknown1 = pbdHandler.particleModels[i].Unknown0;
+            //    TempParticleModel.Unknown2 = pbdHandler.particleModels[i].Unknown0;
+            //    TempParticleModel.Unknown3 = pbdHandler.particleModels[i].Unknown0;
+            //    TempParticleModel.Unknown4 = pbdHandler.particleModels[i].Unknown0;
+            //    TempParticleModel.Unknown5 = pbdHandler.particleModels[i].Unknown0;
+            //    TempParticleModel.Unknown6 = pbdHandler.particleModels[i].Unknown0;
+            //    TempParticleModel.Unknown7 = pbdHandler.particleModels[i].Unknown0;
+            //    TempParticleModel.Unknown8 = pbdHandler.particleModels[i].Unknown0;
+            //    TempParticleModel.Unknown9 = pbdHandler.particleModels[i].Unknown0;
+            //    TempParticleModel.Unknown10 = pbdHandler.particleModels[i].Unknown0;
+            //    TempParticleModel.UnknownLenght = pbdHandler.particleModels[i].UnknownLenght;
+            //    TempParticleModel.bytes = pbdHandler.particleModels[i].bytes;
+            //    particleModelJsonHandler.ParticleModelJsons.Add(TempParticleModel);
+            //}
+            //particleModelJsonHandler.CreateJson(ExportPath + "/ParticleModelHeaders.json");
 
             //Create Camera Json
 
@@ -1301,7 +1291,7 @@ namespace SSXMultiTool
             textureFlipbookJsonHandler = TextureFlipbookJsonHandler.Load(LoadPath + "/TextureFlipbook.json");
 
             //Create Model Json
-            modelJsonHandler = ModelJsonHandler.Load(LoadPath + "/ModelHeaders.json");
+            prefabJsonHandler = PrefabJsonHandler.Load(LoadPath + "/Prefabs.json");
 
             //Create Particle Model Json
             particleModelJsonHandler = ParticleModelJsonHandler.Load(LoadPath + "/ParticleModelHeaders.json");

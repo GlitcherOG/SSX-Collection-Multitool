@@ -34,17 +34,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int PatchOffset;
         public int InstanceOffset;
         public int ParticleInstancesOffset;
-
         public int MaterialOffset;
         public int MaterialBlocksOffset;
         public int LightsOffset;
         public int SplineOffset;
-
         public int SplineSegmentOffset;
         public int TextureFlipbookOffset;
         public int ModelPointerOffset;
         public int ModelsOffset;
-
         public int ParticleModelPointerOffset;
         public int ParticleModelsOffset;
         public int CameraPointerOffset;
@@ -102,12 +99,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 SplineSegmentOffset = StreamUtil.ReadInt32(stream); //Done
                 TextureFlipbookOffset = StreamUtil.ReadInt32(stream); //Done
                 ModelPointerOffset = StreamUtil.ReadInt32(stream); //Done
-                ModelsOffset = StreamUtil.ReadInt32(stream); //Sort of Loading
+                ModelsOffset = StreamUtil.ReadInt32(stream); //Loading
                 ParticleModelPointerOffset = StreamUtil.ReadInt32(stream); //Done
                 ParticleModelsOffset = StreamUtil.ReadInt32(stream); //Sort of Loading
                 CameraPointerOffset = StreamUtil.ReadInt32(stream); //Done
                 CamerasOffset = StreamUtil.ReadInt32(stream); //Unknown
-                HashOffset = StreamUtil.ReadInt32(stream);
+                HashOffset = StreamUtil.ReadInt32(stream); //
                 MeshDataOffset = StreamUtil.ReadInt32(stream); //Loading
 
                 //Patch Loading
@@ -398,28 +395,28 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     ParticleModelPointers.Add(StreamUtil.ReadInt32(stream));
                 }
 
-                //Particle Models
-                particleModels = new List<ParticleModel>();
-                for (int i = 0; i < NumParticleModel; i++)
-                {
-                    stream.Position = ParticleModelsOffset + ParticleModelPointers[i];
-                    ParticleModel TempParticleModel = new ParticleModel();
-                    TempParticleModel.TotalLength = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown0 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown1 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown2 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown3 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown4 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown5 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown6 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown7 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown8 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown9 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown10 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.UnknownLenght = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.bytes = StreamUtil.ReadBytes(stream, TempParticleModel.UnknownLenght - 4);
-                    particleModels.Add(TempParticleModel);
-                }
+                ////Particle Models
+                //particleModels = new List<ParticleModel>();
+                //for (int i = 0; i < NumParticleModel; i++)
+                //{
+                //    stream.Position = ParticleModelsOffset + ParticleModelPointers[i];
+                //    ParticleModel TempParticleModel = new ParticleModel();
+                //    TempParticleModel.TotalLength = StreamUtil.ReadInt32(stream);
+                //    TempParticleModel.Unknown0 = StreamUtil.ReadInt32(stream);
+                //    TempParticleModel.Unknown1 = StreamUtil.ReadInt32(stream);
+                //    TempParticleModel.Unknown2 = StreamUtil.ReadInt32(stream);
+                //    TempParticleModel.Unknown3 = StreamUtil.ReadInt32(stream);
+                //    TempParticleModel.Unknown4 = StreamUtil.ReadInt32(stream);
+                //    TempParticleModel.Unknown5 = StreamUtil.ReadInt32(stream);
+                //    TempParticleModel.Unknown6 = StreamUtil.ReadInt32(stream);
+                //    TempParticleModel.Unknown7 = StreamUtil.ReadInt32(stream);
+                //    TempParticleModel.Unknown8 = StreamUtil.ReadInt32(stream);
+                //    TempParticleModel.Unknown9 = StreamUtil.ReadInt32(stream);
+                //    TempParticleModel.Unknown10 = StreamUtil.ReadInt32(stream);
+                //    TempParticleModel.UnknownLenght = StreamUtil.ReadInt32(stream);
+                //    TempParticleModel.bytes = StreamUtil.ReadBytes(stream, TempParticleModel.UnknownLenght - 4);
+                //    particleModels.Add(TempParticleModel);
+                //}
 
                 //Camera Pointers
                 stream.Position = CameraPointerOffset;
@@ -440,13 +437,34 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     Cameras.Add(TempCamera);
                 }
 
-                //ModelData
+                //New Model Reading Method
                 stream.Position = MeshDataOffset;
                 models = new List<MeshData>();
+                for (int i = 0; i < PrefabData.Count; i++)
+                {
+                    var TempPrefabData = PrefabData[i];
+                    for (int a = 0; a < TempPrefabData.PrefabObjects.Count; a++)
+                    {
+                        var TempObjects = TempPrefabData.PrefabObjects[a];
+                        if (TempObjects.objectData.MeshOffsets != null)
+                        {
+                            TempObjects.objectData.meshes = new();
+                            for (int b = 0; b < TempObjects.objectData.MeshOffsets.Count; b++)
+                            {
+                                stream.Position = TempObjects.objectData.MeshOffsets[b].StartPos + MeshDataOffset;
+                                var temp = ReadMesh(stream);
+                                TempObjects.objectData.meshes.Add(GenerateFaces(temp));
+                            }
+                        }
+                        TempPrefabData.PrefabObjects[a] = TempObjects;
+                    }
+                    PrefabData[i] = TempPrefabData;
+                }
+
+                //Old Model Reading Method
                 MeshData model = new MeshData();
                 model.staticMeshes = new List<StaticMesh>();
-
-                while (true&& MeshDataOffset!=0)
+                while (true && MeshDataOffset != 0)
                 {
                     var temp = ReadMesh(stream);
                     if (temp.Equals(new StaticMesh()))
@@ -964,73 +982,76 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     {
                         Scale.Z = 1;
                     }
-                    for (int i = 0; i < models[ax].staticMeshes.Count; i++)
+                    if (models[ax].staticMeshes != null)
                     {
-                        var Data = models[ax].staticMeshes[i];
-                        for (int b = 0; b < Data.faces.Count; b++)
+                        for (int i = 0; i < models[ax].staticMeshes.Count; i++)
                         {
-                            var Face = Data.faces[b];
-
-                            //Vertices
-                            if (!vertices.Contains(Face.V1))
+                            var Data = models[ax].staticMeshes[i];
+                            for (int b = 0; b < Data.faces.Count; b++)
                             {
-                                vertices.Add(Face.V1);
-                            }
-                            int VPos1 = vertices.IndexOf(Face.V1) + 1 + VStartPoint;
+                                var Face = Data.faces[b];
 
-                            if (!vertices.Contains(Face.V2))
-                            {
-                                vertices.Add(Face.V2);
-                            }
-                            int VPos2 = vertices.IndexOf(Face.V2) + 1 + VStartPoint;
+                                //Vertices
+                                if (!vertices.Contains(Face.V1))
+                                {
+                                    vertices.Add(Face.V1);
+                                }
+                                int VPos1 = vertices.IndexOf(Face.V1) + 1 + VStartPoint;
 
-                            if (!vertices.Contains(Face.V3))
-                            {
-                                vertices.Add(Face.V3);
-                            }
-                            int VPos3 = vertices.IndexOf(Face.V3) + 1 + VStartPoint;
+                                if (!vertices.Contains(Face.V2))
+                                {
+                                    vertices.Add(Face.V2);
+                                }
+                                int VPos2 = vertices.IndexOf(Face.V2) + 1 + VStartPoint;
 
-                            //UVs
-                            if (!UV.Contains(Face.UV1))
-                            {
-                                UV.Add(Face.UV1);
-                            }
-                            int UPos1 = UV.IndexOf(Face.UV1) + 1 + UStartPoint;
+                                if (!vertices.Contains(Face.V3))
+                                {
+                                    vertices.Add(Face.V3);
+                                }
+                                int VPos3 = vertices.IndexOf(Face.V3) + 1 + VStartPoint;
 
-                            if (!UV.Contains(Face.UV2))
-                            {
-                                UV.Add(Face.UV2);
-                            }
-                            int UPos2 = UV.IndexOf(Face.UV2) + 1 + UStartPoint;
+                                //UVs
+                                if (!UV.Contains(Face.UV1))
+                                {
+                                    UV.Add(Face.UV1);
+                                }
+                                int UPos1 = UV.IndexOf(Face.UV1) + 1 + UStartPoint;
 
-                            if (!UV.Contains(Face.UV3))
-                            {
-                                UV.Add(Face.UV3);
-                            }
-                            int UPos3 = UV.IndexOf(Face.UV3) + 1 + UStartPoint;
+                                if (!UV.Contains(Face.UV2))
+                                {
+                                    UV.Add(Face.UV2);
+                                }
+                                int UPos2 = UV.IndexOf(Face.UV2) + 1 + UStartPoint;
 
-                            //Normals
-                            if (!Normals.Contains(Face.Normal1))
-                            {
-                                Normals.Add(Face.Normal1);
-                            }
-                            int NPos1 = Normals.IndexOf(Face.Normal1) + 1 + NStartPoint;
+                                if (!UV.Contains(Face.UV3))
+                                {
+                                    UV.Add(Face.UV3);
+                                }
+                                int UPos3 = UV.IndexOf(Face.UV3) + 1 + UStartPoint;
 
-                            if (!Normals.Contains(Face.Normal2))
-                            {
-                                Normals.Add(Face.Normal2);
-                            }
-                            int NPos2 = Normals.IndexOf(Face.Normal2) + 1 + NStartPoint;
+                                //Normals
+                                if (!Normals.Contains(Face.Normal1))
+                                {
+                                    Normals.Add(Face.Normal1);
+                                }
+                                int NPos1 = Normals.IndexOf(Face.Normal1) + 1 + NStartPoint;
 
-                            if (!Normals.Contains(Face.Normal3))
-                            {
-                                Normals.Add(Face.Normal3);
-                            }
-                            int NPos3 = Normals.IndexOf(Face.Normal3) + 1 + NStartPoint;
+                                if (!Normals.Contains(Face.Normal2))
+                                {
+                                    Normals.Add(Face.Normal2);
+                                }
+                                int NPos2 = Normals.IndexOf(Face.Normal2) + 1 + NStartPoint;
 
-                            outputString += "f " + VPos1.ToString() + "/" + UPos1.ToString() + "/" + NPos1.ToString() + " " + VPos2.ToString() + "/" + UPos2.ToString() + "/" + NPos2.ToString() + " " + VPos3.ToString() + "/" + UPos3.ToString() + "/" + NPos3.ToString() + "\n";
+                                if (!Normals.Contains(Face.Normal3))
+                                {
+                                    Normals.Add(Face.Normal3);
+                                }
+                                int NPos3 = Normals.IndexOf(Face.Normal3) + 1 + NStartPoint;
+
+                                outputString += "f " + VPos1.ToString() + "/" + UPos1.ToString() + "/" + NPos1.ToString() + " " + VPos2.ToString() + "/" + UPos2.ToString() + "/" + NPos2.ToString() + " " + VPos3.ToString() + "/" + UPos3.ToString() + "/" + NPos3.ToString() + "\n";
+                            }
+
                         }
-
                     }
 
                     for (int i = 0; i < vertices.Count; i++)
@@ -1384,6 +1405,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<int> MeshOffsetPositions;
 
         public List<MeshOffsets> MeshOffsets;
+        public List<StaticMesh> meshes;
     }
 
     public struct MeshOffsets
@@ -1400,8 +1422,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     public struct ParticleModel
     {
         public int TotalLength;
-        public int Unknown0;
-        public int Unknown1;
+        public int ObjectCount;
+        public int ObjectOffset;
         public int Unknown2;
         public int Unknown3;
         public int Unknown4;
@@ -1667,83 +1689,3 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int Unknown6; //Same
     }
 }
-
-
-//Model Offset
-//struct Vector3
-//{
-//    float x;
-//    float y;
-//    float z;
-//};
-
-//struct Vector4
-//{
-//    float x;
-//    float y;
-//    float z;
-//    float w;
-//};
-
-//struct ModelHeader
-//{
-//    s32 ParentID;
-//    u32 meshHighOffset;
-//    u32 meshMediumOffset;
-//    u32 meshLowOffset;
-//    u32 animOffset;
-//    s32 Matrix4x4Offset; //Relative start off this
-//};
-
-//struct Matrix4x4
-//{
-//    Vector4 Row1;
-//    Vector4 Row2;
-//    Vector4 Row3;
-//    Vector4 Row4;
-//};
-
-//struct MeshHeader
-//{
-//    u32 EntrySize;
-//    Vector3 LowestSize;
-//    Vector3 HighestSize;
-
-//    u32 Flags;
-//    u32 Contexts;
-//    u32 Faces;
-
-//    u32 Unknown[2];
-
-//    u32 EntrySize1;
-//    u32 MeshID;
-//    u32 MeshDataLength;
-//    u32 StartPos;
-//    u32 Length1;
-//    u32 Length2;
-//    u32 Length3;
-
-//};
-
-
-//u32 TotalByteSize @0x00;
-//u32 TotalPrefab @0x04;
-//u32 Unknown1 @ 0x08;
-//u32 MaterialBlockID @ 12;
-//u32 Unknown3 @ 16;
-//float AnimTime @ 20;
-//Vector3 Scale @ 24;
-//u32 MeshCount @ 36;
-//u32 ContextCount @ 40;
-//u32 TriStripCount @ 44;
-//u32 VertexCount @ 48;
-//u32 NonTriCount @ 52;
-//ModelHeader modelHeader[TotalPrefab] @ 56;
-
-//u8 filler[8] @ 0x278; //Just a guess really idk
-
-////While this works for this needs to use offset in model header
-//Matrix4x4 Matrixs[TotalPrefab - 2] @ 0x280;
-
-////MeshHeader mheader @ 0x800;
-//MeshHeader mheader[MeshCount] @ 0x800;
