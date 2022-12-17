@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using SSXMultiTool.Utilities;
 using System.Numerics;
 using System.IO;
+using SSXMultiTool.FileHandlers.Models;
 
 namespace SSXMultiTool
 {
@@ -1127,7 +1128,13 @@ namespace SSXMultiTool
                 }
             }
 
-            pbdHandler.Save(ExportPath + ".pbd");
+            objHandler handler = new objHandler();
+            handler.LoadFiles(LoadPath + "/Models");
+            handler.GenerateTristripData();
+            pbdHandler.ImportModels(handler);
+            pbdHandler.RengeratePrefabOffsets();
+
+            pbdHandler.SaveNew(ExportPath + ".pbd");
             TextureHandler.SaveSSH(ExportPath+".ssh", true);
 
 

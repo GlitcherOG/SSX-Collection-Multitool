@@ -168,12 +168,8 @@ namespace SSXMultiTool
                     RebuildButton.Enabled = true;
                     ProjectPath = Path.GetDirectoryName(openFileDialog.FileName);
 
-                    objHandler handler = new objHandler();
-                    handler.LoadFiles(ProjectPath+"/Models");
-                    handler.GenerateTristripData();
                     PBDHandler pBDHandler = new PBDHandler();
                     pBDHandler.LoadPBD(ProjectPath + "/original/level.pbd");
-                    pBDHandler.ImportModels(ProjectPath + "/test.mpf", handler);
 
                     trickyLevelInterface.LoadAndVerifyFiles(ProjectPath);
                     UpdateText();
@@ -202,7 +198,7 @@ namespace SSXMultiTool
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Config File (*.pbd)|*.ssx|All files (*.*)|*.*",
+                Filter = "Config File (*.pbd)|*.pbd|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };
@@ -210,6 +206,9 @@ namespace SSXMultiTool
             {
                 PBDHandler pBDHandler = new PBDHandler();
                 pBDHandler.LoadPBD(openFileDialog.FileName);
+                var Temp = pBDHandler.Patches[52];
+                Temp.R1C1 += new System.Numerics.Vector4(0, 0, 30, 0);
+                pBDHandler.Patches.Add(Temp);
                 pBDHandler.SaveNew(openFileDialog.FileName+"1");
             }
         }
