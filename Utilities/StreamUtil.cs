@@ -324,6 +324,29 @@ namespace SSXMultiTool.Utilities
             StreamUtil.WriteFloat32(stream, vertex4.W);
         }
 
+        public static void WriteMatrix4x4(Stream stream, Matrix4x4 matrix4X4)
+        {
+            StreamUtil.WriteFloat32(stream, matrix4X4.M11);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M12);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M13);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M14);
+
+            StreamUtil.WriteFloat32(stream, matrix4X4.M21);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M22);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M23);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M24);
+
+            StreamUtil.WriteFloat32(stream, matrix4X4.M31);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M32);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M33);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M34);
+
+            StreamUtil.WriteFloat32(stream, matrix4X4.M41);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M42);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M43);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M44);
+        }
+
         public static void WriteStreamIntoStream(Stream MainStream, Stream Input)
         {
             Input.Position = 0;
