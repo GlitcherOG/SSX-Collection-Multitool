@@ -197,5 +197,21 @@ namespace SSXMultiTool
             trickyConfig.Description = DescriptionTextbox.Text;
             trickyConfig.CreateJson(ProjectPath + "/Config.ssx");
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Config File (*.pbd)|*.ssx|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                PBDHandler pBDHandler = new PBDHandler();
+                pBDHandler.LoadPBD(openFileDialog.FileName);
+                pBDHandler.SaveNew(openFileDialog.FileName+"1");
+            }
+        }
     }
 }

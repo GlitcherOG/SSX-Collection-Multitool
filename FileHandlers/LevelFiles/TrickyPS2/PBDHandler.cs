@@ -66,6 +66,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<Camera> Cameras = new List<Camera>();
         public HashData hashData = new HashData();
 
+        public byte[] MeshData;
+
         public void LoadPBD(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
@@ -443,19 +445,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     stream.Position = ParticleModelsOffset + ParticleModelPointers[i];
                     ParticleModel TempParticleModel = new ParticleModel();
                     TempParticleModel.TotalLength = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.ObjectCount = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.ObjectOffset = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown2 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown3 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown4 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown5 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown6 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown7 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown8 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown9 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.Unknown10 = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.UnknownLenght = StreamUtil.ReadInt32(stream);
-                    TempParticleModel.bytes = StreamUtil.ReadBytes(stream, TempParticleModel.UnknownLenght - 4);
+                    TempParticleModel.bytes = StreamUtil.ReadBytes(stream, TempParticleModel.TotalLength - 4);
                     particleModels.Add(TempParticleModel);
                 }
 
@@ -487,7 +477,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 //Make a way to combine models
                 int MeshID = 0;
                 stream.Position = MeshDataOffset;
-                models = new List<MeshData>();
                 for (int i = 0; i < PrefabData.Count; i++)
                 {
                     var TempPrefabData = PrefabData[i];
@@ -526,6 +515,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     }
                     PrefabData[i] = TempPrefabData;
                 }
+
+                stream.Position = MeshDataOffset;
+                MeshData=  StreamUtil.ReadBytes(stream, (int)(stream.Length - MeshDataOffset));
             }
         }
         public void Save(string path)
@@ -820,8 +812,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, TempPatch.Unknown6);
             }
 
-            StreamUtil.AlignBy16(stream);
-
             //Instances
             InstanceOffset = (int)stream.Position;
             for (int i = 0; i < Instances.Count; i++)
@@ -856,8 +846,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, TempInstance.UnknownInt32);
             }
 
-            StreamUtil.AlignBy16(stream);
-
             //Particle Instances
             ParticleInstancesOffset = (int)stream.Position;
             for (int i = 0; i < particleInstances.Count; i++)
@@ -876,8 +864,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, TempParticle.UnknownInt11);
                 StreamUtil.WriteInt32(stream, TempParticle.UnknownInt12);
             }
-
-            StreamUtil.AlignBy16(stream);
 
             MaterialOffset = (int)stream.Position;
             for (int i = 0; i < materials.Count; i++)
@@ -909,7 +895,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt16(stream, TempMaterial.TextureFlipbookID);
                 StreamUtil.WriteInt16(stream, TempMaterial.UnknownInt20);
             }
-            StreamUtil.AlignBy16(stream);
 
             MaterialBlocksOffset = (int)stream.Position;
             for (int i = 0; i < materialBlocks.Count; i++)
@@ -921,7 +906,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     StreamUtil.WriteInt32(stream, TempMaterialBlock.ints[a]);
                 }  
             }
-            StreamUtil.AlignBy16(stream);
 
             LightsOffset = (int)stream.Position;
             for (int i = 0; i < lights.Count; i++)
@@ -941,7 +925,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteFloat32(stream, TempLights.UnknownFloat3);
                 StreamUtil.WriteInt32(stream, TempLights.UnknownInt3);
             }
-            StreamUtil.AlignBy16(stream);
 
             ////Spline
             SplineOffset = (int)stream.Position;
@@ -956,6 +939,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, spline.Unknown2);
             }
             StreamUtil.AlignBy16(stream);
+
             //Spline Segments
             SplineSegmentOffset = (int)stream.Position;
             for (int i = 0; i < splinesSegments.Count; i++)
@@ -979,7 +963,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteFloat32(stream, SplineSegment.PreviousSegmentsDistance);
                 StreamUtil.WriteInt32(stream, SplineSegment.Unknown32);
             }
-            StreamUtil.AlignBy16(stream);
 
 
             //Texture Flipbooks
@@ -992,18 +975,17 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     StreamUtil.WriteInt32(stream, textureFlipbooks[i].ImagePositions[a]);
                 }
             }
-            StreamUtil.AlignBy16(stream);
 
             //Set Space Aside for model pointers
             ModelPointerOffset = (int)stream.Position;
             PrefabPointers = new List<int>();
-            stream.Position = 4 * PrefabData.Count;
+            stream.Position += 4 * PrefabData.Count;
 
             StreamUtil.AlignBy16(stream);
 
+            //FIX Saving
             int Size;
             int TempPos;
-
             ModelsOffset = (int)stream.Position;
             for (int i = 0; i < PrefabData.Count; i++)
             {
@@ -1032,9 +1014,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
                 {
                     var TempObject = TempPrefab.PrefabObjects[a];
-                    TempObject.Matrix4x4Offset = 0;
-                    if (TempObject.matrix4X4.Equals(new Matrix4x4()) && TempObject.matrix4X4 != null)
+                    TempObject.Matrix4x4Offset = -1;
+                    if (!TempObject.matrix4X4.Equals(new Matrix4x4()) && TempObject.matrix4X4 != null)
                     {
+                        StreamUtil.AlignBy16(stream);
                         TempObject.Matrix4x4Offset = (int)stream.Position;
                         StreamUtil.WriteMatrix4x4(stream, TempObject.matrix4X4);
                     }
@@ -1047,7 +1030,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempObject.ObjectHighOffset = 0;
                     TempObject.ObjectMediumOffset = 0;
                     TempObject.ObjectLowOffset = 0;
-                    if(TempObject.objectData!=null%%TempObject.objectData != new ObjectData())
+                    if(!TempObject.objectData.Equals(null) && !TempObject.objectData.Equals(new ObjectData()))
                     {
                         TempObject.ObjectHighOffset = (int)stream.Position;
                         TempObject.ObjectMediumOffset = (int)stream.Position;
@@ -1061,8 +1044,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         StreamUtil.WriteInt32(stream, TempObject.objectData.MeshOffsets.Count);
                         StreamUtil.WriteInt32(stream, TempObject.objectData.FaceCount);
 
-                        //Go back and Write Total Context Length
-                        stream.Position += 4* TempObject.objectData.MeshOffsets.Count + (4 * 7)* TempObject.objectData.MeshOffsets.Count;
+                        //Go back and Write Total Context Offset
+                        StreamUtil.WriteInt32(stream, 44);
 
                         //Go back and Write Mesh Offset
                         int StartMeshOffsets = (int)stream.Position;
@@ -1074,7 +1057,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         {
                             MeshOffsets.Add((int)stream.Position);
                             StreamUtil.WriteInt32(stream, 4 * 7);
-                            StreamUtil.WriteInt32(stream, b);
+                            StreamUtil.WriteInt32(stream, TempObject.objectData.MeshOffsets[b].MeshID);
+                            //StreamUtil.WriteInt32(stream, b);
                             StreamUtil.WriteInt32(stream, TempObject.objectData.MeshOffsets[b].MeshDataLength);
                             StreamUtil.WriteInt32(stream, TempObject.objectData.MeshOffsets[b].StartPos);
                             StreamUtil.WriteInt32(stream, TempObject.objectData.MeshOffsets[b].Length1);
@@ -1090,10 +1074,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         }
                         stream.Position = TempPos;
 
-
-
-
-
                         TempPos = (int)stream.Position;
                         Size = (int)stream.Position - StartObjectPrefab;
                         stream.Position = StartObjectPrefab;
@@ -1104,7 +1084,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempPrefab.PrefabObjects[a] = TempObject;
                 }
 
-
                 //Go back and write ObjectOffsets
                 TempPos = (int)stream.Position;
                 stream.Position = TempObjectPos;
@@ -1112,12 +1091,29 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     int StartPosObject = (int)stream.Position;
                     StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ParentID);
-                    StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectHighOffset- StartPosObject);
-                    StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectMediumOffset- StartPosObject);
-                    StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectLowOffset- StartPosObject);
-                    StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].AnimOffset);
-                    StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].Matrix4x4Offset-StartPosObject);
+                    if (TempPrefab.PrefabObjects[a].ObjectHighOffset != 0)
+                    {
+                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectHighOffset - StartPosObject);
+                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectMediumOffset - StartPosObject);
+                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectLowOffset - StartPosObject);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectHighOffset);
+                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectMediumOffset);
+                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectLowOffset);
+                    }
+                    StreamUtil.WriteInt32(stream, 0);
+                    if (TempPrefab.PrefabObjects[a].Matrix4x4Offset != -1)
+                    {
+                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].Matrix4x4Offset - StartPosObject);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].Matrix4x4Offset);
+                    }
                 }
+                stream.Position = TempPos;
 
 
                 StreamUtil.AlignBy16(stream);
@@ -1129,6 +1125,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             }
 
+
+
+
+
             int TempPosition = (int)stream.Position;
             stream.Position = ModelPointerOffset;
             for (int i = 0; i < PrefabPointers.Count; i++)
@@ -1136,7 +1136,66 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, PrefabPointers[i]);
             }
             stream.Position = TempPosition;
+
+            //Make Space For Particle Pointer
+            ParticleModelPointerOffset = (int)stream.Position;
+            stream.Position += 4 * particleModels.Count;
+            ParticleModelPointers = new List<int>();
+
+            //Write Particle Data
+            ParticleModelsOffset = (int)stream.Position;
+            for (int i = 0; i < particleModels.Count; i++)
+            {
+                ParticleModelPointers.Add((int)stream.Position - ParticleModelsOffset);
+                StreamUtil.WriteInt32(stream, 4 + particleModels[i].bytes.Length);
+                StreamUtil.WriteBytes(stream, particleModels[i].bytes);
+            }
+
+
+            //Write ParticlePointer
+            TempPosition = (int)stream.Position;
+            stream.Position = ParticleModelPointerOffset;
+            for (int i = 0; i < ParticleModelPointers.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, ParticleModelPointers[i]);
+            }
+            stream.Position = TempPosition;
+
+            //Make space for Camera Pointer
+            CameraPointerOffset = (int)stream.Position;
+            stream.Position += 4 * Cameras.Count;
+            CameraPointers = new List<int>();
+
+            //Write Camera
+            CamerasOffset = (int)stream.Position;
+            for (int i = 0; i < Cameras.Count; i++)
+            {
+                CameraPointers.Add((int)stream.Position- CamerasOffset);
+                StreamUtil.WriteInt32(stream,4 + Cameras[i].bytes.Length);
+                StreamUtil.WriteBytes(stream, Cameras[i].bytes);
+            }
+
+            //Write Camera Pointer
+            TempPosition = (int)stream.Position;
+            stream.Position = CameraPointerOffset;
+            for (int i = 0; i < CameraPointers.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, CameraPointers[i]);
+            }
+            stream.Position = TempPosition;
+
+
+            //Write Hash Data
+            HashOffset = (int)stream.Position;
+
+            StreamUtil.WriteInt32(stream, hashData.bytes.Length + 4);
+            StreamUtil.WriteBytes(stream, hashData.bytes);
             StreamUtil.AlignBy16(stream);
+
+
+            //Write MeshData
+            MeshDataOffset = (int)stream.Position;
+            StreamUtil.WriteBytes(stream, MeshData);
 
 
             //Go back and write Positions and shit
@@ -1834,7 +1893,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     public struct MeshOffsets
     {
         public int EntryLength;
-        public int MeshID;
+        public int MeshID; //Seems to effect screen showing
         public int MeshDataLength;
         public int StartPos;
         public int Length1;
@@ -1845,18 +1904,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     public struct ParticleModel
     {
         public int TotalLength;
-        public int ObjectCount;
-        public int ObjectOffset;
-        public int Unknown2;
-        public int Unknown3;
-        public int Unknown4;
-        public int Unknown5;
-        public int Unknown6;
-        public int Unknown7;
-        public int Unknown8;
-        public int Unknown9;
-        public int Unknown10;
-        public int UnknownLenght;
         public byte[] bytes;
     }
 
