@@ -47,13 +47,22 @@ namespace SSXMultiTool.JsonFiles.Tricky
         public struct ObjectHeader
         {
             public int ParentID;
-            public List<int> MeshIDs;
             public int Flags;
             public int AnimOffset; //Replace With animation ID or something later
+
+            public List<MeshHeader> MeshData;
 
             public float[] Position;
             public float[] Rotation;
             public float[] Scale;
+        }
+        [Serializable]
+        public struct MeshHeader
+        {
+            public string MeshPath;
+            public int MeshID;
+            public int MaterialID;
+
         }
     }
 }

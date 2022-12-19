@@ -488,10 +488,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         var TempObjects = TempPrefabData.PrefabObjects[a];
                         if (TempObjects.objectData.MeshOffsets != null && !TempObjects.objectData.MeshOffsets.Equals(new List<MeshOffsets>()))
                         {
-                            TempObjects.objectData.meshes = new();
-                            TempObjects.objectData.ModelIDs = new();
                             for (int b = 0; b < TempObjects.objectData.MeshOffsets.Count; b++)
                             {
+                                var TempMeshOffset = TempObjects.objectData.MeshOffsets[b];
                                 var TempMeshData = new MeshData();
                                 TempMeshData.staticMeshes = new List<StaticMesh>();
                                 stream.Position = TempObjects.objectData.MeshOffsets[b].StartPos + MeshDataOffset;
@@ -509,8 +508,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                         break;
                                     }
                                 }
-                                TempObjects.objectData.ModelIDs.Add(MeshID);
-                                TempObjects.objectData.meshes.Add(TempMeshData);
+                                TempMeshOffset.Mesh = TempMeshData;
+                                TempMeshOffset.MeshID = MeshID;
+                                TempObjects.objectData.MeshOffsets[b] = TempMeshOffset;
                                 MeshID++;
                             }
                         }
@@ -1197,24 +1197,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             return face;
         }
-        #endregion
 
-        public void ExportModelsNew(string path)
+        public void ExportModels(string path)
         {
             //glstHandler.SavePDBModelglTF(path, this);
-
+            int MeshID = 0;
             for (int a = 0; a < PrefabData.Count; a++)
             {
-                int VStartPoint = 0;
-                int NStartPoint = 0;
-                int UStartPoint = 0;
-                string output = "# Exported From SSX Using SSX Multitool Modder by GlitcherOG \n";
                 for (int ax = 0; ax < PrefabData[a].PrefabObjects.Count; ax++)
                 {
                     string outputString = "";
-                    List<Vector3> vertices = new List<Vector3>();
-                    List<Vector3> Normals = new List<Vector3>();
-                    List<Vector2> UV = new List<Vector2>();
                     Vector3 Scale = PrefabData[a].Scale;
                     if (Scale.X == 0)
                     {
@@ -1228,14 +1220,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     {
                         Scale.Z = 1;
                     }
-                    if (PrefabData[a].PrefabObjects[ax].objectData.meshes != null)
+                    if (PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets != null)
                     {
-                        for (int i = 0; i < PrefabData[a].PrefabObjects[ax].objectData.meshes.Count; i++)
+                        for (int i = 0; i < PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets.Count; i++)
                         {
+                            string output = "# Exported From SSX Using SSX Multitool Modder by GlitcherOG \n";
+
+                            List<Vector3> vertices = new List<Vector3>();
+                            List<Vector3> Normals = new List<Vector3>();
+                            List<Vector2> UV = new List<Vector2>();
                             outputString += "o Mesh" + i.ToString() + "\n";
-                            for (int ab = 0; ab < PrefabData[a].PrefabObjects[ax].objectData.meshes[i].staticMeshes.Count; ab++)
+                            for (int ab = 0; ab < PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets[i].Mesh.staticMeshes.Count; ab++)
                             {
-                                var Data = PrefabData[a].PrefabObjects[ax].objectData.meshes[i].staticMeshes[ab];
+                                var Data = PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets[i].Mesh.staticMeshes[ab];
                                 for (int b = 0; b < Data.faces.Count; b++)
                                 {
                                     var Face = Data.faces[b];
@@ -1245,83 +1242,103 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     {
                                         vertices.Add(Face.V1);
                                     }
-                                    int VPos1 = vertices.IndexOf(Face.V1) + 1 + VStartPoint;
+                                    int VPos1 = vertices.IndexOf(Face.V1) + 1;
 
                                     if (!vertices.Contains(Face.V2))
                                     {
                                         vertices.Add(Face.V2);
                                     }
-                                    int VPos2 = vertices.IndexOf(Face.V2) + 1 + VStartPoint;
+                                    int VPos2 = vertices.IndexOf(Face.V2) + 1;
 
                                     if (!vertices.Contains(Face.V3))
                                     {
                                         vertices.Add(Face.V3);
                                     }
-                                    int VPos3 = vertices.IndexOf(Face.V3) + 1 + VStartPoint;
+                                    int VPos3 = vertices.IndexOf(Face.V3) + 1;
 
                                     //UVs
                                     if (!UV.Contains(Face.UV1))
                                     {
                                         UV.Add(Face.UV1);
                                     }
-                                    int UPos1 = UV.IndexOf(Face.UV1) + 1 + UStartPoint;
+                                    int UPos1 = UV.IndexOf(Face.UV1) + 1;
 
                                     if (!UV.Contains(Face.UV2))
                                     {
                                         UV.Add(Face.UV2);
                                     }
-                                    int UPos2 = UV.IndexOf(Face.UV2) + 1 + UStartPoint;
+                                    int UPos2 = UV.IndexOf(Face.UV2) + 1;
 
                                     if (!UV.Contains(Face.UV3))
                                     {
                                         UV.Add(Face.UV3);
                                     }
-                                    int UPos3 = UV.IndexOf(Face.UV3) + 1 + UStartPoint;
+                                    int UPos3 = UV.IndexOf(Face.UV3) + 1;
 
                                     //Normals
                                     if (!Normals.Contains(Face.Normal1))
                                     {
                                         Normals.Add(Face.Normal1);
                                     }
-                                    int NPos1 = Normals.IndexOf(Face.Normal1) + 1 + NStartPoint;
+                                    int NPos1 = Normals.IndexOf(Face.Normal1) + 1;
 
                                     if (!Normals.Contains(Face.Normal2))
                                     {
                                         Normals.Add(Face.Normal2);
                                     }
-                                    int NPos2 = Normals.IndexOf(Face.Normal2) + 1 + NStartPoint;
+                                    int NPos2 = Normals.IndexOf(Face.Normal2) + 1;
 
                                     if (!Normals.Contains(Face.Normal3))
                                     {
                                         Normals.Add(Face.Normal3);
                                     }
-                                    int NPos3 = Normals.IndexOf(Face.Normal3) + 1 + NStartPoint;
+                                    int NPos3 = Normals.IndexOf(Face.Normal3) + 1;
 
                                     outputString += "f " + VPos1.ToString() + "/" + UPos1.ToString() + "/" + NPos1.ToString() + " " + VPos2.ToString() + "/" + UPos2.ToString() + "/" + NPos2.ToString() + " " + VPos3.ToString() + "/" + UPos3.ToString() + "/" + NPos3.ToString() + "\n";
                                 }
                             }
+
+                            for (int z = 0; z < vertices.Count; z++)
+                            {
+                                output += "v " + vertices[z].X * Scale.X + " " + vertices[z].Y * Scale.Y + " " + vertices[z].Z * Scale.Z + "\n";
+                            }
+                            for (int z = 0; z < UV.Count; z++)
+                            {
+                                output += "vt " + UV[z].X + " " + -UV[z].Y + "\n";
+                            }
+                            for (int z = 0; z < Normals.Count; z++)
+                            {
+                                output += "vn " + Normals[z].X + " " + Normals[z].Y + " " + Normals[z].Z + "\n";
+                            }
+                            output += outputString;
+                            File.WriteAllText(path + "/" + PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets[i].MeshID.ToString() + ".obj", output);
                         }
                     }
-
-                    for (int i = 0; i < vertices.Count; i++)
-                    {
-                        output += "v " + vertices[i].X * Scale.X + " " + vertices[i].Y * Scale.Y + " " + vertices[i].Z * Scale.Z + "\n";
-                    }
-                    for (int i = 0; i < UV.Count; i++)
-                    {
-                        output += "vt " + UV[i].X + " " + -UV[i].Y + "\n";
-                    }
-                    for (int i = 0; i < Normals.Count; i++)
-                    {
-                        output += "vn " + Normals[i].X + " " + Normals[i].Y + " " + Normals[i].Z + "\n";
-                    }
-                    VStartPoint += vertices.Count;
-                    NStartPoint += Normals.Count;
-                    UStartPoint += UV.Count;
-                    output += outputString;
                 }
-                File.WriteAllText(path + "/" + a.ToString() + ".obj", output);
 
+            }
+        }
+        #endregion
+
+        public void ImportMeshes(objHandler objs)
+        {
+            for (int a = 0; a < objs.modelObjects.Count; a++)
+            {
+                if (PrefabData.Count - 1 < a)
+                {
+                    PrefabData.Add(new Prefabs());
+                }
+                var TempPrefab = PrefabData[a];
+
+                for (int b = 0; b < objs.modelObjects[a].Mesh.Count; b++)
+                {
+                    if (TempPrefab.PrefabObjects.Count - 1 < a)
+                    {
+                        PrefabData.Add(new Prefabs());
+                    }
+                }
+
+                PrefabData[a] = TempPrefab;
             }
         }
 
@@ -1537,9 +1554,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         //Vertices Generation
                         for (int i = 0; i < TempMeshChunk.vertices.Count; i++)
                         {
-                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.vertices[i].X * 32768f )/ PrefabData[a].Scale.X));
-                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.vertices[i].Y * 32768f )/ PrefabData[a].Scale.Y));
-                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.vertices[i].Z * 32768f )/ PrefabData[a].Scale.Z));
+                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.vertices[i].X * 32768f )/120f));
+                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.vertices[i].Y * 32768f )/120f ));
+                            StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.vertices[i].Z * 32768f )/120f ));
                         }
                         StreamUtil.AlignBy16(memoryStream);
 
@@ -1606,32 +1623,32 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             MeshData = StreamUtil.ReadBytes(memoryStream, (int)memoryStream.Length);
         }
 
-        public void RengeratePrefabOffsets()
-        {
-            for (int i = 0; i < PrefabData.Count; i++)
-            {
-                var TempPrefab = PrefabData[i];
-                for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
-                {
-                    var TempObject = TempPrefab.PrefabObjects[a];
-                    if (!TempObject.objectData.Equals(null) && !TempObject.objectData.Equals(new ObjectData()))
-                    {
-                        for (int b = 0; b < TempObject.objectData.MeshOffsets.Count; b++)
-                        {
-                            var TempMeshOffset = TempObject.objectData.MeshOffsets[b];
-                            TempMeshOffset.StartPos = meshDataOffset[TempObject.objectData.ModelIDs[b]].StartPos;
-                            TempMeshOffset.Length1 = meshDataOffset[TempObject.objectData.ModelIDs[b]].Length1;
-                            TempMeshOffset.Length2 = meshDataOffset[TempObject.objectData.ModelIDs[b]].Length2;
-                            TempMeshOffset.Length2 = meshDataOffset[TempObject.objectData.ModelIDs[b]].Length3;
-                            TempMeshOffset.MeshDataLength = meshDataOffset[TempObject.objectData.ModelIDs[b]].MeshDataLength;
-                            TempObject.objectData.MeshOffsets[b] = TempMeshOffset;
-                        }
-                    }
-                    TempPrefab.PrefabObjects[a] = TempObject;
-                }
-                PrefabData[i] = TempPrefab;
-            }
-        }
+        //public void RengeratePrefabOffsets()
+        //{
+        //    for (int i = 0; i < PrefabData.Count; i++)
+        //    {
+        //        var TempPrefab = PrefabData[i];
+        //        for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
+        //        {
+        //            var TempObject = TempPrefab.PrefabObjects[a];
+        //            if (!TempObject.objectData.Equals(null) && !TempObject.objectData.Equals(new ObjectData()))
+        //            {
+        //                for (int b = 0; b < TempObject.objectData.MeshOffsets.Count; b++)
+        //                {
+        //                    var TempMeshOffset = TempObject.objectData.MeshOffsets[b];
+        //                    TempMeshOffset.StartPos = meshDataOffset[TempObject.objectData.ModelIDs[b]].StartPos;
+        //                    TempMeshOffset.Length1 = meshDataOffset[TempObject.objectData.ModelIDs[b]].Length1;
+        //                    TempMeshOffset.Length2 = meshDataOffset[TempObject.objectData.ModelIDs[b]].Length2;
+        //                    TempMeshOffset.Length2 = meshDataOffset[TempObject.objectData.ModelIDs[b]].Length3;
+        //                    TempMeshOffset.MeshDataLength = meshDataOffset[TempObject.objectData.ModelIDs[b]].MeshDataLength;
+        //                    TempObject.objectData.MeshOffsets[b] = TempMeshOffset;
+        //                }
+        //            }
+        //            TempPrefab.PrefabObjects[a] = TempObject;
+        //        }
+        //        PrefabData[i] = TempPrefab;
+        //    }
+        //}
 
     }
 
@@ -1679,12 +1696,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<int> MeshOffsetPositions;
 
         public List<MeshOffsets> MeshOffsets;
-        public List<MeshData> meshes;
-        public List<int> ModelIDs;
     }
 
     public struct MeshOffsets
     {
+        public string MeshPath;
+        public int MeshID;
+
         public int EntryLength;
         public int MaterialBlockPos;
         public int MeshDataLength;
@@ -1692,6 +1710,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int Length1;
         public int Length2;
         public int Length3;
+
+        public MeshData Mesh;
     }
 
     public struct ParticleModel

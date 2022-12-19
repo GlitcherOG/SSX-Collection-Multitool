@@ -354,9 +354,20 @@ namespace SSXMultiTool
                 {
                     var TempPrefabObject = new PrefabJsonHandler.ObjectHeader();
                     TempPrefabObject.ParentID = pbdHandler.PrefabData[i].PrefabObjects[a].ParentID;
-                    TempPrefabObject.MeshIDs = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.ModelIDs;
                     TempPrefabObject.Flags = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.Flags;
                     TempPrefabObject.AnimOffset = pbdHandler.PrefabData[i].PrefabObjects[a].AnimOffset;
+
+                    TempPrefabObject.MeshData = new List<PrefabJsonHandler.MeshHeader>();
+
+                    for (int b = 0; b < pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets.Count; b++)
+                    {
+                        var TempMeshHeader = new PrefabJsonHandler.MeshHeader();
+                        TempMeshHeader.MeshID = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID;
+                        TempMeshHeader.MeshPath = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID +".obj";
+                        TempMeshHeader.MaterialID = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MaterialBlockPos;
+
+                        TempPrefabObject.MeshData.Add(TempMeshHeader);
+                    }
 
                     Vector3 Scale;
                     Quaternion Rotation;
@@ -402,7 +413,7 @@ namespace SSXMultiTool
 
             //Create Mesh data
             Directory.CreateDirectory(ExportPath + "/Models");
-            pbdHandler.ExportModelsNew(ExportPath + "/Models/");
+            pbdHandler.ExportModels(ExportPath + "/Models/");
 
             //Load and Export Textures
             SSHHandler TextureHandler = new SSHHandler();
@@ -470,28 +481,38 @@ namespace SSXMultiTool
 
                 ////Create Model Json
                 prefabJsonHandler = new PrefabJsonHandler();
-                for (int i = 0; i < pbdHandler.PrefabData.Count; i++)
+                for (int i = 0; i < skypbdHandler.PrefabData.Count; i++)
                 {
                     PrefabJsonHandler.PrefabJson TempModel = new PrefabJsonHandler.PrefabJson();
-                    TempModel.PrefabName = mapHandler.Models[i].Name;
-                    TempModel.MaterialBlockID = pbdHandler.PrefabData[i].MaterialBlockID;
-                    TempModel.Unknown3 = pbdHandler.PrefabData[i].Unknown3;
-                    TempModel.AnimTime = pbdHandler.PrefabData[i].AnimTime;
+                    TempModel.MaterialBlockID = skypbdHandler.PrefabData[i].MaterialBlockID;
+                    TempModel.Unknown3 = skypbdHandler.PrefabData[i].Unknown3;
+                    TempModel.AnimTime = skypbdHandler.PrefabData[i].AnimTime;
                     TempModel.PrefabObjects = new();
 
-                    for (int a = 0; a < pbdHandler.PrefabData[i].PrefabObjects.Count; a++)
+                    for (int a = 0; a < skypbdHandler.PrefabData[i].PrefabObjects.Count; a++)
                     {
                         var TempPrefabObject = new PrefabJsonHandler.ObjectHeader();
-                        TempPrefabObject.ParentID = pbdHandler.PrefabData[i].PrefabObjects[a].ParentID;
-                        TempPrefabObject.MeshIDs = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.ModelIDs;
-                        TempPrefabObject.Flags = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.Flags;
-                        TempPrefabObject.AnimOffset = pbdHandler.PrefabData[i].PrefabObjects[a].AnimOffset;
+                        TempPrefabObject.ParentID = skypbdHandler.PrefabData[i].PrefabObjects[a].ParentID;
+                        TempPrefabObject.Flags = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.Flags;
+                        TempPrefabObject.AnimOffset = skypbdHandler.PrefabData[i].PrefabObjects[a].AnimOffset;
+
+                        TempPrefabObject.MeshData = new List<PrefabJsonHandler.MeshHeader>();
+
+                        for (int b = 0; b < skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets.Count; b++)
+                        {
+                            var TempMeshHeader = new PrefabJsonHandler.MeshHeader();
+                            TempMeshHeader.MeshID = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID;
+                            TempMeshHeader.MeshPath = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID + ".obj";
+                            TempMeshHeader.MaterialID = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MaterialBlockPos;
+
+                            TempPrefabObject.MeshData.Add(TempMeshHeader);
+                        }
 
                         Vector3 Scale;
                         Quaternion Rotation;
                         Vector3 Location;
 
-                        Matrix4x4.Decompose(pbdHandler.PrefabData[i].PrefabObjects[a].matrix4X4, out Scale, out Rotation, out Location);
+                        Matrix4x4.Decompose(skypbdHandler.PrefabData[i].PrefabObjects[a].matrix4X4, out Scale, out Rotation, out Location);
 
                         TempPrefabObject.Position = JsonUtil.Vector3ToArray(Location);
                         TempPrefabObject.Rotation = JsonUtil.QuaternionToArray(Rotation);
@@ -504,7 +525,7 @@ namespace SSXMultiTool
                 }
                 prefabJsonHandler.CreateJson(ExportPath + "/Skybox/Prefabs.json");
 
-                skypbdHandler.ExportModelsNew(ExportPath + "/Skybox/Models/");
+                skypbdHandler.ExportModels(ExportPath + "/Skybox/Models/");
 
                 SkyboxHandler.LoadSSH(LoadPath + "_sky.ssh");
                 for (int i = 0; i < SkyboxHandler.sshImages.Count; i++)
