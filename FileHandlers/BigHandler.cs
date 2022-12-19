@@ -146,8 +146,7 @@ namespace SSXMultiTool.FileHandlers
                         stream.Read(temp, 0, temp.Length);
                         if (bigFiles[i].Compressed)
                         {
-                            RefpackHandler refpackHandler = new RefpackHandler();
-                            temp = refpackHandler.Decompress(temp);
+                            temp = RefpackHandler.Decompress(temp);
                         }
                         stream1.Write(temp, 0, temp.Length);
 

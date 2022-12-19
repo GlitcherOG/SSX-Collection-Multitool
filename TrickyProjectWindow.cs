@@ -198,18 +198,18 @@ namespace SSXMultiTool
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Config File (*.pbd)|*.pbd|All files (*.*)|*.*",
+                Filter = "Config File (*.obj)|*.obj|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                PBDHandler pBDHandler = new PBDHandler();
-                pBDHandler.LoadPBD(openFileDialog.FileName);
-                var Temp = pBDHandler.Patches[52];
-                Temp.R1C1 += new System.Numerics.Vector4(0, 0, 30, 0);
-                pBDHandler.Patches.Add(Temp);
-                pBDHandler.SaveNew(openFileDialog.FileName+"1");
+                string NewPath = Path.GetDirectoryName(openFileDialog.FileName);
+
+                for (int i = 1; i < 824; i++)
+                {
+                    File.Copy(openFileDialog.FileName, NewPath + "\\" + i + ".obj");
+                }
             }
         }
     }

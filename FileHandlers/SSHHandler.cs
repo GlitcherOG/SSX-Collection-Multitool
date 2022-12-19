@@ -160,8 +160,7 @@ namespace SSXMultiTool.FileHandlers
                 //Decompress
                 if (tempImageHeader.MatrixFormat == 130)
                 { 
-                    RefpackHandler refpackHandler = new RefpackHandler();
-                    tempImage.Matrix = refpackHandler.Decompress(tempImage.Matrix);
+                    tempImage.Matrix = RefpackHandler.Decompress(tempImage.Matrix);
                 }
 
                 //Split Image Into Proper Bytes

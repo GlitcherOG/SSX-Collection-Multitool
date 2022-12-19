@@ -89,8 +89,7 @@ namespace SSXMultiTool.FileHandlers
 
                     MPFModelHeader modelHandler = ModelList[i];
                     modelHandler.Matrix = StreamUtil.ReadBytes(stream, EndPos);
-                    RefpackHandler refpackHandler = new RefpackHandler();
-                    modelHandler.Matrix = refpackHandler.Decompress(modelHandler.Matrix);
+                    modelHandler.Matrix = RefpackHandler.Decompress(modelHandler.Matrix);
                     ModelList[i] = modelHandler;
                 }
             }

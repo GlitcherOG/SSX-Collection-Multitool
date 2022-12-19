@@ -417,7 +417,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             {
                                 var context = new MeshOffsets();
                                 context.EntryLength = StreamUtil.ReadInt32(stream);
-                                context.MeshID = StreamUtil.ReadInt32(stream);
+                                context.MaterialBlockPos = StreamUtil.ReadInt32(stream);
                                 context.MeshDataLength = StreamUtil.ReadInt32(stream);
                                 context.StartPos = StreamUtil.ReadInt32(stream);
                                 context.Length1 = StreamUtil.ReadInt32(stream);
@@ -824,7 +824,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         {
                             MeshOffsets.Add((int)stream.Position);
                             StreamUtil.WriteInt32(stream, 4 * 7);
-                            StreamUtil.WriteInt32(stream, TempObject.objectData.MeshOffsets[b].MeshID);
+                            StreamUtil.WriteInt32(stream, TempObject.objectData.MeshOffsets[b].MaterialBlockPos);
                             //StreamUtil.WriteInt32(stream, b);
                             StreamUtil.WriteInt32(stream, TempObject.objectData.MeshOffsets[b].MeshDataLength);
                             StreamUtil.WriteInt32(stream, TempObject.objectData.MeshOffsets[b].StartPos);
@@ -870,7 +870,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectMediumOffset);
                         StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectLowOffset);
                     }
-                    StreamUtil.WriteInt32(stream, 0);
+                    StreamUtil.WriteInt32(stream, 0); //aminoffset
                     if (TempPrefab.PrefabObjects[a].Matrix4x4Offset != -1)
                     {
                         StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].Matrix4x4Offset - StartPosObject);
@@ -1686,7 +1686,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     public struct MeshOffsets
     {
         public int EntryLength;
-        public int MeshID; //Seems to effect screen showing
+        public int MaterialBlockPos;
         public int MeshDataLength;
         public int StartPos;
         public int Length1;

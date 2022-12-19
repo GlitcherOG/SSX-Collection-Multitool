@@ -56,8 +56,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     byte[] DecompressedData = new byte[1];
                     Data = StreamUtil.ReadBytes(stream, Size-8);
 
-                    RefpackHandler refpackHandler = new RefpackHandler();
-                    DecompressedData=refpackHandler.Decompress(Data);
+                    DecompressedData= RefpackHandler.Decompress(Data);
                     StreamUtil.WriteBytes(memoryStream, DecompressedData);
 
 

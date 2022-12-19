@@ -12,12 +12,42 @@ namespace SSXMultiTool.FileHandlers
 {
     internal class RefpackHandler
     {
-        byte[] Signature = new byte[2];
-        public int DecompressSize;
-        public int CompressSize;
-
-        public byte[] Decompress(byte[] Matrix)
+        public static int GetDecompressSize(byte[] bytes)
         {
+            byte[] Signature = new byte[2];
+            int DecompressSize;
+            Stream stream = new MemoryStream(bytes);
+
+            if (bytes.Length == 0)
+            {
+                return 0;
+            }
+
+            stream.Read(Signature, 0, 2);
+
+            if (Signature[1] != 0xFB)
+            {
+                stream.Dispose();
+                stream.Close();
+                return 0;
+            }
+
+            if (Signature[0] == 0x01 && Signature[1] == 0x00)
+            {
+                stream.Position += 3;
+            }
+
+            DecompressSize = StreamUtil.ReadInt24Big(stream);
+
+            return DecompressSize;
+        }
+
+        public static byte[] Decompress(byte[] Matrix)
+        {
+            byte[] Signature = new byte[2];
+            int DecompressSize;
+            int CompressSize;
+
             Stream stream = new MemoryStream(Matrix);
 
             int first;
@@ -172,6 +202,11 @@ namespace SSXMultiTool.FileHandlers
 
         public static bool Compress(byte[] input, out byte[] output, CompressionLevel level)
         {
+            byte[] Signature = new byte[2];
+             int DecompressSize;
+             int CompressSize;
+
+
             if (input.LongLength >= 0xFFFFFFFF)
             {
                 throw new InvalidOperationException("input data is too large");

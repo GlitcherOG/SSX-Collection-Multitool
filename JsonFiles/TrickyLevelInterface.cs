@@ -1128,11 +1128,11 @@ namespace SSXMultiTool
                 }
             }
 
-            objHandler handler = new objHandler();
-            handler.LoadFiles(LoadPath + "/Models");
-            handler.GenerateTristripData();
-            pbdHandler.ImportModels(handler);
-            pbdHandler.RengeratePrefabOffsets();
+            //objHandler handler = new objHandler();
+            //handler.LoadFiles(LoadPath + "/Models");
+            //handler.GenerateTristripData();
+            //pbdHandler.ImportModels(handler);
+            //pbdHandler.RengeratePrefabOffsets();
 
             pbdHandler.SaveNew(ExportPath + ".pbd");
             TextureHandler.SaveSSH(ExportPath+".ssh", true);
