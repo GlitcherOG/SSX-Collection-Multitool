@@ -1112,11 +1112,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             {
                 for (int ax = 0; ax < PrefabData[a].PrefabObjects.Count; ax++)
                 {
-                    string outputString = "";
                     if (PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets != null)
                     {
                         for (int i = 0; i < PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets.Count; i++)
                         {
+                            string outputString = "";
                             string output = "# Exported From SSX Using SSX Multitool Modder by GlitcherOG \n";
 
                             List<Vector3> vertices = new List<Vector3>();
@@ -1227,7 +1227,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         for (int bz = 0; bz < TempObject.objectData.MeshOffsets.Count; bz++)
                         {
                             var TempMeshOffset = TempObject.objectData.MeshOffsets[bz];
-                            if (File.Exists(FolderPath + "\\" + TempMeshOffset.MeshPath))
+                            if (File.Exists(FolderPath + "\\" + TempMeshOffset.MeshPath) && TempMeshOffset.MeshPath == "25.obj")
                             {
                                 ModelObject modelObject = objHandler.LoadFile(FolderPath + "\\" + TempMeshOffset.MeshPath);
                                 TempMeshOffset.FullMesh = objHandler.GenerateTristripDataOne(modelObject.Mesh[0]);

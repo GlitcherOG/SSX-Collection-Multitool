@@ -380,7 +380,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     for (int b = 0; b < TempMesh.meshFaces.Count; b++)
                     {
                         var TempFace = TempMesh.meshFaces[b];
-                        if (vertices.Count != 72)
+                        if (vertices.Count != 65)
                         {
                             if (!TempFace.tripstriped)
                             {
@@ -419,7 +419,7 @@ namespace SSXMultiTool.FileHandlers.Models
                                     }
                                 }
                             }
-                            if (TempMesh.meshFaces.Count - 1 == b || tristripcount == 32)
+                            if (TempMesh.meshFaces.Count - 1 == b || tristripcount == 16)
                             {
                                 Tristrip.Add(tristripcount);
                                 tristripcount = 0;
@@ -437,7 +437,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 }
                 else
                 {
-                    if (Tristrip.Count == 16)
+                    if (Tristrip.Count == 14)
                     {
                         meshChunk.TextureCords = TextureCords;
                         meshChunk.vertices = vertices;
