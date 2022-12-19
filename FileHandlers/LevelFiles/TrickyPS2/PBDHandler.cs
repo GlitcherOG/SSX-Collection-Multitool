@@ -1445,7 +1445,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                         for (int i = 0; i < TempMeshChunk.Tristrip.Count; i++)
                         {
-                            StreamUtil.WriteInt16(memoryStream, TempMeshChunk.Tristrip[i] * 6);
+                            StreamUtil.WriteInt16(memoryStream, TempMeshChunk.Tristrip[i]*3);
                         }
                         StreamUtil.AlignBy16(memoryStream);
 

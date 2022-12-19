@@ -196,10 +196,7 @@ namespace SSXMultiTool
 
         private void button1_Click(object sender, EventArgs e)
         {
-                objHandler handler = new objHandler();
-                handler.LoadFiles(ProjectPath + "/Models");
-                handler.GenerateTristripData();
-                handler.ExportOneModel(ProjectPath + "\\temp.obj");
+
         }
     }
 }
