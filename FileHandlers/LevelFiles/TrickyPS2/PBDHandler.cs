@@ -1229,7 +1229,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             List<Vector3> vertices = new List<Vector3>();
                             List<Vector3> Normals = new List<Vector3>();
                             List<Vector2> UV = new List<Vector2>();
-                            outputString += "o Mesh" + i.ToString() + "\n";
+                            outputString = "o Mesh" + i.ToString() + "\n";
                             for (int ab = 0; ab < PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets[i].Mesh.staticMeshes.Count; ab++)
                             {
                                 var Data = PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets[i].Mesh.staticMeshes[ab];
@@ -1498,7 +1498,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         for (int i = 0; i < TempMeshChunk.TextureCords.Count; i++)
                         {
                             StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.TextureCords[i].X) * 4096f));
-                            StreamUtil.WriteInt16(memoryStream, -(int)((TempMeshChunk.TextureCords[i].Y) * 4096f));
+                            StreamUtil.WriteInt16(memoryStream, (int)((-TempMeshChunk.TextureCords[i].Y) * 4096f));
                         }
                         StreamUtil.AlignBy16(memoryStream);
 
@@ -1623,32 +1623,32 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             MeshData = StreamUtil.ReadBytes(memoryStream, (int)memoryStream.Length);
         }
 
-        //public void RengeratePrefabOffsets()
-        //{
-        //    for (int i = 0; i < PrefabData.Count; i++)
-        //    {
-        //        var TempPrefab = PrefabData[i];
-        //        for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
-        //        {
-        //            var TempObject = TempPrefab.PrefabObjects[a];
-        //            if (!TempObject.objectData.Equals(null) && !TempObject.objectData.Equals(new ObjectData()))
-        //            {
-        //                for (int b = 0; b < TempObject.objectData.MeshOffsets.Count; b++)
-        //                {
-        //                    var TempMeshOffset = TempObject.objectData.MeshOffsets[b];
-        //                    TempMeshOffset.StartPos = meshDataOffset[TempObject.objectData.ModelIDs[b]].StartPos;
-        //                    TempMeshOffset.Length1 = meshDataOffset[TempObject.objectData.ModelIDs[b]].Length1;
-        //                    TempMeshOffset.Length2 = meshDataOffset[TempObject.objectData.ModelIDs[b]].Length2;
-        //                    TempMeshOffset.Length2 = meshDataOffset[TempObject.objectData.ModelIDs[b]].Length3;
-        //                    TempMeshOffset.MeshDataLength = meshDataOffset[TempObject.objectData.ModelIDs[b]].MeshDataLength;
-        //                    TempObject.objectData.MeshOffsets[b] = TempMeshOffset;
-        //                }
-        //            }
-        //            TempPrefab.PrefabObjects[a] = TempObject;
-        //        }
-        //        PrefabData[i] = TempPrefab;
-        //    }
-        //}
+        public void RengeratePrefabOffsets()
+        {
+            for (int i = 0; i < PrefabData.Count; i++)
+            {
+                var TempPrefab = PrefabData[i];
+                for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
+                {
+                    var TempObject = TempPrefab.PrefabObjects[a];
+                    if (!TempObject.objectData.Equals(null) && !TempObject.objectData.Equals(new ObjectData()))
+                    {
+                        for (int b = 0; b < TempObject.objectData.MeshOffsets.Count; b++)
+                        {
+                            var TempMeshOffset = TempObject.objectData.MeshOffsets[b];
+                            TempMeshOffset.StartPos = meshDataOffset[TempObject.objectData.MeshOffsets[b].MeshID].StartPos;
+                            TempMeshOffset.Length1 = meshDataOffset[TempObject.objectData.MeshOffsets[b].MeshID].Length1;
+                            TempMeshOffset.Length2 = meshDataOffset[TempObject.objectData.MeshOffsets[b].MeshID].Length2;
+                            TempMeshOffset.Length2 = meshDataOffset[TempObject.objectData.MeshOffsets[b].MeshID].Length3;
+                            TempMeshOffset.MeshDataLength = meshDataOffset[TempObject.objectData.MeshOffsets[b].MeshID].MeshDataLength;
+                            TempObject.objectData.MeshOffsets[b] = TempMeshOffset;
+                        }
+                    }
+                    TempPrefab.PrefabObjects[a] = TempObject;
+                }
+                PrefabData[i] = TempPrefab;
+            }
+        }
 
     }
 

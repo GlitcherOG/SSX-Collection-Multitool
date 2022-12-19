@@ -358,15 +358,17 @@ namespace SSXMultiTool
                     TempPrefabObject.AnimOffset = pbdHandler.PrefabData[i].PrefabObjects[a].AnimOffset;
 
                     TempPrefabObject.MeshData = new List<PrefabJsonHandler.MeshHeader>();
-
-                    for (int b = 0; b < pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets.Count; b++)
+                    if (pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets != null)
                     {
-                        var TempMeshHeader = new PrefabJsonHandler.MeshHeader();
-                        TempMeshHeader.MeshID = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID;
-                        TempMeshHeader.MeshPath = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID +".obj";
-                        TempMeshHeader.MaterialID = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MaterialBlockPos;
+                        for (int b = 0; b < pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets.Count; b++)
+                        {
+                            var TempMeshHeader = new PrefabJsonHandler.MeshHeader();
+                            TempMeshHeader.MeshID = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID;
+                            TempMeshHeader.MeshPath = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID + ".obj";
+                            TempMeshHeader.MaterialID = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MaterialBlockPos;
 
-                        TempPrefabObject.MeshData.Add(TempMeshHeader);
+                            TempPrefabObject.MeshData.Add(TempMeshHeader);
+                        }
                     }
 
                     Vector3 Scale;
@@ -502,7 +504,7 @@ namespace SSXMultiTool
                         {
                             var TempMeshHeader = new PrefabJsonHandler.MeshHeader();
                             TempMeshHeader.MeshID = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID;
-                            TempMeshHeader.MeshPath = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID + ".obj";
+                            TempMeshHeader.MeshPath = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID.ToString() + ".obj";
                             TempMeshHeader.MaterialID = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MaterialBlockPos;
 
                             TempPrefabObject.MeshData.Add(TempMeshHeader);
@@ -1149,11 +1151,11 @@ namespace SSXMultiTool
                 }
             }
 
-            //objHandler handler = new objHandler();
-            //handler.LoadFiles(LoadPath + "/Models");
-            //handler.GenerateTristripData();
-            //pbdHandler.ImportModels(handler);
-            //pbdHandler.RengeratePrefabOffsets();
+            objHandler handler = new objHandler();
+            handler.LoadFiles(LoadPath + "/Models");
+            handler.GenerateTristripData();
+            pbdHandler.ImportModels(handler);
+            pbdHandler.RengeratePrefabOffsets();
 
             pbdHandler.SaveNew(ExportPath + ".pbd");
             TextureHandler.SaveSSH(ExportPath+".ssh", true);

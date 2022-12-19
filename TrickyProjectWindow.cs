@@ -196,21 +196,10 @@ namespace SSXMultiTool
 
         private void button1_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                Filter = "Config File (*.obj)|*.obj|All files (*.*)|*.*",
-                FilterIndex = 1,
-                RestoreDirectory = false
-            };
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string NewPath = Path.GetDirectoryName(openFileDialog.FileName);
-
-                for (int i = 1; i < 824; i++)
-                {
-                    File.Copy(openFileDialog.FileName, NewPath + "\\" + i + ".obj");
-                }
-            }
+                objHandler handler = new objHandler();
+                handler.LoadFiles(ProjectPath + "/Models");
+                handler.GenerateTristripData();
+                handler.ExportOneModel(ProjectPath + "\\temp.obj");
         }
     }
 }
