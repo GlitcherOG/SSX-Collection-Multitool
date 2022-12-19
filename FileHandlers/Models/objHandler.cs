@@ -131,15 +131,15 @@ namespace SSXMultiTool.FileHandlers.Models
             //Load File
             for (int a = 0; a < Lines.Length; a++)
             {
-                if (Lines[a].StartsWith("o "))
-                {
-                    if (mesh.meshFaces.Count != 0)
-                    {
-                        MeshList.Add(mesh);
-                        mesh = new Mesh();
-                        mesh.meshFaces = new List<Faces>();
-                    }
-                }
+                //if (Lines[a].StartsWith("o "))
+                //{
+                //    if (mesh.meshFaces.Count != 0)
+                //    {
+                //        MeshList.Add(mesh);
+                //        mesh = new Mesh();
+                //        mesh.meshFaces = new List<Faces>();
+                //    }
+                //}
 
                 if (Lines[a].StartsWith("v "))
                 {
@@ -156,7 +156,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     string[] splitLine = Lines[a].Split(' ');
                     Vector2 vector2 = new Vector2();
                     vector2.X = float.Parse(splitLine[1]);
-                    vector2.Y = float.Parse(splitLine[2]);
+                    vector2.Y = -float.Parse(splitLine[2]);
                     TextureCords.Add(vector2);
                 }
 

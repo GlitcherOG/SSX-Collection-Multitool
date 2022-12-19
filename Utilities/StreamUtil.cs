@@ -231,8 +231,9 @@ namespace SSXMultiTool.Utilities
 
         public static void WriteInt16(Stream stream, int Int)
         {
+            short TempInt = (short)Int;
             byte[] tempByte = new byte[4];
-            BitConverter.GetBytes(Int).CopyTo(tempByte, 0);
+            BitConverter.GetBytes(TempInt).CopyTo(tempByte, 0);
             stream.Write(tempByte, 0, 2);
         }
 
