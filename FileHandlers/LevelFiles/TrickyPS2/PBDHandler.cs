@@ -491,13 +491,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             for (int b = 0; b < TempObjects.objectData.MeshOffsets.Count; b++)
                             {
                                 var TempMeshOffset = TempObjects.objectData.MeshOffsets[b];
-                                var TempMeshData = new MeshData();
-                                TempMeshData.staticMeshes = new List<StaticMesh>();
+                                var TempMeshData = new Mesh();
+                                TempMeshData.meshChunk = new List<MeshChunk>();
                                 stream.Position = TempObjects.objectData.MeshOffsets[b].StartPos + MeshDataOffset;
                                 while (true)
                                 {
                                     var temp = ReadMesh(stream);
-                                    TempMeshData.staticMeshes.Add(GenerateFaces(temp));
+                                    TempMeshData.meshChunk.Add(temp);
                                     stream.Position += 31;
                                     if (StreamUtil.ReadByte(stream) == 0x6C)
                                     {
@@ -508,7 +508,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                         break;
                                     }
                                 }
-                                TempMeshOffset.Mesh = TempMeshData;
+                                TempMeshData=objHandler.GenerateFaces(TempMeshData);
+                                TempMeshOffset.FullMesh = TempMeshData;
                                 TempMeshOffset.MeshID = MeshID;
                                 TempObjects.objectData.MeshOffsets[b] = TempMeshOffset;
                                 MeshID++;
@@ -522,6 +523,85 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 stream.Position = MeshDataOffset;
                 MeshData=  StreamUtil.ReadBytes(stream, (int)(stream.Length - MeshDataOffset));
             }
+        }
+
+        public MeshChunk ReadMesh(Stream stream)
+        {
+            var ModelData = new MeshChunk();
+
+            if (stream.Position >= stream.Length)
+            {
+                return new MeshChunk();
+            }
+
+            stream.Position += 48;
+
+            ModelData.StripCount = StreamUtil.ReadInt32(stream);
+            stream.Position += 4;
+            ModelData.VertexCount = StreamUtil.ReadInt32(stream);
+            stream.Position += 4;
+
+            stream.Position += 16;
+
+            //Load Strip Count
+            List<int> TempStrips = new List<int>();
+            for (int a = 0; a < ModelData.StripCount; a++)
+            {
+                TempStrips.Add(StreamUtil.ReadInt16(stream) / 3);
+
+            }
+            StreamUtil.AlignBy16(stream);
+
+            stream.Position += 16;
+            ModelData.Tristrip = TempStrips;
+
+            List<Vector2> UVs = new List<Vector2>();
+            //Read UV Texture Points
+            stream.Position += 48;
+            for (int a = 0; a < ModelData.VertexCount; a++)
+            {
+                Vector2 uv = new Vector2();
+                uv.X = StreamUtil.ReadInt16(stream) / 4096f;
+                uv.Y = StreamUtil.ReadInt16(stream) / 4096f;
+                UVs.Add(uv);
+            }
+            StreamUtil.AlignBy16(stream);
+            stream.Position += 16;
+
+            //Everything Above is Correct
+
+            ModelData.TextureCords = UVs;
+
+            List<Vector3> Normals = new List<Vector3>();
+            //Read Normals
+            stream.Position += 32;
+            for (int a = 0; a < ModelData.VertexCount; a++)
+            {
+                Vector3 normal = new Vector3();
+                normal.X = StreamUtil.ReadInt16(stream) / 32768f;
+                normal.Y = StreamUtil.ReadInt16(stream) / 32768f;
+                normal.Z = StreamUtil.ReadInt16(stream) / 32768f;
+                Normals.Add(normal);
+            }
+            StreamUtil.AlignBy16(stream);
+            ModelData.normals = Normals;
+
+            List<Vector3> vertices = new List<Vector3>();
+            stream.Position += 16;
+            //Load Vertex
+            for (int a = 0; a < ModelData.VertexCount; a++)
+            {
+                Vector3 vertex = new Vector3();
+                vertex.X = (float)StreamUtil.ReadInt16(stream) / 32768f;
+                vertex.Y = (float)StreamUtil.ReadInt16(stream) / 32768f;
+                vertex.Z = (float)StreamUtil.ReadInt16(stream) / 32768f;
+                vertices.Add(vertex);
+            }
+            StreamUtil.AlignBy16(stream);
+            ModelData.vertices = vertices;
+            stream.Position += 16;
+
+            return ModelData;
         }
 
         public void SaveNew(string path)
@@ -1014,189 +1094,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             stream.Dispose();
             file.Close();
         }
-        #region Standard Mesh Stuff
-        public StaticMesh ReadMesh(Stream stream)
-        {
-            var ModelData = new StaticMesh();
-
-            if (stream.Position >= stream.Length)
-            {
-                return new StaticMesh();
-            }
-
-            stream.Position += 48;
-
-            ModelData.StripCount = StreamUtil.ReadInt32(stream);
-            ModelData.Unknown1 = StreamUtil.ReadInt32(stream);
-            ModelData.VertexCount = StreamUtil.ReadInt32(stream);
-            ModelData.Unknown3 = StreamUtil.ReadInt32(stream);
-
-            stream.Position += 16;
-
-            //Load Strip Count
-            List<int> TempStrips = new List<int>();
-            for (int a = 0; a < ModelData.StripCount; a++)
-            {
-                TempStrips.Add(StreamUtil.ReadInt16(stream)/3);
-               
-            }
-            StreamUtil.AlignBy16(stream);
-
-            stream.Position += 16;
-            ModelData.Strips = TempStrips;
-
-            List<Vector2> UVs = new List<Vector2>();
-            //Read UV Texture Points
-            stream.Position += 48;
-            for (int a = 0; a < ModelData.VertexCount; a++)
-            {
-                Vector2 uv = new Vector2();
-                uv.X = StreamUtil.ReadInt16(stream) / 4096f;
-                uv.Y = StreamUtil.ReadInt16(stream) / 4096f;
-                UVs.Add(uv);
-            }
-            StreamUtil.AlignBy16(stream);
-            stream.Position += 16;
-
-            //Everything Above is Correct
-
-            ModelData.uv = UVs;
-
-            List<Vector3> Normals = new List<Vector3>();
-            //Read Normals
-            stream.Position += 32;
-            for (int a = 0; a < ModelData.VertexCount; a++)
-            {
-                Vector3 normal = new Vector3();
-                normal.X = StreamUtil.ReadInt16(stream) / 32768f;
-                normal.Y = StreamUtil.ReadInt16(stream) / 32768f;
-                normal.Z = StreamUtil.ReadInt16(stream) / 32768f;
-                Normals.Add(normal);
-            }
-            StreamUtil.AlignBy16(stream);
-            ModelData.uvNormals = Normals;
-
-            List<Vector3> vertices = new List<Vector3>();
-            stream.Position += 16;
-            //Load Vertex
-            for (int a = 0; a < ModelData.VertexCount; a++)
-            {
-                Vector3 vertex = new Vector3();
-                vertex.X = (float)StreamUtil.ReadInt16(stream) / 32768f;
-                vertex.Y = (float)StreamUtil.ReadInt16(stream) / 32768f;
-                vertex.Z = (float)StreamUtil.ReadInt16(stream) / 32768f;
-                vertices.Add(vertex);
-            }
-            StreamUtil.AlignBy16(stream);
-            ModelData.vertices = vertices;
-            stream.Position += 16;
-
-            return ModelData;
-        }
-
-        public StaticMesh GenerateFaces(StaticMesh models)
-        {
-            var ModelData = models;
-            //Increment Strips
-            List<int> strip2 = new List<int>();
-            strip2.Add(0);
-            foreach (var item in ModelData.Strips)
-            {
-                strip2.Add(strip2[strip2.Count - 1] + item);
-            }
-            ModelData.Strips = strip2;
-
-            //Make Faces
-            ModelData.faces = new List<Face>();
-            int localIndex = 0;
-            int Rotation = 0;
-            for (int b = 0; b < ModelData.vertices.Count; b++)
-            {
-                if (InsideSplits(b, ModelData.Strips))
-                {
-                    Rotation = 0;
-                    localIndex = 1;
-                    continue;
-                }
-                if (localIndex < 2)
-                {
-                    localIndex++;
-                    continue;
-                }
-
-                ModelData.faces.Add(CreateFaces(b, ModelData, Rotation));
-                Rotation++;
-                if (Rotation == 2)
-                {
-                    Rotation = 0;
-                }
-                localIndex++;
-            }
-
-            return ModelData;
-        }
-        public bool InsideSplits(int Number, List<int> splits)
-        {
-            foreach (var item in splits)
-            {
-                if (item == Number)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        public Face CreateFaces(int Index, StaticMesh ModelData, int roatation)
-        {
-            Face face = new Face();
-            int Index1 = 0;
-            int Index2 = 0;
-            int Index3 = 0;
-            //Fixes the Rotation For Exporting
-            //Swap When Exporting to other formats
-            //1-Clockwise
-            //0-Counter Clocwise
-            if (roatation == 1)
-            {
-                Index1 = Index;
-                Index2 = Index - 1;
-                Index3 = Index - 2;
-            }
-            if (roatation == 0)
-            {
-                Index1 = Index;
-                Index2 = Index - 2;
-                Index3 = Index - 1;
-            }
-            face.V1 = ModelData.vertices[Index1];
-            face.V2 = ModelData.vertices[Index2];
-            face.V3 = ModelData.vertices[Index3];
-
-            face.V1Pos = Index1;
-            face.V2Pos = Index2;
-            face.V3Pos = Index3;
-
-            if (ModelData.uv.Count != 0)
-            {
-                face.UV1 = ModelData.uv[Index1];
-                face.UV2 = ModelData.uv[Index2];
-                face.UV3 = ModelData.uv[Index3];
-
-                face.UV1Pos = Index1;
-                face.UV2Pos = Index2;
-                face.UV3Pos = Index3;
-
-                face.Normal1 = ModelData.uvNormals[Index1];
-                face.Normal2 = ModelData.uvNormals[Index2];
-                face.Normal3 = ModelData.uvNormals[Index3];
-
-                face.Normal1Pos = Index1;
-                face.Normal2Pos = Index2;
-                face.Normal3Pos = Index3;
-            }
-
-            return face;
-        }
 
         public void ExportModels(string path)
         {
@@ -1229,73 +1126,70 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             List<Vector3> vertices = new List<Vector3>();
                             List<Vector3> Normals = new List<Vector3>();
                             List<Vector2> UV = new List<Vector2>();
-                            outputString = "o Mesh" + i.ToString() + "\n";
-                            for (int ab = 0; ab < PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets[i].Mesh.staticMeshes.Count; ab++)
+                            outputString += "o Mesh" + i.ToString() + "\n";
+                            var Data = PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets[i].FullMesh;
+                            for (int b = 0; b < Data.meshFaces.Count; b++)
                             {
-                                var Data = PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets[i].Mesh.staticMeshes[ab];
-                                for (int b = 0; b < Data.faces.Count; b++)
+                                var Face = Data.meshFaces[b];
+
+                                //Vertices
+                                if (!vertices.Contains(Face.V1))
                                 {
-                                    var Face = Data.faces[b];
-
-                                    //Vertices
-                                    if (!vertices.Contains(Face.V1))
-                                    {
-                                        vertices.Add(Face.V1);
-                                    }
-                                    int VPos1 = vertices.IndexOf(Face.V1) + 1;
-
-                                    if (!vertices.Contains(Face.V2))
-                                    {
-                                        vertices.Add(Face.V2);
-                                    }
-                                    int VPos2 = vertices.IndexOf(Face.V2) + 1;
-
-                                    if (!vertices.Contains(Face.V3))
-                                    {
-                                        vertices.Add(Face.V3);
-                                    }
-                                    int VPos3 = vertices.IndexOf(Face.V3) + 1;
-
-                                    //UVs
-                                    if (!UV.Contains(Face.UV1))
-                                    {
-                                        UV.Add(Face.UV1);
-                                    }
-                                    int UPos1 = UV.IndexOf(Face.UV1) + 1;
-
-                                    if (!UV.Contains(Face.UV2))
-                                    {
-                                        UV.Add(Face.UV2);
-                                    }
-                                    int UPos2 = UV.IndexOf(Face.UV2) + 1;
-
-                                    if (!UV.Contains(Face.UV3))
-                                    {
-                                        UV.Add(Face.UV3);
-                                    }
-                                    int UPos3 = UV.IndexOf(Face.UV3) + 1;
-
-                                    //Normals
-                                    if (!Normals.Contains(Face.Normal1))
-                                    {
-                                        Normals.Add(Face.Normal1);
-                                    }
-                                    int NPos1 = Normals.IndexOf(Face.Normal1) + 1;
-
-                                    if (!Normals.Contains(Face.Normal2))
-                                    {
-                                        Normals.Add(Face.Normal2);
-                                    }
-                                    int NPos2 = Normals.IndexOf(Face.Normal2) + 1;
-
-                                    if (!Normals.Contains(Face.Normal3))
-                                    {
-                                        Normals.Add(Face.Normal3);
-                                    }
-                                    int NPos3 = Normals.IndexOf(Face.Normal3) + 1;
-
-                                    outputString += "f " + VPos1.ToString() + "/" + UPos1.ToString() + "/" + NPos1.ToString() + " " + VPos2.ToString() + "/" + UPos2.ToString() + "/" + NPos2.ToString() + " " + VPos3.ToString() + "/" + UPos3.ToString() + "/" + NPos3.ToString() + "\n";
+                                    vertices.Add(Face.V1);
                                 }
+                                int VPos1 = vertices.IndexOf(Face.V1) + 1;
+
+                                if (!vertices.Contains(Face.V2))
+                                {
+                                    vertices.Add(Face.V2);
+                                }
+                                int VPos2 = vertices.IndexOf(Face.V2) + 1;
+
+                                if (!vertices.Contains(Face.V3))
+                                {
+                                    vertices.Add(Face.V3);
+                                }
+                                int VPos3 = vertices.IndexOf(Face.V3) + 1;
+
+                                //UVs
+                                if (!UV.Contains(Face.UV1))
+                                {
+                                    UV.Add(Face.UV1);
+                                }
+                                int UPos1 = UV.IndexOf(Face.UV1) + 1;
+
+                                if (!UV.Contains(Face.UV2))
+                                {
+                                    UV.Add(Face.UV2);
+                                }
+                                int UPos2 = UV.IndexOf(Face.UV2) + 1;
+
+                                if (!UV.Contains(Face.UV3))
+                                {
+                                    UV.Add(Face.UV3);
+                                }
+                                int UPos3 = UV.IndexOf(Face.UV3) + 1;
+
+                                //Normals
+                                if (!Normals.Contains(Face.Normal1))
+                                {
+                                    Normals.Add(Face.Normal1);
+                                }
+                                int NPos1 = Normals.IndexOf(Face.Normal1) + 1;
+
+                                if (!Normals.Contains(Face.Normal2))
+                                {
+                                    Normals.Add(Face.Normal2);
+                                }
+                                int NPos2 = Normals.IndexOf(Face.Normal2) + 1;
+
+                                if (!Normals.Contains(Face.Normal3))
+                                {
+                                    Normals.Add(Face.Normal3);
+                                }
+                                int NPos3 = Normals.IndexOf(Face.Normal3) + 1;
+
+                                outputString += "f " + VPos1.ToString() + "/" + UPos1.ToString() + "/" + NPos1.ToString() + " " + VPos2.ToString() + "/" + UPos2.ToString() + "/" + NPos2.ToString() + " " + VPos3.ToString() + "/" + UPos3.ToString() + "/" + NPos3.ToString() + "\n";
                             }
 
                             for (int z = 0; z < vertices.Count; z++)
@@ -1318,7 +1212,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             }
         }
-        #endregion
 
         public void ImportMeshes(objHandler objs)
         {
@@ -1445,7 +1338,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                         for (int i = 0; i < TempMeshChunk.Tristrip.Count; i++)
                         {
-                            StreamUtil.WriteInt16(memoryStream, TempMeshChunk.Tristrip[i]*3);
+                            StreamUtil.WriteInt16(memoryStream, TempMeshChunk.Tristrip[i] * 6);
                         }
                         StreamUtil.AlignBy16(memoryStream);
 
@@ -1498,7 +1391,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         for (int i = 0; i < TempMeshChunk.TextureCords.Count; i++)
                         {
                             StreamUtil.WriteInt16(memoryStream, (int)((TempMeshChunk.TextureCords[i].X) * 4096f));
-                            StreamUtil.WriteInt16(memoryStream, (int)((-TempMeshChunk.TextureCords[i].Y) * 4096f));
+                            StreamUtil.WriteInt16(memoryStream, -(int)((TempMeshChunk.TextureCords[i].Y) * 4096f));
                         }
                         StreamUtil.AlignBy16(memoryStream);
 
@@ -1711,7 +1604,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int Length2;
         public int Length3;
 
-        public MeshData Mesh;
+        public Mesh FullMesh;
     }
 
     public struct ParticleModel
@@ -1864,55 +1757,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     {
         public int TotalLength;
         public byte[] bytes;
-    }
-
-    public struct MeshData
-    {
-        public List<StaticMesh> staticMeshes;
-    }
-
-    public struct StaticMesh
-    {
-        public int ChunkID;
-
-        public int StripCount;
-        public int Unknown1;
-        public int VertexCount;
-        public int Unknown3;
-        public List<int> Strips;
-
-        public List<Vector2> uv;
-        public List<Vector3> vertices;
-        public List<Face> faces;
-        public List<Vector3> uvNormals;
-    }
-
-
-    public struct Face
-    {
-        public Vector3 V1;
-        public Vector3 V2;
-        public Vector3 V3;
-
-        public int V1Pos;
-        public int V2Pos;
-        public int V3Pos;
-
-        public Vector2 UV1;
-        public Vector2 UV2;
-        public Vector2 UV3;
-
-        public int UV1Pos;
-        public int UV2Pos;
-        public int UV3Pos;
-
-        public Vector3 Normal1;
-        public Vector3 Normal2;
-        public Vector3 Normal3;
-
-        public int Normal1Pos;
-        public int Normal2Pos;
-        public int Normal3Pos;
     }
 
     public struct Patch

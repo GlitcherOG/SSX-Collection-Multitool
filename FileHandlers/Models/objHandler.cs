@@ -492,6 +492,112 @@ namespace SSXMultiTool.FileHandlers.Models
             TempMesh.meshChunk = meshChunks;
             return TempMesh;
         }
+
+        public static Mesh GenerateFaces(Mesh models)
+        {
+            models.meshFaces = new List<Faces>();
+            for (int i = 0; i < models.meshChunk.Count; i++)
+            {
+                var ModelData = models.meshChunk[i];
+                //Increment Strips
+                List<int> strip2 = new List<int>();
+                strip2.Add(0);
+                foreach (var item in ModelData.Tristrip)
+                {
+                    strip2.Add(strip2[strip2.Count - 1] + item);
+                }
+                ModelData.Tristrip = strip2;
+
+                //Make Faces
+                int localIndex = 0;
+                int Rotation = 0;
+                for (int b = 0; b < ModelData.vertices.Count; b++)
+                {
+                    if (InsideSplits(b, ModelData.Tristrip))
+                    {
+                        Rotation = 0;
+                        localIndex = 1;
+                        continue;
+                    }
+                    if (localIndex < 2)
+                    {
+                        localIndex++;
+                        continue;
+                    }
+
+                    models.meshFaces.Add(CreateFaces(b, ModelData, Rotation));
+                    Rotation++;
+                    if (Rotation == 2)
+                    {
+                        Rotation = 0;
+                    }
+                    localIndex++;
+                }
+            }
+            return models;
+        }
+        public static bool InsideSplits(int Number, List<int> splits)
+        {
+            foreach (var item in splits)
+            {
+                if (item == Number)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public static Faces CreateFaces(int Index, MeshChunk ModelData, int roatation)
+        {
+            Faces face = new Faces();
+            int Index1 = 0;
+            int Index2 = 0;
+            int Index3 = 0;
+            //Fixes the Rotation For Exporting
+            //Swap When Exporting to other formats
+            //1-Clockwise
+            //0-Counter Clocwise
+            if (roatation == 1)
+            {
+                Index1 = Index;
+                Index2 = Index - 1;
+                Index3 = Index - 2;
+            }
+            if (roatation == 0)
+            {
+                Index1 = Index;
+                Index2 = Index - 2;
+                Index3 = Index - 1;
+            }
+            face.V1 = ModelData.vertices[Index1];
+            face.V2 = ModelData.vertices[Index2];
+            face.V3 = ModelData.vertices[Index3];
+
+            face.V1Pos = Index1;
+            face.V2Pos = Index2;
+            face.V3Pos = Index3;
+
+            if (ModelData.TextureCords.Count != 0)
+            {
+                face.UV1 = ModelData.TextureCords[Index1];
+                face.UV2 = ModelData.TextureCords[Index2];
+                face.UV3 = ModelData.TextureCords[Index3];
+
+                face.UV1Pos = Index1;
+                face.UV2Pos = Index2;
+                face.UV3Pos = Index3;
+
+                face.Normal1 = ModelData.normals[Index1];
+                face.Normal2 = ModelData.normals[Index2];
+                face.Normal3 = ModelData.normals[Index3];
+
+                face.Normal1Pos = Index1;
+                face.Normal2Pos = Index2;
+                face.Normal3Pos = Index3;
+            }
+
+            return face;
+        }
     }
 
     public struct ModelObject
@@ -503,13 +609,15 @@ namespace SSXMultiTool.FileHandlers.Models
     public struct Mesh
     {
         public List<Faces> meshFaces;
-
         public List<MeshChunk> meshChunk;
 
     }
 
     public struct MeshChunk
     {
+        public int StripCount;
+        public int VertexCount;
+
         public List<int> Tristrip;
         public List<Vector3> vertices;
         public List<Vector3> normals;
