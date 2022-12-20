@@ -1263,7 +1263,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempPrefab.PrefabObjects[az] = TempObject;
                 }
 
-                TempPrefab.Scale = new Vector3(0, 0, 0);
+                TempPrefab.Scale = new Vector3(1, 1, 1);
                 if (LowestXYZ.X < 0)
                 {
                     LowestXYZ.X = -LowestXYZ.X;
@@ -1286,7 +1286,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     {
                         if ((HighestXYZ.X * 32768f) / TempPrefab.Scale.X > 32768f)
                         {
-                            TempPrefab.Scale.X += 0.5f;
+                            TempPrefab.Scale.X += 0.1f;
                         }
                         else
                         {
@@ -1300,7 +1300,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     {
                         if ((HighestXYZ.Y * 32768f) / TempPrefab.Scale.Y > 32768f)
                         {
-                            TempPrefab.Scale.Y += 0.5f;
+                            TempPrefab.Scale.Y += 0.1f;
                         }
                         else
                         {
@@ -1314,7 +1314,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     {
                         if ((HighestXYZ.Z * 32768f) / TempPrefab.Scale.Z > 32768f)
                         {
-                            TempPrefab.Scale.Z += 0.5f;
+                            TempPrefab.Scale.Z += 0.1f;
                         }
                         else
                         {
