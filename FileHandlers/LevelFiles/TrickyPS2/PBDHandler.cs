@@ -1219,6 +1219,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 bool Set = false;
                 Vector3 LowestXYZ = new Vector3(0,0,0);
                 Vector3 HighestXYZ = new Vector3(0, 0, 0);
+
+                List<Vector3> verticeList = new List<Vector3>();
+
                 for (int az = 0; az < TempPrefab.PrefabObjects.Count; az++)
                 {
                     var TempObject = TempPrefab.PrefabObjects[az];
@@ -1227,7 +1230,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         for (int bz = 0; bz < TempObject.objectData.MeshOffsets.Count; bz++)
                         {
                             var TempMeshOffset = TempObject.objectData.MeshOffsets[bz];
-                            if (File.Exists(FolderPath + "\\" + TempMeshOffset.MeshPath) && TempMeshOffset.MeshPath == "25.obj")
+                            if (File.Exists(FolderPath + "\\" + TempMeshOffset.MeshPath) && TempMeshOffset.MeshPath == "0.obj")
                             {
                                 ModelObject modelObject = objHandler.LoadFile(FolderPath + "\\" + TempMeshOffset.MeshPath);
                                 TempMeshOffset.FullMesh = objHandler.GenerateTristripDataOne(modelObject.Mesh[0]);
@@ -1239,6 +1242,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 {
                                     for (int a = 0; a < TempMeshOffset.FullMesh.meshChunk[i].vertices.Count; a++)
                                     {
+                                        verticeList.Add(TempMeshOffset.FullMesh.meshChunk[i].vertices[a]);
                                         if (!Set)
                                         {
                                             LowestXYZ = TempMeshOffset.FullMesh.meshChunk[i].vertices[a];
@@ -1272,9 +1276,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     LowestXYZ.Y = -LowestXYZ.Y;
                 }
-                if (LowestXYZ.Y < 0)
+                if (LowestXYZ.Z < 0)
                 {
-                    LowestXYZ.Y = -LowestXYZ.Y;
+                    LowestXYZ.Z = -LowestXYZ.Z;
                 }
                 HighestXYZ = JsonUtil.Highest(HighestXYZ, LowestXYZ);
 
