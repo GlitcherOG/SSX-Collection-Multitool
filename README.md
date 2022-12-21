@@ -13,17 +13,13 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - (WIP) SSX Tricky MPF Extractor
 
 ## Current Todo
-- Level Generate Hardware Fix (Make it so that it tests if texture is used for world and object if so make new one and set patch to it)
-- Fix Model Header
-- Instance XYZ High/Lowest
+- Fix Model Header Amination
+- Redo High/Lowest System so its all within one script
 
-- Get Cameras and Hash exporting so i can start rebuilding the file from scratch
 - Redo Folder Loading SSH
 - LOC Script Update
 - Export As Txt
 - Import As Txt if line count matches
-- export hash data
-- export Camera Data
 
 ## Todo
 - Setup ISO Handler
@@ -32,9 +28,6 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - Delete PAD files
 - Allow Arguments to boot certain forms at launch
 - Open File location On Big Extraction and Making/SSH Files
-- PBD Json Files
- - Camera Json
- - HashData Json
  - Reimport Mesh
 
 

@@ -476,6 +476,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 //New Model Reading Method
                 //Make a way to combine models
                 int MeshID = 0;
+                int TristripMax = 0;
                 stream.Position = MeshDataOffset;
                 for (int i = 0; i < PrefabData.Count; i++)
                 {
@@ -506,6 +507,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 while (true)
                                 {
                                     var temp = ReadMesh(stream, TempPrefabData.Scale);
+                                    if(TristripMax < temp.vertices.Count)
+                                    {
+                                        TristripMax = temp.vertices.Count;
+
+                                    }
                                     TempMeshData.meshChunk.Add(temp);
                                     stream.Position += 31;
                                     if (StreamUtil.ReadByte(stream) == 0x6C)
@@ -1230,10 +1236,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         for (int bz = 0; bz < TempObject.objectData.MeshOffsets.Count; bz++)
                         {
                             var TempMeshOffset = TempObject.objectData.MeshOffsets[bz];
-                            if (File.Exists(FolderPath + "\\" + TempMeshOffset.MeshPath) && TempMeshOffset.MeshPath == "0.obj")
+                            if (File.Exists(FolderPath + "\\" + TempMeshOffset.MeshPath) /*&& ia == 1*/)
                             {
                                 ModelObject modelObject = objHandler.LoadFile(FolderPath + "\\" + TempMeshOffset.MeshPath);
-                                TempMeshOffset.FullMesh = objHandler.GenerateTristripDataOne(modelObject.Mesh[0]);
+                                TempMeshOffset.FullMesh = objHandler.GenerateTristripDataOne(modelObject.Meshs[0]);
                             }
 
                             if (!TempMeshOffset.FullMesh.Equals(null))

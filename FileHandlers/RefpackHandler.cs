@@ -200,6 +200,7 @@ namespace SSXMultiTool.FileHandlers
             return Output;
         }
 
+        //Taken from https://github.com/gibbed/Gibbed.RefPack
         public static bool Compress(byte[] input, out byte[] output, CompressionLevel level)
         {
             byte[] Signature = new byte[2];
