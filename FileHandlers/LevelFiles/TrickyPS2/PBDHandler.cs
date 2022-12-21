@@ -476,7 +476,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 //New Model Reading Method
                 //Make a way to combine models
                 int MeshID = 0;
-                int TristripMax = 0;
+                int TristripMax = 100;
                 stream.Position = MeshDataOffset;
                 for (int i = 0; i < PrefabData.Count; i++)
                 {
@@ -507,7 +507,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 while (true)
                                 {
                                     var temp = ReadMesh(stream, TempPrefabData.Scale);
-                                    if(TristripMax < temp.vertices.Count)
+                                    if(TristripMax > temp.Tristrip.Count)
                                     {
                                         TristripMax = temp.vertices.Count;
 
@@ -1236,10 +1236,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         for (int bz = 0; bz < TempObject.objectData.MeshOffsets.Count; bz++)
                         {
                             var TempMeshOffset = TempObject.objectData.MeshOffsets[bz];
-                            if (File.Exists(FolderPath + "\\" + TempMeshOffset.MeshPath) /*&& ia == 1*/)
+                            if (File.Exists(FolderPath + "\\" + TempMeshOffset.MeshPath))
                             {
                                 ModelObject modelObject = objHandler.LoadFile(FolderPath + "\\" + TempMeshOffset.MeshPath);
-                                TempMeshOffset.FullMesh = objHandler.GenerateTristripDataOne(modelObject.Meshs[0]);
+                                TempMeshOffset.FullMesh = objHandler.GenerateTristripDataOneNew(modelObject.Meshs[0]);
                             }
 
                             if (!TempMeshOffset.FullMesh.Equals(null))

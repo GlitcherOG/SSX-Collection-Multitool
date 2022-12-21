@@ -190,7 +190,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     faces.UV3Pos = int.Parse(SplitPoint[1]) - 1;
                     faces.Normal3Pos = int.Parse(SplitPoint[2]) - 1;
 
-                    if (faces.V1Pos != faces.V3Pos)
+                    if (faces.V1Pos != faces.V3Pos && faces.V1Pos != faces.V2Pos && faces.V3Pos != faces.V2Pos)
                     {
                         mesh.meshFaces.Add(faces);
                     }
@@ -361,6 +361,169 @@ namespace SSXMultiTool.FileHandlers.Models
                     modelObjects[x].Meshs[a] = TempMesh;
                 }
             }
+        }
+
+        public static Mesh GenerateTristripDataOneNew(Mesh modelObject)
+        {
+            var TempMesh = modelObject;
+            List<TristripStruct> tristripStructs = new List<TristripStruct>();
+            List<Vector3> vertices = new List<Vector3>();
+            List<Vector3> normals = new List<Vector3>();
+            List<Vector2> TextureCords = new List<Vector2>();
+            int tristripcount = 0;
+            bool rotation = false;
+            bool RunWhile = true;
+
+            TristripStruct tri = new TristripStruct();
+            if (TempMesh.meshFaces.Count != 0)
+            {
+                //Tristrip Model
+                while (RunWhile)
+                {
+                    if (tristripcount != 0)
+                    {
+                        for (int b = 0; b < TempMesh.meshFaces.Count; b++)
+                        {
+                            var TempFace = TempMesh.meshFaces[b];
+                            if (!TempFace.tripstriped)
+                            {
+                                int Index = vertices.Count;
+                                int Index2 = 0;
+                                int Index3 = 0;
+                                //Fixes the Rotation For Exporting
+                                //Swap When Exporting to other formats
+                                //1-Clockwise
+                                //0-Counter Clocwise
+                                if (rotation)
+                                {
+                                    Index2 = Index - 1;
+                                    Index3 = Index - 2;
+                                }
+                                else
+                                {
+                                    Index2 = Index - 2;
+                                    Index3 = Index - 1;
+                                }
+                                if (TempFace.V2 == vertices[Index3] && TempFace.V3 == vertices[Index2])
+                                {
+                                    if (TempFace.Normal2 == normals[Index3] && TempFace.Normal3 == normals[Index2])
+                                    {
+                                        if (TempFace.UV2 == TextureCords[Index3] && TempFace.UV3 == TextureCords[Index2])
+                                        {
+                                            TempFace.tripstriped = true;
+                                            rotation = !rotation;
+                                            vertices.Add(TempFace.V1);
+                                            normals.Add(TempFace.Normal1);
+                                            TextureCords.Add(TempFace.UV1);
+                                            TempMesh.meshFaces[b] = TempFace;
+                                            tristripcount++;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            if (TempMesh.meshFaces.Count - 1 == b)
+                            {
+                                if (vertices.Count != 0)
+                                {
+                                    tri.vertices = vertices;
+                                    tri.TextureCords = TextureCords;
+                                    tri.normals = normals;
+                                    vertices = new List<Vector3>();
+                                    TextureCords = new List<Vector2>();
+                                    normals = new List<Vector3>();
+                                    tristripStructs.Add(tri);
+                                    tri = new TristripStruct();
+                                    tristripcount = 0;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int b = 0; b < TempMesh.meshFaces.Count; b++)
+                        {
+                            var TempFace = TempMesh.meshFaces[b];
+                            if (!TempFace.tripstriped)
+                            {
+                                TempFace.tripstriped = true;
+                                rotation = false;
+                                tristripcount = 3;
+                                vertices.Add(TempFace.V2);
+                                vertices.Add(TempFace.V3);
+                                vertices.Add(TempFace.V1);
+                                normals.Add(TempFace.Normal2);
+                                normals.Add(TempFace.Normal3);
+                                normals.Add(TempFace.Normal1);
+                                TextureCords.Add(TempFace.UV2);
+                                TextureCords.Add(TempFace.UV3);
+                                TextureCords.Add(TempFace.UV1);
+                                TempMesh.meshFaces[b] = TempFace;
+                                break;
+                            }
+
+                            if (b == TempMesh.meshFaces.Count - 1)
+                            {
+                                if (vertices.Count != 0)
+                                {
+                                    tri.vertices = vertices;
+                                    tri.TextureCords = TextureCords;
+                                    tri.normals = normals;
+                                    vertices = new List<Vector3>();
+                                    TextureCords = new List<Vector2>();
+                                    normals = new List<Vector3>();
+                                    tristripStructs.Add(tri);
+                                    tri = new TristripStruct();
+                                    tristripcount = 0;
+                                }
+                                RunWhile = false;
+                            }
+                        }
+                    }
+                }
+
+                TempMesh.meshChunk = new List<MeshChunk>();
+
+                //Chunk Tristrip
+                MeshChunk meshChunk = new MeshChunk();
+                meshChunk.vertices = new List<Vector3>();
+                meshChunk.normals = new List<Vector3>();
+                meshChunk.Tristrip = new List<int>();
+                meshChunk.TextureCords = new List<Vector2>();
+                for (int i = 0; i < tristripStructs.Count; i++)
+                {
+                    if(meshChunk.vertices.Count<=60)
+                    {
+                        meshChunk.Tristrip.Add(tristripStructs[i].vertices.Count);
+                        meshChunk.vertices.AddRange(tristripStructs[i].vertices);
+                        meshChunk.TextureCords.AddRange(tristripStructs[i].TextureCords);
+                        meshChunk.normals.AddRange(tristripStructs[i].normals);
+                    }
+                    else if (i > tristripStructs.Count - 3)
+                    {
+                        meshChunk.Tristrip.Add(tristripStructs[i].vertices.Count);
+                        meshChunk.vertices.AddRange(tristripStructs[i].vertices);
+                        meshChunk.TextureCords.AddRange(tristripStructs[i].TextureCords);
+                        meshChunk.normals.AddRange(tristripStructs[i].normals);
+                    }
+                    else
+                    {
+                        TempMesh.meshChunk.Add(meshChunk);
+                        meshChunk = new MeshChunk();
+                        meshChunk.vertices = new List<Vector3>();
+                        meshChunk.normals = new List<Vector3>();
+                        meshChunk.Tristrip = new List<int>();
+                        meshChunk.TextureCords = new List<Vector2>();
+                    }
+                }
+
+                if(!meshChunk.Equals(new MeshChunk()))
+                {
+                    TempMesh.meshChunk.Add(meshChunk);
+                }
+            }
+            return TempMesh;
         }
 
         public static Mesh GenerateTristripDataOne(Mesh modelObject)
@@ -611,12 +774,12 @@ namespace SSXMultiTool.FileHandlers.Models
         }
     }
 
-    //public struct TristripStruct
-    //{
-    //    public List<Vector3> vertices = new List<Vector3>();
-    //    public List<Vector3> normals = new List<Vector3>();
-    //    public List<Vector2> TextureCords = new List<Vector2>();
-    //}
+    public struct TristripStruct
+    {
+        public List<Vector3> vertices;
+        public List<Vector3> normals;
+        public List<Vector2> TextureCords;
+    }
 
     public struct ModelObject
     {
