@@ -515,6 +515,10 @@ namespace SSXMultiTool.FileHandlers.Models
                         meshChunk.normals = new List<Vector3>();
                         meshChunk.Tristrip = new List<int>();
                         meshChunk.TextureCords = new List<Vector2>();
+                        meshChunk.Tristrip.Add(tristripStructs[i].vertices.Count);
+                        meshChunk.vertices.AddRange(tristripStructs[i].vertices);
+                        meshChunk.TextureCords.AddRange(tristripStructs[i].TextureCords);
+                        meshChunk.normals.AddRange(tristripStructs[i].normals);
                     }
                 }
 
@@ -776,6 +780,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
     public struct TristripStruct
     {
+        public bool DebugUsed;
         public List<Vector3> vertices;
         public List<Vector3> normals;
         public List<Vector2> TextureCords;
