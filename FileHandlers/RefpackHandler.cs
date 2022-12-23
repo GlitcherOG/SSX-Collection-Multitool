@@ -58,9 +58,8 @@ namespace SSXMultiTool.FileHandlers
             byte[] Output;
             int pos = 0;
 
-            int proc_len;
-            int ref_run;
-            byte[] ref_ptr;
+            int proc_len; //Process Length
+            int ref_run; //Refrence Run
 
             if(Matrix.Length==0)
             {
@@ -81,7 +80,6 @@ namespace SSXMultiTool.FileHandlers
                 stream.Position+=3;
             }
 
-            CompressSize = (int)stream.Length;
             DecompressSize = StreamUtil.ReadInt24Big(stream);
 
             Output = new byte[DecompressSize];
@@ -102,14 +100,11 @@ namespace SSXMultiTool.FileHandlers
                         pos++;
                     }
 
-                    ref_ptr = Output;
-                    int TempPos;
-                    TempPos = pos - ((first & 0x60) << 3) - second - 1;
-
+                    int TempPos = pos - ((first & 0x60) << 3) - second - 1;
                     ref_run = ((first >> 2) & 0x07) + 3;
                     for (int i = 0; i < ref_run; i++)
                     {
-                        Output[pos] = ref_ptr[TempPos+i];
+                        Output[pos] = Output[TempPos+i];
                         pos++;
                     }
 
@@ -126,14 +121,12 @@ namespace SSXMultiTool.FileHandlers
                         pos++;
                     }
 
-                    ref_ptr = Output;
-                    int TempPos;
-                    TempPos = pos - ((second & 0x3f) << 8) - third - 1;
+                    int TempPos = pos - ((second & 0x3f) << 8) - third - 1;
                     ref_run = (first & 0x3f) + 4;
 
                     for (int i = 0; i < ref_run; i++)
                     {
-                        Output[pos] = ref_ptr[TempPos+i];
+                        Output[pos] = Output[TempPos+i];
                         pos++;
                     }
 
@@ -152,14 +145,12 @@ namespace SSXMultiTool.FileHandlers
                         pos++;
                     }
 
-                    ref_ptr = Output;
-                    int TempPos;
-                    TempPos = pos - ((first & 0x10) << 12) - (second << 8) - third - 1;
+                    int TempPos = pos - ((first & 0x10) << 12) - (second << 8) - third - 1;
                     ref_run = ((first & 0x0c) << 6) + fourth + 5;
 
                     for (int i = 0; i < ref_run; i++)
                     {
-                        Output[pos] = ref_ptr[TempPos+i];
+                        Output[pos] = Output[TempPos+i];
                         pos++;
                     }
                 }
@@ -201,8 +192,14 @@ namespace SSXMultiTool.FileHandlers
         }
 
         //Taken from https://github.com/gibbed/Gibbed.RefPack
-        public static bool Compress(byte[] input, out byte[] output, CompressionLevel level)
+        public static bool Compress(byte[] input, out byte[] output, CompressionLevel? level = null)
         {
+            if(level==null)
+            {
+                level = CompressionLevel.Max;
+            }
+
+
             byte[] Signature = new byte[2];
              int DecompressSize;
              int CompressSize;

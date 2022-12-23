@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
+using SSXMultiTool.Utilities;
+using SSXMultiTool.FileHandlers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,6 +72,67 @@ namespace SSXMultiTool
         private void button1_Click(object sender, EventArgs e)
         {
             new OGToolsWindow().ShowDialog();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Map File (*.bin)|*.bin|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (Stream stream = File.Open(openFileDialog.FileName, FileMode.Open))
+                {
+                    byte[] Temp = StreamUtil.ReadBytes(stream, (int)stream.Length);
+                    byte[] bytes = RefpackHandler.Decompress(Temp);
+                    MemoryStream memory = new MemoryStream();
+                    memory.Write(bytes, 0, bytes.Length);
+
+                    if (File.Exists(openFileDialog.FileName + "1"))
+                    {
+                        File.Delete(openFileDialog.FileName + "1");
+                    }
+                    var file = File.Create(openFileDialog.FileName + "1");
+                    memory.Position = 0;
+                    memory.CopyTo(file);
+                    memory.Dispose();
+                    file.Close();
+                }
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Map File (*.bin)|*.bin|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (Stream stream = File.Open(openFileDialog.FileName, FileMode.Open))
+                {
+                    byte[] Temp = StreamUtil.ReadBytes(stream, (int)stream.Length);
+                    byte[] bytes = new byte[1];
+                    RefpackHandler.Compress(Temp, out bytes);
+                    MemoryStream memory = new MemoryStream();
+                    memory.Write(bytes, 0, bytes.Length);
+
+                    if (File.Exists(openFileDialog.FileName + "1"))
+                    {
+                        File.Delete(openFileDialog.FileName + "1");
+                    }
+                    var file = File.Create(openFileDialog.FileName + "1");
+                    memory.Position = 0;
+                    memory.CopyTo(file);
+                    memory.Dispose();
+                    file.Close();
+                }
+            }
         }
     }
 }
