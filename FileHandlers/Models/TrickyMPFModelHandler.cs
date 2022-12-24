@@ -63,8 +63,6 @@ namespace SSXMultiTool.FileHandlers
                     stream.Position = StartPos + ModelList[i].DataOffset;
                     MPFModelHeader modelHandler = ModelList[i];
                     modelHandler.Matrix = StreamUtil.ReadBytes(stream, ModelList[i].EntrySize);
-                    RefpackHandler refpackHandler = new RefpackHandler();
-                    //modelHandler.Matrix = refpackHandler.Decompress(modelHandler.Matrix);
                     ModelList[i] = modelHandler;
                 }
             }
@@ -136,7 +134,7 @@ namespace SSXMultiTool.FileHandlers
                 //Mesh Group Data
                 streamMatrix.Position = Model.MeshGroupOffset;
                 Model.MeshGroups = new List<GroupMainHeader>();
-
+                int NumberWeightRef = 0;
                 for (int a = 0; a < Model.MeshGroupCount; a++)
                 {
                     var TempChunkData = new GroupMainHeader();
@@ -163,6 +161,8 @@ namespace SSXMultiTool.FileHandlers
                             TempMeshGroupHeader.ModelOffset = StreamUtil.ReadInt32(streamMatrix);
                             TempMeshGroupHeader.Unknown2 = StreamUtil.ReadInt32(streamMatrix);
                             TempMeshGroupHeader.Unknown3 = StreamUtil.ReadInt32(streamMatrix);
+                            TempMeshGroupHeader.WeightRefGroup = NumberWeightRef;
+                            NumberWeightRef++;
                             TempSubHeader.MeshGroupHeaders.Add(TempMeshGroupHeader);
                         }
                         streamMatrix.Position = TempPos1;
@@ -222,9 +222,6 @@ namespace SSXMultiTool.FileHandlers
                     Model.numberListRefs.Add(NumberListRef);
                 }
 
-
-                Model.staticMesh = new List<StaticMesh>();
-
                 for (int ax = 0; ax < Model.MeshGroupCount; ax++)
                 {
                     var GroupHeader = Model.MeshGroups[ax];
@@ -234,8 +231,8 @@ namespace SSXMultiTool.FileHandlers
                         for (int cx = 0; cx < SubGroupHeader.MeshGroupHeaders.Count; cx++)
                         {
                             var SubSubGroupHeader = SubGroupHeader.MeshGroupHeaders[cx];
+                            SubSubGroupHeader.staticMesh = new();
                             streamMatrix.Position = SubSubGroupHeader.ModelOffset;
-                            int z = 0;
                             while (true)
                             {
                                 streamMatrix.Position += 31;
@@ -246,11 +243,6 @@ namespace SSXMultiTool.FileHandlers
                                 }
                                 streamMatrix.Position += 16;
                                 var ModelData = new StaticMesh();
-                                ModelData.ChunkID = ax;
-                                ModelData.GroupID = bx;
-                                ModelData.SubGroupID = cx;
-                                ModelData.SubGroupPosition = z;
-                                z++;
 
                                 ModelData.StripCount = StreamUtil.ReadInt32(streamMatrix);
                                 ModelData.EdgeCount = StreamUtil.ReadInt32(streamMatrix);
@@ -337,16 +329,17 @@ namespace SSXMultiTool.FileHandlers
                                 ModelData.vertices = vertices;
 
                                 streamMatrix.Position += 16 * 2;
-                                Model.staticMesh.Add(ModelData);
-                            } 
+                                SubSubGroupHeader.staticMesh.Add(ModelData);
+                            }
+                            for (int b = 0; b < SubSubGroupHeader.staticMesh.Count; b++)
+                            {
+                                SubSubGroupHeader.staticMesh[b] = GenerateFaces(SubSubGroupHeader.staticMesh[b]);
+                            }
+                            SubGroupHeader.MeshGroupHeaders[cx] = SubSubGroupHeader;
                         }
+                        GroupHeader.meshGroupSubs[bx] = SubGroupHeader;
                     }
-                }
-
-
-                for (int b = 0; b < Model.staticMesh.Count; b++)
-                {
-                    Model.staticMesh[b] = GenerateFaces(Model.staticMesh[b]);
+                    Model.MeshGroups[ax] = GroupHeader;
                 }
 
 
@@ -498,7 +491,6 @@ namespace SSXMultiTool.FileHandlers
             public List<IKPoint> iKPoints;
             public List<GroupMainHeader> MeshGroups;
             public List<BoneWeightHeader> boneWeightHeader;
-            public List<StaticMesh> staticMesh;
             public List<NumberListRef> numberListRefs;
         }
 
@@ -585,6 +577,9 @@ namespace SSXMultiTool.FileHandlers
             public int ModelOffset;
             public int Unknown2;
             public int Unknown3;
+            public int WeightRefGroup;
+
+            public List<StaticMesh> staticMesh;
         }
 
         public struct BoneWeightHeader
@@ -605,11 +600,6 @@ namespace SSXMultiTool.FileHandlers
 
         public struct StaticMesh
         {
-            public int ChunkID;
-            public int GroupID;
-            public int SubGroupID;
-            public int SubGroupPosition;
-
             public int StripCount;
             public int EdgeCount;
             public int NormalCount;

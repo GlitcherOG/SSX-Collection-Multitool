@@ -465,6 +465,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     Camera TempCamera = new Camera();
                     TempCamera.TotalLength = StreamUtil.ReadInt32(stream);
                     TempCamera.bytes = StreamUtil.ReadBytes(stream, TempCamera.TotalLength - 4);
+
                     Cameras.Add(TempCamera);
                 }
 
@@ -921,7 +922,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             MeshOffsets.Add((int)stream.Position);
                             StreamUtil.WriteInt32(stream, 4 * 7);
                             StreamUtil.WriteInt32(stream, TempObject.objectData.MeshOffsets[b].MaterialBlockPos);
-                            //StreamUtil.WriteInt32(stream, b);
                             StreamUtil.WriteInt32(stream, TempObject.objectData.MeshOffsets[b].MeshDataLength);
                             StreamUtil.WriteInt32(stream, TempObject.objectData.MeshOffsets[b].StartPos);
                             StreamUtil.WriteInt32(stream, TempObject.objectData.MeshOffsets[b].Length1);
@@ -1846,6 +1846,18 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     {
         public int TotalLength;
         public byte[] bytes;
+
+        public int CameraLength;
+        public Vector3 Translation;
+        public Vector3 Rotation;
+        public int Type;
+        public int FocalLength;
+        public float AspectRatio;
+        public Vector2 Aperture;
+        public Vector2 ClipPlane;
+        public Vector3 IntrestPoint;
+        public Vector3 UpVector;
+
     }
 
     public struct HashData
