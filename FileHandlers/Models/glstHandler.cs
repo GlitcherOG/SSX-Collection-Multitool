@@ -126,19 +126,11 @@ namespace SSXMultiTool.FileHandlers
                         Binding = bindings[modelHeader.boneDatas[i].ParentBone];
                     }
                     Binding = Binding.CreateNode(modelHeader.boneDatas[i].BoneName);
-                    Matrix4x4 NewMatrix = new Matrix4x4();
-                    float tempX = 0;
-                    float tempY = modelHeader.boneDatas[i].XRadian;
-                    float tempZ = 0;
-                    //if (i<2)
-                    //{ 
-                    //    tempX = modelHeader.boneDatas[i].XRadian;
-                    //    tempY = modelHeader.boneDatas[i].YRadian;
-                    //    tempZ = modelHeader.boneDatas[i].ZRadian;
-                    //}
-                    NewMatrix = Matrix4x4.CreateFromYawPitchRoll((float)(tempX * (180f / Math.PI)), (float)(tempZ * (180f / Math.PI)), (float)(tempY * (180f / Math.PI)));
-                    NewMatrix.Translation = new Vector3(modelHeader.boneDatas[i].XLocation, modelHeader.boneDatas[i].YLocation, modelHeader.boneDatas[i].ZLocation);
-                    Binding.LocalMatrix = NewMatrix;
+                    float tempX = -modelHeader.boneDatas[i].XRadian;
+                    float tempY = -modelHeader.boneDatas[i].YRadian;
+                    float tempZ = -modelHeader.boneDatas[i].ZRadian;
+                    Binding.WithLocalRotation(glstHandler.Euler(tempX, tempZ, tempY));
+                    Binding.WithLocalTranslation(new Vector3(modelHeader.boneDatas[i].XLocation, modelHeader.boneDatas[i].YLocation, modelHeader.boneDatas[i].ZLocation));
                     bindings.Add(Binding);
                 }
                 for (int a = 0; a < modelHeader.MeshGroups.Count; a++)
@@ -249,6 +241,30 @@ namespace SSXMultiTool.FileHandlers
 
             var model = scene.ToGltf2();
             model.SaveGLB(Output);
+        }
+
+        public static Quaternion Euler(float yaw, float pitch, float roll)
+        {
+            //yaw *= Mathf.Deg2Rad;
+            //pitch *= Mathf.Deg2Rad;
+            //roll *= Mathf.Deg2Rad;
+
+            double yawOver2 = yaw * 0.5f;
+            float cosYawOver2 = (float)System.Math.Cos(yawOver2);
+            float sinYawOver2 = (float)System.Math.Sin(yawOver2);
+            double pitchOver2 = pitch * 0.5f;
+            float cosPitchOver2 = (float)System.Math.Cos(pitchOver2);
+            float sinPitchOver2 = (float)System.Math.Sin(pitchOver2);
+            double rollOver2 = roll * 0.5f;
+            float cosRollOver2 = (float)System.Math.Cos(rollOver2);
+            float sinRollOver2 = (float)System.Math.Sin(rollOver2);
+            Quaternion result = new Quaternion();
+            result.W = cosYawOver2 * cosPitchOver2 * cosRollOver2 + sinYawOver2 * sinPitchOver2 * sinRollOver2;
+            result.X = sinYawOver2 * cosPitchOver2 * cosRollOver2 + cosYawOver2 * sinPitchOver2 * sinRollOver2;
+            result.Y = cosYawOver2 * sinPitchOver2 * cosRollOver2 - sinYawOver2 * cosPitchOver2 * sinRollOver2;
+            result.Z = cosYawOver2 * cosPitchOver2 * sinRollOver2 - sinYawOver2 * sinPitchOver2 * cosRollOver2;
+
+            return result;
         }
 
     }
