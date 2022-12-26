@@ -676,59 +676,6 @@ namespace SSXMultiTool.FileHandlers
             return ModelData;
         }
 
-        //public void TestSave(string path, int pos = 0)
-        //{
-        //    string output = "# Exported From SSX Using SSX PS2 Collection Modder by GlitcherOG \n";
-        //    var Model = ModelList[pos];
-        //    var ModelSplitData = Model.flexableMesh;
-        //    ModelSplitData = GenerateFaces1(ModelSplitData);
-        //    output += "o " + Model.FileName + "\n";
-
-        //    //Conevert Vertices into List
-        //    List<Vertex3> vertices = new List<Vertex3>();
-        //    for (int i = 0; i < ModelSplitData.faces.Count; i++)
-        //    {
-        //        var Face = ModelSplitData.faces[i];
-        //        if (!vertices.Contains(Face.V1))
-        //        {
-        //            vertices.Add(Face.V1);
-        //        }
-        //        Face.V1Pos = vertices.IndexOf(Face.V1);
-
-        //        if (!vertices.Contains(Face.V2))
-        //        {
-        //            vertices.Add(Face.V2);
-        //        }
-        //        Face.V2Pos = vertices.IndexOf(Face.V2);
-
-        //        if (!vertices.Contains(Face.V3))
-        //        {
-        //            vertices.Add(Face.V3);
-        //        }
-        //        Face.V3Pos = vertices.IndexOf(Face.V3);
-
-        //        ModelSplitData.faces[i] = Face;
-        //    }
-
-        //    for (int i = 0; i < vertices.Count; i++)
-        //    {
-        //        output += "v " + vertices[i].X + " " + vertices[i].Y + " " + vertices[i].Z + "\n";
-        //    }
-        //    for (int i = 0; i < ModelSplitData.faces.Count; i++)
-        //    {
-        //        var Face = ModelSplitData.faces[i];
-        //        output += "f " + (Face.V1Pos + 1).ToString() + " " + (Face.V2Pos +1).ToString() + " " + (Face.V3Pos + 1).ToString() + " " + "\n";
-        //    }
-
-
-        //    if (File.Exists(path))
-        //    {
-        //        File.Delete(path);
-        //    }
-
-        //    File.WriteAllText(path, output);
-        //}
-
 
         public struct MPFModelHeader
         {
