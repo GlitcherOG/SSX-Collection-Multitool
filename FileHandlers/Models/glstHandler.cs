@@ -128,7 +128,9 @@ namespace SSXMultiTool.FileHandlers
                     float tempX = -modelHeader.boneDatas[i].XRadian;
                     float tempY = -modelHeader.boneDatas[i].YRadian;
                     float tempZ = -modelHeader.boneDatas[i].ZRadian;
-                    Binding.WithLocalRotation(glstHandler.Euler(tempX, tempZ, tempY));
+
+
+                    Binding.WithLocalRotation(Quaternion.CreateFromYawPitchRoll(tempX, tempY, tempZ));
                     Binding.WithLocalTranslation(new Vector3(modelHeader.boneDatas[i].XLocation, modelHeader.boneDatas[i].YLocation, modelHeader.boneDatas[i].ZLocation));
                     bindings.Add(Binding);
                 }
@@ -152,39 +154,39 @@ namespace SSXMultiTool.FileHandlers
                                     TempPos1.Position.Y = Face.V1.Y;
                                     TempPos1.Position.Z = Face.V1.Z;
 
-                                    TempPos1.Normal.X = (float)Face.Normal1.X / 4096f;
-                                    TempPos1.Normal.Y = (float)Face.Normal1.Y / 4096f;
-                                    TempPos1.Normal.Z = (float)Face.Normal1.Z / 4096f;
+                                    TempPos1.Normal.X = (float)Face.Normal1.X;
+                                    TempPos1.Normal.Y = (float)Face.Normal1.Y;
+                                    TempPos1.Normal.Z = (float)Face.Normal1.Z;
 
                                     VertexPositionNormal TempPos2 = new VertexPositionNormal();
                                     TempPos2.Position.X = Face.V2.X;
                                     TempPos2.Position.Y = Face.V2.Y;
                                     TempPos2.Position.Z = Face.V2.Z;
 
-                                    TempPos2.Normal.X = (float)Face.Normal2.X / 4096f;
-                                    TempPos2.Normal.Y = (float)Face.Normal2.Y / 4096f;
-                                    TempPos2.Normal.Z = (float)Face.Normal2.Z / 4096f;
+                                    TempPos2.Normal.X = (float)Face.Normal2.X;
+                                    TempPos2.Normal.Y = (float)Face.Normal2.Y;
+                                    TempPos2.Normal.Z = (float)Face.Normal2.Z;
 
                                     VertexPositionNormal TempPos3 = new VertexPositionNormal();
                                     TempPos3.Position.X = Face.V3.X;
                                     TempPos3.Position.Y = Face.V3.Y;
                                     TempPos3.Position.Z = Face.V3.Z;
 
-                                    TempPos3.Normal.X = (float)Face.Normal3.X / 4096f;
-                                    TempPos3.Normal.Y = (float)Face.Normal3.Y / 4096f;
-                                    TempPos3.Normal.Z = (float)Face.Normal3.Z / 4096f;
+                                    TempPos3.Normal.X = (float)Face.Normal3.X;
+                                    TempPos3.Normal.Y = (float)Face.Normal3.Y;
+                                    TempPos3.Normal.Z = (float)Face.Normal3.Z;
 
                                     VertexTexture1 TempTexture1 = new VertexTexture1();
-                                    TempTexture1.TexCoord.X = (float)Face.UV1.X / 4096f;
-                                    TempTexture1.TexCoord.Y = (float)Face.UV1.Y / 4096f;
+                                    TempTexture1.TexCoord.X = (float)Face.UV1.X;
+                                    TempTexture1.TexCoord.Y = (float)Face.UV1.Y;
 
                                     VertexTexture1 TempTexture2 = new VertexTexture1();
-                                    TempTexture2.TexCoord.X = (float)Face.UV2.X / 4096f;
-                                    TempTexture2.TexCoord.Y = (float)Face.UV2.Y / 4096f;
+                                    TempTexture2.TexCoord.X = (float)Face.UV2.X;
+                                    TempTexture2.TexCoord.Y = (float)Face.UV2.Y;
 
                                     VertexTexture1 TempTexture3 = new VertexTexture1();
-                                    TempTexture3.TexCoord.X = (float)Face.UV3.X / 4096f;
-                                    TempTexture3.TexCoord.Y = (float)Face.UV3.Y / 4096f;
+                                    TempTexture3.TexCoord.X = (float)Face.UV3.X;
+                                    TempTexture3.TexCoord.Y = (float)Face.UV3.Y;
 
                                     var TempList = modelHeader.numberListRefs[WeightRefListID];
                                     int FindInt = 0;
@@ -193,7 +195,7 @@ namespace SSXMultiTool.FileHandlers
                                     (int Temp, float TempFloat)[] bindings1 = new (int Temp, float TempFloat)[1];
 
                                     VertexJoints4 TempBinding1 = new VertexJoints4();
-                                    FindInt = (int)((Face.UV1.Y - 14) / 4);
+                                    FindInt = (int)((Face.UV1.Z - 14) / 4);
                                     WeightId = TempList.subNumberRefs[FindInt].Unknown;
                                     TempWeight = modelHeader.boneWeightHeader[WeightId];
                                     bindings1 = new (int Temp, float TempFloat)[TempWeight.boneWeights.Count];
@@ -204,7 +206,7 @@ namespace SSXMultiTool.FileHandlers
                                     TempBinding1.SetBindings(bindings1);
 
                                     VertexJoints4 TempBinding2 = new VertexJoints4();
-                                    FindInt = (int)((Face.UV2.Y - 14) / 4);
+                                    FindInt = (int)((Face.UV2.Z - 14) / 4);
                                     WeightId = TempList.subNumberRefs[FindInt].Unknown;
                                     TempWeight = modelHeader.boneWeightHeader[WeightId];
                                     bindings1 = new (int Temp, float TempFloat)[TempWeight.boneWeights.Count];
@@ -215,7 +217,7 @@ namespace SSXMultiTool.FileHandlers
                                     TempBinding2.SetBindings(bindings1);
 
                                     VertexJoints4 TempBinding3 = new VertexJoints4();
-                                    FindInt = (int)((Face.UV3.Y - 14) / 4);
+                                    FindInt = (int)((Face.UV3.Z - 14) / 4);
                                     WeightId = TempList.subNumberRefs[FindInt].Unknown;
                                     TempWeight = modelHeader.boneWeightHeader[WeightId];
                                     bindings1 = new (int Temp, float TempFloat)[TempWeight.boneWeights.Count];
