@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SSXMultiTool.Utilities;
+using System.Numerics;
 
 namespace SSXMultiTool.FileHandlers
 {
@@ -120,10 +121,10 @@ namespace SSXMultiTool.FileHandlers
                 }
 
                 streamMatrix.Position = Model.IKPointOffset;
-                Model.iKPoints = new List<IKPoint>();
+                Model.iKPoints = new List<Vector3>();
                 for (int a = 0; a < Model.IKCount; a++)
                 {
-                    var TempIKPoint = new IKPoint();
+                    var TempIKPoint = new Vector3();
                     TempIKPoint.X = StreamUtil.ReadFloat(streamMatrix);
                     TempIKPoint.Y = StreamUtil.ReadFloat(streamMatrix);
                     TempIKPoint.Z = StreamUtil.ReadFloat(streamMatrix);
@@ -259,42 +260,42 @@ namespace SSXMultiTool.FileHandlers
                                 streamMatrix.Position += 16;
                                 ModelData.Strips = TempStrips;
 
-                                List<UV> UVs = new List<UV>();
+                                List<Vector4> UVs = new List<Vector4>();
                                 //Read UV Texture Points
                                 if (ModelData.NormalCount != 0)
                                 {
                                     streamMatrix.Position += 48;
                                     for (int a = 0; a < ModelData.VertexCount; a++)
                                     {
-                                        UV uv = new UV();
-                                        uv.X = StreamUtil.ReadInt16(streamMatrix);
-                                        uv.Y = StreamUtil.ReadInt16(streamMatrix);
-                                        uv.XU = StreamUtil.ReadInt16(streamMatrix);
-                                        uv.YU = StreamUtil.ReadInt16(streamMatrix);
+                                        Vector4 uv = new Vector4();
+                                        uv.X = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                                        uv.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                                        uv.Z = StreamUtil.ReadInt16(streamMatrix); //Weight Assigment
+                                        uv.W = StreamUtil.ReadInt16(streamMatrix); //Weight Assigment
                                         UVs.Add(uv);
                                     }
                                     StreamUtil.AlignBy16(streamMatrix);
                                 }
                                 ModelData.uv = UVs;
 
-                                List<UVNormal> Normals = new List<UVNormal>();
+                                List<Vector3> Normals = new List<Vector3>();
                                 //Read Normals
                                 if (ModelData.NormalCount != 0)
                                 {
                                     streamMatrix.Position += 48;
                                     for (int a = 0; a < ModelData.VertexCount; a++)
                                     {
-                                        UVNormal normal = new UVNormal();
-                                        normal.X = StreamUtil.ReadInt16(streamMatrix);
-                                        normal.Y = StreamUtil.ReadInt16(streamMatrix);
-                                        normal.Z = StreamUtil.ReadInt16(streamMatrix);
+                                        Vector3 normal = new Vector3();
+                                        normal.X = StreamUtil.ReadInt16(streamMatrix)/4096f;
+                                        normal.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                                        normal.Z = StreamUtil.ReadInt16(streamMatrix) / 4096f;
                                         Normals.Add(normal);
                                     }
                                     StreamUtil.AlignBy16(streamMatrix);
                                 }
                                 ModelData.uvNormals = Normals;
 
-                                List<Vertex3> vertices = new List<Vertex3>();
+                                List<Vector3> vertices = new List<Vector3>();
                                 //Load Vertex
                                 if (ModelData.VertexCount != 0)
                                 {
@@ -304,7 +305,7 @@ namespace SSXMultiTool.FileHandlers
                                     {
                                         for (int a = 0; a < ModelData.VertexCount; a++)
                                         {
-                                            Vertex3 vertex = new Vertex3();
+                                            Vector3 vertex = new Vector3();
                                             vertex.X = StreamUtil.ReadFloat(streamMatrix);
                                             vertex.Y = StreamUtil.ReadFloat(streamMatrix);
                                             vertex.Z = StreamUtil.ReadFloat(streamMatrix);
@@ -314,13 +315,14 @@ namespace SSXMultiTool.FileHandlers
                                     }
                                     else
                                     {
+                                        ModelData.Weights = new List<int>();
                                         for (int a = 0; a < ModelData.VertexCount; a++)
                                         {
-                                            Vertex3 vertex = new Vertex3();
+                                            Vector3 vertex = new Vector3();
                                             vertex.X = StreamUtil.ReadFloat(streamMatrix);
                                             vertex.Y = StreamUtil.ReadFloat(streamMatrix);
                                             vertex.Z = StreamUtil.ReadFloat(streamMatrix);
-                                            vertex.Unknown = StreamUtil.ReadFloat(streamMatrix);
+                                            ModelData.Weights.Add(StreamUtil.ReadInt32(streamMatrix));
                                             vertices.Add(vertex);
                                         }
                                         StreamUtil.AlignBy16(streamMatrix);
@@ -488,7 +490,7 @@ namespace SSXMultiTool.FileHandlers
 
             public List<MaterialData> materialDatas;
             public List<BoneData> boneDatas;
-            public List<IKPoint> iKPoints;
+            public List<Vector3> iKPoints;
             public List<GroupMainHeader> MeshGroups;
             public List<BoneWeightHeader> boneWeightHeader;
             public List<NumberListRef> numberListRefs;
@@ -546,12 +548,6 @@ namespace SSXMultiTool.FileHandlers
 
         }
 
-        public struct IKPoint
-        {
-            public float X;
-            public float Y;
-            public float Z;
-        }
 
         public struct GroupMainHeader
         {
@@ -606,58 +602,35 @@ namespace SSXMultiTool.FileHandlers
             public int VertexCount;
             public List<int> Strips;
 
-            public List<UV> uv;
-            public List<Vertex3> vertices;
+            public List<Vector4> uv;
+            public List<Vector3> vertices;
+            public List<int> Weights;
             public List<Face> faces;
-            public List<UVNormal> uvNormals;
+            public List<Vector3> uvNormals;
         }
 
-        public struct Vertex3
-        {
-            public float X;
-            public float Y;
-            public float Z;
-
-            public float Unknown;
-        }
-
-        //Since there both int 16's They need to be divided by 4096
-        public struct UV
-        {
-            public int X;
-            public int Y;
-            public int XU;
-            public int YU;
-        }
-
-        public struct UVNormal
-        {
-            public int X;
-            public int Y;
-            public int Z;
-        }
 
         public struct Face
         {
-            public Vertex3 V1;
-            public Vertex3 V2;
-            public Vertex3 V3;
+            public Vector3 V1;
+            public Vector3 V2;
+            public Vector3 V3;
 
             public int V1Pos;
             public int V2Pos;
             public int V3Pos;
 
-            public UV UV1;
-            public UV UV2;
-            public UV UV3;
+            public Vector4 UV1;
+            public Vector4 UV2;
+            public Vector4 UV3;
 
             public int UV1Pos;
             public int UV2Pos;
             public int UV3Pos;
 
-            public UVNormal Normal1;
-            public UVNormal Normal2;
-            public UVNormal Normal3;
+            public Vector3 Normal1;
+            public Vector3 Normal2;
+            public Vector3 Normal3;
 
             public int Normal1Pos;
             public int Normal2Pos;

@@ -98,7 +98,6 @@ namespace SSXMultiTool.FileHandlers
         public static void SaveTrickyglTF(string Output, TrickyMPFModelHandler Handler)
         {
             var scene = new SharpGLTF.Scenes.SceneBuilder();
-
             for (int ax = 0; ax < 1; ax++)
             {
                 var modelHeader = Handler.ModelList[ax];
@@ -194,7 +193,7 @@ namespace SSXMultiTool.FileHandlers
                                     (int Temp, float TempFloat)[] bindings1 = new (int Temp, float TempFloat)[1];
 
                                     VertexJoints4 TempBinding1 = new VertexJoints4();
-                                    FindInt = (Face.UV1.XU - 14) / 4;
+                                    FindInt = (int)((Face.UV1.Y - 14) / 4);
                                     WeightId = TempList.subNumberRefs[FindInt].Unknown;
                                     TempWeight = modelHeader.boneWeightHeader[WeightId];
                                     bindings1 = new (int Temp, float TempFloat)[TempWeight.boneWeights.Count];
@@ -205,7 +204,7 @@ namespace SSXMultiTool.FileHandlers
                                     TempBinding1.SetBindings(bindings1);
 
                                     VertexJoints4 TempBinding2 = new VertexJoints4();
-                                    FindInt = (Face.UV2.XU - 14) / 4;
+                                    FindInt = (int)((Face.UV2.Y - 14) / 4);
                                     WeightId = TempList.subNumberRefs[FindInt].Unknown;
                                     TempWeight = modelHeader.boneWeightHeader[WeightId];
                                     bindings1 = new (int Temp, float TempFloat)[TempWeight.boneWeights.Count];
@@ -216,7 +215,7 @@ namespace SSXMultiTool.FileHandlers
                                     TempBinding2.SetBindings(bindings1);
 
                                     VertexJoints4 TempBinding3 = new VertexJoints4();
-                                    FindInt = (Face.UV3.XU - 14) / 4;
+                                    FindInt = (int)((Face.UV3.Y - 14) / 4);
                                     WeightId = TempList.subNumberRefs[FindInt].Unknown;
                                     TempWeight = modelHeader.boneWeightHeader[WeightId];
                                     bindings1 = new (int Temp, float TempFloat)[TempWeight.boneWeights.Count];
