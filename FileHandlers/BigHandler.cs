@@ -86,7 +86,7 @@ namespace SSXMultiTool.FileHandlers
                 BIGFFiles tempFile = bigFiles[i];
                 byte[] bytes = new byte[2];
                 stream.Read(bytes, 0, bytes.Length);
-                if (bytes[1] == 0xFB)
+                if (bytes[1] == 0xFB && bytes[0] == 0x10)
                 {
                     tempFile.Compressed = true;
                     tempFile.UncompressedSize = StreamUtil.ReadInt24Big(stream);

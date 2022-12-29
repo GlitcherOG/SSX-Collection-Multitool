@@ -68,13 +68,15 @@ namespace SSXMultiTool.FileHandlers
 
             stream.Read(Signature, 0, 2);
 
-            if (Signature[1]!=0xFB)
+            if (Signature[1]!=0xFB && Signature[0] == 0x10)
             {
                 stream.Dispose();
                 stream.Close();
                 return Matrix;
             }
 
+
+            //NOT EVEN USED SO??
             if (Signature[0] == 0x01 && Signature[1] == 0x00)
             {
                 stream.Position+=3;
