@@ -33,11 +33,11 @@ namespace SSXMultiTool.FileHandlers
                     modelHeader.FileName = StreamUtil.ReadString(stream, 16);
                     modelHeader.DataOffset = StreamUtil.ReadInt32(stream);
                     modelHeader.EntrySize = StreamUtil.ReadInt32(stream);
-                    modelHeader.BoneDataOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.IKPointOffset = StreamUtil.ReadInt32(stream);
+                    modelHeader.BoneDataOffset = StreamUtil.ReadInt32(stream); //2
+                    modelHeader.IKPointOffset = StreamUtil.ReadInt32(stream); //Done
                     modelHeader.MeshGroupOffset = StreamUtil.ReadInt32(stream);
                     modelHeader.MeshDataOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.MaterialOffset = StreamUtil.ReadInt32(stream);
+                    modelHeader.MaterialOffset = StreamUtil.ReadInt32(stream); //1
                     modelHeader.NumberListOffset = StreamUtil.ReadInt32(stream);
                     modelHeader.BoneWeightOffet = StreamUtil.ReadInt32(stream);
 
@@ -125,9 +125,7 @@ namespace SSXMultiTool.FileHandlers
                 for (int a = 0; a < Model.IKCount; a++)
                 {
                     var TempIKPoint = new Vector3();
-                    TempIKPoint.X = StreamUtil.ReadFloat(streamMatrix);
-                    TempIKPoint.Y = StreamUtil.ReadFloat(streamMatrix);
-                    TempIKPoint.Z = StreamUtil.ReadFloat(streamMatrix);
+                    TempIKPoint = StreamUtil.ReadVector3(streamMatrix);
                     streamMatrix.Position += 4;
                     Model.iKPoints.Add(TempIKPoint);
                 }
@@ -458,6 +456,127 @@ namespace SSXMultiTool.FileHandlers
         {
             glstHandler.SaveTrickyglTF(path, this);
         }
+
+        public void Save(string path)
+        {
+            MemoryStream stream = new MemoryStream();
+            StreamUtil.WriteInt32(stream, 8);
+            StreamUtil.WriteInt16(stream, ModelList.Count);
+            StreamUtil.WriteInt16(stream, 16);
+
+            stream.Position += 80 * ModelList.Count + 4;
+
+            for (int i = 0; i < ModelList.Count; i++)
+            {
+                var Model = ModelList[i];
+                MemoryStream ModelStream = new MemoryStream();
+                Model.MaterialOffset = (int)ModelStream.Position;
+                for (int a = 0; a < Model.materialDatas.Count; a++)
+                {
+                    StreamUtil.WriteString(ModelStream, Model.materialDatas[a].MainTexture, 4);
+                    StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture1, 4);
+                    StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture2, 4);
+                    StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture3, 4);
+                    StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture4, 4);
+
+                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].R);
+                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].G);
+                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].B);
+                }
+
+                Model.BoneDataOffset = (int)ModelStream.Position;
+                for (int a = 0; a < Model.boneDatas.Count; a++)
+                {
+                    StreamUtil.WriteString(ModelStream, Model.boneDatas[a].BoneName, 16);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].Unknown);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].ParentBone);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].Unknown2);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].BoneID);
+
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].XLocation);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].YLocation);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].ZLocation);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].XRadian);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].YRadian);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].ZRadian);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].XRadian2);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].YRadian2);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].ZRadian2);
+
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat1);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat2);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat3);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat4);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat5);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat6);
+                }
+
+                Model.IKPointOffset = (int)ModelStream.Position;
+                for (int a = 0; a < Model.iKPoints.Count; a++)
+                {
+                    StreamUtil.WriteVector3(ModelStream, Model.iKPoints[a]);
+                    ModelStream.Position += 4;
+                }
+
+                //Bone Weigth
+
+                //Number Ref List
+
+                //Mesh Group
+
+                //Mesh Data Offset
+
+                StreamUtil.WriteStreamIntoStream(stream, ModelStream);
+                ModelStream.Dispose();
+                ModelStream.Close();
+                ModelList[i] = Model;
+            }
+
+
+
+            for (int i = 0; i < ModelList.Count; i++)
+            {
+                stream.Position = 8;
+                StreamUtil.WriteString(stream, ModelList[i].FileName, 16);
+                StreamUtil.WriteInt32(stream, ModelList[i].DataOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].EntrySize);
+                StreamUtil.WriteInt32(stream, ModelList[i].BoneDataOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].IKPointOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].MeshGroupOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].MeshDataOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].MaterialOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].NumberListOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].BoneWeightOffet);
+
+                StreamUtil.WriteInt32(stream, ModelList[i].Unused1);
+                StreamUtil.WriteInt32(stream, ModelList[i].Unused2);
+
+                StreamUtil.WriteInt16(stream, ModelList[i].boneWeightHeader.Count);
+                StreamUtil.WriteInt16(stream, ModelList[i].numberListRefs.Count);
+                StreamUtil.WriteInt16(stream, ModelList[i].MeshGroups.Count);
+                StreamUtil.WriteInt16(stream, ModelList[i].boneDatas.Count);
+                StreamUtil.WriteInt16(stream, ModelList[i].materialDatas.Count);
+                StreamUtil.WriteInt16(stream, ModelList[i].iKPoints.Count);
+                StreamUtil.WriteInt16(stream, ModelList[i].UnknownCount7);
+                StreamUtil.WriteInt16(stream, ModelList[i].UnknownCount8);
+
+                stream.Position += 4;
+            }
+
+
+
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            var file = File.Create(path);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            stream.Dispose();
+            file.Close();
+        }
+
 
 
         public struct MPFModelHeader
