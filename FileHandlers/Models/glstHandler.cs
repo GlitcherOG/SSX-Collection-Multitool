@@ -125,13 +125,16 @@ namespace SSXMultiTool.FileHandlers
                         Binding = bindings[modelHeader.boneDatas[i].ParentBone];
                     }
                     Binding = Binding.CreateNode(modelHeader.boneDatas[i].BoneName);
-                    float tempX = -modelHeader.boneDatas[i].XRadian;
-                    float tempY = -modelHeader.boneDatas[i].YRadian;
-                    float tempZ = -modelHeader.boneDatas[i].ZRadian;
+                    float tempX = modelHeader.boneDatas[i].XRadian;
+                    float tempY = modelHeader.boneDatas[i].YRadian;
+                    float tempZ = modelHeader.boneDatas[i].ZRadian;
 
-
-                    Binding.WithLocalRotation(Quaternion.CreateFromYawPitchRoll(tempX, tempY, tempZ));
+                    Binding.WithLocalRotation(ToQuaternion(new Vector3(-tempX, -tempY, -tempZ)));
                     Binding.WithLocalTranslation(new Vector3(modelHeader.boneDatas[i].XLocation, modelHeader.boneDatas[i].YLocation, modelHeader.boneDatas[i].ZLocation));
+
+                    Binding.LocalMatrix = Binding.LocalMatrix;
+
+
                     bindings.Add(Binding);
                 }
                 for (int a = 0; a < modelHeader.MeshGroups.Count; a++)
@@ -244,29 +247,60 @@ namespace SSXMultiTool.FileHandlers
             model.SaveGLB(Output);
         }
 
-        public static Quaternion Euler(float yaw, float pitch, float roll)
+        public static Matrix4x4 MatrixShift(Matrix4x4 Original)
         {
-            //yaw *= Mathf.Deg2Rad;
-            //pitch *= Mathf.Deg2Rad;
-            //roll *= Mathf.Deg2Rad;
+            var TempMatrix = new Matrix4x4(Original.M22, Original.M23, Original.M21, Original.M24, Original.M12, Original.M13, Original.M11, Original.M14, Original.M32, Original.M33, Original.M31, Original.M34, Original.M41, Original.M42, Original.M43, Original.M44);
 
-            double yawOver2 = yaw * 0.5f;
-            float cosYawOver2 = (float)System.Math.Cos(yawOver2);
-            float sinYawOver2 = (float)System.Math.Sin(yawOver2);
-            double pitchOver2 = pitch * 0.5f;
-            float cosPitchOver2 = (float)System.Math.Cos(pitchOver2);
-            float sinPitchOver2 = (float)System.Math.Sin(pitchOver2);
-            double rollOver2 = roll * 0.5f;
-            float cosRollOver2 = (float)System.Math.Cos(rollOver2);
-            float sinRollOver2 = (float)System.Math.Sin(rollOver2);
-            Quaternion result = new Quaternion();
-            result.W = cosYawOver2 * cosPitchOver2 * cosRollOver2 + sinYawOver2 * sinPitchOver2 * sinRollOver2;
-            result.X = sinYawOver2 * cosPitchOver2 * cosRollOver2 + cosYawOver2 * sinPitchOver2 * sinRollOver2;
-            result.Y = cosYawOver2 * sinPitchOver2 * cosRollOver2 - sinYawOver2 * cosPitchOver2 * sinRollOver2;
-            result.Z = cosYawOver2 * cosPitchOver2 * sinRollOver2 - sinYawOver2 * sinPitchOver2 * cosRollOver2;
 
-            return result;
+            return TempMatrix;
         }
 
+        public static Quaternion ToQuaternion(Vector3 v)
+        {
+
+            float cy = (float)Math.Cos(v.Z * 0.5);
+            float sy = (float)Math.Sin(v.Z * 0.5);
+            float cp = (float)Math.Cos(v.Y * 0.5);
+            float sp = (float)Math.Sin(v.Y * 0.5);
+            float cr = (float)Math.Cos(v.X * 0.5);
+            float sr = (float)Math.Sin(v.X * 0.5);
+
+            return new Quaternion
+            {
+                W = (cr * cp * cy + sr * sp * sy),
+                X = (sr * cp * cy - cr * sp * sy),
+                Y = (cr * sp * cy + sr * cp * sy),
+                Z = (cr * cp * sy - sr * sp * cy)
+            };
+
+        }
+
+        public static Vector3 ToEulerAngles(Quaternion q)
+        {
+            Vector3 angles = new();
+
+            // roll / x
+            double sinr_cosp = 2 * (q.W * q.X + q.Y * q.Z);
+            double cosr_cosp = 1 - 2 * (q.X * q.X + q.Y * q.Y);
+            angles.X = (float)Math.Atan2(sinr_cosp, cosr_cosp);
+
+            // pitch / y
+            double sinp = 2 * (q.W * q.Y - q.Z * q.X);
+            if (Math.Abs(sinp) >= 1)
+            {
+                angles.Y = (float)Math.CopySign(Math.PI / 2, sinp);
+            }
+            else
+            {
+                angles.Y = (float)Math.Asin(sinp);
+            }
+
+            // yaw / z
+            double siny_cosp = 2 * (q.W * q.Z + q.X * q.Y);
+            double cosy_cosp = 1 - 2 * (q.Y * q.Y + q.Z * q.Z);
+            angles.Z = (float)Math.Atan2(siny_cosp, cosy_cosp);
+
+            return angles;
+        }
     }
 }

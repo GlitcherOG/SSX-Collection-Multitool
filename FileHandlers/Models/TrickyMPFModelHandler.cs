@@ -519,8 +519,38 @@ namespace SSXMultiTool.FileHandlers
                 }
 
                 //Bone Weigth
+                Model.BoneWeightOffet = (int)ModelStream.Position;
+                stream.Position += 4 * Model.boneWeightHeader.Count;
+                for (int a = 0; a < Model.boneWeightHeader.Count; a++)
+                {
+                    var BoneWeightHeader = Model.boneWeightHeader[a];
+                    BoneWeightHeader.WeightListOffset = (int)ModelStream.Position;
+                    for (int b = 0; b < BoneWeightHeader.boneWeights.Count; b++)
+                    {
+                        StreamUtil.WriteInt16(ModelStream, BoneWeightHeader.boneWeights[b].weight);
+                        StreamUtil.WriteInt16(ModelStream, BoneWeightHeader.boneWeights[b].ID);
+                        StreamUtil.WriteInt16(ModelStream, BoneWeightHeader.boneWeights[b].unknown);
+                    }
+                    Model.boneWeightHeader[a] = BoneWeightHeader;
+                }
 
+                Model.NumberListOffset = (int)ModelStream.Position;
+                ModelStream.Position = Model.BoneWeightOffet;
+                for (int a = 0; a < Model.boneWeightHeader.Count; a++)
+                {
+                    StreamUtil.WriteInt32(ModelStream, Model.boneWeightHeader[a].boneWeights.Count);
+                    StreamUtil.WriteInt32(ModelStream, Model.boneWeightHeader[a].WeightListOffset);
+                    StreamUtil.WriteInt32(ModelStream, Model.boneWeightHeader[a].unknown);
+                }
+
+                ModelStream.Position = Model.NumberListOffset;
                 //Number Ref List
+
+                for (int a = 0; a < Model.numberListRefs.Count; a++)
+                {
+
+                }
+
 
                 //Mesh Group
 
