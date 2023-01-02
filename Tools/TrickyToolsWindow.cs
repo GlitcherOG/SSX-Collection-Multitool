@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using SSXMultiTool.FileHandlers;
+using SSXMultiTool.FileHandlers.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +21,7 @@ namespace SSXMultiTool
             InitializeComponent();
         }
         TrickyMPFModelHandler trickyMPF = new TrickyMPFModelHandler();
+        TrickyMPFModelHandler head = new TrickyMPFModelHandler();
 
         private void MPFLoad_Click(object sender, EventArgs e)
         {
@@ -42,6 +44,26 @@ namespace SSXMultiTool
 
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Model File (*.mpf)|*.mpf|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                head = new TrickyMPFModelHandler();
+                head.load(openFileDialog.FileName);
+                for (int i = 0; i < head.ModelList.Count; i++)
+                {
+                    MpfList.Items.Add(head.ModelList[i].FileName);
+                }
+            }
+        }
+
+
         private void MPFExtract_Click(object sender, EventArgs e)
         {
             SaveFileDialog openFileDialog = new SaveFileDialog
@@ -52,7 +74,13 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                trickyMPF.SaveModel(openFileDialog.FileName);
+                TrickyModelCombiner trickyModel = new TrickyModelCombiner();
+                trickyModel.Body = trickyMPF;
+                trickyModel.Head = head;
+
+                trickyModel.StartReassignMesh();
+
+                glstHandler.SaveTrickyglTF(openFileDialog.FileName, trickyModel.reassignedMesh[0]);
             }
         }
 

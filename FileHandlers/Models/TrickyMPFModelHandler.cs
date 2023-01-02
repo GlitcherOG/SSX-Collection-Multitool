@@ -452,11 +452,6 @@ namespace SSXMultiTool.FileHandlers
             return face;
         }
 
-        public void SaveModel(string path)
-        {
-            glstHandler.SaveTrickyglTF(path, this);
-        }
-
         public void Save(string path)
         {
             MemoryStream stream = new MemoryStream();
@@ -738,6 +733,7 @@ namespace SSXMultiTool.FileHandlers
 
         public struct BoneWeight
         {
+
             public int weight;
             public int ID;
             public int unknown;
@@ -784,6 +780,12 @@ namespace SSXMultiTool.FileHandlers
             public int Normal1Pos;
             public int Normal2Pos;
             public int Normal3Pos;
+
+            public BoneWeightHeader Weight1;
+            public BoneWeightHeader Weight2;
+            public BoneWeightHeader Weight3;
+
+            public int MaterialID;
         }
     }
 }
