@@ -86,19 +86,15 @@ namespace SSXMultiTool.FileHandlers.Models
                                 {
                                     TempList = modelHeader.numberListRefs[0];
                                 }
-                                int FindInt = 0;
                                 int WeightId = 0;
 
-                                FindInt = (int)((Face.UV1.Z - 14) / 4);
-                                WeightId = TempList.subNumberRefs[FindInt].Unknown;
+                                WeightId = TempList.WeightIDs[Face.Weight1Pos];
                                 Face.Weight1 = modelHeader.boneWeightHeader[WeightId];
 
-                                FindInt = (int)((Face.UV2.Z - 14) / 4);
-                                WeightId = TempList.subNumberRefs[FindInt].Unknown;
+                                WeightId = TempList.WeightIDs[Face.Weight2Pos];
                                 Face.Weight2 = modelHeader.boneWeightHeader[WeightId];
 
-                                FindInt = (int)((Face.UV3.Z - 14) / 4);
-                                WeightId = TempList.subNumberRefs[FindInt].Unknown;
+                                WeightId = TempList.WeightIDs[Face.Weight3Pos];
                                 Face.Weight3 = modelHeader.boneWeightHeader[WeightId];
 
                                 Face.MaterialID = modelHeader.MeshGroups[a].MaterialID;
@@ -120,9 +116,9 @@ namespace SSXMultiTool.FileHandlers.Models
             for (int i = 0; i < NewHeader.boneWeights.Count; i++)
             {
                 var Temp = NewHeader.boneWeights[i];
-                if (Temp.unknown != 0)
+                if (Temp.Flag != 0)
                 {
-                    Temp.ID += BoneStartID;
+                    Temp.BoneID += BoneStartID;
                 }
                 NewHeader.boneWeights[i] = Temp;
             }

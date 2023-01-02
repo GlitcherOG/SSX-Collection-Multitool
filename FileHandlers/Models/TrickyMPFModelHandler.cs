@@ -190,9 +190,9 @@ namespace SSXMultiTool.FileHandlers
                     for (int a = 0; a < BoneWeight.length; a++)
                     {
                         var boneWeight = new BoneWeight();
-                        boneWeight.weight = StreamUtil.ReadInt16(streamMatrix);
-                        boneWeight.ID = StreamUtil.ReadByte(streamMatrix);
-                        boneWeight.unknown = StreamUtil.ReadByte(streamMatrix);
+                        boneWeight.Weight = StreamUtil.ReadInt16(streamMatrix);
+                        boneWeight.BoneID = StreamUtil.ReadByte(streamMatrix);
+                        boneWeight.Flag = StreamUtil.ReadByte(streamMatrix);
                         BoneWeight.boneWeights.Add(boneWeight);
                     }
                     streamMatrix.Position = TempPos;
@@ -207,15 +207,13 @@ namespace SSXMultiTool.FileHandlers
                     var NumberListRef = new NumberListRef();
                     NumberListRef.SubCount = StreamUtil.ReadInt32(streamMatrix);
                     NumberListRef.Offset = StreamUtil.ReadInt32(streamMatrix);
-                    NumberListRef.subNumberRefs = new List<SubNumberRef>();
+                    NumberListRef.WeightIDs = new List<int>();
 
                     int TempPos = (int)streamMatrix.Position;
                     streamMatrix.Position = NumberListRef.Offset;
                     for (int c = 0; c < NumberListRef.SubCount; c++)
                     {
-                        var SubNumberRef = new SubNumberRef();
-                        SubNumberRef.Unknown = StreamUtil.ReadInt32(streamMatrix);
-                        NumberListRef.subNumberRefs.Add(SubNumberRef);
+                        NumberListRef.WeightIDs.Add(StreamUtil.ReadInt32(streamMatrix));
                     }
                     streamMatrix.Position = TempPos;
                     Model.numberListRefs.Add(NumberListRef);
@@ -447,6 +445,17 @@ namespace SSXMultiTool.FileHandlers
                 face.Normal1Pos = Index1;
                 face.Normal2Pos = Index2;
                 face.Normal3Pos = Index3;
+
+                face.Weight1Pos = (int)((face.UV1.Z - 14) / 4);
+                face.Weight2Pos = (int)((face.UV2.Z - 14) / 4);
+                face.Weight3Pos = (int)((face.UV3.Z - 14) / 4);
+            }
+            else
+            {
+                face.Weight1Pos = ModelData.Weights[Index1];
+                face.Weight2Pos = ModelData.Weights[Index2];
+                face.Weight3Pos = ModelData.Weights[Index3];
+
             }
 
             return face;
@@ -522,9 +531,9 @@ namespace SSXMultiTool.FileHandlers
                     BoneWeightHeader.WeightListOffset = (int)ModelStream.Position;
                     for (int b = 0; b < BoneWeightHeader.boneWeights.Count; b++)
                     {
-                        StreamUtil.WriteInt16(ModelStream, BoneWeightHeader.boneWeights[b].weight);
-                        StreamUtil.WriteInt16(ModelStream, BoneWeightHeader.boneWeights[b].ID);
-                        StreamUtil.WriteInt16(ModelStream, BoneWeightHeader.boneWeights[b].unknown);
+                        StreamUtil.WriteInt16(ModelStream, BoneWeightHeader.boneWeights[b].Weight);
+                        StreamUtil.WriteInt16(ModelStream, BoneWeightHeader.boneWeights[b].BoneID);
+                        StreamUtil.WriteInt16(ModelStream, BoneWeightHeader.boneWeights[b].Flag);
                     }
                     Model.boneWeightHeader[a] = BoneWeightHeader;
                 }
@@ -645,11 +654,7 @@ namespace SSXMultiTool.FileHandlers
             public int SubCount;
             public int Offset;
 
-            public List<SubNumberRef> subNumberRefs;
-        }
-        public struct SubNumberRef
-        {
-            public int Unknown;
+            public List<int> WeightIDs;
         }
 
         public struct MaterialData
@@ -733,10 +738,9 @@ namespace SSXMultiTool.FileHandlers
 
         public struct BoneWeight
         {
-
-            public int weight;
-            public int ID;
-            public int unknown;
+            public int Weight;
+            public int BoneID;
+            public int Flag;
         }
 
         public struct StaticMesh
@@ -784,6 +788,10 @@ namespace SSXMultiTool.FileHandlers
             public BoneWeightHeader Weight1;
             public BoneWeightHeader Weight2;
             public BoneWeightHeader Weight3;
+
+            public int Weight1Pos;
+            public int Weight2Pos;
+            public int Weight3Pos;
 
             public int MaterialID;
         }

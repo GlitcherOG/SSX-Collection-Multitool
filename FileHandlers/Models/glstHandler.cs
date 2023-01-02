@@ -182,7 +182,7 @@ namespace SSXMultiTool.FileHandlers
                 bindings1 = new (int Temp, float TempFloat)[Face.Weight1.boneWeights.Count];
                 for (int ia = 0; ia < Face.Weight1.boneWeights.Count; ia++)
                 {
-                    bindings1[ia] = (Face.Weight1.boneWeights[ia].ID, Face.Weight1.boneWeights[ia].weight);
+                    bindings1[ia] = (Face.Weight1.boneWeights[ia].BoneID, Face.Weight1.boneWeights[ia].Weight);
                 }
                 TempBinding1.SetBindings(bindings1);
 
@@ -190,7 +190,7 @@ namespace SSXMultiTool.FileHandlers
                 bindings1 = new (int Temp, float TempFloat)[Face.Weight2.boneWeights.Count];
                 for (int ia = 0; ia < Face.Weight2.boneWeights.Count; ia++)
                 {
-                    bindings1[ia] = (Face.Weight2.boneWeights[ia].ID, Face.Weight2.boneWeights[ia].weight);
+                    bindings1[ia] = (Face.Weight2.boneWeights[ia].BoneID, Face.Weight2.boneWeights[ia].Weight);
                 }
                 TempBinding2.SetBindings(bindings1);
 
@@ -198,7 +198,7 @@ namespace SSXMultiTool.FileHandlers
                 bindings1 = new (int Temp, float TempFloat)[Face.Weight3.boneWeights.Count];
                 for (int ia = 0; ia < Face.Weight3.boneWeights.Count; ia++)
                 {
-                    bindings1[ia] = (Face.Weight3.boneWeights[ia].ID, Face.Weight3.boneWeights[ia].weight);
+                    bindings1[ia] = (Face.Weight3.boneWeights[ia].BoneID, Face.Weight3.boneWeights[ia].Weight);
                 }
                 TempBinding3.SetBindings(bindings1);
 
