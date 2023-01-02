@@ -466,7 +466,8 @@ namespace SSXMultiTool.FileHandlers
             MemoryStream stream = new MemoryStream();
             StreamUtil.WriteInt32(stream, 8);
             StreamUtil.WriteInt16(stream, ModelList.Count);
-            StreamUtil.WriteInt16(stream, 16);
+            StreamUtil.WriteInt16(stream, 12);
+            StreamUtil.WriteInt32(stream, 12+ 80 * ModelList.Count + 4);
 
             stream.Position += 80 * ModelList.Count + 4;
 
@@ -522,9 +523,11 @@ namespace SSXMultiTool.FileHandlers
                     ModelStream.Position += 4;
                 }
 
+                //
+
                 //Bone Weigth
                 Model.BoneWeightOffet = (int)ModelStream.Position;
-                stream.Position += 4 * Model.boneWeightHeader.Count;
+                ModelStream.Position += 12 * Model.boneWeightHeader.Count;
                 for (int a = 0; a < Model.boneWeightHeader.Count; a++)
                 {
                     var BoneWeightHeader = Model.boneWeightHeader[a];
@@ -532,8 +535,8 @@ namespace SSXMultiTool.FileHandlers
                     for (int b = 0; b < BoneWeightHeader.boneWeights.Count; b++)
                     {
                         StreamUtil.WriteInt16(ModelStream, BoneWeightHeader.boneWeights[b].Weight);
-                        StreamUtil.WriteInt16(ModelStream, BoneWeightHeader.boneWeights[b].BoneID);
-                        StreamUtil.WriteInt16(ModelStream, BoneWeightHeader.boneWeights[b].Flag);
+                        StreamUtil.WriteInt8(ModelStream, BoneWeightHeader.boneWeights[b].BoneID);
+                        StreamUtil.WriteInt8(ModelStream, BoneWeightHeader.boneWeights[b].Flag);
                     }
                     Model.boneWeightHeader[a] = BoneWeightHeader;
                 }
@@ -549,16 +552,53 @@ namespace SSXMultiTool.FileHandlers
 
                 ModelStream.Position = Model.NumberListOffset;
                 //Number Ref List
+                ModelStream.Position += Model.numberListRefs.Count * 8;
+                for (int a = 0; a < Model.numberListRefs.Count; a++)
+                {
+                    var TempNumberRef = Model.numberListRefs[a];
+                    TempNumberRef.Offset = (int)ModelStream.Position;
+                    Model.numberListRefs[a] = TempNumberRef;
+
+                    for (int c = 0; c < TempNumberRef.WeightIDs.Count; c++)
+                    {
+                        StreamUtil.WriteInt32(ModelStream,TempNumberRef.WeightIDs[c]);
+                    }
+                }
+
+                Model.MeshGroupOffset = (int)ModelStream.Position;
+                ModelStream.Position = Model.NumberListOffset;
 
                 for (int a = 0; a < Model.numberListRefs.Count; a++)
                 {
-
+                    var TempNumberRef = Model.numberListRefs[a];
+                    StreamUtil.WriteInt32(ModelStream, TempNumberRef.WeightIDs.Count);
+                    StreamUtil.WriteInt32(ModelStream, TempNumberRef.Offset);
                 }
 
 
+                ModelStream.Position = Model.MeshGroupOffset;
+
+                int MathOffset = 0;
                 //Mesh Group
+                for (int a = 0; a < Model.MeshGroups.Count; a++)
+                {
+                    MathOffset += 4 * 5;
+                    for (int b = 0; b < Model.MeshGroups[a].meshGroupSubs.Count; b++)
+                    {
+                        MathOffset += 8 + Model.MeshGroups[a].meshGroupSubs[b].MeshGroupHeaders.Count *4* 3;
+                    }
+                }
+
+                ModelStream.Position += MathOffset;
+                StreamUtil.AlignBy16(ModelStream);
+                ModelStream.Position -= 1;
+                StreamUtil.WriteInt8(ModelStream, 0);
+
+
 
                 //Mesh Data Offset
+                Model.MeshDataOffset = (int)ModelStream.Position;
+
 
                 StreamUtil.WriteStreamIntoStream(stream, ModelStream);
                 ModelStream.Dispose();
@@ -567,10 +607,9 @@ namespace SSXMultiTool.FileHandlers
             }
 
 
-
+            stream.Position = 12;
             for (int i = 0; i < ModelList.Count; i++)
             {
-                stream.Position = 8;
                 StreamUtil.WriteString(stream, ModelList[i].FileName, 16);
                 StreamUtil.WriteInt32(stream, ModelList[i].DataOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].EntrySize);

@@ -140,5 +140,19 @@ namespace SSXMultiTool
                 }
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog openFileDialog = new SaveFileDialog
+            {
+                Filter = "Model File (*.mpf)|*.mpf|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                trickyMPF.Save(openFileDialog.FileName);
+            }
+        }
     }
 }
