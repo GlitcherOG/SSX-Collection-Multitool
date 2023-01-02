@@ -45,9 +45,9 @@ namespace SSXMultiTool.FileHandlers.Models
             TempMesh.faces.AddRange(ReturnFixedFaces(Body.ModelList[0]));
             TempMesh.faces.AddRange(ReturnFixedFaces(Head.ModelList[0], HeadBonesStart));
             TempMesh.faces.AddRange(ReturnFixedFaces(Head.ModelList[1], HeadBonesStart2));
-            TempMesh.faces.AddRange(ReturnFixedFaces(Head.ModelList[2], 0));
-            TempMesh.faces.AddRange(ReturnFixedFaces(Head.ModelList[3], 0));
-            TempMesh.faces.AddRange(ReturnFixedFaces(Head.ModelList[4], 0));
+            TempMesh.faces.AddRange(ReturnFixedFaces(Head.ModelList[2], HeadBonesStart3));
+            TempMesh.faces.AddRange(ReturnFixedFaces(Head.ModelList[3], HeadBonesStart4));
+            //TempMesh.faces.AddRange(ReturnFixedFaces(Head.ModelList[4], HeadBonesStart5));
             reassignedMesh.Add(TempMesh);
 
         }
@@ -120,7 +120,10 @@ namespace SSXMultiTool.FileHandlers.Models
             for (int i = 0; i < NewHeader.boneWeights.Count; i++)
             {
                 var Temp = NewHeader.boneWeights[i];
-                Temp.ID += BoneStartID;
+                if (Temp.unknown != 0)
+                {
+                    Temp.ID += BoneStartID;
+                }
                 NewHeader.boneWeights[i] = Temp;
             }
             return NewHeader;
