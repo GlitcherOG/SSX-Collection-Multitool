@@ -467,7 +467,8 @@ namespace SSXMultiTool.FileHandlers
             StreamUtil.WriteInt32(stream, 8);
             StreamUtil.WriteInt16(stream, ModelList.Count);
             StreamUtil.WriteInt16(stream, 12);
-            StreamUtil.WriteInt32(stream, 12+ 80 * ModelList.Count + 4);
+            HeaderSize = 12 + 80 * ModelList.Count + 4;
+            StreamUtil.WriteInt32(stream, HeaderSize);
 
             stream.Position += 80 * ModelList.Count + 4;
 
@@ -600,6 +601,67 @@ namespace SSXMultiTool.FileHandlers
                 Model.MeshDataOffset = (int)ModelStream.Position;
 
 
+
+                ModelStream.Position = Model.MeshGroupOffset;
+                //Go to end of structure
+                ModelStream.Position += 4 * 5 * Model.MeshGroups.Count;
+                for (int a = 0; a < Model.MeshGroups.Count; a++)
+                {
+                    ModelStream.Position += Model.MeshGroups[a].meshGroupSubs.Count*8;
+                }
+                //Write End Of structure
+                for (int a = 0; a < Model.MeshGroups.Count; a++)
+                {
+                    var TempMeshGroup = Model.MeshGroups[a];
+                    for (int b = 0; b < TempMeshGroup.meshGroupSubs.Count; b++)
+                    {
+                        var TempSubGroup = TempMeshGroup.meshGroupSubs[b];
+                        TempSubGroup.LinkOffset = (int)ModelStream.Position;
+                        for (int c = 0; c < TempSubGroup.MeshGroupHeaders.Count; c++)
+                        {
+                            StreamUtil.WriteInt32(ModelStream, TempSubGroup.MeshGroupHeaders[c].ModelOffset);
+                            StreamUtil.WriteInt32(ModelStream, TempSubGroup.MeshGroupHeaders[c].Unknown2);
+                            StreamUtil.WriteInt32(ModelStream, TempSubGroup.MeshGroupHeaders[c].Unknown3);
+                        }
+                        TempMeshGroup.meshGroupSubs[b] = TempSubGroup;
+                    }
+                    Model.MeshGroups[a] = TempMeshGroup;
+                }
+
+
+                //Goto 2nd part of structure
+                ModelStream.Position = Model.MeshGroupOffset;
+                ModelStream.Position += 4 * 5 * Model.MeshGroups.Count;
+
+                //Write 2nd part of structure
+                //Write End Of structure
+                for (int a = 0; a < Model.MeshGroups.Count; a++)
+                {
+                    var TempMeshGroup = Model.MeshGroups[a];
+                    TempMeshGroup.LinkOffset = (int)ModelStream.Position;
+                    for (int b = 0; b < TempMeshGroup.meshGroupSubs.Count; b++)
+                    {
+                        var TempSubGroup = TempMeshGroup.meshGroupSubs[b];
+                        StreamUtil.WriteInt32(ModelStream, TempSubGroup.LinkOffset);
+                        StreamUtil.WriteInt32(ModelStream, TempSubGroup.MeshGroupHeaders.Count);
+                    }
+                    Model.MeshGroups[a] = TempMeshGroup;
+                }
+
+
+                //Goto start and writestart of structure
+                ModelStream.Position = Model.MeshGroupOffset;
+                for (int a = 0; a < Model.MeshGroups.Count; a++)
+                {
+                    StreamUtil.WriteInt32(ModelStream, Model.MeshGroups[a].ID);
+                    StreamUtil.WriteInt32(ModelStream, Model.MeshGroups[a].MaterialID);
+                    StreamUtil.WriteInt32(ModelStream, Model.MeshGroups[a].Unknown);
+                    StreamUtil.WriteInt32(ModelStream, Model.MeshGroups[a].meshGroupSubs.Count);
+                    StreamUtil.WriteInt32(ModelStream, Model.MeshGroups[a].LinkOffset);
+                }
+                ModelStream.Position = 0;
+                Model.EntrySize = (int)ModelStream.Length;
+                Model.DataOffset = (int)(stream.Position - HeaderSize);
                 StreamUtil.WriteStreamIntoStream(stream, ModelStream);
                 ModelStream.Dispose();
                 ModelStream.Close();
