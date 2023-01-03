@@ -13,7 +13,7 @@ namespace SSXMultiTool.FileHandlers
     {
         public int U1;
         public int HeaderCount;
-        public int HeaderSize;
+        public int HeaderOffset;
         public int FileStart;
         public List<MPFModelHeader> ModelList = new List<MPFModelHeader>();
 
@@ -23,7 +23,7 @@ namespace SSXMultiTool.FileHandlers
             {
                 U1 = StreamUtil.ReadInt32(stream);
                 HeaderCount = StreamUtil.ReadInt16(stream);
-                HeaderSize = StreamUtil.ReadInt16(stream);
+                HeaderOffset = StreamUtil.ReadInt16(stream);
                 FileStart = StreamUtil.ReadInt32(stream);
                 //Load Headers
                 for (int i = 0; i < HeaderCount; i++)
@@ -242,8 +242,8 @@ namespace SSXMultiTool.FileHandlers
                                 var ModelData = new StaticMesh();
 
                                 ModelData.StripCount = StreamUtil.ReadInt32(streamMatrix);
-                                ModelData.EdgeCount = StreamUtil.ReadInt32(streamMatrix);
-                                ModelData.NormalCount = StreamUtil.ReadInt32(streamMatrix);
+                                ModelData.EdgeCount = StreamUtil.ReadInt32(streamMatrix); //Wrong
+                                ModelData.NormalCount = StreamUtil.ReadInt32(streamMatrix); //Wrong
                                 ModelData.VertexCount = StreamUtil.ReadInt32(streamMatrix);
 
                                 //Load Strip Count
@@ -356,7 +356,6 @@ namespace SSXMultiTool.FileHandlers
             {
                 strip2.Add(strip2[strip2.Count - 1] + item);
             }
-            ModelData.Strips = strip2;
 
             //Make Faces
             ModelData.faces = new List<Face>();
@@ -364,7 +363,7 @@ namespace SSXMultiTool.FileHandlers
             int Rotation = 0;
             for (int b = 0; b < ModelData.vertices.Count; b++)
             {
-                if (InsideSplits(b, ModelData.Strips))
+                if (InsideSplits(b, strip2))
                 {
                     Rotation = 0;
                     localIndex = 1;
@@ -467,8 +466,8 @@ namespace SSXMultiTool.FileHandlers
             StreamUtil.WriteInt32(stream, 8);
             StreamUtil.WriteInt16(stream, ModelList.Count);
             StreamUtil.WriteInt16(stream, 12);
-            HeaderSize = 12 + 80 * ModelList.Count + 4;
-            StreamUtil.WriteInt32(stream, HeaderSize);
+            FileStart = 12 + 80 * ModelList.Count + 4;
+            StreamUtil.WriteInt32(stream, FileStart);
 
             stream.Position += 80 * ModelList.Count + 4;
 
@@ -599,6 +598,183 @@ namespace SSXMultiTool.FileHandlers
 
                 //Mesh Data Offset
                 Model.MeshDataOffset = (int)ModelStream.Position;
+                bool FirstChunk = false;
+                for (int a = 0; a < Model.MeshGroups.Count; a++)
+                {
+                    var TempMeshGroup = Model.MeshGroups[a];
+                    for (int b = 0; b < TempMeshGroup.meshGroupSubs.Count; b++)
+                    {
+                        var TempSubGroup = TempMeshGroup.meshGroupSubs[b];
+                        for (int c = 0; c < TempSubGroup.MeshGroupHeaders.Count; c++)
+                        {
+                            var TempGroupHeader = TempSubGroup.MeshGroupHeaders[c];
+                            TempGroupHeader.ModelOffset = (int)ModelStream.Position;
+                            bool MeshTest = false;
+                            //Write Mesh Chunk
+                            for (int d = 0; d < TempGroupHeader.staticMesh.Count; d++)
+                            {
+                                var TempStaticMesh = TempGroupHeader.staticMesh[d];
+                                int RowCountPos = (int)ModelStream.Position;
+                                ModelStream.Position += 3;
+                                StreamUtil.WriteInt32(ModelStream, 16);
+                                StreamUtil.AlignBy16(ModelStream);
+
+                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80 });
+                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 2);
+                                StreamUtil.WriteInt8(ModelStream, 0x6C);
+
+                                //Tristrip Header InfoCrap
+                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x38, 0x80, 0x00, 0x00, 0x00, 0x40, 0x2E, 0x30, 0x12, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+
+                                StreamUtil.WriteInt32(ModelStream, TempStaticMesh.Strips.Count);
+                                StreamUtil.WriteInt32(ModelStream, TempStaticMesh.EdgeCount);
+                                StreamUtil.WriteInt32(ModelStream, TempStaticMesh.NormalCount);
+                                StreamUtil.WriteInt32(ModelStream, TempStaticMesh.vertices.Count);
+
+                                //Write Tristrips
+                                for (int e = 0; e < TempStaticMesh.Strips.Count; e++)
+                                {
+                                    StreamUtil.WriteInt32(ModelStream, TempStaticMesh.Strips[e]);
+                                    StreamUtil.AlignBy16(ModelStream);
+                                }
+
+                                //Go back and write rowcount
+                                int TempPos = (int)ModelStream.Position;
+                                ModelStream.Position = RowCountPos;
+                                StreamUtil.WriteInt24(ModelStream, (TempPos - RowCountPos) / 16 - 1);
+                                ModelStream.Position = TempPos;
+
+                                //Set New Rowcount
+                                RowCountPos = (int)ModelStream.Position;
+                                ModelStream.Position += 3;
+                                StreamUtil.WriteInt32(ModelStream, 16);
+                                StreamUtil.AlignBy16(ModelStream);
+
+                                //Write UV
+                                ModelStream.Position += 7;
+                                StreamUtil.WriteInt8(ModelStream, 0x30);
+                                ModelStream.Position += 8;
+
+                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x50, 0x50, 0x50, 0x50 });
+
+                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
+                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 2);
+                                StreamUtil.WriteInt8(ModelStream, 0x80);
+                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.uv.Count);
+                                StreamUtil.WriteInt8(ModelStream, 0x6D);
+
+                                for (int e = 0; e < TempStaticMesh.uv.Count; e++)
+                                {
+                                    StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uv[e].X*4096f));
+                                    StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uv[e].Y * 4096f));
+                                    StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uv[e].Z));
+                                    StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uv[e].W));
+                                }
+                                StreamUtil.AlignBy16(ModelStream);
+
+                                //Write Normals
+                                ModelStream.Position += 7;
+                                StreamUtil.WriteInt8(ModelStream, 0x30);
+                                ModelStream.Position += 8;
+
+                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x40, 0x40, 0x40, 0x40 });
+
+                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
+                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 3);
+                                StreamUtil.WriteInt8(ModelStream, 0x80);
+                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.uvNormals.Count);
+                                StreamUtil.WriteInt8(ModelStream, 0x79);
+
+                                for (int e = 0; e < TempStaticMesh.uvNormals.Count; e++)
+                                {
+                                    StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uvNormals[e].X * 4096f));
+                                    StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uvNormals[e].Y * 4096f));
+                                    StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uvNormals[e].Z * 4096f));
+                                }
+                                StreamUtil.AlignBy16(ModelStream);
+
+                                //Write Vertex Count
+                                ModelStream.Position += 7;
+                                StreamUtil.WriteInt8(ModelStream, 0x30);
+                                ModelStream.Position += 8;
+
+                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x3F, 0x00, 0x00, 0x00, 0x20, 0x40, 0x40, 0x40, 0x40 });
+
+                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
+                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 4);
+                                StreamUtil.WriteInt8(ModelStream, 0x80);
+                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.vertices.Count);
+                                StreamUtil.WriteInt8(ModelStream, 0x78);
+
+                                for (int e = 0; e < TempStaticMesh.vertices.Count; e++)
+                                {
+                                    StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.vertices[e].X));
+                                    StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.vertices[e].Y));
+                                    StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.vertices[e].Z));
+                                }
+                                StreamUtil.AlignBy16(ModelStream);
+
+                                //Go back and write row count
+                                TempPos = (int)ModelStream.Position;
+                                ModelStream.Position = RowCountPos;
+                                StreamUtil.WriteInt24(ModelStream, (TempPos - RowCountPos) / 16 - 1);
+                                ModelStream.Position = TempPos;
+
+                                //Write New RowCount that neve changes
+                                StreamUtil.WriteInt24(ModelStream, 1);
+                                StreamUtil.WriteInt32(ModelStream, 16);
+                                StreamUtil.AlignBy16(ModelStream);
+
+                                if(!MeshTest)
+                                {
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                }
+                                else
+                                {
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x06, 0x00, 0x00, 0x14, 0x06, 0x00, 0x00, 0x14 });
+                                }
+                                MeshTest = !MeshTest;
+
+                            }
+
+                            //Write End of Meshdata
+                            StreamUtil.WriteInt24(ModelStream, 1);
+                            StreamUtil.WriteInt32(ModelStream, 96);
+                            StreamUtil.AlignBy16(ModelStream);
+
+                            StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01 });
+                            StreamUtil.AlignBy16(ModelStream);
+                            ModelStream.Position -= 1;
+                            StreamUtil.WriteInt8(ModelStream, 0);
+
+                            //Unknown Rules For this
+                            if (!FirstChunk || (a == Model.MeshGroups.Count-1 && b== TempMeshGroup.meshGroupSubs.Count-1 && c==TempSubGroup.MeshGroupHeaders.Count-1))
+                            {
+                                StreamUtil.WriteInt24(ModelStream, 1);
+                                StreamUtil.WriteInt32(ModelStream, 96);
+                                StreamUtil.AlignBy16(ModelStream);
+
+                                ModelStream.Position += 12;
+                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
+
+                                ModelStream.Position += 7;
+                                StreamUtil.WriteInt8(ModelStream, 16);
+                                ModelStream.Position += 7;
+                                StreamUtil.WriteInt8(ModelStream, 20);
+                                FirstChunk = true;
+                            }
+
+
+                            TempSubGroup.MeshGroupHeaders[c] = TempGroupHeader;
+                        }
+                        TempMeshGroup.meshGroupSubs[b] = TempSubGroup;
+                    }
+
+                    Model.MeshGroups[a] = TempMeshGroup;
+                }
+
+
+
 
 
 
@@ -661,7 +837,7 @@ namespace SSXMultiTool.FileHandlers
                 }
                 ModelStream.Position = 0;
                 Model.EntrySize = (int)ModelStream.Length;
-                Model.DataOffset = (int)(stream.Position - HeaderSize);
+                Model.DataOffset = (int)(stream.Position - FileStart);
                 StreamUtil.WriteStreamIntoStream(stream, ModelStream);
                 ModelStream.Dispose();
                 ModelStream.Close();
