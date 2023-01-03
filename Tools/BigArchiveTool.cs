@@ -18,7 +18,8 @@ namespace SSXMultiTool
         public BigArchiveTool()
         {
             InitializeComponent();
-            SetupDataView(); 
+            SetupDataView();
+            BigTypeCombobox.SelectedIndex = 0;
             ExtractBigArchive.Enabled = false;
             BuildBigArchive.Enabled=false;
         }
@@ -59,6 +60,7 @@ namespace SSXMultiTool
             BigTypeCombobox.Text = bigHandler.bigType.ToString();
             this.Text = "Big Archive (" + path + ")";
             LoadDataRows();
+            GC.Collect();
         }
 
         public void LoadFolderPath(string path, bool compressed = false)
@@ -72,7 +74,7 @@ namespace SSXMultiTool
             BuildBigArchive.Enabled = true;
             bigHandler.LoadFolder(path);
             BigTypeCombobox.Enabled = true;
-            BigTypeCombobox.SelectedIndex = 0;
+            //BigTypeCombobox.SelectedIndex = 0;
             this.Text = "Big Archive Folder Mode (" + path + ")";
             LoadDataRows();
         }
@@ -80,7 +82,7 @@ namespace SSXMultiTool
         public void ExtractBigPath(string path)
         {
             bigHandler.ExtractBig(path);
-            MessageBox.Show("Extracted");
+            GC.Collect();
         }
 
         public void CreateBigPath(string path)
@@ -100,7 +102,16 @@ namespace SSXMultiTool
             };
             if(openFileDialog.ShowDialog()==DialogResult.OK)
             {
-                LoadBigPath(openFileDialog.FileName);
+                try
+                {
+                    LoadBigPath(openFileDialog.FileName);
+                    GC.Collect();
+                    MessageBox.Show("Extracted");
+                }
+                catch
+                {
+                    MessageBox.Show("Error Loading .Big Archive");
+                }
             }
         }
 
@@ -124,7 +135,15 @@ namespace SSXMultiTool
             };
             if (commonDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                ExtractBigPath(commonDialog.FileName);
+                try
+                {
+                    ExtractBigPath(commonDialog.FileName);
+                    GC.Collect();
+                }
+                catch
+                {
+                    MessageBox.Show("Error Extracting Big Archive");
+                }
             }
         }
 
@@ -139,6 +158,7 @@ namespace SSXMultiTool
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 CreateBigPath(openFileDialog.FileName);
+                GC.Collect();
             }
         }
 

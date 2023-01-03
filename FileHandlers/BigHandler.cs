@@ -253,7 +253,12 @@ namespace SSXMultiTool.FileHandlers
 
         public void BuildBig(string path)
         {
-            Stream stream = new MemoryStream();
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            var file = File.Create(path);
+            Stream stream = file;
 
             if (bigType == BigType.BIGF || bigType == BigType.BIG4)
             {
@@ -275,16 +280,10 @@ namespace SSXMultiTool.FileHandlers
                 MessageBox.Show("Unkown format");
             }
 
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
-
-            var file = File.Create(path);
-            stream.Position = 0;
-            stream.CopyTo(file);
             stream.Dispose();
+            stream.Close();
             file.Close();
+            GC.Collect();
         }
 
         public void BuildBigF(Stream stream)
@@ -350,6 +349,7 @@ namespace SSXMultiTool.FileHandlers
                         stream.Write(Output, 0, Output.Length);
                     }
                 }
+                GC.Collect();
             }
 
             //Set filesize
@@ -409,6 +409,7 @@ namespace SSXMultiTool.FileHandlers
                         RefpackHandler.Compress(tempByte, out Output, CompressionLevel.Max);
                         stream.Write(Output, 0, Output.Length);
                     }
+                    GC.Collect();
                 }
             }
         }

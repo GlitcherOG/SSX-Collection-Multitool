@@ -624,7 +624,15 @@ namespace SSXMultiTool.FileHandlers
                                 StreamUtil.WriteInt8(ModelStream, 0x6C);
 
                                 //Tristrip Header InfoCrap
-                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x38, 0x80, 0x00, 0x00, 0x00, 0x40, 0x2E, 0x30, 0x12, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                if(d!= TempGroupHeader.staticMesh.Count-1)
+                                {
+                                    StreamUtil.WriteInt8(ModelStream, 0x38);
+                                }
+                                else
+                                {
+                                    StreamUtil.WriteInt8(ModelStream, 0x06);
+                                }
+                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x80, 0x00, 0x00, 0x00, 0x40, 0x2E, 0x30, 0x12, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }); //Start OF Line wrong
 
                                 StreamUtil.WriteInt32(ModelStream, TempStaticMesh.Strips.Count);
                                 StreamUtil.WriteInt32(ModelStream, TempStaticMesh.EdgeCount);
