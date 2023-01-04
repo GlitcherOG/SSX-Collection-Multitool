@@ -50,7 +50,7 @@ namespace SSXMultiTool.FileHandlers
                     modelHeader.BoneDataCount = StreamUtil.ReadInt16(stream);
                     modelHeader.MaterialCount = StreamUtil.ReadInt16(stream);
                     modelHeader.IKCount = StreamUtil.ReadInt16(stream);
-                    modelHeader.UnknownCount7 = StreamUtil.ReadInt16(stream);
+                    modelHeader.MorphKeyCount = StreamUtil.ReadInt16(stream);
                     modelHeader.UnknownCount8 = StreamUtil.ReadInt16(stream);
                     stream.Position += 4;
 
@@ -158,8 +158,8 @@ namespace SSXMultiTool.FileHandlers
                         {
                             var TempMeshGroupHeader = new MeshGroupHeader();
                             TempMeshGroupHeader.ModelOffset = StreamUtil.ReadInt32(streamMatrix);
-                            TempMeshGroupHeader.Unknown2 = StreamUtil.ReadInt32(streamMatrix);
-                            TempMeshGroupHeader.Unknown3 = StreamUtil.ReadInt32(streamMatrix);
+                            TempMeshGroupHeader.MorphKeyOffset = StreamUtil.ReadInt32(streamMatrix);
+                            TempMeshGroupHeader.MorphKeyEntrySize = StreamUtil.ReadInt32(streamMatrix);
                             TempMeshGroupHeader.WeightRefGroup = NumberWeightRef;
                             NumberWeightRef++;
                             TempSubHeader.MeshGroupHeaders.Add(TempMeshGroupHeader);
@@ -242,8 +242,8 @@ namespace SSXMultiTool.FileHandlers
                                 var ModelData = new StaticMesh();
 
                                 ModelData.StripCount = StreamUtil.ReadInt32(streamMatrix);
-                                ModelData.EdgeCount = StreamUtil.ReadInt32(streamMatrix); //Wrong
-                                ModelData.NormalCount = StreamUtil.ReadInt32(streamMatrix); //Wrong
+                                ModelData.Unknown1 = StreamUtil.ReadInt32(streamMatrix); //Wrong
+                                ModelData.Unknown2 = StreamUtil.ReadInt32(streamMatrix); //Wrong
                                 ModelData.VertexCount = StreamUtil.ReadInt32(streamMatrix);
 
                                 //Load Strip Count
@@ -258,7 +258,7 @@ namespace SSXMultiTool.FileHandlers
 
                                 List<Vector4> UVs = new List<Vector4>();
                                 //Read UV Texture Points
-                                if (ModelData.NormalCount != 0)
+                                if (ModelData.Unknown2 != 0)
                                 {
                                     streamMatrix.Position += 48;
                                     for (int a = 0; a < ModelData.VertexCount; a++)
@@ -276,13 +276,13 @@ namespace SSXMultiTool.FileHandlers
 
                                 List<Vector3> Normals = new List<Vector3>();
                                 //Read Normals
-                                if (ModelData.NormalCount != 0)
+                                if (ModelData.Unknown2 != 0)
                                 {
                                     streamMatrix.Position += 48;
                                     for (int a = 0; a < ModelData.VertexCount; a++)
                                     {
                                         Vector3 normal = new Vector3();
-                                        normal.X = StreamUtil.ReadInt16(streamMatrix)/4096f;
+                                        normal.X = StreamUtil.ReadInt16(streamMatrix) / 4096f;
                                         normal.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
                                         normal.Z = StreamUtil.ReadInt16(streamMatrix) / 4096f;
                                         Normals.Add(normal);
@@ -329,6 +329,34 @@ namespace SSXMultiTool.FileHandlers
                                 streamMatrix.Position += 16 * 2;
                                 SubSubGroupHeader.staticMesh.Add(ModelData);
                             }
+
+                            if (SubSubGroupHeader.MorphKeyOffset != -1)
+                            {
+                                streamMatrix.Position = SubSubGroupHeader.ModelOffset + SubSubGroupHeader.MorphKeyOffset;
+                                SubSubGroupHeader.MorphKeyList = new List<MorphKey>();
+                                for (int dci = 0; dci < Model.MorphKeyCount; dci++)
+                                {
+                                    var TempMorphKey = new MorphKey();
+                                    TempMorphKey.morphData = new List<MorphPointData>();
+                                    streamMatrix.Position += 30;
+                                    TempMorphKey.MorphPointDataCount = StreamUtil.ReadByte(streamMatrix);
+                                    streamMatrix.Position += 1;
+                                    for (int dcb = 0; dcb < TempMorphKey.MorphPointDataCount; dcb++)
+                                    {
+                                        var TempPoint = new MorphPointData();
+                                        TempPoint.Unknown1 = StreamUtil.ReadByte(streamMatrix);
+                                        TempPoint.Unknown2 = StreamUtil.ReadByte(streamMatrix);
+                                        TempPoint.Unknown3 = StreamUtil.ReadByte(streamMatrix);
+                                        TempMorphKey.morphData.Add(TempPoint);
+                                    }
+                                    StreamUtil.AlignBy16(streamMatrix);
+
+                                    streamMatrix.Position += 16;
+
+                                    SubSubGroupHeader.MorphKeyList.Add(TempMorphKey);
+                                }
+                            }
+
                             for (int b = 0; b < SubSubGroupHeader.staticMesh.Count; b++)
                             {
                                 SubSubGroupHeader.staticMesh[b] = GenerateFaces(SubSubGroupHeader.staticMesh[b]);
@@ -635,8 +663,8 @@ namespace SSXMultiTool.FileHandlers
                                 StreamUtil.WriteBytes(ModelStream, new byte[] { 0x80, 0x00, 0x00, 0x00, 0x40, 0x2E, 0x30, 0x12, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }); //Start OF Line wrong
 
                                 StreamUtil.WriteInt32(ModelStream, TempStaticMesh.Strips.Count);
-                                StreamUtil.WriteInt32(ModelStream, TempStaticMesh.EdgeCount);
-                                StreamUtil.WriteInt32(ModelStream, TempStaticMesh.NormalCount);
+                                StreamUtil.WriteInt32(ModelStream, TempStaticMesh.Unknown1);
+                                StreamUtil.WriteInt32(ModelStream, TempStaticMesh.Unknown2);
                                 StreamUtil.WriteInt32(ModelStream, TempStaticMesh.vertices.Count);
 
                                 //Write Tristrips
@@ -804,8 +832,8 @@ namespace SSXMultiTool.FileHandlers
                         for (int c = 0; c < TempSubGroup.MeshGroupHeaders.Count; c++)
                         {
                             StreamUtil.WriteInt32(ModelStream, TempSubGroup.MeshGroupHeaders[c].ModelOffset);
-                            StreamUtil.WriteInt32(ModelStream, TempSubGroup.MeshGroupHeaders[c].Unknown2);
-                            StreamUtil.WriteInt32(ModelStream, TempSubGroup.MeshGroupHeaders[c].Unknown3);
+                            StreamUtil.WriteInt32(ModelStream, TempSubGroup.MeshGroupHeaders[c].MorphKeyOffset);
+                            StreamUtil.WriteInt32(ModelStream, TempSubGroup.MeshGroupHeaders[c].MorphKeyEntrySize);
                         }
                         TempMeshGroup.meshGroupSubs[b] = TempSubGroup;
                     }
@@ -876,7 +904,7 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteInt16(stream, ModelList[i].boneDatas.Count);
                 StreamUtil.WriteInt16(stream, ModelList[i].materialDatas.Count);
                 StreamUtil.WriteInt16(stream, ModelList[i].iKPoints.Count);
-                StreamUtil.WriteInt16(stream, ModelList[i].UnknownCount7);
+                StreamUtil.WriteInt16(stream, ModelList[i].MorphKeyCount);
                 StreamUtil.WriteInt16(stream, ModelList[i].UnknownCount8);
 
                 stream.Position += 4;
@@ -921,7 +949,7 @@ namespace SSXMultiTool.FileHandlers
             public int BoneDataCount;
             public int MaterialCount;
             public int IKCount;
-            public int UnknownCount7;
+            public int MorphKeyCount;
             public int UnknownCount8;
 
             public byte[] Matrix;
@@ -1005,11 +1033,26 @@ namespace SSXMultiTool.FileHandlers
         public struct MeshGroupHeader
         {
             public int ModelOffset;
-            public int Unknown2;
-            public int Unknown3;
+            public int MorphKeyOffset; //Morph Target Offset
+            public int MorphKeyEntrySize; //Morph Target Entry Size
             public int WeightRefGroup;
 
             public List<StaticMesh> staticMesh;
+            public List<MorphKey> MorphKeyList;
+        }
+
+        public struct MorphKey
+        {
+            public int MorphPointDataCount;
+
+            public List<MorphPointData> morphData;
+        }
+
+        public struct MorphPointData
+        {
+            public int Unknown1;
+            public int Unknown2;
+            public int Unknown3;
         }
 
         public struct BoneWeightHeader
@@ -1031,8 +1074,8 @@ namespace SSXMultiTool.FileHandlers
         public struct StaticMesh
         {
             public int StripCount;
-            public int EdgeCount;
-            public int NormalCount;
+            public int Unknown1;
+            public int Unknown2;
             public int VertexCount;
             public List<int> Strips;
 

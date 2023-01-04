@@ -99,7 +99,9 @@ namespace SSXMultiTool.FileHandlers
         public static void SaveTrickyglTF(string Output, TrickyModelCombiner.ReassignedMesh Handler)
         {
             var scene = new SharpGLTF.Scenes.SceneBuilder();
-            //VertexJoints4
+
+
+                //VertexJoints4
             var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1, VertexJoints4>("Character3000");
             //var bindings = new List<Node>();
             List<MaterialBuilder> materialBuilders = new List<MaterialBuilder>();

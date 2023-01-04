@@ -106,7 +106,6 @@ namespace SSXMultiTool
                 {
                     LoadBigPath(openFileDialog.FileName);
                     GC.Collect();
-                    MessageBox.Show("Extracted");
                 }
                 catch
                 {
@@ -139,6 +138,7 @@ namespace SSXMultiTool
                 {
                     ExtractBigPath(commonDialog.FileName);
                     GC.Collect();
+                    MessageBox.Show("Extracted");
                 }
                 catch
                 {
