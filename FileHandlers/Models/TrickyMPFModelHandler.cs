@@ -286,9 +286,9 @@ namespace SSXMultiTool.FileHandlers
                                     for (int a = 0; a < ModelData.VertexCount; a++)
                                     {
                                         Vector3 normal = new Vector3();
-                                        normal.X = StreamUtil.ReadInt16(streamMatrix) / 4096f;
-                                        normal.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
-                                        normal.Z = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                                        normal.X = StreamUtil.ReadInt16(streamMatrix) / 32768f;
+                                        normal.Y = StreamUtil.ReadInt16(streamMatrix) / 32768f;
+                                        normal.Z = StreamUtil.ReadInt16(streamMatrix) / 32768f;
                                         Normals.Add(normal);
                                     }
                                     StreamUtil.AlignBy16(streamMatrix);

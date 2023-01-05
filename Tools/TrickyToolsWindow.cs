@@ -50,10 +50,12 @@ namespace SSXMultiTool
                 {
                     if(trickyModel.Body == null)
                     {
+                        MpfList.Items.Clear();
                         MpfList.Items.Add("Please Load Matching Body File");
                     }
                     else if (trickyModel.Head == null)
                     {
+                        MpfList.Items.Clear();
                         MpfList.Items.Add("Please Load Matching Head File");
                     }
                 }
