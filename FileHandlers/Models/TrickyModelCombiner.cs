@@ -88,8 +88,6 @@ namespace SSXMultiTool.FileHandlers.Models
 
         public void StartReassignMeshCharacter(int MeshID)
         {
-
-
             reassignedMesh = new List<ReassignedMesh>();
             List<int> headboneStart = new List<int>();
             headboneStart.Add(0);
@@ -143,6 +141,10 @@ namespace SSXMultiTool.FileHandlers.Models
                     if (MeshID == 3)
                     {
                         TempMesh.ShadowModel = true;
+                    }
+                    if (Head.ModelList[i].MorphKeyCount!=0)
+                    {
+                        TempMesh.MorphTargets = true;
                     }
                     reassignedMesh.Add(TempMesh);
                 }
@@ -227,6 +229,7 @@ namespace SSXMultiTool.FileHandlers.Models
         {
             public string MeshName;
             public bool ShadowModel;
+            public bool MorphTargets;
             public List<TrickyMPFModelHandler.Face> faces;
         }
     }
