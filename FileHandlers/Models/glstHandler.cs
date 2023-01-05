@@ -137,6 +137,7 @@ namespace SSXMultiTool.FileHandlers
             {
                 if (!Handler.reassignedMesh[a].ShadowModel)
                 {
+                    List<PointMorph> pointMorphs = new List<PointMorph>();
                     var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1, VertexJoints4>(Handler.reassignedMesh[a].MeshName);
                     for (int b = 0; b < Handler.reassignedMesh[a].faces.Count; b++)
                     {
@@ -207,7 +208,41 @@ namespace SSXMultiTool.FileHandlers
                         TempBinding3.SetBindings(bindings1);
 
                         mesh.UsePrimitive(materialBuilders[Face.MaterialID]).AddTriangle((TempPos1, TempTexture1, TempBinding1), (TempPos2, TempTexture2, TempBinding2), (TempPos3, TempTexture3, TempBinding3));
+
+                        if(Handler.reassignedMesh[a].MorphTargetCount!=0)
+                        {
+                            if(!pointMorphs.Contains(GeneratePointMorph(TempPos1.Position, Face.MorphPoint1)))
+                            {
+                                pointMorphs.Add(GeneratePointMorph(TempPos1.Position, Face.MorphPoint1));
+                            }
+                            if (!pointMorphs.Contains(GeneratePointMorph(TempPos2.Position, Face.MorphPoint2)))
+                            {
+                                pointMorphs.Add(GeneratePointMorph(TempPos2.Position, Face.MorphPoint2));
+                            }
+                            if (!pointMorphs.Contains(GeneratePointMorph(TempPos3.Position, Face.MorphPoint3)))
+                            {
+                                pointMorphs.Add(GeneratePointMorph(TempPos3.Position, Face.MorphPoint3));
+                            }
+                        }
                     }
+
+                    for (int c = 0; c < Handler.reassignedMesh[a].MorphTargetCount; c++)
+                    {
+                        var morphTargetBuilder = mesh.UseMorphTarget(c);
+                        foreach (var vertexPosition in morphTargetBuilder.Vertices)
+                        {
+                            for (int i = 0; i < pointMorphs.Count; i++)
+                            {
+                                if (pointMorphs[i].Point== vertexPosition.Position)
+                                {
+                                    var NewVertexPosition = vertexPosition;
+                                    NewVertexPosition.Position += pointMorphs[i].MorphPoints[c]; 
+                                    morphTargetBuilder.SetVertex(vertexPosition, NewVertexPosition);
+                                }
+                            }
+                        }
+                    }
+                    
                     scene.AddSkinnedMesh(mesh, Matrix4x4.CreateTranslation(0, 0, 0), bindings.ToArray());
                 }
                 else
@@ -278,6 +313,20 @@ namespace SSXMultiTool.FileHandlers
             model.SaveGLB(Output);
         }
 
+        public static PointMorph GeneratePointMorph(Vector3 Point, List<Vector3> MorphPoints)
+        {
+            PointMorph pointMorph = new PointMorph();
+            pointMorph.Point = Point;
+            pointMorph.MorphPoints = MorphPoints;
+            return pointMorph;
+        }
+
+        public struct PointMorph
+        {
+            public Vector3 Point;
+            public List<Vector3> MorphPoints;
+        }
+
         public static void LoadGlft(string Path)
         {
             var model = ModelRoot.Load(Path);
@@ -286,7 +335,6 @@ namespace SSXMultiTool.FileHandlers
 
         public static Quaternion ToQuaternion(Vector3 v)
         {
-
             float cy = (float)Math.Cos(v.Z * 0.5);
             float sy = (float)Math.Sin(v.Z * 0.5);
             float cp = (float)Math.Cos(v.Y * 0.5);

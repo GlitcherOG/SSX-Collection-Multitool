@@ -146,10 +146,8 @@ namespace SSXMultiTool.FileHandlers.Models
                     {
                         TempMesh.ShadowModel = true;
                     }
-                    if (Head.ModelList[i].MorphKeyCount!=0)
-                    {
-                        TempMesh.MorphTargets = true;
-                    }
+
+                    TempMesh.MorphTargetCount = Head.ModelList[i].MorphKeyCount;
                     reassignedMesh.Add(TempMesh);
                 }
             }
@@ -240,7 +238,7 @@ namespace SSXMultiTool.FileHandlers.Models
         {
             public string MeshName;
             public bool ShadowModel;
-            public bool MorphTargets;
+            public int MorphTargetCount;
             public List<Vector3> IKPoints;
             public List<TrickyMPFModelHandler.Face> faces;
         }

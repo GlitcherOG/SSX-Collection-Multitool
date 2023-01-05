@@ -515,7 +515,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     }
                                     TempMeshData.meshChunk.Add(temp);
                                     stream.Position += 31;
-                                    if (StreamUtil.ReadByte(stream) == 0x6C)
+                                    if (StreamUtil.ReadUInt8(stream) == 0x6C)
                                     {
                                         stream.Position -= 32;
                                     }

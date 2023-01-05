@@ -51,7 +51,7 @@ namespace SSXMultiTool.FileHandlers
                     modelHeader.MaterialCount = StreamUtil.ReadInt16(stream);
                     modelHeader.IKCount = StreamUtil.ReadInt16(stream);
                     modelHeader.MorphKeyCount = StreamUtil.ReadInt16(stream);
-                    modelHeader.WeightIDFlag = StreamUtil.ReadInt16(stream);
+                    modelHeader.FileID = StreamUtil.ReadInt16(stream);
                     stream.Position += 4;
 
                     ModelList.Add(modelHeader);
@@ -97,7 +97,7 @@ namespace SSXMultiTool.FileHandlers
                 {
                     var TempBoneData = new BoneData();
                     TempBoneData.BoneName = StreamUtil.ReadString(streamMatrix, 16);
-                    TempBoneData.Unknown = StreamUtil.ReadInt16(streamMatrix);
+                    TempBoneData.ParentFileID = StreamUtil.ReadInt16(streamMatrix);
                     TempBoneData.ParentBone = StreamUtil.ReadInt16(streamMatrix);
                     TempBoneData.Unknown2 = StreamUtil.ReadInt16(streamMatrix);
                     TempBoneData.BoneID = StreamUtil.ReadInt16(streamMatrix);
@@ -118,7 +118,7 @@ namespace SSXMultiTool.FileHandlers
                     TempBoneData.UnknownFloat5 = StreamUtil.ReadFloat(streamMatrix);
                     TempBoneData.UnknownFloat6 = StreamUtil.ReadFloat(streamMatrix);
 
-                    TempBoneData.FileID = Model.WeightIDFlag;
+                    TempBoneData.FileID = Model.FileID;
                     TempBoneData.BonePos = a;
 
                     Model.boneDatas.Add(TempBoneData);
@@ -141,7 +141,7 @@ namespace SSXMultiTool.FileHandlers
                 for (int a = 0; a < Model.MeshGroupCount; a++)
                 {
                     var TempChunkData = new GroupMainHeader();
-                    TempChunkData.ID = StreamUtil.ReadInt32(streamMatrix);
+                    TempChunkData.GroupType = StreamUtil.ReadInt32(streamMatrix);
                     TempChunkData.MaterialID = StreamUtil.ReadInt32(streamMatrix);
                     TempChunkData.Unknown = StreamUtil.ReadInt32(streamMatrix);
                     TempChunkData.LinkCount = StreamUtil.ReadInt32(streamMatrix);
@@ -156,11 +156,11 @@ namespace SSXMultiTool.FileHandlers
                         TempSubHeader.LinkOffset = StreamUtil.ReadInt32(streamMatrix);
                         TempSubHeader.LinkCount = StreamUtil.ReadInt32(streamMatrix);
                         int TempPos1 = (int)streamMatrix.Position;
-                        TempSubHeader.MeshGroupHeaders = new List<MeshGroupHeader>();
+                        TempSubHeader.MeshGroupHeaders = new List<MeshMorphHeader>();
                         streamMatrix.Position = TempSubHeader.LinkOffset;
                         for (int c = 0; c < TempSubHeader.LinkCount; c++)
                         {
-                            var TempMeshGroupHeader = new MeshGroupHeader();
+                            var TempMeshGroupHeader = new MeshMorphHeader();
                             TempMeshGroupHeader.ModelOffset = StreamUtil.ReadInt32(streamMatrix);
                             TempMeshGroupHeader.MorphKeyOffset = StreamUtil.ReadInt32(streamMatrix);
                             TempMeshGroupHeader.MorphKeyEntrySize = StreamUtil.ReadInt32(streamMatrix);
@@ -195,8 +195,8 @@ namespace SSXMultiTool.FileHandlers
                     {
                         var boneWeight = new BoneWeight();
                         boneWeight.Weight = StreamUtil.ReadInt16(streamMatrix);
-                        boneWeight.BoneID = StreamUtil.ReadByte(streamMatrix);
-                        boneWeight.FileID = StreamUtil.ReadByte(streamMatrix);
+                        boneWeight.BoneID = StreamUtil.ReadUInt8(streamMatrix);
+                        boneWeight.FileID = StreamUtil.ReadUInt8(streamMatrix);
                         BoneWeight.boneWeights.Add(boneWeight);
                     }
                     streamMatrix.Position = TempPos;
@@ -237,7 +237,7 @@ namespace SSXMultiTool.FileHandlers
                             while (true)
                             {
                                 streamMatrix.Position += 31;
-                                byte Temp = StreamUtil.ReadByte(streamMatrix);
+                                byte Temp = StreamUtil.ReadUInt8(streamMatrix);
                                 if (Temp != 0x6C)
                                 {
                                     break;
@@ -301,7 +301,7 @@ namespace SSXMultiTool.FileHandlers
                                 {
                                     streamMatrix.Position += 47;
                                     //Can also make it use normal but this seems safer
-                                    if (StreamUtil.ReadByte(streamMatrix) != 0x6C)
+                                    if (StreamUtil.ReadUInt8(streamMatrix) != 0x6C)
                                     {
                                         for (int a = 0; a < ModelData.VertexCount; a++)
                                         {
@@ -341,16 +341,16 @@ namespace SSXMultiTool.FileHandlers
                                 for (int dci = 0; dci < Model.MorphKeyCount; dci++)
                                 {
                                     var TempMorphKey = new MorphKey();
-                                    TempMorphKey.morphData = new List<MorphPointData>();
+                                    TempMorphKey.morphData = new List<Vector3>();
                                     streamMatrix.Position += 30;
-                                    TempMorphKey.MorphPointDataCount = StreamUtil.ReadByte(streamMatrix);
+                                    TempMorphKey.MorphPointDataCount = StreamUtil.ReadUInt8(streamMatrix);
                                     streamMatrix.Position += 1;
                                     for (int dcb = 0; dcb < TempMorphKey.MorphPointDataCount; dcb++)
                                     {
-                                        var TempPoint = new MorphPointData();
-                                        TempPoint.Unknown1 = StreamUtil.ReadByte(streamMatrix);
-                                        TempPoint.Unknown2 = StreamUtil.ReadByte(streamMatrix);
-                                        TempPoint.Unknown3 = StreamUtil.ReadByte(streamMatrix);
+                                        var TempPoint = new Vector3();
+                                        TempPoint.X = StreamUtil.ReadSInt8(streamMatrix)/12f;
+                                        TempPoint.Y = StreamUtil.ReadSInt8(streamMatrix) / 12f;
+                                        TempPoint.Z = StreamUtil.ReadSInt8(streamMatrix) / 12f;
                                         TempMorphKey.morphData.Add(TempPoint);
                                     }
                                     StreamUtil.AlignBy16(streamMatrix);
@@ -363,7 +363,7 @@ namespace SSXMultiTool.FileHandlers
 
                             for (int b = 0; b < SubSubGroupHeader.staticMesh.Count; b++)
                             {
-                                SubSubGroupHeader.staticMesh[b] = GenerateFaces(SubSubGroupHeader.staticMesh[b]);
+                                SubSubGroupHeader.staticMesh[b] = GenerateFaces(SubSubGroupHeader.staticMesh[b], SubSubGroupHeader.MorphKeyList);
                             }
                             SubGroupHeader.MeshGroupHeaders[cx] = SubSubGroupHeader;
                         }
@@ -378,7 +378,7 @@ namespace SSXMultiTool.FileHandlers
 
         }
 
-        public StaticMesh GenerateFaces(StaticMesh models)
+        public StaticMesh GenerateFaces(StaticMesh models, List<MorphKey> morphPointData)
         {
             var ModelData = models;
             //Increment Strips
@@ -407,7 +407,7 @@ namespace SSXMultiTool.FileHandlers
                     continue;
                 }
 
-                ModelData.faces.Add(CreateFaces(b, ModelData, Rotation));
+                ModelData.faces.Add(CreateFaces(b, ModelData, Rotation, morphPointData));
                 Rotation++;
                 if (Rotation == 2)
                 {
@@ -429,7 +429,7 @@ namespace SSXMultiTool.FileHandlers
             }
             return false;
         }
-        public Face CreateFaces(int Index, StaticMesh ModelData, int roatation)
+        public Face CreateFaces(int Index, StaticMesh ModelData, int roatation, List<MorphKey> morphPointData)
         {
             Face face = new Face();
             int Index1 = 0;
@@ -488,6 +488,20 @@ namespace SSXMultiTool.FileHandlers
                 face.Weight3Pos = (ModelData.Weights[Index3] - 14) / 4;
             }
 
+            if(morphPointData!=null)
+            {
+                face.MorphPoint1 = new List<Vector3>();
+                face.MorphPoint2 = new List<Vector3>();
+                face.MorphPoint3 = new List<Vector3>();
+
+                for (int i = 0; i < morphPointData.Count; i++)
+                {
+                    face.MorphPoint1.Add(morphPointData[i].morphData[Index1]);
+                    face.MorphPoint2.Add(morphPointData[i].morphData[Index2]);
+                    face.MorphPoint3.Add(morphPointData[i].morphData[Index3]);
+                }
+            }
+
             return face;
         }
 
@@ -524,7 +538,7 @@ namespace SSXMultiTool.FileHandlers
                 for (int a = 0; a < Model.boneDatas.Count; a++)
                 {
                     StreamUtil.WriteString(ModelStream, Model.boneDatas[a].BoneName, 16);
-                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].Unknown);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].ParentFileID);
                     StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].ParentBone);
                     StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].Unknown2);
                     StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].BoneID);
@@ -810,11 +824,6 @@ namespace SSXMultiTool.FileHandlers
                     Model.MeshGroups[a] = TempMeshGroup;
                 }
 
-
-
-
-
-
                 ModelStream.Position = Model.MeshGroupOffset;
                 //Go to end of structure
                 ModelStream.Position += 4 * 5 * Model.MeshGroups.Count;
@@ -866,7 +875,7 @@ namespace SSXMultiTool.FileHandlers
                 ModelStream.Position = Model.MeshGroupOffset;
                 for (int a = 0; a < Model.MeshGroups.Count; a++)
                 {
-                    StreamUtil.WriteInt32(ModelStream, Model.MeshGroups[a].ID);
+                    StreamUtil.WriteInt32(ModelStream, Model.MeshGroups[a].GroupType);
                     StreamUtil.WriteInt32(ModelStream, Model.MeshGroups[a].MaterialID);
                     StreamUtil.WriteInt32(ModelStream, Model.MeshGroups[a].Unknown);
                     StreamUtil.WriteInt32(ModelStream, Model.MeshGroups[a].meshGroupSubs.Count);
@@ -906,7 +915,7 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteInt16(stream, ModelList[i].materialDatas.Count);
                 StreamUtil.WriteInt16(stream, ModelList[i].iKPoints.Count);
                 StreamUtil.WriteInt16(stream, ModelList[i].MorphKeyCount);
-                StreamUtil.WriteInt16(stream, ModelList[i].WeightIDFlag);
+                StreamUtil.WriteInt16(stream, ModelList[i].FileID);
 
                 stream.Position += 4;
             }
@@ -951,7 +960,7 @@ namespace SSXMultiTool.FileHandlers
             public int MaterialCount;
             public int IKCount;
             public int MorphKeyCount;
-            public int WeightIDFlag;
+            public int FileID;
 
             public byte[] Matrix;
 
@@ -987,7 +996,7 @@ namespace SSXMultiTool.FileHandlers
         public struct BoneData
         {
             public string BoneName;
-            public int Unknown;
+            public int ParentFileID;
             public int ParentBone;
             public int Unknown2;
             public int BoneID;
@@ -1016,7 +1025,7 @@ namespace SSXMultiTool.FileHandlers
 
         public struct GroupMainHeader
         {
-            public int ID;
+            public int GroupType; //1 Standard, 17 Shadow, 256 Morph
             public int MaterialID;
             public int Unknown;
             public int LinkCount;
@@ -1030,10 +1039,10 @@ namespace SSXMultiTool.FileHandlers
             public int LinkOffset;
             public int LinkCount;
 
-            public List<MeshGroupHeader> MeshGroupHeaders;
+            public List<MeshMorphHeader> MeshGroupHeaders;
         }
 
-        public struct MeshGroupHeader
+        public struct MeshMorphHeader
         {
             public int ModelOffset;
             public int MorphKeyOffset; //Morph Target Offset
@@ -1048,21 +1057,14 @@ namespace SSXMultiTool.FileHandlers
         {
             public int MorphPointDataCount;
 
-            public List<MorphPointData> morphData;
-        }
-
-        public struct MorphPointData
-        {
-            public int Unknown1;
-            public int Unknown2;
-            public int Unknown3;
+            public List<Vector3> morphData;
         }
 
         public struct BoneWeightHeader
         {
             public int length;
             public int WeightListOffset;
-            public int unknown;
+            public int unknown; //Always 36
 
             public List<BoneWeight> boneWeights;
         }
@@ -1123,6 +1125,10 @@ namespace SSXMultiTool.FileHandlers
             public int Weight1Pos;
             public int Weight2Pos;
             public int Weight3Pos;
+
+            public List<Vector3> MorphPoint1;
+            public List<Vector3> MorphPoint2;
+            public List<Vector3> MorphPoint3;
 
             public int MaterialID;
         }

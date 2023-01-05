@@ -48,10 +48,16 @@ namespace SSXMultiTool.Utilities
             return tempByte;
         }
 
-        public static byte ReadByte(Stream stream)
+        public static byte ReadUInt8(Stream stream)
         {
             byte tempByte = (byte)stream.ReadByte();
             return tempByte;
+        }
+
+        public static sbyte ReadSInt8(Stream stream)
+        {
+            sbyte tempByte = (sbyte)stream.ReadByte();
+            return Convert.ToSByte(tempByte);
         }
 
         public static int ReadInt12(Stream stream)

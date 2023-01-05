@@ -40,8 +40,8 @@ namespace SSXMultiTool.FileHandlers
                     modelHeader.ChunksCount = StreamUtil.ReadInt16(stream);
                     modelHeader.BoneCount = StreamUtil.ReadInt16(stream);
                     modelHeader.U22 = StreamUtil.ReadInt16(stream);
-                    modelHeader.MaterialCount = StreamUtil.ReadByte(stream);
-                    modelHeader.IKCount = StreamUtil.ReadByte(stream);
+                    modelHeader.MaterialCount = StreamUtil.ReadUInt8(stream);
+                    modelHeader.IKCount = StreamUtil.ReadUInt8(stream);
                     stream.Position += 16;
                     ModelList.Add(modelHeader);
                 }
@@ -146,19 +146,19 @@ namespace SSXMultiTool.FileHandlers
 
                             ModelStripHeader stripHeader = new ModelStripHeader();
                             stripHeader.RowSize = StreamUtil.ReadInt24(streamMatrix);
-                            stripHeader.Col = StreamUtil.ReadByte(streamMatrix);
+                            stripHeader.Col = StreamUtil.ReadUInt8(streamMatrix);
                             stripHeader.Padding = StreamUtil.ReadBytes(streamMatrix,12);
-                            stripHeader.VertexCount = StreamUtil.ReadByte(streamMatrix);
-                            stripHeader.Delcoration = StreamUtil.ReadByte(streamMatrix);
+                            stripHeader.VertexCount = StreamUtil.ReadUInt8(streamMatrix);
+                            stripHeader.Delcoration = StreamUtil.ReadUInt8(streamMatrix);
                             stripHeader.Unknown1 = StreamUtil.ReadInt16(streamMatrix);
-                            stripHeader.Unknown2 = StreamUtil.ReadByte(streamMatrix);
-                            stripHeader.Unknown3 = StreamUtil.ReadByte(streamMatrix);
-                            stripHeader.Unknown4 = StreamUtil.ReadByte(streamMatrix);
-                            stripHeader.Unknown41 = StreamUtil.ReadByte(streamMatrix);
+                            stripHeader.Unknown2 = StreamUtil.ReadUInt8(streamMatrix);
+                            stripHeader.Unknown3 = StreamUtil.ReadUInt8(streamMatrix);
+                            stripHeader.Unknown4 = StreamUtil.ReadUInt8(streamMatrix);
+                            stripHeader.Unknown41 = StreamUtil.ReadUInt8(streamMatrix);
                             stripHeader.Unknown5 = StreamUtil.ReadBytes(streamMatrix, 5);
-                            stripHeader.ArrayStart = StreamUtil.ReadByte(streamMatrix);
-                            stripHeader.ArraySize = StreamUtil.ReadByte(streamMatrix);
-                            stripHeader.ArrayType = StreamUtil.ReadByte(streamMatrix);
+                            stripHeader.ArrayStart = StreamUtil.ReadUInt8(streamMatrix);
+                            stripHeader.ArraySize = StreamUtil.ReadUInt8(streamMatrix);
+                            stripHeader.ArrayType = StreamUtil.ReadUInt8(streamMatrix);
                             //Model Row Header
                             stripHeader.Unknown6 = StreamUtil.ReadInt32(streamMatrix);
                             stripHeader.Unknown7 = StreamUtil.ReadInt32(streamMatrix);
@@ -276,7 +276,7 @@ namespace SSXMultiTool.FileHandlers
 
                             //Load Vertices
                             streamMatrix.Position += 46;
-                            int TempCount = StreamUtil.ReadByte(streamMatrix);
+                            int TempCount = StreamUtil.ReadUInt8(streamMatrix);
                             streamMatrix.Position += 1;
                             List<Vertex3> vertices = new List<Vertex3>();
                             for (int a = 0; a < TempCount; a++)
@@ -292,7 +292,7 @@ namespace SSXMultiTool.FileHandlers
 
                             //Possible Faces/Normal Data
                             streamMatrix.Position += 46;
-                            TempCount = StreamUtil.ReadByte(streamMatrix);
+                            TempCount = StreamUtil.ReadUInt8(streamMatrix);
                             streamMatrix.Position += 1;
                             List<UVNormal> Normals = new List<UVNormal>();
                             for (int a = 0; a < TempCount; a++)
@@ -308,7 +308,7 @@ namespace SSXMultiTool.FileHandlers
 
                             //Unknown
                             streamMatrix.Position += 14;
-                            TempCount = StreamUtil.ReadByte(streamMatrix); 
+                            TempCount = StreamUtil.ReadUInt8(streamMatrix); 
                             streamMatrix.Position += 1;
                             List<int> ints = new List<int>();
                             for (int a = 0; a < TempCount; a++)
@@ -320,7 +320,7 @@ namespace SSXMultiTool.FileHandlers
 
                             //Unknown
                             streamMatrix.Position += 46;
-                            TempCount = StreamUtil.ReadByte(streamMatrix);
+                            TempCount = StreamUtil.ReadUInt8(streamMatrix);
                             streamMatrix.Position += 1;
                             List<UV> uvs = new List<UV>();
                             for (int a = 0; a < TempCount; a++)

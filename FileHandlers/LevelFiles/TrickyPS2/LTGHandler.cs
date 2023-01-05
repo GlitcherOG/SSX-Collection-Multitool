@@ -42,10 +42,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
-                Unknown = StreamUtil.ReadByte(stream);
-                ColdFusionVersion = StreamUtil.ReadByte(stream);
-                ColdFusionRevision = StreamUtil.ReadByte(stream);
-                endianess = StreamUtil.ReadByte(stream);
+                Unknown = StreamUtil.ReadUInt8(stream);
+                ColdFusionVersion = StreamUtil.ReadUInt8(stream);
+                ColdFusionRevision = StreamUtil.ReadUInt8(stream);
+                endianess = StreamUtil.ReadUInt8(stream);
 
                 WorldBounds1 = StreamUtil.ReadVector3(stream);
                 WorldBounds2 = StreamUtil.ReadVector3(stream);

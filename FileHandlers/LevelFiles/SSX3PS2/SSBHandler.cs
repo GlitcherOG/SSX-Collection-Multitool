@@ -68,7 +68,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                         while (memoryStream.Position< memoryStream.Length)
                         {
                             MemoryStream memoryStream1 = new MemoryStream();
-                            int ID = StreamUtil.ReadByte(memoryStream);
+                            int ID = StreamUtil.ReadUInt8(memoryStream);
                             int ChunkSize = StreamUtil.ReadInt24(memoryStream);
                             int RID = StreamUtil.ReadInt32(memoryStream);
 
