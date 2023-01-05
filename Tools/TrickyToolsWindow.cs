@@ -20,8 +20,8 @@ namespace SSXMultiTool
         {
             InitializeComponent();
         }
+        TrickyModelCombiner trickyModel = new TrickyModelCombiner();
         TrickyMPFModelHandler trickyMPF = new TrickyMPFModelHandler();
-        TrickyMPFModelHandler head = new TrickyMPFModelHandler();
 
         private void MPFLoad_Click(object sender, EventArgs e)
         {
@@ -35,56 +35,62 @@ namespace SSXMultiTool
             {
                 trickyMPF = new TrickyMPFModelHandler();
                 trickyMPF.load(openFileDialog.FileName);
-                MpfList.Items.Clear();
-                for (int i = 0; i < trickyMPF.ModelList.Count; i++)
+
+                int Type = trickyModel.DectectModelType(trickyMPF);
+
+                if((Type==0 && trickyModel.Head!=null)|| (Type == 1 && trickyModel.Body != null))
                 {
-                    MpfList.Items.Add(trickyMPF.ModelList[i].FileName);
+                    MpfList.Items.Clear();
+                    MpfList.Items.Add("Character 3000");
+                    MpfList.Items.Add("Character 1500");
+                    MpfList.Items.Add("Character 750");
+                    MpfList.Items.Add("Character Shadow 750");
+                }
+                else
+                {
+                    if(trickyModel.Body == null)
+                    {
+                        MpfList.Items.Add("Please Load Matching Body File");
+                    }
+                    else if (trickyModel.Head == null)
+                    {
+                        MpfList.Items.Add("Please Load Matching Head File");
+                    }
+                }
+
+                if (Type == 2)
+                {
+                    MpfList.Items.Clear();
+                    for (int i = 0; i < trickyMPF.ModelList.Count; i++)
+                    {
+                        MpfList.Items.Add(trickyMPF.ModelList[i].FileName);
+                    }
                 }
             }
 
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                Filter = "Model File (*.mpf)|*.mpf|All files (*.*)|*.*",
-                FilterIndex = 1,
-                RestoreDirectory = false
-            };
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                head = new TrickyMPFModelHandler();
-                head.load(openFileDialog.FileName);
-                for (int i = 0; i < head.ModelList.Count; i++)
-                {
-                    MpfList.Items.Add(head.ModelList[i].FileName);
-                }
-            }
         }
 
 
         private void MPFExtract_Click(object sender, EventArgs e)
         {
-            SaveFileDialog openFileDialog = new SaveFileDialog
+            if (MpfList.SelectedIndex != -1)
             {
-                Filter = "gltf File (*.gltf)|*.gltf|All files (*.*)|*.*",
-                FilterIndex = 1,
-                RestoreDirectory = false
-            };
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                TrickyModelCombiner trickyModel = new TrickyModelCombiner();
-                trickyModel.Body = trickyMPF;
-                trickyModel.Head = head;
+                SaveFileDialog openFileDialog = new SaveFileDialog
+                {
+                    Filter = "gltf File (*.glb)|*.glb|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    trickyModel.StartReassignMesh(MpfList.SelectedIndex);
 
-                trickyModel.StartReassignMesh();
-
-                glstHandler.SaveTrickyglTF(openFileDialog.FileName, trickyModel.reassignedMesh[0]);
+                    glstHandler.SaveTrickyglTF(openFileDialog.FileName, trickyModel);
+                }
             }
         }
 
-        private void ELFLdrSetup_Click(object sender, EventArgs e)
+            private void ELFLdrSetup_Click(object sender, EventArgs e)
         {
             CommonOpenFileDialog commonDialog = new CommonOpenFileDialog
             {

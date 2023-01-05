@@ -242,8 +242,8 @@ namespace SSXMultiTool.FileHandlers
                                 var ModelData = new StaticMesh();
 
                                 ModelData.StripCount = StreamUtil.ReadInt32(streamMatrix);
-                                ModelData.Unknown1 = StreamUtil.ReadInt32(streamMatrix); //Wrong
-                                ModelData.Unknown2 = StreamUtil.ReadInt32(streamMatrix); //Wrong
+                                ModelData.Unknown1 = StreamUtil.ReadInt32(streamMatrix);
+                                ModelData.Unknown2 = StreamUtil.ReadInt32(streamMatrix); 
                                 ModelData.VertexCount = StreamUtil.ReadInt32(streamMatrix);
 
                                 //Load Strip Count
@@ -479,10 +479,9 @@ namespace SSXMultiTool.FileHandlers
             }
             else
             {
-                face.Weight1Pos = ModelData.Weights[Index1];
-                face.Weight2Pos = ModelData.Weights[Index2];
-                face.Weight3Pos = ModelData.Weights[Index3];
-
+                face.Weight1Pos = (ModelData.Weights[Index1]-14)/4;
+                face.Weight2Pos = (ModelData.Weights[Index2] - 14) / 4;
+                face.Weight3Pos = (ModelData.Weights[Index3] - 14) / 4;
             }
 
             return face;
@@ -550,8 +549,6 @@ namespace SSXMultiTool.FileHandlers
                     StreamUtil.WriteVector3(ModelStream, Model.iKPoints[a]);
                     ModelStream.Position += 4;
                 }
-
-                //
 
                 //Bone Weigth
                 Model.BoneWeightOffet = (int)ModelStream.Position;

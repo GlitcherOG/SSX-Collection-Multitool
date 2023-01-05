@@ -10,45 +10,143 @@ namespace SSXMultiTool.FileHandlers.Models
     {
         public TrickyMPFModelHandler? Body;
         public TrickyMPFModelHandler? Head;
-        public TrickyMPFModelHandler? Boards;
+        public TrickyMPFModelHandler? Board;
+        public List<TrickyMPFModelHandler.MaterialData> materials;
+        public List<TrickyMPFModelHandler.BoneData> bones;
+        bool BodyBool;
+
 
         public List<ReassignedMesh> reassignedMesh = new List<ReassignedMesh>();
 
+        public int DectectModelType(TrickyMPFModelHandler modelHandler)
+        {
+            for (int i = 0; i < modelHandler.ModelList.Count; i++)
+            {
+                if (modelHandler.ModelList[i].FileName.ToLower().Contains("body"))
+                {
+                    Board = null;
+                    Body = modelHandler;
+                    BodyBool = true;
+                    return 0;
+                }
+                if (modelHandler.ModelList[i].FileName.ToLower().Contains("head"))
+                {
+                    Board = null;
+                    Head = modelHandler;
+                    BodyBool = true;
+                    return 1;
+                }
+                if (modelHandler.ModelList[i].FileName.ToLower().Contains("algoofy"))
+                {
+                    Head= null;
+                    Body = null;
+                    Board = modelHandler;
+                    BodyBool = false;
+                    return 2;
+                }
+            }
+            return -1;
+        }
 
-        public void StartReassignMesh()
+        public void StartReassignMesh(int MeshID)
+        {
+            if (MeshID != -1)
+            {
+                if (BodyBool)
+                {
+                    StartReassignMeshCharacter(MeshID);
+                }
+                else
+                {
+                    StartReassignMeshBoard(MeshID);
+                }
+            }
+        }
+
+        public void StartReassignMeshBoard(int MeshID)
         {
             reassignedMesh = new List<ReassignedMesh>();
             var TempMesh = new ReassignedMesh();
             TempMesh.faces = new List<TrickyMPFModelHandler.Face>();
-            TempMesh.materials = new List<TrickyMPFModelHandler.MaterialData>();
-            TempMesh.bones = new List<TrickyMPFModelHandler.BoneData>();
+            materials = new List<TrickyMPFModelHandler.MaterialData>();
+            bones = new List<TrickyMPFModelHandler.BoneData>();
 
-            int HeadBonesStart = 0;
-            int HeadBonesStart2 = 0;
-            int HeadBonesStart3 = 0;
-            int HeadBonesStart4 = 0;
-            int HeadBonesStart5 = 0;
 
-            //Character 3000
-            TempMesh.materials.AddRange(Body.ModelList[0].materialDatas);
-            TempMesh.bones.AddRange(Body.ModelList[0].boneDatas);
-            HeadBonesStart = TempMesh.bones.Count;
-            TempMesh.bones.AddRange(Head.ModelList[0].boneDatas);
-            HeadBonesStart2 = TempMesh.bones.Count;
-            TempMesh.bones.AddRange(Head.ModelList[1].boneDatas);
-            HeadBonesStart3 = TempMesh.bones.Count;
-            TempMesh.bones.AddRange(Head.ModelList[2].boneDatas);
-            HeadBonesStart4 = TempMesh.bones.Count;
-            TempMesh.bones.AddRange(Head.ModelList[3].boneDatas);
-            HeadBonesStart5 = TempMesh.bones.Count;
-            TempMesh.bones.AddRange(Head.ModelList[4].boneDatas);
-            TempMesh.faces.AddRange(ReturnFixedFaces(Body.ModelList[0]));
-            TempMesh.faces.AddRange(ReturnFixedFaces(Head.ModelList[0], HeadBonesStart));
-            TempMesh.faces.AddRange(ReturnFixedFaces(Head.ModelList[1], HeadBonesStart2));
-            TempMesh.faces.AddRange(ReturnFixedFaces(Head.ModelList[2], HeadBonesStart3));
-            TempMesh.faces.AddRange(ReturnFixedFaces(Head.ModelList[3], HeadBonesStart4));
-            //TempMesh.faces.AddRange(ReturnFixedFaces(Head.ModelList[4], HeadBonesStart5));
+            materials.AddRange(Board.ModelList[MeshID].materialDatas);
+            bones.AddRange(Board.ModelList[MeshID].boneDatas);
+            TempMesh.faces.AddRange(ReturnFixedFaces(Board.ModelList[MeshID]));
+            TempMesh.MeshName = Board.ModelList[MeshID].FileName;
+            if (TempMesh.MeshName.ToLower().Contains("shdw"))
+            {
+                TempMesh.ShadowModel = true;
+            }
             reassignedMesh.Add(TempMesh);
+        }
+
+
+
+
+        public void StartReassignMeshCharacter(int MeshID)
+        {
+
+
+            reassignedMesh = new List<ReassignedMesh>();
+            List<int> headboneStart = new List<int>();
+            headboneStart.Add(0);
+            materials = new List<TrickyMPFModelHandler.MaterialData>();
+            bones = new List<TrickyMPFModelHandler.BoneData>();
+            bool Materials = false;
+            int ListSize = 0;
+
+            //Body
+            for (int i = 0; i < Body.ModelList.Count; i++)
+            {
+                if ((MeshID == 0 && Body.ModelList[i].FileName.Contains("3000")) ||
+                    (MeshID == 1 && Body.ModelList[i].FileName.Contains("1500")) ||
+                    (MeshID == 2 && Body.ModelList[i].FileName.Contains("750") && !Body.ModelList[i].FileName.ToLower().Contains("shdw")) ||
+                    (MeshID == 3 && Body.ModelList[i].FileName.ToLower().Contains("shdw")))
+                {
+                    var TempMesh = new ReassignedMesh();
+                    if (!Materials)
+                    {
+                        materials.AddRange(Body.ModelList[i].materialDatas);
+                        Materials = true;
+                    }
+                    bones.AddRange(Body.ModelList[i].boneDatas);
+                    headboneStart.Add(bones.Count);
+                    TempMesh.faces = ReturnFixedFaces(Body.ModelList[i], headboneStart[ListSize]);
+                    ListSize++;
+                    TempMesh.MeshName = Body.ModelList[i].FileName;
+                    if (MeshID == 3)
+                    {
+                        TempMesh.ShadowModel = true;
+                    }
+
+                    reassignedMesh.Add(TempMesh);
+                }
+            }
+
+            //Head
+            for (int i = 0; i < Head.ModelList.Count; i++)
+            {
+                if ((MeshID == 0 && Head.ModelList[i].FileName.Contains("3000")) ||
+                    (MeshID == 1 && Head.ModelList[i].FileName.Contains("1500")) ||
+                    (MeshID == 2 && Head.ModelList[i].FileName.Contains("750") && !Head.ModelList[i].FileName.ToLower().Contains("shdw")) ||
+                    (MeshID == 3 && Head.ModelList[i].FileName.ToLower().Contains("shdw")))
+                {
+                    var TempMesh = new ReassignedMesh();
+                    bones.AddRange(Head.ModelList[i].boneDatas);
+                    headboneStart.Add(bones.Count);
+                    TempMesh.MeshName = Head.ModelList[i].FileName;
+                    TempMesh.faces = ReturnFixedFaces(Head.ModelList[i], headboneStart[ListSize]);
+                    ListSize++;
+                    if (MeshID == 3)
+                    {
+                        TempMesh.ShadowModel = true;
+                    }
+                    reassignedMesh.Add(TempMesh);
+                }
+            }
 
         }
 
@@ -127,9 +225,9 @@ namespace SSXMultiTool.FileHandlers.Models
 
         public struct ReassignedMesh
         {
+            public string MeshName;
+            public bool ShadowModel;
             public List<TrickyMPFModelHandler.Face> faces;
-            public List<TrickyMPFModelHandler.MaterialData> materials;
-            public List<TrickyMPFModelHandler.BoneData> bones;
         }
     }
 }

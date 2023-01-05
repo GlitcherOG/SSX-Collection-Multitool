@@ -31,7 +31,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.MpfList = new System.Windows.Forms.ListBox();
             this.MPFExtract = new System.Windows.Forms.Button();
             this.MPFLoad = new System.Windows.Forms.Button();
@@ -55,7 +54,6 @@
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.button2);
-            this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.MpfList);
             this.tabPage1.Controls.Add(this.MPFExtract);
             this.tabPage1.Controls.Add(this.MPFLoad);
@@ -77,17 +75,6 @@
             this.button2.Text = "Save";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(285, 366);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Load 1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MpfList
             // 
@@ -166,7 +153,6 @@
         private ListBox MpfList;
         private TabPage tabPage2;
         private Button ELFLdrSetup;
-        private Button button1;
         private Button button2;
     }
 }
