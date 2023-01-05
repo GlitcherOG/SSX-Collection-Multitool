@@ -117,6 +117,10 @@ namespace SSXMultiTool.FileHandlers
                     TempBoneData.UnknownFloat4 = StreamUtil.ReadFloat(streamMatrix);
                     TempBoneData.UnknownFloat5 = StreamUtil.ReadFloat(streamMatrix);
                     TempBoneData.UnknownFloat6 = StreamUtil.ReadFloat(streamMatrix);
+
+                    TempBoneData.FileID = Model.WeightIDFlag;
+                    TempBoneData.BonePos = a;
+
                     Model.boneDatas.Add(TempBoneData);
                 }
 
@@ -192,7 +196,7 @@ namespace SSXMultiTool.FileHandlers
                         var boneWeight = new BoneWeight();
                         boneWeight.Weight = StreamUtil.ReadInt16(streamMatrix);
                         boneWeight.BoneID = StreamUtil.ReadByte(streamMatrix);
-                        boneWeight.Flag = StreamUtil.ReadByte(streamMatrix);
+                        boneWeight.FileID = StreamUtil.ReadByte(streamMatrix);
                         BoneWeight.boneWeights.Add(boneWeight);
                     }
                     streamMatrix.Position = TempPos;
@@ -561,7 +565,7 @@ namespace SSXMultiTool.FileHandlers
                     {
                         StreamUtil.WriteInt16(ModelStream, BoneWeightHeader.boneWeights[b].Weight);
                         StreamUtil.WriteInt8(ModelStream, BoneWeightHeader.boneWeights[b].BoneID);
-                        StreamUtil.WriteInt8(ModelStream, BoneWeightHeader.boneWeights[b].Flag);
+                        StreamUtil.WriteInt8(ModelStream, BoneWeightHeader.boneWeights[b].FileID);
                     }
                     Model.boneWeightHeader[a] = BoneWeightHeader;
                 }
@@ -1005,6 +1009,8 @@ namespace SSXMultiTool.FileHandlers
             public float UnknownFloat5;
             public float UnknownFloat6;
 
+            public int FileID;
+            public int BonePos;
         }
 
 
@@ -1065,7 +1071,7 @@ namespace SSXMultiTool.FileHandlers
         {
             public int Weight;
             public int BoneID;
-            public int Flag;
+            public int FileID;
         }
 
         public struct StaticMesh

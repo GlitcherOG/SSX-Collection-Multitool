@@ -75,7 +75,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
             materials.AddRange(Board.ModelList[MeshID].materialDatas);
             bones.AddRange(Board.ModelList[MeshID].boneDatas);
-            TempMesh.faces.AddRange(ReturnFixedFaces(Board.ModelList[MeshID]));
+            TempMesh.faces.AddRange(ReturnFixedFaces(Board.ModelList[MeshID], bones));
             TempMesh.MeshName = Board.ModelList[MeshID].FileName;
             if (TempMesh.MeshName.ToLower().Contains("shdw"))
             {
@@ -116,7 +116,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     }
                     bones.AddRange(Body.ModelList[i].boneDatas);
                     headboneStart.Add(bones.Count);
-                    TempMesh.faces = ReturnFixedFaces(Body.ModelList[i], headboneStart[ListSize]);
+                    TempMesh.faces = ReturnFixedFaces(Body.ModelList[i], bones);
                     ListSize++;
                     TempMesh.MeshName = Body.ModelList[i].FileName;
                     if (MeshID == 3)
@@ -140,7 +140,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     bones.AddRange(Head.ModelList[i].boneDatas);
                     headboneStart.Add(bones.Count);
                     TempMesh.MeshName = Head.ModelList[i].FileName;
-                    TempMesh.faces = ReturnFixedFaces(Head.ModelList[i], headboneStart[ListSize]);
+                    TempMesh.faces = ReturnFixedFaces(Head.ModelList[i], bones);
                     ListSize++;
                     if (MeshID == 3)
                     {
@@ -156,13 +156,13 @@ namespace SSXMultiTool.FileHandlers.Models
 
         }
 
-        public List<TrickyMPFModelHandler.Face> ReturnFixedFaces(TrickyMPFModelHandler.MPFModelHeader modelHeader, int StartBoneID = 0)
+        public List<TrickyMPFModelHandler.Face> ReturnFixedFaces(TrickyMPFModelHandler.MPFModelHeader modelHeader, List<TrickyMPFModelHandler.BoneData> BoneData)
         {
             List<TrickyMPFModelHandler.Face> NewFaces = new List<TrickyMPFModelHandler.Face>();
 
             for (int i = 0; i < modelHeader.boneWeightHeader.Count; i++)
             {
-                modelHeader.boneWeightHeader[i] = FixBoneIDs(modelHeader.boneWeightHeader[i], StartBoneID);
+                modelHeader.boneWeightHeader[i] = FixBoneIDs(modelHeader.boneWeightHeader[i], BoneData);
             }
 
 
@@ -214,15 +214,22 @@ namespace SSXMultiTool.FileHandlers.Models
             return NewFaces;
         }
 
-        public TrickyMPFModelHandler.BoneWeightHeader FixBoneIDs(TrickyMPFModelHandler.BoneWeightHeader weightHeader, int BoneStartID)
+        public TrickyMPFModelHandler.BoneWeightHeader FixBoneIDs(TrickyMPFModelHandler.BoneWeightHeader weightHeader, List<TrickyMPFModelHandler.BoneData> BoneData)
         {
             var NewHeader = weightHeader;
             for (int i = 0; i < NewHeader.boneWeights.Count; i++)
             {
                 var Temp = NewHeader.boneWeights[i];
-                if (Temp.Flag != 0)
+                for (int a = 0; a < BoneData.Count; a++)
                 {
-                    Temp.BoneID += BoneStartID;
+                    if (BoneData[a].FileID== Temp.FileID)
+                    {
+                        if (BoneData[a].BonePos==Temp.BoneID)
+                        {
+                            Temp.BoneID = a;
+                            break;
+                        }
+                    }
                 }
                 NewHeader.boneWeights[i] = Temp;
             }
