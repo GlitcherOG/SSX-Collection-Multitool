@@ -51,7 +51,7 @@ namespace SSXMultiTool.FileHandlers
                     modelHeader.MaterialCount = StreamUtil.ReadInt16(stream);
                     modelHeader.IKCount = StreamUtil.ReadInt16(stream);
                     modelHeader.MorphKeyCount = StreamUtil.ReadInt16(stream);
-                    modelHeader.UnknownCount8 = StreamUtil.ReadInt16(stream);
+                    modelHeader.WeightIDFlag = StreamUtil.ReadInt16(stream);
                     stream.Position += 4;
 
                     ModelList.Add(modelHeader);
@@ -902,7 +902,7 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteInt16(stream, ModelList[i].materialDatas.Count);
                 StreamUtil.WriteInt16(stream, ModelList[i].iKPoints.Count);
                 StreamUtil.WriteInt16(stream, ModelList[i].MorphKeyCount);
-                StreamUtil.WriteInt16(stream, ModelList[i].UnknownCount8);
+                StreamUtil.WriteInt16(stream, ModelList[i].WeightIDFlag);
 
                 stream.Position += 4;
             }
@@ -947,7 +947,7 @@ namespace SSXMultiTool.FileHandlers
             public int MaterialCount;
             public int IKCount;
             public int MorphKeyCount;
-            public int UnknownCount8;
+            public int WeightIDFlag;
 
             public byte[] Matrix;
 

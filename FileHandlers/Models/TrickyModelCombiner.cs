@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Numerics;
 
 namespace SSXMultiTool.FileHandlers.Models
 {
@@ -80,6 +81,9 @@ namespace SSXMultiTool.FileHandlers.Models
             {
                 TempMesh.ShadowModel = true;
             }
+            TempMesh.IKPoints = Board.ModelList[MeshID].iKPoints;
+
+
             reassignedMesh.Add(TempMesh);
         }
 
@@ -230,6 +234,7 @@ namespace SSXMultiTool.FileHandlers.Models
             public string MeshName;
             public bool ShadowModel;
             public bool MorphTargets;
+            public List<Vector3> IKPoints;
             public List<TrickyMPFModelHandler.Face> faces;
         }
     }

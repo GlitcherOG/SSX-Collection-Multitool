@@ -264,6 +264,13 @@ namespace SSXMultiTool.FileHandlers
                     }
                     scene.AddSkinnedMesh(mesh, Matrix4x4.CreateTranslation(0, 0, 0), bindings.ToArray());
                 }
+
+                for (int i = 0; i < Handler.reassignedMesh[a].IKPoints.Count; i++)
+                {
+                    var Temp = new SharpGLTF.Scenes.NodeBuilder("IKPoint " + i.ToString());
+                    Temp.WithLocalTranslation(Handler.reassignedMesh[a].IKPoints[i]);
+                    scene.AddNode(Temp);
+                }
             }
 
             // save the model in different formats
