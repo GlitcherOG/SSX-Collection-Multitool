@@ -667,15 +667,15 @@ namespace SSXMultiTool.FileHandlers
                                 StreamUtil.WriteInt8(ModelStream, 0x6C);
 
                                 //Tristrip Header InfoCrap
-                                if(d!= TempGroupHeader.staticMesh.Count-1)
+                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.vertices.Count);
+                                if (TempMeshGroup.GroupType == 1)
                                 {
-                                    StreamUtil.WriteInt8(ModelStream, 0x38);
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x80, 0x00, 0x00, 0x00, 0x40, 0x2E, 0x30, 0x12, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
                                 }
-                                else
+                                else if (TempMeshGroup.GroupType == 17)
                                 {
-                                    StreamUtil.WriteInt8(ModelStream, 0x06);
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x80, 0x00, 0x00, 0x00, 0x40, 0x22, 0x10, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
                                 }
-                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x80, 0x00, 0x00, 0x00, 0x40, 0x2E, 0x30, 0x12, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }); //Start OF Line wrong
 
                                 StreamUtil.WriteInt32(ModelStream, TempStaticMesh.Strips.Count);
                                 StreamUtil.WriteInt32(ModelStream, TempStaticMesh.Unknown1);
@@ -706,85 +706,127 @@ namespace SSXMultiTool.FileHandlers
                                 StreamUtil.WriteInt8(ModelStream, 0x30);
                                 ModelStream.Position += 8;
 
-                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x50, 0x50, 0x50, 0x50 });
-
-                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
-                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 2);
-                                StreamUtil.WriteInt8(ModelStream, 0x80);
-                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.uv.Count);
-                                StreamUtil.WriteInt8(ModelStream, 0x6D);
-
-                                for (int e = 0; e < TempStaticMesh.uv.Count; e++)
+                                if (TempMeshGroup.GroupType != 17)
                                 {
-                                    StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uv[e].X*4096f));
-                                    StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uv[e].Y * 4096f));
-                                    StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uv[e].Z));
-                                    StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uv[e].W));
-                                }
-                                StreamUtil.AlignBy16(ModelStream);
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x50, 0x50, 0x50, 0x50 });
 
-                                //Write Normals
-                                ModelStream.Position += 7;
-                                StreamUtil.WriteInt8(ModelStream, 0x30);
-                                ModelStream.Position += 8;
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
+                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 2);
+                                    StreamUtil.WriteInt8(ModelStream, 0x80);
+                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.uv.Count);
+                                    StreamUtil.WriteInt8(ModelStream, 0x6D);
 
-                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x40, 0x40, 0x40, 0x40 });
+                                    for (int e = 0; e < TempStaticMesh.uv.Count; e++)
+                                    {
+                                        StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uv[e].X * 4096f));
+                                        StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uv[e].Y * 4096f));
+                                        StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uv[e].Z));
+                                        StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uv[e].W));
+                                    }
+                                    StreamUtil.AlignBy16(ModelStream);
 
-                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
-                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 3);
-                                StreamUtil.WriteInt8(ModelStream, 0x80);
-                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.uvNormals.Count);
-                                StreamUtil.WriteInt8(ModelStream, 0x79);
+                                    //Write Normals
+                                    ModelStream.Position += 7;
+                                    StreamUtil.WriteInt8(ModelStream, 0x30);
+                                    ModelStream.Position += 8;
 
-                                for (int e = 0; e < TempStaticMesh.uvNormals.Count; e++)
-                                {
-                                    StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uvNormals[e].X * 4096f));
-                                    StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uvNormals[e].Y * 4096f));
-                                    StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uvNormals[e].Z * 4096f));
-                                }
-                                StreamUtil.AlignBy16(ModelStream);
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x40, 0x40, 0x40, 0x40 });
 
-                                //Write Vertex Count
-                                ModelStream.Position += 7;
-                                StreamUtil.WriteInt8(ModelStream, 0x30);
-                                ModelStream.Position += 8;
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
+                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 3);
+                                    StreamUtil.WriteInt8(ModelStream, 0x80);
+                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.uvNormals.Count);
+                                    StreamUtil.WriteInt8(ModelStream, 0x79);
 
-                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x3F, 0x00, 0x00, 0x00, 0x20, 0x40, 0x40, 0x40, 0x40 });
+                                    for (int e = 0; e < TempStaticMesh.uvNormals.Count; e++)
+                                    {
+                                        StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uvNormals[e].X * 32768f));
+                                        StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uvNormals[e].Y * 32768f));
+                                        StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.uvNormals[e].Z * 32768f));
+                                    }
+                                    StreamUtil.AlignBy16(ModelStream);
 
-                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
-                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 4);
-                                StreamUtil.WriteInt8(ModelStream, 0x80);
-                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.vertices.Count);
-                                StreamUtil.WriteInt8(ModelStream, 0x78);
+                                    //Write Vertex Count
+                                    ModelStream.Position += 7;
+                                    StreamUtil.WriteInt8(ModelStream, 0x30);
+                                    ModelStream.Position += 8;
 
-                                for (int e = 0; e < TempStaticMesh.vertices.Count; e++)
-                                {
-                                    StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.vertices[e].X));
-                                    StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.vertices[e].Y));
-                                    StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.vertices[e].Z));
-                                }
-                                StreamUtil.AlignBy16(ModelStream);
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x3F, 0x00, 0x00, 0x00, 0x20, 0x40, 0x40, 0x40, 0x40 });
 
-                                //Go back and write row count
-                                TempPos = (int)ModelStream.Position;
-                                ModelStream.Position = RowCountPos;
-                                StreamUtil.WriteInt24(ModelStream, (TempPos - RowCountPos) / 16 - 1);
-                                ModelStream.Position = TempPos;
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
+                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 4);
+                                    StreamUtil.WriteInt8(ModelStream, 0x80);
+                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.vertices.Count);
+                                    StreamUtil.WriteInt8(ModelStream, 0x78);
 
-                                //Write New RowCount that neve changes
-                                StreamUtil.WriteInt24(ModelStream, 1);
-                                StreamUtil.WriteInt32(ModelStream, 16);
-                                StreamUtil.AlignBy16(ModelStream);
+                                    for (int e = 0; e < TempStaticMesh.vertices.Count; e++)
+                                    {
+                                        StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.vertices[e].X));
+                                        StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.vertices[e].Y));
+                                        StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.vertices[e].Z));
+                                    }
+                                    StreamUtil.AlignBy16(ModelStream);
 
-                                if(!MeshTest)
-                                {
-                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                    //Go back and write row count
+                                    TempPos = (int)ModelStream.Position;
+                                    ModelStream.Position = RowCountPos;
+                                    StreamUtil.WriteInt24(ModelStream, (TempPos - RowCountPos) / 16 - 1);
+                                    ModelStream.Position = TempPos;
+
+                                    //Write New RowCount that neve changes
+                                    StreamUtil.WriteInt24(ModelStream, 1);
+                                    StreamUtil.WriteInt32(ModelStream, 16);
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    //Something Going on with this
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
+
+                                    StreamUtil.WriteInt8(ModelStream, 0x00);
+
+
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x14, 0x06, 0x00, 0x00 });
+                                    if (!MeshTest)
+                                    {
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                    }
+                                    else
+                                    {
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x14, 0x06, 0x00, 0x00, 0x14 });
+                                    }
+                                    MeshTest = !MeshTest;
+
+                                    //end of something going wrong
                                 }
                                 else
                                 {
-                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x06, 0x00, 0x00, 0x14, 0x06, 0x00, 0x00, 0x14 });
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x3F, 0x00, 0x00, 0x00, 0x20, 0x40, 0x40, 0x40, 0x40 });
+
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
+                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 2);
+                                    StreamUtil.WriteInt8(ModelStream, 0x80);
+                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.vertices.Count);
+                                    StreamUtil.WriteInt8(ModelStream, 0x6C);
+
+                                    for (int e = 0; e < TempStaticMesh.vertices.Count; e++)
+                                    {
+                                        StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.vertices[e].X));
+                                        StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.vertices[e].Y));
+                                        StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.vertices[e].Z));
+                                        StreamUtil.WriteInt32(ModelStream, (TempStaticMesh.Weights[e]));
+                                    }
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    //Go back and write row count
+                                    TempPos = (int)ModelStream.Position;
+                                    ModelStream.Position = RowCountPos;
+                                    StreamUtil.WriteInt24(ModelStream, (TempPos - RowCountPos) / 16 - 1);
+                                    ModelStream.Position = TempPos;
+
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x14 });
                                 }
-                                MeshTest = !MeshTest;
+
+
 
                             }
 

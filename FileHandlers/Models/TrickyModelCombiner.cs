@@ -55,7 +55,10 @@ namespace SSXMultiTool.FileHandlers.Models
             {
                 if (BodyBool)
                 {
-                    StartReassignMeshCharacter(MeshID);
+                    if (Head != null && Body != null)
+                    {
+                        StartReassignMeshCharacter(MeshID);
+                    }
                 }
                 else
                 {
