@@ -1398,7 +1398,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     //Line 3
 
                                     //Write Vertice count
-                                    StreamUtil.WriteInt8(memoryStream, TempMeshChunk.vertices.Count);
+                                    StreamUtil.WriteUInt8(memoryStream, TempMeshChunk.vertices.Count);
 
                                     TempBytes = new byte[15] { 0x80, 0, 0, 0, 0x40, 0x2E, 0x30, 0x12, 0x04, 0, 0, 0, 0, 0, 0 };
                                     StreamUtil.WriteBytes(memoryStream, TempBytes);
@@ -1435,7 +1435,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     TempBytes = new byte[1] { 0x80 };
                                     StreamUtil.WriteBytes(memoryStream, TempBytes);
 
-                                    StreamUtil.WriteInt8(memoryStream, TempMeshChunk.Tristrip.Count);
+                                    StreamUtil.WriteUInt8(memoryStream, TempMeshChunk.Tristrip.Count);
 
                                     TempBytes = new byte[1] { 0x66 };
                                     StreamUtil.WriteBytes(memoryStream, TempBytes);
@@ -1451,7 +1451,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     //Line 6
                                     StreamUtil.WriteInt24(memoryStream, 1);
 
-                                    StreamUtil.WriteInt8(memoryStream, 48);
+                                    StreamUtil.WriteUInt8(memoryStream, 48);
 
                                     TotalModelLengthPos.Add(memoryStream.Position);
 
@@ -1483,15 +1483,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     StreamUtil.WriteBytes(memoryStream, TempBytes);
                                     if (FirstChunk)
                                     {
-                                        StreamUtil.WriteInt8(memoryStream, 13 + TempMeshChunk.Tristrip.Count);
+                                        StreamUtil.WriteUInt8(memoryStream, 13 + TempMeshChunk.Tristrip.Count);
                                     }
                                     else
                                     {
-                                        StreamUtil.WriteInt8(memoryStream, 2 + TempMeshChunk.Tristrip.Count);
+                                        StreamUtil.WriteUInt8(memoryStream, 2 + TempMeshChunk.Tristrip.Count);
                                     }
-                                    StreamUtil.WriteInt8(memoryStream, 128);
-                                    StreamUtil.WriteInt8(memoryStream, TempMeshChunk.TextureCords.Count);
-                                    StreamUtil.WriteInt8(memoryStream, 117);
+                                    StreamUtil.WriteUInt8(memoryStream, 128);
+                                    StreamUtil.WriteUInt8(memoryStream, TempMeshChunk.TextureCords.Count);
+                                    StreamUtil.WriteUInt8(memoryStream, 117);
 
                                     //UVCord Save
                                     for (int i = 0; i < TempMeshChunk.TextureCords.Count; i++)
@@ -1515,15 +1515,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     StreamUtil.WriteBytes(memoryStream, TempBytes);
                                     if (FirstChunk)
                                     {
-                                        StreamUtil.WriteInt8(memoryStream, 14 + TempMeshChunk.Tristrip.Count);
+                                        StreamUtil.WriteUInt8(memoryStream, 14 + TempMeshChunk.Tristrip.Count);
                                     }
                                     else
                                     {
-                                        StreamUtil.WriteInt8(memoryStream, 3 + TempMeshChunk.Tristrip.Count);
+                                        StreamUtil.WriteUInt8(memoryStream, 3 + TempMeshChunk.Tristrip.Count);
                                     }
-                                    StreamUtil.WriteInt8(memoryStream, 128);
-                                    StreamUtil.WriteInt8(memoryStream, TempMeshChunk.normals.Count);
-                                    StreamUtil.WriteInt8(memoryStream, 121);
+                                    StreamUtil.WriteUInt8(memoryStream, 128);
+                                    StreamUtil.WriteUInt8(memoryStream, TempMeshChunk.normals.Count);
+                                    StreamUtil.WriteUInt8(memoryStream, 121);
                                     //Normals Generation
                                     for (int i = 0; i < TempMeshChunk.normals.Count; i++)
                                     {
@@ -1540,15 +1540,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     StreamUtil.WriteBytes(memoryStream, TempBytes);
                                     if (FirstChunk)
                                     {
-                                        StreamUtil.WriteInt8(memoryStream, 15 + TempMeshChunk.Tristrip.Count);
+                                        StreamUtil.WriteUInt8(memoryStream, 15 + TempMeshChunk.Tristrip.Count);
                                     }
                                     else
                                     {
-                                        StreamUtil.WriteInt8(memoryStream, 4 + TempMeshChunk.Tristrip.Count);
+                                        StreamUtil.WriteUInt8(memoryStream, 4 + TempMeshChunk.Tristrip.Count);
                                     }
-                                    StreamUtil.WriteInt8(memoryStream, 128);
-                                    StreamUtil.WriteInt8(memoryStream, TempMeshChunk.vertices.Count);
-                                    StreamUtil.WriteInt8(memoryStream, 121);
+                                    StreamUtil.WriteUInt8(memoryStream, 128);
+                                    StreamUtil.WriteUInt8(memoryStream, TempMeshChunk.vertices.Count);
+                                    StreamUtil.WriteUInt8(memoryStream, 121);
 
                                     //Vertices Generation
                                     for (int i = 0; i < TempMeshChunk.vertices.Count; i++)
@@ -1564,7 +1564,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     //Total Model Size
                                     StreamUtil.WriteInt24(memoryStream, 1);
 
-                                    StreamUtil.WriteInt8(memoryStream, 48);
+                                    StreamUtil.WriteUInt8(memoryStream, 48);
 
                                     TotalModelLengthPos1.Add(memoryStream.Position);
 

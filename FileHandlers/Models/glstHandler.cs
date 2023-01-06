@@ -302,16 +302,71 @@ namespace SSXMultiTool.FileHandlers
                     {
                         var Temp = new SharpGLTF.Scenes.NodeBuilder("IKPoint " + i.ToString());
                         Temp.WithLocalTranslation(Handler.reassignedMesh[a].IKPoints[i]);
+                        //Temp.Name = "IKPoint " + i.ToString();
                         scene.AddNode(Temp);
                     }
                 }
             }
 
             // save the model in different formats
-
             var model = scene.ToGltf2();
             model.SaveGLB(Output);
         }
+
+
+
+        public static void LoadGlft(string Path)
+        {
+            //var model1 = ModelRoot.Load(Path);
+            var model = SharpGLTF.Scenes.SceneBuilder.LoadDefaultScene(Path);
+            var Instances = model.Instances.ToArray();
+            var Instance0 = Instances[0].Content.GetGeometryAsset();
+
+            //Read Bones
+            var Ampatures = model.FindArmatures();
+
+            //Mesh Name
+            var MeshName = Instance0.Name;
+
+            //Load Morph Target
+            //Instance0.UseMorphTarget(0);
+
+            //Go through Material Data
+            var PrimitiveData = Instance0.Primitives.ToArray()[0];
+
+
+            //Get Material Name
+            var temp = PrimitiveData.Material.Name;
+
+            //Get All vertices for that material
+            var VerticeData = PrimitiveData.Vertices.ToArray();
+
+
+            //Vertex 0 Data
+
+            var temp4 = VerticeData[0].GetGeometry();
+
+            var temp5 = VerticeData[0].GetSkinning();
+
+            var temp6 = VerticeData[0].GetMaterial();
+
+
+            //UV 0
+            temp6.GetTexCoord(0);
+
+            //All Weights
+            temp5.GetBindings();
+
+            //Position
+            var Position = temp4.GetPosition();
+
+            //Normal
+            Vector3 Normal;
+            bool tempbool = temp4.TryGetNormal(out Normal);
+            Console.WriteLine("Temp");
+        }
+
+
 
         public static PointMorph GeneratePointMorph(Vector3 Point, List<Vector3> MorphPoints)
         {
@@ -325,11 +380,6 @@ namespace SSXMultiTool.FileHandlers
         {
             public Vector3 Point;
             public List<Vector3> MorphPoints;
-        }
-
-        public static void LoadGlft(string Path)
-        {
-            var model = ModelRoot.Load(Path);
         }
 
 

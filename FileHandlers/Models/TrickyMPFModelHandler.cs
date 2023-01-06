@@ -387,9 +387,9 @@ namespace SSXMultiTool.FileHandlers
                                     for (int dcb = 0; dcb < TempMorphKey.MorphPointDataCount; dcb++)
                                     {
                                         var TempPoint = new Vector3();
-                                        TempPoint.X = StreamUtil.ReadSInt8(streamMatrix)/12f;
-                                        TempPoint.Y = StreamUtil.ReadSInt8(streamMatrix) / 12f;
-                                        TempPoint.Z = StreamUtil.ReadSInt8(streamMatrix) / 12f;
+                                        TempPoint.X = StreamUtil.ReadInt8(streamMatrix)/12f;
+                                        TempPoint.Y = StreamUtil.ReadInt8(streamMatrix) / 12f;
+                                        TempPoint.Z = StreamUtil.ReadInt8(streamMatrix) / 12f;
                                         TempMorphKey.morphData.Add(TempPoint);
                                     }
                                     StreamUtil.AlignBy16(streamMatrix);
@@ -653,8 +653,8 @@ namespace SSXMultiTool.FileHandlers
                     for (int b = 0; b < BoneWeightHeader.boneWeights.Count; b++)
                     {
                         StreamUtil.WriteInt16(ModelStream, BoneWeightHeader.boneWeights[b].Weight);
-                        StreamUtil.WriteInt8(ModelStream, BoneWeightHeader.boneWeights[b].BoneID);
-                        StreamUtil.WriteInt8(ModelStream, BoneWeightHeader.boneWeights[b].FileID);
+                        StreamUtil.WriteUInt8(ModelStream, BoneWeightHeader.boneWeights[b].BoneID);
+                        StreamUtil.WriteUInt8(ModelStream, BoneWeightHeader.boneWeights[b].FileID);
                     }
                     Model.boneWeightHeader[a] = BoneWeightHeader;
                 }
@@ -710,7 +710,7 @@ namespace SSXMultiTool.FileHandlers
                 ModelStream.Position += MathOffset;
                 StreamUtil.AlignBy16(ModelStream);
                 ModelStream.Position -= 1;
-                StreamUtil.WriteInt8(ModelStream, 0);
+                StreamUtil.WriteUInt8(ModelStream, 0);
 
 
 
@@ -738,11 +738,11 @@ namespace SSXMultiTool.FileHandlers
                                 StreamUtil.AlignBy16(ModelStream);
 
                                 StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80 });
-                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 2);
-                                StreamUtil.WriteInt8(ModelStream, 0x6C);
+                                StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.Strips.Count + 2);
+                                StreamUtil.WriteUInt8(ModelStream, 0x6C);
 
                                 //Tristrip Header InfoCrap
-                                StreamUtil.WriteInt8(ModelStream, TempStaticMesh.vertices.Count);
+                                StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.vertices.Count);
                                 if (TempMeshGroup.GroupType == 1 || TempMeshGroup.GroupType == 256)
                                 {
                                     StreamUtil.WriteBytes(ModelStream, new byte[] { 0x80, 0x00, 0x00, 0x00, 0x40, 0x2E, 0x30, 0x12, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
@@ -778,7 +778,7 @@ namespace SSXMultiTool.FileHandlers
 
                                 //Write UV
                                 ModelStream.Position += 7;
-                                StreamUtil.WriteInt8(ModelStream, 0x30);
+                                StreamUtil.WriteUInt8(ModelStream, 0x30);
                                 ModelStream.Position += 8;
 
                                 if (TempMeshGroup.GroupType != 17)
@@ -786,10 +786,10 @@ namespace SSXMultiTool.FileHandlers
                                     StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x50, 0x50, 0x50, 0x50 });
 
                                     StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
-                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 2);
-                                    StreamUtil.WriteInt8(ModelStream, 0x80);
-                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.uv.Count);
-                                    StreamUtil.WriteInt8(ModelStream, 0x6D);
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.Strips.Count + 2);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x80);
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.uv.Count);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x6D);
 
                                     for (int e = 0; e < TempStaticMesh.uv.Count; e++)
                                     {
@@ -802,16 +802,16 @@ namespace SSXMultiTool.FileHandlers
 
                                     //Write Normals
                                     ModelStream.Position += 7;
-                                    StreamUtil.WriteInt8(ModelStream, 0x30);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x30);
                                     ModelStream.Position += 8;
 
                                     StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x40, 0x40, 0x40, 0x40 });
 
                                     StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
-                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 3);
-                                    StreamUtil.WriteInt8(ModelStream, 0x80);
-                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.uvNormals.Count);
-                                    StreamUtil.WriteInt8(ModelStream, 0x79);
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.Strips.Count + 3);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x80);
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.uvNormals.Count);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x79);
 
                                     for (int e = 0; e < TempStaticMesh.uvNormals.Count; e++)
                                     {
@@ -823,16 +823,16 @@ namespace SSXMultiTool.FileHandlers
 
                                     //Write Vertex Count
                                     ModelStream.Position += 7;
-                                    StreamUtil.WriteInt8(ModelStream, 0x30);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x30);
                                     ModelStream.Position += 8;
 
                                     StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x3F, 0x00, 0x00, 0x00, 0x20, 0x40, 0x40, 0x40, 0x40 });
 
                                     StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
-                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 4);
-                                    StreamUtil.WriteInt8(ModelStream, 0x80);
-                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.vertices.Count);
-                                    StreamUtil.WriteInt8(ModelStream, 0x78);
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.Strips.Count + 4);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x80);
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.vertices.Count);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x78);
 
                                     for (int e = 0; e < TempStaticMesh.vertices.Count; e++)
                                     {
@@ -864,7 +864,7 @@ namespace SSXMultiTool.FileHandlers
                                     {
                                         StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
 
-                                        StreamUtil.WriteInt8(ModelStream, 0x00); // Can sometimes be 0x0A
+                                        StreamUtil.WriteUInt8(ModelStream, 0x00); // Can sometimes be 0x0A
 
                                         StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x14 });
 
@@ -899,10 +899,10 @@ namespace SSXMultiTool.FileHandlers
                                     StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x3F, 0x00, 0x00, 0x00, 0x20, 0x40, 0x40, 0x40, 0x40 });
 
                                     StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
-                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.Strips.Count + 2);
-                                    StreamUtil.WriteInt8(ModelStream, 0x80);
-                                    StreamUtil.WriteInt8(ModelStream, TempStaticMesh.vertices.Count);
-                                    StreamUtil.WriteInt8(ModelStream, 0x6C);
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.Strips.Count + 2);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x80);
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.vertices.Count);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x6C);
 
                                     for (int e = 0; e < TempStaticMesh.vertices.Count; e++)
                                     {
@@ -940,14 +940,14 @@ namespace SSXMultiTool.FileHandlers
                                     StreamUtil.AlignBy16(ModelStream);
 
                                     StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x04, 0x04, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0xB6, 0x80 });
-                                    StreamUtil.WriteInt8(ModelStream, TempMorphList.morphData.Count);
-                                    StreamUtil.WriteInt8(ModelStream, 0x7A);
+                                    StreamUtil.WriteUInt8(ModelStream, TempMorphList.morphData.Count);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x7A);
 
                                     for (int d = 0; d < TempMorphList.morphData.Count; d++)
                                     {
-                                        StreamUtil.WriteInt8(ModelStream, (int)(TempMorphList.morphData[d].X * 12f));
-                                        StreamUtil.WriteInt8(ModelStream, (int)(TempMorphList.morphData[d].Y * 12f));
-                                        StreamUtil.WriteInt8(ModelStream, (int)(TempMorphList.morphData[d].Z * 12f));
+                                        StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.morphData[d].X * 12f));
+                                        StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.morphData[d].Y * 12f));
+                                        StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.morphData[d].Z * 12f));
                                     }
                                     StreamUtil.AlignBy16(ModelStream);
 
@@ -1001,7 +1001,7 @@ namespace SSXMultiTool.FileHandlers
                                 StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01 });
                                 StreamUtil.AlignBy16(ModelStream);
                                 ModelStream.Position -= 1;
-                                StreamUtil.WriteInt8(ModelStream, 0);
+                                StreamUtil.WriteUInt8(ModelStream, 0);
 
                                 if (!FirstChunk || (a == Model.MeshGroups.Count - 1 && b == TempMeshGroup.meshGroupSubs.Count - 1 && c == TempSubGroup.MeshGroupHeaders.Count - 1))
                                 {
@@ -1013,9 +1013,9 @@ namespace SSXMultiTool.FileHandlers
                                     StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
 
                                     ModelStream.Position += 7;
-                                    StreamUtil.WriteInt8(ModelStream, 16);
+                                    StreamUtil.WriteUInt8(ModelStream, 16);
                                     ModelStream.Position += 7;
-                                    StreamUtil.WriteInt8(ModelStream, 20);
+                                    StreamUtil.WriteUInt8(ModelStream, 20);
                                     FirstChunk = true;
                                 }
                             }

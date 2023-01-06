@@ -54,7 +54,7 @@ namespace SSXMultiTool.Utilities
             return tempByte;
         }
 
-        public static sbyte ReadSInt8(Stream stream)
+        public static sbyte ReadInt8(Stream stream)
         {
             sbyte tempByte = (sbyte)stream.ReadByte();
             return Convert.ToSByte(tempByte);
@@ -228,7 +228,7 @@ namespace SSXMultiTool.Utilities
             stream.Write(bytes, Offset, bytes.Length);
         }
 
-        public static void WriteInt8(Stream stream, int Int)
+        public static void WriteUInt8(Stream stream, int Int)
         {
             byte[] tempByte = new byte[4];
             BitConverter.GetBytes(Int).CopyTo(tempByte, 0);

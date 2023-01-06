@@ -750,10 +750,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             MemoryStream MainFileStream = new MemoryStream();
 
             //Header Write
-            StreamUtil.WriteInt8(MainFileStream, Unknown);
-            StreamUtil.WriteInt8(MainFileStream, ColdFusionVersion);
-            StreamUtil.WriteInt8(MainFileStream, ColdFusionRevision);
-            StreamUtil.WriteInt8(MainFileStream, endianess);
+            StreamUtil.WriteUInt8(MainFileStream, Unknown);
+            StreamUtil.WriteUInt8(MainFileStream, ColdFusionVersion);
+            StreamUtil.WriteUInt8(MainFileStream, ColdFusionRevision);
+            StreamUtil.WriteUInt8(MainFileStream, endianess);
 
             StreamUtil.WriteVector3(MainFileStream, WorldBounds1);
             StreamUtil.WriteVector3(MainFileStream, WorldBounds2);

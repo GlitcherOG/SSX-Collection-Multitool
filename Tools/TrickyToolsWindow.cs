@@ -162,5 +162,20 @@ namespace SSXMultiTool
                 trickyMPF.Save(openFileDialog.FileName);
             }
         }
+
+        private void MPFImport_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "gltf File (*.glb)|*.glb|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+
+                glstHandler.LoadGlft(openFileDialog.FileName);
+            }
+        }
     }
 }

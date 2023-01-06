@@ -802,7 +802,7 @@ namespace SSXMultiTool.FileHandlers
 
                 stream.Position = temp;
 
-                StreamUtil.WriteInt8(stream, sshImages[i].sshHeader.MatrixFormat);
+                StreamUtil.WriteUInt8(stream, sshImages[i].sshHeader.MatrixFormat);
 
                 //Set SSH Header Info
                 if (sshImages[i].sshHeader.MatrixFormat == 1)

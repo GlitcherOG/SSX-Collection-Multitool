@@ -36,6 +36,7 @@
             this.MPFLoad = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ELFLdrSetup = new System.Windows.Forms.Button();
+            this.MPFImport = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -53,6 +54,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.MPFImport);
             this.tabPage1.Controls.Add(this.button2);
             this.tabPage1.Controls.Add(this.MpfList);
             this.tabPage1.Controls.Add(this.MPFExtract);
@@ -68,11 +70,11 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button2.Location = new System.Drawing.Point(687, 337);
+            this.button2.Location = new System.Drawing.Point(687, 366);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 4;
-            this.button2.Text = "Save";
+            this.button2.Text = "Save MPF";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -90,7 +92,7 @@
             // MPFExtract
             // 
             this.MPFExtract.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.MPFExtract.Location = new System.Drawing.Point(687, 366);
+            this.MPFExtract.Location = new System.Drawing.Point(606, 366);
             this.MPFExtract.Name = "MPFExtract";
             this.MPFExtract.Size = new System.Drawing.Size(75, 23);
             this.MPFExtract.TabIndex = 1;
@@ -105,7 +107,7 @@
             this.MPFLoad.Name = "MPFLoad";
             this.MPFLoad.Size = new System.Drawing.Size(75, 23);
             this.MPFLoad.TabIndex = 0;
-            this.MPFLoad.Text = "Load";
+            this.MPFLoad.Text = "Load MPF";
             this.MPFLoad.UseVisualStyleBackColor = true;
             this.MPFLoad.Click += new System.EventHandler(this.MPFLoad_Click);
             // 
@@ -128,6 +130,17 @@
             this.ELFLdrSetup.Text = "Setup For ELFLdr";
             this.ELFLdrSetup.UseVisualStyleBackColor = true;
             this.ELFLdrSetup.Click += new System.EventHandler(this.ELFLdrSetup_Click);
+            // 
+            // MPFImport
+            // 
+            this.MPFImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.MPFImport.Location = new System.Drawing.Point(285, 366);
+            this.MPFImport.Name = "MPFImport";
+            this.MPFImport.Size = new System.Drawing.Size(75, 23);
+            this.MPFImport.TabIndex = 5;
+            this.MPFImport.Text = "Import Model";
+            this.MPFImport.UseVisualStyleBackColor = true;
+            this.MPFImport.Click += new System.EventHandler(this.MPFImport_Click);
             // 
             // TrickyToolsWindow
             // 
@@ -154,5 +167,6 @@
         private TabPage tabPage2;
         private Button ELFLdrSetup;
         private Button button2;
+        private Button MPFImport;
     }
 }
