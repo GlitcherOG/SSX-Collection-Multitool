@@ -80,10 +80,49 @@ namespace SSXMultiTool.FileHandlers
                 {
                     var TempMat = new MaterialData();
                     TempMat.MainTexture = StreamUtil.ReadString(streamMatrix, 4);
-                    TempMat.Texture1 = StreamUtil.ReadString(streamMatrix, 4);
-                    TempMat.Texture2 = StreamUtil.ReadString(streamMatrix, 4);
-                    TempMat.Texture3 = StreamUtil.ReadString(streamMatrix, 4);
-                    TempMat.Texture4 = StreamUtil.ReadString(streamMatrix, 4);
+                    if(streamMatrix.ReadByte()!=0x00)
+                    {
+                        streamMatrix.Position -= 1;
+                        TempMat.Texture1 = StreamUtil.ReadString(streamMatrix, 4);
+                    }
+                    else
+                    {
+                        streamMatrix.Position += 3;
+                        TempMat.Texture1 = "";
+                    }
+
+                    if (streamMatrix.ReadByte() != 0x00)
+                    {
+                        streamMatrix.Position -= 1;
+                        TempMat.Texture2 = StreamUtil.ReadString(streamMatrix, 4);
+                    }
+                    else
+                    {
+                        streamMatrix.Position += 3;
+                        TempMat.Texture2 = "";
+                    }
+
+                    if (streamMatrix.ReadByte() != 0x00)
+                    {
+                        streamMatrix.Position -= 1;
+                        TempMat.Texture3 = StreamUtil.ReadString(streamMatrix, 4);
+                    }
+                    else
+                    {
+                        streamMatrix.Position += 3;
+                        TempMat.Texture3 = "";
+                    }
+
+                    if (streamMatrix.ReadByte() != 0x00)
+                    {
+                        streamMatrix.Position -= 1;
+                        TempMat.Texture4 = StreamUtil.ReadString(streamMatrix, 4);
+                    }
+                    else
+                    {
+                        streamMatrix.Position += 3;
+                        TempMat.Texture4 = "";
+                    }
 
                     TempMat.R = StreamUtil.ReadFloat(streamMatrix);
                     TempMat.G = StreamUtil.ReadFloat(streamMatrix);
@@ -524,10 +563,43 @@ namespace SSXMultiTool.FileHandlers
                 for (int a = 0; a < Model.materialDatas.Count; a++)
                 {
                     StreamUtil.WriteString(ModelStream, Model.materialDatas[a].MainTexture, 4);
-                    StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture1, 4);
-                    StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture2, 4);
-                    StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture3, 4);
-                    StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture4, 4);
+
+                    if(Model.materialDatas[a].Texture1 !="")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture1, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
+                    if (Model.materialDatas[a].Texture2 != "")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture2, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
+                    if (Model.materialDatas[a].Texture3 != "")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture3, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
+                    if (Model.materialDatas[a].Texture4 != "")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture4, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
 
                     StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].R);
                     StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].G);
@@ -778,24 +850,28 @@ namespace SSXMultiTool.FileHandlers
                                     StreamUtil.WriteInt32(ModelStream, 16);
                                     StreamUtil.AlignBy16(ModelStream);
 
-                                    //Something Going on with this
                                     StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
 
-                                    StreamUtil.WriteInt8(ModelStream, 0x00);
+                                    StreamUtil.WriteInt8(ModelStream, 0x00); // Can sometimes be 0x0A
 
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x14 });
 
-                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x14, 0x06, 0x00, 0x00 });
                                     if (!MeshTest)
                                     {
-                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                        if (TempGroupHeader.staticMesh.Count - 1 != d)
+                                        {
+                                            StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                        }
+                                        else
+                                        {
+                                            StreamUtil.WriteBytes(ModelStream, new byte[] { 0x08, 0x00, 0x00, 0x14, 0x06, 0x00, 0x00, 0x14 });
+                                        }
                                     }
                                     else
                                     {
-                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x14, 0x06, 0x00, 0x00, 0x14 });
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x06,0x00, 0x00, 0x14, 0x06, 0x00, 0x00, 0x14 });
                                     }
                                     MeshTest = !MeshTest;
-
-                                    //end of something going wrong
                                 }
                                 else
                                 {
