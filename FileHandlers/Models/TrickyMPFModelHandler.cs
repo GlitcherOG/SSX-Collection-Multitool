@@ -544,6 +544,9 @@ namespace SSXMultiTool.FileHandlers
             return face;
         }
 
+        //Within the entire saving there are only 2 issues one byte that seems to change what it is when ever it feels like it
+        //and within the head models from 1500 onwards having extra bytes at the end
+        //As far as i can tell these pose no issues in game
         public void Save(string path)
         {
             MemoryStream stream = new MemoryStream();
@@ -740,7 +743,7 @@ namespace SSXMultiTool.FileHandlers
 
                                 //Tristrip Header InfoCrap
                                 StreamUtil.WriteInt8(ModelStream, TempStaticMesh.vertices.Count);
-                                if (TempMeshGroup.GroupType == 1)
+                                if (TempMeshGroup.GroupType == 1 || TempMeshGroup.GroupType == 256)
                                 {
                                     StreamUtil.WriteBytes(ModelStream, new byte[] { 0x80, 0x00, 0x00, 0x00, 0x40, 0x2E, 0x30, 0x12, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
                                 }
@@ -847,31 +850,49 @@ namespace SSXMultiTool.FileHandlers
 
                                     //Write New RowCount that neve changes
                                     StreamUtil.WriteInt24(ModelStream, 1);
-                                    StreamUtil.WriteInt32(ModelStream, 16);
-                                    StreamUtil.AlignBy16(ModelStream);
-
-                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
-
-                                    StreamUtil.WriteInt8(ModelStream, 0x00); // Can sometimes be 0x0A
-
-                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x14 });
-
-                                    if (!MeshTest)
+                                    if (TempMeshGroup.GroupType != 256)
                                     {
-                                        if (TempGroupHeader.staticMesh.Count - 1 != d)
-                                        {
-                                            StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-                                        }
-                                        else
-                                        {
-                                            StreamUtil.WriteBytes(ModelStream, new byte[] { 0x08, 0x00, 0x00, 0x14, 0x06, 0x00, 0x00, 0x14 });
-                                        }
+                                        StreamUtil.WriteInt32(ModelStream, 16);
                                     }
                                     else
                                     {
-                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x06,0x00, 0x00, 0x14, 0x06, 0x00, 0x00, 0x14 });
+                                        StreamUtil.WriteInt32(ModelStream, 0x60);
                                     }
-                                    MeshTest = !MeshTest;
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    if (TempMeshGroup.GroupType != 256)
+                                    {
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
+
+                                        StreamUtil.WriteInt8(ModelStream, 0x00); // Can sometimes be 0x0A
+
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x14 });
+
+                                        if (!MeshTest)
+                                        {
+                                            if (TempGroupHeader.staticMesh.Count - 1 != d)
+                                            {
+                                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                            }
+                                            else
+                                            {
+                                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x08, 0x00, 0x00, 0x14, 0x06, 0x00, 0x00, 0x14 });
+                                            }
+                                        }
+                                        else
+                                        {
+                                            StreamUtil.WriteBytes(ModelStream, new byte[] { 0x06, 0x00, 0x00, 0x14, 0x06, 0x00, 0x00, 0x14 });
+                                        }
+                                        MeshTest = !MeshTest;
+                                    }
+                                    else
+                                    {
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                    }
+
+
+
+
                                 }
                                 else
                                 {
@@ -906,31 +927,97 @@ namespace SSXMultiTool.FileHandlers
 
                             }
 
-                            //Write End of Meshdata
-                            StreamUtil.WriteInt24(ModelStream, 1);
-                            StreamUtil.WriteInt32(ModelStream, 96);
-                            StreamUtil.AlignBy16(ModelStream);
-
-                            StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01 });
-                            StreamUtil.AlignBy16(ModelStream);
-                            ModelStream.Position -= 1;
-                            StreamUtil.WriteInt8(ModelStream, 0);
-
-                            //Unknown Rules For this
-                            if (!FirstChunk || (a == Model.MeshGroups.Count-1 && b== TempMeshGroup.meshGroupSubs.Count-1 && c==TempSubGroup.MeshGroupHeaders.Count-1))
+                            if (TempMeshGroup.GroupType == 256)
                             {
+                                TempGroupHeader.MorphKeyOffset = (int)ModelStream.Position - TempGroupHeader.ModelOffset;
+                                for (int e = 0; e < Model.MorphKeyCount; e++)
+                                {
+                                    var TempMorphList = TempGroupHeader.MorphKeyList[e];
+
+                                    int RowCountPos = (int)ModelStream.Position;
+                                    ModelStream.Position += 3;
+                                    StreamUtil.WriteInt32(ModelStream, 96);
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x04, 0x04, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0xB6, 0x80 });
+                                    StreamUtil.WriteInt8(ModelStream, TempMorphList.morphData.Count);
+                                    StreamUtil.WriteInt8(ModelStream, 0x7A);
+
+                                    for (int d = 0; d < TempMorphList.morphData.Count; d++)
+                                    {
+                                        StreamUtil.WriteInt8(ModelStream, (int)(TempMorphList.morphData[d].X * 12f));
+                                        StreamUtil.WriteInt8(ModelStream, (int)(TempMorphList.morphData[d].Y * 12f));
+                                        StreamUtil.WriteInt8(ModelStream, (int)(TempMorphList.morphData[d].Z * 12f));
+                                    }
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x14 });
+
+                                    int TempPos = (int)ModelStream.Position;
+                                    ModelStream.Position = RowCountPos;
+                                    StreamUtil.WriteInt24(ModelStream, (TempPos - RowCountPos) / 16 - 1);
+                                    ModelStream.Position = TempPos;
+
+                                    TempGroupHeader.MorphKeyEntrySize = TempPos - RowCountPos;
+                                }
+
+                                if (a == Model.MeshGroups.Count - 1 && b == TempMeshGroup.meshGroupSubs.Count - 1 && c == TempSubGroup.MeshGroupHeaders.Count - 1)
+                                {
+                                    StreamUtil.WriteInt24(ModelStream, 1);
+                                    StreamUtil.WriteInt32(ModelStream, 96);
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    ModelStream.Position += 4;
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
+                                    StreamUtil.AlignBy16(ModelStream);
+
+
+                                    StreamUtil.WriteInt24(ModelStream, 1);
+                                    StreamUtil.WriteInt32(ModelStream, 96);
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    ModelStream.Position += 12;
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
+
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x14 });
+
+                                    FirstChunk = true;
+                                }
+                            }
+                            else
+                            {
+                                TempGroupHeader.MorphKeyOffset = -1;
+                                TempGroupHeader.MorphKeyEntrySize = -1;
+                            }
+
+
+                            if (TempMeshGroup.GroupType != 256)
+                            {
+                                //Write End of Meshdata
                                 StreamUtil.WriteInt24(ModelStream, 1);
                                 StreamUtil.WriteInt32(ModelStream, 96);
                                 StreamUtil.AlignBy16(ModelStream);
 
-                                ModelStream.Position += 12;
-                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
+                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01 });
+                                StreamUtil.AlignBy16(ModelStream);
+                                ModelStream.Position -= 1;
+                                StreamUtil.WriteInt8(ModelStream, 0);
 
-                                ModelStream.Position += 7;
-                                StreamUtil.WriteInt8(ModelStream, 16);
-                                ModelStream.Position += 7;
-                                StreamUtil.WriteInt8(ModelStream, 20);
-                                FirstChunk = true;
+                                if (!FirstChunk || (a == Model.MeshGroups.Count - 1 && b == TempMeshGroup.meshGroupSubs.Count - 1 && c == TempSubGroup.MeshGroupHeaders.Count - 1))
+                                {
+                                    StreamUtil.WriteInt24(ModelStream, 1);
+                                    StreamUtil.WriteInt32(ModelStream, 96);
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    ModelStream.Position += 12;
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
+
+                                    ModelStream.Position += 7;
+                                    StreamUtil.WriteInt8(ModelStream, 16);
+                                    ModelStream.Position += 7;
+                                    StreamUtil.WriteInt8(ModelStream, 20);
+                                    FirstChunk = true;
+                                }
                             }
 
 
