@@ -96,12 +96,58 @@ namespace SSXMultiTool.FileHandlers.Models
         public void StartReassignMeshCharacter(int MeshID)
         {
             reassignedMesh = new List<ReassignedMesh>();
-            List<int> headboneStart = new List<int>();
-            headboneStart.Add(0);
             materials = new List<TrickyMPFModelHandler.MaterialData>();
             bones = new List<TrickyMPFModelHandler.BoneData>();
-            bool Materials = false;
             int ListSize = 0;
+
+            var TempMaterial = new TrickyMPFModelHandler.MaterialData();
+            TempMaterial.MainTexture = "helm";
+            materials.Add(TempMaterial);
+
+            TempMaterial = new TrickyMPFModelHandler.MaterialData();
+            TempMaterial.MainTexture = "helm gloss";
+            materials.Add(TempMaterial);
+
+            TempMaterial = new TrickyMPFModelHandler.MaterialData();
+            TempMaterial.MainTexture = "helm envr";
+            materials.Add(TempMaterial);
+
+            TempMaterial = new TrickyMPFModelHandler.MaterialData();
+            TempMaterial.MainTexture = "boot";
+            materials.Add(TempMaterial);
+
+            TempMaterial = new TrickyMPFModelHandler.MaterialData();
+            TempMaterial.MainTexture = "boot gloss";
+            materials.Add(TempMaterial);
+
+            TempMaterial = new TrickyMPFModelHandler.MaterialData();
+            TempMaterial.MainTexture = "boot envr";
+            materials.Add(TempMaterial);
+
+            TempMaterial = new TrickyMPFModelHandler.MaterialData();
+            TempMaterial.MainTexture = "head";
+            materials.Add(TempMaterial);
+
+            TempMaterial = new TrickyMPFModelHandler.MaterialData();
+            TempMaterial.MainTexture = "head gloss";
+            materials.Add(TempMaterial);
+
+            TempMaterial = new TrickyMPFModelHandler.MaterialData();
+            TempMaterial.MainTexture = "head envr";
+            materials.Add(TempMaterial);
+
+            TempMaterial = new TrickyMPFModelHandler.MaterialData();
+            TempMaterial.MainTexture = "suit";
+            materials.Add(TempMaterial);
+
+            TempMaterial = new TrickyMPFModelHandler.MaterialData();
+            TempMaterial.MainTexture = "suit gloss";
+            materials.Add(TempMaterial);
+
+            TempMaterial = new TrickyMPFModelHandler.MaterialData();
+            TempMaterial.MainTexture = "suit envr";
+            materials.Add(TempMaterial);
+
 
             //Body
             for (int i = 0; i < Body.ModelList.Count; i++)
@@ -112,13 +158,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     (MeshID == 3 && Body.ModelList[i].FileName.ToLower().Contains("shdw")))
                 {
                     var TempMesh = new ReassignedMesh();
-                    if (!Materials)
-                    {
-                        materials.AddRange(Body.ModelList[i].materialDatas);
-                        Materials = true;
-                    }
                     bones.AddRange(Body.ModelList[i].boneDatas);
-                    headboneStart.Add(bones.Count);
                     TempMesh.faces = ReturnFixedFaces(Body.ModelList[i], bones);
                     ListSize++;
                     TempMesh.MeshName = Body.ModelList[i].FileName;
@@ -141,7 +181,6 @@ namespace SSXMultiTool.FileHandlers.Models
                 {
                     var TempMesh = new ReassignedMesh();
                     bones.AddRange(Head.ModelList[i].boneDatas);
-                    headboneStart.Add(bones.Count);
                     TempMesh.MeshName = Head.ModelList[i].FileName;
                     TempMesh.faces = ReturnFixedFaces(Head.ModelList[i], bones);
                     ListSize++;
@@ -154,8 +193,102 @@ namespace SSXMultiTool.FileHandlers.Models
                     reassignedMesh.Add(TempMesh);
                 }
             }
-
+            CorrectBonesandFaces();
         }
+
+        void CorrectBonesandFaces()
+        {
+            var OldBones = bones;
+            bones = new List<TrickyMPFModelHandler.BoneData>();
+            if (OldBones[0].ParentBone==-1)
+            {
+                bones.Add(OldBones[0]);
+                FindBoneChildren(0, 0, OldBones);
+            }
+            else
+            {
+                MessageBox.Show("Unexpected Error");
+            }
+
+            for (int i = 0; i < reassignedMesh.Count; i++)
+            {
+                var TempMesh = reassignedMesh[i];
+                for (int a = 0; a < TempMesh.faces.Count; a++)
+                {
+                    var TempFace = TempMesh.faces[a];
+
+                    for (int b = 0; b < TempFace.Weight1.boneWeights.Count; b++)
+                    {
+                        var TempBoneWeight = TempFace.Weight1.boneWeights[b];
+
+                        for (int c = 0; c < bones.Count; c++)
+                        {
+                            if (bones[c].BonePos == TempBoneWeight.BoneID)
+                            {
+                                TempBoneWeight.BoneID = c;
+                                break;
+                            }
+                        }
+
+                        TempFace.Weight1.boneWeights[b] = TempBoneWeight;
+                    }
+
+                    for (int b = 0; b < TempFace.Weight2.boneWeights.Count; b++)
+                    {
+                        var TempBoneWeight = TempFace.Weight2.boneWeights[b];
+
+                        for (int c = 0; c < bones.Count; c++)
+                        {
+                            if (bones[c].BonePos == TempBoneWeight.BoneID)
+                            {
+                                TempBoneWeight.BoneID = c;
+                                break;
+                            }
+                        }
+
+                        TempFace.Weight2.boneWeights[b] = TempBoneWeight;
+                    }
+
+                    for (int b = 0; b < TempFace.Weight3.boneWeights.Count; b++)
+                    {
+                        var TempBoneWeight = TempFace.Weight3.boneWeights[b];
+
+                        for (int c = 0; c < bones.Count; c++)
+                        {
+                            if (bones[c].BonePos == TempBoneWeight.BoneID)
+                            {
+                                TempBoneWeight.BoneID = c;
+                                break;
+                            }
+                        }
+
+                        TempFace.Weight3.boneWeights[b] = TempBoneWeight;
+                    }
+
+
+                    TempMesh.faces[a] = TempFace;
+                }
+                reassignedMesh[i] = TempMesh;
+            }
+        }
+
+        void FindBoneChildren(int OldID, int NewID, List<TrickyMPFModelHandler.BoneData> oldBoneList)
+        {
+            for (int i = 0; i < oldBoneList.Count; i++)
+            {
+                if (oldBoneList[i].ParentBone==OldID)
+                {
+                    var TempBone = oldBoneList[i];
+                    TempBone.ParentBone = NewID;
+                    TempBone.BonePos = i;
+                    bones.Add(TempBone);
+                    FindBoneChildren(i, bones.Count - 1, oldBoneList);
+                }
+            }
+        }
+
+
+
 
         public List<TrickyMPFModelHandler.Face> ReturnFixedFaces(TrickyMPFModelHandler.MPFModelHeader modelHeader, List<TrickyMPFModelHandler.BoneData> BoneData)
         {
@@ -202,7 +335,39 @@ namespace SSXMultiTool.FileHandlers.Models
                                 WeightId = TempList.WeightIDs[Face.Weight3Pos];
                                 Face.Weight3 = modelHeader.boneWeightHeader[WeightId];
 
-                                Face.MaterialID = modelHeader.MeshGroups[a].MaterialID;
+                                var TempMat = modelHeader.materialDatas[modelHeader.MeshGroups[a].MaterialID];
+                                int matID = 0;
+                                int focusID = 0;
+
+                                if(TempMat.MainTexture=="helm")
+                                {
+                                    matID = 0;
+                                }
+                                else if (TempMat.MainTexture == "boot")
+                                {
+                                    matID = 1;
+                                }
+                                else if (TempMat.MainTexture == "head")
+                                {
+                                    matID = 2;
+                                }
+                                else if (TempMat.MainTexture == "suit")
+                                {
+                                    matID = 3;
+                                }
+
+                                if (TempMat.Texture3.EndsWith("_g"))
+                                {
+                                    focusID = 1;
+                                }
+                                else if (TempMat.Texture4 == "envr")
+                                {
+                                    focusID = 2;
+                                }
+
+                                matID = (3 * matID) + focusID;
+                                Face.MaterialID = matID;
+
                                 if ((Face.V1 != Face.V2) && (Face.V2 != Face.V3) && (Face.V3 != Face.V1))
                                 {
                                     NewFaces.Add(Face);

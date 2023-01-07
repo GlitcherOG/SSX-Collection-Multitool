@@ -28,7 +28,7 @@ namespace SSXMultiTool.FileHandlers
             {
                 var TempVar = modelHeader.materialDataList[i];
                 var material1 = new MaterialBuilder(TempVar.Name)
-                .WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(TempVar.X, TempVar.Y, TempVar.Z, 1));
+                .WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
                 materialBuilders.Add(material1);
             }
 
@@ -105,7 +105,7 @@ namespace SSXMultiTool.FileHandlers
             {
                 var TempVar = Handler.materials[i];
                 var material1 = new MaterialBuilder(TempVar.MainTexture)
-                .WithChannelParam(KnownChannel.SpecularFactor, KnownProperty.SpecularFactor, Handler.materials[i].FactorFloat);
+                .WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1,1,1,1));
                 materialBuilders.Add(material1);
             }
             var bindings = new List<SharpGLTF.Scenes.NodeBuilder>();
@@ -297,6 +297,7 @@ namespace SSXMultiTool.FileHandlers
         public static void LoadGlft(string Path)
         {
             TrickyModelCombiner trickyModelCombiner = new TrickyModelCombiner();
+            trickyModelCombiner.materials = new List<TrickyMPFModelHandler.MaterialData>();
             trickyModelCombiner.reassignedMesh = new List<TrickyModelCombiner.ReassignedMesh>();
             var Scene = SharpGLTF.Scenes.SceneBuilder.LoadDefaultScene(Path);
             var Instances = Scene.Instances.ToArray();
@@ -331,7 +332,13 @@ namespace SSXMultiTool.FileHandlers
             }
 
             //Read Bones Building List
+            List<TrickyMPFModelHandler.BoneData> boneDatas = new List<TrickyMPFModelHandler.BoneData>();
             var Ampatures = Scene.FindArmatures();
+            var StartBone = Ampatures[0].VisualChildren[6];
+            boneDatas = ReturnBoneAndChildren(StartBone, true);
+
+
+            trickyModelCombiner.bones = boneDatas;
 
             for (int i = 0; i < Instances.Length; i++)
             {
@@ -340,16 +347,18 @@ namespace SSXMultiTool.FileHandlers
                 reassignedMesh.MeshName = GLFTMesh.Name;
                 reassignedMesh.faces = new List<TrickyMPFModelHandler.Face>();
 
-                //Add Bones To Mesh
-
                 var MaterialArray = GLFTMesh.Primitives.ToArray();
                 for (int a = 0; a < MaterialArray.Length; a++)
                 {
                     //Build New Material With Primitive Name
+                    trickyModelCombiner.materials = MakeNewMaterial(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
+
+                    int MatID = FindMaterialID(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
 
                     //Build Vertex List
                     List<VertexData> VertexList = new List<VertexData>();
                     var OldVertexList = MaterialArray[a].Vertices.ToArray();
+                    int MorphTargetsCount = MaterialArray[a].MorphTargets.Count;
 
                     for (int b = 0; b < OldVertexList.Length; b++)
                     {
@@ -359,12 +368,11 @@ namespace SSXMultiTool.FileHandlers
                         var TempSkinning = OldVertexList[b].GetSkinning();
                         var TempMaterial = OldVertexList[b].GetMaterial();
 
-
                         //Get Postion Normal and UV
                         NewVertex.Position = TempGeo.GetPosition();
 
                         Vector3 TempNormal;
-                        if(TempGeo.TryGetNormal(out TempNormal))
+                        if (TempGeo.TryGetNormal(out TempNormal))
                         {
                             NewVertex.Normal = TempNormal;
                         }
@@ -375,30 +383,30 @@ namespace SSXMultiTool.FileHandlers
                         NewVertex.weightHeader.unknown = 36;
                         NewVertex.weightHeader.boneWeights = new List<TrickyMPFModelHandler.BoneWeight>();
 
-                        //For all Bones
-                        for (int d = 0; d < 1; d++)
+                        for (int d = 0; d < TempSkinning.MaxBindings; d++)
                         {
-                            var BindingList = TempSkinning.GetBindings();
-                            for (int c = 0; c < BindingList.Count; c++)
+                            var BindingList = TempSkinning.GetBinding(d);
+                            if (BindingList.Index != 0 || BindingList.Weight != 0)
                             {
-                                var TempBinding = BindingList[c];
                                 TrickyMPFModelHandler.BoneWeight TempWeight = new TrickyMPFModelHandler.BoneWeight();
-
-                                TempWeight.BoneID = d;
-                                TempWeight.Weight = (int)TempBinding;
-
+                                TempWeight.BoneID = BindingList.Index;
+                                TempWeight.Weight = (int)(BindingList.Weight*100);
                                 NewVertex.weightHeader.boneWeights.Add(TempWeight);
                             }
+                        }
+                        
+                        //Add Morph Data
+                        NewVertex.MorphPoints = new List<Vector3>();
+                        for (int d = 0; d < MorphTargetsCount; d++)
+                        {
+                            NewVertex.MorphPoints.Add(MaterialArray[a].MorphTargets[d].GetVertex(b).GetGeometry().GetPosition() - NewVertex.Position);
                         }
 
                         VertexList.Add(NewVertex);
                     }
 
-                    //Attach Morph Data To Vertices if applicable
-
                     //Build Faces
-                    var TriangleList = MaterialArray[a].Surfaces;
-                    //MaterialArray[a].Surfaces
+                    var TriangleList = MaterialArray[a].Triangles;
                     for (int b = 0; b < TriangleList.Count; b++)
                     {
                         TrickyMPFModelHandler.Face TempFace = new TrickyMPFModelHandler.Face();
@@ -428,6 +436,8 @@ namespace SSXMultiTool.FileHandlers
                         TempFace.Weight3 = TempPoint.weightHeader;
                         TempFace.MorphPoint3 = TempPoint.MorphPoints;
 
+                        TempFace.MaterialID = MatID;
+
                         reassignedMesh.faces.Add(TempFace);
                     }
                 }
@@ -436,8 +446,39 @@ namespace SSXMultiTool.FileHandlers
             }
 
             Console.WriteLine("Temp");
-            var model = Scene.ToGltf2();
-            model.SaveGLB(Path + "1");
+        }
+
+        static List<TrickyMPFModelHandler.MaterialData> MakeNewMaterial(List<TrickyMPFModelHandler.MaterialData> materials, string name)
+        {
+            bool test = false;
+            for (int i = 0; i < materials.Count; i++)
+            {
+                if (materials[i].MainTexture == name)
+                {
+                    test = true;
+                    break;
+                }
+            }
+            if(!test)
+            {
+                TrickyMPFModelHandler.MaterialData newmat = new TrickyMPFModelHandler.MaterialData();
+                newmat.MainTexture = name;
+                materials.Add(newmat);
+            }
+
+            return materials;
+        }
+
+        static int FindMaterialID(List<TrickyMPFModelHandler.MaterialData> materials, string name)
+        {
+            for (int i = 0; i < materials.Count; i++)
+            {
+                if (materials[i].MainTexture == name)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         struct VertexData
@@ -448,6 +489,41 @@ namespace SSXMultiTool.FileHandlers
 
             public TrickyMPFModelHandler.BoneWeightHeader weightHeader;
             public List<Vector3> MorphPoints;
+        }
+
+        public static List<TrickyMPFModelHandler.BoneData> ReturnBoneAndChildren(SharpGLTF.Scenes.NodeBuilder nodeBuilder, bool startBone)
+        {
+            List<TrickyMPFModelHandler.BoneData> boneDatas = new List<TrickyMPFModelHandler.BoneData>();
+            var TempBoneData = new TrickyMPFModelHandler.BoneData();
+
+            TempBoneData.BoneName = nodeBuilder.Name;
+            TempBoneData.XLocation = nodeBuilder.LocalTransform.Translation.X;
+            TempBoneData.YLocation = nodeBuilder.LocalTransform.Translation.Y;
+            TempBoneData.ZLocation = nodeBuilder.LocalTransform.Translation.Z;
+
+            Quaternion quaternion = nodeBuilder.LocalTransform.GetDecomposed().Rotation;
+            Vector3 radians = ToEulerAngles(quaternion);
+            TempBoneData.XRadian = radians.X;
+            TempBoneData.YRadian = radians.Y;
+            TempBoneData.ZRadian = radians.Z;
+
+            if (!startBone)
+            {
+                TempBoneData.ParentBone = Int32.Parse(nodeBuilder.Parent.Name.Split(" ")[1]);
+            }
+            else
+            {
+                TempBoneData.ParentBone = -1;
+            }
+
+            boneDatas.Add(TempBoneData);
+
+            for (int i = 0; i < nodeBuilder.VisualChildren.Count; i++)
+            {
+                boneDatas.AddRange(ReturnBoneAndChildren(nodeBuilder.VisualChildren[i], false));
+            }
+
+            return boneDatas;
         }
 
 
