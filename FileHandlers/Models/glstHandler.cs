@@ -306,9 +306,12 @@ namespace SSXMultiTool.FileHandlers
             int IkCount = 0;
             for (int i = 0; i < Instances.Length; i++)
             {
-                if (Instances[i].Name.ToLower().Contains("ikpoint"))
+                if (Instances[i].Name != null)
                 {
-                    IkCount += 1;
+                    if (Instances[i].Name.ToLower().Contains("ikpoint"))
+                    {
+                        IkCount += 1;
+                    }
                 }
             }
 
@@ -316,10 +319,13 @@ namespace SSXMultiTool.FileHandlers
             {
                 for (int i = 0; i < Instances.Length; i++)
                 {
-                    if (Instances[i].Name.ToLower() == ("ikpoint " + a))
+                    if (Instances[i].Name != null)
                     {
-                        IKPoints.Add(Instances[i].Content.GetPoseWorldMatrix().Translation);
-                        break;
+                        if (Instances[i].Name.ToLower() == ("ikpoint " + a))
+                        {
+                            IKPoints.Add(Instances[i].Content.GetPoseWorldMatrix().Translation);
+                            break;
+                        }
                     }
                 }
             }
@@ -332,6 +338,7 @@ namespace SSXMultiTool.FileHandlers
                 var GLFTMesh = Instances[i].Content.GetGeometryAsset();
                 TrickyModelCombiner.ReassignedMesh reassignedMesh = new TrickyModelCombiner.ReassignedMesh();
                 reassignedMesh.MeshName = GLFTMesh.Name;
+                reassignedMesh.faces = new List<TrickyMPFModelHandler.Face>();
 
                 //Add Bones To Mesh
 
@@ -390,8 +397,8 @@ namespace SSXMultiTool.FileHandlers
                     //Attach Morph Data To Vertices if applicable
 
                     //Build Faces
-                    reassignedMesh.faces = new List<TrickyMPFModelHandler.Face>();
-                    var TriangleList = MaterialArray[a].Triangles;
+                    var TriangleList = MaterialArray[a].Surfaces;
+                    //MaterialArray[a].Surfaces
                     for (int b = 0; b < TriangleList.Count; b++)
                     {
                         TrickyMPFModelHandler.Face TempFace = new TrickyMPFModelHandler.Face();
@@ -428,51 +435,9 @@ namespace SSXMultiTool.FileHandlers
                 trickyModelCombiner.reassignedMesh.Add(reassignedMesh);
             }
 
-
-
-
-            //Read A
-            var Instance0 = Instances[0].Content.GetGeometryAsset();
-
-            //Mesh Name
-            var MeshName = Instance0.Name;
-
-            //Load Morph Target
-            //Instance0.UseMorphTarget(0);
-
-            //Go through Material Data
-            var PrimitiveData = Instance0.Primitives.ToArray()[0];
-
-
-            //Get Material Name
-            var temp = PrimitiveData.Material.Name;
-
-            //Get All vertices for that material
-            var VerticeData = PrimitiveData.Vertices.ToArray();
-
-
-            //Vertex 0 Data
-
-            var temp4 = VerticeData[0].GetGeometry();
-
-            var temp5 = VerticeData[0].GetSkinning();
-
-            var temp6 = VerticeData[0].GetMaterial();
-
-
-            //UV 0
-            temp6.GetTexCoord(0);
-
-            //All Weights
-            temp5.GetBindings();
-
-            //Position
-            var Position = temp4.GetPosition();
-
-            //Normal
-            Vector3 Normal;
-            bool tempbool = temp4.TryGetNormal(out Normal);
             Console.WriteLine("Temp");
+            var model = Scene.ToGltf2();
+            model.SaveGLB(Path + "1");
         }
 
         struct VertexData

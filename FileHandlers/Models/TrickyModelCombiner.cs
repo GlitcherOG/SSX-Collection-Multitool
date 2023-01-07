@@ -203,8 +203,10 @@ namespace SSXMultiTool.FileHandlers.Models
                                 Face.Weight3 = modelHeader.boneWeightHeader[WeightId];
 
                                 Face.MaterialID = modelHeader.MeshGroups[a].MaterialID;
-
-                                NewFaces.Add(Face);  
+                                if ((Face.V1 != Face.V2) && (Face.V2 != Face.V3) && (Face.V3 != Face.V1))
+                                {
+                                    NewFaces.Add(Face);
+                                }
                             }
 
                         }
