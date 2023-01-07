@@ -105,7 +105,7 @@ namespace SSXMultiTool.FileHandlers
             {
                 var TempVar = Handler.materials[i];
                 var material1 = new MaterialBuilder(TempVar.MainTexture)
-                .WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
+                .WithChannelParam(KnownChannel.SpecularFactor, KnownProperty.SpecularFactor, Handler.materials[i].FactorFloat);
                 materialBuilders.Add(material1);
             }
             var bindings = new List<SharpGLTF.Scenes.NodeBuilder>();
@@ -143,31 +143,16 @@ namespace SSXMultiTool.FileHandlers
                     {
                         var Face = Handler.reassignedMesh[a].faces[b];
                         VertexPositionNormal TempPos1 = new VertexPositionNormal();
-                        TempPos1.Position.X = Face.V1.X;
-                        TempPos1.Position.Y = Face.V1.Y;
-                        TempPos1.Position.Z = Face.V1.Z;
-
-                        TempPos1.Normal.X = (float)Face.Normal1.X;
-                        TempPos1.Normal.Y = (float)Face.Normal1.Y;
-                        TempPos1.Normal.Z = (float)Face.Normal1.Z;
+                        TempPos1.Position = Face.V1;
+                        TempPos1.Normal = Face.Normal1;
 
                         VertexPositionNormal TempPos2 = new VertexPositionNormal();
-                        TempPos2.Position.X = Face.V2.X;
-                        TempPos2.Position.Y = Face.V2.Y;
-                        TempPos2.Position.Z = Face.V2.Z;
-
-                        TempPos2.Normal.X = (float)Face.Normal2.X;
-                        TempPos2.Normal.Y = (float)Face.Normal2.Y;
-                        TempPos2.Normal.Z = (float)Face.Normal2.Z;
+                        TempPos2.Position = Face.V2;
+                        TempPos2.Normal = Face.Normal2;
 
                         VertexPositionNormal TempPos3 = new VertexPositionNormal();
-                        TempPos3.Position.X = Face.V3.X;
-                        TempPos3.Position.Y = Face.V3.Y;
-                        TempPos3.Position.Z = Face.V3.Z;
-
-                        TempPos3.Normal.X = (float)Face.Normal3.X;
-                        TempPos3.Normal.Y = (float)Face.Normal3.Y;
-                        TempPos3.Normal.Z = (float)Face.Normal3.Z;
+                        TempPos3.Position = Face.V3;
+                        TempPos3.Normal = Face.Normal3;
 
                         VertexTexture1 TempTexture1 = new VertexTexture1();
                         TempTexture1.TexCoord.X = (float)Face.UV1.X;
@@ -252,19 +237,13 @@ namespace SSXMultiTool.FileHandlers
                     {
                         var Face = Handler.reassignedMesh[a].faces[b];
                         VertexPosition TempPos1 = new VertexPosition();
-                        TempPos1.Position.X = Face.V1.X;
-                        TempPos1.Position.Y = Face.V1.Y;
-                        TempPos1.Position.Z = Face.V1.Z;
+                        TempPos1.Position = Face.V1;
 
                         VertexPosition TempPos2 = new VertexPosition();
-                        TempPos2.Position.X = Face.V2.X;
-                        TempPos2.Position.Y = Face.V2.Y;
-                        TempPos2.Position.Z = Face.V2.Z;
+                        TempPos2.Position = Face.V2;
 
                         VertexPosition TempPos3 = new VertexPosition();
-                        TempPos3.Position.X = Face.V3.X;
-                        TempPos3.Position.Y = Face.V3.Y;
-                        TempPos3.Position.Z = Face.V3.Z;
+                        TempPos3.Position = Face.V3;
 
                         (int Temp, float TempFloat)[] bindings1 = new (int Temp, float TempFloat)[1];
 
@@ -317,13 +296,143 @@ namespace SSXMultiTool.FileHandlers
 
         public static void LoadGlft(string Path)
         {
-            //var model1 = ModelRoot.Load(Path);
-            var model = SharpGLTF.Scenes.SceneBuilder.LoadDefaultScene(Path);
-            var Instances = model.Instances.ToArray();
-            var Instance0 = Instances[0].Content.GetGeometryAsset();
+            TrickyModelCombiner trickyModelCombiner = new TrickyModelCombiner();
+            trickyModelCombiner.reassignedMesh = new List<TrickyModelCombiner.ReassignedMesh>();
+            var Scene = SharpGLTF.Scenes.SceneBuilder.LoadDefaultScene(Path);
+            var Instances = Scene.Instances.ToArray();
 
-            //Read Bones
-            var Ampatures = model.FindArmatures();
+            //Read All Instances Looking for IK Point
+            List<Vector3> IKPoints = new List<Vector3>();
+            int IkCount = 0;
+            for (int i = 0; i < Instances.Length; i++)
+            {
+                if (Instances[i].Name.ToLower().Contains("ikpoint"))
+                {
+                    IkCount += 1;
+                }
+            }
+
+            for (int a = 0; a < IkCount; a++)
+            {
+                for (int i = 0; i < Instances.Length; i++)
+                {
+                    if (Instances[i].Name.ToLower() == ("ikpoint " + a))
+                    {
+                        IKPoints.Add(Instances[i].Content.GetPoseWorldMatrix().Translation);
+                        break;
+                    }
+                }
+            }
+
+            //Read Bones Building List
+            var Ampatures = Scene.FindArmatures();
+
+            for (int i = 0; i < Instances.Length; i++)
+            {
+                var GLFTMesh = Instances[i].Content.GetGeometryAsset();
+                TrickyModelCombiner.ReassignedMesh reassignedMesh = new TrickyModelCombiner.ReassignedMesh();
+                reassignedMesh.MeshName = GLFTMesh.Name;
+
+                //Add Bones To Mesh
+
+                var MaterialArray = GLFTMesh.Primitives.ToArray();
+                for (int a = 0; a < MaterialArray.Length; a++)
+                {
+                    //Build New Material With Primitive Name
+
+                    //Build Vertex List
+                    List<VertexData> VertexList = new List<VertexData>();
+                    var OldVertexList = MaterialArray[a].Vertices.ToArray();
+
+                    for (int b = 0; b < OldVertexList.Length; b++)
+                    {
+                        var NewVertex = new VertexData();
+
+                        var TempGeo = OldVertexList[b].GetGeometry();
+                        var TempSkinning = OldVertexList[b].GetSkinning();
+                        var TempMaterial = OldVertexList[b].GetMaterial();
+
+
+                        //Get Postion Normal and UV
+                        NewVertex.Position = TempGeo.GetPosition();
+
+                        Vector3 TempNormal;
+                        if(TempGeo.TryGetNormal(out TempNormal))
+                        {
+                            NewVertex.Normal = TempNormal;
+                        }
+                        NewVertex.UV = TempMaterial.GetTexCoord(0);
+
+                        //Get Weights
+                        NewVertex.weightHeader = new TrickyMPFModelHandler.BoneWeightHeader();
+                        NewVertex.weightHeader.unknown = 36;
+                        NewVertex.weightHeader.boneWeights = new List<TrickyMPFModelHandler.BoneWeight>();
+
+                        //For all Bones
+                        for (int d = 0; d < 1; d++)
+                        {
+                            var BindingList = TempSkinning.GetBindings();
+                            for (int c = 0; c < BindingList.Count; c++)
+                            {
+                                var TempBinding = BindingList[c];
+                                TrickyMPFModelHandler.BoneWeight TempWeight = new TrickyMPFModelHandler.BoneWeight();
+
+                                TempWeight.BoneID = d;
+                                TempWeight.Weight = (int)TempBinding;
+
+                                NewVertex.weightHeader.boneWeights.Add(TempWeight);
+                            }
+                        }
+
+                        VertexList.Add(NewVertex);
+                    }
+
+                    //Attach Morph Data To Vertices if applicable
+
+                    //Build Faces
+                    reassignedMesh.faces = new List<TrickyMPFModelHandler.Face>();
+                    var TriangleList = MaterialArray[a].Triangles;
+                    for (int b = 0; b < TriangleList.Count; b++)
+                    {
+                        TrickyMPFModelHandler.Face TempFace = new TrickyMPFModelHandler.Face();
+                        var FaceTri = TriangleList[b];
+
+                        var TempPoint = VertexList[FaceTri.A];
+
+                        TempFace.V1 = TempPoint.Position;
+                        TempFace.Normal1 = TempPoint.Normal;
+                        TempFace.UV1 = new Vector4(TempPoint.UV,0,0);
+                        TempFace.Weight1 = TempPoint.weightHeader;
+                        TempFace.MorphPoint1 = TempPoint.MorphPoints;
+
+                        TempPoint = VertexList[FaceTri.B];
+
+                        TempFace.V2 = TempPoint.Position;
+                        TempFace.Normal2 = TempPoint.Normal;
+                        TempFace.UV2 = new Vector4(TempPoint.UV, 0, 0);
+                        TempFace.Weight2 = TempPoint.weightHeader;
+                        TempFace.MorphPoint2 = TempPoint.MorphPoints;
+
+                        TempPoint = VertexList[FaceTri.C];
+
+                        TempFace.V3 = TempPoint.Position;
+                        TempFace.Normal3 = TempPoint.Normal;
+                        TempFace.UV3 = new Vector4(TempPoint.UV, 0, 0);
+                        TempFace.Weight3 = TempPoint.weightHeader;
+                        TempFace.MorphPoint3 = TempPoint.MorphPoints;
+
+                        reassignedMesh.faces.Add(TempFace);
+                    }
+                }
+
+                trickyModelCombiner.reassignedMesh.Add(reassignedMesh);
+            }
+
+
+
+
+            //Read A
+            var Instance0 = Instances[0].Content.GetGeometryAsset();
 
             //Mesh Name
             var MeshName = Instance0.Name;
@@ -364,6 +473,16 @@ namespace SSXMultiTool.FileHandlers
             Vector3 Normal;
             bool tempbool = temp4.TryGetNormal(out Normal);
             Console.WriteLine("Temp");
+        }
+
+        struct VertexData
+        {
+            public Vector3 Position;
+            public Vector3 Normal;
+            public Vector2 UV;
+
+            public TrickyMPFModelHandler.BoneWeightHeader weightHeader;
+            public List<Vector3> MorphPoints;
         }
 
 

@@ -124,9 +124,9 @@ namespace SSXMultiTool.FileHandlers
                         TempMat.Texture4 = "";
                     }
 
-                    TempMat.R = StreamUtil.ReadFloat(streamMatrix);
-                    TempMat.G = StreamUtil.ReadFloat(streamMatrix);
-                    TempMat.B = StreamUtil.ReadFloat(streamMatrix);
+                    TempMat.FactorFloat = StreamUtil.ReadFloat(streamMatrix);
+                    TempMat.Unused1Float = StreamUtil.ReadFloat(streamMatrix);
+                    TempMat.Unused2Float = StreamUtil.ReadFloat(streamMatrix);
                     Model.materialDatas.Add(TempMat);
                 }
 
@@ -604,9 +604,9 @@ namespace SSXMultiTool.FileHandlers
                     }
 
 
-                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].R);
-                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].G);
-                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].B);
+                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].FactorFloat);
+                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].Unused1Float);
+                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].Unused2Float);
                 }
 
                 Model.BoneDataOffset = (int)ModelStream.Position;
@@ -1193,9 +1193,9 @@ namespace SSXMultiTool.FileHandlers
             public string Texture3;
             public string Texture4;
 
-            public float R;
-            public float G;
-            public float B;
+            public float FactorFloat;
+            public float Unused1Float;
+            public float Unused2Float;
         }
 
         public struct BoneData

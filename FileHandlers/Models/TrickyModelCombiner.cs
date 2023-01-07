@@ -245,5 +245,7 @@ namespace SSXMultiTool.FileHandlers.Models
             public List<Vector3> IKPoints;
             public List<TrickyMPFModelHandler.Face> faces;
         }
+
+
     }
 }
