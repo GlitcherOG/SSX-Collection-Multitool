@@ -14,7 +14,7 @@ namespace SSXMultiTool.FileHandlers.Models
         public TrickyMPFModelHandler? Board;
         public List<TrickyMPFModelHandler.MaterialData> materials;
         public List<TrickyMPFModelHandler.BoneData> bones;
-        bool BodyBool;
+        public bool BodyBool;
 
 
         public List<ReassignedMesh> reassignedMesh = new List<ReassignedMesh>();
@@ -89,9 +89,6 @@ namespace SSXMultiTool.FileHandlers.Models
 
             reassignedMesh.Add(TempMesh);
         }
-
-
-
 
         public void StartReassignMeshCharacter(int MeshID)
         {
@@ -287,9 +284,6 @@ namespace SSXMultiTool.FileHandlers.Models
             }
         }
 
-
-
-
         public List<TrickyMPFModelHandler.Face> ReturnFixedFaces(TrickyMPFModelHandler.MPFModelHeader modelHeader, List<TrickyMPFModelHandler.BoneData> BoneData)
         {
             List<TrickyMPFModelHandler.Face> NewFaces = new List<TrickyMPFModelHandler.Face>();
@@ -404,6 +398,167 @@ namespace SSXMultiTool.FileHandlers.Models
             return NewHeader;
         }
 
+        public void StartRegenMesh(TrickyModelCombiner trickyModelCombiner, int Selected)
+        {
+            if(Board!=null&&!BodyBool)
+            {
+                StartRegenMeshBoard(trickyModelCombiner, Selected);
+            }
+            else
+            {
+                MessageBox.Show("Only Boards Supported");
+            }
+
+
+        }
+
+        public void StartRegenMeshBoard(TrickyModelCombiner trickyModelCombiner, int Selected)
+        {
+            if(trickyModelCombiner.bones==null)
+            {
+                MessageBox.Show("No Bones Detected");
+                return;
+            }
+            if(trickyModelCombiner.bones.Count!=1)
+            {
+                MessageBox.Show("Incorrect Ammount of Bones");
+                return;
+            }
+            
+            bool Shadow = false;
+
+            if (Board.ModelList[Selected].FileName.ToLower().Contains("shdw"))
+            {
+                Shadow = true;
+            }
+
+            var TempTrickyMesh = Board.ModelList[Selected];
+
+            var ReassignedMesh = trickyModelCombiner.reassignedMesh[0];
+
+            //Regenerate Materials
+
+            //Redo Data In Correct Formats IE make Weight List and make faces use the positions. NOTE ENSURE THE FILE ID IS CORRECT
+            TempTrickyMesh.boneWeightHeader = new List<TrickyMPFModelHandler.BoneWeightHeader>();
+            
+            //Load Headers into file
+            for (int i = 0; i < ReassignedMesh.faces.Count; i++)
+            {
+                var TempFace = ReassignedMesh.faces[i];
+                if (!TempTrickyMesh.boneWeightHeader.Contains(TempFace.Weight1))
+                {
+                    TempTrickyMesh.boneWeightHeader.Add(TempFace.Weight1);
+                }
+                TempFace.Weight1Pos = TempTrickyMesh.boneWeightHeader.IndexOf(TempFace.Weight1);
+
+                if (!TempTrickyMesh.boneWeightHeader.Contains(TempFace.Weight2))
+                {
+                    TempTrickyMesh.boneWeightHeader.Add(TempFace.Weight2);
+                }
+                TempFace.Weight2Pos = TempTrickyMesh.boneWeightHeader.IndexOf(TempFace.Weight2);
+
+                if (!TempTrickyMesh.boneWeightHeader.Contains(TempFace.Weight3))
+                {
+                    TempTrickyMesh.boneWeightHeader.Add(TempFace.Weight3);
+                }
+                TempFace.Weight3Pos = TempTrickyMesh.boneWeightHeader.IndexOf(TempFace.Weight3);
+
+                ReassignedMesh.faces[i] = TempFace;
+            }
+            //Correct Bone File ID
+            for (int i = 0; i < TempTrickyMesh.boneWeightHeader.Count; i++)
+            {
+                var TempHeader = TempTrickyMesh.boneWeightHeader[i];
+
+                for (int a = 0; a < TempHeader.boneWeights.Count; a++)
+                {
+                    var TempWeight = TempHeader.boneWeights[a];
+
+                    TempWeight.FileID = TempTrickyMesh.FileID;
+
+                    TempHeader.boneWeights[a] = TempWeight;
+                }
+                TempTrickyMesh.boneWeightHeader[i] = TempHeader;
+            }
+
+            //Tristrip data ensuring that all the material id is taken into account
+
+            //Static mesh that shit
+
+            //Generate Number Ref and correct UV
+            //Prephaps Move into static meshing
+
+
+            TempTrickyMesh.numberListRefs = new List<TrickyMPFModelHandler.NumberListRef>();
+            for (int i = 0; i < TempTrickyMesh.MeshGroups.Count; i++)
+            {
+                var TempMeshGroup = TempTrickyMesh.MeshGroups[i];
+                for (int a = 0; a < TempMeshGroup.meshGroupSubs.Count; a++)
+                {
+                    var TempSubGroup = TempMeshGroup.meshGroupSubs[a];
+                    for (int b = 0; b < TempSubGroup.MeshGroupHeaders.Count; b++)
+                    {
+                        var TempMeshGroupHeader = TempSubGroup.MeshGroupHeaders[b];
+                        TrickyMPFModelHandler.NumberListRef NumberRef = new TrickyMPFModelHandler.NumberListRef();
+                        NumberRef.WeightIDs = new List<int>();
+
+                        for (int c = 0; c < TempMeshGroupHeader.staticMesh.Count; c++)
+                        {
+                            var TempMesh = TempMeshGroupHeader.staticMesh[c];
+                            for (int d = 0; d < TempMesh.Weights.Count; d++)
+                            {
+                                if (!NumberRef.WeightIDs.Contains(TempMesh.Weights[d]))
+                                {
+                                    NumberRef.WeightIDs.Add(TempMesh.Weights[d]);
+                                }
+                                TempMesh.Weights[d] = NumberRef.WeightIDs.IndexOf(TempMesh.Weights[d]);
+                            }
+
+                            if(!Shadow)
+                            {
+                                for (int d = 0; d < TempMesh.Weights.Count; d++)
+                                {
+                                    var TempUV = TempMesh.uv[d];
+                                    TempUV.Z = TempMesh.Weights[d]*4 + 14;
+                                    TempUV.W = TempMesh.Weights[d]; //Figure Out
+                                    TempMesh.uv[d] = TempUV;
+                                }
+                            }
+                            else
+                            {
+                                for (int d = 0; d < TempMesh.Weights.Count; d++)
+                                {
+                                    TempMesh.Weights[d] = TempMesh.Weights[d] * 4 + 14;
+ 
+                                }
+                            }
+
+                            TempMeshGroupHeader.staticMesh[c] = TempMesh;
+                        }
+
+                        TempTrickyMesh.numberListRefs.Add(NumberRef);
+
+                        TempSubGroup.MeshGroupHeaders[b] = TempMeshGroupHeader;
+                    }
+                    TempMeshGroup.meshGroupSubs[a]=TempSubGroup;
+                }
+                TempTrickyMesh.MeshGroups[i] = TempMeshGroup;
+            }
+
+
+            TempTrickyMesh.MeshGroups = new List<TrickyMPFModelHandler.GroupMainHeader>();
+
+            //Update IK Points
+            TempTrickyMesh.iKPoints = ReassignedMesh.IKPoints;
+
+
+
+            Board.ModelList[Selected] = TempTrickyMesh;
+        }
+
+
+
+
         public struct ReassignedMesh
         {
             public string MeshName;
@@ -413,6 +568,14 @@ namespace SSXMultiTool.FileHandlers.Models
             public List<TrickyMPFModelHandler.Face> faces;
         }
 
+        public struct TristripStruct
+        {
+            public bool DebugUsed;
+            public int Material;
+            public List<Vector3> vertices;
+            public List<Vector3> normals;
+            public List<Vector4> TextureCords;
+        }
 
     }
 }

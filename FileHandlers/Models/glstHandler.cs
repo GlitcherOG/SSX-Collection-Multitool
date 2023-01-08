@@ -294,7 +294,7 @@ namespace SSXMultiTool.FileHandlers
 
 
 
-        public static void LoadGlft(string Path)
+        public static TrickyModelCombiner LoadGlft(string Path)
         {
             TrickyModelCombiner trickyModelCombiner = new TrickyModelCombiner();
             trickyModelCombiner.materials = new List<TrickyMPFModelHandler.MaterialData>();
@@ -445,7 +445,7 @@ namespace SSXMultiTool.FileHandlers
                 trickyModelCombiner.reassignedMesh.Add(reassignedMesh);
             }
 
-            Console.WriteLine("Temp");
+            return trickyModelCombiner;
         }
 
         static List<TrickyMPFModelHandler.MaterialData> MakeNewMaterial(List<TrickyMPFModelHandler.MaterialData> materials, string name)

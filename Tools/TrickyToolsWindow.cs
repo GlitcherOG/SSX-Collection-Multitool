@@ -92,7 +92,7 @@ namespace SSXMultiTool
             }
         }
 
-            private void ELFLdrSetup_Click(object sender, EventArgs e)
+        private void ELFLdrSetup_Click(object sender, EventArgs e)
         {
             CommonOpenFileDialog commonDialog = new CommonOpenFileDialog
             {
@@ -173,8 +173,13 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                if (trickyModel.Board != null)
+                {
+                    var TempCombiner = glstHandler.LoadGlft(openFileDialog.FileName);
 
-                glstHandler.LoadGlft(openFileDialog.FileName);
+
+
+                }
             }
         }
     }
