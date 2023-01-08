@@ -159,6 +159,8 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                trickyMPF = trickyModel.Board;
+
                 trickyMPF.Save(openFileDialog.FileName);
             }
         }

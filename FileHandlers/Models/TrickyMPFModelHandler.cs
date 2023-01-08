@@ -1283,6 +1283,8 @@ namespace SSXMultiTool.FileHandlers
 
         public struct StaticMesh
         {
+            public int MatieralID;
+
             public int StripCount;
             public int Unknown1;
             public int Unknown2;

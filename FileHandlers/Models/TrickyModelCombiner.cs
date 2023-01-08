@@ -492,6 +492,8 @@ namespace SSXMultiTool.FileHandlers.Models
             tristrip.vertices = new List<Vector3>();
             tristrip.Weights = new List<int>();
             tristrip.TextureCords = new List<Vector4>();
+
+            List<int> NewMaterials = new List<int>();
             while (RunWhile)
             {
                 if (tristrip.vertices.Count != 0)
@@ -599,6 +601,10 @@ namespace SSXMultiTool.FileHandlers.Models
                             tristrip.Weights.Add(TempFace.Weight3Pos);
 
                             tristrip.Material = TempFace.MaterialID;
+                            if(!NewMaterials.Contains(TempFace.MaterialID))
+                            {
+                                NewMaterials.Add(TempFace.MaterialID);
+                            }
                             ReassignedMesh.faces[i] = TempFace;
                             break;
                         }
@@ -613,14 +619,115 @@ namespace SSXMultiTool.FileHandlers.Models
             }
             
             //Static mesh that shit
-            TempTrickyMesh.numberListRefs = new List<TrickyMPFModelHandler.NumberListRef>();
+            TempTrickyMesh.MeshGroups = new List<TrickyMPFModelHandler.GroupMainHeader>();
+            List<TrickyMPFModelHandler.StaticMesh> meshList = new List<TrickyMPFModelHandler.StaticMesh>();
 
+            for (int a = 0; a < NewMaterials.Count; a++)
+            {
+                TrickyMPFModelHandler.StaticMesh staticMesh = new TrickyMPFModelHandler.StaticMesh();
+                staticMesh.MatieralID = NewMaterials[a];
+                staticMesh.vertices = new List<Vector3>();
+                staticMesh.uvNormals = new List<Vector3>();
+                staticMesh.Strips = new List<int>();
+                staticMesh.uv = new List<Vector4>();
+                staticMesh.Weights = new List<int>();
+                for (int i = 0; i < tristripStructs.Count; i++)
+                {
+                    if (tristripStructs[i].Material == NewMaterials[a])
+                    {
+                        if (staticMesh.vertices.Count <= 60)
+                        {
+                            staticMesh.Strips.Add(tristripStructs[i].vertices.Count);
+                            staticMesh.vertices.AddRange(tristripStructs[i].vertices);
+                            staticMesh.uv.AddRange(tristripStructs[i].TextureCords);
+                            staticMesh.uvNormals.AddRange(tristripStructs[i].normals);
+                            staticMesh.Weights.AddRange(tristripStructs[i].Weights);
+                        }
+                        //else if (i > tristripStructs.Count - 3)
+                        //{
+                        //    staticMesh.Strips.Add(tristripStructs[i].vertices.Count);
+                        //    staticMesh.vertices.AddRange(tristripStructs[i].vertices);
+                        //    staticMesh.uv.AddRange(tristripStructs[i].TextureCords);
+                        //    staticMesh.uvNormals.AddRange(tristripStructs[i].normals);
+                        //}
+                        else
+                        {
+                            meshList.Add(staticMesh);
+                            staticMesh = new TrickyMPFModelHandler.StaticMesh();
+                            staticMesh.vertices = new List<Vector3>();
+                            staticMesh.uvNormals = new List<Vector3>();
+                            staticMesh.Strips = new List<int>();
+                            staticMesh.uv = new List<Vector4>();
+                            staticMesh.Weights = new List<int>();
+                            staticMesh.Strips.Add(tristripStructs[i].vertices.Count);
+                            staticMesh.vertices.AddRange(tristripStructs[i].vertices);
+                            staticMesh.uv.AddRange(tristripStructs[i].TextureCords);
+                            staticMesh.uvNormals.AddRange(tristripStructs[i].normals);
+                            staticMesh.Weights.AddRange(tristripStructs[i].Weights);
+                        }
+                    }
+                }
+                if (!staticMesh.Equals(new TrickyMPFModelHandler.StaticMesh()))
+                {
+                    meshList.Add(staticMesh);
+                }
+            }
 
+            //Group That Shit
+            for (int i = 0; i < meshList.Count; i++)
+            {
+                bool TestIfExists = false;
+
+                for (int a = 0; a < TempTrickyMesh.MeshGroups.Count; a++)
+                {
+                    var TempGroup = TempTrickyMesh.MeshGroups[a];
+                    if (TempGroup.MaterialID == meshList[a].MatieralID)
+                    {
+                        TestIfExists = true;
+                        var TempSubGroup = TempGroup.meshGroupSubs[0];
+
+                        var TempMorphMeshGroup = TempSubGroup.MeshGroupHeaders[0];
+
+                        TempMorphMeshGroup.staticMesh.Add(meshList[i]);
+
+                        TempSubGroup.MeshGroupHeaders[0] = TempMorphMeshGroup;
+
+                        TempGroup.meshGroupSubs[0] = TempSubGroup;
+                    }
+                    TempTrickyMesh.MeshGroups[a] = TempGroup;
+                }
+
+                if(!TestIfExists)
+                {
+                    TrickyMPFModelHandler.GroupMainHeader TempHeader = new TrickyMPFModelHandler.GroupMainHeader();
+                    if(Shadow)
+                    {
+                        TempHeader.GroupType = 17;
+                    }
+                    else
+                    {
+                        TempHeader.GroupType = 1;
+                    }
+                    TempHeader.MaterialID = meshList[i].MatieralID;
+                    TempHeader.Unknown = -1;
+                    TempHeader.meshGroupSubs = new List<TrickyMPFModelHandler.GroupSubHeader>();
+                    TrickyMPFModelHandler.GroupSubHeader TempGroupSub = new TrickyMPFModelHandler.GroupSubHeader();
+                    TempGroupSub.MeshGroupHeaders = new List<TrickyMPFModelHandler.MeshMorphHeader>();
+                    TrickyMPFModelHandler.MeshMorphHeader TempMeshGroupHeaders = new TrickyMPFModelHandler.MeshMorphHeader();
+                    TempMeshGroupHeaders.staticMesh = new List<TrickyMPFModelHandler.StaticMesh>();
+                    TempMeshGroupHeaders.staticMesh.Add(meshList[i]);
+
+                    TempGroupSub.MeshGroupHeaders.Add(TempMeshGroupHeaders);
+                    TempHeader.meshGroupSubs.Add(TempGroupSub);
+                    TempTrickyMesh.MeshGroups.Add(TempHeader);
+                }
+
+            }
 
 
             //Generate Number Ref and correct UV
             //Prephaps Move into static meshing
-
+            TempTrickyMesh.numberListRefs = new List<TrickyMPFModelHandler.NumberListRef>();
             for (int i = 0; i < TempTrickyMesh.MeshGroups.Count; i++)
             {
                 var TempMeshGroup = TempTrickyMesh.MeshGroups[i];
@@ -651,7 +758,7 @@ namespace SSXMultiTool.FileHandlers.Models
                                 {
                                     var TempUV = TempMesh.uv[d];
                                     TempUV.Z = TempMesh.Weights[d]*4 + 14;
-                                    TempUV.W = TempMesh.Weights[d]; //Figure Out
+                                    TempUV.W = TempMesh.Weights[d]*3 + 114; //Figure Out
                                     TempMesh.uv[d] = TempUV;
                                 }
                             }
@@ -674,11 +781,8 @@ namespace SSXMultiTool.FileHandlers.Models
                 TempTrickyMesh.MeshGroups[i] = TempMeshGroup;
             }
 
-
-            TempTrickyMesh.MeshGroups = new List<TrickyMPFModelHandler.GroupMainHeader>();
-
             //Update IK Points
-            TempTrickyMesh.iKPoints = ReassignedMesh.IKPoints;
+            //TempTrickyMesh.iKPoints = ReassignedMesh.IKPoints;
 
 
 
