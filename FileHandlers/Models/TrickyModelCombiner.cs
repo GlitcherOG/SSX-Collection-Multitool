@@ -414,6 +414,10 @@ namespace SSXMultiTool.FileHandlers.Models
 
         }
 
+        //Redo Tristrip model
+        //Manually add Unknown
+        //Fix Index Find and Bool Find Of Weights
+
         public void StartRegenMeshBoard(TrickyModelCombiner trickyModelCombiner, int Selected)
         {
             if(trickyModelCombiner.bones==null)
@@ -447,23 +451,23 @@ namespace SSXMultiTool.FileHandlers.Models
             for (int i = 0; i < ReassignedMesh.faces.Count; i++)
             {
                 var TempFace = ReassignedMesh.faces[i];
-                if (!TempTrickyMesh.boneWeightHeader.Contains(TempFace.Weight1))
+                if (!ContainsWeight(TempFace.Weight1, TempTrickyMesh.boneWeightHeader))
                 {
                     TempTrickyMesh.boneWeightHeader.Add(TempFace.Weight1);
                 }
-                TempFace.Weight1Pos = TempTrickyMesh.boneWeightHeader.IndexOf(TempFace.Weight1);
+                TempFace.Weight1Pos = WeightIndex(TempFace.Weight1, TempTrickyMesh.boneWeightHeader);
 
-                if (!TempTrickyMesh.boneWeightHeader.Contains(TempFace.Weight2))
+                if (!ContainsWeight(TempFace.Weight2, TempTrickyMesh.boneWeightHeader))
                 {
                     TempTrickyMesh.boneWeightHeader.Add(TempFace.Weight2);
                 }
-                TempFace.Weight2Pos = TempTrickyMesh.boneWeightHeader.IndexOf(TempFace.Weight2);
+                TempFace.Weight2Pos = WeightIndex(TempFace.Weight2, TempTrickyMesh.boneWeightHeader);
 
-                if (!TempTrickyMesh.boneWeightHeader.Contains(TempFace.Weight3))
+                if (!ContainsWeight(TempFace.Weight3, TempTrickyMesh.boneWeightHeader))
                 {
                     TempTrickyMesh.boneWeightHeader.Add(TempFace.Weight3);
                 }
-                TempFace.Weight3Pos = TempTrickyMesh.boneWeightHeader.IndexOf(TempFace.Weight3);
+                TempFace.Weight3Pos = WeightIndex(TempFace.Weight3, TempTrickyMesh.boneWeightHeader);
 
                 ReassignedMesh.faces[i] = TempFace;
             }
@@ -635,7 +639,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 {
                     if (tristripStructs[i].Material == NewMaterials[a])
                     {
-                        if (staticMesh.vertices.Count <= 60)
+                        if (staticMesh.vertices.Count <= 50)
                         {
                             staticMesh.Strips.Add(tristripStructs[i].vertices.Count);
                             staticMesh.vertices.AddRange(tristripStructs[i].vertices);
@@ -643,13 +647,13 @@ namespace SSXMultiTool.FileHandlers.Models
                             staticMesh.uvNormals.AddRange(tristripStructs[i].normals);
                             staticMesh.Weights.AddRange(tristripStructs[i].Weights);
                         }
-                        //else if (i > tristripStructs.Count - 3)
-                        //{
-                        //    staticMesh.Strips.Add(tristripStructs[i].vertices.Count);
-                        //    staticMesh.vertices.AddRange(tristripStructs[i].vertices);
-                        //    staticMesh.uv.AddRange(tristripStructs[i].TextureCords);
-                        //    staticMesh.uvNormals.AddRange(tristripStructs[i].normals);
-                        //}
+                        else if (i > tristripStructs.Count - 3)
+                        {
+                            staticMesh.Strips.Add(tristripStructs[i].vertices.Count);
+                            staticMesh.vertices.AddRange(tristripStructs[i].vertices);
+                            staticMesh.uv.AddRange(tristripStructs[i].TextureCords);
+                            staticMesh.uvNormals.AddRange(tristripStructs[i].normals);
+                        }
                         else
                         {
                             meshList.Add(staticMesh);
@@ -787,6 +791,56 @@ namespace SSXMultiTool.FileHandlers.Models
 
 
             Board.ModelList[Selected] = TempTrickyMesh;
+        }
+
+        static bool ContainsWeight(TrickyMPFModelHandler.BoneWeightHeader boneWeight, List<TrickyMPFModelHandler.BoneWeightHeader> boneWeightList)
+        {
+
+            for (int i = 0; i < boneWeightList.Count; i++)
+            {
+                if (boneWeightList[i].boneWeights.Count == boneWeight.boneWeights.Count)
+                {
+                    bool Test = false;
+                    for (int a = 0; a < boneWeightList[i].boneWeights.Count; a++)
+                    {
+                        if (boneWeightList[i].boneWeights[a].Weight == boneWeight.boneWeights[a].Weight && boneWeightList[i].boneWeights[a].BoneID == boneWeight.boneWeights[a].BoneID && boneWeightList[i].boneWeights[a].FileID == boneWeight.boneWeights[a].FileID)
+                        {
+                            Test = true;
+                        }
+                    }
+                    if (Test)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        static int WeightIndex(TrickyMPFModelHandler.BoneWeightHeader boneWeight, List<TrickyMPFModelHandler.BoneWeightHeader> boneWeightList)
+        {
+
+            for (int i = 0; i < boneWeightList.Count; i++)
+            {
+                if (boneWeightList[i].boneWeights.Count == boneWeight.boneWeights.Count)
+                {
+                    bool Test = false;
+                    for (int a = 0; a < boneWeightList[i].boneWeights.Count; a++)
+                    {
+                        if (boneWeightList[i].boneWeights[a].Weight == boneWeight.boneWeights[a].Weight && boneWeightList[i].boneWeights[a].BoneID == boneWeight.boneWeights[a].BoneID && boneWeightList[i].boneWeights[a].FileID == boneWeight.boneWeights[a].FileID)
+                        {
+                            Test = true;
+                        }
+                    }
+                    if (Test)
+                    {
+                        return i;
+                    }
+                }
+            }
+
+            return -1;
         }
 
 
