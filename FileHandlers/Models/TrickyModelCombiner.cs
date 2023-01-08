@@ -332,31 +332,33 @@ namespace SSXMultiTool.FileHandlers.Models
                                 var TempMat = modelHeader.materialDatas[modelHeader.MeshGroups[a].MaterialID];
                                 int matID = 0;
                                 int focusID = 0;
+                                if (TempMat.MainTexture != "bord")
+                                {
+                                    if (TempMat.MainTexture == "helm")
+                                    {
+                                        matID = 0;
+                                    }
+                                    else if (TempMat.MainTexture == "boot")
+                                    {
+                                        matID = 1;
+                                    }
+                                    else if (TempMat.MainTexture == "head")
+                                    {
+                                        matID = 2;
+                                    }
+                                    else if (TempMat.MainTexture == "suit")
+                                    {
+                                        matID = 3;
+                                    }
 
-                                if(TempMat.MainTexture=="helm")
-                                {
-                                    matID = 0;
-                                }
-                                else if (TempMat.MainTexture == "boot")
-                                {
-                                    matID = 1;
-                                }
-                                else if (TempMat.MainTexture == "head")
-                                {
-                                    matID = 2;
-                                }
-                                else if (TempMat.MainTexture == "suit")
-                                {
-                                    matID = 3;
-                                }
-
-                                if (TempMat.Texture3.EndsWith("_g"))
-                                {
-                                    focusID = 1;
-                                }
-                                else if (TempMat.Texture4 == "envr")
-                                {
-                                    focusID = 2;
+                                    if (TempMat.Texture3.EndsWith("_g"))
+                                    {
+                                        focusID = 1;
+                                    }
+                                    else if (TempMat.Texture4 == "envr")
+                                    {
+                                        focusID = 2;
+                                    }
                                 }
 
                                 matID = (3 * matID) + focusID;
@@ -481,15 +483,144 @@ namespace SSXMultiTool.FileHandlers.Models
                 TempTrickyMesh.boneWeightHeader[i] = TempHeader;
             }
 
-            //Tristrip data ensuring that all the material id is taken into account
 
+            bool rotation = false;
+            bool RunWhile = true;
+            List<TristripStruct> tristripStructs = new List<TristripStruct>();
+            TristripStruct tristrip = new TristripStruct();
+            tristrip.normals = new List<Vector3>();
+            tristrip.vertices = new List<Vector3>();
+            tristrip.Weights = new List<int>();
+            tristrip.TextureCords = new List<Vector4>();
+            while (RunWhile)
+            {
+                if (tristrip.vertices.Count != 0)
+                {
+                    //Tristrip data ensuring that all the material id is taken into account
+                    bool EndedEarly = false;
+                    for (int i = 0; i < ReassignedMesh.faces.Count; i++)
+                    {
+                        var TempFace = ReassignedMesh.faces[i];
+                        if (TempFace.MaterialID == tristrip.Material && !tristrip.Tristripped)
+                        {
+                            int Index = tristrip.vertices.Count;
+                            int Index2 = 0;
+                            int Index3 = 0;
+                            //Fixes the Rotation For Exporting
+                            //1-Clockwise
+                            //0-Counter Clocwise
+
+                            //Index2 = Index - 2;
+                            //Index3 = Index - 1;
+                            if (!rotation)
+                            {
+                                Index2 = Index - 1;
+                                Index3 = Index - 2;
+                            }
+                            else
+                            {
+                                Index2 = Index - 2;
+                                Index3 = Index - 1;
+                            }
+                            if (TempFace.V2 == tristrip.vertices[Index3] && TempFace.V3 == tristrip.vertices[Index2])
+                            {
+                                if (TempFace.Weight2Pos == tristrip.Weights[Index3] && TempFace.Weight3Pos == tristrip.Weights[Index2])
+                                {
+                                    if (!Shadow)
+                                    {
+                                        if (TempFace.Normal2 == tristrip.normals[Index3] && TempFace.Normal3 == tristrip.normals[Index2])
+                                        {
+                                            if (TempFace.UV2 == tristrip.TextureCords[Index3] && TempFace.UV3 == tristrip.TextureCords[Index2])
+                                            {
+                                                TempFace.tristripped = true;
+                                                rotation = !rotation;
+                                                tristrip.vertices.Add(TempFace.V1);
+                                                tristrip.normals.Add(TempFace.Normal1);
+                                                tristrip.TextureCords.Add(TempFace.UV1);
+                                                tristrip.Weights.Add(TempFace.Weight1Pos);
+                                                ReassignedMesh.faces[i] = TempFace;
+                                                EndedEarly = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        TempFace.tristripped = true;
+                                        rotation = !rotation;
+                                        tristrip.vertices.Add(TempFace.V1);
+                                        tristrip.normals.Add(TempFace.Normal1);
+                                        tristrip.TextureCords.Add(TempFace.UV1);
+                                        tristrip.Weights.Add(TempFace.Weight1Pos);
+                                        ReassignedMesh.faces[i] = TempFace;
+                                        EndedEarly = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if(!EndedEarly)
+                    {
+                        tristripStructs.Add(tristrip);
+                        tristrip = new TristripStruct();
+                        tristrip.normals = new List<Vector3>();
+                        tristrip.vertices = new List<Vector3>();
+                        tristrip.Weights = new List<int>();
+                        tristrip.TextureCords = new List<Vector4>();
+                    }
+                }
+                else
+                {
+                    bool FullRunTest = false;
+                    for (int i = 0; i < ReassignedMesh.faces.Count; i++)
+                    {
+                        var TempFace = ReassignedMesh.faces[i];
+                        if(!TempFace.tristripped)
+                        {
+                            FullRunTest = true;
+                            rotation = false;
+                            TempFace.tristripped = true;
+                            tristrip.vertices.Add(TempFace.V1);
+                            tristrip.vertices.Add(TempFace.V2);
+                            tristrip.vertices.Add(TempFace.V3);
+
+                            tristrip.TextureCords.Add(TempFace.UV1);
+                            tristrip.TextureCords.Add(TempFace.UV2);
+                            tristrip.TextureCords.Add(TempFace.UV3);
+
+                            tristrip.normals.Add(TempFace.Normal1);
+                            tristrip.normals.Add(TempFace.Normal2);
+                            tristrip.normals.Add(TempFace.Normal3);
+
+                            tristrip.Weights.Add(TempFace.Weight1Pos);
+                            tristrip.Weights.Add(TempFace.Weight2Pos);
+                            tristrip.Weights.Add(TempFace.Weight3Pos);
+
+                            tristrip.Material = TempFace.MaterialID;
+                            ReassignedMesh.faces[i] = TempFace;
+                            break;
+                        }
+                    }
+
+                    if(!FullRunTest)
+                    {
+                        RunWhile = false;
+                        break;
+                    }
+                }
+            }
+            
             //Static mesh that shit
+            TempTrickyMesh.numberListRefs = new List<TrickyMPFModelHandler.NumberListRef>();
+
+
+
 
             //Generate Number Ref and correct UV
             //Prephaps Move into static meshing
 
-
-            TempTrickyMesh.numberListRefs = new List<TrickyMPFModelHandler.NumberListRef>();
             for (int i = 0; i < TempTrickyMesh.MeshGroups.Count; i++)
             {
                 var TempMeshGroup = TempTrickyMesh.MeshGroups[i];
@@ -529,10 +660,8 @@ namespace SSXMultiTool.FileHandlers.Models
                                 for (int d = 0; d < TempMesh.Weights.Count; d++)
                                 {
                                     TempMesh.Weights[d] = TempMesh.Weights[d] * 4 + 14;
- 
                                 }
                             }
-
                             TempMeshGroupHeader.staticMesh[c] = TempMesh;
                         }
 
@@ -570,11 +699,13 @@ namespace SSXMultiTool.FileHandlers.Models
 
         public struct TristripStruct
         {
-            public bool DebugUsed;
+            public bool Tristripped;
             public int Material;
             public List<Vector3> vertices;
             public List<Vector3> normals;
             public List<Vector4> TextureCords;
+            public List<int> Weights;
+            public List<TrickyMPFModelHandler.MorphKey> MorphKeyData;
         }
 
     }

@@ -177,7 +177,7 @@ namespace SSXMultiTool
                 {
                     var TempCombiner = glstHandler.LoadGlft(openFileDialog.FileName);
 
-
+                    trickyModel.StartRegenMesh(TempCombiner, MpfList.SelectedIndex);
 
                 }
             }

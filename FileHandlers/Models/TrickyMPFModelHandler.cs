@@ -1299,6 +1299,8 @@ namespace SSXMultiTool.FileHandlers
 
         public struct Face
         {
+            public bool tristripped;
+
             public Vector3 V1;
             public Vector3 V2;
             public Vector3 V3;

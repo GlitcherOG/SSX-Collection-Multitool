@@ -334,7 +334,7 @@ namespace SSXMultiTool.FileHandlers
             //Read Bones Building List
             List<TrickyMPFModelHandler.BoneData> boneDatas = new List<TrickyMPFModelHandler.BoneData>();
             var Ampatures = Scene.FindArmatures();
-            var StartBone = Ampatures[0].VisualChildren[6];
+            var StartBone = Ampatures[0].VisualChildren[0];
             boneDatas = ReturnBoneAndChildren(StartBone, true);
 
 
