@@ -431,12 +431,12 @@ namespace SSXMultiTool.FileHandlers
             //Make Faces
             ModelData.faces = new List<Face>();
             int localIndex = 0;
-            int Rotation = 0;
+            bool Rotation = false;
             for (int b = 0; b < ModelData.vertices.Count; b++)
             {
                 if (InsideSplits(b, strip2))
                 {
-                    Rotation = 0;
+                    Rotation = false;
                     localIndex = 1;
                     continue;
                 }
@@ -447,11 +447,7 @@ namespace SSXMultiTool.FileHandlers
                 }
 
                 ModelData.faces.Add(CreateFaces(b, ModelData, Rotation, morphPointData));
-                Rotation++;
-                if (Rotation == 2)
-                {
-                    Rotation = 0;
-                }
+                Rotation = !Rotation;
                 localIndex++;
             }
 
@@ -468,7 +464,7 @@ namespace SSXMultiTool.FileHandlers
             }
             return false;
         }
-        public Face CreateFaces(int Index, StaticMesh ModelData, int roatation, List<MorphKey> morphPointData)
+        public Face CreateFaces(int Index, StaticMesh ModelData, bool roatation, List<MorphKey> morphPointData)
         {
             Face face = new Face();
             int Index1 = 0;
@@ -478,17 +474,17 @@ namespace SSXMultiTool.FileHandlers
             //Swap When Exporting to other formats
             //1-Clockwise
             //0-Counter Clocwise
-            if (roatation == 1)
+            if (roatation)
             {
                 Index1 = Index;
                 Index2 = Index - 1;
                 Index3 = Index - 2;
             }
-            if (roatation == 0)
+            if (!roatation)
             {
-                Index1 = Index;
-                Index2 = Index - 2;
-                Index3 = Index - 1;
+                Index1 = Index - 2;
+                Index2 = Index - 1;
+                Index3 = Index;
             }
             face.V1 = ModelData.vertices[Index1];
             face.V2 = ModelData.vertices[Index2];
@@ -522,7 +518,7 @@ namespace SSXMultiTool.FileHandlers
             }
             else
             {
-                face.Weight1Pos = (ModelData.Weights[Index1]-14)/4;
+                face.Weight1Pos = (ModelData.Weights[Index1] - 14) /4;
                 face.Weight2Pos = (ModelData.Weights[Index2] - 14) / 4;
                 face.Weight3Pos = (ModelData.Weights[Index3] - 14) / 4;
             }

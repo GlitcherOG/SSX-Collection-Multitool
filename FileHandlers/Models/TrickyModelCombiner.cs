@@ -507,67 +507,53 @@ namespace SSXMultiTool.FileHandlers.Models
                     for (int i = 0; i < ReassignedMesh.faces.Count; i++)
                     {
                         var TempFace = ReassignedMesh.faces[i];
-                        if (TempFace.MaterialID == tristrip.Material && !tristrip.Tristripped)
+                        if (TempFace.MaterialID == tristrip.Material && !TempFace.tristripped)
                         {
-                            int Index = tristrip.vertices.Count;
-                            int Index2 = 0;
-                            int Index3 = 0;
-                            //Fixes the Rotation For Exporting
-                            //1-Clockwise
-                            //0-Counter Clocwise
-
-                            //Index2 = Index - 2;
-                            //Index3 = Index - 1;
-                            if (!rotation)
+                            int Edge = SharesEdge(rotation, TempFace, tristrip, true);
+                            if (Edge == 1)
                             {
-                                Index2 = Index - 1;
-                                Index3 = Index - 2;
+                                TempFace.tristripped = true;
+                                rotation = !rotation;
+                                tristrip.vertices.Add(TempFace.V1);
+                                tristrip.normals.Add(TempFace.Normal1);
+                                tristrip.TextureCords.Add(TempFace.UV1);
+                                tristrip.Weights.Add(TempFace.Weight1Pos);
+                                ReassignedMesh.faces[i] = TempFace;
+                                EndedEarly = true;
+                                break;
                             }
-                            else
+                            else if (Edge == 2)
                             {
-                                Index2 = Index - 2;
-                                Index3 = Index - 1;
+                                TempFace.tristripped = true;
+                                rotation = !rotation;
+                                tristrip.vertices.Add(TempFace.V2);
+                                tristrip.normals.Add(TempFace.Normal2);
+                                tristrip.TextureCords.Add(TempFace.UV2);
+                                tristrip.Weights.Add(TempFace.Weight2Pos);
+                                ReassignedMesh.faces[i] = TempFace;
+                                EndedEarly = true;
+                                break;
                             }
-                            if (TempFace.V2 == tristrip.vertices[Index3] && TempFace.V3 == tristrip.vertices[Index2])
+                            else if (Edge == 3)
                             {
-                                if (TempFace.Weight2Pos == tristrip.Weights[Index3] && TempFace.Weight3Pos == tristrip.Weights[Index2])
-                                {
-                                    if (!Shadow)
-                                    {
-                                        if (TempFace.Normal2 == tristrip.normals[Index3] && TempFace.Normal3 == tristrip.normals[Index2])
-                                        {
-                                            if (TempFace.UV2 == tristrip.TextureCords[Index3] && TempFace.UV3 == tristrip.TextureCords[Index2])
-                                            {
-                                                TempFace.tristripped = true;
-                                                rotation = !rotation;
-                                                tristrip.vertices.Add(TempFace.V1);
-                                                tristrip.normals.Add(TempFace.Normal1);
-                                                tristrip.TextureCords.Add(TempFace.UV1);
-                                                tristrip.Weights.Add(TempFace.Weight1Pos);
-                                                ReassignedMesh.faces[i] = TempFace;
-                                                EndedEarly = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        TempFace.tristripped = true;
-                                        rotation = !rotation;
-                                        tristrip.vertices.Add(TempFace.V1);
-                                        tristrip.normals.Add(TempFace.Normal1);
-                                        tristrip.TextureCords.Add(TempFace.UV1);
-                                        tristrip.Weights.Add(TempFace.Weight1Pos);
-                                        ReassignedMesh.faces[i] = TempFace;
-                                        EndedEarly = true;
-                                        break;
-                                    }
-                                }
+                                TempFace.tristripped = true;
+                                rotation = !rotation;
+                                tristrip.vertices.Add(TempFace.V3);
+                                tristrip.normals.Add(TempFace.Normal3);
+                                tristrip.TextureCords.Add(TempFace.UV3);
+                                tristrip.Weights.Add(TempFace.Weight3Pos);
+                                ReassignedMesh.faces[i] = TempFace;
+                                EndedEarly = true;
+                                break;
                             }
+                        }
+                        if(i >= ReassignedMesh.faces.Count-1)
+                        {
+                            EndedEarly = false;
                         }
                     }
 
-                    if(!EndedEarly)
+                    if(!EndedEarly || tristrip.vertices.Count == 20)
                     {
                         tristripStructs.Add(tristrip);
                         tristrip = new TristripStruct();
@@ -629,6 +615,8 @@ namespace SSXMultiTool.FileHandlers.Models
             for (int a = 0; a < NewMaterials.Count; a++)
             {
                 TrickyMPFModelHandler.StaticMesh staticMesh = new TrickyMPFModelHandler.StaticMesh();
+                staticMesh.Unknown1 = 14;
+                staticMesh.Unknown2 = 114;
                 staticMesh.MatieralID = NewMaterials[a];
                 staticMesh.vertices = new List<Vector3>();
                 staticMesh.uvNormals = new List<Vector3>();
@@ -653,11 +641,14 @@ namespace SSXMultiTool.FileHandlers.Models
                             staticMesh.vertices.AddRange(tristripStructs[i].vertices);
                             staticMesh.uv.AddRange(tristripStructs[i].TextureCords);
                             staticMesh.uvNormals.AddRange(tristripStructs[i].normals);
+                            staticMesh.Weights.AddRange(tristripStructs[i].Weights);
                         }
                         else
                         {
                             meshList.Add(staticMesh);
                             staticMesh = new TrickyMPFModelHandler.StaticMesh();
+                            staticMesh.Unknown1 = 14;
+                            staticMesh.Unknown2 = 114;
                             staticMesh.vertices = new List<Vector3>();
                             staticMesh.uvNormals = new List<Vector3>();
                             staticMesh.Strips = new List<int>();
@@ -792,6 +783,91 @@ namespace SSXMultiTool.FileHandlers.Models
 
             Board.ModelList[Selected] = TempTrickyMesh;
         }
+
+        static int SharesEdge(bool CounterClockwise, TrickyMPFModelHandler.Face TempFace, TristripStruct tristrip, bool LooseCheck)
+        {
+            int Index = tristrip.vertices.Count - 1;
+            int Index2 = 0;
+            int Index3 = 0;
+
+            if (CounterClockwise)
+            {
+                Index2 = Index;
+                Index3 = Index - 1;
+            }
+            else
+            {
+                Index2 = Index - 1;
+                Index3 = Index;
+            }
+
+            if (TempFace.V1 == tristrip.vertices[Index3] && TempFace.V2 == tristrip.vertices[Index2])
+            {
+                if (TempFace.Weight1Pos == tristrip.Weights[Index3] && TempFace.Weight2Pos == tristrip.Weights[Index2])
+                {
+                    if (!LooseCheck)
+                    {
+                        if (TempFace.Normal1 == tristrip.normals[Index3] && TempFace.Normal2 == tristrip.normals[Index2])
+                        {
+                            if (TempFace.UV1 == tristrip.TextureCords[Index3] && TempFace.UV2 == tristrip.TextureCords[Index2])
+                            {
+                                return 3;
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                        return 3;
+                    }
+                }
+            }
+
+            if (TempFace.V2 == tristrip.vertices[Index3] && TempFace.V3 == tristrip.vertices[Index2])
+            {
+                if (TempFace.Weight2Pos == tristrip.Weights[Index3] && TempFace.Weight3Pos == tristrip.Weights[Index2])
+                {
+                    if (!LooseCheck)
+                    {
+                        if (TempFace.Normal2 == tristrip.normals[Index3] && TempFace.Normal3 == tristrip.normals[Index2])
+                        {
+                            if (TempFace.UV2 == tristrip.TextureCords[Index3] && TempFace.UV3 == tristrip.TextureCords[Index2])
+                            {
+                                return 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                        return 1;
+                    }
+                }
+            }
+
+            if (TempFace.V3 == tristrip.vertices[Index3] && TempFace.V1 == tristrip.vertices[Index2])
+            {
+                if (TempFace.Weight3Pos == tristrip.Weights[Index3] && TempFace.Weight1Pos == tristrip.Weights[Index2])
+                {
+                    if (!LooseCheck)
+                    {
+                        if (TempFace.Normal3 == tristrip.normals[Index3] && TempFace.Normal1 == tristrip.normals[Index2])
+                        {
+                            if (TempFace.UV3 == tristrip.TextureCords[Index3] && TempFace.UV1 == tristrip.TextureCords[Index2])
+                            {
+                                return 2;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return 2;
+                    }
+                }
+            }
+            return -1;
+        }
+
 
         static bool ContainsWeight(TrickyMPFModelHandler.BoneWeightHeader boneWeight, List<TrickyMPFModelHandler.BoneWeightHeader> boneWeightList)
         {
