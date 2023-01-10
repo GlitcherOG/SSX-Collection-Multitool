@@ -9,7 +9,7 @@ namespace SSXMultiTool.FileHandlers.Models
     public class TristripGenerator
     {
 
-        public static List<IndiceTristrip> GenerateTristripMethod1(List<IndiceFace> indiceFaces)
+        public static List<IndiceTristrip> GenerateTristripBasic(List<IndiceFace> indiceFaces)
         {
             List<IndiceTristrip> tristripList = new List<IndiceTristrip>();
             IndiceTristrip tristrip = new IndiceTristrip();
@@ -109,6 +109,7 @@ namespace SSXMultiTool.FileHandlers.Models
             return tristripList;
         }
 
+        //147872
 
         static int SharesEdge(bool CounterClockwise, IndiceFace TempFace, IndiceTristrip tristrip)
         {

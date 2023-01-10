@@ -353,110 +353,113 @@ namespace SSXMultiTool.FileHandlers
 
             for (int i = 0; i < Instances.Length; i++)
             {
-                var GLFTMesh = Instances[i].Content.GetGeometryAsset();
-                var SkinnedMesh = (SharpGLTF.Scenes.SkinnedTransformer)Instances[i].Content;
-                TrickyModelCombiner.ReassignedMesh reassignedMesh = new TrickyModelCombiner.ReassignedMesh();
-                reassignedMesh.MeshName = GLFTMesh.Name;
-                reassignedMesh.faces = new List<TrickyMPFModelHandler.Face>();
-
-                var JointBindings = SkinnedMesh.GetJointBindings();
-                var MaterialArray = GLFTMesh.Primitives.ToArray();
-                for (int a = 0; a < MaterialArray.Length; a++)
+                if (Instances[i].Content.GetType().Name == "SkinnedTransformer")
                 {
-                    //Build New Material With Primitive Name
-                    trickyModelCombiner.materials = MakeNewMaterial(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
+                    var GLFTMesh = Instances[i].Content.GetGeometryAsset();
+                    var SkinnedMesh = (SharpGLTF.Scenes.SkinnedTransformer)Instances[i].Content;
+                    TrickyModelCombiner.ReassignedMesh reassignedMesh = new TrickyModelCombiner.ReassignedMesh();
+                    reassignedMesh.MeshName = GLFTMesh.Name;
+                    reassignedMesh.faces = new List<TrickyMPFModelHandler.Face>();
 
-                    int MatID = FindMaterialID(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
-
-                    //Build Vertex List
-                    List<VertexData> VertexList = new List<VertexData>();
-                    var OldVertexList = MaterialArray[a].Vertices.ToArray();
-                    int MorphTargetsCount = MaterialArray[a].MorphTargets.Count;
-
-                    for (int b = 0; b < OldVertexList.Length; b++)
+                    var JointBindings = SkinnedMesh.GetJointBindings();
+                    var MaterialArray = GLFTMesh.Primitives.ToArray();
+                    for (int a = 0; a < MaterialArray.Length; a++)
                     {
-                        var NewVertex = new VertexData();
+                        //Build New Material With Primitive Name
+                        trickyModelCombiner.materials = MakeNewMaterial(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
 
-                        var TempGeo = OldVertexList[b].GetGeometry();
-                        var TempSkinning = OldVertexList[b].GetSkinning();
-                        var TempMaterial = OldVertexList[b].GetMaterial();
+                        int MatID = FindMaterialID(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
 
-                        //Get Postion Normal and UV
-                        NewVertex.Position = TempGeo.GetPosition();
+                        //Build Vertex List
+                        List<VertexData> VertexList = new List<VertexData>();
+                        var OldVertexList = MaterialArray[a].Vertices.ToArray();
+                        int MorphTargetsCount = MaterialArray[a].MorphTargets.Count;
 
-                        Vector3 TempNormal;
-                        if (TempGeo.TryGetNormal(out TempNormal))
+                        for (int b = 0; b < OldVertexList.Length; b++)
                         {
-                            NewVertex.Normal = TempNormal;
-                        }
-                        NewVertex.UV = TempMaterial.GetTexCoord(0);
+                            var NewVertex = new VertexData();
 
-                        //Get Weights
-                        NewVertex.weightHeader = new TrickyMPFModelHandler.BoneWeightHeader();
-                        NewVertex.weightHeader.unknown = 36;
-                        NewVertex.weightHeader.boneWeights = new List<TrickyMPFModelHandler.BoneWeight>();
+                            var TempGeo = OldVertexList[b].GetGeometry();
+                            var TempSkinning = OldVertexList[b].GetSkinning();
+                            var TempMaterial = OldVertexList[b].GetMaterial();
 
-                        for (int d = 0; d < TempSkinning.MaxBindings; d++)
-                        {
-                            var BindingList = TempSkinning.GetBinding(d);
-                            if (BindingList.Index != 0 || BindingList.Weight != 0)
+                            //Get Postion Normal and UV
+                            NewVertex.Position = TempGeo.GetPosition();
+
+                            Vector3 TempNormal;
+                            if (TempGeo.TryGetNormal(out TempNormal))
                             {
-                                TrickyMPFModelHandler.BoneWeight TempWeight = new TrickyMPFModelHandler.BoneWeight();
-                                TempWeight.BoneID = BindingList.Index;
-                                TempWeight.Weight = (int)(BindingList.Weight * 100);
-                                TempWeight.boneName = JointBindings[BindingList.Index].Joint.Name;
-                                NewVertex.weightHeader.boneWeights.Add(TempWeight);
+                                NewVertex.Normal = TempNormal;
                             }
+                            NewVertex.UV = TempMaterial.GetTexCoord(0);
+
+                            //Get Weights
+                            NewVertex.weightHeader = new TrickyMPFModelHandler.BoneWeightHeader();
+                            NewVertex.weightHeader.unknown = 36;
+                            NewVertex.weightHeader.boneWeights = new List<TrickyMPFModelHandler.BoneWeight>();
+
+                            for (int d = 0; d < TempSkinning.MaxBindings; d++)
+                            {
+                                var BindingList = TempSkinning.GetBinding(d);
+                                if (BindingList.Index != 0 || BindingList.Weight != 0)
+                                {
+                                    TrickyMPFModelHandler.BoneWeight TempWeight = new TrickyMPFModelHandler.BoneWeight();
+                                    TempWeight.BoneID = BindingList.Index;
+                                    TempWeight.Weight = (int)(BindingList.Weight * 100);
+                                    TempWeight.boneName = JointBindings[BindingList.Index].Joint.Name;
+                                    NewVertex.weightHeader.boneWeights.Add(TempWeight);
+                                }
+                            }
+
+                            //Add Morph Data
+                            NewVertex.MorphPoints = new List<Vector3>();
+                            for (int d = 0; d < MorphTargetsCount; d++)
+                            {
+                                NewVertex.MorphPoints.Add(MaterialArray[a].MorphTargets[d].GetVertex(b).GetGeometry().GetPosition() - NewVertex.Position);
+                            }
+
+                            VertexList.Add(NewVertex);
                         }
-                        
-                        //Add Morph Data
-                        NewVertex.MorphPoints = new List<Vector3>();
-                        for (int d = 0; d < MorphTargetsCount; d++)
+
+                        //Build Faces
+                        var TriangleList = MaterialArray[a].Triangles;
+                        for (int b = 0; b < TriangleList.Count; b++)
                         {
-                            NewVertex.MorphPoints.Add(MaterialArray[a].MorphTargets[d].GetVertex(b).GetGeometry().GetPosition() - NewVertex.Position);
+                            TrickyMPFModelHandler.Face TempFace = new TrickyMPFModelHandler.Face();
+                            var FaceTri = TriangleList[b];
+
+                            var TempPoint = VertexList[FaceTri.A];
+
+                            TempFace.V1 = TempPoint.Position;
+                            TempFace.Normal1 = TempPoint.Normal;
+                            TempFace.UV1 = new Vector4(TempPoint.UV, 0, 0);
+                            TempFace.Weight1 = TempPoint.weightHeader;
+                            TempFace.MorphPoint1 = TempPoint.MorphPoints;
+
+                            TempPoint = VertexList[FaceTri.B];
+
+                            TempFace.V2 = TempPoint.Position;
+                            TempFace.Normal2 = TempPoint.Normal;
+                            TempFace.UV2 = new Vector4(TempPoint.UV, 0, 0);
+                            TempFace.Weight2 = TempPoint.weightHeader;
+                            TempFace.MorphPoint2 = TempPoint.MorphPoints;
+
+                            TempPoint = VertexList[FaceTri.C];
+
+                            TempFace.V3 = TempPoint.Position;
+                            TempFace.Normal3 = TempPoint.Normal;
+                            TempFace.UV3 = new Vector4(TempPoint.UV, 0, 0);
+                            TempFace.Weight3 = TempPoint.weightHeader;
+                            TempFace.MorphPoint3 = TempPoint.MorphPoints;
+
+                            TempFace.MaterialID = MatID;
+
+                            reassignedMesh.faces.Add(TempFace);
                         }
-
-                        VertexList.Add(NewVertex);
                     }
 
-                    //Build Faces
-                    var TriangleList = MaterialArray[a].Triangles;
-                    for (int b = 0; b < TriangleList.Count; b++)
-                    {
-                        TrickyMPFModelHandler.Face TempFace = new TrickyMPFModelHandler.Face();
-                        var FaceTri = TriangleList[b];
-
-                        var TempPoint = VertexList[FaceTri.A];
-
-                        TempFace.V1 = TempPoint.Position;
-                        TempFace.Normal1 = TempPoint.Normal;
-                        TempFace.UV1 = new Vector4(TempPoint.UV,0,0);
-                        TempFace.Weight1 = TempPoint.weightHeader;
-                        TempFace.MorphPoint1 = TempPoint.MorphPoints;
-
-                        TempPoint = VertexList[FaceTri.B];
-
-                        TempFace.V2 = TempPoint.Position;
-                        TempFace.Normal2 = TempPoint.Normal;
-                        TempFace.UV2 = new Vector4(TempPoint.UV, 0, 0);
-                        TempFace.Weight2 = TempPoint.weightHeader;
-                        TempFace.MorphPoint2 = TempPoint.MorphPoints;
-
-                        TempPoint = VertexList[FaceTri.C];
-
-                        TempFace.V3 = TempPoint.Position;
-                        TempFace.Normal3 = TempPoint.Normal;
-                        TempFace.UV3 = new Vector4(TempPoint.UV, 0, 0);
-                        TempFace.Weight3 = TempPoint.weightHeader;
-                        TempFace.MorphPoint3 = TempPoint.MorphPoints;
-
-                        TempFace.MaterialID = MatID;
-
-                        reassignedMesh.faces.Add(TempFace);
-                    }
+                    trickyModelCombiner.reassignedMesh.Add(reassignedMesh);
                 }
-
-                trickyModelCombiner.reassignedMesh.Add(reassignedMesh);
             }
 
             return trickyModelCombiner;
