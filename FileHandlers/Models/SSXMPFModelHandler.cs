@@ -474,7 +474,7 @@ namespace SSXMultiTool.FileHandlers
         {
             string output = "# Exported From SSX Using SSX PS2 Collection Modder by GlitcherOG \n";
             var Model = ModelList[pos];
-            glstHandler.SaveOGglTF(path, Model);
+            glftHandler.SaveOGglTF(path, Model);
         //output += "o " + Model.FileName + "\n";
 
             //    //Conevert Vertices into List

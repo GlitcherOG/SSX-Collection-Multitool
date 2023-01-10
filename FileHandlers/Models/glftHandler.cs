@@ -15,7 +15,7 @@ using SSXMultiTool.FileHandlers.Models;
 namespace SSXMultiTool.FileHandlers
 {
 
-    public class glstHandler
+    public class glftHandler
     {
         public static void SaveOGglTF(string Output, SSXMPFModelHandler.MPFModelHeader modelHeader)
         {
@@ -334,9 +334,20 @@ namespace SSXMultiTool.FileHandlers
             //Read Bones Building List
             List<TrickyMPFModelHandler.BoneData> boneDatas = new List<TrickyMPFModelHandler.BoneData>();
             var Ampatures = Scene.FindArmatures();
-            var StartBone = Ampatures[0].VisualChildren[0];
-            boneDatas = ReturnBoneAndChildren(StartBone, true);
 
+            for (int a = 0; a < Ampatures[0].VisualChildren.Count; a++)
+            {
+                if (Ampatures[0].VisualChildren[a].Name.ToLower() == "hips")
+                {
+                    var StartBone = Ampatures[0].VisualChildren[a];
+                    boneDatas = ReturnBoneAndChildren(StartBone, true);
+                }
+                else if (Ampatures[0].VisualChildren[a].Name.ToLower() == "board")
+                {
+                    var StartBone = Ampatures[0].VisualChildren[a];
+                    boneDatas = ReturnBoneAndChildren(StartBone, true);
+                }
+            }
 
             trickyModelCombiner.bones = boneDatas;
 
@@ -348,8 +359,7 @@ namespace SSXMultiTool.FileHandlers
                 reassignedMesh.MeshName = GLFTMesh.Name;
                 reassignedMesh.faces = new List<TrickyMPFModelHandler.Face>();
 
-                var temp = SkinnedMesh.GetJointBindings();
-
+                var JointBindings = SkinnedMesh.GetJointBindings();
                 var MaterialArray = GLFTMesh.Primitives.ToArray();
                 for (int a = 0; a < MaterialArray.Length; a++)
                 {
@@ -393,7 +403,8 @@ namespace SSXMultiTool.FileHandlers
                             {
                                 TrickyMPFModelHandler.BoneWeight TempWeight = new TrickyMPFModelHandler.BoneWeight();
                                 TempWeight.BoneID = BindingList.Index;
-                                TempWeight.Weight = (int)(BindingList.Weight*100);
+                                TempWeight.Weight = (int)(BindingList.Weight * 100);
+                                TempWeight.boneName = JointBindings[BindingList.Index].Joint.Name;
                                 NewVertex.weightHeader.boneWeights.Add(TempWeight);
                             }
                         }

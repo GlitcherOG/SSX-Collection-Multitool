@@ -87,7 +87,7 @@ namespace SSXMultiTool
                 {
                     trickyModel.StartReassignMesh(MpfList.SelectedIndex);
 
-                    glstHandler.SaveTrickyglTF(openFileDialog.FileName, trickyModel);
+                    glftHandler.SaveTrickyglTF(openFileDialog.FileName, trickyModel);
                 }
             }
         }
@@ -177,7 +177,7 @@ namespace SSXMultiTool
             {
                 if (trickyModel.Board != null)
                 {
-                    var TempCombiner = glstHandler.LoadGlft(openFileDialog.FileName);
+                    var TempCombiner = glftHandler.LoadGlft(openFileDialog.FileName);
 
                     trickyModel.StartRegenMesh(TempCombiner, MpfList.SelectedIndex);
 

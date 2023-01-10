@@ -1275,6 +1275,8 @@ namespace SSXMultiTool.FileHandlers
             public int Weight;
             public int BoneID;
             public int FileID;
+
+            public string boneName;
         }
 
         public struct StaticMesh

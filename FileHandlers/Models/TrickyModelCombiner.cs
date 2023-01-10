@@ -444,7 +444,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
             //Regenerate Materials
 
-            //Redo Data In Correct Formats IE make Weight List and make faces use the positions. NOTE ENSURE THE FILE ID IS CORRECT
+            //Redo Data In Correct Formats IE make Weight List and make faces use the positions.
             TempTrickyMesh.boneWeightHeader = new List<TrickyMPFModelHandler.BoneWeightHeader>();
             
             //Load Headers into file
@@ -487,242 +487,262 @@ namespace SSXMultiTool.FileHandlers.Models
                 TempTrickyMesh.boneWeightHeader[i] = TempHeader;
             }
 
-
-            bool rotation = false;
-            bool RunWhile = true;
-            bool TestFailed = false;
             List<TristripStruct> tristripStructs = new List<TristripStruct>();
-            TristripStruct tristrip = new TristripStruct();
-            tristrip.normals = new List<Vector3>();
-            tristrip.vertices = new List<Vector3>();
-            tristrip.Weights = new List<int>();
-            tristrip.TextureCords = new List<Vector4>();
-
             List<int> NewMaterials = new List<int>();
-            while (RunWhile)
-            {
-                if (tristrip.vertices.Count != 0)
-                {
-                    //Tristrip data ensuring that all the material id is taken into account
-                    bool EndedEarly = false;
-                    for (int i = 0; i < ReassignedMesh.faces.Count; i++)
-                    {
-                        var TempFace = ReassignedMesh.faces[i];
-                        if (TempFace.MaterialID == tristrip.Material && !TempFace.tristripped)
-                        {
-                            int Edge = SharesEdge(rotation, TempFace, tristrip, Shadow);
-                            if (Edge == 1)
-                            {
-                                TempFace.tristripped = true;
-                                rotation = !rotation;
-                                tristrip.vertices.Add(TempFace.V1);
-                                tristrip.normals.Add(TempFace.Normal1);
-                                tristrip.TextureCords.Add(TempFace.UV1);
-                                tristrip.Weights.Add(TempFace.Weight1Pos);
-                                ReassignedMesh.faces[i] = TempFace;
-                                EndedEarly = true;
-                                break;
-                            }
-                            else if (Edge == 2)
-                            {
-                                TempFace.tristripped = true;
-                                rotation = !rotation;
-                                tristrip.vertices.Add(TempFace.V2);
-                                tristrip.normals.Add(TempFace.Normal2);
-                                tristrip.TextureCords.Add(TempFace.UV2);
-                                tristrip.Weights.Add(TempFace.Weight2Pos);
-                                ReassignedMesh.faces[i] = TempFace;
-                                EndedEarly = true;
-                                break;
-                            }
-                            else if (Edge == 3)
-                            {
-                                TempFace.tristripped = true;
-                                rotation = !rotation;
-                                tristrip.vertices.Add(TempFace.V3);
-                                tristrip.normals.Add(TempFace.Normal3);
-                                tristrip.TextureCords.Add(TempFace.UV3);
-                                tristrip.Weights.Add(TempFace.Weight3Pos);
-                                ReassignedMesh.faces[i] = TempFace;
-                                EndedEarly = true;
-                                break;
-                            }
-                        }
-                        if(i >= ReassignedMesh.faces.Count-1)
-                        {
-                            EndedEarly = false;
-                        }
-                    }
 
-                    if(!EndedEarly || tristrip.vertices.Count >= 20)
-                    {
-                        if (tristrip.vertices.Count < 6 && !TestFailed )
-                        {
-                            rotation = !rotation;
-                            for (int i = 0; i < ReassignedMesh.faces.Count; i++)
-                            {
-                                var TempFace = ReassignedMesh.faces[i];
-                                if (TempFace.MaterialID == tristrip.Material && !TempFace.tristripped)
-                                {
-                                    int Edge = SharesEdge2(rotation, TempFace, tristrip, Shadow);
+            //Take faces and Generate Indce faces and giant vertex list
 
-                                    if (Edge != -1)
-                                    {
-                                        tristrip.vertices.Add(new Vector3(0, 0, 0));
-                                        tristrip.normals.Add(new Vector3(0, 0, 0));
-                                        tristrip.TextureCords.Add(new Vector4(0, 0, 0, 0));
-                                        tristrip.Weights.Add(0);
+            //Order the faces based on a prority of how many neabours they have
 
-                                        tristrip.vertices.Add(tristrip.vertices[tristrip.vertices.Count - 2]);
-                                        tristrip.normals.Add(tristrip.normals[tristrip.normals.Count - 2]);
-                                        tristrip.TextureCords.Add(tristrip.TextureCords[tristrip.TextureCords.Count - 2]);
-                                        tristrip.Weights.Add(tristrip.Weights[tristrip.Weights.Count - 2]);
+            //Using Order Generate first tristrip
 
-                                        if (Edge == 1)
-                                        {
-                                            TempFace.tristripped = true;
-                                            int Index = tristrip.vertices.Count - 1;
-                                            if (rotation)
-                                            {
-                                                tristrip.vertices[Index - 1] = TempFace.V2;
-                                                tristrip.normals[Index - 1] = TempFace.Normal2;
-                                                tristrip.TextureCords[Index - 1] = TempFace.UV2;
-                                                tristrip.Weights[Index - 1] = TempFace.Weight2Pos;
-                                            }
-                                            else
-                                            {
-                                                tristrip.vertices[Index - 1] = TempFace.V3;
-                                                tristrip.normals[Index - 1] = TempFace.Normal3;
-                                                tristrip.TextureCords[Index - 1] = TempFace.UV3;
-                                                tristrip.Weights[Index - 1] = TempFace.Weight3Pos;
-                                            }
-                                            rotation = !rotation;
-                                            tristrip.vertices.Add(TempFace.V1);
-                                            tristrip.normals.Add(TempFace.Normal1);
-                                            tristrip.TextureCords.Add(TempFace.UV1);
-                                            tristrip.Weights.Add(TempFace.Weight1Pos);
-                                            ReassignedMesh.faces[i] = TempFace;
-                                            break;
-                                        }
-                                        else if (Edge == 2)
-                                        {
-                                            TempFace.tristripped = true;
-                                            int Index = tristrip.vertices.Count - 1;
-                                            if (rotation)
-                                            {
-                                                tristrip.vertices[Index - 1] = TempFace.V3;
-                                                tristrip.normals[Index - 1] = TempFace.Normal3;
-                                                tristrip.TextureCords[Index - 1] = TempFace.UV3;
-                                                tristrip.Weights[Index - 1] = TempFace.Weight3Pos;
-                                            }
-                                            else
-                                            {
-                                                tristrip.vertices[Index - 1] = TempFace.V1;
-                                                tristrip.normals[Index - 1] = TempFace.Normal1;
-                                                tristrip.TextureCords[Index - 1] = TempFace.UV1;
-                                                tristrip.Weights[Index - 1] = TempFace.Weight1Pos;
-                                            }
+            //Rerun prority
 
-                                            rotation = !rotation;
-                                            tristrip.vertices.Add(TempFace.V2);
-                                            tristrip.normals.Add(TempFace.Normal2);
-                                            tristrip.TextureCords.Add(TempFace.UV2);
-                                            tristrip.Weights.Add(TempFace.Weight2Pos);
-                                            ReassignedMesh.faces[i] = TempFace;
-                                            break;
-                                        }
-                                        else if (Edge == 3)
-                                        {
-                                            TempFace.tristripped = true;
+            //Loop Generating tristrip till all are taken
 
-                                            int Index = tristrip.vertices.Count - 1;
-                                            if (rotation)
-                                            {
-                                                tristrip.vertices[Index - 1] = TempFace.V1;
-                                                tristrip.normals[Index - 1] = TempFace.Normal1;
-                                                tristrip.TextureCords[Index - 1] = TempFace.UV1;
-                                                tristrip.Weights[Index - 1] = TempFace.Weight1Pos;
-                                            }
-                                            else
-                                            {
-                                                tristrip.vertices[Index - 1] = TempFace.V2;
-                                                tristrip.normals[Index - 1] = TempFace.Normal2;
-                                                tristrip.TextureCords[Index - 1] = TempFace.UV2;
-                                                tristrip.Weights[Index - 1] = TempFace.Weight2Pos;
-                                            }
-                                            rotation = !rotation;
-                                            tristrip.vertices.Add(TempFace.V3);
-                                            tristrip.normals.Add(TempFace.Normal3);
-                                            tristrip.TextureCords.Add(TempFace.UV3);
-                                            tristrip.Weights.Add(TempFace.Weight3Pos);
-                                            ReassignedMesh.faces[i] = TempFace;
-                                            break;
-                                        }
-                                    }
-                                }
-                                if (ReassignedMesh.faces.Count - 1 == i)
-                                {
-                                    TestFailed = true;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            TestFailed = false;
-                            tristripStructs.Add(tristrip);
-                            tristrip = new TristripStruct();
-                            tristrip.normals = new List<Vector3>();
-                            tristrip.vertices = new List<Vector3>();
-                            tristrip.Weights = new List<int>();
-                            tristrip.TextureCords = new List<Vector4>();
-                        }
-                    }
-                }
-                else
-                {
-                    bool FullRunTest = false;
-                    for (int i = 0; i < ReassignedMesh.faces.Count; i++)
-                    {
-                        var TempFace = ReassignedMesh.faces[i];
-                        if(!TempFace.tristripped)
-                        {
-                            FullRunTest = true;
-                            rotation = false;
-                            TempFace.tristripped = true;
-                            tristrip.vertices.Add(TempFace.V1);
-                            tristrip.vertices.Add(TempFace.V2);
-                            tristrip.vertices.Add(TempFace.V3);
+            //Once Done Convert to tristrip struct
 
-                            tristrip.TextureCords.Add(TempFace.UV1);
-                            tristrip.TextureCords.Add(TempFace.UV2);
-                            tristrip.TextureCords.Add(TempFace.UV3);
 
-                            tristrip.normals.Add(TempFace.Normal1);
-                            tristrip.normals.Add(TempFace.Normal2);
-                            tristrip.normals.Add(TempFace.Normal3);
 
-                            tristrip.Weights.Add(TempFace.Weight1Pos);
-                            tristrip.Weights.Add(TempFace.Weight2Pos);
-                            tristrip.Weights.Add(TempFace.Weight3Pos);
 
-                            tristrip.Material = TempFace.MaterialID;
-                            if(!NewMaterials.Contains(TempFace.MaterialID))
-                            {
-                                NewMaterials.Add(TempFace.MaterialID);
-                            }
-                            ReassignedMesh.faces[i] = TempFace;
-                            break;
-                        }
-                    }
 
-                    if(!FullRunTest)
-                    {
-                        RunWhile = false;
-                        break;
-                    }
-                }
-            }
-            
+
+
+            //TristripStruct tristrip = new TristripStruct();
+            //tristrip.normals = new List<Vector3>();
+            //tristrip.vertices = new List<Vector3>();
+            //tristrip.Weights = new List<int>();
+            //tristrip.TextureCords = new List<Vector4>();
+            //bool rotation = false;
+            //bool RunWhile = true;
+            //bool TestFailed = false;
+            //bool Test = false;
+
+            //while (RunWhile)
+            //{
+            //    if (tristrip.vertices.Count != 0)
+            //    {
+            //        //Tristrip data ensuring that all the material id is taken into account
+            //        bool EndedEarly = false;
+            //        for (int i = 0; i < ReassignedMesh.faces.Count; i++)
+            //        {
+            //            var TempFace = ReassignedMesh.faces[i];
+            //            if (TempFace.MaterialID == tristrip.Material && !TempFace.tristripped)
+            //            {
+            //                int Edge = SharesEdge(rotation, TempFace, tristrip, Shadow);
+            //                if (Edge == 1)
+            //                {
+            //                    TempFace.tristripped = true;
+            //                    rotation = !rotation;
+            //                    tristrip.vertices.Add(TempFace.V1);
+            //                    tristrip.normals.Add(TempFace.Normal1);
+            //                    tristrip.TextureCords.Add(TempFace.UV1);
+            //                    tristrip.Weights.Add(TempFace.Weight1Pos);
+            //                    ReassignedMesh.faces[i] = TempFace;
+            //                    EndedEarly = true;
+            //                    break;
+            //                }
+            //                else if (Edge == 2)
+            //                {
+            //                    TempFace.tristripped = true;
+            //                    rotation = !rotation;
+            //                    tristrip.vertices.Add(TempFace.V2);
+            //                    tristrip.normals.Add(TempFace.Normal2);
+            //                    tristrip.TextureCords.Add(TempFace.UV2);
+            //                    tristrip.Weights.Add(TempFace.Weight2Pos);
+            //                    ReassignedMesh.faces[i] = TempFace;
+            //                    EndedEarly = true;
+            //                    break;
+            //                }
+            //                else if (Edge == 3)
+            //                {
+            //                    TempFace.tristripped = true;
+            //                    rotation = !rotation;
+            //                    tristrip.vertices.Add(TempFace.V3);
+            //                    tristrip.normals.Add(TempFace.Normal3);
+            //                    tristrip.TextureCords.Add(TempFace.UV3);
+            //                    tristrip.Weights.Add(TempFace.Weight3Pos);
+            //                    ReassignedMesh.faces[i] = TempFace;
+            //                    EndedEarly = true;
+            //                    break;
+            //                }
+            //            }
+            //            if(i >= ReassignedMesh.faces.Count-1)
+            //            {
+            //                EndedEarly = false;
+            //            }
+            //        }
+
+            //        if(!EndedEarly || tristrip.vertices.Count >= 20)
+            //        {
+            //            if (tristrip.vertices.Count < 10 && !TestFailed &&!Test)
+            //            {
+            //                rotation = !rotation;
+            //                for (int i = 0; i < ReassignedMesh.faces.Count; i++)
+            //                {
+            //                    var TempFace = ReassignedMesh.faces[i];
+            //                    if (TempFace.MaterialID == tristrip.Material && !TempFace.tristripped)
+            //                    {
+            //                        int Edge = SharesEdge2(rotation, TempFace, tristrip, Shadow);
+
+            //                        if (Edge != -1)
+            //                        {
+            //                            tristrip.vertices.Add(new Vector3(0, 0, 0));
+            //                            tristrip.normals.Add(new Vector3(0, 0, 0));
+            //                            tristrip.TextureCords.Add(new Vector4(0, 0, 0, 0));
+            //                            tristrip.Weights.Add(0);
+
+            //                            tristrip.vertices.Add(tristrip.vertices[tristrip.vertices.Count - 2]);
+            //                            tristrip.normals.Add(tristrip.normals[tristrip.normals.Count - 2]);
+            //                            tristrip.TextureCords.Add(tristrip.TextureCords[tristrip.TextureCords.Count - 2]);
+            //                            tristrip.Weights.Add(tristrip.Weights[tristrip.Weights.Count - 2]);
+            //                            Test = true;
+            //                            if (Edge == 1)
+            //                            {
+            //                                TempFace.tristripped = true;
+            //                                int Index = tristrip.vertices.Count - 1;
+            //                                if (rotation)
+            //                                {
+            //                                    tristrip.vertices[Index - 1] = TempFace.V2;
+            //                                    tristrip.normals[Index - 1] = TempFace.Normal2;
+            //                                    tristrip.TextureCords[Index - 1] = TempFace.UV2;
+            //                                    tristrip.Weights[Index - 1] = TempFace.Weight2Pos;
+            //                                }
+            //                                else
+            //                                {
+            //                                    tristrip.vertices[Index - 1] = TempFace.V3;
+            //                                    tristrip.normals[Index - 1] = TempFace.Normal3;
+            //                                    tristrip.TextureCords[Index - 1] = TempFace.UV3;
+            //                                    tristrip.Weights[Index - 1] = TempFace.Weight3Pos;
+            //                                }
+            //                                rotation = !rotation;
+            //                                tristrip.vertices.Add(TempFace.V1);
+            //                                tristrip.normals.Add(TempFace.Normal1);
+            //                                tristrip.TextureCords.Add(TempFace.UV1);
+            //                                tristrip.Weights.Add(TempFace.Weight1Pos);
+            //                                ReassignedMesh.faces[i] = TempFace;
+            //                                break;
+            //                            }
+            //                            else if (Edge == 2)
+            //                            {
+            //                                TempFace.tristripped = true;
+            //                                int Index = tristrip.vertices.Count - 1;
+            //                                if (rotation)
+            //                                {
+            //                                    tristrip.vertices[Index - 1] = TempFace.V3;
+            //                                    tristrip.normals[Index - 1] = TempFace.Normal3;
+            //                                    tristrip.TextureCords[Index - 1] = TempFace.UV3;
+            //                                    tristrip.Weights[Index - 1] = TempFace.Weight3Pos;
+            //                                }
+            //                                else
+            //                                {
+            //                                    tristrip.vertices[Index - 1] = TempFace.V1;
+            //                                    tristrip.normals[Index - 1] = TempFace.Normal1;
+            //                                    tristrip.TextureCords[Index - 1] = TempFace.UV1;
+            //                                    tristrip.Weights[Index - 1] = TempFace.Weight1Pos;
+            //                                }
+
+            //                                rotation = !rotation;
+            //                                tristrip.vertices.Add(TempFace.V2);
+            //                                tristrip.normals.Add(TempFace.Normal2);
+            //                                tristrip.TextureCords.Add(TempFace.UV2);
+            //                                tristrip.Weights.Add(TempFace.Weight2Pos);
+            //                                ReassignedMesh.faces[i] = TempFace;
+            //                                break;
+            //                            }
+            //                            else if (Edge == 3)
+            //                            {
+            //                                TempFace.tristripped = true;
+
+            //                                int Index = tristrip.vertices.Count - 1;
+            //                                if (rotation)
+            //                                {
+            //                                    tristrip.vertices[Index - 1] = TempFace.V1;
+            //                                    tristrip.normals[Index - 1] = TempFace.Normal1;
+            //                                    tristrip.TextureCords[Index - 1] = TempFace.UV1;
+            //                                    tristrip.Weights[Index - 1] = TempFace.Weight1Pos;
+            //                                }
+            //                                else
+            //                                {
+            //                                    tristrip.vertices[Index - 1] = TempFace.V2;
+            //                                    tristrip.normals[Index - 1] = TempFace.Normal2;
+            //                                    tristrip.TextureCords[Index - 1] = TempFace.UV2;
+            //                                    tristrip.Weights[Index - 1] = TempFace.Weight2Pos;
+            //                                }
+            //                                rotation = !rotation;
+            //                                tristrip.vertices.Add(TempFace.V3);
+            //                                tristrip.normals.Add(TempFace.Normal3);
+            //                                tristrip.TextureCords.Add(TempFace.UV3);
+            //                                tristrip.Weights.Add(TempFace.Weight3Pos);
+            //                                ReassignedMesh.faces[i] = TempFace;
+            //                                break;
+            //                            }
+            //                        }
+            //                    }
+            //                    if (ReassignedMesh.faces.Count - 1 == i)
+            //                    {
+            //                        TestFailed = true;
+            //                    }
+            //                }
+            //            }
+            //            else
+            //            {
+            //                TestFailed = false;
+            //                Test = false;
+            //                tristripStructs.Add(tristrip);
+            //                tristrip = new TristripStruct();
+            //                tristrip.normals = new List<Vector3>();
+            //                tristrip.vertices = new List<Vector3>();
+            //                tristrip.Weights = new List<int>();
+            //                tristrip.TextureCords = new List<Vector4>();
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        bool FullRunTest = false;
+            //        for (int i = 0; i < ReassignedMesh.faces.Count; i++)
+            //        {
+            //            var TempFace = ReassignedMesh.faces[i];
+            //            if(!TempFace.tristripped)
+            //            {
+            //                FullRunTest = true;
+            //                rotation = false;
+            //                TempFace.tristripped = true;
+            //                tristrip.vertices.Add(TempFace.V1);
+            //                tristrip.vertices.Add(TempFace.V2);
+            //                tristrip.vertices.Add(TempFace.V3);
+
+            //                tristrip.TextureCords.Add(TempFace.UV1);
+            //                tristrip.TextureCords.Add(TempFace.UV2);
+            //                tristrip.TextureCords.Add(TempFace.UV3);
+
+            //                tristrip.normals.Add(TempFace.Normal1);
+            //                tristrip.normals.Add(TempFace.Normal2);
+            //                tristrip.normals.Add(TempFace.Normal3);
+
+            //                tristrip.Weights.Add(TempFace.Weight1Pos);
+            //                tristrip.Weights.Add(TempFace.Weight2Pos);
+            //                tristrip.Weights.Add(TempFace.Weight3Pos);
+
+            //                tristrip.Material = TempFace.MaterialID;
+            //                if(!NewMaterials.Contains(TempFace.MaterialID))
+            //                {
+            //                    NewMaterials.Add(TempFace.MaterialID);
+            //                }
+            //                ReassignedMesh.faces[i] = TempFace;
+            //                break;
+            //            }
+            //        }
+
+            //        if(!FullRunTest)
+            //        {
+            //            RunWhile = false;
+            //            break;
+            //        }
+            //    }
+            //}
+
             //Static mesh that shit
             TempTrickyMesh.MeshGroups = new List<TrickyMPFModelHandler.GroupMainHeader>();
             List<TrickyMPFModelHandler.StaticMesh> meshList = new List<TrickyMPFModelHandler.StaticMesh>();
