@@ -58,6 +58,7 @@ namespace SSXMultiTool
                         MpfList.Items.Clear();
                         MpfList.Items.Add("Please Load Matching Head File");
                     }
+                    GetVerticeAndTristripCount();
                 }
 
                 if (Type == 2)
@@ -67,6 +68,7 @@ namespace SSXMultiTool
                     {
                         MpfList.Items.Add(trickyMPF.ModelList[i].FileName);
                     }
+                    GetVerticeAndTristripCount();
                 }
             }
 
@@ -181,8 +183,28 @@ namespace SSXMultiTool
 
                     trickyModel.StartRegenMesh(TempCombiner, MpfList.SelectedIndex);
 
+                    GetVerticeAndTristripCount();
                 }
             }
+        }
+
+        void GetVerticeAndTristripCount()
+        {
+            if(MpfList.SelectedIndex!=-1)
+            {
+                TristripCount.Text = trickyModel.TristripCount(MpfList.SelectedIndex).ToString();
+                VerticeCount.Text = trickyModel.VerticeCount(MpfList.SelectedIndex).ToString();
+            }
+            else
+            {
+                TristripCount.Text = "0";
+                VerticeCount.Text = "0";
+            }
+        }
+
+        private void MpfList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetVerticeAndTristripCount();
         }
     }
 }

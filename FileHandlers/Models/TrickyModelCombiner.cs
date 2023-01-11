@@ -60,11 +60,75 @@ namespace SSXMultiTool.FileHandlers.Models
                         StartReassignMeshCharacter(MeshID);
                     }
                 }
-                else
+                else 
                 {
                     StartReassignMeshBoard(MeshID);
                 }
             }
+        }
+
+        public int TristripCount(int MeshID)
+        {
+            int Count = 0;
+            if (BodyBool)
+            {
+                if (Head != null && Body != null)
+                {
+                    return 0;
+                }
+            }
+            else if (Board != null)
+            {
+                var TempMesh = Board.ModelList[MeshID].MeshGroups;
+
+                for (int i = 0; i < TempMesh.Count; i++)
+                {
+                    for (int a = 0; a < TempMesh[i].meshGroupSubs.Count; a++)
+                    {
+                        for (int b = 0; b < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders.Count; b++)
+                        {
+                            for (int c = 0; c < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh.Count; c++)
+                            {
+                                Count+= TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh[c].Strips.Count;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return Count;
+        }
+
+        public int VerticeCount(int MeshID)
+        {
+            int Count = 0;
+            if (BodyBool)
+            {
+                if (Head != null && Body != null)
+                {
+                    return 0;
+                }
+            }
+            else if (Board != null)
+            {
+                var TempMesh = Board.ModelList[MeshID].MeshGroups;
+
+                for (int i = 0; i < TempMesh.Count; i++)
+                {
+                    for (int a = 0; a < TempMesh[i].meshGroupSubs.Count; a++)
+                    {
+                        for (int b = 0; b < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders.Count; b++)
+                        {
+                            for (int c = 0; c < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh.Count; c++)
+                            {
+                                Count += TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh[c].vertices.Count;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return Count;
         }
 
         public void StartReassignMeshBoard(int MeshID)
@@ -411,12 +475,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 MessageBox.Show("Only Boards Supported");
             }
 
-
         }
-
-        //Redo Tristrip model
-        //Manually add Unknown
-        //Fix Index Find and Bool Find Of Weights
 
         public void StartRegenMeshBoard(TrickyModelCombiner trickyModelCombiner, int Selected)
         {
@@ -514,12 +573,12 @@ namespace SSXMultiTool.FileHandlers.Models
 
                     VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 1));
                 }
-                else if (!NormalsEqual(ReassignedMesh.faces[i].Normal1, VectorPoint[TempID].normal))
-                {
-                    TempFace.Id1 = VectorPoint.Count;
+                //else if (!NormalsEqual(ReassignedMesh.faces[i].Normal1, VectorPoint[TempID].normal))
+                //{
+                //    TempFace.Id1 = VectorPoint.Count;
 
-                    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 1));
-                }
+                //    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 1));
+                //}
                 else if (!UVEqual(ReassignedMesh.faces[i].UV1, VectorPoint[TempID].TextureCord))
                 {
                     TempFace.Id1 = VectorPoint.Count;
@@ -552,12 +611,12 @@ namespace SSXMultiTool.FileHandlers.Models
 
                     VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 2));
                 }
-                else if (!NormalsEqual(ReassignedMesh.faces[i].Normal2, VectorPoint[TempID].normal))
-                {
-                    TempFace.Id2 = VectorPoint.Count;
+                //else if (!NormalsEqual(ReassignedMesh.faces[i].Normal2, VectorPoint[TempID].normal))
+                //{
+                //    TempFace.Id2 = VectorPoint.Count;
 
-                    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 2));
-                }
+                //    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 2));
+                //}
                 else if (!UVEqual(ReassignedMesh.faces[i].UV2, VectorPoint[TempID].TextureCord))
                 {
                     TempFace.Id2 = VectorPoint.Count;
@@ -590,12 +649,12 @@ namespace SSXMultiTool.FileHandlers.Models
 
                     VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 3));
                 }
-                else if (!NormalsEqual(ReassignedMesh.faces[i].Normal3, VectorPoint[TempID].normal))
-                {
-                    TempFace.Id3 = VectorPoint.Count;
+                //else if (!NormalsEqual(ReassignedMesh.faces[i].Normal3, VectorPoint[TempID].normal))
+                //{
+                //    TempFace.Id3 = VectorPoint.Count;
 
-                    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 3));
-                }
+                //    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 3));
+                //}
                 else if (!UVEqual(ReassignedMesh.faces[i].UV3, VectorPoint[TempID].TextureCord))
                 {
                     TempFace.Id3 = VectorPoint.Count;
@@ -639,7 +698,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 {
                     if (indiceTristrips[i].MaterialID == a)
                     {
-                        if (staticMesh.vertices.Count + indiceTristrips[i].Indices.Count <= 55 || i > indiceTristrips.Count - 3)
+                        if (staticMesh.vertices.Count + indiceTristrips[i].Indices.Count <= 55 /*|| i > indiceTristrips.Count - 3*/)
                         {
                             staticMesh.Strips.Add(indiceTristrips[i].Indices.Count);
                             for (int d = 0; d < indiceTristrips[i].Indices.Count; d++)
@@ -787,7 +846,7 @@ namespace SSXMultiTool.FileHandlers.Models
             }
 
             //Update IK Points
-            //TempTrickyMesh.iKPoints = ReassignedMesh.IKPoints;
+            TempTrickyMesh.iKPoints = ReassignedMesh.IKPoints;
 
 
 
@@ -882,9 +941,6 @@ namespace SSXMultiTool.FileHandlers.Models
 
             return -1;
         }
-
-
-
 
         public struct ReassignedMesh
         {

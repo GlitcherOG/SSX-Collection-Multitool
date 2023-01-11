@@ -30,13 +30,17 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.VerticeCount = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.TristripCount = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.MPFImport = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.MpfList = new System.Windows.Forms.ListBox();
             this.MPFExtract = new System.Windows.Forms.Button();
             this.MPFLoad = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ELFLdrSetup = new System.Windows.Forms.Button();
-            this.MPFImport = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -54,6 +58,10 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.VerticeCount);
+            this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Controls.Add(this.TristripCount);
+            this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.MPFImport);
             this.tabPage1.Controls.Add(this.button2);
             this.tabPage1.Controls.Add(this.MpfList);
@@ -66,6 +74,53 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Tricky MPF (Models)";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // VerticeCount
+            // 
+            this.VerticeCount.AutoSize = true;
+            this.VerticeCount.Location = new System.Drawing.Point(204, 65);
+            this.VerticeCount.Name = "VerticeCount";
+            this.VerticeCount.Size = new System.Drawing.Size(13, 15);
+            this.VerticeCount.TabIndex = 9;
+            this.VerticeCount.Text = "0";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(204, 50);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(78, 15);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Vertice Count";
+            // 
+            // TristripCount
+            // 
+            this.TristripCount.AutoSize = true;
+            this.TristripCount.Location = new System.Drawing.Point(204, 21);
+            this.TristripCount.Name = "TristripCount";
+            this.TristripCount.Size = new System.Drawing.Size(13, 15);
+            this.TristripCount.TabIndex = 7;
+            this.TristripCount.Text = "0";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(204, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(78, 15);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Tristrip Count";
+            // 
+            // MPFImport
+            // 
+            this.MPFImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.MPFImport.Location = new System.Drawing.Point(285, 366);
+            this.MPFImport.Name = "MPFImport";
+            this.MPFImport.Size = new System.Drawing.Size(75, 23);
+            this.MPFImport.TabIndex = 5;
+            this.MPFImport.Text = "Import Model";
+            this.MPFImport.UseVisualStyleBackColor = true;
+            this.MPFImport.Click += new System.EventHandler(this.MPFImport_Click);
             // 
             // button2
             // 
@@ -88,6 +143,7 @@
             this.MpfList.Name = "MpfList";
             this.MpfList.Size = new System.Drawing.Size(192, 379);
             this.MpfList.TabIndex = 2;
+            this.MpfList.SelectedIndexChanged += new System.EventHandler(this.MpfList_SelectedIndexChanged);
             // 
             // MPFExtract
             // 
@@ -131,17 +187,6 @@
             this.ELFLdrSetup.UseVisualStyleBackColor = true;
             this.ELFLdrSetup.Click += new System.EventHandler(this.ELFLdrSetup_Click);
             // 
-            // MPFImport
-            // 
-            this.MPFImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.MPFImport.Location = new System.Drawing.Point(285, 366);
-            this.MPFImport.Name = "MPFImport";
-            this.MPFImport.Size = new System.Drawing.Size(75, 23);
-            this.MPFImport.TabIndex = 5;
-            this.MPFImport.Text = "Import Model";
-            this.MPFImport.UseVisualStyleBackColor = true;
-            this.MPFImport.Click += new System.EventHandler(this.MPFImport_Click);
-            // 
             // TrickyToolsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -152,6 +197,7 @@
             this.Text = "TrickyToolsWindow";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -168,5 +214,9 @@
         private Button ELFLdrSetup;
         private Button button2;
         private Button MPFImport;
+        private Label VerticeCount;
+        private Label label4;
+        private Label TristripCount;
+        private Label label1;
     }
 }

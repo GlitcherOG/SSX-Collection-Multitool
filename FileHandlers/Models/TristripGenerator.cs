@@ -43,7 +43,7 @@ namespace SSXMultiTool.FileHandlers.Models
                                 }
                                 else if (Edge == 3)
                                 {
-                                    tristrip.Indices.Add(TempFace.Id2);
+                                    tristrip.Indices.Add(TempFace.Id3);
                                 }
                                 indiceFaces[i] = TempFace;
                                 EndedEarly = true;

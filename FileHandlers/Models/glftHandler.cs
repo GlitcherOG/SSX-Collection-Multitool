@@ -358,6 +358,7 @@ namespace SSXMultiTool.FileHandlers
                     var GLFTMesh = Instances[i].Content.GetGeometryAsset();
                     var SkinnedMesh = (SharpGLTF.Scenes.SkinnedTransformer)Instances[i].Content;
                     TrickyModelCombiner.ReassignedMesh reassignedMesh = new TrickyModelCombiner.ReassignedMesh();
+                    reassignedMesh.IKPoints = IKPoints;
                     reassignedMesh.MeshName = GLFTMesh.Name;
                     reassignedMesh.faces = new List<TrickyMPFModelHandler.Face>();
 
