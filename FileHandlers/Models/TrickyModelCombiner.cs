@@ -676,8 +676,10 @@ namespace SSXMultiTool.FileHandlers.Models
                 indiceFaces.Add(TempFace);
             }
 
+            //indiceFaces = TristripGenerator.NeighbourPriority(indiceFaces);
+
             //Send to Tristrip Generator
-            List<TristripGenerator.IndiceTristrip> indiceTristrips = TristripGenerator.GenerateTristripBasic(indiceFaces);
+            List<TristripGenerator.IndiceTristrip> indiceTristrips = TristripGenerator.GenerateTristripNivda(indiceFaces);
 
             //Static mesh that shit
             TempTrickyMesh.MeshGroups = new List<TrickyMPFModelHandler.GroupMainHeader>();
@@ -698,7 +700,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 {
                     if (indiceTristrips[i].MaterialID == a)
                     {
-                        if (staticMesh.vertices.Count + indiceTristrips[i].Indices.Count <= 55 /*|| i > indiceTristrips.Count - 3*/)
+                        if (staticMesh.vertices.Count + indiceTristrips[i].Indices.Count <= 55 /*&& staticMesh.Strips.Count<10*/)
                         {
                             staticMesh.Strips.Add(indiceTristrips[i].Indices.Count);
                             for (int d = 0; d < indiceTristrips[i].Indices.Count; d++)
