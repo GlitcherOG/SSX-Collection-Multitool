@@ -676,7 +676,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 indiceFaces.Add(TempFace);
             }
 
-            //indiceFaces = TristripGenerator.NeighbourPriority(indiceFaces);
+            indiceFaces = TristripGenerator.NeighbourPriority(indiceFaces);
 
             //Send to Tristrip Generator
             List<TristripGenerator.IndiceTristrip> indiceTristrips = TristripGenerator.GenerateTristripNivda(indiceFaces);

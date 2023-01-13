@@ -1244,25 +1244,27 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                             if (!TempMeshOffset.FullMesh.Equals(null))
                             {
-                                for (int i = 0; i < TempMeshOffset.FullMesh.meshChunk.Count; i++)
+                                if (TempMeshOffset.FullMesh.meshChunk!=null)
                                 {
-                                    for (int a = 0; a < TempMeshOffset.FullMesh.meshChunk[i].vertices.Count; a++)
+                                    for (int i = 0; i < TempMeshOffset.FullMesh.meshChunk.Count; i++)
                                     {
-                                        verticeList.Add(TempMeshOffset.FullMesh.meshChunk[i].vertices[a]);
-                                        if (!Set)
+                                        for (int a = 0; a < TempMeshOffset.FullMesh.meshChunk[i].vertices.Count; a++)
                                         {
-                                            LowestXYZ = TempMeshOffset.FullMesh.meshChunk[i].vertices[a];
-                                            HighestXYZ = TempMeshOffset.FullMesh.meshChunk[i].vertices[a];
-                                            Set = true;
-                                        }
-                                        else
-                                        {
-                                            LowestXYZ = JsonUtil.Lowest(LowestXYZ, TempMeshOffset.FullMesh.meshChunk[i].vertices[a]);
-                                            HighestXYZ = JsonUtil.Highest(HighestXYZ, TempMeshOffset.FullMesh.meshChunk[i].vertices[a]);
+                                            verticeList.Add(TempMeshOffset.FullMesh.meshChunk[i].vertices[a]);
+                                            if (!Set)
+                                            {
+                                                LowestXYZ = TempMeshOffset.FullMesh.meshChunk[i].vertices[a];
+                                                HighestXYZ = TempMeshOffset.FullMesh.meshChunk[i].vertices[a];
+                                                Set = true;
+                                            }
+                                            else
+                                            {
+                                                LowestXYZ = JsonUtil.Lowest(LowestXYZ, TempMeshOffset.FullMesh.meshChunk[i].vertices[a]);
+                                                HighestXYZ = JsonUtil.Highest(HighestXYZ, TempMeshOffset.FullMesh.meshChunk[i].vertices[a]);
+                                            }
                                         }
                                     }
                                 }
-
                             }
 
 

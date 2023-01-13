@@ -90,6 +90,7 @@ namespace SSXMultiTool.FileHandlers.Models
                                 }
                                 indiceFaces[i] = TempFace;
                                 EndedEarly = true;
+                                indiceFaces = NeighbourPriority(indiceFaces);
                                 break;
                             }
                         }
@@ -102,7 +103,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     if (!EndedEarly)
                     {
                         tristripList.Add(tristrip);
-                        //indiceFaces = NeighbourPriority(indiceFaces);
+                        indiceFaces = NeighbourPriority(indiceFaces);
                         tristrip = new IndiceTristrip();
                         tristrip.Indices = new List<int>();
                     }
@@ -124,6 +125,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
                             tristrip.MaterialID = TempFace.MaterialID;
                             indiceFaces[i] = TempFace;
+                            indiceFaces = NeighbourPriority(indiceFaces);
                             break;
                         }
                     }
@@ -176,6 +178,7 @@ namespace SSXMultiTool.FileHandlers.Models
                                 }
                                 indiceFaces[i] = TempFace;
                                 EndedEarly = true;
+                                indiceFaces = NeighbourPriority(indiceFaces);
                                 break;
                             }
                         }
@@ -252,7 +255,7 @@ namespace SSXMultiTool.FileHandlers.Models
                         {
                             tristripList.Add(tristrip);
                             FailedTest = false;
-                            //indiceFaces = NeighbourPriority(indiceFaces);
+                            indiceFaces = NeighbourPriority(indiceFaces);
                             tristrip = new IndiceTristrip();
                             tristrip.Indices = new List<int>();
                         }
@@ -275,6 +278,222 @@ namespace SSXMultiTool.FileHandlers.Models
 
                             tristrip.MaterialID = TempFace.MaterialID;
                             indiceFaces[i] = TempFace;
+                            indiceFaces = NeighbourPriority(indiceFaces);
+                            break;
+                        }
+                    }
+
+                    if (!FullRunTest)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return tristripList;
+        }
+
+        public static List<IndiceTristrip> GenerateTristripRotationTesting(List<IndiceFace> indiceFaces)
+        {
+            List<IndiceTristrip> tristripList = new List<IndiceTristrip>();
+            IndiceTristrip tristrip = new IndiceTristrip();
+            tristrip.Indices = new List<int>();
+
+            bool rotation = false;
+            bool FailedTest = false;
+
+            int StartRotation = 0;
+            bool RotationTestDone = false;
+            int BestRotation = 0;
+            int MaxRotation = 0;
+            List<int> TempFaces = new List<int>();
+
+
+            while (true)
+            {
+                if (tristrip.Indices.Count != 0)
+                {
+                    //Tristrip data ensuring that all the material id is taken into account
+                    bool EndedEarly = false;
+                    for (int i = 0; i < indiceFaces.Count; i++)
+                    {
+                        var TempFace = indiceFaces[i];
+                        if (TempFace.MaterialID == tristrip.MaterialID && !TempFace.Tristripped)
+                        {
+                            int Edge = SharesEdge(rotation, TempFace, tristrip);
+                            if (Edge != -1)
+                            {
+                                TempFace.Tristripped = true;
+                                rotation = !rotation;
+                                if (Edge == 1)
+                                {
+                                    tristrip.Indices.Add(TempFace.Id1);
+                                }
+                                else if (Edge == 2)
+                                {
+                                    tristrip.Indices.Add(TempFace.Id2);
+                                }
+                                else if (Edge == 3)
+                                {
+                                    tristrip.Indices.Add(TempFace.Id3);
+                                }
+                                TempFaces.Add(i);
+                                indiceFaces[i] = TempFace;
+                                EndedEarly = true;
+                                indiceFaces = NeighbourPriority(indiceFaces);
+                                break;
+                            }
+                        }
+                        if (i >= indiceFaces.Count - 1)
+                        {
+                            EndedEarly = false;
+                        }
+                    }
+
+                    if (!EndedEarly)
+                    {
+                        if (!FailedTest)
+                        {
+                            for (int i = 0; i < indiceFaces.Count; i++)
+                            {
+                                var TempFace = indiceFaces[i];
+                                if (TempFace.MaterialID == tristrip.MaterialID && !TempFace.Tristripped)
+                                {
+                                    int Edge = SharesEdge2(rotation, TempFace, tristrip);
+                                    if (Edge != -1)
+                                    {
+                                        tristrip.Indices.Add(0);
+                                        tristrip.Indices.Add(tristrip.Indices[tristrip.Indices.Count - 2]);
+                                        int Index = tristrip.Indices.Count - 1;
+                                        TempFace.Tristripped = true;
+                                        if (Edge == 1)
+                                        {
+                                            if (rotation)
+                                            {
+                                                tristrip.Indices[Index - 1] = TempFace.Id2;
+                                            }
+                                            else
+                                            {
+                                                tristrip.Indices[Index - 1] = TempFace.Id3;
+                                            }
+                                            tristrip.Indices.Add(TempFace.Id1);
+                                        }
+                                        else if (Edge == 2)
+                                        {
+                                            if (rotation)
+                                            {
+                                                tristrip.Indices[Index - 1] = TempFace.Id3;
+                                            }
+                                            else
+                                            {
+                                                tristrip.Indices[Index - 1] = TempFace.Id1;
+                                            }
+                                            tristrip.Indices.Add(TempFace.Id2);
+                                        }
+                                        else if (Edge == 3)
+                                        {
+                                            if (rotation)
+                                            {
+                                                tristrip.Indices[Index - 1] = TempFace.Id1;
+                                            }
+                                            else
+                                            {
+                                                tristrip.Indices[Index - 1] = TempFace.Id2;
+                                            }
+                                            tristrip.Indices.Add(TempFace.Id3);
+                                        }
+                                        TempFaces.Add(i);
+                                        rotation = !rotation;
+                                        indiceFaces[i] = TempFace;
+                                        indiceFaces = NeighbourPriority(indiceFaces);
+                                        break;
+                                    }
+                                }
+                                if (i >= indiceFaces.Count - 1)
+                                {
+                                    FailedTest = true;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (!RotationTestDone)
+                            {
+                                if(MaxRotation<tristrip.Indices.Count)
+                                {
+                                    MaxRotation = tristrip.Indices.Count;
+                                    BestRotation = StartRotation;
+                                }
+
+                                for (int i = 0; i < indiceFaces.Count; i++)
+                                {
+                                    var TempFace = indiceFaces[i];
+                                    if (TempFaces.Contains(i))
+                                    {
+                                        TempFace.Tristripped = false;
+                                    }
+                                    indiceFaces[i] = TempFace;
+                                }
+                                tristrip = new IndiceTristrip();
+                                tristrip.Indices = new List<int>();
+                                TempFaces = new List<int>();
+                            }
+                            else
+                            {
+                                tristripList.Add(tristrip);
+                                FailedTest = false;
+                                StartRotation = 0;
+                                MaxRotation = 0;
+                                BestRotation = 0;
+                                indiceFaces = NeighbourPriority(indiceFaces);
+                                TempFaces = new List<int>();
+                                tristrip = new IndiceTristrip();
+                                tristrip.Indices = new List<int>();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    bool FullRunTest = false;
+                    for (int i = 0; i < indiceFaces.Count; i++)
+                    {
+                        var TempFace = indiceFaces[i];
+                        if (!TempFace.Tristripped)
+                        {
+                            StartRotation++;
+                            FullRunTest = true;
+                            rotation = false;
+                            TempFace.Tristripped = true;
+
+                            if(StartRotation==4)
+                            {
+                                StartRotation = BestRotation;
+                                RotationTestDone = true;
+                            }
+
+                            if (StartRotation == 1)
+                            {
+                                tristrip.Indices.Add(TempFace.Id1);
+                                tristrip.Indices.Add(TempFace.Id2);
+                                tristrip.Indices.Add(TempFace.Id3);
+                            }
+                            else if (StartRotation == 2)
+                            {
+                                tristrip.Indices.Add(TempFace.Id2);
+                                tristrip.Indices.Add(TempFace.Id3);
+                                tristrip.Indices.Add(TempFace.Id1);
+                            }
+                            else if (StartRotation == 3)
+                            {
+                                tristrip.Indices.Add(TempFace.Id3);
+                                tristrip.Indices.Add(TempFace.Id1);
+                                tristrip.Indices.Add(TempFace.Id2);
+                            }
+                            TempFaces.Add(i);
+                            tristrip.MaterialID = TempFace.MaterialID;
+                            indiceFaces[i] = TempFace;
+                            indiceFaces = NeighbourPriority(indiceFaces);
                             break;
                         }
                     }
