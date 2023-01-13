@@ -141,9 +141,6 @@ namespace SSXMultiTool
                 instanceJson.PrevInstance = pbdHandler.Instances[i].PrevInstance;
                 instanceJson.NextInstance = pbdHandler.Instances[i].NextInstance;
 
-                instanceJson.LowestXYZ = JsonUtil.Vector3ToArray(pbdHandler.Instances[i].LowestXYZ);
-                instanceJson.HighestXYZ = JsonUtil.Vector3ToArray(pbdHandler.Instances[i].HighestXYZ);
-
                 instanceJson.UnknownInt26 = pbdHandler.Instances[i].UnknownInt26;
                 instanceJson.UnknownInt27 = pbdHandler.Instances[i].UnknownInt27;
                 instanceJson.UnknownInt28 = pbdHandler.Instances[i].UnknownInt28;
@@ -998,9 +995,6 @@ namespace SSXMultiTool
                 NewInstance.ModelID = Oldinstance.ModelID;
                 NewInstance.PrevInstance = Oldinstance.PrevInstance;
                 NewInstance.NextInstance = Oldinstance.NextInstance;
-
-                NewInstance.LowestXYZ = JsonUtil.ArrayToVector3(Oldinstance.LowestXYZ);
-                NewInstance.HighestXYZ = JsonUtil.ArrayToVector3(Oldinstance.HighestXYZ);
 
                 NewInstance.UnknownInt26 = Oldinstance.UnknownInt26;
                 NewInstance.UnknownInt27 = Oldinstance.UnknownInt27;

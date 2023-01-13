@@ -57,9 +57,6 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int PrevInstance;
             public int NextInstance;
 
-            public float[] LowestXYZ;
-            public float[] HighestXYZ;
-
             public int UnknownInt26;
             public int UnknownInt27;
             public int UnknownInt28;
