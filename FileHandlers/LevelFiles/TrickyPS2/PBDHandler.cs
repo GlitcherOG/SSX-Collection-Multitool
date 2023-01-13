@@ -166,10 +166,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 for (int i = 0; i < NumInstances; i++)
                 {
                     var TempInstance = new Instance();
-                    TempInstance.MatrixCol1 = StreamUtil.ReadVector4(stream);
-                    TempInstance.MatrixCol2 = StreamUtil.ReadVector4(stream);
-                    TempInstance.MatrixCol3 = StreamUtil.ReadVector4(stream);
-                    TempInstance.InstancePosition = StreamUtil.ReadVector4(stream);
+                    TempInstance.matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
                     TempInstance.Unknown5 = StreamUtil.ReadVector4(stream);
                     TempInstance.Unknown6 = StreamUtil.ReadVector4(stream);
                     TempInstance.Unknown7 = StreamUtil.ReadVector4(stream);
@@ -681,10 +678,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             for (int i = 0; i < Instances.Count; i++)
             {
                 var TempInstance = Instances[i];
-                StreamUtil.WriteVector4(stream, TempInstance.MatrixCol1);
-                StreamUtil.WriteVector4(stream, TempInstance.MatrixCol2);
-                StreamUtil.WriteVector4(stream, TempInstance.MatrixCol3);
-                StreamUtil.WriteVector4(stream, TempInstance.InstancePosition);
+                StreamUtil.WriteMatrix4x4(stream, TempInstance.matrix4X4);
                 StreamUtil.WriteVector4(stream, TempInstance.Unknown5);
                 StreamUtil.WriteVector4(stream, TempInstance.Unknown6);
                 StreamUtil.WriteVector4(stream, TempInstance.Unknown7);
@@ -1640,6 +1634,48 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             MeshData = StreamUtil.ReadBytes(memoryStream, (int)memoryStream.Length);
         }
 
+        public void RegenerateLowestAndHighest()
+        {
+            for (int i = 0; i < Instances.Count; i++)
+            {
+                var TempInstance = Instances[i];
+
+                var TempPrefabData = PrefabData[TempInstance.ModelID];
+                Vector3 LowestXYZ = new Vector3(0, 0, 0);
+                Vector3 HighestXYZ = new Vector3(0, 0, 0);
+                for (int a = 0; a < TempPrefabData.PrefabObjects.Count; a++)
+                {
+                    if (TempPrefabData.PrefabObjects[a].objectData.MeshOffsets != null)
+                    {
+                        LowestXYZ = Vector3.Transform(TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0], TempInstance.matrix4X4);
+                        HighestXYZ = Vector3.Transform(TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0], TempInstance.matrix4X4);
+                    }
+                }
+                for (int a = 0; a < TempPrefabData.PrefabObjects.Count; a++)
+                {
+                    if (TempPrefabData.PrefabObjects[a].objectData.MeshOffsets != null)
+                    {
+                        for (int b = 0; b < TempPrefabData.PrefabObjects[a].objectData.MeshOffsets.Count; b++)
+                        {
+                            for (int c = 0; c < TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[b].FullMesh.meshChunk.Count; c++)
+                            {
+                                for (int d = 0; d < TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices.Count; d++)
+                                {
+                                    var Vertice = Vector3.Transform(TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices[d], TempInstance.matrix4X4);
+
+                                    LowestXYZ = JsonUtil.Lowest(LowestXYZ, Vertice);
+                                    HighestXYZ = JsonUtil.Highest(HighestXYZ, Vertice);
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                Instances[i] = TempInstance;
+            }
+        }
+
     }
 
     public struct Prefabs
@@ -1745,10 +1781,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
     public struct Instance
     {
-        public Vector4 MatrixCol1;
-        public Vector4 MatrixCol2;
-        public Vector4 MatrixCol3;
-        public Vector4 InstancePosition;
+        public Matrix4x4 matrix4X4;
         public Vector4 Unknown5;
         public Vector4 Unknown6;
         public Vector4 Unknown7;

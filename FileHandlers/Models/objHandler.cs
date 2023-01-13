@@ -340,17 +340,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 meshChunk.TextureCords = new List<Vector2>();
                 for (int i = 0; i < TempStrips.Count; i++)
                 {
-                    if(meshChunk.vertices.Count<=60)
-                    {
-                        meshChunk.Tristrip.Add(TempStrips[i].Indices.Count);
-                        for (int a = 0; a < TempStrips[i].Indices.Count; a++)
-                        {
-                            meshChunk.vertices.Add(point[TempStrips[i].Indices[a]].vector);
-                            meshChunk.TextureCords.Add(point[TempStrips[i].Indices[a]].TextureCord);
-                            meshChunk.normals.Add(point[TempStrips[i].Indices[a]].normal);
-                        }
-                    }
-                    else if (i > TempStrips.Count - 3)
+                    if(meshChunk.vertices.Count+ TempStrips[i].Indices.Count <= 50 )
                     {
                         meshChunk.Tristrip.Add(TempStrips[i].Indices.Count);
                         for (int a = 0; a < TempStrips[i].Indices.Count; a++)

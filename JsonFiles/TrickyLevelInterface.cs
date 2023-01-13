@@ -120,32 +120,11 @@ namespace SSXMultiTool
                 InstanceJsonHandler.InstanceJson instanceJson = new InstanceJsonHandler.InstanceJson();
                 instanceJson.InstanceName = mapHandler.InternalInstances[i].Name;
 
-                Matrix4x4 matrix4X4 = new Matrix4x4();
-                matrix4X4.M11 = pbdHandler.Instances[i].MatrixCol1.X;
-                matrix4X4.M12 = pbdHandler.Instances[i].MatrixCol1.Y;
-                matrix4X4.M13 = pbdHandler.Instances[i].MatrixCol1.Z;
-                matrix4X4.M14 = pbdHandler.Instances[i].MatrixCol1.W;
-
-                matrix4X4.M21 = pbdHandler.Instances[i].MatrixCol2.X;
-                matrix4X4.M22 = pbdHandler.Instances[i].MatrixCol2.Y;
-                matrix4X4.M23 = pbdHandler.Instances[i].MatrixCol2.Z;
-                matrix4X4.M24 = pbdHandler.Instances[i].MatrixCol2.W;
-
-                matrix4X4.M31 = pbdHandler.Instances[i].MatrixCol3.X;
-                matrix4X4.M32 = pbdHandler.Instances[i].MatrixCol3.Y;
-                matrix4X4.M33 = pbdHandler.Instances[i].MatrixCol3.Z;
-                matrix4X4.M34 = pbdHandler.Instances[i].MatrixCol3.W;
-
-                matrix4X4.M41 = pbdHandler.Instances[i].InstancePosition.X;
-                matrix4X4.M42 = pbdHandler.Instances[i].InstancePosition.Y;
-                matrix4X4.M43 = pbdHandler.Instances[i].InstancePosition.Z;
-                matrix4X4.M44 = pbdHandler.Instances[i].InstancePosition.W;
-
                 Vector3 Scale;
                 Quaternion Rotation;
                 Vector3 Location;
 
-                Matrix4x4.Decompose(matrix4X4, out Scale, out Rotation, out Location);
+                Matrix4x4.Decompose(pbdHandler.Instances[i].matrix4X4, out Scale, out Rotation, out Location);
                 instanceJson.Location = JsonUtil.Vector3ToArray(Location);
                 instanceJson.Rotation = JsonUtil.QuaternionToArray(Rotation);
                 instanceJson.Scale = JsonUtil.Vector3ToArray(Scale);
@@ -989,6 +968,8 @@ namespace SSXMultiTool
                 pbdHandler.splines.Add(spline);
             }
 
+            pbdHandler.ImportMeshes(ExportPath + "\\Models");
+
             instancesJson = new InstanceJsonHandler();
             instancesJson = InstanceJsonHandler.Load(LoadPath + "/Instances.json");
             pbdHandler.Instances = new List<Instance>();
@@ -1003,10 +984,7 @@ namespace SSXMultiTool
                 Matrix4x4 matrix4X4 = Matrix4x4.Multiply(scale, Rotation);
                 matrix4X4.Translation = JsonUtil.ArrayToVector3(Oldinstance.Location);
 
-                NewInstance.MatrixCol1 = new Vector4(matrix4X4.M11, matrix4X4.M12, matrix4X4.M13, matrix4X4.M14);
-                NewInstance.MatrixCol2 = new Vector4(matrix4X4.M21, matrix4X4.M22, matrix4X4.M23, matrix4X4.M24);
-                NewInstance.MatrixCol3 = new Vector4(matrix4X4.M31, matrix4X4.M32, matrix4X4.M33, matrix4X4.M34);
-                NewInstance.InstancePosition = new Vector4(matrix4X4.M41, matrix4X4.M42, matrix4X4.M43, matrix4X4.M44);
+                NewInstance.matrix4X4 = matrix4X4;
 
                 NewInstance.Unknown5 = JsonUtil.ArrayToVector4(Oldinstance.Unknown5);
                 NewInstance.Unknown6 = JsonUtil.ArrayToVector4(Oldinstance.Unknown6);
@@ -1043,6 +1021,8 @@ namespace SSXMultiTool
                 mapHandler.InternalInstances.Add(linkerItem);
             }
 
+            //Regenerate Instance Lowest Highest
+            pbdHandler.RegenerateLowestAndHighest();
 
             materialJson = new MaterialJsonHandler();
             materialJson = MaterialJsonHandler.Load(LoadPath + "/Material.json");
@@ -1150,8 +1130,6 @@ namespace SSXMultiTool
                     TextureHandler.DarkenImage(i);
                 }
             }
-
-            pbdHandler.ImportMeshes(ExportPath + "\\Models");
 
             pbdHandler.SaveNew(ExportPath + ".pbd");
             TextureHandler.SaveSSH(ExportPath+".ssh", true);
