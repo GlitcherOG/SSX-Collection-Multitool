@@ -58,7 +58,7 @@ namespace SSXMultiTool
                         MpfList.Items.Clear();
                         MpfList.Items.Add("Please Load Matching Head File");
                     }
-                    GetVerticeAndTristripCount();
+                    GetVerticeAndTristripCount(-1);
                 }
 
                 if (Type == 2)
@@ -68,7 +68,7 @@ namespace SSXMultiTool
                     {
                         MpfList.Items.Add(trickyMPF.ModelList[i].FileName);
                     }
-                    GetVerticeAndTristripCount();
+                    GetVerticeAndTristripCount(-1);
                 }
             }
 
@@ -161,39 +161,58 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                trickyMPF = trickyModel.Board;
+                if (trickyModel.Board != null)
+                {
+                    trickyMPF = trickyModel.Board;
 
-                trickyMPF.Save(openFileDialog.FileName);
+                    trickyMPF.Save(openFileDialog.FileName);
+                }
+                else
+                {
+                    string Path = openFileDialog.FileName.Remove(openFileDialog.FileName.Length-8,8);
+
+                    trickyMPF = trickyModel.Body;
+
+                    trickyMPF.Save(Path + "body.mpf");
+
+                    trickyMPF = trickyModel.Head;
+
+                    trickyMPF.Save(Path + "head.mpf");
+                }
             }
         }
 
         private void MPFImport_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
+            if (MpfList.SelectedIndex != 1)
             {
-                Filter = "gltf File (*.glb)|*.glb|All files (*.*)|*.*",
-                FilterIndex = 1,
-                RestoreDirectory = false
-            };
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                if (trickyModel.Board != null)
+                OpenFileDialog openFileDialog = new OpenFileDialog
                 {
-                    var TempCombiner = glftHandler.LoadGlft(openFileDialog.FileName);
+                    Filter = "gltf File (*.glb)|*.glb|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (trickyModel.Board != null)
+                    {
+                        var TempCombiner = glftHandler.LoadGlft(openFileDialog.FileName);
 
-                    trickyModel.StartRegenMesh(TempCombiner, MpfList.SelectedIndex);
+                        trickyModel.StartRegenMesh(TempCombiner, MpfList.SelectedIndex);
 
-                    GetVerticeAndTristripCount();
+                        GetVerticeAndTristripCount(MpfList.SelectedIndex);
+                    }
                 }
             }
         }
 
-        void GetVerticeAndTristripCount()
+        void GetVerticeAndTristripCount(int SelectedIndex)
         {
-            if(MpfList.SelectedIndex!=-1)
+            if(SelectedIndex != -1 && !trickyModel.BodyBool)
             {
                 TristripCount.Text = trickyModel.TristripCount(MpfList.SelectedIndex).ToString();
                 VerticeCount.Text = trickyModel.VerticeCount(MpfList.SelectedIndex).ToString();
+                MaterialChunks.Text = trickyModel.ChunkCount(MpfList.SelectedIndex).ToString();
             }
             else
             {
@@ -204,7 +223,7 @@ namespace SSXMultiTool
 
         private void MpfList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GetVerticeAndTristripCount();
+            GetVerticeAndTristripCount(MpfList.SelectedIndex);
         }
     }
 }

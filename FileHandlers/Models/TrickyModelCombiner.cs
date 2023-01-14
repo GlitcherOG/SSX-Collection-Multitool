@@ -49,24 +49,6 @@ namespace SSXMultiTool.FileHandlers.Models
             return -1;
         }
 
-        public void StartReassignMesh(int MeshID)
-        {
-            if (MeshID != -1)
-            {
-                if (BodyBool)
-                {
-                    if (Head != null && Body != null)
-                    {
-                        StartReassignMeshCharacter(MeshID);
-                    }
-                }
-                else 
-                {
-                    StartReassignMeshBoard(MeshID);
-                }
-            }
-        }
-
         public int TristripCount(int MeshID)
         {
             int Count = 0;
@@ -89,7 +71,7 @@ namespace SSXMultiTool.FileHandlers.Models
                         {
                             for (int c = 0; c < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh.Count; c++)
                             {
-                                Count+= TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh[c].Strips.Count;
+                                Count += TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh[c].Strips.Count;
                             }
                         }
                     }
@@ -129,6 +111,53 @@ namespace SSXMultiTool.FileHandlers.Models
             }
 
             return Count;
+        }
+
+        public int ChunkCount(int MeshID)
+        {
+            int Count = 0;
+            if (BodyBool)
+            {
+                if (Head != null && Body != null)
+                {
+                    return 0;
+                }
+            }
+            else if (Board != null)
+            {
+                var TempMesh = Board.ModelList[MeshID].MeshGroups;
+
+                for (int i = 0; i < TempMesh.Count; i++)
+                {
+                    for (int a = 0; a < TempMesh[i].meshGroupSubs.Count; a++)
+                    {
+                        for (int b = 0; b < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders.Count; b++)
+                        {
+                            Count += TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh.Count;
+                        }
+                    }
+                }
+            }
+
+            return Count;
+        }
+
+        public void StartReassignMesh(int MeshID)
+        {
+            if (MeshID != -1)
+            {
+                if (BodyBool)
+                {
+                    if (Head != null && Body != null)
+                    {
+                        StartReassignMeshCharacter(MeshID);
+                    }
+                }
+                else 
+                {
+                    StartReassignMeshBoard(MeshID);
+                }
+            }
         }
 
         public void StartReassignMeshBoard(int MeshID)
@@ -947,6 +976,8 @@ namespace SSXMultiTool.FileHandlers.Models
         public struct ReassignedMesh
         {
             public string MeshName;
+            public int MeshId;
+            public bool Body;
             public bool ShadowModel;
             public int MorphTargetCount;
             public List<Vector3> IKPoints;
