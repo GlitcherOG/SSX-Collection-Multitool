@@ -499,9 +499,13 @@ namespace SSXMultiTool.FileHandlers.Models
             {
                 StartRegenMeshBoard(trickyModelCombiner, Selected);
             }
+            else if (Head!=null&&Body!=null)
+            {
+                StartRegenMeshCharacter(trickyModelCombiner, Selected);
+            }
             else
             {
-                MessageBox.Show("Only Boards Supported");
+                MessageBox.Show("Error Missing Files");
             }
 
         }
@@ -513,7 +517,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 MessageBox.Show("No Bones Detected");
                 return;
             }
-            if(trickyModelCombiner.bones.Count!=1)
+            if (trickyModelCombiner.bones.Count != trickyModelCombiner.Board.ModelList[Selected].boneDatas.Count)
             {
                 MessageBox.Show("Incorrect Ammount of Bones");
                 return;
@@ -528,7 +532,21 @@ namespace SSXMultiTool.FileHandlers.Models
 
             var TempTrickyMesh = Board.ModelList[Selected];
 
-            var ReassignedMesh = trickyModelCombiner.reassignedMesh[0];
+            ReassignedMesh ReassignedMesh = new ReassignedMesh();
+            bool MeshTest = false;
+            for (int i = 0; i < trickyModelCombiner.reassignedMesh.Count; i++)
+            {
+                if (trickyModelCombiner.reassignedMesh[i].MeshName != Board.ModelList[Selected].FileName)
+                {
+                    ReassignedMesh = trickyModelCombiner.reassignedMesh[i];
+                }
+            }
+
+            if(!MeshTest)
+            {
+                MessageBox.Show("Error Model Not Found. Ensure Name is Correct");
+                return;
+            }
 
             //Regenerate Materials
 
@@ -596,33 +614,42 @@ namespace SSXMultiTool.FileHandlers.Models
 
                     VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 1));
                 }
-                else if (ReassignedMesh.faces[i].MaterialID != VectorPoint[TempID].Material)
+                if (!Shadow)
                 {
-                    TempFace.Id1 = VectorPoint.Count;
+                    if (ReassignedMesh.faces[i].MaterialID != VectorPoint[TempID].Material)
+                    {
+                        TempFace.Id1 = VectorPoint.Count;
 
-                    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 1));
-                }
-                //else if (!NormalsEqual(ReassignedMesh.faces[i].Normal1, VectorPoint[TempID].normal))
-                //{
-                //    TempFace.Id1 = VectorPoint.Count;
+                        VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 1));
+                    }
+                    //else if (!NormalsEqual(ReassignedMesh.faces[i].Normal1, VectorPoint[TempID].normal))
+                    //{
+                    //    TempFace.Id1 = VectorPoint.Count;
 
-                //    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 1));
-                //}
-                else if (!UVEqual(ReassignedMesh.faces[i].UV1, VectorPoint[TempID].TextureCord))
-                {
-                    TempFace.Id1 = VectorPoint.Count;
+                    //    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 1));
+                    //}
+                    else if (!UVEqual(ReassignedMesh.faces[i].UV1, VectorPoint[TempID].TextureCord))
+                    {
+                        TempFace.Id1 = VectorPoint.Count;
 
-                    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 1));
-                }
-                else if (ReassignedMesh.faces[i].Weight1Pos != VectorPoint[TempID].Weight)
-                {
-                    TempFace.Id1 = VectorPoint.Count;
+                        VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 1));
+                    }
+                    else if (ReassignedMesh.faces[i].Weight1Pos != VectorPoint[TempID].Weight)
+                    {
+                        TempFace.Id1 = VectorPoint.Count;
 
-                    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 1));
+                        VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 1));
+                    }
+                    else
+                    {
+                        TempFace.Id1 = TempID;
+                    }
                 }
                 else
                 {
-                    TempFace.Id1 = TempID;
+                    TempFace.Id1 = VectorPoint.Count;
+
+                    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 1));
                 }
                 #endregion
 
@@ -634,33 +661,42 @@ namespace SSXMultiTool.FileHandlers.Models
 
                     VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 2));
                 }
-                else if (ReassignedMesh.faces[i].MaterialID != VectorPoint[TempID].Material)
+                if (!Shadow)
                 {
-                    TempFace.Id2 = VectorPoint.Count;
+                    if (ReassignedMesh.faces[i].MaterialID != VectorPoint[TempID].Material)
+                    {
+                        TempFace.Id2 = VectorPoint.Count;
 
-                    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 2));
-                }
-                //else if (!NormalsEqual(ReassignedMesh.faces[i].Normal2, VectorPoint[TempID].normal))
-                //{
-                //    TempFace.Id2 = VectorPoint.Count;
+                        VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 2));
+                    }
+                    //else if (!NormalsEqual(ReassignedMesh.faces[i].Normal2, VectorPoint[TempID].normal))
+                    //{
+                    //    TempFace.Id2 = VectorPoint.Count;
 
-                //    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 2));
-                //}
-                else if (!UVEqual(ReassignedMesh.faces[i].UV2, VectorPoint[TempID].TextureCord))
-                {
-                    TempFace.Id2 = VectorPoint.Count;
+                    //    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 2));
+                    //}
+                    else if (!UVEqual(ReassignedMesh.faces[i].UV2, VectorPoint[TempID].TextureCord))
+                    {
+                        TempFace.Id2 = VectorPoint.Count;
 
-                    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 2));
-                }
-                else if (ReassignedMesh.faces[i].Weight2Pos != VectorPoint[TempID].Weight)
-                {
-                    TempFace.Id2 = VectorPoint.Count;
+                        VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 2));
+                    }
+                    else if (ReassignedMesh.faces[i].Weight2Pos != VectorPoint[TempID].Weight)
+                    {
+                        TempFace.Id2 = VectorPoint.Count;
 
-                    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 2));
+                        VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 2));
+                    }
+                    else
+                    {
+                        TempFace.Id2 = TempID;
+                    }
                 }
                 else
                 {
-                    TempFace.Id2 = TempID;
+                    TempFace.Id2 = VectorPoint.Count;
+
+                    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 2));
                 }
                 #endregion
 
@@ -672,33 +708,42 @@ namespace SSXMultiTool.FileHandlers.Models
 
                     VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 3));
                 }
-                else if (ReassignedMesh.faces[i].MaterialID != VectorPoint[TempID].Material)
+                if (!Shadow)
                 {
-                    TempFace.Id3 = VectorPoint.Count;
+                    if (ReassignedMesh.faces[i].MaterialID != VectorPoint[TempID].Material)
+                    {
+                        TempFace.Id3 = VectorPoint.Count;
 
-                    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 3));
-                }
-                //else if (!NormalsEqual(ReassignedMesh.faces[i].Normal3, VectorPoint[TempID].normal))
-                //{
-                //    TempFace.Id3 = VectorPoint.Count;
+                        VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 3));
+                    }
+                    //else if (!NormalsEqual(ReassignedMesh.faces[i].Normal3, VectorPoint[TempID].normal))
+                    //{
+                    //    TempFace.Id3 = VectorPoint.Count;
 
-                //    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 3));
-                //}
-                else if (!UVEqual(ReassignedMesh.faces[i].UV3, VectorPoint[TempID].TextureCord))
-                {
-                    TempFace.Id3 = VectorPoint.Count;
+                    //    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 3));
+                    //}
+                    else if (!UVEqual(ReassignedMesh.faces[i].UV3, VectorPoint[TempID].TextureCord))
+                    {
+                        TempFace.Id3 = VectorPoint.Count;
 
-                    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 3));
-                }
-                else if (ReassignedMesh.faces[i].Weight3Pos != VectorPoint[TempID].Weight)
-                {
-                    TempFace.Id3 = VectorPoint.Count;
+                        VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 3));
+                    }
+                    else if (ReassignedMesh.faces[i].Weight3Pos != VectorPoint[TempID].Weight)
+                    {
+                        TempFace.Id3 = VectorPoint.Count;
 
-                    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 3));
+                        VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 3));
+                    }
+                    else
+                    {
+                        TempFace.Id3 = TempID;
+                    }
                 }
                 else
                 {
-                    TempFace.Id3 = TempID;
+                    TempFace.Id3 = VectorPoint.Count;
+
+                    VectorPoint.Add(GenerateVectorPoint(ReassignedMesh.faces[i], 3));
                 }
                 #endregion
 
@@ -884,6 +929,63 @@ namespace SSXMultiTool.FileHandlers.Models
             Board.ModelList[Selected] = TempTrickyMesh;
         }
 
+        public void StartRegenMeshCharacter(TrickyModelCombiner trickyModelCombiner, int MeshID)
+        {
+            if (trickyModelCombiner.bones == null)
+            {
+                MessageBox.Show("No Bones Detected");
+                return;
+            }
+            bones = new List<TrickyMPFModelHandler.BoneData>();
+            for (int i = 0; i < Body.ModelList.Count; i++)
+            {
+                if ((MeshID == 0 && Body.ModelList[i].FileName.Contains("3000")) ||
+                    (MeshID == 1 && Body.ModelList[i].FileName.Contains("1500")) ||
+                    (MeshID == 2 && Body.ModelList[i].FileName.Contains("750") && !Body.ModelList[i].FileName.ToLower().Contains("shdw")) ||
+                    (MeshID == 3 && Body.ModelList[i].FileName.ToLower().Contains("shdw")))
+                {
+                    bones.AddRange(Body.ModelList[i].boneDatas);
+                }
+            }
+
+            //Head
+            for (int i = 0; i < Head.ModelList.Count; i++)
+            {
+                if ((MeshID == 0 && Head.ModelList[i].FileName.Contains("3000")) ||
+                    (MeshID == 1 && Head.ModelList[i].FileName.Contains("1500")) ||
+                    (MeshID == 2 && Head.ModelList[i].FileName.Contains("750") && !Head.ModelList[i].FileName.ToLower().Contains("shdw")) ||
+                    (MeshID == 3 && Head.ModelList[i].FileName.ToLower().Contains("shdw")))
+                {
+                    bones.AddRange(Head.ModelList[i].boneDatas);
+                }
+            }
+
+            if (trickyModelCombiner.bones.Count != bones.Count)
+            {
+                MessageBox.Show("Incorrect Ammount of Bones");
+                return;
+            }
+
+            //Check That Mesh Ammount and Names Are Correct Attaching if they are body and there mesh id
+            //Set if mesh contains morph or is shadow making sure that morph contains morph points
+
+            //For Each Mesh
+            //Regenerate Materials
+            //Fix Bone ID/FileIDs
+            //Redo Data In Correct Formats IE make Weight List and make faces use the positions.
+
+            //for each material in the mesh
+            //Take faces and Generate Indce faces and giant vertex list for each material
+            //Send to Tristrip Generator
+            //Static mesh that shit
+            //Group That Shit
+            //Generate Number Ref and correct UV
+
+        }
+
+
+
+
         static VectorPoint GenerateVectorPoint(TrickyMPFModelHandler.Face face, int Vertice)
         {
             VectorPoint vectorPoint = new VectorPoint();
@@ -977,7 +1079,7 @@ namespace SSXMultiTool.FileHandlers.Models
         {
             public string MeshName;
             public int MeshId;
-            public bool Body;
+            public bool BodyHead;
             public bool ShadowModel;
             public int MorphTargetCount;
             public List<Vector3> IKPoints;

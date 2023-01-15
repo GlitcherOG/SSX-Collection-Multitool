@@ -184,7 +184,7 @@ namespace SSXMultiTool
 
         private void MPFImport_Click(object sender, EventArgs e)
         {
-            if (MpfList.SelectedIndex != 1)
+            if (MpfList.SelectedIndex != -1)
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog
                 {
