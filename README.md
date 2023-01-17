@@ -15,6 +15,7 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 ## Current Todo
 - Fix Model Header Amination
 - Fix Mesh Regen Board, Add Normal Average, Bone Update
+- Add Error Protection For Nvida Failing
 
 For stiching have it ignore the uv points and normals for checking might need to redo how the indices work for that
 Nvida Stitching

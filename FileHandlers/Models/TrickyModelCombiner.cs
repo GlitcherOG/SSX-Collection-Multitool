@@ -555,6 +555,8 @@ namespace SSXMultiTool.FileHandlers.Models
 
             //Regenerate Materials
 
+            //Update Bones
+
             //Redo Data In Correct Formats IE make Weight List and make faces use the positions.
             TempTrickyMesh.boneWeightHeader = new List<TrickyMPFModelHandler.BoneWeightHeader>();
             
@@ -979,21 +981,151 @@ namespace SSXMultiTool.FileHandlers.Models
                 return;
             }
 
+            int TestNum = 0;
             //Check That Mesh Ammount and Names Are Correct Attaching if they are body and there mesh id
             //Set if mesh contains morph or is shadow making sure that morph contains morph points
+            for (int i = 0; i < trickyModelCombiner.reassignedMesh.Count; i++)
+            {
+                var TempReMesh = trickyModelCombiner.reassignedMesh[i];
+
+                if (TempReMesh.faces[0].MorphPoint1.Count != 0)
+                {
+                    TempReMesh.MorphTargetCount = TempReMesh.faces[0].MorphPoint1.Count;
+                }
+
+                for (int a = 0; a < trickyModelCombiner.Body.ModelList.Count; a++)
+                {
+                    if (trickyModelCombiner.Body.ModelList[a].FileName.ToLower() == trickyModelCombiner.reassignedMesh[i].MeshName.ToLower())
+                    {
+                        TestNum++;
+                        TempReMesh.BodyHead = false;
+                        TempReMesh.MeshId = a;
+                        break;
+                    }
+                }
+
+                for (int a = 0; a < trickyModelCombiner.Head.ModelList.Count; a++)
+                {
+                    if (trickyModelCombiner.Head.ModelList[a].FileName.ToLower() == trickyModelCombiner.reassignedMesh[i].MeshName.ToLower())
+                    {
+                        TestNum++;
+                        TempReMesh.BodyHead = true;
+                        TempReMesh.MeshId = a;
+
+                        if (TempReMesh.MorphTargetCount!= trickyModelCombiner.Head.ModelList[a].MorphKeyCount)
+                        {
+                            MessageBox.Show("Incorrect ammount of Shapekeys");
+                            return;
+                        }
+
+                        break;
+                    }
+                }
+
+                trickyModelCombiner.reassignedMesh[i] = TempReMesh;
+            }
+
+            if(TestNum!=trickyModelCombiner.reassignedMesh.Count)
+            {
+                if (TestNum > trickyModelCombiner.reassignedMesh.Count)
+                {
+                    MessageBox.Show("Idk how you even got this error");
+                }
+                else
+                {
+                    MessageBox.Show("Incorrectly Named Or Unneeded mesh parts detected.");
+                }
+                return;
+            }
+
 
             //For Each Mesh
-            //Regenerate Materials
-            //Fix Bone ID/FileIDs
-            //Redo Data In Correct Formats IE make Weight List and make faces use the positions.
+            for (int i = 0; i < trickyModelCombiner.reassignedMesh.Count; i++)
+            {
+                var TempReMesh = trickyModelCombiner.reassignedMesh[i];
 
-            //for each material in the mesh
-            //Take faces and Generate Indce faces and giant vertex list for each material
-            //Send to Tristrip Generator
-            //Static mesh that shit
-            //Group That Shit
-            //Generate Number Ref and correct UV
+                TrickyMPFModelHandler.MPFModelHeader TempTrickyMesh = new TrickyMPFModelHandler.MPFModelHeader();
 
+                if(TempReMesh.BodyHead)
+                {
+                    TempTrickyMesh = Body.ModelList[TempReMesh.MeshId];
+                }
+                else
+                {
+                    TempTrickyMesh = Head.ModelList[TempReMesh.MeshId];
+                }
+
+
+                //Regenerate Materials
+
+                //Update Bones
+
+                //Generate Weight List
+                //Redo Data In Correct Formats IE make Weight List and make faces use the positions.
+                TempTrickyMesh.boneWeightHeader = new List<TrickyMPFModelHandler.BoneWeightHeader>();
+
+                //Load Headers into file
+                for (int a = 0; a < TempReMesh.faces.Count; a++)
+                {
+                    var TempFace = TempReMesh.faces[a];
+                    int WeightID = ContainsWeight(TempFace.Weight1, TempTrickyMesh.boneWeightHeader);
+                    if (WeightID == -1)
+                    {
+                        TempTrickyMesh.boneWeightHeader.Add(TempFace.Weight1);
+                        WeightID = TempTrickyMesh.boneWeightHeader.Count - 1;
+                    }
+                    TempFace.Weight1Pos = WeightID;
+
+                    WeightID = ContainsWeight(TempFace.Weight2, TempTrickyMesh.boneWeightHeader);
+                    if (WeightID == -1)
+                    {
+                        TempTrickyMesh.boneWeightHeader.Add(TempFace.Weight2);
+                        WeightID = TempTrickyMesh.boneWeightHeader.Count - 1;
+                    }
+                    TempFace.Weight2Pos = WeightID;
+
+                    WeightID = ContainsWeight(TempFace.Weight3, TempTrickyMesh.boneWeightHeader);
+                    if (WeightID == -1)
+                    {
+                        TempTrickyMesh.boneWeightHeader.Add(TempFace.Weight3);
+                        WeightID = TempTrickyMesh.boneWeightHeader.Count - 1;
+                    }
+                    TempFace.Weight3Pos = WeightID;
+
+                    TempReMesh.faces[a] = TempFace;
+                }
+
+                //Fix Bone ID/FileIDs
+                for (int a = 0; a < TempTrickyMesh.boneWeightHeader.Count; a++)
+                {
+                    var TempBoneHeader = TempTrickyMesh.boneWeightHeader[a];
+                    for (int b = 0; b < TempBoneHeader.boneWeights.Count; b++)
+                    {
+                        var TempBoneWeight = TempBoneHeader.boneWeights[b];
+
+                        var TempBone = FindBone(bones, TempBoneWeight.boneName);
+
+                        TempBoneWeight.BoneID = TempBone.BoneID;
+                        TempBoneWeight.FileID = TempBone.FileID;
+
+                        TempBoneHeader.boneWeights[b] = TempBoneWeight;
+                    }
+                    TempTrickyMesh.boneWeightHeader[a] = TempBoneHeader;
+                }
+
+
+
+                //Redo Data In Correct Formats IE make Weight List and make faces use the positions.
+
+                //for each material in the mesh
+                //Take faces and Generate Indce faces and giant vertex list for each material
+                //Send to Tristrip Generator
+                //Static mesh that shit
+                //Group That Shit
+                //Generate Number Ref and correct UV
+
+                trickyModelCombiner.reassignedMesh[i] = TempReMesh;
+            }
         }
 
 
@@ -1091,6 +1223,19 @@ namespace SSXMultiTool.FileHandlers.Models
             }
 
             return -1;
+        }
+
+        static TrickyMPFModelHandler.BoneData FindBone(List<TrickyMPFModelHandler.BoneData> boneData, string BoneName)
+        {
+            for (int i = 0; i < boneData.Count; i++)
+            {
+                if (boneData[i].BoneName.ToLower()==BoneName.ToLower())
+                {
+                    return boneData[i];
+                }
+            }
+
+            return new TrickyMPFModelHandler.BoneData();
         }
 
         public struct ReassignedMesh
