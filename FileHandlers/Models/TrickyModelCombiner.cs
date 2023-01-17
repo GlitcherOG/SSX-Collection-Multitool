@@ -865,8 +865,8 @@ namespace SSXMultiTool.FileHandlers.Models
                     }
                     TempHeader.MaterialID = meshList[i].MatieralID;
                     TempHeader.Unknown = -1;
-                    TempHeader.meshGroupSubs = new List<TrickyMPFModelHandler.GroupSubHeader>();
-                    TrickyMPFModelHandler.GroupSubHeader TempGroupSub = new TrickyMPFModelHandler.GroupSubHeader();
+                    TempHeader.meshGroupSubs = new List<TrickyMPFModelHandler.WeightRefGroup>();
+                    TrickyMPFModelHandler.WeightRefGroup TempGroupSub = new TrickyMPFModelHandler.WeightRefGroup();
                     TempGroupSub.MeshGroupHeaders = new List<TrickyMPFModelHandler.MeshMorphHeader>();
                     TrickyMPFModelHandler.MeshMorphHeader TempMeshGroupHeaders = new TrickyMPFModelHandler.MeshMorphHeader();
                     TempMeshGroupHeaders.staticMesh = new List<TrickyMPFModelHandler.StaticMesh>();
@@ -1484,8 +1484,8 @@ namespace SSXMultiTool.FileHandlers.Models
                         }
                         TempHeader.MaterialID = meshList[b].MatieralID;
                         TempHeader.Unknown = -1;
-                        TempHeader.meshGroupSubs = new List<TrickyMPFModelHandler.GroupSubHeader>();
-                        TrickyMPFModelHandler.GroupSubHeader TempGroupSub = new TrickyMPFModelHandler.GroupSubHeader();
+                        TempHeader.meshGroupSubs = new List<TrickyMPFModelHandler.WeightRefGroup>();
+                        TrickyMPFModelHandler.WeightRefGroup TempGroupSub = new TrickyMPFModelHandler.WeightRefGroup();
                         TempGroupSub.MeshGroupHeaders = new List<TrickyMPFModelHandler.MeshMorphHeader>();
                         TrickyMPFModelHandler.MeshMorphHeader TempMeshGroupHeaders = new TrickyMPFModelHandler.MeshMorphHeader();
                         TempMeshGroupHeaders.staticMesh = new List<TrickyMPFModelHandler.StaticMesh>();
@@ -1506,11 +1506,11 @@ namespace SSXMultiTool.FileHandlers.Models
                     for (int a = 0; a < TempMeshGroup.meshGroupSubs.Count; a++)
                     {
                         var TempSubGroup = TempMeshGroup.meshGroupSubs[a];
+                        TrickyMPFModelHandler.NumberListRef NumberRef = new TrickyMPFModelHandler.NumberListRef();
+                        NumberRef.WeightIDs = new List<int>();
                         for (int b = 0; b < TempSubGroup.MeshGroupHeaders.Count; b++)
                         {
                             var TempMeshGroupHeader = TempSubGroup.MeshGroupHeaders[b];
-                            TrickyMPFModelHandler.NumberListRef NumberRef = new TrickyMPFModelHandler.NumberListRef();
-                            NumberRef.WeightIDs = new List<int>();
 
                             for (int c = 0; c < TempMeshGroupHeader.staticMesh.Count; c++)
                             {
@@ -1544,10 +1544,10 @@ namespace SSXMultiTool.FileHandlers.Models
                                 TempMeshGroupHeader.staticMesh[c] = TempMesh;
                             }
 
-                            TempTrickyMesh.numberListRefs.Add(NumberRef);
 
                             TempSubGroup.MeshGroupHeaders[b] = TempMeshGroupHeader;
                         }
+                        TempTrickyMesh.numberListRefs.Add(NumberRef);
                         TempMeshGroup.meshGroupSubs[a] = TempSubGroup;
                     }
                     TempTrickyMesh.MeshGroups[ei] = TempMeshGroup;

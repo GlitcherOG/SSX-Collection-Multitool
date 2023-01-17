@@ -188,10 +188,10 @@ namespace SSXMultiTool.FileHandlers
 
                     int TempPos = (int)streamMatrix.Position;
                     streamMatrix.Position = TempChunkData.LinkOffset;
-                    TempChunkData.meshGroupSubs = new List<GroupSubHeader>();
+                    TempChunkData.meshGroupSubs = new List<WeightRefGroup>();
                     for (int b = 0; b < TempChunkData.LinkCount; b++)
                     {
-                        var TempSubHeader = new GroupSubHeader();
+                        var TempSubHeader = new WeightRefGroup();
                         TempSubHeader.LinkOffset = StreamUtil.ReadInt32(streamMatrix);
                         TempSubHeader.LinkCount = StreamUtil.ReadInt32(streamMatrix);
                         int TempPos1 = (int)streamMatrix.Position;
@@ -204,10 +204,10 @@ namespace SSXMultiTool.FileHandlers
                             TempMeshGroupHeader.MorphKeyOffset = StreamUtil.ReadInt32(streamMatrix);
                             TempMeshGroupHeader.MorphKeyEntrySize = StreamUtil.ReadInt32(streamMatrix);
                             TempMeshGroupHeader.WeightRefGroup = NumberWeightRef;
-                            NumberWeightRef++;
                             TempSubHeader.MeshGroupHeaders.Add(TempMeshGroupHeader);
                         }
                         streamMatrix.Position = TempPos1;
+                        NumberWeightRef++;
                         TempChunkData.meshGroupSubs.Add(TempSubHeader);
                     }
 
@@ -1232,10 +1232,10 @@ namespace SSXMultiTool.FileHandlers
             public int LinkCount;
             public int LinkOffset;
 
-            public List<GroupSubHeader> meshGroupSubs;
+            public List<WeightRefGroup> meshGroupSubs;
         }
 
-        public struct GroupSubHeader
+        public struct WeightRefGroup
         {
             public int LinkOffset;
             public int LinkCount;

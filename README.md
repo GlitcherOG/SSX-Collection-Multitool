@@ -16,8 +16,8 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - Fix Model Header Amination
 - Fix Mesh Regen Board, Add Normal Average, Bone Update, Material Regeneration
 - Add Error Protection For Nvida Failing (Fixed issue but still a good idea)
-- Fix Character Mesh Import, Fix Weight issues, fix morph data ensuring its using the correct groups
-- Fix Materal Regenerationo
+- Fix Character Mesh Import, Fix Body data keeping in mind number ref
+- Fix Materal Regeneration
 
 For stiching have it ignore the uv points and normals for checking might need to redo how the indices work for that
 Nvida Stitching
