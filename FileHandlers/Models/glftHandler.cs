@@ -525,14 +525,14 @@ namespace SSXMultiTool.FileHandlers
             TempBoneData.YRadian = radians.Y;
             TempBoneData.ZRadian = radians.Z;
 
-            if (!startBone)
-            {
-                TempBoneData.ParentBone = Int32.Parse(nodeBuilder.Parent.Name.Split(" ")[1]);
-            }
-            else
-            {
-                TempBoneData.ParentBone = -1;
-            }
+            //if (!startBone)
+            //{
+            //    TempBoneData.ParentBone = Int32.Parse(nodeBuilder.Parent.Name.Split(" ")[1]);
+            //}
+            //else
+            //{
+            //    TempBoneData.ParentBone = -1;
+            //}
 
             boneDatas.Add(TempBoneData);
 

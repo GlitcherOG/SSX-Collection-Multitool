@@ -194,7 +194,7 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (trickyModel.Board != null)
+                    if ((trickyModel.Board != null)||(trickyModel.Head != null&& trickyModel.Body != null))
                     {
                         var TempCombiner = glftHandler.LoadGlft(openFileDialog.FileName);
 

@@ -1294,6 +1294,7 @@ namespace SSXMultiTool.FileHandlers
             public List<int> Weights;
             public List<Face> faces;
             public List<Vector3> uvNormals;
+            public List<MorphKey> MorphKeys;
         }
 
 
