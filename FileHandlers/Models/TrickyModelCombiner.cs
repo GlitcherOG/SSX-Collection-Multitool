@@ -1668,9 +1668,14 @@ namespace SSXMultiTool.FileHandlers.Models
                     bool Test = false;
                     for (int a = 0; a < boneWeightList[i].boneWeights.Count; a++)
                     {
-                        if (boneWeightList[i].boneWeights[a].Weight == boneWeight.boneWeights[a].Weight && boneWeightList[i].boneWeights[a].BoneID == boneWeight.boneWeights[a].BoneID && boneWeightList[i].boneWeights[a].FileID == boneWeight.boneWeights[a].FileID)
+                        if (boneWeightList[i].boneWeights[a].Weight == boneWeight.boneWeights[a].Weight && boneWeightList[i].boneWeights[a].BoneID == boneWeight.boneWeights[a].BoneID)
                         {
                             Test = true;
+                        }
+                        else
+                        {
+                            Test = false;
+                            break;
                         }
                     }
                     if (Test)

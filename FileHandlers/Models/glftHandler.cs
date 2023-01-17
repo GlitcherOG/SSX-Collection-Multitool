@@ -402,7 +402,7 @@ namespace SSXMultiTool.FileHandlers
                             for (int d = 0; d < TempSkinning.MaxBindings; d++)
                             {
                                 var BindingList = TempSkinning.GetBinding(d);
-                                if (BindingList.Index != 0 || BindingList.Weight != 0)
+                                if (BindingList.Weight != 0)
                                 {
                                     TrickyMPFModelHandler.BoneWeight TempWeight = new TrickyMPFModelHandler.BoneWeight();
                                     TempWeight.BoneID = BindingList.Index;
