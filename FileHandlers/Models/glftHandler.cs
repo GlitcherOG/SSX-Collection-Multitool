@@ -406,7 +406,7 @@ namespace SSXMultiTool.FileHandlers
                                 {
                                     TrickyMPFModelHandler.BoneWeight TempWeight = new TrickyMPFModelHandler.BoneWeight();
                                     TempWeight.BoneID = BindingList.Index;
-                                    TempWeight.Weight = (int)(BindingList.Weight * 100);
+                                    TempWeight.Weight = (int)(BindingList.Weight * 100f);
                                     TempWeight.boneName = JointBindings[BindingList.Index].Joint.Name;
                                     NewVertex.weightHeader.boneWeights.Add(TempWeight);
                                 }

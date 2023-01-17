@@ -287,7 +287,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     reassignedMesh.Add(TempMesh);
                 }
             }
-            CorrectBonesandFaces();
+            //CorrectBonesandFaces();
         }
 
         void CorrectBonesandFaces()
@@ -1052,7 +1052,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
                 TrickyMPFModelHandler.MPFModelHeader TempTrickyMesh = new TrickyMPFModelHandler.MPFModelHeader();
 
-                if(TempReMesh.BodyHead)
+                if(!TempReMesh.BodyHead)
                 {
                     TempTrickyMesh = Body.ModelList[TempReMesh.MeshId];
                 }
@@ -1111,7 +1111,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
                         var TempBone = FindBone(bones, TempBoneWeight.boneName);
 
-                        TempBoneWeight.BoneID = TempBone.BoneID;
+                        TempBoneWeight.BoneID = TempBone.BonePos;
                         TempBoneWeight.FileID = TempBone.FileID;
 
                         TempBoneHeader.boneWeights[b] = TempBoneWeight;
@@ -1294,19 +1294,19 @@ namespace SSXMultiTool.FileHandlers.Models
                             {
                                 if (TempReMesh.MorphTargetCount != 0)
                                 {
-                                    if (!MorphPointsEqual(TempReMesh.faces[a].MorphPoint2, VectorPoint[TempID].MorphData))
+                                    if (!MorphPointsEqual(TempReMesh.faces[a].MorphPoint3, VectorPoint[TempID].MorphData))
                                     {
 
                                     }
                                     else
                                     {
-                                        TempFace.Id2 = TempID;
+                                        TempFace.Id3 = TempID;
                                         Test = true;
                                     }
                                 }
                                 else
                                 {
-                                    TempFace.Id2 = TempID;
+                                    TempFace.Id3 = TempID;
                                     Test = true;
                                 }
                             }
@@ -1358,7 +1358,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
                     for (int b = 0; b < indiceTristrips.Count; b++)
                     {
-                        if (indiceTristrips[b].MaterialID == a)
+                        if (VectorPoint[indiceTristrips[b].Indices[0]].Material== a)
                         {
                             if (staticMesh.vertices.Count + indiceTristrips[b].Indices.Count <= 55 /*&& staticMesh.Strips.Count<10*/)
                             {
@@ -1489,6 +1489,7 @@ namespace SSXMultiTool.FileHandlers.Models
                         TempGroupSub.MeshGroupHeaders = new List<TrickyMPFModelHandler.MeshMorphHeader>();
                         TrickyMPFModelHandler.MeshMorphHeader TempMeshGroupHeaders = new TrickyMPFModelHandler.MeshMorphHeader();
                         TempMeshGroupHeaders.staticMesh = new List<TrickyMPFModelHandler.StaticMesh>();
+                        TempMeshGroupHeaders.MorphKeyList = meshList[b].MorphKeys;
                         TempMeshGroupHeaders.staticMesh.Add(meshList[b]);
 
                         TempGroupSub.MeshGroupHeaders.Add(TempMeshGroupHeaders);
@@ -1554,7 +1555,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
 
 
-                if (TempReMesh.BodyHead)
+                if (!TempReMesh.BodyHead)
                 {
                     Body.ModelList[TempReMesh.MeshId] = TempTrickyMesh;
                 }
@@ -1564,8 +1565,8 @@ namespace SSXMultiTool.FileHandlers.Models
                 }
                 trickyModelCombiner.reassignedMesh[i] = TempReMesh;
             }
+            MessageBox.Show("Import Sucessful");
         }
-
 
 
 
@@ -1629,7 +1630,6 @@ namespace SSXMultiTool.FileHandlers.Models
                 if (ListVertex[i] == Vertex[i])
                 {
                     TestMain++;
-                    break;
                 }
             }
 
