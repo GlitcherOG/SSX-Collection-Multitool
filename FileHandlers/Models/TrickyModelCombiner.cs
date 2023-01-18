@@ -1031,6 +1031,19 @@ namespace SSXMultiTool.FileHandlers.Models
                 trickyModelCombiner.reassignedMesh[i] = TempReMesh;
             }
 
+            //Check Materials are valid
+            for (int i = 0; i < trickyModelCombiner.materials.Count; i++)
+            {
+                if (!trickyModelCombiner.materials[i].MainTexture.ToLower().Contains("boot") &&
+                    !trickyModelCombiner.materials[i].MainTexture.ToLower().Contains("suit") &&
+                    !trickyModelCombiner.materials[i].MainTexture.ToLower().Contains("head") &&
+                    !trickyModelCombiner.materials[i].MainTexture.ToLower().Contains("helm"))
+                {
+                    MessageBox.Show("Invalid material " + trickyModelCombiner.materials[i].MainTexture);
+                    return;
+                }
+            }
+
             if(TestNum!=trickyModelCombiner.reassignedMesh.Count)
             {
                 if (TestNum > trickyModelCombiner.reassignedMesh.Count)
@@ -1061,8 +1074,68 @@ namespace SSXMultiTool.FileHandlers.Models
                     TempTrickyMesh = Head.ModelList[TempReMesh.MeshId];
                 }
 
-
+                List<int> MaterialsID = new List<int>();
+                List<int> RedoneMaterial = new List<int>();
                 //Regenerate Materials
+                TempTrickyMesh.materialDatas = new List<TrickyMPFModelHandler.MaterialData>();
+                for (int a = 0; a < TempReMesh.faces.Count; a++)
+                {
+                    if (!MaterialsID.Contains(TempReMesh.faces[a].MaterialID))
+                    {
+                        MaterialsID.Add(TempReMesh.faces[a].MaterialID);
+                    }
+                }
+
+                for (int a = 0; a < MaterialsID.Count; a++)
+                {
+                    TrickyMPFModelHandler.MaterialData MaterialData = new TrickyMPFModelHandler.MaterialData();
+                    RedoneMaterial.Add(a);
+                    MaterialData.MainTexture = trickyModelCombiner.materials[MaterialsID[a]].MainTexture.Substring(0, 4).ToLower();
+                    MaterialData.Texture1 = "";
+                    MaterialData.Texture2 = "";
+                    MaterialData.Texture3 = "";
+                    MaterialData.Texture4 = "";
+
+                    string[] Split = trickyModelCombiner.materials[MaterialsID[a]].MainTexture.Split(' ');
+
+                    if(Split.Length>1)
+                    {
+                        if (Split[1].ToLower()=="gloss")
+                        {
+                            if(MaterialData.MainTexture=="suit")
+                            {
+                                MaterialData.Texture3 = "st_g";
+                            }
+                            else if (MaterialData.MainTexture == "helm")
+                            {
+                                MaterialData.Texture3 = "hm_g";
+                            }
+                            else if (MaterialData.MainTexture == "boot")
+                            {
+                                MaterialData.Texture3 = "bt_g";
+                            }
+                            else if (MaterialData.MainTexture == "head")
+                            {
+                                MaterialData.Texture3 = "hd_g";
+                            }
+                        }
+                        else if (Split[1].ToLower() == "envr")
+                        {
+                            MaterialData.Texture4 = "envr";
+                        }
+
+                    }
+
+                    TempTrickyMesh.materialDatas.Add(MaterialData);
+                }
+
+                for (int a = 0; a < TempReMesh.faces.Count; a++)
+                {
+                    int Index = MaterialsID.IndexOf(TempReMesh.faces[a].MaterialID);
+                    var TempFace = TempReMesh.faces[a];
+                    TempFace.MaterialID = Index;
+                    TempReMesh.faces[a] = TempFace;
+                }
 
                 //Update Bones
 
