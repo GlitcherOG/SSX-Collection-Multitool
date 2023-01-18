@@ -1237,6 +1237,8 @@ namespace SSXMultiTool.FileHandlers
 
         public struct WeightRefGroup
         {
+            public List<int> weights;
+
             public int LinkOffset;
             public int LinkCount;
 
@@ -1282,6 +1284,9 @@ namespace SSXMultiTool.FileHandlers
         public struct StaticMesh
         {
             public int MatieralID;
+            public bool Grouped;
+
+            public List<int> weightsInts;
 
             public int StripCount;
             public int Unknown1;

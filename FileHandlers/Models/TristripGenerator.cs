@@ -820,6 +820,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
         public struct IndiceTristrip
         {
+            public bool Used;
             public int MaterialID;
             public List<int> Indices;
         }

@@ -18,7 +18,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
         public bool BoneUpdate;
         public int TristripMode;
-        public bool NormalAverage = true;
+        public bool NormalAverage = false;
 
 
         public List<ReassignedMesh> reassignedMesh = new List<ReassignedMesh>();
@@ -1408,166 +1408,238 @@ namespace SSXMultiTool.FileHandlers.Models
 
                 for (int a = 0; a < TempTrickyMesh.materialDatas.Count; a++)
                 {
-                    TrickyMPFModelHandler.StaticMesh staticMesh = new TrickyMPFModelHandler.StaticMesh();
-                    staticMesh.Unknown1 = 14;
-                    staticMesh.Unknown2 = 114;
-                    staticMesh.MatieralID = a;
-                    staticMesh.vertices = new List<Vector3>();
-                    staticMesh.uvNormals = new List<Vector3>();
-                    staticMesh.Strips = new List<int>();
-                    staticMesh.uv = new List<Vector4>();
-                    staticMesh.Weights = new List<int>();
-                    staticMesh.MorphKeys = new List<TrickyMPFModelHandler.MorphKey>();
-
-                    if(TempReMesh.MorphTargetCount!=0)
+                    while (true)
                     {
-                        for (int b = 0; b < TempReMesh.MorphTargetCount; b++)
-                        {
-                            var NewKey = new TrickyMPFModelHandler.MorphKey();
-                            NewKey.morphData = new List<Vector3>();
-                            staticMesh.MorphKeys.Add(NewKey);
-                        }
-                    }
+                        TrickyMPFModelHandler.StaticMesh staticMesh = new TrickyMPFModelHandler.StaticMesh();
+                        staticMesh.weightsInts = new List<int>();
+                        staticMesh.Unknown1 = 14;
+                        staticMesh.Unknown2 = 114;
+                        staticMesh.MatieralID = a;
+                        staticMesh.vertices = new List<Vector3>();
+                        staticMesh.uvNormals = new List<Vector3>();
+                        staticMesh.Strips = new List<int>();
+                        staticMesh.uv = new List<Vector4>();
+                        staticMesh.Weights = new List<int>();
+                        staticMesh.MorphKeys = new List<TrickyMPFModelHandler.MorphKey>();
 
-                    for (int b = 0; b < indiceTristrips.Count; b++)
-                    {
-                        if (VectorPoint[indiceTristrips[b].Indices[0]].Material== a)
+                        if (TempReMesh.MorphTargetCount != 0)
                         {
-                            if (staticMesh.vertices.Count + indiceTristrips[b].Indices.Count <= 55 /*&& staticMesh.Strips.Count<10*/)
+                            for (int b = 0; b < TempReMesh.MorphTargetCount; b++)
                             {
-                                staticMesh.Strips.Add(indiceTristrips[b].Indices.Count);
-                                for (int d = 0; d < indiceTristrips[b].Indices.Count; d++)
-                                {
-                                    staticMesh.vertices.Add(VectorPoint[indiceTristrips[b].Indices[d]].vector);
-                                    staticMesh.uv.Add(VectorPoint[indiceTristrips[b].Indices[d]].TextureCord);
-                                    staticMesh.uvNormals.Add(VectorPoint[indiceTristrips[b].Indices[d]].normal);
-                                    staticMesh.Weights.Add(VectorPoint[indiceTristrips[b].Indices[d]].Weight);
-
-                                    if (TempReMesh.MorphTargetCount != 0)
-                                    {
-                                        var TempMorphTargets = VectorPoint[indiceTristrips[b].Indices[d]].MorphData;
-
-                                        for (int ei = 0; ei < TempReMesh.MorphTargetCount; ei++)
-                                        {
-                                            staticMesh.MorphKeys[ei].morphData.Add(TempMorphTargets[ei]);
-                                        }
-                                    }
-                                }
+                                var NewKey = new TrickyMPFModelHandler.MorphKey();
+                                NewKey.morphData = new List<Vector3>();
+                                staticMesh.MorphKeys.Add(NewKey);
                             }
-                            else
-                            {
-                                meshList.Add(staticMesh);
-                                staticMesh = new TrickyMPFModelHandler.StaticMesh();
-                                staticMesh.Unknown1 = 14;
-                                staticMesh.Unknown2 = 114;
-                                staticMesh.vertices = new List<Vector3>();
-                                staticMesh.uvNormals = new List<Vector3>();
-                                staticMesh.Strips = new List<int>();
-                                staticMesh.uv = new List<Vector4>();
-                                staticMesh.Weights = new List<int>();
-                                staticMesh.MorphKeys = new List<TrickyMPFModelHandler.MorphKey>();
+                        }
 
-                                if (TempReMesh.MorphTargetCount != 0)
+                        for (int b = 0; b < indiceTristrips.Count; b++)
+                        {
+                            if (VectorPoint[indiceTristrips[b].Indices[0]].Material == staticMesh.MatieralID && !indiceTristrips[b].Used)
+                            {
+                                bool MeshGroupSubTest = false;
+                                List<int> NewInts = new List<int>();
+                                for (int c = 0; c < indiceTristrips[b].Indices.Count; c++)
                                 {
-                                    for (int c = 0; c < TempReMesh.MorphTargetCount; c++)
+                                    if (!staticMesh.weightsInts.Contains(VectorPoint[indiceTristrips[b].Indices[c]].Weight) && !NewInts.Contains(VectorPoint[indiceTristrips[b].Indices[c]].Weight))
                                     {
-                                        var NewKey = new TrickyMPFModelHandler.MorphKey();
-                                        NewKey.morphData = new List<Vector3>();
-                                        staticMesh.MorphKeys.Add(NewKey);
+                                        NewInts.Add(VectorPoint[indiceTristrips[b].Indices[c]].Weight);
                                     }
                                 }
 
-                                staticMesh.Strips.Add(indiceTristrips[b].Indices.Count);
-                                for (int d = 0; d < indiceTristrips[b].Indices.Count; d++)
+                                if (NewInts.Count + staticMesh.weightsInts.Count <= 25)
                                 {
-                                    staticMesh.vertices.Add(VectorPoint[indiceTristrips[b].Indices[d]].vector);
-                                    staticMesh.uv.Add(VectorPoint[indiceTristrips[b].Indices[d]].TextureCord);
-                                    staticMesh.uvNormals.Add(VectorPoint[indiceTristrips[b].Indices[d]].normal);
-                                    staticMesh.Weights.Add(VectorPoint[indiceTristrips[b].Indices[d]].Weight);
+                                    staticMesh.weightsInts.AddRange(NewInts);
+                                    MeshGroupSubTest = true;
+                                }
 
-                                    if(TempReMesh.MorphTargetCount!=0)
+                                if (staticMesh.vertices.Count + indiceTristrips[b].Indices.Count <= 55 && MeshGroupSubTest)
+                                {
+                                    var TempIndice = indiceTristrips[b];
+                                    TempIndice.Used = true;
+                                    indiceTristrips[b] = TempIndice;
+
+                                    staticMesh.Strips.Add(indiceTristrips[b].Indices.Count);
+                                    for (int d = 0; d < indiceTristrips[b].Indices.Count; d++)
                                     {
-                                        var TempMorphTargets = VectorPoint[indiceTristrips[b].Indices[d]].MorphData;
+                                        staticMesh.vertices.Add(VectorPoint[indiceTristrips[b].Indices[d]].vector);
+                                        staticMesh.uv.Add(VectorPoint[indiceTristrips[b].Indices[d]].TextureCord);
+                                        staticMesh.uvNormals.Add(VectorPoint[indiceTristrips[b].Indices[d]].normal);
+                                        staticMesh.Weights.Add(VectorPoint[indiceTristrips[b].Indices[d]].Weight);
 
-                                        for (int ei = 0; ei < TempReMesh.MorphTargetCount; ei++)
+                                        if (TempReMesh.MorphTargetCount != 0)
                                         {
-                                            staticMesh.MorphKeys[ei].morphData.Add(TempMorphTargets[ei]);
+                                            var TempMorphTargets = VectorPoint[indiceTristrips[b].Indices[d]].MorphData;
+
+                                            for (int ei = 0; ei < TempReMesh.MorphTargetCount; ei++)
+                                            {
+                                                staticMesh.MorphKeys[ei].morphData.Add(TempMorphTargets[ei]);
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                    }
-                    if (staticMesh.vertices.Count != 0)
-                    {
-                        meshList.Add(staticMesh);
+
+                        if (staticMesh.vertices.Count != 0)
+                        {
+                            meshList.Add(staticMesh);
+                        }
+                        bool BreakoutTest = true;
+                        for (int b = 0; b < indiceTristrips.Count; b++)
+                        {
+                            if (!indiceTristrips[b].Used && VectorPoint[indiceTristrips[b].Indices[0]].Material == staticMesh.MatieralID)
+                            {
+                                BreakoutTest = false;
+                                break;
+                            }
+                        }
+                        if(BreakoutTest)
+                        {
+                            break;
+                        }
                     }
                 }
 
-                //Group That Shit
-                for (int b = 0; b < meshList.Count; b++)
+                //Group that shit MK2
+                while (true)
                 {
-                    bool TestIfExists = false;
-
-                    for (int a = 0; a < TempTrickyMesh.MeshGroups.Count; a++)
+                    bool FirstAdd = true;
+                    for (int b = 0; b < meshList.Count; b++)
                     {
-                        var TempGroup = TempTrickyMesh.MeshGroups[a];
-                        if (TempGroup.MaterialID == meshList[b].MatieralID)
+                        bool Added = false;
+
+                        bool MaterialGroupTest = false;
+
+                        for (int a = 0; a < TempTrickyMesh.MeshGroups.Count; a++)
                         {
-                            TestIfExists = true;
-                            var TempSubGroup = TempGroup.meshGroupSubs[0];
-
-                            if (TempReMesh.MorphTargetCount == 0)
+                            if (meshList[b].MatieralID == TempTrickyMesh.MeshGroups[a].MaterialID )
                             {
-                                var TempMorphMeshGroup = TempSubGroup.MeshGroupHeaders[0];
+                                MaterialGroupTest = true;
+                                if (!meshList[b].Grouped)
+                                {
+                                    var TempMaterialGroup = TempTrickyMesh.MeshGroups[a];
+                                    bool WeightRefGroupTest = false;
 
-                                TempMorphMeshGroup.staticMesh.Add(meshList[b]);
+                                    for (int c = 0; c < TempMaterialGroup.meshGroupSubs.Count; c++)
+                                    {
+                                        var TempWeightRefGroup = TempMaterialGroup.meshGroupSubs[c];
 
-                                TempSubGroup.MeshGroupHeaders[0] = TempMorphMeshGroup;
+                                        //Test the WeigthRef
+                                        bool WeightRefTest = false;
+                                        List<int> NewInts = new List<int>();
+                                        for (int ce = 0; ce < meshList[b].Weights.Count; ce++)
+                                        {
+                                            if (!TempWeightRefGroup.weights.Contains(meshList[b].Weights[ce]) && !NewInts.Contains(meshList[b].Weights[ce]))
+                                            {
+                                                NewInts.Add(meshList[b].Weights[ce]);
+                                            }
+                                        }
 
-                                TempGroup.meshGroupSubs[0] = TempSubGroup;
+                                        if (NewInts.Count + TempWeightRefGroup.weights.Count <= 25)
+                                        {
+                                            TempWeightRefGroup.weights.AddRange(NewInts);
+                                            WeightRefTest = true;
+                                        }
+
+                                        if (WeightRefTest)
+                                        {
+                                            WeightRefGroupTest = true;
+                                            var TempMesh = meshList[b];
+                                            TempMesh.Grouped = true;
+                                            Added = true;
+                                            meshList[b] = TempMesh;
+                                            //If Morph is true
+                                            if (TempTrickyMesh.MorphKeyCount != 0)
+                                            {
+                                                //Add New
+                                                TrickyMPFModelHandler.MeshMorphHeader NewMorphHeader = new TrickyMPFModelHandler.MeshMorphHeader();
+                                                NewMorphHeader.staticMesh = new List<TrickyMPFModelHandler.StaticMesh>();
+                                                NewMorphHeader.MorphKeyList = new List<TrickyMPFModelHandler.MorphKey>();
+                                                NewMorphHeader.staticMesh.Add(meshList[b]);
+                                                NewMorphHeader.MorphKeyList = meshList[b].MorphKeys;
+                                                TempWeightRefGroup.MeshGroupHeaders.Add(NewMorphHeader);
+
+                                            }
+                                            else
+                                            {
+                                                //Add to zero
+                                                if (TempWeightRefGroup.MeshGroupHeaders.Count == 0)
+                                                {
+                                                    TrickyMPFModelHandler.MeshMorphHeader TempMorphHeader = new TrickyMPFModelHandler.MeshMorphHeader();
+                                                    TempMorphHeader.staticMesh = new List<TrickyMPFModelHandler.StaticMesh>();
+                                                    TempMorphHeader.MorphKeyList = new List<TrickyMPFModelHandler.MorphKey>();
+                                                    TempWeightRefGroup.MeshGroupHeaders.Add(TempMorphHeader);
+                                                }
+                                                TrickyMPFModelHandler.MeshMorphHeader NewMorphHeader = TempWeightRefGroup.MeshGroupHeaders[0];
+                                                NewMorphHeader.staticMesh.Add(meshList[b]);
+                                                TempWeightRefGroup.MeshGroupHeaders[0] = NewMorphHeader;
+
+                                            }
+                                            FirstAdd = false;
+                                            TempMaterialGroup.meshGroupSubs[c] = TempWeightRefGroup;
+                                            break;
+                                        }
+
+                                        TempMaterialGroup.meshGroupSubs[c] = TempWeightRefGroup;
+                                    }
+                                    //If false wait till start of list reading and make new one
+
+                                    if (FirstAdd && !WeightRefGroupTest)
+                                    {
+                                        TrickyMPFModelHandler.WeightRefGroup weightRefGroup = new TrickyMPFModelHandler.WeightRefGroup();
+                                        weightRefGroup.MeshGroupHeaders = new List<TrickyMPFModelHandler.MeshMorphHeader>();
+                                        weightRefGroup.weights = new List<int>();
+                                        TempMaterialGroup.meshGroupSubs.Add(weightRefGroup);
+                                        TempTrickyMesh.MeshGroups[a] = TempMaterialGroup;
+                                        b--;
+                                        break;
+                                    }
+                                    TempTrickyMesh.MeshGroups[a] = TempMaterialGroup;
+                                    if (Added)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        //Make Material and minus 1 from b
+                        if (!MaterialGroupTest)
+                        {
+                            var NewMaterialGroup = new TrickyMPFModelHandler.GroupMainHeader();
+                            NewMaterialGroup.MaterialID = meshList[b].MatieralID;
+                            if (Shadow)
+                            {
+                                NewMaterialGroup.GroupType = 17;
+                            }
+                            else if (TempReMesh.MorphTargetCount != 0)
+                            {
+                                NewMaterialGroup.GroupType = 256;
                             }
                             else
                             {
-                                var TempMorphMeshGroup = new TrickyMPFModelHandler.MeshMorphHeader();
-                                TempMorphMeshGroup.staticMesh = new List<TrickyMPFModelHandler.StaticMesh>();
-                                TempMorphMeshGroup.MorphKeyList = meshList[b].MorphKeys;
-                                TempMorphMeshGroup.staticMesh.Add(meshList[b]);
-                                TempSubGroup.MeshGroupHeaders.Add(TempMorphMeshGroup);
-                                TempGroup.meshGroupSubs[0] = TempSubGroup;
+                                NewMaterialGroup.GroupType = 1;
                             }
+                            NewMaterialGroup.Unknown = -1;
+                            NewMaterialGroup.meshGroupSubs = new List<TrickyMPFModelHandler.WeightRefGroup>();
+                            TempTrickyMesh.MeshGroups.Add(NewMaterialGroup);
+                            b--;
                         }
-                        TempTrickyMesh.MeshGroups[a] = TempGroup;
                     }
 
-                    if (!TestIfExists)
-                    {
-                        TrickyMPFModelHandler.GroupMainHeader TempHeader = new TrickyMPFModelHandler.GroupMainHeader();
-                        if (Shadow)
-                        {
-                            TempHeader.GroupType = 17;
-                        }
-                        else if (TempReMesh.MorphTargetCount!=0)
-                        {
-                            TempHeader.GroupType = 256;
-                        }
-                        else
-                        {
-                            TempHeader.GroupType = 1;
-                        }
-                        TempHeader.MaterialID = meshList[b].MatieralID;
-                        TempHeader.Unknown = -1;
-                        TempHeader.meshGroupSubs = new List<TrickyMPFModelHandler.WeightRefGroup>();
-                        TrickyMPFModelHandler.WeightRefGroup TempGroupSub = new TrickyMPFModelHandler.WeightRefGroup();
-                        TempGroupSub.MeshGroupHeaders = new List<TrickyMPFModelHandler.MeshMorphHeader>();
-                        TrickyMPFModelHandler.MeshMorphHeader TempMeshGroupHeaders = new TrickyMPFModelHandler.MeshMorphHeader();
-                        TempMeshGroupHeaders.staticMesh = new List<TrickyMPFModelHandler.StaticMesh>();
-                        TempMeshGroupHeaders.MorphKeyList = meshList[b].MorphKeys;
-                        TempMeshGroupHeaders.staticMesh.Add(meshList[b]);
 
-                        TempGroupSub.MeshGroupHeaders.Add(TempMeshGroupHeaders);
-                        TempHeader.meshGroupSubs.Add(TempGroupSub);
-                        TempTrickyMesh.MeshGroups.Add(TempHeader);
+                    bool BreakOutTest = true;
+                    for (int ai = 0; ai < meshList.Count; ai++)
+                    {
+                        if (!meshList[ai].Grouped)
+                        {
+                            BreakOutTest = false;
+                            break;
+                        }
+                    }
+                    if (BreakOutTest)
+                    {
+                        break;
                     }
                 }
 
