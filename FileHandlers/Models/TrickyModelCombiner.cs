@@ -913,11 +913,11 @@ namespace SSXMultiTool.FileHandlers.Models
                 return;
             }
 
-            int TestNum = 0;
             //Check That Mesh Ammount and Names Are Correct Attaching if they are body and there mesh id
             //Set if mesh contains morph or is shadow making sure that morph contains morph points
             for (int i = 0; i < trickyModelCombiner.reassignedMesh.Count; i++)
             {
+                bool Reassinged = false;
                 var TempReMesh = trickyModelCombiner.reassignedMesh[i];
 
                 if (TempReMesh.faces[0].MorphPoint1.Count != 0)
@@ -927,23 +927,22 @@ namespace SSXMultiTool.FileHandlers.Models
 
                 for (int a = 0; a < Body.ModelList.Count; a++)
                 {
-                    if (Body.ModelList[a].FileName.ToLower() == trickyModelCombiner.reassignedMesh[i].MeshName.ToLower())
+                    if (Body.ModelList[a].FileName.Trim().ToLower() == trickyModelCombiner.reassignedMesh[i].MeshName.Trim().ToLower())
                     {
-                        TestNum++;
                         TempReMesh.BodyHead = false;
                         TempReMesh.MeshId = a;
+                        Reassinged = true;
                         break;
                     }
                 }
 
                 for (int a = 0; a < Head.ModelList.Count; a++)
                 {
-                    if (Head.ModelList[a].FileName.ToLower() == trickyModelCombiner.reassignedMesh[i].MeshName.ToLower())
+                    if (Head.ModelList[a].FileName.Trim().ToLower() == trickyModelCombiner.reassignedMesh[i].MeshName.Trim().ToLower())
                     {
-                        TestNum++;
                         TempReMesh.BodyHead = true;
                         TempReMesh.MeshId = a;
-
+                        Reassinged = true;
                         if (TempReMesh.MorphTargetCount!= Head.ModelList[a].MorphKeyCount)
                         {
                             MessageBox.Show("Incorrect ammount of Shapekeys");
@@ -952,6 +951,10 @@ namespace SSXMultiTool.FileHandlers.Models
 
                         break;
                     }
+                }
+                if (!Reassinged)
+                {
+                    MessageBox.Show("Incorrectly Named Or Unneeded mesh part detected \n" + TempReMesh.MeshName);
                 }
 
                 trickyModelCombiner.reassignedMesh[i] = TempReMesh;
@@ -970,18 +973,6 @@ namespace SSXMultiTool.FileHandlers.Models
                 }
             }
 
-            if(TestNum!=trickyModelCombiner.reassignedMesh.Count)
-            {
-                if (TestNum > trickyModelCombiner.reassignedMesh.Count)
-                {
-                    MessageBox.Show("Idk how you even got this error");
-                }
-                else
-                {
-                    MessageBox.Show("Incorrectly Named Or Unneeded mesh parts detected.");
-                }
-                return;
-            }
 
 
             //For Each Mesh
