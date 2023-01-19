@@ -35,6 +35,7 @@ namespace SSXMultiTool
             {
                 trickyMPF = new TrickyMPFModelHandler();
                 trickyMPF.load(openFileDialog.FileName);
+                TristripMethodList.SelectedIndex = 0;
 
                 int Type = trickyModel.DectectModelType(trickyMPF);
 
@@ -58,7 +59,7 @@ namespace SSXMultiTool
                         MpfList.Items.Clear();
                         MpfList.Items.Add("Please Load Matching Head File");
                     }
-                    GetVerticeAndTristripCount(-1);
+                    UpdateData();
                 }
 
                 if (Type == 2)
@@ -68,7 +69,7 @@ namespace SSXMultiTool
                     {
                         MpfList.Items.Add(trickyMPF.ModelList[i].FileName);
                     }
-                    GetVerticeAndTristripCount(-1);
+                    UpdateData();
                 }
             }
 
@@ -200,9 +201,12 @@ namespace SSXMultiTool
                         {
                             var TempCombiner = glftHandler.LoadGlft(openFileDialog.FileName);
 
+                            trickyModel.NormalAverage = ImportAverageNormal.Checked;
+                            trickyModel.BoneUpdate = BoneUpdateCheck.Checked;
+                            trickyModel.TristripMode = TristripMethodList.SelectedIndex;
                             trickyModel.StartRegenMesh(TempCombiner, MpfList.SelectedIndex);
 
-                            GetVerticeAndTristripCount(MpfList.SelectedIndex);
+                            UpdateData();
                         }
                         catch
                         {
@@ -213,24 +217,219 @@ namespace SSXMultiTool
             }
         }
 
-        void GetVerticeAndTristripCount(int SelectedIndex)
+        void UpdateData(TrickyMPFModelHandler.MPFModelHeader? modelHeader = null)
         {
-            if(SelectedIndex != -1 && !trickyModel.BodyBool)
+            if(modelHeader!=null)
             {
-                TristripCount.Text = trickyModel.TristripCount(MpfList.SelectedIndex).ToString();
-                VerticeCount.Text = trickyModel.VerticeCount(MpfList.SelectedIndex).ToString();
-                MaterialChunks.Text = trickyModel.ChunkCount(MpfList.SelectedIndex).ToString();
+                FileID.Text = modelHeader.Value.FileID.ToString();
+                BoneCount.Text = modelHeader.Value.boneDatas.Count.ToString();
+                MaterialCount.Text = modelHeader.Value.materialDatas.Count.ToString();
+                IkCount.Text = modelHeader.Value.iKPoints.Count.ToString();
+                ShapeKeyCount.Text = modelHeader.Value.MorphKeyCount.ToString();
+
+                TristripCountLabel.Text = trickyModel.TristripCount(modelHeader.Value).ToString();
+                VerticeCount.Text = trickyModel.VerticeCount(modelHeader.Value).ToString();
+                MeshChunks.Text = trickyModel.ChunkCount(modelHeader.Value).ToString();
+                MaterialGroupCount.Text = modelHeader.Value.MeshGroups.Count.ToString();
+                WeightGroupCount.Text = trickyModel.WeigthRefCount(modelHeader.Value).ToString();
+                MorphGroupCount.Text = trickyModel.MorphGroupCount(modelHeader.Value).ToString();
+
+                MaterialList.Items.Clear();
+                MpfUpdateMaterial();
+                for (int i = 0; i < modelHeader.Value.materialDatas.Count; i++)
+                {
+                    MaterialList.Items.Add(modelHeader.Value.materialDatas[i].MainTexture);
+                }
             }
             else
             {
-                TristripCount.Text = "0";
+                //Modle Header Info
+                FileID.Text = "0";
+                BoneCount.Text = "0";
+                MaterialCount.Text = "0";
+                IkCount.Text = "0";
+                ShapeKeyCount.Text = "0";
+
+                //Model Data
+                TristripCountLabel.Text = "0";
                 VerticeCount.Text = "0";
+                MeshChunks.Text = "0";
+                MaterialGroupCount.Text = "0";
+                WeightGroupCount.Text = "0";
+                MorphGroupCount.Text = "0";
+
+                //Material Items
+                MaterialList.Items.Clear();
+                MpfUpdateMaterial();
+            }
+        }
+        bool MatDisableUpdate;
+        void MpfUpdateMaterial(TrickyMPFModelHandler.MPFModelHeader? modelHeader = null)
+        {
+            if(MaterialList.SelectedIndex!=-1 && modelHeader!=null)
+            {
+                MatDisableUpdate = true;
+                MatMainTexture.Text = modelHeader.Value.materialDatas[MaterialList.SelectedIndex].MainTexture;
+                MatTextureFlag1.Text = modelHeader.Value.materialDatas[MaterialList.SelectedIndex].Texture1;
+                MatTextureFlag2.Text = modelHeader.Value.materialDatas[MaterialList.SelectedIndex].Texture2;
+                MatTextureFlag3.Text = modelHeader.Value.materialDatas[MaterialList.SelectedIndex].Texture3;
+                MatTextureFlag4.Text = modelHeader.Value.materialDatas[MaterialList.SelectedIndex].Texture4;
+                MatFlagFactor.Value = (decimal)modelHeader.Value.materialDatas[MaterialList.SelectedIndex].FactorFloat;
+                MatDisableUpdate = false;
+            }
+            else
+            {
+                MatDisableUpdate = true;
+                MatMainTexture.Text = "";
+                MatTextureFlag1.Text = "";
+                MatTextureFlag2.Text = "";
+                MatTextureFlag3.Text = "";
+                MatTextureFlag4.Text = "";
+                MatFlagFactor.Value = 0;
+                MatDisableUpdate = false;
             }
         }
 
         private void MpfList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GetVerticeAndTristripCount(MpfList.SelectedIndex);
+            if (MpfList.SelectedIndex != -1)
+            {
+                if (trickyModel.Board != null)
+                {
+                    UpdateData(trickyModel.Board.ModelList[MpfList.SelectedIndex]);
+                }
+                else
+                {
+                    UpdateData();
+                }
+                RegeneratePartList();
+            }
+        }
+
+        void RegeneratePartList()
+        {
+            CharacterParts.Items.Clear();
+            int MeshID = MpfList.SelectedIndex;
+            if (trickyModel.Body!=null && trickyModel.Head != null)
+            {
+                for (int i = 0; i < trickyModel.Body.ModelList.Count; i++)
+                {
+                    if ((MeshID == 0 && trickyModel.Body.ModelList[i].FileName.Contains("3000")) ||
+                        (MeshID == 1 && trickyModel.Body.ModelList[i].FileName.Contains("1500")) ||
+                        (MeshID == 2 && trickyModel.Body.ModelList[i].FileName.Contains("750") && !trickyModel.Body.ModelList[i].FileName.ToLower().Contains("shdw")) ||
+                        (MeshID == 3 && trickyModel.Body.ModelList[i].FileName.ToLower().Contains("shdw")))
+                    {
+                        CharacterParts.Items.Add(trickyModel.Body.ModelList[i].FileName);
+                    }
+                }
+
+                //Head
+                for (int i = 0; i < trickyModel.Head.ModelList.Count; i++)
+                {
+                    if ((MeshID == 0 && trickyModel.Head.ModelList[i].FileName.Contains("3000")) ||
+                        (MeshID == 1 && trickyModel.Head.ModelList[i].FileName.Contains("1500")) ||
+                        (MeshID == 2 && trickyModel.Head.ModelList[i].FileName.Contains("750") && !trickyModel.Head.ModelList[i].FileName.ToLower().Contains("shdw")) ||
+                        (MeshID == 3 && trickyModel.Head.ModelList[i].FileName.ToLower().Contains("shdw")))
+                    {
+
+                        CharacterParts.Items.Add(trickyModel.Head.ModelList[i].FileName);
+                    }
+                }
+            }
+        }
+
+        private void CharacterParts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(CharacterParts.SelectedIndex!=-1)
+            {
+                string LookingFor = CharacterParts.Items[CharacterParts.SelectedIndex].ToString();
+                int MeshID = -1;
+
+                for (int i = 0; i < trickyModel.Body.ModelList.Count; i++)
+                {
+                    if(LookingFor== trickyModel.Body.ModelList[i].FileName)
+                    {
+                        MeshID = i;
+                        UpdateData(trickyModel.Body.ModelList[i]);
+                        break;
+                    }
+                }
+
+                if (MeshID == -1)
+                {
+                    //Head
+                    for (int i = 0; i < trickyModel.Head.ModelList.Count; i++)
+                    {
+                        if (LookingFor == trickyModel.Head.ModelList[i].FileName)
+                        {
+                            MeshID = i;
+                            UpdateData(trickyModel.Head.ModelList[i]);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        private void MaterialList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(MaterialList.SelectedIndex != -1)
+            {
+                if (trickyModel.Board != null)
+                {
+                    MpfUpdateMaterial(trickyModel.Board.ModelList[MpfList.SelectedIndex]);
+                }
+                else if (trickyModel.Body != null && trickyModel.Head != null)
+                {
+                    string LookingFor = CharacterParts.Items[CharacterParts.SelectedIndex].ToString();
+                    int MeshID = -1;
+                    for (int i = 0; i < trickyModel.Body.ModelList.Count; i++)
+                    {
+                        if (LookingFor == trickyModel.Body.ModelList[i].FileName)
+                        {
+                            MeshID = i;
+                            MpfUpdateMaterial(trickyModel.Body.ModelList[i]);
+                            break;
+                        }
+                    }
+
+                    if (MeshID == -1)
+                    {
+                        //Head
+                        for (int i = 0; i < trickyModel.Head.ModelList.Count; i++)
+                        {
+                            if (LookingFor == trickyModel.Head.ModelList[i].FileName)
+                            {
+                                MeshID = i;
+                                MpfUpdateMaterial(trickyModel.Head.ModelList[i]);
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    MpfUpdateMaterial();
+                }
+            }
+        }
+
+        private void MPFUpdateMat(object sender, EventArgs e)
+        {
+            if(MaterialList.SelectedIndex!=-1&&!MatDisableUpdate)
+            {
+                MatDisableUpdate = true;
+
+                //Load Material
+
+
+
+
+
+                //Save Material
+
+                MatDisableUpdate = false;
+            }
         }
     }
 }

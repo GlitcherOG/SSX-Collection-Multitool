@@ -52,30 +52,21 @@ namespace SSXMultiTool.FileHandlers.Models
             return -1;
         }
 
-        public int TristripCount(int MeshID)
+        public int TristripCount(TrickyMPFModelHandler.MPFModelHeader modelHeader)
         {
             int Count = 0;
-            if (BodyBool)
-            {
-                if (Head != null && Body != null)
-                {
-                    return 0;
-                }
-            }
-            else if (Board != null)
-            {
-                var TempMesh = Board.ModelList[MeshID].MeshGroups;
 
-                for (int i = 0; i < TempMesh.Count; i++)
+            var TempMesh = modelHeader.MeshGroups;
+
+            for (int i = 0; i < TempMesh.Count; i++)
+            {
+                for (int a = 0; a < TempMesh[i].meshGroupSubs.Count; a++)
                 {
-                    for (int a = 0; a < TempMesh[i].meshGroupSubs.Count; a++)
+                    for (int b = 0; b < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders.Count; b++)
                     {
-                        for (int b = 0; b < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders.Count; b++)
+                        for (int c = 0; c < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh.Count; c++)
                         {
-                            for (int c = 0; c < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh.Count; c++)
-                            {
-                                Count += TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh[c].Strips.Count;
-                            }
+                            Count += TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh[c].Strips.Count;
                         }
                     }
                 }
@@ -84,30 +75,20 @@ namespace SSXMultiTool.FileHandlers.Models
             return Count;
         }
 
-        public int VerticeCount(int MeshID)
+        public int VerticeCount(TrickyMPFModelHandler.MPFModelHeader modelHeader)
         {
             int Count = 0;
-            if (BodyBool)
-            {
-                if (Head != null && Body != null)
-                {
-                    return 0;
-                }
-            }
-            else if (Board != null)
-            {
-                var TempMesh = Board.ModelList[MeshID].MeshGroups;
+            var TempMesh = modelHeader.MeshGroups;
 
-                for (int i = 0; i < TempMesh.Count; i++)
+            for (int i = 0; i < TempMesh.Count; i++)
+            {
+                for (int a = 0; a < TempMesh[i].meshGroupSubs.Count; a++)
                 {
-                    for (int a = 0; a < TempMesh[i].meshGroupSubs.Count; a++)
+                    for (int b = 0; b < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders.Count; b++)
                     {
-                        for (int b = 0; b < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders.Count; b++)
+                        for (int c = 0; c < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh.Count; c++)
                         {
-                            for (int c = 0; c < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh.Count; c++)
-                            {
-                                Count += TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh[c].vertices.Count;
-                            }
+                            Count += TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh[c].vertices.Count;
                         }
                     }
                 }
@@ -116,29 +97,48 @@ namespace SSXMultiTool.FileHandlers.Models
             return Count;
         }
 
-        public int ChunkCount(int MeshID)
+        public int ChunkCount(TrickyMPFModelHandler.MPFModelHeader modelHeader)
         {
             int Count = 0;
-            if (BodyBool)
+            var TempMesh = modelHeader.MeshGroups;
+
+            for (int i = 0; i < TempMesh.Count; i++)
             {
-                if (Head != null && Body != null)
+                for (int a = 0; a < TempMesh[i].meshGroupSubs.Count; a++)
                 {
-                    return 0;
+                    for (int b = 0; b < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders.Count; b++)
+                    {
+                        Count += TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh.Count;
+                    }
                 }
             }
-            else if (Board != null)
-            {
-                var TempMesh = Board.ModelList[MeshID].MeshGroups;
 
-                for (int i = 0; i < TempMesh.Count; i++)
+            return Count;
+        }
+
+        public int WeigthRefCount(TrickyMPFModelHandler.MPFModelHeader modelHeader)
+        {
+            int Count = 0;
+            var TempMesh = modelHeader.MeshGroups;
+
+            for (int i = 0; i < TempMesh.Count; i++)
+            {
+                Count += TempMesh[i].meshGroupSubs.Count;
+            }
+
+            return Count;
+        }
+
+        public int MorphGroupCount(TrickyMPFModelHandler.MPFModelHeader modelHeader)
+        {
+            int Count = 0;
+            var TempMesh = modelHeader.MeshGroups;
+
+            for (int i = 0; i < TempMesh.Count; i++)
+            {
+                for (int a = 0; a < TempMesh[i].meshGroupSubs.Count; a++)
                 {
-                    for (int a = 0; a < TempMesh[i].meshGroupSubs.Count; a++)
-                    {
-                        for (int b = 0; b < TempMesh[i].meshGroupSubs[a].MeshGroupHeaders.Count; b++)
-                        {
-                            Count += TempMesh[i].meshGroupSubs[a].MeshGroupHeaders[b].staticMesh.Count;
-                        }
-                    }
+                    Count += TempMesh[i].meshGroupSubs[a].MeshGroupHeaders.Count;
                 }
             }
 
