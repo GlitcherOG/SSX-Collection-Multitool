@@ -653,7 +653,7 @@ namespace SSXMultiTool.FileHandlers.Models
             return tristripList;
         }
 
-        public static List<IndiceTristrip> GenerateTristripNivda(List<IndiceFace> indiceFaces)
+        public static List<IndiceTristrip> GenerateTristripNivda(List<IndiceFace> indiceFaces, int TristripMax = 25)
         {
             List<IndiceTristrip> tristripList = new List<IndiceTristrip>();
 
@@ -666,7 +666,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 Index[i * 3 + 2] = (ushort)indiceFaces[i].Id3;
             }
 
-            var TempPrimativeGroup = ToTriangleStrips(Index, false);
+            var TempPrimativeGroup = ToTriangleStrips(Index, false, TristripMax);
 
             for (int i = 0; i < TempPrimativeGroup.Length; i++)
             {
@@ -683,12 +683,12 @@ namespace SSXMultiTool.FileHandlers.Models
             return tristripList;
         }
 
-        public static TriStrip.PrimitiveGroup[] ToTriangleStrips(ushort[] indexBuffer, bool validateStrips)
+        public static TriStrip.PrimitiveGroup[] ToTriangleStrips(ushort[] indexBuffer, bool validateStrips, int MaxTristrips)
         {
             var triStrip = new TriStrip(); // create new class instance
 
             triStrip.DisableRestart(); // we want separate strips, so restart is not needed
-            triStrip.SetCacheSize(24); // GeForce1/2 vertex cache size is 16
+            triStrip.SetCacheSize(MaxTristrips); // GeForce1/2 vertex cache size is 16
             triStrip.SetListsOnly(false); // we want separate strips, not optimized list
             triStrip.SetMinStripSize(0); // minimum triangle count in a strip is 0
             triStrip.SetStitchStrips(false); // don't stitch strips into one huge strip

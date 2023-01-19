@@ -18,7 +18,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
         public bool BoneUpdate;
         public int TristripMode;
-        public bool NormalAverage = false;
+        public bool NormalAverage;
 
         public List<ReassignedMesh> reassignedMesh = new List<ReassignedMesh>();
 
@@ -286,96 +286,24 @@ namespace SSXMultiTool.FileHandlers.Models
                     reassignedMesh.Add(TempMesh);
                 }
             }
-            //CorrectBonesandFaces();
+            FixBoneParents();
         }
 
-        void CorrectBonesandFaces()
+        public void FixBoneParents()
         {
-            var OldBones = bones;
-            bones = new List<TrickyMPFModelHandler.BoneData>();
-            if (OldBones[0].ParentBone==-1)
+            for (int i = 0; i < bones.Count; i++)
             {
-                bones.Add(OldBones[0]);
-                FindBoneChildren(0, 0, OldBones);
-            }
-            else
-            {
-                MessageBox.Show("Unexpected Error");
-            }
-
-            for (int i = 0; i < reassignedMesh.Count; i++)
-            {
-                var TempMesh = reassignedMesh[i];
-                for (int a = 0; a < TempMesh.faces.Count; a++)
+                if (bones[i].ParentFileID != -1 && bones[i].ParentBone != -1)
                 {
-                    var TempFace = TempMesh.faces[a];
-
-                    for (int b = 0; b < TempFace.Weight1.boneWeights.Count; b++)
+                    for (int a = 0; a < bones.Count; a++)
                     {
-                        var TempBoneWeight = TempFace.Weight1.boneWeights[b];
-
-                        for (int c = 0; c < bones.Count; c++)
+                        if (bones[i].ParentFileID == bones[a].FileID && bones[i].ParentBone == bones[a].BonePos)
                         {
-                            if (bones[c].BonePos == TempBoneWeight.BoneID)
-                            {
-                                TempBoneWeight.BoneID = c;
-                                break;
-                            }
+                            var TempBone = bones[i];
+                            TempBone.ParentBone = a;
+                            bones[i] = TempBone;
                         }
-
-                        TempFace.Weight1.boneWeights[b] = TempBoneWeight;
                     }
-
-                    for (int b = 0; b < TempFace.Weight2.boneWeights.Count; b++)
-                    {
-                        var TempBoneWeight = TempFace.Weight2.boneWeights[b];
-
-                        for (int c = 0; c < bones.Count; c++)
-                        {
-                            if (bones[c].BonePos == TempBoneWeight.BoneID)
-                            {
-                                TempBoneWeight.BoneID = c;
-                                break;
-                            }
-                        }
-
-                        TempFace.Weight2.boneWeights[b] = TempBoneWeight;
-                    }
-
-                    for (int b = 0; b < TempFace.Weight3.boneWeights.Count; b++)
-                    {
-                        var TempBoneWeight = TempFace.Weight3.boneWeights[b];
-
-                        for (int c = 0; c < bones.Count; c++)
-                        {
-                            if (bones[c].BonePos == TempBoneWeight.BoneID)
-                            {
-                                TempBoneWeight.BoneID = c;
-                                break;
-                            }
-                        }
-
-                        TempFace.Weight3.boneWeights[b] = TempBoneWeight;
-                    }
-
-
-                    TempMesh.faces[a] = TempFace;
-                }
-                reassignedMesh[i] = TempMesh;
-            }
-        }
-
-        void FindBoneChildren(int OldID, int NewID, List<TrickyMPFModelHandler.BoneData> oldBoneList)
-        {
-            for (int i = 0; i < oldBoneList.Count; i++)
-            {
-                if (oldBoneList[i].ParentBone==OldID)
-                {
-                    var TempBone = oldBoneList[i];
-                    TempBone.ParentBone = NewID;
-                    TempBone.BonePos = i;
-                    bones.Add(TempBone);
-                    FindBoneChildren(i, bones.Count - 1, oldBoneList);
                 }
             }
         }
@@ -388,7 +316,6 @@ namespace SSXMultiTool.FileHandlers.Models
             {
                 modelHeader.boneWeightHeader[i] = FixBoneIDs(modelHeader.boneWeightHeader[i], BoneData);
             }
-
 
             for (int a = 0; a < modelHeader.MeshGroups.Count; a++)
             {

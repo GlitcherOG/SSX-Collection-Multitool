@@ -81,6 +81,8 @@
             this.MPFLoad = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ELFLdrSetup = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -89,6 +91,7 @@
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -500,13 +503,15 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.numericUpDown1);
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.TristripMethodList);
             this.groupBox1.Controls.Add(this.BoneUpdateCheck);
             this.groupBox1.Controls.Add(this.ImportAverageNormal);
-            this.groupBox1.Location = new System.Drawing.Point(204, 282);
+            this.groupBox1.Location = new System.Drawing.Point(210, 190);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(276, 78);
+            this.groupBox1.Size = new System.Drawing.Size(292, 123);
             this.groupBox1.TabIndex = 21;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Import Settings";
@@ -640,6 +645,32 @@
             this.ELFLdrSetup.UseVisualStyleBackColor = true;
             this.ELFLdrSetup.Click += new System.EventHandler(this.ELFLdrSetup_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(149, 77);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(91, 15);
+            this.label2.TabIndex = 41;
+            this.label2.Text = "Max Tristrip Size";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDown1.Location = new System.Drawing.Point(149, 96);
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(81, 23);
+            this.numericUpDown1.TabIndex = 40;
+            // 
             // TrickyToolsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -660,6 +691,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -719,5 +751,7 @@
         private Label label21;
         private Label MaterialGroupCount;
         private Label label20;
+        private Label label2;
+        private NumericUpDown numericUpDown1;
     }
 }
