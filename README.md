@@ -19,6 +19,7 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - Add Error for Incorrect number of meshes for the character
 - Fix UI
 - Add Weight Testing
+- Fix Bone Parenting for Exporting
 
 For stiching have it ignore the uv points and normals for checking might need to redo how the indices work for that
 Nvida Stitching

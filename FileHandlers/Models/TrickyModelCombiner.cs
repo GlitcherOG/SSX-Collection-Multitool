@@ -20,7 +20,6 @@ namespace SSXMultiTool.FileHandlers.Models
         public int TristripMode;
         public bool NormalAverage = false;
 
-
         public List<ReassignedMesh> reassignedMesh = new List<ReassignedMesh>();
 
         public int DectectModelType(TrickyMPFModelHandler modelHandler)

@@ -194,13 +194,20 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if ((trickyModel.Board != null)||(trickyModel.Head != null&& trickyModel.Body != null))
+                    if ((trickyModel.Board != null) || (trickyModel.Head != null && trickyModel.Body != null))
                     {
-                        var TempCombiner = glftHandler.LoadGlft(openFileDialog.FileName);
+                        try
+                        {
+                            var TempCombiner = glftHandler.LoadGlft(openFileDialog.FileName);
 
-                        trickyModel.StartRegenMesh(TempCombiner, MpfList.SelectedIndex);
+                            trickyModel.StartRegenMesh(TempCombiner, MpfList.SelectedIndex);
 
-                        GetVerticeAndTristripCount(MpfList.SelectedIndex);
+                            GetVerticeAndTristripCount(MpfList.SelectedIndex);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Failed to Load File");
+                        }
                     }
                 }
             }
