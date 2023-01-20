@@ -17,15 +17,8 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - Fix Mesh Regen Board, Add Normal Average, Bone Update, Material Regeneration
 - Add Error Protection For Nvida Failing (Fixed issue but still a good idea)
 - Add Error for Incorrect number of meshes for the character
-- Fix UI
-- Add Weight Testing
-- Fix Bone Parenting for Exporting
-
-For stiching have it ignore the uv points and normals for checking might need to redo how the indices work for that
-Nvida Stitching
-
-
-
+- Fix UI Mat Saving
+- Add Weight Testing in tristirpper
 
 - Redo Folder Loading SSH
 - LOC Script Update

@@ -1330,7 +1330,10 @@ namespace SSXMultiTool.FileHandlers.Models
                         TrickyMPFModelHandler.StaticMesh staticMesh = new TrickyMPFModelHandler.StaticMesh();
                         staticMesh.weightsInts = new List<int>();
                         staticMesh.Unknown1 = 14;
-                        staticMesh.Unknown2 = 114;
+                        if (!Shadow)
+                        {
+                            staticMesh.Unknown2 = 114;
+                        }
                         staticMesh.MatieralID = a;
                         staticMesh.vertices = new List<Vector3>();
                         staticMesh.uvNormals = new List<Vector3>();
