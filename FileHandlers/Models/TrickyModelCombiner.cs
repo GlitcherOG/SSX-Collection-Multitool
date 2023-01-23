@@ -1003,16 +1003,16 @@ namespace SSXMultiTool.FileHandlers.Models
                             if (TempBone.BoneName == TempNewBone.BoneName)
                             {
                                 TempBone.Position = TempNewBone.Position;
-                                TempBone.Radians = TempNewBone.Radians;
+                                //TempBone.Radians = TempNewBone.Radians;
 
-                                for (int c = 0; c < bones.Count; c++)
-                                {
-                                    if (bones[c].BoneName == TempBone.parentName)
-                                    {
-                                        TempBone.ParentBone = bones[c].BonePos;
-                                        TempBone.ParentFileID = bones[c].FileID;
-                                    }
-                                }
+                                //for (int c = 0; c < bones.Count; c++)
+                                //{
+                                //    if (bones[c].BoneName == TempBone.parentName)
+                                //    {
+                                //        TempBone.ParentBone = bones[c].BonePos;
+                                //        TempBone.ParentFileID = bones[c].FileID;
+                                //    }
+                                //}
                             }
                         }
 

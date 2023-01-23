@@ -334,7 +334,7 @@ namespace SSXMultiTool.FileHandlers
                                 //Load Vertex
                                 if (ModelData.VertexCount != 0)
                                 {
-                                    streamMatrix.Position += 47;
+                                    streamMatrix.Position += 48;
                                     //Can also make it use normal but this seems safer
                                     if (GroupHeader.GroupType!=17)
                                     {
