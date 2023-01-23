@@ -909,7 +909,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
             if (trickyModelCombiner.bones.Count != bones.Count)
             {
-                MessageBox.Show("Incorrect Ammount of Bones");
+                MessageBox.Show("Incorrect Ammount of Bones " + trickyModelCombiner.bones.Count + "/" + bones.Count);
                 return;
             }
 
@@ -945,7 +945,7 @@ namespace SSXMultiTool.FileHandlers.Models
                         Reassinged = true;
                         if (TempReMesh.MorphTargetCount!= Head.ModelList[a].MorphKeyCount)
                         {
-                            MessageBox.Show("Incorrect ammount of Shapekeys");
+                            MessageBox.Show("Incorrect ammount of Shapekeys " + Head.ModelList[a].MorphKeyCount + "/"+TempReMesh.MorphTargetCount);
                             return;
                         }
 

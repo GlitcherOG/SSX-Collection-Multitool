@@ -336,7 +336,7 @@ namespace SSXMultiTool.FileHandlers
                                 {
                                     streamMatrix.Position += 47;
                                     //Can also make it use normal but this seems safer
-                                    if (StreamUtil.ReadUInt8(streamMatrix) != 0x6C)
+                                    if (GroupHeader.GroupType!=17)
                                     {
                                         for (int a = 0; a < ModelData.VertexCount; a++)
                                         {
