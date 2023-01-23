@@ -121,12 +121,12 @@ namespace SSXMultiTool.FileHandlers
                     Binding = bindings[Handler.bones[i].ParentBone];
                 }
                 Binding = Binding.CreateNode(Handler.bones[i].BoneName);
-                float tempX = Handler.bones[i].XRadian;
-                float tempY = Handler.bones[i].YRadian;
-                float tempZ = Handler.bones[i].ZRadian;
+                float tempX = Handler.bones[i].Radians.X;
+                float tempY = Handler.bones[i].Radians.Y;
+                float tempZ = Handler.bones[i].Radians.Z;
 
                 Binding.WithLocalRotation(ToQuaternion(new Vector3(-tempX, -tempY, -tempZ)));
-                Binding.WithLocalTranslation(new Vector3(Handler.bones[i].XLocation, Handler.bones[i].YLocation, Handler.bones[i].ZLocation));
+                Binding.WithLocalTranslation(Handler.bones[i].Position);
 
                 Binding.LocalMatrix = Binding.LocalMatrix;
                 bindings.Add(Binding);
@@ -515,24 +515,14 @@ namespace SSXMultiTool.FileHandlers
             var TempBoneData = new TrickyMPFModelHandler.BoneData();
 
             TempBoneData.BoneName = nodeBuilder.Name;
-            TempBoneData.XLocation = nodeBuilder.LocalTransform.Translation.X;
-            TempBoneData.YLocation = nodeBuilder.LocalTransform.Translation.Y;
-            TempBoneData.ZLocation = nodeBuilder.LocalTransform.Translation.Z;
-
+            TempBoneData.Position = nodeBuilder.LocalTransform.Translation;
+            if (nodeBuilder.Parent != null)
+            {
+                TempBoneData.parentName = nodeBuilder.Parent.Name;
+            }
             Quaternion quaternion = nodeBuilder.LocalTransform.GetDecomposed().Rotation;
             Vector3 radians = ToEulerAngles(quaternion);
-            TempBoneData.XRadian = radians.X;
-            TempBoneData.YRadian = radians.Y;
-            TempBoneData.ZRadian = radians.Z;
-
-            //if (!startBone)
-            //{
-            //    TempBoneData.ParentBone = Int32.Parse(nodeBuilder.Parent.Name.Split(" ")[1]);
-            //}
-            //else
-            //{
-            //    TempBoneData.ParentBone = -1;
-            //}
+            TempBoneData.Radians = radians;
 
             boneDatas.Add(TempBoneData);
 

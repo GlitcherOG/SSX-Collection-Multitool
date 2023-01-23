@@ -19,6 +19,7 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - Add Error for Incorrect number of meshes for the character
 - Fix UI Mat Saving
 - Add Weight Testing in tristirpper
+- More Info on shapekey
 
 - Redo Folder Loading SSH
 - LOC Script Update

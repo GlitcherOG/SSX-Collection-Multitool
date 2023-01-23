@@ -991,6 +991,36 @@ namespace SSXMultiTool.FileHandlers.Models
                     TempTrickyMesh = Head.ModelList[TempReMesh.MeshId];
                 }
 
+                //Update Bones
+                if (BoneUpdate)
+                {
+                    for (int a = 0; a < TempTrickyMesh.boneDatas.Count; a++)
+                    {
+                        var TempBone = TempTrickyMesh.boneDatas[a];
+                        for (int b = 0; b < trickyModelCombiner.bones.Count; b++)
+                        {
+                            var TempNewBone = trickyModelCombiner.bones[b];
+                            if (TempBone.BoneName == TempNewBone.BoneName)
+                            {
+                                TempBone.Position = TempNewBone.Position;
+                                TempBone.Radians = TempNewBone.Radians;
+
+                                for (int c = 0; c < bones.Count; c++)
+                                {
+                                    if (bones[c].BoneName == TempBone.parentName)
+                                    {
+                                        TempBone.ParentBone = bones[c].BonePos;
+                                        TempBone.ParentFileID = bones[c].FileID;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        TempTrickyMesh.boneDatas[a] = TempBone;
+                    }
+
+                }
                 List<int> MaterialsID = new List<int>();
                 List<int> RedoneMaterial = new List<int>();
                 //Regenerate Materials
@@ -1131,6 +1161,10 @@ namespace SSXMultiTool.FileHandlers.Models
 
                             Test = true;
                         }
+                        else if (TempReMesh.faces[a].Weight1Pos != VectorPoint[TempID].Weight)
+                        {
+                            TestID++;
+                        }
                         else if (!Shadow)
                         {
                             TestID++;
@@ -1143,10 +1177,6 @@ namespace SSXMultiTool.FileHandlers.Models
 
                             }
                             else if (!UVEqual(TempReMesh.faces[a].UV1, VectorPoint[TempID].TextureCord))
-                            {
-
-                            }
-                            else if (TempReMesh.faces[a].Weight1Pos != VectorPoint[TempID].Weight)
                             {
 
                             }
@@ -1196,6 +1226,10 @@ namespace SSXMultiTool.FileHandlers.Models
 
                             Test = true;
                         }
+                        else if (TempReMesh.faces[a].Weight2Pos != VectorPoint[TempID].Weight)
+                        {
+                            TestID++;
+                        }
                         else if (!Shadow)
                         {
                             TestID++;
@@ -1208,10 +1242,6 @@ namespace SSXMultiTool.FileHandlers.Models
 
                             }
                             else if (!UVEqual(TempReMesh.faces[a].UV2, VectorPoint[TempID].TextureCord))
-                            {
-
-                            }
-                            else if (TempReMesh.faces[a].Weight2Pos != VectorPoint[TempID].Weight)
                             {
 
                             }
@@ -1261,6 +1291,10 @@ namespace SSXMultiTool.FileHandlers.Models
 
                             Test = true;
                         }
+                        else if (TempReMesh.faces[a].Weight3Pos != VectorPoint[TempID].Weight)
+                        {
+                            TestID++;
+                        }
                         else if (!Shadow)
                         {
                             TestID++;
@@ -1273,10 +1307,6 @@ namespace SSXMultiTool.FileHandlers.Models
 
                             }
                             else if (!UVEqual(TempReMesh.faces[a].UV3, VectorPoint[TempID].TextureCord))
-                            {
-
-                            }
-                            else if (TempReMesh.faces[a].Weight3Pos != VectorPoint[TempID].Weight)
                             {
 
                             }

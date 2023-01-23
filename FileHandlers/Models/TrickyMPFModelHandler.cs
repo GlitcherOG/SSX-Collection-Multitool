@@ -140,12 +140,8 @@ namespace SSXMultiTool.FileHandlers
                     TempBoneData.ParentBone = StreamUtil.ReadInt16(streamMatrix);
                     TempBoneData.Unknown2 = StreamUtil.ReadInt16(streamMatrix);
                     TempBoneData.BoneID = StreamUtil.ReadInt16(streamMatrix);
-                    TempBoneData.XLocation = StreamUtil.ReadFloat(streamMatrix);
-                    TempBoneData.YLocation = StreamUtil.ReadFloat(streamMatrix);
-                    TempBoneData.ZLocation = StreamUtil.ReadFloat(streamMatrix);
-                    TempBoneData.XRadian = StreamUtil.ReadFloat(streamMatrix);
-                    TempBoneData.YRadian = StreamUtil.ReadFloat(streamMatrix);
-                    TempBoneData.ZRadian = StreamUtil.ReadFloat(streamMatrix);
+                    TempBoneData.Position = StreamUtil.ReadVector3(streamMatrix);
+                    TempBoneData.Radians = StreamUtil.ReadVector3(streamMatrix);
                     TempBoneData.XRadian2 = StreamUtil.ReadFloat(streamMatrix);
                     TempBoneData.YRadian2 = StreamUtil.ReadFloat(streamMatrix);
                     TempBoneData.ZRadian2 = StreamUtil.ReadFloat(streamMatrix);
@@ -614,12 +610,9 @@ namespace SSXMultiTool.FileHandlers
                     StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].Unknown2);
                     StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].BoneID);
 
-                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].XLocation);
-                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].YLocation);
-                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].ZLocation);
-                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].XRadian);
-                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].YRadian);
-                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].ZRadian);
+                    StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Position);
+
+                    StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Radians);
                     StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].XRadian2);
                     StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].YRadian2);
                     StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].ZRadian2);
@@ -1201,13 +1194,11 @@ namespace SSXMultiTool.FileHandlers
             public int ParentBone;
             public int Unknown2;
             public int BoneID;
-            public float XLocation;
-            public float YLocation;
-            public float ZLocation;
 
-            public float XRadian;
-            public float YRadian;
-            public float ZRadian;
+            public Vector3 Position;
+
+            public Vector3 Radians;
+
             public float XRadian2;
             public float YRadian2;
             public float ZRadian2;
@@ -1221,6 +1212,8 @@ namespace SSXMultiTool.FileHandlers
 
             public int FileID;
             public int BonePos;
+
+            public string parentName;
         }
 
 
