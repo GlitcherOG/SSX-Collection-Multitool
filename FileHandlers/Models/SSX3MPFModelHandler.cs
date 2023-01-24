@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Numerics;
 
 namespace SSXMultiTool.FileHandlers
 {
@@ -245,7 +246,7 @@ namespace SSXMultiTool.FileHandlers
             StreamUtil.WriteInt16(stream, HeaderSize);
             StreamUtil.WriteInt32(stream, DataOffset);
 
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < ModelList.Count; i++)
             {
                 StreamUtil.WriteString(stream, ModelList[i].ModelName, 16);
 
@@ -281,7 +282,7 @@ namespace SSXMultiTool.FileHandlers
             StreamUtil.AlignBy16(stream);
 
 
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < ModelList.Count; i++)
             {
                 //Save current pos go back and set start pos
                 stream.Position = DataOffset + ModelList[i].DataOffset;
@@ -369,17 +370,10 @@ namespace SSXMultiTool.FileHandlers
             public List<MPFUnkownArray1> U12UnkownArray2;
 
 
-            public List<Vertex3> vertices;
+            public List<Vector3> vertices;
             public List<Face> faces;
             public List<int> Strips;
             //
-        }
-
-        public struct Vertex3
-        {
-            public float X;
-            public float Y;
-            public float Z;
         }
 
         public struct Face

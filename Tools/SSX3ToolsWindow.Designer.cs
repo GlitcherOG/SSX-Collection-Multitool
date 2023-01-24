@@ -1859,21 +1859,21 @@
             // 
             // MPFSave
             // 
-            this.MPFSave.Location = new System.Drawing.Point(420, 252);
+            this.MPFSave.Location = new System.Drawing.Point(795, 502);
             this.MPFSave.Name = "MPFSave";
-            this.MPFSave.Size = new System.Drawing.Size(75, 23);
+            this.MPFSave.Size = new System.Drawing.Size(143, 23);
             this.MPFSave.TabIndex = 1;
-            this.MPFSave.Text = "button5";
+            this.MPFSave.Text = "Save Decompressed";
             this.MPFSave.UseVisualStyleBackColor = true;
             this.MPFSave.Click += new System.EventHandler(this.MPFSave_Click);
             // 
             // MPFLoad
             // 
-            this.MPFLoad.Location = new System.Drawing.Point(184, 305);
+            this.MPFLoad.Location = new System.Drawing.Point(3, 502);
             this.MPFLoad.Name = "MPFLoad";
             this.MPFLoad.Size = new System.Drawing.Size(75, 23);
             this.MPFLoad.TabIndex = 0;
-            this.MPFLoad.Text = "button4";
+            this.MPFLoad.Text = "Load";
             this.MPFLoad.UseVisualStyleBackColor = true;
             this.MPFLoad.Click += new System.EventHandler(this.MPFLoad_Click);
             // 

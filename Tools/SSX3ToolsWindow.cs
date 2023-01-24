@@ -510,12 +510,31 @@ namespace SSXMultiTool
 
         private void MPFLoad_Click(object sender, EventArgs e)
         {
-
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Model File (*.mpf)|*.mpf|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                modelHandler = new SSX3MPFModelHandler();
+                modelHandler.load(openFileDialog.FileName);
+            }
         }
 
         private void MPFSave_Click(object sender, EventArgs e)
         {
-
+            SaveFileDialog openFileDialog = new SaveFileDialog
+            {
+                Filter = "Model File (*.mpf)|*.mpf|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                modelHandler.Save(openFileDialog.FileName);
+            }
         }
     }
 }
