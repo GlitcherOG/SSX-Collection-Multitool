@@ -275,6 +275,8 @@ namespace SSXMultiTool
                 MatTextureFlag3.Text = modelHeader.Value.materialDatas[MaterialList.SelectedIndex].Texture3;
                 MatTextureFlag4.Text = modelHeader.Value.materialDatas[MaterialList.SelectedIndex].Texture4;
                 MatFlagFactor.Value = (decimal)modelHeader.Value.materialDatas[MaterialList.SelectedIndex].FactorFloat;
+                MatUnknown1.Value = (decimal)modelHeader.Value.materialDatas[MaterialList.SelectedIndex].Unused1Float;
+                MatUnknown2.Value = (decimal)modelHeader.Value.materialDatas[MaterialList.SelectedIndex].Unused2Float;
                 MatDisableUpdate = false;
             }
             else
@@ -286,6 +288,8 @@ namespace SSXMultiTool
                 MatTextureFlag3.Text = "";
                 MatTextureFlag4.Text = "";
                 MatFlagFactor.Value = 0;
+                MatUnknown1.Value = 0;
+                MatUnknown2.Value = 0;
                 MatDisableUpdate = false;
             }
         }
@@ -461,7 +465,8 @@ namespace SSXMultiTool
                 TempMat.Texture3 = MatTextureFlag3.Text;
                 TempMat.Texture4 = MatTextureFlag4.Text;
                 TempMat.FactorFloat = (float)MatFlagFactor.Value;
-
+                TempMat.Unused1Float = (float)MatUnknown1.Value;
+                TempMat.Unused2Float = (float)MatUnknown2.Value;
 
                 if (trickyModel.Board != null)
                 {

@@ -83,6 +83,10 @@
             this.MPFLoad = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ELFLdrSetup = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.MatUnknown1 = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.MatUnknown2 = new System.Windows.Forms.NumericUpDown();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -91,6 +95,8 @@
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MatUnknown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MatUnknown2)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -274,6 +280,10 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.MatUnknown2);
+            this.groupBox3.Controls.Add(this.label7);
+            this.groupBox3.Controls.Add(this.MatUnknown1);
             this.groupBox3.Controls.Add(this.label20);
             this.groupBox3.Controls.Add(this.MatFlagFactor);
             this.groupBox3.Controls.Add(this.MatTextureFlag4);
@@ -289,7 +299,7 @@
             this.groupBox3.Controls.Add(this.MaterialList);
             this.groupBox3.Location = new System.Drawing.Point(508, 6);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(254, 177);
+            this.groupBox3.Size = new System.Drawing.Size(254, 218);
             this.groupBox3.TabIndex = 25;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Material Settings";
@@ -413,7 +423,7 @@
             this.MaterialList.ItemHeight = 15;
             this.MaterialList.Location = new System.Drawing.Point(6, 22);
             this.MaterialList.Name = "MaterialList";
-            this.MaterialList.Size = new System.Drawing.Size(70, 139);
+            this.MaterialList.Size = new System.Drawing.Size(70, 184);
             this.MaterialList.TabIndex = 27;
             this.MaterialList.SelectedIndexChanged += new System.EventHandler(this.MaterialList_SelectedIndexChanged);
             // 
@@ -668,6 +678,62 @@
             this.ELFLdrSetup.UseVisualStyleBackColor = true;
             this.ELFLdrSetup.Click += new System.EventHandler(this.ELFLdrSetup_Click);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(82, 164);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(67, 15);
+            this.label7.TabIndex = 41;
+            this.label7.Text = "Unknown 1";
+            // 
+            // MatUnknown1
+            // 
+            this.MatUnknown1.DecimalPlaces = 2;
+            this.MatUnknown1.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.MatUnknown1.Location = new System.Drawing.Point(82, 183);
+            this.MatUnknown1.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.MatUnknown1.Name = "MatUnknown1";
+            this.MatUnknown1.Size = new System.Drawing.Size(81, 23);
+            this.MatUnknown1.TabIndex = 40;
+            this.MatUnknown1.ValueChanged += new System.EventHandler(this.MPFUpdateMat);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(167, 164);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(67, 15);
+            this.label9.TabIndex = 43;
+            this.label9.Text = "Unknown 2";
+            // 
+            // MatUnknown2
+            // 
+            this.MatUnknown2.DecimalPlaces = 2;
+            this.MatUnknown2.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.MatUnknown2.Location = new System.Drawing.Point(167, 183);
+            this.MatUnknown2.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.MatUnknown2.Name = "MatUnknown2";
+            this.MatUnknown2.Size = new System.Drawing.Size(81, 23);
+            this.MatUnknown2.TabIndex = 42;
+            this.MatUnknown2.ValueChanged += new System.EventHandler(this.MPFUpdateMat);
+            // 
             // TrickyToolsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -689,6 +755,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.MatUnknown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MatUnknown2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -750,5 +818,9 @@
         private Label label20;
         private Label label5;
         private Label label2;
+        private Label label9;
+        private NumericUpDown MatUnknown2;
+        private Label label7;
+        private NumericUpDown MatUnknown1;
     }
 }
