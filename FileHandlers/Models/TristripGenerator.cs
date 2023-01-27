@@ -668,6 +668,11 @@ namespace SSXMultiTool.FileHandlers.Models
 
             var TempPrimativeGroup = ToTriangleStrips(Index, false, TristripMax);
 
+            if(TempPrimativeGroup==null)
+            {
+                return null;
+            }
+
             for (int i = 0; i < TempPrimativeGroup.Length; i++)
             {
                 var TempIndiceTristrip = new IndiceTristrip();

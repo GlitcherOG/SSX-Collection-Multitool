@@ -913,6 +913,19 @@ namespace SSXMultiTool.FileHandlers.Models
                 return;
             }
 
+            //Test that all names are vaild for selected mesh type
+            for (int i = 0; i < trickyModelCombiner.reassignedMesh.Count; i++)
+            {
+                if ((MeshID != 0 && trickyModelCombiner.reassignedMesh[i].MeshName.Contains("3000")) ||
+                (MeshID != 1 && trickyModelCombiner.reassignedMesh[i].MeshName.Contains("1500")) ||
+                (MeshID != 2 && trickyModelCombiner.reassignedMesh[i].MeshName.Contains("750") && !trickyModelCombiner.reassignedMesh[i].MeshName.ToLower().Contains("shdw")) ||
+                (MeshID != 3 && trickyModelCombiner.reassignedMesh[i].MeshName.ToLower().Contains("shdw")))
+                {
+                    MessageBox.Show(trickyModelCombiner.reassignedMesh[i].MeshName + " Non-Matching Mesh Part");
+                    return;
+                }
+            }
+
             //Check That Mesh Ammount and Names Are Correct Attaching if they are body and there mesh id
             //Set if mesh contains morph or is shadow making sure that morph contains morph points
             for (int i = 0; i < trickyModelCombiner.reassignedMesh.Count; i++)
@@ -945,7 +958,7 @@ namespace SSXMultiTool.FileHandlers.Models
                         Reassinged = true;
                         if (TempReMesh.MorphTargetCount!= Head.ModelList[a].MorphKeyCount)
                         {
-                            MessageBox.Show("Incorrect ammount of Shapekeys " + Head.ModelList[a].MorphKeyCount + "/"+TempReMesh.MorphTargetCount);
+                            MessageBox.Show("Incorrect ammount of Shapekeys " + Head.ModelList[a].MorphKeyCount + "/" +TempReMesh.MorphTargetCount);
                             return;
                         }
 
@@ -1348,6 +1361,12 @@ namespace SSXMultiTool.FileHandlers.Models
 
                 //Send to Tristrip Generator
                 List<TristripGenerator.IndiceTristrip> indiceTristrips = TristripGenerator.GenerateTristripNivda(indiceFaces);
+
+                if(indiceTristrips==null)
+                {
+                    MessageBox.Show("Tristrip Failed to Generate");
+                    return;
+                }
 
                 //Static mesh that shit
                 TempTrickyMesh.MeshGroups = new List<TrickyMPFModelHandler.GroupMainHeader>();

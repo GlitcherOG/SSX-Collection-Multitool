@@ -420,10 +420,80 @@ namespace SSXMultiTool
             {
                 MatDisableUpdate = true;
 
+                TrickyMPFModelHandler.MaterialData TempMat = new TrickyMPFModelHandler.MaterialData();
                 //Load Material
+                if (trickyModel.Board!=null)
+                {
+                    TempMat = trickyModel.Board.ModelList[MpfList.SelectedIndex].materialDatas[MaterialList.SelectedIndex];
+                }
+                else if (trickyModel.Head!=null && trickyModel.Body!=null)
+                {
+                    string LookingFor = CharacterParts.Items[CharacterParts.SelectedIndex].ToString();
+                    int MeshID = -1;
+                    for (int i = 0; i < trickyModel.Body.ModelList.Count; i++)
+                    {
+                        if (LookingFor == trickyModel.Body.ModelList[i].FileName)
+                        {
+                            MeshID = i;
+                            TempMat = trickyModel.Body.ModelList[i].materialDatas[MaterialList.SelectedIndex];
+                            break;
+                        }
+                    }
+
+                    if (MeshID == -1)
+                    {
+                        //Head
+                        for (int i = 0; i < trickyModel.Head.ModelList.Count; i++)
+                        {
+                            if (LookingFor == trickyModel.Head.ModelList[i].FileName)
+                            {
+                                MeshID = i;
+                                TempMat = trickyModel.Head.ModelList[i].materialDatas[MaterialList.SelectedIndex];
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                TempMat.MainTexture = MatMainTexture.Text;
+                TempMat.Texture1 = MatTextureFlag1.Text;
+                TempMat.Texture2 = MatTextureFlag2.Text;
+                TempMat.Texture3 = MatTextureFlag3.Text;
+                TempMat.Texture4 = MatTextureFlag4.Text;
+                TempMat.FactorFloat = (float)MatFlagFactor.Value;
 
 
+                if (trickyModel.Board != null)
+                {
+                    trickyModel.Board.ModelList[MpfList.SelectedIndex].materialDatas[MaterialList.SelectedIndex] = TempMat;
+                }
+                else if (trickyModel.Head != null && trickyModel.Body != null)
+                {
+                    string LookingFor = CharacterParts.Items[CharacterParts.SelectedIndex].ToString();
+                    int MeshID = -1;
+                    for (int i = 0; i < trickyModel.Body.ModelList.Count; i++)
+                    {
+                        if (LookingFor == trickyModel.Body.ModelList[i].FileName)
+                        {
+                            MeshID = i;
+                            trickyModel.Body.ModelList[i].materialDatas[MaterialList.SelectedIndex] = TempMat;
+                            break;
+                        }
+                    }
 
+                    if (MeshID == -1)
+                    {
+                        //Head
+                        for (int i = 0; i < trickyModel.Head.ModelList.Count; i++)
+                        {
+                            if (LookingFor == trickyModel.Head.ModelList[i].FileName)
+                            {
+                                trickyModel.Head.ModelList[i].materialDatas[MaterialList.SelectedIndex] = TempMat;
+                                break;
+                            }
+                        }
+                    }
+                }
 
 
                 //Save Material

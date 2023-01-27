@@ -15,11 +15,8 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 ## Current Todo
 - Fix Model Header Amination
 - Fix Mesh Regen Board, Add Normal Average, Bone Update, Material Regeneration
-- Add Error Protection For Nvida Failing (Fixed issue but still a good idea)
-- Add Error for Incorrect number of meshes for the character
 - Fix UI Mat Saving
-- Add Weight Testing in tristirpper
-- More Info on shapekey
+- Add Weight Testing in nivida tristirpper
 
 - Redo Folder Loading SSH
 - LOC Script Update

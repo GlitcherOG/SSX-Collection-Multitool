@@ -30,6 +30,8 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label25 = new System.Windows.Forms.Label();
             this.MorphGroupCount = new System.Windows.Forms.Label();
@@ -81,8 +83,6 @@
             this.MPFLoad = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ELFLdrSetup = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -91,7 +91,6 @@
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -106,6 +105,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label5);
+            this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.groupBox4);
             this.tabPage1.Controls.Add(this.groupBox3);
             this.tabPage1.Controls.Add(this.groupBox2);
@@ -123,6 +124,24 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Tricky MPF (Models)";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 197);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(65, 15);
+            this.label5.TabIndex = 28;
+            this.label5.Text = "Mesh Parts";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 7);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(46, 15);
+            this.label2.TabIndex = 27;
+            this.label2.Text = "Models";
             // 
             // groupBox4
             // 
@@ -286,6 +305,7 @@
             // 
             // MatFlagFactor
             // 
+            this.MatFlagFactor.DecimalPlaces = 2;
             this.MatFlagFactor.Increment = new decimal(new int[] {
             1,
             0,
@@ -300,6 +320,7 @@
             this.MatFlagFactor.Name = "MatFlagFactor";
             this.MatFlagFactor.Size = new System.Drawing.Size(81, 23);
             this.MatFlagFactor.TabIndex = 38;
+            this.MatFlagFactor.ValueChanged += new System.EventHandler(this.MPFUpdateMat);
             // 
             // MatTextureFlag4
             // 
@@ -307,6 +328,7 @@
             this.MatTextureFlag4.Name = "MatTextureFlag4";
             this.MatTextureFlag4.Size = new System.Drawing.Size(79, 23);
             this.MatTextureFlag4.TabIndex = 37;
+            this.MatTextureFlag4.TextChanged += new System.EventHandler(this.MPFUpdateMat);
             // 
             // label19
             // 
@@ -323,6 +345,7 @@
             this.MatTextureFlag3.Name = "MatTextureFlag3";
             this.MatTextureFlag3.Size = new System.Drawing.Size(79, 23);
             this.MatTextureFlag3.TabIndex = 35;
+            this.MatTextureFlag3.TextChanged += new System.EventHandler(this.MPFUpdateMat);
             // 
             // label18
             // 
@@ -339,6 +362,7 @@
             this.MatTextureFlag2.Name = "MatTextureFlag2";
             this.MatTextureFlag2.Size = new System.Drawing.Size(79, 23);
             this.MatTextureFlag2.TabIndex = 33;
+            this.MatTextureFlag2.TextChanged += new System.EventHandler(this.MPFUpdateMat);
             // 
             // label17
             // 
@@ -355,6 +379,7 @@
             this.MatTextureFlag1.Name = "MatTextureFlag1";
             this.MatTextureFlag1.Size = new System.Drawing.Size(79, 23);
             this.MatTextureFlag1.TabIndex = 31;
+            this.MatTextureFlag1.TextChanged += new System.EventHandler(this.MPFUpdateMat);
             // 
             // label16
             // 
@@ -503,15 +528,13 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.numericUpDown1);
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.TristripMethodList);
             this.groupBox1.Controls.Add(this.BoneUpdateCheck);
             this.groupBox1.Controls.Add(this.ImportAverageNormal);
-            this.groupBox1.Location = new System.Drawing.Point(210, 190);
+            this.groupBox1.Location = new System.Drawing.Point(204, 282);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(292, 123);
+            this.groupBox1.Size = new System.Drawing.Size(292, 78);
             this.groupBox1.TabIndex = 21;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Import Settings";
@@ -563,9 +586,9 @@
             // 
             this.CharacterParts.FormattingEnabled = true;
             this.CharacterParts.ItemHeight = 15;
-            this.CharacterParts.Location = new System.Drawing.Point(6, 190);
+            this.CharacterParts.Location = new System.Drawing.Point(6, 215);
             this.CharacterParts.Name = "CharacterParts";
-            this.CharacterParts.Size = new System.Drawing.Size(192, 199);
+            this.CharacterParts.Size = new System.Drawing.Size(192, 169);
             this.CharacterParts.TabIndex = 10;
             this.CharacterParts.SelectedIndexChanged += new System.EventHandler(this.CharacterParts_SelectedIndexChanged);
             // 
@@ -597,9 +620,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.MpfList.FormattingEnabled = true;
             this.MpfList.ItemHeight = 15;
-            this.MpfList.Location = new System.Drawing.Point(6, 6);
+            this.MpfList.Location = new System.Drawing.Point(6, 25);
             this.MpfList.Name = "MpfList";
-            this.MpfList.Size = new System.Drawing.Size(192, 184);
+            this.MpfList.Size = new System.Drawing.Size(192, 169);
             this.MpfList.TabIndex = 2;
             this.MpfList.SelectedIndexChanged += new System.EventHandler(this.MpfList_SelectedIndexChanged);
             // 
@@ -645,32 +668,6 @@
             this.ELFLdrSetup.UseVisualStyleBackColor = true;
             this.ELFLdrSetup.Click += new System.EventHandler(this.ELFLdrSetup_Click);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(149, 77);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 15);
-            this.label2.TabIndex = 41;
-            this.label2.Text = "Max Tristrip Size";
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.numericUpDown1.Location = new System.Drawing.Point(149, 96);
-            this.numericUpDown1.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(81, 23);
-            this.numericUpDown1.TabIndex = 40;
-            // 
             // TrickyToolsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -681,6 +678,7 @@
             this.Text = "TrickyToolsWindow";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -691,7 +689,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -751,7 +748,7 @@
         private Label label21;
         private Label MaterialGroupCount;
         private Label label20;
+        private Label label5;
         private Label label2;
-        private NumericUpDown numericUpDown1;
     }
 }
