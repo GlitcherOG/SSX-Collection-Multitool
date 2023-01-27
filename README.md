@@ -14,7 +14,7 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 
 ## Current Todo
 - Fix Model Header Amination
-- Fix Mesh Regen Board, Add Normal Average, Bone Update, Material Regeneration
+- Add Normal Average, Bone Update, Material Regeneration Board
 - Fix UI Mat Saving
 - Add Weight Testing in nivida tristirpper
 

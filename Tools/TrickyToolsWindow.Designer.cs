@@ -46,6 +46,10 @@
             this.MeshChunks = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.MatUnknown2 = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.MatUnknown1 = new System.Windows.Forms.NumericUpDown();
             this.label20 = new System.Windows.Forms.Label();
             this.MatFlagFactor = new System.Windows.Forms.NumericUpDown();
             this.MatTextureFlag4 = new System.Windows.Forms.TextBox();
@@ -83,20 +87,16 @@
             this.MPFLoad = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ELFLdrSetup = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.MatUnknown1 = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
-            this.MatUnknown2 = new System.Windows.Forms.NumericUpDown();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MatUnknown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MatUnknown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MatFlagFactor)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MatUnknown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MatUnknown2)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -304,6 +304,62 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Material Settings";
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(167, 164);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(67, 15);
+            this.label9.TabIndex = 43;
+            this.label9.Text = "Unknown 2";
+            // 
+            // MatUnknown2
+            // 
+            this.MatUnknown2.DecimalPlaces = 6;
+            this.MatUnknown2.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.MatUnknown2.Location = new System.Drawing.Point(167, 183);
+            this.MatUnknown2.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.MatUnknown2.Name = "MatUnknown2";
+            this.MatUnknown2.Size = new System.Drawing.Size(81, 23);
+            this.MatUnknown2.TabIndex = 42;
+            this.MatUnknown2.ValueChanged += new System.EventHandler(this.MPFUpdateMat);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(82, 164);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(67, 15);
+            this.label7.TabIndex = 41;
+            this.label7.Text = "Unknown 1";
+            // 
+            // MatUnknown1
+            // 
+            this.MatUnknown1.DecimalPlaces = 6;
+            this.MatUnknown1.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.MatUnknown1.Location = new System.Drawing.Point(82, 183);
+            this.MatUnknown1.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.MatUnknown1.Name = "MatUnknown1";
+            this.MatUnknown1.Size = new System.Drawing.Size(81, 23);
+            this.MatUnknown1.TabIndex = 40;
+            this.MatUnknown1.ValueChanged += new System.EventHandler(this.MPFUpdateMat);
+            // 
             // label20
             // 
             this.label20.AutoSize = true;
@@ -315,7 +371,7 @@
             // 
             // MatFlagFactor
             // 
-            this.MatFlagFactor.DecimalPlaces = 2;
+            this.MatFlagFactor.DecimalPlaces = 6;
             this.MatFlagFactor.Increment = new decimal(new int[] {
             1,
             0,
@@ -678,62 +734,6 @@
             this.ELFLdrSetup.UseVisualStyleBackColor = true;
             this.ELFLdrSetup.Click += new System.EventHandler(this.ELFLdrSetup_Click);
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(82, 164);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(67, 15);
-            this.label7.TabIndex = 41;
-            this.label7.Text = "Unknown 1";
-            // 
-            // MatUnknown1
-            // 
-            this.MatUnknown1.DecimalPlaces = 2;
-            this.MatUnknown1.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.MatUnknown1.Location = new System.Drawing.Point(82, 183);
-            this.MatUnknown1.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.MatUnknown1.Name = "MatUnknown1";
-            this.MatUnknown1.Size = new System.Drawing.Size(81, 23);
-            this.MatUnknown1.TabIndex = 40;
-            this.MatUnknown1.ValueChanged += new System.EventHandler(this.MPFUpdateMat);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(167, 164);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(67, 15);
-            this.label9.TabIndex = 43;
-            this.label9.Text = "Unknown 2";
-            // 
-            // MatUnknown2
-            // 
-            this.MatUnknown2.DecimalPlaces = 2;
-            this.MatUnknown2.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.MatUnknown2.Location = new System.Drawing.Point(167, 183);
-            this.MatUnknown2.Minimum = new decimal(new int[] {
-            100,
-            0,
-            0,
-            -2147483648});
-            this.MatUnknown2.Name = "MatUnknown2";
-            this.MatUnknown2.Size = new System.Drawing.Size(81, 23);
-            this.MatUnknown2.TabIndex = 42;
-            this.MatUnknown2.ValueChanged += new System.EventHandler(this.MPFUpdateMat);
-            // 
             // TrickyToolsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -749,14 +749,14 @@
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MatUnknown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MatUnknown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MatFlagFactor)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.MatUnknown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MatUnknown2)).EndInit();
             this.ResumeLayout(false);
 
         }

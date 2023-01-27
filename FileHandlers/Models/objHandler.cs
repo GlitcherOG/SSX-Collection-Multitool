@@ -328,7 +328,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     faces.Add(TempFace);
                 }
 
-                List <TristripGenerator.IndiceTristrip> TempStrips = TristripGenerator.GenerateTristripBasic(faces);
+                List <TristripGenerator.IndiceTristrip> TempStrips = TristripGenerator.GenerateTristripNivda(faces);
 
                 TempMesh.meshChunk = new List<MeshChunk>();
 
