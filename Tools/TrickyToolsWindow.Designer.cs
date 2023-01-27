@@ -618,11 +618,7 @@
             // 
             this.TristripMethodList.FormattingEnabled = true;
             this.TristripMethodList.Items.AddRange(new object[] {
-            "Nvida Tristrip",
-            "Basic",
-            "Basic+",
-            "Stitching",
-            "Stitching+"});
+            "Nvida Tristrip"});
             this.TristripMethodList.Location = new System.Drawing.Point(149, 41);
             this.TristripMethodList.Name = "TristripMethodList";
             this.TristripMethodList.Size = new System.Drawing.Size(121, 23);

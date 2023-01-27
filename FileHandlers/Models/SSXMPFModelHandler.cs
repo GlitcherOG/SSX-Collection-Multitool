@@ -53,8 +53,6 @@ namespace SSXMultiTool.FileHandlers
                     stream.Position = StartPos + ModelList[i].DataOffset;
                     MPFModelHeader modelHandler = ModelList[i];
                     modelHandler.Matrix = StreamUtil.ReadBytes(stream, ModelList[i].EntrySize);
-                    RefpackHandler refpackHandler = new RefpackHandler();
-                    //modelHandler.Matrix = refpackHandler.Decompress(modelHandler.Matrix);
                     ModelList[i] = modelHandler;
                 }
             }
@@ -111,18 +109,18 @@ namespace SSXMultiTool.FileHandlers
 
                 //Read Chunk Offsets
                 streamMatrix.Position = Model.ChunkOffsets;
-                Model.chunks = new List<Chunk>();
+                Model.MaterialGroups = new List<MaterialGroup>();
                 for (int b = 0; b < Model.ChunksCount; b++)
                 {
-                    Chunk chunk = new Chunk();
+                    MaterialGroup chunk = new MaterialGroup();
                     chunk.ID = StreamUtil.ReadInt32(streamMatrix);
                     chunk.MaterialID = StreamUtil.ReadInt32(streamMatrix);
                     streamMatrix.Position += 4;
-                    chunk.StaticMeshOffsetStart = StreamUtil.ReadInt32(streamMatrix);
-                    chunk.StaticMeshOffsetEnd = StreamUtil.ReadInt32(streamMatrix);
-                    chunk.FlexableMeshOffsetStart = StreamUtil.ReadInt32(streamMatrix);
-                    chunk.FlexableMeshOffsetEnd = StreamUtil.ReadInt32(streamMatrix);
-                    Model.chunks.Add(chunk);
+                    chunk.MeshOffset = StreamUtil.ReadInt32(streamMatrix);
+                    chunk.MeshOffsetEnd = StreamUtil.ReadInt32(streamMatrix);
+                    chunk.MorphMeshOffset = StreamUtil.ReadInt32(streamMatrix);
+                    chunk.MorphMeshOffsetEnd = StreamUtil.ReadInt32(streamMatrix);
+                    Model.MaterialGroups.Add(chunk);
                 }
                 Model.staticMesh = new List<StaticMesh>();
 
@@ -133,9 +131,9 @@ namespace SSXMultiTool.FileHandlers
                 for (int n = 0; n < Model.ChunksCount; n++)
                 {
                     //Loads All Model Entries
-                    if (Model.chunks[n].StaticMeshOffsetStart != -1)
+                    if (Model.MaterialGroups[n].MeshOffset != -1)
                     {
-                        streamMatrix.Position = Model.chunks[n].StaticMeshOffsetStart;
+                        streamMatrix.Position = Model.MaterialGroups[n].MeshOffset;
                         while (true)
                         {
                             Model.MeshCount++;
@@ -143,31 +141,7 @@ namespace SSXMultiTool.FileHandlers
                             ModelData.ChunkID = n;
                             //Load Main Model Data Header
 
-
-                            ModelStripHeader stripHeader = new ModelStripHeader();
-                            stripHeader.RowSize = StreamUtil.ReadInt24(streamMatrix);
-                            stripHeader.Col = StreamUtil.ReadUInt8(streamMatrix);
-                            stripHeader.Padding = StreamUtil.ReadBytes(streamMatrix,12);
-                            stripHeader.VertexCount = StreamUtil.ReadUInt8(streamMatrix);
-                            stripHeader.Delcoration = StreamUtil.ReadUInt8(streamMatrix);
-                            stripHeader.Unknown1 = StreamUtil.ReadInt16(streamMatrix);
-                            stripHeader.Unknown2 = StreamUtil.ReadUInt8(streamMatrix);
-                            stripHeader.Unknown3 = StreamUtil.ReadUInt8(streamMatrix);
-                            stripHeader.Unknown4 = StreamUtil.ReadUInt8(streamMatrix);
-                            stripHeader.Unknown41 = StreamUtil.ReadUInt8(streamMatrix);
-                            stripHeader.Unknown5 = StreamUtil.ReadBytes(streamMatrix, 5);
-                            stripHeader.ArrayStart = StreamUtil.ReadUInt8(streamMatrix);
-                            stripHeader.ArraySize = StreamUtil.ReadUInt8(streamMatrix);
-                            stripHeader.ArrayType = StreamUtil.ReadUInt8(streamMatrix);
-                            //Model Row Header
-                            stripHeader.Unknown6 = StreamUtil.ReadInt32(streamMatrix);
-                            stripHeader.Unknown7 = StreamUtil.ReadInt32(streamMatrix);
-                            stripHeader.Unknown8 = StreamUtil.ReadInt32(streamMatrix);
-                            stripHeader.Unknown9 = StreamUtil.ReadInt32(streamMatrix);
-
-                            ModelData.stripHeader = stripHeader;
-
-                            if (streamMatrix.Position >= Model.chunks[n].StaticMeshOffsetEnd)
+                            if (streamMatrix.Position >= Model.MaterialGroups[n].MeshOffsetEnd)
                             {
                                 break;
                             }
@@ -242,16 +216,16 @@ namespace SSXMultiTool.FileHandlers
                     }
 
                     //Load Flex Mesh
-                    if(Model.chunks[n].FlexableMeshOffsetStart != -1)
+                    if(Model.MaterialGroups[n].MorphMeshOffset != -1)
                     {
-                        streamMatrix.Position = Model.chunks[n].FlexableMeshOffsetStart;
+                        streamMatrix.Position = Model.MaterialGroups[n].MorphMeshOffset;
                         while (true)
                         {
                             Model.FlexMeshCount++;
                             var modelSplitData = new FlexableMesh();
                             modelSplitData.ChunkID = n;
                             streamMatrix.Position += 48;
-                            if (streamMatrix.Position >= Model.chunks[n].FlexableMeshOffsetEnd)
+                            if (streamMatrix.Position >= Model.MaterialGroups[n].MorphMeshOffsetEnd)
                             {
                                 break;
                             }
@@ -470,136 +444,6 @@ namespace SSXMultiTool.FileHandlers
         }
 
 
-        public void SaveModel(string path, int pos = 0)
-        {
-            string output = "# Exported From SSX Using SSX PS2 Collection Modder by GlitcherOG \n";
-            var Model = ModelList[pos];
-            glftHandler.SaveOGglTF(path, Model);
-        //output += "o " + Model.FileName + "\n";
-
-            //    //Conevert Vertices into List
-            //    List<Vertex3> vertices = new List<Vertex3>();
-            //    for (int i = 0; i < ModelData.faces.Count; i++)
-            //    {
-            //        var Face = ModelData.faces[i];
-            //        if (!vertices.Contains(Face.V1))
-            //        {
-            //            vertices.Add(Face.V1);
-            //        }
-            //        Face.V1Pos = vertices.IndexOf(Face.V1);
-
-            //        if (!vertices.Contains(Face.V2))
-            //        {
-            //            vertices.Add(Face.V2);
-            //        }
-            //        Face.V2Pos = vertices.IndexOf(Face.V2);
-
-            //        if (!vertices.Contains(Face.V3))
-            //        {
-            //            vertices.Add(Face.V3);
-            //        }
-            //        Face.V3Pos = vertices.IndexOf(Face.V3);
-
-            //        ModelData.faces[i] = Face;
-            //    }
-            //    //Convert UV Points Into List
-            //    List<UV> UV = new List<UV>();
-            //    if (ModelData.uv.Count != 0)
-            //    {
-            //        for (int i = 0; i < ModelData.faces.Count; i++)
-            //        {
-            //            var Face = ModelData.faces[i];
-            //            if (!UV.Contains(Face.UV1))
-            //            {
-            //                UV.Add(Face.UV1);
-            //            }
-            //            Face.UV1Pos = UV.IndexOf(Face.UV1);
-
-            //            if (!UV.Contains(Face.UV2))
-            //            {
-            //                UV.Add(Face.UV2);
-            //            }
-            //            Face.UV2Pos = UV.IndexOf(Face.UV2);
-
-            //            if (!UV.Contains(Face.UV3))
-            //            {
-            //                UV.Add(Face.UV3);
-            //            }
-            //            Face.UV3Pos = UV.IndexOf(Face.UV3);
-
-            //            ModelData.faces[i] = Face;
-            //        }
-            //    }
-
-            //    List<UVNormal> Normals = new List<UVNormal>();
-            //    if (ModelData.uvNormals.Count != 0)
-            //    {
-            //        for (int i = 0; i < ModelData.faces.Count; i++)
-            //        {
-            //            var Face = ModelData.faces[i];
-            //            if (!Normals.Contains(Face.Normal1))
-            //            {
-            //                Normals.Add(Face.Normal1);
-            //            }
-            //            Face.Normal1Pos = Normals.IndexOf(Face.Normal1);
-
-            //            if (!Normals.Contains(Face.Normal2))
-            //            {
-            //                Normals.Add(Face.Normal2);
-            //            }
-            //            Face.Normal2Pos = Normals.IndexOf(Face.Normal2);
-
-            //            if (!Normals.Contains(Face.Normal3))
-            //            {
-            //                Normals.Add(Face.Normal3);
-            //            }
-            //            Face.Normal3Pos = Normals.IndexOf(Face.Normal3);
-
-            //            ModelData.faces[i] = Face;
-            //        }
-            //    }
-
-            //    for (int i = 0; i < vertices.Count; i++)
-            //    {
-            //        output += "v " + vertices[i].X + " " + vertices[i].Y + " " + vertices[i].Z + "\n";
-            //    }
-            //    //While Math Works Its Wrong
-            //    for (int i = 0; i < UV.Count; i++)
-            //    {
-            //        output += "vt " + (1f - ((float)UV[i].X) / 4096) + " " + (1f - ((float)UV[i].Y) / 4096) + "\n";
-            //    }
-
-            //    for (int i = 0; i < Normals.Count; i++)
-            //    {
-            //        output += "vn " + (((float)Normals[i].X) / 4096) + " " + (((float)Normals[i].Y) / 4096) + " " + (((float)Normals[i].Z) / 4096) + "\n";
-            //    }
-
-            //    if (ModelData.uv.Count != 0)
-            //    {
-            //        for (int i = 0; i < ModelData.faces.Count; i++)
-            //        {
-            //            var Face = ModelData.faces[i];
-            //            output += "f " + (Face.V1Pos + 1).ToString() + "/" + (Face.UV1Pos + 1).ToString() + "/" + (Face.Normal1Pos + 1).ToString() + " " + (Face.V2Pos + 1).ToString() + "/" + (Face.UV2Pos + 1).ToString() + "/" + (Face.Normal2Pos + 1).ToString() + " " + (Face.V3Pos + 1).ToString() + "/" + (Face.UV3Pos + 1).ToString() + "/" + (Face.Normal3Pos + 1).ToString() + " " + "\n";
-            //        }
-            //    }
-            //    else
-            //    {
-            //        for (int i = 0; i < ModelData.faces.Count; i++)
-            //        {
-            //            var Face = ModelData.faces[i];
-            //            output += "f " + (Face.V1Pos + 1).ToString() + " " + (Face.V2Pos + 1).ToString() + " " + (Face.V3Pos + 1).ToString() + " " + "\n";
-            //        }
-            //    }
-
-            //    if (File.Exists(path))
-            //    {
-            //        File.Delete(path);
-            //    }
-
-            //    File.WriteAllText(path, output);
-        }
-
-
         public FlexableFace CreateFlexableFace(int Index, FlexableMesh ModelData, int roatation)
         {
             FlexableFace face = new FlexableFace();
@@ -695,9 +539,10 @@ namespace SSXMultiTool.FileHandlers
             public int IKCount; //Possible Rotation Ammount 
 
             public byte[] Matrix;
+
             public List<Vertex3> Unkown;
             //Matrix Data
-            public List<Chunk> chunks;
+            public List<MaterialGroup> MaterialGroups;
             public List<MaterialData> materialDataList;
             public List<StaticMesh> staticMesh;
             public List<FlexableMesh> flexableMesh;
@@ -737,7 +582,6 @@ namespace SSXMultiTool.FileHandlers
         {
             public int ChunkID;
 
-            public ModelStripHeader stripHeader;
             public int StripCount;
             public int EdgeCount;
             public int NormalCount;
@@ -750,29 +594,6 @@ namespace SSXMultiTool.FileHandlers
 
             public List<Face> faces;
         }
-
-        public struct ModelStripHeader
-        {
-            public int RowSize;
-            public byte Col;
-            public byte[] Padding;
-            public int Unknown1;
-            public byte Unknown2;
-            public byte Unknown3;
-            public byte Unknown4;
-            public byte Unknown41;
-            public byte VertexCount;
-            public byte Delcoration;
-            public byte[] Unknown5;
-            public byte ArrayStart;
-            public byte ArraySize;
-            public byte ArrayType;
-
-            public int Unknown6;
-            public int Unknown7;
-            public int Unknown8;
-            public int Unknown9;
-        }
         public struct Bone
         {
             public string boneName;
@@ -783,14 +604,14 @@ namespace SSXMultiTool.FileHandlers
             public float Z;
         }
 
-        public struct Chunk
+        public struct MaterialGroup
         {
             public int ID;
             public int MaterialID;
-            public int StaticMeshOffsetStart;
-            public int StaticMeshOffsetEnd;
-            public int FlexableMeshOffsetStart;
-            public int FlexableMeshOffsetEnd;
+            public int MeshOffset;
+            public int MeshOffsetEnd;
+            public int MorphMeshOffset;
+            public int MorphMeshOffsetEnd;
         }
 
         public struct Vertex3

@@ -1165,8 +1165,6 @@ namespace SSXMultiTool.FileHandlers.Models
                 }
             }
 
-
-
             //For Each Mesh
             for (int i = 0; i < trickyModelCombiner.reassignedMesh.Count; i++)
             {
@@ -1213,6 +1211,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     }
 
                 }
+
                 List<int> MaterialsID = new List<int>();
                 List<int> RedoneMaterial = new List<int>();
                 //Regenerate Materials
@@ -1334,7 +1333,6 @@ namespace SSXMultiTool.FileHandlers.Models
                 //Take faces and Generate Indce faces and giant vertex list for each material
                 List<VectorPoint> VectorPoint = new List<VectorPoint>();
                 List<TristripGenerator.IndiceFace> indiceFaces = new List<TristripGenerator.IndiceFace>();
-
                 for (int a = 0; a < TempReMesh.faces.Count; a++)
                 {
                     TristripGenerator.IndiceFace TempFace = new TristripGenerator.IndiceFace();
@@ -1535,6 +1533,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
                     indiceFaces.Add(TempFace);
                 }
+
 
                 indiceFaces = TristripGenerator.NeighbourPriority(indiceFaces);
 
@@ -1846,8 +1845,6 @@ namespace SSXMultiTool.FileHandlers.Models
                     TempTrickyMesh.MeshGroups[ei] = TempMeshGroup;
                 }
 
-
-
                 if (!TempReMesh.BodyHead)
                 {
                     Body.ModelList[TempReMesh.MeshId] = TempTrickyMesh;
@@ -1867,7 +1864,7 @@ namespace SSXMultiTool.FileHandlers.Models
         {
             VectorPoint vectorPoint = new VectorPoint();
             vectorPoint.Material = face.MaterialID;
-
+            vectorPoint.Normals = new List<Vector3>();
             if(Vertice==1)
             {
                 vectorPoint.vector = face.V1;
@@ -1875,6 +1872,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 vectorPoint.TextureCord = face.UV1;
                 vectorPoint.Weight = face.Weight1Pos;
                 vectorPoint.MorphData = face.MorphPoint1;
+                vectorPoint.Normals.Add(face.Normal1);
             }
 
             if (Vertice == 2)
@@ -1884,6 +1882,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 vectorPoint.TextureCord = face.UV2;
                 vectorPoint.Weight = face.Weight2Pos;
                 vectorPoint.MorphData = face.MorphPoint2;
+                vectorPoint.Normals.Add(face.Normal2);
             }
 
             if (Vertice == 3)
@@ -1893,6 +1892,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 vectorPoint.TextureCord = face.UV3;
                 vectorPoint.Weight = face.Weight3Pos;
                 vectorPoint.MorphData = face.MorphPoint3;
+                vectorPoint.Normals.Add(face.Normal3);
             }
 
             return vectorPoint;
@@ -2013,6 +2013,7 @@ namespace SSXMultiTool.FileHandlers.Models
             public Vector3 normal;
             public Vector4 TextureCord;
             public int Weight;
+            public List<Vector3> Normals;
             public List<Vector3> MorphData;
         }
 
