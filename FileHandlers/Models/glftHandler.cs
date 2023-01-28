@@ -37,7 +37,7 @@ namespace SSXMultiTool.FileHandlers
             {
                 var Data = modelHeader.staticMesh[i];
                 int tempInt = Data.ChunkID;
-                int MatId = modelHeader.chunks[tempInt].MaterialID;
+                int MatId = modelHeader.MaterialGroups[tempInt].MaterialID;
 
                 for (int b = 0; b < Data.faces.Count; b++)
                 {
@@ -392,7 +392,14 @@ namespace SSXMultiTool.FileHandlers
                             {
                                 NewVertex.Normal = TempNormal;
                             }
-                            NewVertex.UV = TempMaterial.GetTexCoord(0);
+                            try
+                            {
+                                NewVertex.UV = TempMaterial.GetTexCoord(0);
+                            }
+                            catch
+                            {
+                                NewVertex.UV = new Vector2();
+                            }
 
                             //Get Weights
                             NewVertex.weightHeader = new TrickyMPFModelHandler.BoneWeightHeader();

@@ -52,7 +52,7 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    modelHandler.SaveModel(openFileDialog.FileName, MPFList.SelectedIndex);
+                    //modelHandler.SaveModel(openFileDialog.FileName, MPFList.SelectedIndex);
                 }
             }
         }

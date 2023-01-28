@@ -197,20 +197,31 @@ namespace SSXMultiTool
                 {
                     if ((trickyModel.Board != null) || (trickyModel.Head != null && trickyModel.Body != null))
                     {
+                        TrickyModelCombiner TempCombiner = null;
+
                         try
                         {
-                            var TempCombiner = glftHandler.LoadGlft(openFileDialog.FileName);
-
-                            trickyModel.NormalAverage = ImportAverageNormal.Checked;
-                            trickyModel.BoneUpdate = BoneUpdateCheck.Checked;
-                            trickyModel.TristripMode = TristripMethodList.SelectedIndex;
-                            trickyModel.StartRegenMesh(TempCombiner, MpfList.SelectedIndex);
-
-                            UpdateData();
+                            TempCombiner = glftHandler.LoadGlft(openFileDialog.FileName);
                         }
                         catch
                         {
                             MessageBox.Show("Failed to Load File");
+                        }
+                        if (TempCombiner != null)
+                        {
+                            try
+                            {
+                                trickyModel.NormalAverage = ImportAverageNormal.Checked;
+                                trickyModel.BoneUpdate = BoneUpdateCheck.Checked;
+                                trickyModel.TristripMode = TristripMethodList.SelectedIndex;
+                                trickyModel.StartRegenMesh(TempCombiner, MpfList.SelectedIndex);
+
+                                UpdateData();
+                            }
+                            catch
+                            {
+                                MessageBox.Show("Failed to Convert File");
+                            }
                         }
                     }
                 }
