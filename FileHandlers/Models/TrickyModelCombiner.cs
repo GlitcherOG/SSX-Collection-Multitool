@@ -479,7 +479,66 @@ namespace SSXMultiTool.FileHandlers.Models
                 return;
             }
 
+            //Check Materials Valid
+            for (int i = 0; i < trickyModelCombiner.materials.Count; i++)
+            {
+                if (!trickyModelCombiner.materials[i].MainTexture.ToLower().Contains("bord"))
+                {
+                    MessageBox.Show("Invalid material " + trickyModelCombiner.materials[i].MainTexture);
+                    return;
+                }
+            }
+
             //Regenerate Materials
+            List<int> MaterialsID = new List<int>();
+            List<int> RedoneMaterial = new List<int>();
+            TempTrickyMesh.materialDatas = new List<TrickyMPFModelHandler.MaterialData>();
+            for (int a = 0; a < ReassignedMesh.faces.Count; a++)
+            {
+                if (!MaterialsID.Contains(ReassignedMesh.faces[a].MaterialID))
+                {
+                    MaterialsID.Add(ReassignedMesh.faces[a].MaterialID);
+                }
+            }
+
+            for (int a = 0; a < MaterialsID.Count; a++)
+            {
+                TrickyMPFModelHandler.MaterialData MaterialData = new TrickyMPFModelHandler.MaterialData();
+                RedoneMaterial.Add(a);
+                MaterialData.MainTexture = trickyModelCombiner.materials[MaterialsID[a]].MainTexture.Substring(0, 4).ToLower();
+                MaterialData.Texture1 = "";
+                MaterialData.Texture2 = "";
+                MaterialData.Texture3 = "";
+                MaterialData.Texture4 = "";
+
+                string[] Split = trickyModelCombiner.materials[MaterialsID[a]].MainTexture.Split(' ');
+
+                if (Split.Length > 1)
+                {
+                    if (Split[1].ToLower() == "gloss")
+                    {
+                        if (MaterialData.MainTexture == "bord")
+                        {
+                            MaterialData.Texture3 = "bd_g";
+                        }
+                    }
+                    else if (Split[1].ToLower() == "envr")
+                    {
+                        MaterialData.Texture4 = "envr";
+                    }
+
+                }
+
+                TempTrickyMesh.materialDatas.Add(MaterialData);
+            }
+
+            for (int a = 0; a < ReassignedMesh.faces.Count; a++)
+            {
+                int Index = MaterialsID.IndexOf(ReassignedMesh.faces[a].MaterialID);
+                var TempFace = ReassignedMesh.faces[a];
+                TempFace.MaterialID = Index;
+                ReassignedMesh.faces[a] = TempFace;
+            }
 
             //Update Bones
 

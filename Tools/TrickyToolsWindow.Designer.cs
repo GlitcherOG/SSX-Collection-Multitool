@@ -629,9 +629,9 @@
             this.BoneUpdateCheck.AutoSize = true;
             this.BoneUpdateCheck.Location = new System.Drawing.Point(6, 47);
             this.BoneUpdateCheck.Name = "BoneUpdateCheck";
-            this.BoneUpdateCheck.Size = new System.Drawing.Size(99, 19);
+            this.BoneUpdateCheck.Size = new System.Drawing.Size(131, 19);
             this.BoneUpdateCheck.TabIndex = 1;
-            this.BoneUpdateCheck.Text = "Update Bones";
+            this.BoneUpdateCheck.Text = "Update Bones (WIP)";
             this.BoneUpdateCheck.UseVisualStyleBackColor = true;
             // 
             // ImportAverageNormal
