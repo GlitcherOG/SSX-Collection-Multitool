@@ -46,13 +46,14 @@ namespace SSXMultiTool
             {
                 SaveFileDialog openFileDialog = new SaveFileDialog
                 {
-                    Filter = "gltf File (*.gltf)|*.gltf|All files (*.*)|*.*",
+                    Filter = "gltf File (*.glb)|*.glb|All files (*.*)|*.*",
                     FilterIndex = 1,
                     RestoreDirectory = false
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    //modelHandler.SaveModel(openFileDialog.FileName, MPFList.SelectedIndex);
+                    modelHandler.SaveModel(openFileDialog.FileName, MPFList.SelectedIndex);
+                    MessageBox.Show("File Extracted");
                 }
             }
         }

@@ -14,7 +14,7 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 
 ## Current Todo
 - Fix Model Header Amination
-
+- MPF Check Magic Numbers
 
 
 - Fix Normal Average, Bone Update

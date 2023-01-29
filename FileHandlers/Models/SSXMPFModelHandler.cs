@@ -40,10 +40,12 @@ namespace SSXMultiTool.FileHandlers
 
                     modelHeader.ChunksCount = StreamUtil.ReadInt16(stream);
                     modelHeader.BoneCount = StreamUtil.ReadInt16(stream);
-                    modelHeader.U22 = StreamUtil.ReadInt16(stream);
+                    modelHeader.Unknown1 = StreamUtil.ReadUInt8(stream);
+                    modelHeader.Unknown2 = StreamUtil.ReadUInt8(stream);
                     modelHeader.MaterialCount = StreamUtil.ReadUInt8(stream);
                     modelHeader.IKCount = StreamUtil.ReadUInt8(stream);
-                    stream.Position += 16;
+                    modelHeader.Unknown3 = StreamUtil.ReadUInt8(stream);
+                    stream.Position += 15;
                     ModelList.Add(modelHeader);
                 }
 
@@ -85,9 +87,14 @@ namespace SSXMultiTool.FileHandlers
                 {
                     Bone boneData = new Bone();
                     boneData.boneName = StreamUtil.ReadString(streamMatrix, 16);
-                    boneData.Unknown = StreamUtil.ReadInt16(streamMatrix);
+                    boneData.BoneParentFileID = StreamUtil.ReadInt16(streamMatrix);
                     boneData.BoneParentID = StreamUtil.ReadInt16(streamMatrix);
-                    boneData.Position = StreamUtil.ReadVector3(streamMatrix);
+                    boneData.Position.X = StreamUtil.ReadInt16(streamMatrix)/4096f;
+                    boneData.Position.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                    boneData.Position.Z = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                    boneData.Radians.X = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                    boneData.Radians.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                    boneData.Radians.Z = StreamUtil.ReadInt16(streamMatrix) / 4096f;
                     bones.Add(boneData);
                 }
                 Model.bone = bones;
@@ -311,6 +318,11 @@ namespace SSXMultiTool.FileHandlers
             }
         }
 
+        public void SaveModel(string path, int ModelID)
+        {
+            glftHandler.SaveOGglTF(path, ModelList[ModelID]);
+        }
+
         public StaticMesh GenerateFaces(StaticMesh models)
         {
             var ModelData = models;
@@ -430,9 +442,11 @@ namespace SSXMultiTool.FileHandlers
             //Counts
             public int ChunksCount;
             public int BoneCount; 
-            public int U22;
+            public int Unknown1;
+            public int Unknown2;
             public int MaterialCount;
             public int IKCount;
+            public int Unknown3;
 
             public byte[] Matrix;
 
@@ -481,9 +495,10 @@ namespace SSXMultiTool.FileHandlers
         public struct Bone
         {
             public string boneName;
-            public int Unknown;
+            public int BoneParentFileID;
             public int BoneParentID;
             public Vector3 Position;
+            public Vector3 Radians;
         }
 
         public struct MaterialGroup

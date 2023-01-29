@@ -45,6 +45,12 @@ namespace SSXMultiTool.FileHandlers
                     Binding = bindings[modelHeader.bone[i].BoneParentID];
                 }
                 Binding = Binding.CreateNode(modelHeader.bone[i].boneName);
+                float tempX = modelHeader.bone[i].Radians.X;
+                float tempY = modelHeader.bone[i].Radians.Y;
+                float tempZ = modelHeader.bone[i].Radians.Z;
+
+                Binding.WithLocalRotation(ToQuaternion(new Vector3(tempX, tempY, tempZ)));
+
                 Binding.WithLocalTranslation(modelHeader.bone[i].Position);
 
                 Binding.LocalMatrix = Binding.LocalMatrix;
@@ -130,7 +136,7 @@ namespace SSXMultiTool.FileHandlers
             // save the model in different formats
 
             var model = scene.ToGltf2();
-            model.SaveGLTF(Output);
+            model.SaveGLB(Output);
         }
 
         public static void SaveTrickyglTF(string Output, TrickyModelCombiner Handler)
