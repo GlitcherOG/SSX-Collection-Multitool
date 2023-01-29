@@ -32,6 +32,30 @@ namespace SSXMultiTool.FileHandlers
                 materialBuilders.Add(material1);
             }
 
+            var bindings = new List<SharpGLTF.Scenes.NodeBuilder>();
+            SharpGLTF.Scenes.NodeBuilder Binding = new SharpGLTF.Scenes.NodeBuilder();
+            for (int i = 0; i < modelHeader.bone.Count; i++)
+            {
+                if (modelHeader.bone[i].BoneParentID == -1)
+                {
+                    Binding = new SharpGLTF.Scenes.NodeBuilder();
+                }
+                else
+                {
+                    Binding = bindings[modelHeader.bone[i].BoneParentID];
+                }
+                Binding = Binding.CreateNode(modelHeader.bone[i].boneName);
+                //float tempX = Handler.bones[i].Radians.X;
+                //float tempY = Handler.bones[i].Radians.Y;
+                //float tempZ = Handler.bones[i].Radians.Z;
+
+                //Binding.WithLocalRotation(ToQuaternion(new Vector3(-tempX, -tempY, -tempZ)));
+                Binding.WithLocalTranslation(modelHeader.bone[i].Position);
+
+                Binding.LocalMatrix = Binding.LocalMatrix;
+                bindings.Add(Binding);
+            }
+
 
             for (int i = 0; i < modelHeader.staticMesh.Count; i++)
             {

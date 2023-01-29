@@ -14,9 +14,10 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 
 ## Current Todo
 - Fix Model Header Amination
+
+
+
 - Fix Normal Average, Bone Update
-
-
 - Add Weight Testing in nivida tristirpper
 - Redo Folder Loading SSH
 - LOC Script Update

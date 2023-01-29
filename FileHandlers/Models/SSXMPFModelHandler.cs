@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SSXMultiTool.Utilities;
+using System.Numerics;
 
 namespace SSXMultiTool.FileHandlers
 {
@@ -33,7 +34,7 @@ namespace SSXMultiTool.FileHandlers
                     modelHeader.DataOffset = StreamUtil.ReadInt32(stream);
                     modelHeader.EntrySize = StreamUtil.ReadInt32(stream);
                     modelHeader.BoneOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.IKPoint = StreamUtil.ReadInt32(stream);
+                    modelHeader.IKPointOffset = StreamUtil.ReadInt32(stream);
                     modelHeader.ChunkOffsets = StreamUtil.ReadInt32(stream);
                     modelHeader.DataStart = StreamUtil.ReadInt32(stream);
 
@@ -86,41 +87,36 @@ namespace SSXMultiTool.FileHandlers
                     boneData.boneName = StreamUtil.ReadString(streamMatrix, 16);
                     boneData.Unknown = StreamUtil.ReadInt16(streamMatrix);
                     boneData.BoneParentID = StreamUtil.ReadInt16(streamMatrix);
-                    boneData.X = StreamUtil.ReadFloat(streamMatrix);
-                    boneData.Y = StreamUtil.ReadFloat(streamMatrix);
-                    boneData.Z = StreamUtil.ReadFloat(streamMatrix);
+                    boneData.Position = StreamUtil.ReadVector3(streamMatrix);
                     bones.Add(boneData);
                 }
                 Model.bone = bones;
 
                 //Read IK Point?
-                streamMatrix.Position = Model.IKPoint;
-                var Verties = new List<Vertex3>();
+                streamMatrix.Position = Model.IKPointOffset;
+                var Verties = new List<Vector3>();
                 for (int b = 0; b < Model.IKCount; b++)
                 {
-                    Vertex3 v = new Vertex3();
-                    v.X = StreamUtil.ReadFloat(streamMatrix);
-                    v.Y = StreamUtil.ReadFloat(streamMatrix);
-                    v.Z = StreamUtil.ReadFloat(streamMatrix);
+                    Vector3 v = StreamUtil.ReadVector3(streamMatrix);
                     streamMatrix.Position += 4;
                     Verties.Add(v);
                 }
-                Model.Unkown = Verties;
+                Model.IKPoint = Verties;
 
                 //Read Chunk Offsets
                 streamMatrix.Position = Model.ChunkOffsets;
                 Model.MaterialGroups = new List<MaterialGroup>();
                 for (int b = 0; b < Model.ChunksCount; b++)
                 {
-                    MaterialGroup chunk = new MaterialGroup();
-                    chunk.ID = StreamUtil.ReadInt32(streamMatrix);
-                    chunk.MaterialID = StreamUtil.ReadInt32(streamMatrix);
-                    streamMatrix.Position += 4;
-                    chunk.MeshOffset = StreamUtil.ReadInt32(streamMatrix);
-                    chunk.MeshOffsetEnd = StreamUtil.ReadInt32(streamMatrix);
-                    chunk.MorphMeshOffset = StreamUtil.ReadInt32(streamMatrix);
-                    chunk.MorphMeshOffsetEnd = StreamUtil.ReadInt32(streamMatrix);
-                    Model.MaterialGroups.Add(chunk);
+                    MaterialGroup materialGroup = new MaterialGroup();
+                    materialGroup.ID = StreamUtil.ReadInt32(streamMatrix);
+                    materialGroup.MaterialID = StreamUtil.ReadInt32(streamMatrix);
+                    materialGroup.Unknown = StreamUtil.ReadInt32(streamMatrix);
+                    materialGroup.MeshOffset = StreamUtil.ReadInt32(streamMatrix);
+                    materialGroup.MeshOffsetEnd = StreamUtil.ReadInt32(streamMatrix);
+                    materialGroup.MorphMeshOffset = StreamUtil.ReadInt32(streamMatrix);
+                    materialGroup.MorphMeshOffsetEnd = StreamUtil.ReadInt32(streamMatrix);
+                    Model.MaterialGroups.Add(materialGroup);
                 }
                 Model.staticMesh = new List<StaticMesh>();
 
@@ -136,10 +132,10 @@ namespace SSXMultiTool.FileHandlers
                         streamMatrix.Position = Model.MaterialGroups[n].MeshOffset;
                         while (true)
                         {
-                            Model.MeshCount++;
                             var ModelData = new StaticMesh();
                             ModelData.ChunkID = n;
                             //Load Main Model Data Header
+                            streamMatrix.Position += 48;
 
                             if (streamMatrix.Position >= Model.MaterialGroups[n].MeshOffsetEnd)
                             {
@@ -160,14 +156,14 @@ namespace SSXMultiTool.FileHandlers
                             streamMatrix.Position += 16;
                             ModelData.Strips = TempStrips;
 
-                            List<UV> UVs = new List<UV>();
+                            List<Vector2> UVs = new List<Vector2>();
                             //Read UV Texture Points
                             if (ModelData.NormalCount != 0)
                             {
                                 streamMatrix.Position += 48;
                                 for (int a = 0; a < ModelData.VertexCount; a++)
                                 {
-                                    UV uv = new UV();
+                                    Vector2 uv = new Vector2();
                                     uv.X = StreamUtil.ReadInt16(streamMatrix);
                                     uv.Y = StreamUtil.ReadInt16(streamMatrix);
                                     UVs.Add(uv);
@@ -176,14 +172,14 @@ namespace SSXMultiTool.FileHandlers
                             }
                             ModelData.uv = UVs;
 
-                            List<UVNormal> Normals = new List<UVNormal>();
+                            List<Vector3> Normals = new List<Vector3>();
                             //Read Normals
                             if (ModelData.NormalCount != 0)
                             {
                                 streamMatrix.Position += 48;
                                 for (int a = 0; a < ModelData.VertexCount; a++)
                                 {
-                                    UVNormal normal = new UVNormal();
+                                    Vector3 normal = new Vector3();
                                     normal.X = StreamUtil.ReadInt16(streamMatrix);
                                     normal.Y = StreamUtil.ReadInt16(streamMatrix);
                                     normal.Z = StreamUtil.ReadInt16(streamMatrix);
@@ -193,17 +189,15 @@ namespace SSXMultiTool.FileHandlers
                             }
                             ModelData.uvNormals = Normals;
 
-                            List<Vertex3> vertices = new List<Vertex3>();
+                            List<Vector3> vertices = new List<Vector3>();
                             //Load Vertex
                             if (ModelData.VertexCount != 0)
                             {
                                 streamMatrix.Position += 48;
                                 for (int a = 0; a < ModelData.VertexCount; a++)
                                 {
-                                    Vertex3 vertex = new Vertex3();
-                                    vertex.X = StreamUtil.ReadFloat(streamMatrix);
-                                    vertex.Y = StreamUtil.ReadFloat(streamMatrix);
-                                    vertex.Z = StreamUtil.ReadFloat(streamMatrix);
+                                    Vector3 vertex = new Vector3();
+                                    vertex = StreamUtil.ReadVector3(streamMatrix);
                                     vertices.Add(vertex);
                                 }
                                 StreamUtil.AlignBy16(streamMatrix);
@@ -221,7 +215,6 @@ namespace SSXMultiTool.FileHandlers
                         streamMatrix.Position = Model.MaterialGroups[n].MorphMeshOffset;
                         while (true)
                         {
-                            Model.FlexMeshCount++;
                             var modelSplitData = new FlexableMesh();
                             modelSplitData.ChunkID = n;
                             streamMatrix.Position += 48;
@@ -252,13 +245,11 @@ namespace SSXMultiTool.FileHandlers
                             streamMatrix.Position += 46;
                             int TempCount = StreamUtil.ReadUInt8(streamMatrix);
                             streamMatrix.Position += 1;
-                            List<Vertex3> vertices = new List<Vertex3>();
+                            List<Vector3> vertices = new List<Vector3>();
                             for (int a = 0; a < TempCount; a++)
                             {
-                                Vertex3 vertex = new Vertex3();
-                                vertex.X = StreamUtil.ReadFloat(streamMatrix);
-                                vertex.Y = StreamUtil.ReadFloat(streamMatrix);
-                                vertex.Z = StreamUtil.ReadFloat(streamMatrix);
+                                Vector3 vertex = new Vector3();
+                                vertex = StreamUtil.ReadVector3(streamMatrix);
                                 vertices.Add(vertex);
                             }
                             modelSplitData.vertices = vertices;
@@ -268,10 +259,10 @@ namespace SSXMultiTool.FileHandlers
                             streamMatrix.Position += 46;
                             TempCount = StreamUtil.ReadUInt8(streamMatrix);
                             streamMatrix.Position += 1;
-                            List<UVNormal> Normals = new List<UVNormal>();
+                            List<Vector3> Normals = new List<Vector3>();
                             for (int a = 0; a < TempCount; a++)
                             {
-                                UVNormal normal = new UVNormal();
+                                Vector3 normal = new Vector3();
                                 normal.X = StreamUtil.ReadInt16(streamMatrix);
                                 normal.Y = StreamUtil.ReadInt16(streamMatrix);
                                 normal.Z = StreamUtil.ReadInt16(streamMatrix);
@@ -296,10 +287,10 @@ namespace SSXMultiTool.FileHandlers
                             streamMatrix.Position += 46;
                             TempCount = StreamUtil.ReadUInt8(streamMatrix);
                             streamMatrix.Position += 1;
-                            List<UV> uvs = new List<UV>();
+                            List<Vector2> uvs = new List<Vector2>();
                             for (int a = 0; a < TempCount; a++)
                             {
-                                UV uv = new UV();
+                                Vector2 uv = new Vector2();
                                 uv.X = StreamUtil.ReadInt16(streamMatrix);
                                 uv.Y = StreamUtil.ReadInt16(streamMatrix);
                                 uvs.Add(uv);
@@ -323,19 +314,6 @@ namespace SSXMultiTool.FileHandlers
                 streamMatrix.Dispose();
                 streamMatrix.Close();
             }
-        }
-
-        public List<Vertex3> ReadVertex(int count, Stream stream, List<Vertex3> vertices)
-        {
-            for (int a = 0; a < count; a++)
-            {
-                Vertex3 vertex = new Vertex3();
-                vertex.X = StreamUtil.ReadFloat(stream);
-                vertex.Y = StreamUtil.ReadFloat(stream);
-                vertex.Z = StreamUtil.ReadFloat(stream);
-                vertices.Add(vertex);
-            }
-            return vertices;
         }
 
         public StaticMesh GenerateFaces(StaticMesh models)
@@ -528,7 +506,7 @@ namespace SSXMultiTool.FileHandlers
             public int DataOffset;
             public int EntrySize;
             public int BoneOffset; 
-            public int IKPoint; 
+            public int IKPointOffset; 
             public int ChunkOffsets;
             public int DataStart;
             //Counts
@@ -536,21 +514,16 @@ namespace SSXMultiTool.FileHandlers
             public int BoneCount; 
             public int U22;
             public int MaterialCount;
-            public int IKCount; //Possible Rotation Ammount 
+            public int IKCount;
 
             public byte[] Matrix;
 
-            public List<Vertex3> Unkown;
-            //Matrix Data
+            public List<Vector3> IKPoint;
             public List<MaterialGroup> MaterialGroups;
             public List<MaterialData> materialDataList;
             public List<StaticMesh> staticMesh;
             public List<FlexableMesh> flexableMesh;
             public List<Bone> bone;
-            //
-
-            public int MeshCount;
-            public int FlexMeshCount;
         }
 
         public struct FlexableMesh
@@ -562,11 +535,11 @@ namespace SSXMultiTool.FileHandlers
             public int Unkown2;
             public int NormalCount;
 
-            public List<Vertex3> vertices;
+            public List<Vector3> vertices;
             public List<NewSplit> newSplits;
-            public List<UVNormal> uvNormals;
+            public List<Vector3> uvNormals;
             public List<int> UnknownInts;
-            public List<UV> uv;
+            public List<Vector2> uv;
             public List<FlexableFace> faces;
 
         }
@@ -588,9 +561,9 @@ namespace SSXMultiTool.FileHandlers
             public int VertexCount;
 
             public List<int> Strips;
-            public List<UV> uv;
-            public List<Vertex3> vertices;
-            public List<UVNormal> uvNormals;
+            public List<Vector2> uv;
+            public List<Vector3> vertices;
+            public List<Vector3> uvNormals;
 
             public List<Face> faces;
         }
@@ -599,63 +572,41 @@ namespace SSXMultiTool.FileHandlers
             public string boneName;
             public int Unknown;
             public int BoneParentID;
-            public float X;
-            public float Y;
-            public float Z;
+            public Vector3 Position;
         }
 
         public struct MaterialGroup
         {
             public int ID;
             public int MaterialID;
+            public int Unknown;
             public int MeshOffset;
             public int MeshOffsetEnd;
             public int MorphMeshOffset;
             public int MorphMeshOffsetEnd;
         }
 
-        public struct Vertex3
-        {
-            public float X;
-            public float Y;
-            public float Z;
-        }
-
-        //Since there both int 16's They need to be divided by 4096
-        public struct UV
-        {
-            public int X;
-            public int Y;
-        }
-
-        public struct UVNormal
-        {
-            public int X;
-            public int Y;
-            public int Z;
-        }
-
         public struct Face
         {
-            public Vertex3 V1;
-            public Vertex3 V2;
-            public Vertex3 V3;
+            public Vector3 V1;
+            public Vector3 V2;
+            public Vector3 V3;
 
             public int V1Pos;
             public int V2Pos;
             public int V3Pos;
 
-            public UV UV1;
-            public UV UV2;
-            public UV UV3;
+            public Vector2 UV1;
+            public Vector2 UV2;
+            public Vector2 UV3;
 
             public int UV1Pos;
             public int UV2Pos;
             public int UV3Pos;
 
-            public UVNormal Normal1;
-            public UVNormal Normal2;
-            public UVNormal Normal3;
+            public Vector3 Normal1;
+            public Vector3 Normal2;
+            public Vector3 Normal3;
 
             public int Normal1Pos;
             public int Normal2Pos;
@@ -664,9 +615,9 @@ namespace SSXMultiTool.FileHandlers
 
         public struct FlexableFace
         {
-            public Vertex3 V1;
-            public Vertex3 V2;
-            public Vertex3 V3;
+            public Vector3 V1;
+            public Vector3 V2;
+            public Vector3 V3;
 
             public int V1Pos;
             public int V2Pos;
