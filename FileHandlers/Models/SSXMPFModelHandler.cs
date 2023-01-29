@@ -118,22 +118,20 @@ namespace SSXMultiTool.FileHandlers
                     materialGroup.MorphMeshOffsetEnd = StreamUtil.ReadInt32(streamMatrix);
                     Model.MaterialGroups.Add(materialGroup);
                 }
-                Model.staticMesh = new List<StaticMesh>();
-
-                Model.flexableMesh = new List<FlexableMesh>();
 
                 streamMatrix.Position = Model.DataStart;
                 //Read Static Model Data
-                for (int n = 0; n < Model.ChunksCount; n++)
+                for (int n = 0; n < Model.MaterialGroups.Count; n++)
                 {
+                    var TempMaterialGroup = Model.MaterialGroups[n];
                     //Loads All Model Entries
-                    if (Model.MaterialGroups[n].MeshOffset != -1)
+                    TempMaterialGroup.staticMesh = new List<StaticMesh>();
+                    if (TempMaterialGroup.MeshOffset != -1)
                     {
                         streamMatrix.Position = Model.MaterialGroups[n].MeshOffset;
                         while (true)
                         {
                             var ModelData = new StaticMesh();
-                            ModelData.ChunkID = n;
                             //Load Main Model Data Header
                             streamMatrix.Position += 48;
 
@@ -205,18 +203,19 @@ namespace SSXMultiTool.FileHandlers
                             ModelData.vertices = vertices;
 
                             streamMatrix.Position += 16;
-                            Model.staticMesh.Add(ModelData);
+                            ModelData=GenerateFaces(ModelData);
+                            TempMaterialGroup.staticMesh.Add(ModelData);
                         }
                     }
 
+                    TempMaterialGroup.flexableMesh = new List<FlexableMesh>();
                     //Load Flex Mesh
-                    if(Model.MaterialGroups[n].MorphMeshOffset != -1)
+                    if (TempMaterialGroup.MorphMeshOffset != -1)
                     {
                         streamMatrix.Position = Model.MaterialGroups[n].MorphMeshOffset;
                         while (true)
                         {
                             var modelSplitData = new FlexableMesh();
-                            modelSplitData.ChunkID = n;
                             streamMatrix.Position += 48;
                             if (streamMatrix.Position >= Model.MaterialGroups[n].MorphMeshOffsetEnd)
                             {
@@ -299,15 +298,11 @@ namespace SSXMultiTool.FileHandlers
                             StreamUtil.AlignBy16(streamMatrix);
                             streamMatrix.Position += 16;
 
-                            Model.flexableMesh.Add(modelSplitData);
+                            TempMaterialGroup.flexableMesh.Add(modelSplitData);
                         }
                     }
-                }
 
-
-                for (int b = 0; b < Model.staticMesh.Count; b++)
-                {
-                    Model.staticMesh[b] = GenerateFaces(Model.staticMesh[b]);
+                    Model.MaterialGroups[n] = TempMaterialGroup;
                 }
 
                 ModelList[i] = Model;
@@ -422,83 +417,6 @@ namespace SSXMultiTool.FileHandlers
         }
 
 
-        public FlexableFace CreateFlexableFace(int Index, FlexableMesh ModelData, int roatation)
-        {
-            FlexableFace face = new FlexableFace();
-            int Index1 = 0;
-            int Index2 = 0;
-            int Index3 = 0;
-            //Fixes the Rotation For Exporting
-            //Swap When Exporting to other formats
-            //1-Clockwise
-            //0-Counter Clocwise
-            if (roatation == 1)
-            {
-                Index1 = Index;
-                Index2 = Index-1;
-                Index3 = Index-2;
-            }
-            if (roatation == 0)
-            {
-                Index1 = Index;
-                Index2 = Index - 2;
-                Index3 = Index - 1;
-            }
-            face.V1 = ModelData.vertices[Index1];
-            face.V2 = ModelData.vertices[Index2];
-            face.V3 = ModelData.vertices[Index3];
-
-            face.V1Pos = Index1;
-            face.V2Pos = Index2;
-            face.V3Pos = Index3;
-
-            return face;
-        }
-
-        public FlexableMesh GenerateFaces1(FlexableMesh models)
-        {
-            var ModelData = models;
-            //Increment Strips
-            List<int> strip2 = new List<int>();
-            strip2.Add(0);
-            foreach (var item in ModelData.newSplits)
-            {
-                strip2.Add(strip2[strip2.Count - 1] + item.Split);
-                strip2.Add(strip2[strip2.Count - 1] + item.Unknown2);
-            }
-
-            //Make Faces
-            ModelData.faces = new List<FlexableFace>();
-            int localIndex = 0;
-            int Rotation = 0;
-
-            for (int b = 0; b < ModelData.vertices.Count; b++)
-            {
-                if (InsideSplits(b, strip2))
-                {
-                    Rotation = 0;
-                    localIndex = 1;
-                    continue;
-                }
-                if (localIndex < 2)
-                {
-                    localIndex++;
-                    continue;
-                }
-
-                ModelData.faces.Add(CreateFlexableFace(b, ModelData, Rotation));
-                Rotation++;
-                if (Rotation == 2)
-                {
-                    Rotation = 0;
-                }
-                localIndex++;
-            }
-
-            return ModelData;
-        }
-
-
         public struct MPFModelHeader
         {
             //Main Header
@@ -521,15 +439,11 @@ namespace SSXMultiTool.FileHandlers
             public List<Vector3> IKPoint;
             public List<MaterialGroup> MaterialGroups;
             public List<MaterialData> materialDataList;
-            public List<StaticMesh> staticMesh;
-            public List<FlexableMesh> flexableMesh;
             public List<Bone> bone;
         }
 
         public struct FlexableMesh
         {
-            public int ChunkID;
-
             public int StripCount;
             public int Unkown1;
             public int Unkown2;
@@ -553,8 +467,6 @@ namespace SSXMultiTool.FileHandlers
         }
         public struct StaticMesh
         {
-            public int ChunkID;
-
             public int StripCount;
             public int EdgeCount;
             public int NormalCount;
@@ -564,7 +476,6 @@ namespace SSXMultiTool.FileHandlers
             public List<Vector2> uv;
             public List<Vector3> vertices;
             public List<Vector3> uvNormals;
-
             public List<Face> faces;
         }
         public struct Bone
@@ -584,6 +495,9 @@ namespace SSXMultiTool.FileHandlers
             public int MeshOffsetEnd;
             public int MorphMeshOffset;
             public int MorphMeshOffsetEnd;
+
+            public List<StaticMesh> staticMesh;
+            public List<FlexableMesh> flexableMesh;
         }
 
         public struct Face

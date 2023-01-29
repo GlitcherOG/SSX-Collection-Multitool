@@ -332,7 +332,7 @@ namespace SSXMultiTool.FileHandlers.Models
                             for (int b = 0; b < Data.faces.Count; b++)
                             {
                                 var Face = Data.faces[b];
-                                var TempList = new TrickyMPFModelHandler.NumberListRef();
+                                var TempList = new TrickyMPFModelHandler.WeightRefList();
                                 try
                                 {
                                     TempList = modelHeader.numberListRefs[WeightRefListID];
@@ -802,13 +802,13 @@ namespace SSXMultiTool.FileHandlers.Models
 
             //Static mesh that shit
             TempTrickyMesh.MeshGroups = new List<TrickyMPFModelHandler.GroupMainHeader>();
-            List<TrickyMPFModelHandler.StaticMesh> meshList = new List<TrickyMPFModelHandler.StaticMesh>();
+            List<TrickyMPFModelHandler.MeshChunk> meshList = new List<TrickyMPFModelHandler.MeshChunk>();
 
             for (int a = 0; a < TempTrickyMesh.materialDatas.Count; a++)
             {
                 while (true)
                 {
-                    TrickyMPFModelHandler.StaticMesh staticMesh = new TrickyMPFModelHandler.StaticMesh();
+                    TrickyMPFModelHandler.MeshChunk staticMesh = new TrickyMPFModelHandler.MeshChunk();
                     staticMesh.weightsInts = new List<int>();
                     staticMesh.Unknown1 = 14;
                     if (!Shadow)
@@ -954,7 +954,7 @@ namespace SSXMultiTool.FileHandlers.Models
                                         {
                                             //Add New
                                             TrickyMPFModelHandler.MeshMorphHeader NewMorphHeader = new TrickyMPFModelHandler.MeshMorphHeader();
-                                            NewMorphHeader.staticMesh = new List<TrickyMPFModelHandler.StaticMesh>();
+                                            NewMorphHeader.staticMesh = new List<TrickyMPFModelHandler.MeshChunk>();
                                             NewMorphHeader.MorphKeyList = new List<TrickyMPFModelHandler.MorphKey>();
                                             NewMorphHeader.staticMesh.Add(meshList[b]);
                                             NewMorphHeader.MorphKeyList = meshList[b].MorphKeys;
@@ -967,7 +967,7 @@ namespace SSXMultiTool.FileHandlers.Models
                                             if (TempWeightRefGroup.MeshGroupHeaders.Count == 0)
                                             {
                                                 TrickyMPFModelHandler.MeshMorphHeader TempMorphHeader = new TrickyMPFModelHandler.MeshMorphHeader();
-                                                TempMorphHeader.staticMesh = new List<TrickyMPFModelHandler.StaticMesh>();
+                                                TempMorphHeader.staticMesh = new List<TrickyMPFModelHandler.MeshChunk>();
                                                 TempMorphHeader.MorphKeyList = new List<TrickyMPFModelHandler.MorphKey>();
                                                 TempWeightRefGroup.MeshGroupHeaders.Add(TempMorphHeader);
                                             }
@@ -1047,7 +1047,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
             //Generate Number Ref and correct UV
             //Prephaps Move into static meshing
-            TempTrickyMesh.numberListRefs = new List<TrickyMPFModelHandler.NumberListRef>();
+            TempTrickyMesh.numberListRefs = new List<TrickyMPFModelHandler.WeightRefList>();
             for (int i = 0; i < TempTrickyMesh.MeshGroups.Count; i++)
             {
                 var TempMeshGroup = TempTrickyMesh.MeshGroups[i];
@@ -1057,7 +1057,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     for (int b = 0; b < TempSubGroup.MeshGroupHeaders.Count; b++)
                     {
                         var TempMeshGroupHeader = TempSubGroup.MeshGroupHeaders[b];
-                        TrickyMPFModelHandler.NumberListRef NumberRef = new TrickyMPFModelHandler.NumberListRef();
+                        TrickyMPFModelHandler.WeightRefList NumberRef = new TrickyMPFModelHandler.WeightRefList();
                         NumberRef.WeightIDs = new List<int>();
 
                         for (int c = 0; c < TempMeshGroupHeader.staticMesh.Count; c++)
@@ -1607,13 +1607,13 @@ namespace SSXMultiTool.FileHandlers.Models
 
                 //Static mesh that shit
                 TempTrickyMesh.MeshGroups = new List<TrickyMPFModelHandler.GroupMainHeader>();
-                List<TrickyMPFModelHandler.StaticMesh> meshList = new List<TrickyMPFModelHandler.StaticMesh>();
+                List<TrickyMPFModelHandler.MeshChunk> meshList = new List<TrickyMPFModelHandler.MeshChunk>();
 
                 for (int a = 0; a < TempTrickyMesh.materialDatas.Count; a++)
                 {
                     while (true)
                     {
-                        TrickyMPFModelHandler.StaticMesh staticMesh = new TrickyMPFModelHandler.StaticMesh();
+                        TrickyMPFModelHandler.MeshChunk staticMesh = new TrickyMPFModelHandler.MeshChunk();
                         staticMesh.weightsInts = new List<int>();
                         staticMesh.Unknown1 = 14;
                         if (!Shadow)
@@ -1759,7 +1759,7 @@ namespace SSXMultiTool.FileHandlers.Models
                                             {
                                                 //Add New
                                                 TrickyMPFModelHandler.MeshMorphHeader NewMorphHeader = new TrickyMPFModelHandler.MeshMorphHeader();
-                                                NewMorphHeader.staticMesh = new List<TrickyMPFModelHandler.StaticMesh>();
+                                                NewMorphHeader.staticMesh = new List<TrickyMPFModelHandler.MeshChunk>();
                                                 NewMorphHeader.MorphKeyList = new List<TrickyMPFModelHandler.MorphKey>();
                                                 NewMorphHeader.staticMesh.Add(meshList[b]);
                                                 NewMorphHeader.MorphKeyList = meshList[b].MorphKeys;
@@ -1772,7 +1772,7 @@ namespace SSXMultiTool.FileHandlers.Models
                                                 if (TempWeightRefGroup.MeshGroupHeaders.Count == 0)
                                                 {
                                                     TrickyMPFModelHandler.MeshMorphHeader TempMorphHeader = new TrickyMPFModelHandler.MeshMorphHeader();
-                                                    TempMorphHeader.staticMesh = new List<TrickyMPFModelHandler.StaticMesh>();
+                                                    TempMorphHeader.staticMesh = new List<TrickyMPFModelHandler.MeshChunk>();
                                                     TempMorphHeader.MorphKeyList = new List<TrickyMPFModelHandler.MorphKey>();
                                                     TempWeightRefGroup.MeshGroupHeaders.Add(TempMorphHeader);
                                                 }
@@ -1850,14 +1850,14 @@ namespace SSXMultiTool.FileHandlers.Models
                 }
 
                 //Generate Number Ref and correct UV
-                TempTrickyMesh.numberListRefs = new List<TrickyMPFModelHandler.NumberListRef>();
+                TempTrickyMesh.numberListRefs = new List<TrickyMPFModelHandler.WeightRefList>();
                 for (int ei = 0; ei < TempTrickyMesh.MeshGroups.Count; ei++)
                 {
                     var TempMeshGroup = TempTrickyMesh.MeshGroups[ei];
                     for (int a = 0; a < TempMeshGroup.meshGroupSubs.Count; a++)
                     {
                         var TempSubGroup = TempMeshGroup.meshGroupSubs[a];
-                        TrickyMPFModelHandler.NumberListRef NumberRef = new TrickyMPFModelHandler.NumberListRef();
+                        TrickyMPFModelHandler.WeightRefList NumberRef = new TrickyMPFModelHandler.WeightRefList();
                         NumberRef.WeightIDs = new List<int>();
                         for (int b = 0; b < TempSubGroup.MeshGroupHeaders.Count; b++)
                         {

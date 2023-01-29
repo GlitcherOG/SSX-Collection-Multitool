@@ -240,10 +240,10 @@ namespace SSXMultiTool.FileHandlers
 
                 //Number List Ref
                 streamMatrix.Position = Model.NumberListOffset;
-                Model.numberListRefs = new List<NumberListRef>();
+                Model.numberListRefs = new List<WeightRefList>();
                 for (int b = 0; b < Model.NumberListCount; b++)
                 {
-                    var NumberListRef = new NumberListRef();
+                    var NumberListRef = new WeightRefList();
                     NumberListRef.SubCount = StreamUtil.ReadInt32(streamMatrix);
                     NumberListRef.Offset = StreamUtil.ReadInt32(streamMatrix);
                     NumberListRef.WeightIDs = new List<int>();
@@ -278,7 +278,7 @@ namespace SSXMultiTool.FileHandlers
                                     break;
                                 }
                                 streamMatrix.Position += 16;
-                                var ModelData = new StaticMesh();
+                                var ModelData = new MeshChunk();
 
                                 ModelData.StripCount = StreamUtil.ReadInt32(streamMatrix);
                                 ModelData.Unknown1 = StreamUtil.ReadInt32(streamMatrix);
@@ -413,7 +413,7 @@ namespace SSXMultiTool.FileHandlers
 
         }
 
-        public StaticMesh GenerateFaces(StaticMesh models, List<MorphKey> morphPointData)
+        public MeshChunk GenerateFaces(MeshChunk models, List<MorphKey> morphPointData)
         {
             var ModelData = models;
             //Increment Strips
@@ -460,7 +460,7 @@ namespace SSXMultiTool.FileHandlers
             }
             return false;
         }
-        public Face CreateFaces(int Index, StaticMesh ModelData, bool roatation, List<MorphKey> morphPointData)
+        public Face CreateFaces(int Index, MeshChunk ModelData, bool roatation, List<MorphKey> morphPointData)
         {
             Face face = new Face();
             int Index1 = 0;
@@ -1163,10 +1163,10 @@ namespace SSXMultiTool.FileHandlers
             public List<Vector3> iKPoints;
             public List<GroupMainHeader> MeshGroups;
             public List<BoneWeightHeader> boneWeightHeader;
-            public List<NumberListRef> numberListRefs;
+            public List<WeightRefList> numberListRefs;
         }
 
-        public struct NumberListRef
+        public struct WeightRefList
         {
             public int SubCount;
             public int Offset;
@@ -1196,7 +1196,6 @@ namespace SSXMultiTool.FileHandlers
             public int BoneID;
 
             public Vector3 Position;
-
             public Vector3 Radians;
 
             public float XRadian2;
@@ -1245,7 +1244,7 @@ namespace SSXMultiTool.FileHandlers
             public int MorphKeyEntrySize; //Morph Target Entry Size
             public int WeightRefGroup;
 
-            public List<StaticMesh> staticMesh;
+            public List<MeshChunk> staticMesh;
             public List<MorphKey> MorphKeyList;
         }
 
@@ -1274,7 +1273,7 @@ namespace SSXMultiTool.FileHandlers
             public string boneName;
         }
 
-        public struct StaticMesh
+        public struct MeshChunk
         {
             public int MatieralID;
             public bool Grouped;
