@@ -19,7 +19,7 @@ namespace SSXMultiTool.FileHandlers
     {
         public static void SaveOGglTF(string Output, SSXMPFModelHandler.MPFModelHeader modelHeader)
         {
-            var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1, VertexEmpty>(modelHeader.FileName);
+            var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1, VertexJoints4>(modelHeader.FileName);
             //Make Materials
 
             List<MaterialBuilder> materialBuilders = new List<MaterialBuilder>();
@@ -28,7 +28,7 @@ namespace SSXMultiTool.FileHandlers
             {
                 var TempVar = modelHeader.materialDataList[i];
                 var material1 = new MaterialBuilder(TempVar.Name)
-                .WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
+                .WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(0, 0, 0, 1));
                 materialBuilders.Add(material1);
             }
 
@@ -45,11 +45,6 @@ namespace SSXMultiTool.FileHandlers
                     Binding = bindings[modelHeader.bone[i].BoneParentID];
                 }
                 Binding = Binding.CreateNode(modelHeader.bone[i].boneName);
-                //float tempX = Handler.bones[i].Radians.X;
-                //float tempY = Handler.bones[i].Radians.Y;
-                //float tempZ = Handler.bones[i].Radians.Z;
-
-                //Binding.WithLocalRotation(ToQuaternion(new Vector3(-tempX, -tempY, -tempZ)));
                 Binding.WithLocalTranslation(modelHeader.bone[i].Position);
 
                 Binding.LocalMatrix = Binding.LocalMatrix;
@@ -57,62 +52,80 @@ namespace SSXMultiTool.FileHandlers
             }
 
 
-            //for (int i = 0; i < modelHeader.staticMesh.Count; i++)
-            //{
-            //    var Data = modelHeader.staticMesh[i];
-            //    int tempInt = Data.ChunkID;
-            //    int MatId = modelHeader.MaterialGroups[tempInt].MaterialID;
+            for (int i = 0; i < modelHeader.MaterialGroups.Count; i++)
+            {
+                for (int a = 0; a < modelHeader.MaterialGroups[i].staticMesh.Count; a++)
+                {
+                    var Data = modelHeader.MaterialGroups[i].staticMesh[a];
+                    int MatId = modelHeader.MaterialGroups[i].MaterialID;
 
-            //    for (int b = 0; b < Data.faces.Count; b++)
-            //    {
-            //        var Face = Data.faces[b];
-            //        VertexPositionNormal TempPos1 = new VertexPositionNormal();
-            //        TempPos1.Position.X = Face.V1.X;
-            //        TempPos1.Position.Y = Face.V1.Y;
-            //        TempPos1.Position.Z = Face.V1.Z;
+                    for (int b = 0; b < Data.faces.Count; b++)
+                    {
+                        var Face = Data.faces[b];
+                        VertexPositionNormal TempPos1 = new VertexPositionNormal();
+                        TempPos1.Position = Face.V1;
+                        TempPos1.Normal = Face.Normal1;
 
-            //        TempPos1.Normal.X = (float)Face.Normal1.X / 4096f;
-            //        TempPos1.Normal.Y = (float)Face.Normal1.Y / 4096f;
-            //        TempPos1.Normal.Z = (float)Face.Normal1.Z / 4096f;
+                        VertexPositionNormal TempPos2 = new VertexPositionNormal();
+                        TempPos2.Position = Face.V2;
+                        TempPos2.Normal = Face.Normal2;
 
-            //        VertexPositionNormal TempPos2 = new VertexPositionNormal();
-            //        TempPos2.Position.X = Face.V2.X;
-            //        TempPos2.Position.Y = Face.V2.Y;
-            //        TempPos2.Position.Z = Face.V2.Z;
+                        VertexPositionNormal TempPos3 = new VertexPositionNormal();
+                        TempPos3.Position = Face.V3;
+                        TempPos3.Normal = Face.Normal3;
 
-            //        TempPos2.Normal.X = (float)Face.Normal2.X / 4096f;
-            //        TempPos2.Normal.Y = (float)Face.Normal2.Y / 4096f;
-            //        TempPos2.Normal.Z = (float)Face.Normal2.Z / 4096f;
+                        VertexTexture1 TempTexture1 = new VertexTexture1();
+                        TempTexture1.TexCoord = Face.UV1;
 
-            //        VertexPositionNormal TempPos3 = new VertexPositionNormal();
-            //        TempPos3.Position.X = Face.V3.X;
-            //        TempPos3.Position.Y = Face.V3.Y;
-            //        TempPos3.Position.Z = Face.V3.Z;
+                        VertexTexture1 TempTexture2 = new VertexTexture1();
+                        TempTexture2.TexCoord = Face.UV2;
 
-            //        TempPos3.Normal.X = (float)Face.Normal3.X / 4096f;
-            //        TempPos3.Normal.Y = (float)Face.Normal3.Y / 4096f;
-            //        TempPos3.Normal.Z = (float)Face.Normal3.Z / 4096f;
+                        VertexTexture1 TempTexture3 = new VertexTexture1();
+                        TempTexture3.TexCoord = Face.UV3;
 
-            //        VertexTexture1 TempTexture1 = new VertexTexture1();
-            //        TempTexture1.TexCoord.X = (float)Face.UV1.X / 4096f;
-            //        TempTexture1.TexCoord.Y = (float)Face.UV1.Y / 4096f;
+                        (int Temp, float TempFloat)[] bindings1 = new (int Temp, float TempFloat)[1];
+                        VertexJoints4 TempBinding1 = new VertexJoints4();
+                        bindings1 = new (int Temp, float TempFloat)[1];
+                        for (int ia = 0; ia < 1; ia++)
+                        {
+                            bindings1[ia] = (0, 1);
+                        }
+                        TempBinding1.SetBindings(bindings1);
 
-            //        VertexTexture1 TempTexture2 = new VertexTexture1();
-            //        TempTexture2.TexCoord.X = (float)Face.UV2.X / 4096f;
-            //        TempTexture2.TexCoord.Y = (float)Face.UV2.Y / 4096f;
+                        VertexJoints4 TempBinding2 = new VertexJoints4();
+                        bindings1 = new (int Temp, float TempFloat)[1];
+                        for (int ia = 0; ia < 1; ia++)
+                        {
+                            bindings1[ia] = (0, 1);
+                        }
+                        TempBinding2.SetBindings(bindings1);
 
-            //        VertexTexture1 TempTexture3 = new VertexTexture1();
-            //        TempTexture3.TexCoord.X = (float)Face.UV3.X / 4096f;
-            //        TempTexture3.TexCoord.Y = (float)Face.UV3.Y / 4096f;
+                        VertexJoints4 TempBinding3 = new VertexJoints4();
+                        bindings1 = new (int Temp, float TempFloat)[1];
+                        for (int ia = 0; ia < 1; ia++)
+                        {
+                            bindings1[ia] = (0, 1);
+                        }
+                        TempBinding3.SetBindings(bindings1);
 
-            //        mesh.UsePrimitive(materialBuilders[MatId]).AddTriangle((TempPos1, TempTexture1), (TempPos2, TempTexture2), (TempPos3, TempTexture3));
-            //    }
-
-            //}
+                        mesh.UsePrimitive(materialBuilders[MatId]).AddTriangle((TempPos1, TempTexture1, TempBinding1), (TempPos2, TempTexture2, TempBinding2), (TempPos3, TempTexture3, TempBinding3));
+                    }
+                }
+            }
 
             var scene = new SharpGLTF.Scenes.SceneBuilder();
 
-            scene.AddRigidMesh(mesh, Matrix4x4.Identity);
+            scene.AddSkinnedMesh(mesh, Matrix4x4.Identity, bindings.ToArray());
+
+            if (modelHeader.IKPoint != null)
+            {
+                for (int i = 0; i < modelHeader.IKPoint.Count; i++)
+                {
+                    var Temp = new SharpGLTF.Scenes.NodeBuilder("IKPoint " + i.ToString());
+                    Temp.WithLocalTranslation(modelHeader.IKPoint[i]);
+                    scene.AddNode(Temp);
+                }
+            }
 
             // save the model in different formats
 
@@ -315,8 +328,6 @@ namespace SSXMultiTool.FileHandlers
             var model = scene.ToGltf2();
             model.SaveGLB(Output);
         }
-
-
 
         public static TrickyModelCombiner LoadGlft(string Path)
         {
@@ -565,8 +576,6 @@ namespace SSXMultiTool.FileHandlers
             return boneDatas;
         }
 
-
-
         public static PointMorph GeneratePointMorph(Vector3 Point, List<Vector3> MorphPoints)
         {
             PointMorph pointMorph = new PointMorph();
@@ -580,7 +589,6 @@ namespace SSXMultiTool.FileHandlers
             public Vector3 Point;
             public List<Vector3> MorphPoints;
         }
-
 
         public static Quaternion ToQuaternion(Vector3 v)
         {

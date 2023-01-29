@@ -162,8 +162,8 @@ namespace SSXMultiTool.FileHandlers
                                 for (int a = 0; a < ModelData.VertexCount; a++)
                                 {
                                     Vector2 uv = new Vector2();
-                                    uv.X = StreamUtil.ReadInt16(streamMatrix);
-                                    uv.Y = StreamUtil.ReadInt16(streamMatrix);
+                                    uv.X = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                                    uv.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
                                     UVs.Add(uv);
                                 }
                                 StreamUtil.AlignBy16(streamMatrix);
@@ -178,9 +178,9 @@ namespace SSXMultiTool.FileHandlers
                                 for (int a = 0; a < ModelData.VertexCount; a++)
                                 {
                                     Vector3 normal = new Vector3();
-                                    normal.X = StreamUtil.ReadInt16(streamMatrix);
-                                    normal.Y = StreamUtil.ReadInt16(streamMatrix);
-                                    normal.Z = StreamUtil.ReadInt16(streamMatrix);
+                                    normal.X = StreamUtil.ReadInt16(streamMatrix) / 32768f;
+                                    normal.Y = StreamUtil.ReadInt16(streamMatrix) / 32768f;
+                                    normal.Z = StreamUtil.ReadInt16(streamMatrix) / 32768f;
                                     Normals.Add(normal);
                                 }
                                 StreamUtil.AlignBy16(streamMatrix);
