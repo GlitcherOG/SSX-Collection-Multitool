@@ -1143,6 +1143,7 @@ namespace SSXMultiTool.FileHandlers
             public int MaterialOffset;
             public int NumberListOffset;
             public int BoneWeightOffet;
+
             public int Unused1;
             public int Unused2;
 
