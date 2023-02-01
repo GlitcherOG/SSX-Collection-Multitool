@@ -89,12 +89,13 @@ namespace SSXMultiTool.FileHandlers
                     boneData.boneName = StreamUtil.ReadString(streamMatrix, 16);
                     boneData.BoneParentFileID = StreamUtil.ReadInt16(streamMatrix);
                     boneData.BoneParentID = StreamUtil.ReadInt16(streamMatrix);
-                    boneData.Position.X = StreamUtil.ReadInt16(streamMatrix)/4096f;
-                    boneData.Position.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
-                    boneData.Position.Z = StreamUtil.ReadInt16(streamMatrix) / 4096f;
-                    boneData.Radians.X = StreamUtil.ReadInt16(streamMatrix) / 4096f;
-                    boneData.Radians.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
-                    boneData.Radians.Z = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                    boneData.Position = StreamUtil.ReadVector3(streamMatrix);
+                    //boneData.Position.X = StreamUtil.ReadInt16(streamMatrix)/4096f;
+                    //boneData.Position.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                    //boneData.Position.Z = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                    //boneData.Radians.X = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                    //boneData.Radians.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                    //boneData.Radians.Z = StreamUtil.ReadInt16(streamMatrix) / 4096f;
                     bones.Add(boneData);
                 }
                 Model.bone = bones;
@@ -147,8 +148,8 @@ namespace SSXMultiTool.FileHandlers
                                 break;
                             }
                             ModelData.StripCount = StreamUtil.ReadInt32(streamMatrix);
-                            ModelData.EdgeCount = StreamUtil.ReadInt32(streamMatrix);
-                            ModelData.NormalCount = StreamUtil.ReadInt32(streamMatrix);
+                            ModelData.Unknown1 = StreamUtil.ReadInt32(streamMatrix);
+                            ModelData.Unknown2 = StreamUtil.ReadInt32(streamMatrix);
                             ModelData.VertexCount = StreamUtil.ReadInt32(streamMatrix);
 
                             //Load Strip Count
@@ -163,7 +164,7 @@ namespace SSXMultiTool.FileHandlers
 
                             List<Vector2> UVs = new List<Vector2>();
                             //Read UV Texture Points
-                            if (ModelData.NormalCount != 0)
+                            if (ModelData.Unknown2 != 0)
                             {
                                 streamMatrix.Position += 48;
                                 for (int a = 0; a < ModelData.VertexCount; a++)
@@ -179,7 +180,7 @@ namespace SSXMultiTool.FileHandlers
 
                             List<Vector3> Normals = new List<Vector3>();
                             //Read Normals
-                            if (ModelData.NormalCount != 0)
+                            if (ModelData.Unknown2 != 0)
                             {
                                 streamMatrix.Position += 48;
                                 for (int a = 0; a < ModelData.VertexCount; a++)
@@ -232,16 +233,16 @@ namespace SSXMultiTool.FileHandlers
                             modelSplitData.StripCount = StreamUtil.ReadInt32(streamMatrix);
                             modelSplitData.Unkown1 = StreamUtil.ReadInt32(streamMatrix);
                             modelSplitData.Unkown2 = StreamUtil.ReadInt32(streamMatrix);
-                            modelSplitData.NormalCount = StreamUtil.ReadInt32(streamMatrix);
+                            modelSplitData.Unkown3 = StreamUtil.ReadInt32(streamMatrix);
 
-                            //Load Strip Count
+                            //No Tristrip
                             var TempStrips = new List<NewSplit>();
                             for (int a = 0; a < modelSplitData.StripCount; a++)
                             {
                                 NewSplit newSplit = new NewSplit();
                                 newSplit.Unknown = StreamUtil.ReadInt32(streamMatrix);
-                                newSplit.Split = StreamUtil.ReadInt32(streamMatrix);
-                                newSplit.Unknown2 = StreamUtil.ReadInt32(streamMatrix); //To do with UV
+                                newSplit.Unknown1 = StreamUtil.ReadInt32(streamMatrix);
+                                newSplit.Unknown2 = StreamUtil.ReadInt32(streamMatrix);
                                 newSplit.Unknown3 = StreamUtil.ReadInt32(streamMatrix);
                                 TempStrips.Add(newSplit);
                             }
@@ -254,14 +255,19 @@ namespace SSXMultiTool.FileHandlers
                             List<Vector3> vertices = new List<Vector3>();
                             for (int a = 0; a < TempCount; a++)
                             {
-                                Vector3 vertex = new Vector3();
-                                vertex = StreamUtil.ReadVector3(streamMatrix);
+                                Vector3 vertex = StreamUtil.ReadVector3(streamMatrix);
                                 vertices.Add(vertex);
                             }
                             modelSplitData.vertices = vertices;
                             StreamUtil.AlignBy16(streamMatrix);
 
-                            //Possible Faces/Normal Data
+                            //First 6 bytes are header infomation of some sort for the ammount and type of data
+                            //Unknown
+                            //Normal Count
+                            //Unknown
+
+
+                            //Unknown and Normal 
                             streamMatrix.Position += 46;
                             TempCount = StreamUtil.ReadUInt8(streamMatrix);
                             streamMatrix.Position += 1;
@@ -277,7 +283,7 @@ namespace SSXMultiTool.FileHandlers
                             modelSplitData.uvNormals = Normals;
                             StreamUtil.AlignBy16(streamMatrix);
 
-                            //Unknown
+                            //Tristrip
                             streamMatrix.Position += 14;
                             TempCount = StreamUtil.ReadUInt8(streamMatrix); 
                             streamMatrix.Position += 1;
@@ -286,10 +292,10 @@ namespace SSXMultiTool.FileHandlers
                             {
                                 ints.Add(StreamUtil.ReadInt16(streamMatrix));
                             }
-                            modelSplitData.UnknownInts = ints;
+                            modelSplitData.Strips = ints;
                             StreamUtil.AlignBy16(streamMatrix);
 
-                            //Unknown
+                            //Weight Data and UV
                             streamMatrix.Position += 46;
                             TempCount = StreamUtil.ReadUInt8(streamMatrix);
                             streamMatrix.Position += 1;
@@ -461,12 +467,12 @@ namespace SSXMultiTool.FileHandlers
             public int StripCount;
             public int Unkown1;
             public int Unkown2;
-            public int NormalCount;
+            public int Unkown3;
 
             public List<Vector3> vertices;
             public List<NewSplit> newSplits;
             public List<Vector3> uvNormals;
-            public List<int> UnknownInts;
+            public List<int> Strips;
             public List<Vector2> uv;
             public List<FlexableFace> faces;
 
@@ -475,15 +481,15 @@ namespace SSXMultiTool.FileHandlers
         public struct NewSplit
         {
             public int Unknown;
-            public int Split;
+            public int Unknown1;
             public int Unknown2;
             public int Unknown3;
         }
         public struct StaticMesh
         {
             public int StripCount;
-            public int EdgeCount;
-            public int NormalCount;
+            public int Unknown1;
+            public int Unknown2;
             public int VertexCount;
 
             public List<int> Strips;
