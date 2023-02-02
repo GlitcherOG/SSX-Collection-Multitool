@@ -29,39 +29,28 @@ namespace SSXMultiTool.FileHandlers
                 {
                     MPFModelHeader modelHeader = new MPFModelHeader();
 
-                    int Test = StreamUtil.ReadInt32(stream);
-                    if (Test == 0)
-                    {
-                        ModelList.Add(modelHeader);
-                        break;
-                    }
-                    else
-                    {
-                        stream.Position -= 4;
-                    }
-
                     modelHeader.ModelName = StreamUtil.ReadString(stream, 16).Replace("\0", "");
                     modelHeader.DataOffset = StreamUtil.ReadInt32(stream);
                     modelHeader.EntrySize = StreamUtil.ReadInt32(stream);
                     modelHeader.BoneOffset = StreamUtil.ReadInt32(stream);
                     modelHeader.U7 = StreamUtil.ReadInt32(stream);
                     modelHeader.U8 = StreamUtil.ReadInt32(stream);
-                    modelHeader.U9 = StreamUtil.ReadInt32(stream);
+                    modelHeader.MeshDataOffset = StreamUtil.ReadInt32(stream);
                     modelHeader.MaterialOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.U11 = StreamUtil.ReadInt32(stream);
-                    modelHeader.U12 = StreamUtil.ReadInt32(stream);
-                    modelHeader.U13 = StreamUtil.ReadInt32(stream);
+                    modelHeader.MorphIDOffset = StreamUtil.ReadInt32(stream);
+                    modelHeader.WeightRefrenceOffset = StreamUtil.ReadInt32(stream);
+                    modelHeader.BoneWeightOffset = StreamUtil.ReadInt32(stream);
                     modelHeader.U14 = StreamUtil.ReadInt32(stream);
                     modelHeader.U15 = StreamUtil.ReadInt32(stream);
                     modelHeader.U16 = StreamUtil.ReadInt32(stream);
 
-                    modelHeader.U17 = StreamUtil.ReadInt16(stream);
-                    modelHeader.U18 = StreamUtil.ReadInt16(stream);
+                    modelHeader.WeightCount = StreamUtil.ReadInt16(stream);
+                    modelHeader.WeightRefrenceCount = StreamUtil.ReadInt16(stream);
                     modelHeader.U19 = StreamUtil.ReadInt16(stream);
                     modelHeader.BoneCount = StreamUtil.ReadInt16(stream);
                     modelHeader.MaterialCount = StreamUtil.ReadInt16(stream);
                     modelHeader.U22 = StreamUtil.ReadInt16(stream);
-                    modelHeader.U23 = StreamUtil.ReadInt16(stream);
+                    modelHeader.MorphKeyCount = StreamUtil.ReadInt16(stream);
                     modelHeader.FileID = StreamUtil.ReadInt16(stream);
                     modelHeader.U25 = StreamUtil.ReadInt16(stream);
                     modelHeader.U26 = StreamUtil.ReadInt16(stream);
@@ -178,8 +167,59 @@ namespace SSXMultiTool.FileHandlers
                         TempModel.BoneList.Add(TempBoneData);
                     }
 
-
                     //Morph Data
+                    streamMatrix.Position = TempModel.MorphIDOffset;
+                    TempModel.MorphKeyIDList = new List<int>();
+                    for (int a = 0; a < TempModel.MorphKeyCount; a++)
+                    {
+                        TempModel.MorphKeyIDList.Add(StreamUtil.ReadInt32(streamMatrix));
+                    }
+
+                    //Bone Weight Info 
+                    streamMatrix.Position = TempModel.BoneWeightOffset;
+                    TempModel.BoneWeightHeaderList = new List<BoneWeightHeader>();
+                    for (int b = 0; b < TempModel.WeightCount; b++)
+                    {
+                        var BoneWeight = new BoneWeightHeader();
+
+                        BoneWeight.WeightCount = StreamUtil.ReadInt32(streamMatrix);
+                        BoneWeight.WeightOffset = StreamUtil.ReadInt32(streamMatrix);
+                        BoneWeight.Unknown = StreamUtil.ReadInt32(streamMatrix);
+                        BoneWeight.BoneWeightList = new List<BoneWeight>();
+                        int TempPos = (int)streamMatrix.Position;
+                        streamMatrix.Position = BoneWeight.WeightOffset;
+                        for (int a = 0; a < BoneWeight.WeightCount; a++)
+                        {
+                            var boneWeight = new BoneWeight();
+                            boneWeight.Weight = StreamUtil.ReadInt16(streamMatrix);
+                            boneWeight.BoneID = StreamUtil.ReadUInt8(streamMatrix);
+                            boneWeight.FileID = StreamUtil.ReadUInt8(streamMatrix);
+                            BoneWeight.BoneWeightList.Add(boneWeight);
+                        }
+                        streamMatrix.Position = TempPos;
+                        TempModel.BoneWeightHeaderList.Add(BoneWeight);
+                    }
+
+                    //Weight Refrence List
+                    streamMatrix.Position = TempModel.WeightRefrenceOffset;
+                    TempModel.WeightRefrenceLists = new List<WeightRefList>();
+                    for (int b = 0; b < TempModel.WeightRefrenceCount; b++)
+                    {
+                        var NumberListRef = new WeightRefList();
+                        NumberListRef.ListCount = StreamUtil.ReadInt32(streamMatrix);
+                        NumberListRef.Offset = StreamUtil.ReadInt32(streamMatrix);
+                        NumberListRef.WeightIDs = new List<int>();
+
+                        int TempPos = (int)streamMatrix.Position;
+                        streamMatrix.Position = NumberListRef.Offset;
+                        for (int c = 0; c < NumberListRef.ListCount; c++)
+                        {
+                            NumberListRef.WeightIDs.Add(StreamUtil.ReadInt32(streamMatrix));
+                        }
+                        streamMatrix.Position = TempPos;
+                        TempModel.WeightRefrenceLists.Add(NumberListRef);
+                    }
+
 
                     ModelList[i] = TempModel;
                 }
@@ -204,22 +244,22 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteInt32(stream, ModelList[i].BoneOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].U7);
                 StreamUtil.WriteInt32(stream, ModelList[i].U8);
-                StreamUtil.WriteInt32(stream, ModelList[i].U9);
+                StreamUtil.WriteInt32(stream, ModelList[i].MeshDataOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].MaterialOffset);
-                StreamUtil.WriteInt32(stream, ModelList[i].U11);
-                StreamUtil.WriteInt32(stream, ModelList[i].U12);
-                StreamUtil.WriteInt32(stream, ModelList[i].U13);
+                StreamUtil.WriteInt32(stream, ModelList[i].MorphIDOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].WeightRefrenceOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].BoneWeightOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].U14);
                 StreamUtil.WriteInt32(stream, ModelList[i].U15);
                 StreamUtil.WriteInt32(stream, ModelList[i].U16);
 
-                StreamUtil.WriteInt16(stream, ModelList[i].U17);
-                StreamUtil.WriteInt16(stream, ModelList[i].U18);
+                StreamUtil.WriteInt16(stream, ModelList[i].WeightCount);
+                StreamUtil.WriteInt16(stream, ModelList[i].WeightRefrenceCount);
                 StreamUtil.WriteInt16(stream, ModelList[i].U19);
                 StreamUtil.WriteInt16(stream, ModelList[i].BoneCount);
                 StreamUtil.WriteInt16(stream, ModelList[i].MaterialCount);
                 StreamUtil.WriteInt16(stream, ModelList[i].U22);
-                StreamUtil.WriteInt16(stream, ModelList[i].U23);
+                StreamUtil.WriteInt16(stream, ModelList[i].MorphKeyCount);
                 StreamUtil.WriteInt16(stream, ModelList[i].FileID);
                 StreamUtil.WriteInt16(stream, ModelList[i].U25);
                 StreamUtil.WriteInt16(stream, ModelList[i].U26);
@@ -261,11 +301,11 @@ namespace SSXMultiTool.FileHandlers
             public int BoneOffset; 
             public int U7; //Weight Info (IK Points?)
             public int U8; //Material Groups
-            public int U9; //Mesh Data Start
+            public int MeshDataOffset;
             public int MaterialOffset;
-            public int U11; //Somekind of data related to morphkey
-            public int U12; //Weight Refrence List
-            public int U13; //Weight Info
+            public int MorphIDOffset;
+            public int WeightRefrenceOffset; //Weight Refrence List
+            public int BoneWeightOffset; //Weight Info
 
             //Unused ??
             public int U14;
@@ -273,15 +313,15 @@ namespace SSXMultiTool.FileHandlers
             public int U16;
 
             //Counts
-            public int U17; //Weight
-            public int U18; //Weight Ref??
+            public int WeightCount; //Weight
+            public int WeightRefrenceCount; //Weight Ref??
             public int U19; //Material Group??
             public int BoneCount;
             public int MaterialCount;
             public int U22; //IK Point Count??
-            public int U23; //Morph Key count
+            public int MorphKeyCount;
             public int FileID;
-            public int U25; //Unknown
+            public int U25; //Possibly Some Kind of Face Ammount
 
             //Unused?
             public int U26;
@@ -292,6 +332,9 @@ namespace SSXMultiTool.FileHandlers
 
             public List<MaterialData> MaterialList;
             public List<BoneData> BoneList;
+            public List<int> MorphKeyIDList;
+            public List<BoneWeightHeader> BoneWeightHeaderList;
+            public List<WeightRefList> WeightRefrenceLists;
 
             public byte[] Matrix;
         }
@@ -334,6 +377,32 @@ namespace SSXMultiTool.FileHandlers
             public int BonePos;
 
             public string parentName;
+        }
+
+        public struct BoneWeightHeader
+        {
+            public int WeightCount;
+            public int WeightOffset;
+            public int Unknown;
+
+            public List<BoneWeight> BoneWeightList;
+        }
+
+        public struct BoneWeight
+        {
+            public int Weight;
+            public int BoneID;
+            public int FileID;
+
+            public string boneName;
+        }
+
+        public struct WeightRefList
+        {
+            public int ListCount;
+            public int Offset;
+
+            public List<int> WeightIDs;
         }
     }
 }
