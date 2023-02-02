@@ -1812,7 +1812,7 @@
             this.BoltCharacter.Items.AddRange(new object[] {
             "0-Moby",
             "1-Kaori",
-            "2-Arielle",
+            "2-Allegra",
             "3-Mac",
             "4-Zoe",
             "5-Grommet",
