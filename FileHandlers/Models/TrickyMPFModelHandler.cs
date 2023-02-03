@@ -383,7 +383,7 @@ namespace SSXMultiTool.FileHandlers
                                     for (int dcb = 0; dcb < TempMorphKey.MorphPointDataCount; dcb++)
                                     {
                                         var TempPoint = new Vector3();
-                                        TempPoint.X = (StreamUtil.ReadInt8(streamMatrix)/12f);
+                                        TempPoint.X = (StreamUtil.ReadInt8(streamMatrix) / 12f);
                                         TempPoint.Y = (StreamUtil.ReadInt8(streamMatrix) / 12f);
                                         TempPoint.Z = (StreamUtil.ReadInt8(streamMatrix) / 12f);
                                         TempMorphKey.morphData.Add(TempPoint);
