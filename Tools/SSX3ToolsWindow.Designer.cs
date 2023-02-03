@@ -164,7 +164,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.BoltCharacter = new System.Windows.Forms.ComboBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.button7 = new System.Windows.Forms.Button();
+            this.MpfExport = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.label58 = new System.Windows.Forms.Label();
@@ -1856,7 +1856,7 @@
             // 
             // tabPage5
             // 
-            this.tabPage5.Controls.Add(this.button7);
+            this.tabPage5.Controls.Add(this.MpfExport);
             this.tabPage5.Controls.Add(this.button6);
             this.tabPage5.Controls.Add(this.button5);
             this.tabPage5.Controls.Add(this.label58);
@@ -1873,14 +1873,15 @@
             this.tabPage5.Text = "SSX 3 MPF(Models)";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
-            // button7
+            // MpfExport
             // 
-            this.button7.Location = new System.Drawing.Point(782, 502);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(77, 23);
-            this.button7.TabIndex = 11;
-            this.button7.Text = "Export";
-            this.button7.UseVisualStyleBackColor = true;
+            this.MpfExport.Location = new System.Drawing.Point(782, 502);
+            this.MpfExport.Name = "MpfExport";
+            this.MpfExport.Size = new System.Drawing.Size(77, 23);
+            this.MpfExport.TabIndex = 11;
+            this.MpfExport.Text = "Export";
+            this.MpfExport.UseVisualStyleBackColor = true;
+            this.MpfExport.Click += new System.EventHandler(this.MpfExport_Click);
             // 
             // button6
             // 
@@ -2171,7 +2172,7 @@
         private TabPage tabPage5;
         private Button MPFSave;
         private Button MPFLoad;
-        private Button button7;
+        private Button MpfExport;
         private Button button6;
         private Button button5;
         private Label label58;

@@ -9,7 +9,7 @@ using System.Numerics;
 
 namespace SSXMultiTool.FileHandlers
 {
-    internal class SSX3MPFModelHandler
+    public class SSX3MPFModelHandler
     {
         public byte[] magicWords = new byte[4];
         public int NumModels;
@@ -383,7 +383,6 @@ namespace SSXMultiTool.FileHandlers
                                         TempMeshMorphChunk.MeshChunkList.Add(ModelData);
                                     }
 
-
                                 }
 
                                 //Load Morph Chunk
@@ -417,6 +416,19 @@ namespace SSXMultiTool.FileHandlers
                                         TempMeshMorphChunk.MorphDataList.Add(TempMorphKey);
                                     }
                                 }
+
+                                //Generate Faces
+                                for (int d = 0; d < TempMeshMorphChunk.MeshChunkList.Count; d++)
+                                {
+                                    var TempChunk = TempMeshMorphChunk.MeshChunkList[d];
+
+                                    TempChunk = GenerateFaces(TempChunk, null);
+
+                                    TempChunk.Faces = UpdateWeights(TempChunk.Faces, TempModel.WeightRefrenceLists[TempMeshMorphChunk.WeightRefID], TempModel.BoneWeightHeaderList);
+
+                                    TempMeshMorphChunk.MeshChunkList[d] = TempChunk;
+                                }
+
                                 TempWeightRefGroup.MorphMeshGroupList[c] = TempMeshMorphChunk;
                             }
 
@@ -432,6 +444,144 @@ namespace SSXMultiTool.FileHandlers
             }
         }
 
+        public MeshChunk GenerateFaces(MeshChunk models, List<MorphKey> morphPointData)
+        {
+            var ModelData = models;
+            //Increment Strips
+            List<int> strip2 = new List<int>();
+            strip2.Add(0);
+            foreach (var item in ModelData.Strips)
+            {
+                strip2.Add(strip2[strip2.Count - 1] + item);
+            }
+
+            //Make Faces
+            ModelData.Faces = new List<Face>();
+            int localIndex = 0;
+            bool Rotation = false;
+            for (int b = 0; b < ModelData.Vertices.Count; b++)
+            {
+                if (InsideSplits(b, strip2))
+                {
+                    Rotation = false;
+                    localIndex = 1;
+                    continue;
+                }
+                if (localIndex < 2)
+                {
+                    localIndex++;
+                    continue;
+                }
+
+                ModelData.Faces.Add(CreateFaces(b, ModelData, Rotation, morphPointData));
+                Rotation = !Rotation;
+                localIndex++;
+            }
+
+            return ModelData;
+        }
+        public bool InsideSplits(int Number, List<int> splits)
+        {
+            foreach (var item in splits)
+            {
+                if (item == Number)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public Face CreateFaces(int Index, MeshChunk ModelData, bool roatation, List<MorphKey> morphPointData)
+        {
+            Face face = new Face();
+            int Index1 = 0;
+            int Index2 = 0;
+            int Index3 = 0;
+            //Fixes the Rotation For Exporting
+            //Swap When Exporting to other formats
+            //1-Clockwise
+            //0-Counter Clocwise
+            if (roatation)
+            {
+                Index1 = Index;
+                Index2 = Index - 1;
+                Index3 = Index - 2;
+            }
+            if (!roatation)
+            {
+                Index1 = Index - 2;
+                Index2 = Index - 1;
+                Index3 = Index;
+            }
+            face.V1 = ModelData.Vertices[Index1];
+            face.V2 = ModelData.Vertices[Index2];
+            face.V3 = ModelData.Vertices[Index3];
+
+            face.V1Pos = Index1;
+            face.V2Pos = Index2;
+            face.V3Pos = Index3;
+
+            if (ModelData.UV.Count != 0)
+            {
+                face.UV1 = ModelData.UV[Index1];
+                face.UV2 = ModelData.UV[Index2];
+                face.UV3 = ModelData.UV[Index3];
+
+                face.UV1Pos = Index1;
+                face.UV2Pos = Index2;
+                face.UV3Pos = Index3;
+
+                face.Normal1 = ModelData.UVNormals[Index1];
+                face.Normal2 = ModelData.UVNormals[Index2];
+                face.Normal3 = ModelData.UVNormals[Index3];
+
+                face.Normal1Pos = Index1;
+                face.Normal2Pos = Index2;
+                face.Normal3Pos = Index3;
+
+                face.Weight1Pos = (int)((face.UV1.Z - 17) / 4);
+                face.Weight2Pos = (int)((face.UV2.Z - 17) / 4);
+                face.Weight3Pos = (int)((face.UV3.Z - 17) / 4);
+            }
+            else
+            {
+                face.Weight1Pos = (ModelData.Weights[Index1] - 17) / 4;
+                face.Weight2Pos = (ModelData.Weights[Index2] - 17) / 4;
+                face.Weight3Pos = (ModelData.Weights[Index3] - 17) / 4;
+            }
+
+            if (morphPointData != null)
+            {
+                //face.MorphPoint1 = new List<Vector3>();
+                //face.MorphPoint2 = new List<Vector3>();
+                //face.MorphPoint3 = new List<Vector3>();
+
+                ////for (int i = 0; i < morphPointData.Count; i++)
+                ////{
+                ////    face.MorphPoint1.Add(morphPointData[i].morphData[Index1]);
+                ////    face.MorphPoint2.Add(morphPointData[i].morphData[Index2]);
+                ////    face.MorphPoint3.Add(morphPointData[i].morphData[Index3]);
+                ////}
+            }
+
+            return face;
+        }
+
+        public List<Face> UpdateWeights(List<Face> faces, WeightRefList WeightRefList, List<BoneWeightHeader> boneWeights)
+        {
+            for (int i = 0; i < faces.Count; i++)
+            {
+                var TempFace = faces[i];
+
+                TempFace.Weight1 = boneWeights[WeightRefList.WeightIDs[TempFace.Weight1Pos]];
+                TempFace.Weight2 = boneWeights[WeightRefList.WeightIDs[TempFace.Weight2Pos]];
+                TempFace.Weight3 = boneWeights[WeightRefList.WeightIDs[TempFace.Weight3Pos]];
+
+                faces[i] = TempFace;
+            }
+
+            return faces;
+        }
 
         public void SaveDecompressed(string path)
         {
@@ -646,12 +796,58 @@ namespace SSXMultiTool.FileHandlers
             public int Unknown2;
             public int VertexCount;
 
+            public int WeightRefID;
 
             public List<int> Strips;
             public List<Vector4> UV;
             public List<Vector3> UVNormals;
             public List<Vector3> Vertices;
             public List<int> Weights;
+
+            public List<Face> Faces;
+        }
+
+        public struct Face
+        {
+            public bool tristripped;
+
+            public Vector3 V1;
+            public Vector3 V2;
+            public Vector3 V3;
+
+            public int V1Pos;
+            public int V2Pos;
+            public int V3Pos;
+
+            public Vector4 UV1;
+            public Vector4 UV2;
+            public Vector4 UV3;
+
+            public int UV1Pos;
+            public int UV2Pos;
+            public int UV3Pos;
+
+            public Vector3 Normal1;
+            public Vector3 Normal2;
+            public Vector3 Normal3;
+
+            public int Normal1Pos;
+            public int Normal2Pos;
+            public int Normal3Pos;
+
+            public BoneWeightHeader Weight1;
+            public BoneWeightHeader Weight2;
+            public BoneWeightHeader Weight3;
+
+            public int Weight1Pos;
+            public int Weight2Pos;
+            public int Weight3Pos;
+
+            public List<Vector3> MorphPoint1;
+            public List<Vector3> MorphPoint2;
+            public List<Vector3> MorphPoint3;
+
+            public int MaterialID;
         }
 
         public struct MorphKey

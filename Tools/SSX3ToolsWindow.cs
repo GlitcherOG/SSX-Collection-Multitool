@@ -542,5 +542,22 @@ namespace SSXMultiTool
                 modelHandler.SaveDecompressed(openFileDialog.FileName);
             }
         }
+
+        private void MpfExport_Click(object sender, EventArgs e)
+        {
+            if(MpfModelList.SelectedIndex!=-1)
+            {
+                SaveFileDialog openFileDialog = new SaveFileDialog
+                {
+                    Filter = "Model File (*.glb)|*.glb|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    glftHandler.SaveSSX3Glft(openFileDialog.FileName, modelHandler.ModelList[MpfModelList.SelectedIndex]);
+                }
+            }
+        }
     }
 }
