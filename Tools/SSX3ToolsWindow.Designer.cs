@@ -164,6 +164,14 @@
             this.label13 = new System.Windows.Forms.Label();
             this.BoltCharacter = new System.Windows.Forms.ComboBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.label58 = new System.Windows.Forms.Label();
+            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.label57 = new System.Windows.Forms.Label();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.MPFSave = new System.Windows.Forms.Button();
             this.MPFLoad = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
@@ -1848,6 +1856,14 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.button7);
+            this.tabPage5.Controls.Add(this.button6);
+            this.tabPage5.Controls.Add(this.button5);
+            this.tabPage5.Controls.Add(this.label58);
+            this.tabPage5.Controls.Add(this.listBox2);
+            this.tabPage5.Controls.Add(this.button4);
+            this.tabPage5.Controls.Add(this.label57);
+            this.tabPage5.Controls.Add(this.listBox1);
             this.tabPage5.Controls.Add(this.MPFSave);
             this.tabPage5.Controls.Add(this.MPFLoad);
             this.tabPage5.Location = new System.Drawing.Point(4, 24);
@@ -1857,11 +1873,83 @@
             this.tabPage5.Text = "SSX 3 MPF(Models)";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(782, 502);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(77, 23);
+            this.button7.TabIndex = 11;
+            this.button7.Text = "Export";
+            this.button7.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(165, 502);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(66, 23);
+            this.button6.TabIndex = 10;
+            this.button6.Text = "Import";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(865, 502);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(73, 23);
+            this.button5.TabIndex = 9;
+            this.button5.Text = "Save";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // label58
+            // 
+            this.label58.AutoSize = true;
+            this.label58.Location = new System.Drawing.Point(3, 279);
+            this.label58.Name = "label58";
+            this.label58.Size = new System.Drawing.Size(70, 15);
+            this.label58.TabIndex = 6;
+            this.label58.Text = "Model Parts";
+            // 
+            // listBox2
+            // 
+            this.listBox2.FormattingEnabled = true;
+            this.listBox2.ItemHeight = 15;
+            this.listBox2.Location = new System.Drawing.Point(3, 297);
+            this.listBox2.Name = "listBox2";
+            this.listBox2.Size = new System.Drawing.Size(196, 199);
+            this.listBox2.TabIndex = 5;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(84, 502);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 4;
+            this.button4.Text = "Bone Load";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(0, 0);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(62, 15);
+            this.label57.TabIndex = 3;
+            this.label57.Text = "Model List";
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 15;
+            this.listBox1.Location = new System.Drawing.Point(3, 18);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(196, 259);
+            this.listBox1.TabIndex = 2;
+            // 
             // MPFSave
             // 
-            this.MPFSave.Location = new System.Drawing.Point(795, 502);
+            this.MPFSave.Location = new System.Drawing.Point(782, 473);
             this.MPFSave.Name = "MPFSave";
-            this.MPFSave.Size = new System.Drawing.Size(143, 23);
+            this.MPFSave.Size = new System.Drawing.Size(156, 23);
             this.MPFSave.TabIndex = 1;
             this.MPFSave.Text = "Save Decompressed";
             this.MPFSave.UseVisualStyleBackColor = true;
@@ -1937,6 +2025,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.BoltUnlock)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BoltUnkownOne)).EndInit();
             this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2082,5 +2171,13 @@
         private TabPage tabPage5;
         private Button MPFSave;
         private Button MPFLoad;
+        private Button button7;
+        private Button button6;
+        private Button button5;
+        private Label label58;
+        private ListBox listBox2;
+        private Button button4;
+        private Label label57;
+        private ListBox listBox1;
     }
 }
