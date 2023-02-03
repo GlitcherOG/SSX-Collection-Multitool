@@ -520,6 +520,12 @@ namespace SSXMultiTool
             {
                 modelHandler = new SSX3MPFModelHandler();
                 modelHandler.load(openFileDialog.FileName);
+
+                MpfModelList.Items.Clear();
+                for (int i = 0; i < modelHandler.ModelList.Count; i++)
+                {
+                    MpfModelList.Items.Add(modelHandler.ModelList[i].ModelName);
+                }
             }
         }
 
@@ -533,7 +539,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                modelHandler.Save(openFileDialog.FileName);
+                modelHandler.SaveDecompressed(openFileDialog.FileName);
             }
         }
     }

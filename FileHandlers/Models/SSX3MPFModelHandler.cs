@@ -149,19 +149,19 @@ namespace SSXMultiTool.FileHandlers
                         TempBoneData.BoneName = StreamUtil.ReadString(streamMatrix, 16);
                         TempBoneData.ParentFileID = StreamUtil.ReadInt16(streamMatrix);
                         TempBoneData.ParentBone = StreamUtil.ReadInt16(streamMatrix);
-                        TempBoneData.Unknown2 = StreamUtil.ReadInt16(streamMatrix);
+                        TempBoneData.Unknown1 = StreamUtil.ReadInt16(streamMatrix);
                         TempBoneData.BoneID = StreamUtil.ReadInt16(streamMatrix);
-                        TempBoneData.Position = StreamUtil.ReadVector3(streamMatrix);
-                        TempBoneData.Radians = StreamUtil.ReadVector3(streamMatrix);
-                        TempBoneData.XRadian2 = StreamUtil.ReadFloat(streamMatrix);
-                        TempBoneData.YRadian2 = StreamUtil.ReadFloat(streamMatrix);
-                        TempBoneData.ZRadian2 = StreamUtil.ReadFloat(streamMatrix);
 
-                        TempBoneData.UnknownFloat1 = StreamUtil.ReadFloat(streamMatrix);
-                        TempBoneData.UnknownFloat2 = StreamUtil.ReadFloat(streamMatrix);
-                        TempBoneData.UnknownFloat3 = StreamUtil.ReadFloat(streamMatrix);
-                        TempBoneData.UnknownFloat4 = StreamUtil.ReadFloat(streamMatrix);
-                        TempBoneData.UnknownFloat5 = StreamUtil.ReadFloat(streamMatrix);
+                        TempBoneData.Unknown2 = StreamUtil.ReadInt8(streamMatrix);
+                        TempBoneData.Unknown3 = StreamUtil.ReadInt8(streamMatrix);
+                        TempBoneData.Unknown4 = StreamUtil.ReadInt8(streamMatrix);
+                        TempBoneData.Unknown5 = StreamUtil.ReadInt8(streamMatrix);
+
+                        TempBoneData.Unknown6 = StreamUtil.ReadInt32(streamMatrix);
+
+                        TempBoneData.Position = StreamUtil.ReadVector4(streamMatrix);
+                        TempBoneData.Rotation = StreamUtil.ReadQuaternion(streamMatrix);
+                        TempBoneData.Unknown = StreamUtil.ReadVector4(streamMatrix);
 
                         TempBoneData.FileID = TempModel.FileID;
                         TempBoneData.BonePos = a;
@@ -426,7 +426,7 @@ namespace SSXMultiTool.FileHandlers
         }
 
 
-        public void Save(string path)
+        public void SaveDecompressed(string path)
         {
             Stream stream = new MemoryStream();
             StreamUtil.WriteBytes(stream, magicWords);
@@ -557,21 +557,19 @@ namespace SSXMultiTool.FileHandlers
             public string BoneName;
             public int ParentFileID;
             public int ParentBone;
-            public int Unknown2;
+            public int Unknown1;
             public int BoneID;
 
-            public Vector3 Position;
-            public Vector3 Radians;
+            public int Unknown2;
+            public int Unknown3;
+            public int Unknown4;
+            public int Unknown5;
 
-            public float XRadian2;
-            public float YRadian2;
-            public float ZRadian2;
+            public int Unknown6;
 
-            public float UnknownFloat1;
-            public float UnknownFloat2;
-            public float UnknownFloat3;
-            public float UnknownFloat4;
-            public float UnknownFloat5;
+            public Vector4 Position;
+            public Quaternion Rotation;
+            public Vector4 Unknown;
 
             public int FileID;
             public int BonePos;

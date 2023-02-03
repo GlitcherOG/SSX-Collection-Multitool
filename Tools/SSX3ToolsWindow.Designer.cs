@@ -171,7 +171,7 @@
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.button4 = new System.Windows.Forms.Button();
             this.label57 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.MpfModelList = new System.Windows.Forms.ListBox();
             this.MPFSave = new System.Windows.Forms.Button();
             this.MPFLoad = new System.Windows.Forms.Button();
             this.tabPage4 = new System.Windows.Forms.TabPage();
@@ -1863,7 +1863,7 @@
             this.tabPage5.Controls.Add(this.listBox2);
             this.tabPage5.Controls.Add(this.button4);
             this.tabPage5.Controls.Add(this.label57);
-            this.tabPage5.Controls.Add(this.listBox1);
+            this.tabPage5.Controls.Add(this.MpfModelList);
             this.tabPage5.Controls.Add(this.MPFSave);
             this.tabPage5.Controls.Add(this.MPFLoad);
             this.tabPage5.Location = new System.Drawing.Point(4, 24);
@@ -1936,14 +1936,14 @@
             this.label57.TabIndex = 3;
             this.label57.Text = "Model List";
             // 
-            // listBox1
+            // MpfModelList
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(3, 18);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(196, 259);
-            this.listBox1.TabIndex = 2;
+            this.MpfModelList.FormattingEnabled = true;
+            this.MpfModelList.ItemHeight = 15;
+            this.MpfModelList.Location = new System.Drawing.Point(3, 18);
+            this.MpfModelList.Name = "MpfModelList";
+            this.MpfModelList.Size = new System.Drawing.Size(196, 259);
+            this.MpfModelList.TabIndex = 2;
             // 
             // MPFSave
             // 
@@ -2178,6 +2178,6 @@
         private ListBox listBox2;
         private Button button4;
         private Label label57;
-        private ListBox listBox1;
+        private ListBox MpfModelList;
     }
 }

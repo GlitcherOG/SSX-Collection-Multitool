@@ -171,6 +171,16 @@ namespace SSXMultiTool.Utilities
             return vertex;
         }
 
+        public static Quaternion ReadQuaternion(Stream stream)
+        {
+            Quaternion vertex = new Quaternion();
+            vertex.X = StreamUtil.ReadFloat(stream);
+            vertex.Y = StreamUtil.ReadFloat(stream);
+            vertex.Z = StreamUtil.ReadFloat(stream);
+            vertex.W = StreamUtil.ReadFloat(stream);
+            return vertex;
+        }
+
         public static Matrix4x4 ReadMatrix4x4(Stream stream)
         {
             Matrix4x4 matrix4X4 = new Matrix4x4();
