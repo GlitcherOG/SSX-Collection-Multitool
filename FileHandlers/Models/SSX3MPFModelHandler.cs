@@ -53,7 +53,7 @@ namespace SSXMultiTool.FileHandlers
                     modelHeader.U22 = StreamUtil.ReadInt16(stream);
                     modelHeader.MorphKeyCount = StreamUtil.ReadInt16(stream);
                     modelHeader.FileID = StreamUtil.ReadInt16(stream);
-                    modelHeader.StoreWeight = StreamUtil.ReadInt16(stream);
+                    modelHeader.TriangleCount = StreamUtil.ReadInt16(stream);
 
                     modelHeader.U26 = StreamUtil.ReadInt16(stream);
                     modelHeader.U27 = StreamUtil.ReadInt16(stream);
@@ -395,13 +395,20 @@ namespace SSXMultiTool.FileHandlers
                                     for (int dci = 0; dci < TempModel.MorphKeyCount; dci++)
                                     {
                                         var TempMorphKey = new MorphKey();
-                                        TempMorphKey.MorphData = new List<int>();
+                                        TempMorphKey.MorphDataList = new List<MorphData>();
                                         streamMatrix.Position += 30;
                                         TempMorphKey.MorphPointCount = StreamUtil.ReadUInt8(streamMatrix);
                                         streamMatrix.Position += 1;
+
+                                        TempMorphKey.ListAmmount = StreamUtil.ReadInt32(streamMatrix);
                                         for (int dcb = 0; dcb < TempMorphKey.MorphPointCount; dcb++)
                                         {
-                                            TempMorphKey.MorphData.Add(StreamUtil.ReadInt32(streamMatrix));
+                                            var TempMorphData = new MorphData();
+                                            TempMorphData.X = StreamUtil.ReadInt8(streamMatrix);
+                                            TempMorphData.Y = StreamUtil.ReadInt8(streamMatrix);
+                                            TempMorphData.Z = StreamUtil.ReadInt8(streamMatrix);
+                                            TempMorphData.ID = StreamUtil.ReadUInt8(streamMatrix);
+                                            TempMorphKey.MorphDataList.Add(TempMorphData);
                                         }
                                         StreamUtil.AlignBy16(streamMatrix);
 
@@ -460,7 +467,7 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteInt16(stream, ModelList[i].U22);
                 StreamUtil.WriteInt16(stream, ModelList[i].MorphKeyCount);
                 StreamUtil.WriteInt16(stream, ModelList[i].FileID);
-                StreamUtil.WriteInt16(stream, ModelList[i].StoreWeight);
+                StreamUtil.WriteInt16(stream, ModelList[i].TriangleCount);
 
                 StreamUtil.WriteInt16(stream, ModelList[i].U26);
                 StreamUtil.WriteInt16(stream, ModelList[i].U27);
@@ -506,7 +513,7 @@ namespace SSXMultiTool.FileHandlers
             public int WeightRefrenceOffset;
             public int BoneWeightOffset;
 
-            //Unused ??
+            //Unused?
             public int U14;
             public int U15; 
             public int U16;
@@ -520,7 +527,7 @@ namespace SSXMultiTool.FileHandlers
             public int U22; //IK Point Count??
             public int MorphKeyCount;
             public int FileID;
-            public int StoreWeight; //Possibly Some Kind of Face Ammount Used in Store as Well
+            public int TriangleCount; //Possibly Some Kind of Face Ammount Used in Store as Well
 
             //Unused?
             public int U26;
@@ -565,7 +572,7 @@ namespace SSXMultiTool.FileHandlers
             public int Unknown4;
             public int Unknown5;
 
-            public int Unknown6;
+            public int Unknown6; //Padding
 
             public Vector4 Position;
             public Quaternion Rotation;
@@ -650,8 +657,16 @@ namespace SSXMultiTool.FileHandlers
         public struct MorphKey
         {
             public int MorphPointCount;
+            public int ListAmmount;
+            public List<MorphData> MorphDataList;
+        }
 
-            public List<int> MorphData;
+        public struct MorphData
+        {
+            public int X;
+            public int Y;
+            public int Z;
+            public int ID;
         }
     }
 }
