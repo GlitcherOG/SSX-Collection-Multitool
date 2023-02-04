@@ -13,26 +13,39 @@ namespace SSXMultiTool.FileHandlers.Models
         public List<SSX3MPFModelHandler.BoneData> boneDatas = new List<SSX3MPFModelHandler.BoneData>();
         public List<SSX3MPFModelHandler.MaterialData> materials = new List<SSX3MPFModelHandler.MaterialData>();
 
+        public List<int> FileIDs = new List<int>();
+
         public ReassignedMesh reassignedMesh = new ReassignedMesh();
 
         public void AddFile(SSX3MPFModelHandler modelHandler)
         {
             modelHandlers = modelHandler;
             boneDatas = new List<SSX3MPFModelHandler.BoneData>();
-            boneDatas.AddRange(modelHandler.ModelList[0].BoneList);
+            for (int i = 0; i < modelHandler.ModelList.Count; i++)
+            {
+                if (!FileIDs.Contains(modelHandler.ModelList[i].FileID))
+                {
+                    boneDatas.AddRange(modelHandler.ModelList[i].BoneList);
+                    FileIDs.Add(modelHandler.ModelList[i].FileID);
+                }
+            }
         }
 
         public void AddBones(SSX3MPFModelHandler modelHandler)
         {
-            var TempBoneRange = boneDatas;
-            boneDatas = new List<SSX3MPFModelHandler.BoneData>();
-            boneDatas.AddRange(modelHandler.ModelList[0].BoneList);
-            boneDatas.AddRange(TempBoneRange);
+            for (int i = 0; i < modelHandler.ModelList.Count; i++)
+            {
+                if (!FileIDs.Contains(modelHandler.ModelList[i].FileID))
+                {
+                    boneDatas.AddRange(modelHandler.ModelList[i].BoneList);
+                    FileIDs.Add(modelHandler.ModelList[i].FileID);
+                }
+            }
         }
 
         public void MeshReassigned(int MeshID)
         {
-            if(CheckBones(MeshID)!="")
+            if (CheckBones(MeshID)!="")
             {
                 MessageBox.Show(CheckBones(MeshID));
                 return;
@@ -43,7 +56,58 @@ namespace SSXMultiTool.FileHandlers.Models
             TempMesh.faces = ReturnFixedFaces(TempModel, boneDatas);
             TempMesh.MeshName = TempModel.ModelName;
             reassignedMesh = TempMesh;
+            ReshuffleBones();
             FixBoneParents();
+        }
+
+        public void ReshuffleBones()
+        {
+            List<SSX3MPFModelHandler.BoneData> TempBoneDatas = new List<SSX3MPFModelHandler.BoneData>();
+            //Add Bones with no Parents
+            List<int> RemoveInts = new List<int>();
+            for (int i = 0; i < boneDatas.Count; i++)
+            {
+                if (boneDatas[i].ParentFileID==-1&& boneDatas[i].ParentBone == -1)
+                {
+                    TempBoneDatas.Add(boneDatas[i]);
+                    RemoveInts.Add(i - RemoveInts.Count);
+                }
+            }
+
+            for (int i = 0; i < RemoveInts.Count; i++)
+            {
+                boneDatas.RemoveAt(RemoveInts[i]);
+            }
+
+            while (true)
+            {
+                for (int i = 0; i < boneDatas.Count; i++)
+                {
+                    bool TestDone = false;
+                    for (int a = 0; a < TempBoneDatas.Count; a++)
+                    {
+                        if (boneDatas[i].ParentFileID== TempBoneDatas[a].FileID && boneDatas[i].ParentBone == TempBoneDatas[a].BonePos)
+                        {
+                            TempBoneDatas.Add(boneDatas[i]);
+                            boneDatas.RemoveAt(i);
+                            TestDone = true;
+                            break;
+                        }
+
+                    }
+                    if(TestDone)
+                    {
+                        break;
+                    }
+                }
+
+                if(boneDatas.Count==0)
+                {
+                    break;
+                }
+            }
+
+            boneDatas = TempBoneDatas;
         }
 
         public List<SSX3MPFModelHandler.Face> ReturnFixedFaces(SSX3MPFModelHandler.MPFModelHeader modelHeader, List<SSX3MPFModelHandler.BoneData> BoneData)
@@ -70,25 +134,6 @@ namespace SSXMultiTool.FileHandlers.Models
                             for (int b = 0; b < Data.Faces.Count; b++)
                             {
                                 var Face = Data.Faces[b];
-                                var TempList = new SSX3MPFModelHandler.WeightRefList();
-                                try
-                                {
-                                    TempList = modelHeader.WeightRefrenceLists[WeightRefListID];
-                                }
-                                catch
-                                {
-                                    TempList = modelHeader.WeightRefrenceLists[0];
-                                }
-                                int WeightId = 0;
-
-                                WeightId = TempList.WeightIDs[Face.Weight1Pos];
-                                Face.Weight1 = modelHeader.BoneWeightHeaderList[WeightId];
-
-                                WeightId = TempList.WeightIDs[Face.Weight2Pos];
-                                Face.Weight2 = modelHeader.BoneWeightHeaderList[WeightId];
-
-                                WeightId = TempList.WeightIDs[Face.Weight3Pos];
-                                Face.Weight3 = modelHeader.BoneWeightHeaderList[WeightId];
 
                                 Face.MaterialID = MatId;
 
@@ -157,13 +202,17 @@ namespace SSXMultiTool.FileHandlers.Models
                             return "Missing Bones From Top";
                         }
                         else
-                        if (boneDatas[i].ParentFileID == 1)
+                        if (TempWeightList.FileID == 1)
                         {
                             return "Missing Bones From Board Bindings";
                         }
+                        if (TempWeightList.FileID == 6)
+                        {
+                            return "Missing Bones From Eyes";
+                        }
                         else
                         {
-                            return "Missing Bones Form " + TempWeightList.FileID;
+                            return "Missing Bones From File " + TempWeightList.FileID;
                         }
                     }
                 }
@@ -193,9 +242,13 @@ namespace SSXMultiTool.FileHandlers.Models
                         {
                             return "Missing Bones From Board Bindings";
                         }
+                        if (boneDatas[i].ParentFileID == 6)
+                        {
+                            return "Missing Bones From Eyes";
+                        }
                         else
                         {
-                            return "Missing Bones From " + boneDatas[i].ParentFileID;
+                            return "Missing Bones From File " + boneDatas[i].ParentFileID;
                         }
                     }
                 }

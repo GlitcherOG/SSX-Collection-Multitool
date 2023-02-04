@@ -17,6 +17,7 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 - MPF Check Magic Numbers
 - SSX 3 Fix Bone Loading So it Ensures Parenting Works
 - SSX 3 Shadow Models and Morphs
+- SSX 3 PreAlpha TopA not being top file bone support
 - Fix UI
 
 
