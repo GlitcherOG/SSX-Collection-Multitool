@@ -61,14 +61,14 @@ namespace SSXMultiTool.FileHandlers
             int proc_len; //Process Length
             int ref_run; //Refrence Run
 
-            if(Matrix.Length==0)
+            if (Matrix.Length == 0)
             {
                 return null;
             }
 
             stream.Read(Signature, 0, 2);
 
-            if (Signature[1]!=0xFB && Signature[0] == 0x10)
+            if (Signature[1] != 0xFB || Signature[0] != 0x10)
             {
                 stream.Dispose();
                 stream.Close();

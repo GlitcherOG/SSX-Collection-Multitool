@@ -1,4 +1,5 @@
 ﻿using SSXMultiTool.FileHandlers;
+using SSXMultiTool.FileHandlers.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -507,6 +508,7 @@ namespace SSXMultiTool
         #endregion
 
         SSX3MPFModelHandler modelHandler = new SSX3MPFModelHandler();
+        SSX3ModelCombiner ssx3ModelCombiner = new SSX3ModelCombiner();
 
         private void MPFLoad_Click(object sender, EventArgs e)
         {
@@ -519,7 +521,12 @@ namespace SSXMultiTool
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 modelHandler = new SSX3MPFModelHandler();
+                ssx3ModelCombiner = new SSX3ModelCombiner();
                 modelHandler.load(openFileDialog.FileName);
+                ssx3ModelCombiner.AddFile(modelHandler);
+
+                MPFWarningLabel.Text = ssx3ModelCombiner.CheckBones(0);
+
 
                 MpfModelList.Items.Clear();
                 for (int i = 0; i < modelHandler.ModelList.Count; i++)
@@ -555,7 +562,31 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    glftHandler.SaveSSX3Glft(openFileDialog.FileName, modelHandler.ModelList[MpfModelList.SelectedIndex]);
+
+                    ssx3ModelCombiner.MeshReassigned(MpfModelList.SelectedIndex);
+
+                    glftHandler.SaveSSX3Glft(openFileDialog.FileName, ssx3ModelCombiner);
+                }
+            }
+        }
+
+        private void MpfBoneLoad_Click(object sender, EventArgs e)
+        {
+            if (ssx3ModelCombiner.modelHandlers != null)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "Model File (*.mpf)|*.mpf|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    modelHandler = new SSX3MPFModelHandler();
+                    modelHandler.load(openFileDialog.FileName);
+                    ssx3ModelCombiner.AddBones(modelHandler);
+
+                    MPFWarningLabel.Text = ssx3ModelCombiner.CheckBones(0);
                 }
             }
         }

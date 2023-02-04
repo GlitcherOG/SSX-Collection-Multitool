@@ -164,16 +164,18 @@
             this.label13 = new System.Windows.Forms.Label();
             this.BoltCharacter = new System.Windows.Forms.ComboBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.MPFWarningLabel = new System.Windows.Forms.Label();
+            this.label59 = new System.Windows.Forms.Label();
             this.MpfExport = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.label58 = new System.Windows.Forms.Label();
             this.listBox2 = new System.Windows.Forms.ListBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.label57 = new System.Windows.Forms.Label();
+            this.MpfBoneLoad = new System.Windows.Forms.Button();
             this.MpfModelList = new System.Windows.Forms.ListBox();
             this.MPFSave = new System.Windows.Forms.Button();
             this.MPFLoad = new System.Windows.Forms.Button();
+            this.label57 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.charnumericUpDown5)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -1856,22 +1858,42 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.MPFWarningLabel);
+            this.tabPage5.Controls.Add(this.label59);
             this.tabPage5.Controls.Add(this.MpfExport);
             this.tabPage5.Controls.Add(this.button6);
             this.tabPage5.Controls.Add(this.button5);
             this.tabPage5.Controls.Add(this.label58);
             this.tabPage5.Controls.Add(this.listBox2);
-            this.tabPage5.Controls.Add(this.button4);
-            this.tabPage5.Controls.Add(this.label57);
+            this.tabPage5.Controls.Add(this.MpfBoneLoad);
             this.tabPage5.Controls.Add(this.MpfModelList);
             this.tabPage5.Controls.Add(this.MPFSave);
             this.tabPage5.Controls.Add(this.MPFLoad);
+            this.tabPage5.Controls.Add(this.label57);
             this.tabPage5.Location = new System.Drawing.Point(4, 24);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Size = new System.Drawing.Size(941, 528);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "SSX 3 MPF(Models)";
             this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // MPFWarningLabel
+            // 
+            this.MPFWarningLabel.AutoSize = true;
+            this.MPFWarningLabel.Location = new System.Drawing.Point(218, 19);
+            this.MPFWarningLabel.Name = "MPFWarningLabel";
+            this.MPFWarningLabel.Size = new System.Drawing.Size(36, 15);
+            this.MPFWarningLabel.TabIndex = 13;
+            this.MPFWarningLabel.Text = "None";
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.Location = new System.Drawing.Point(218, 4);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(52, 15);
+            this.label59.TabIndex = 12;
+            this.label59.Text = "Warning";
             // 
             // MpfExport
             // 
@@ -1906,9 +1928,9 @@
             this.label58.AutoSize = true;
             this.label58.Location = new System.Drawing.Point(3, 279);
             this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(70, 15);
+            this.label58.Size = new System.Drawing.Size(39, 15);
             this.label58.TabIndex = 6;
-            this.label58.Text = "Model Parts";
+            this.label58.Text = "Bones";
             // 
             // listBox2
             // 
@@ -1919,23 +1941,15 @@
             this.listBox2.Size = new System.Drawing.Size(196, 199);
             this.listBox2.TabIndex = 5;
             // 
-            // button4
+            // MpfBoneLoad
             // 
-            this.button4.Location = new System.Drawing.Point(84, 502);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 4;
-            this.button4.Text = "Bone Load";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // label57
-            // 
-            this.label57.AutoSize = true;
-            this.label57.Location = new System.Drawing.Point(0, 0);
-            this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(62, 15);
-            this.label57.TabIndex = 3;
-            this.label57.Text = "Model List";
+            this.MpfBoneLoad.Location = new System.Drawing.Point(84, 502);
+            this.MpfBoneLoad.Name = "MpfBoneLoad";
+            this.MpfBoneLoad.Size = new System.Drawing.Size(75, 23);
+            this.MpfBoneLoad.TabIndex = 4;
+            this.MpfBoneLoad.Text = "Bone Load";
+            this.MpfBoneLoad.UseVisualStyleBackColor = true;
+            this.MpfBoneLoad.Click += new System.EventHandler(this.MpfBoneLoad_Click);
             // 
             // MpfModelList
             // 
@@ -1965,6 +1979,15 @@
             this.MPFLoad.Text = "Load";
             this.MPFLoad.UseVisualStyleBackColor = true;
             this.MPFLoad.Click += new System.EventHandler(this.MPFLoad_Click);
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(4, 4);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(62, 15);
+            this.label57.TabIndex = 3;
+            this.label57.Text = "Model List";
             // 
             // tabPage4
             // 
@@ -2177,8 +2200,10 @@
         private Button button5;
         private Label label58;
         private ListBox listBox2;
-        private Button button4;
+        private Button MpfBoneLoad;
         private Label label57;
         private ListBox MpfModelList;
+        private Label MPFWarningLabel;
+        private Label label59;
     }
 }

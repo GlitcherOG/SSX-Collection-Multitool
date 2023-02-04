@@ -1917,8 +1917,6 @@ namespace SSXMultiTool.FileHandlers.Models
             MessageBox.Show("Import Sucessful");
         }
 
-
-
         static VectorPoint GenerateVectorPoint(TrickyMPFModelHandler.Face face, int Vertice)
         {
             VectorPoint vectorPoint = new VectorPoint();
