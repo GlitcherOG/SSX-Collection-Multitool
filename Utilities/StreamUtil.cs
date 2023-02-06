@@ -341,6 +341,14 @@ namespace SSXMultiTool.Utilities
             StreamUtil.WriteFloat32(stream, vertex4.W);
         }
 
+        public static void WriteQuaternion(Stream stream, Quaternion vertex4)
+        {
+            StreamUtil.WriteFloat32(stream, vertex4.X);
+            StreamUtil.WriteFloat32(stream, vertex4.Y);
+            StreamUtil.WriteFloat32(stream, vertex4.Z);
+            StreamUtil.WriteFloat32(stream, vertex4.W);
+        }
+
         public static void WriteMatrix4x4(Stream stream, Matrix4x4 matrix4X4)
         {
             StreamUtil.WriteFloat32(stream, matrix4X4.M11);

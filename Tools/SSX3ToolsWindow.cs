@@ -562,7 +562,6 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-
                     ssx3ModelCombiner.MeshReassigned(MpfModelList.SelectedIndex);
 
                     glftHandler.SaveSSX3Glft(openFileDialog.FileName, ssx3ModelCombiner);
