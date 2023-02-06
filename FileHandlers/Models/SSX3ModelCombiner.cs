@@ -57,6 +57,7 @@ namespace SSXMultiTool.FileHandlers.Models
             {
                 TempMesh.ShadowModel = true;
             }
+            TempMesh.MorphTargetCount = TempModel.MorphKeyCount;
             ReshuffleBones();
             TempMesh.faces = ReturnFixedFaces(TempModel, boneDatas);
             TempMesh.MeshName = TempModel.ModelName;

@@ -370,6 +370,7 @@ namespace SSXMultiTool.FileHandlers
 
             if (!Handler.reassignedMesh.ShadowModel)
             {
+                List<PointMorph> pointMorphs = new List<PointMorph>();
                 var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1, VertexJoints4>(Handler.reassignedMesh.MeshName);
                 for (int b = 0; b < Handler.reassignedMesh.faces.Count; b++)
                 {
@@ -425,7 +426,41 @@ namespace SSXMultiTool.FileHandlers
                     TempBinding3.SetBindings(bindings1);
 
                     mesh.UsePrimitive(materialBuilders[Handler.reassignedMesh.faces[b].MaterialID]).AddTriangle((TempPos1, TempTexture1, TempBinding1), (TempPos2, TempTexture2, TempBinding2), (TempPos3, TempTexture3, TempBinding3));
+
+                    if (Handler.reassignedMesh.MorphTargetCount != 0)
+                    {
+                        if (!pointMorphs.Contains(GeneratePointMorph(TempPos1.Position, Face.MorphPoint1)))
+                        {
+                            pointMorphs.Add(GeneratePointMorph(TempPos1.Position, Face.MorphPoint1));
+                        }
+                        if (!pointMorphs.Contains(GeneratePointMorph(TempPos2.Position, Face.MorphPoint2)))
+                        {
+                            pointMorphs.Add(GeneratePointMorph(TempPos2.Position, Face.MorphPoint2));
+                        }
+                        if (!pointMorphs.Contains(GeneratePointMorph(TempPos3.Position, Face.MorphPoint3)))
+                        {
+                            pointMorphs.Add(GeneratePointMorph(TempPos3.Position, Face.MorphPoint3));
+                        }
+                    }
                 }
+
+                for (int c = 0; c < Handler.reassignedMesh.MorphTargetCount; c++)
+                {
+                    var morphTargetBuilder = mesh.UseMorphTarget(c);
+                    foreach (var vertexPosition in morphTargetBuilder.Vertices)
+                    {
+                        for (int i = 0; i < pointMorphs.Count; i++)
+                        {
+                            if (pointMorphs[i].Point == vertexPosition.Position)
+                            {
+                                var NewVertexPosition = vertexPosition;
+                                NewVertexPosition.Position += pointMorphs[i].MorphPoints[c];
+                                morphTargetBuilder.SetVertex(vertexPosition, NewVertexPosition);
+                            }
+                        }
+                    }
+                }
+
                 scene.AddSkinnedMesh(mesh, Matrix4x4.CreateTranslation(0, 0, 0), bindings.ToArray());
             }
             else

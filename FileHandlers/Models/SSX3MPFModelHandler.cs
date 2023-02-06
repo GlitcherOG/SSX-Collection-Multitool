@@ -400,13 +400,13 @@ namespace SSXMultiTool.FileHandlers
                                         streamMatrix.Position += 1;
 
                                         TempMorphKey.ListAmmount = StreamUtil.ReadInt32(streamMatrix);
-                                        for (int dcb = 0; dcb < TempMorphKey.MorphPointCount; dcb++)
+                                        for (int dcb = 0; dcb < TempMorphKey.MorphPointCount-1; dcb++)
                                         {
                                             var TempMorphData = new MorphData();
-                                            TempMorphData.X = StreamUtil.ReadInt8(streamMatrix);
-                                            TempMorphData.Y = StreamUtil.ReadInt8(streamMatrix);
-                                            TempMorphData.Z = StreamUtil.ReadInt8(streamMatrix);
-                                            TempMorphData.ID = StreamUtil.ReadUInt8(streamMatrix);
+                                            TempMorphData.vector3.X = (float)StreamUtil.ReadInt8(streamMatrix)/2f;
+                                            TempMorphData.vector3.Y = (float)StreamUtil.ReadInt8(streamMatrix) / 2f;
+                                            TempMorphData.vector3.Z = (float)StreamUtil.ReadInt8(streamMatrix) / 2f;
+                                            TempMorphData.ID = StreamUtil.ReadUInt8(streamMatrix)/3;
                                             TempMorphKey.MorphDataList.Add(TempMorphData);
                                         }
                                         StreamUtil.AlignBy16(streamMatrix);
@@ -422,7 +422,7 @@ namespace SSXMultiTool.FileHandlers
                                 {
                                     var TempChunk = TempMeshMorphChunk.MeshChunkList[d];
 
-                                    TempChunk = GenerateFaces(TempChunk, null);
+                                    TempChunk = GenerateFaces(TempChunk, TempMeshMorphChunk.MorphDataList);
 
                                     TempMeshMorphChunk.MeshChunkList[d] = TempChunk;
                                 }
@@ -550,16 +550,43 @@ namespace SSXMultiTool.FileHandlers
 
             if (morphPointData != null)
             {
-                //face.MorphPoint1 = new List<Vector3>();
-                //face.MorphPoint2 = new List<Vector3>();
-                //face.MorphPoint3 = new List<Vector3>();
+                face.MorphPoint1 = new List<Vector3>();
+                face.MorphPoint2 = new List<Vector3>();
+                face.MorphPoint3 = new List<Vector3>();
 
-                ////for (int i = 0; i < morphPointData.Count; i++)
-                ////{
-                ////    face.MorphPoint1.Add(morphPointData[i].morphData[Index1]);
-                ////    face.MorphPoint2.Add(morphPointData[i].morphData[Index2]);
-                ////    face.MorphPoint3.Add(morphPointData[i].morphData[Index3]);
-                ////}
+                for (int i = 0; i < morphPointData.Count; i++)
+                {
+                    for (int a = 0; a < morphPointData[i].MorphDataList.Count; a++)
+                    {
+                        if (Index1 == morphPointData[i].MorphDataList[a].ID)
+                        {
+                            face.MorphPoint1.Add(morphPointData[i].MorphDataList[a].vector3);
+                        }
+                        else
+                        {
+                            face.MorphPoint1.Add(new Vector3());
+                        }
+
+                        if (Index2 == morphPointData[i].MorphDataList[a].ID)
+                        {
+                            face.MorphPoint2.Add(morphPointData[i].MorphDataList[a].vector3);
+                        }
+                        else
+                        {
+                            face.MorphPoint2.Add(new Vector3());
+                        }
+
+
+                        if (Index3 == morphPointData[i].MorphDataList[a].ID)
+                        {
+                            face.MorphPoint3.Add(morphPointData[i].MorphDataList[a].vector3);
+                        }
+                        else
+                        {
+                            face.MorphPoint3.Add(new Vector3());
+                        }
+                    }
+                }
             }
 
             return face;
@@ -841,9 +868,7 @@ namespace SSXMultiTool.FileHandlers
 
         public struct MorphData
         {
-            public int X;
-            public int Y;
-            public int Z;
+            public Vector3 vector3;
             public int ID;
         }
     }
