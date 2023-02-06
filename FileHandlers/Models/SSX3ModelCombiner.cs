@@ -53,6 +53,10 @@ namespace SSXMultiTool.FileHandlers.Models
             var TempModel = modelHandlers.ModelList[MeshID];
             materials = TempModel.MaterialList;
             var TempMesh = new ReassignedMesh();
+            if (TempModel.MaterialGroupList[0].Type==17)
+            {
+                TempMesh.ShadowModel = true;
+            }
             ReshuffleBones();
             TempMesh.faces = ReturnFixedFaces(TempModel, boneDatas);
             TempMesh.MeshName = TempModel.ModelName;
