@@ -53,10 +53,10 @@ namespace SSXMultiTool.FileHandlers.Models
             var TempModel = modelHandlers.ModelList[MeshID];
             materials = TempModel.MaterialList;
             var TempMesh = new ReassignedMesh();
+            ReshuffleBones();
             TempMesh.faces = ReturnFixedFaces(TempModel, boneDatas);
             TempMesh.MeshName = TempModel.ModelName;
             reassignedMesh = TempMesh;
-            ReshuffleBones();
             FixBoneParents();
         }
 
@@ -134,6 +134,17 @@ namespace SSXMultiTool.FileHandlers.Models
                             for (int b = 0; b < Data.Faces.Count; b++)
                             {
                                 var Face = Data.Faces[b];
+
+                                var TempList = modelHeader.WeightRefrenceLists[WeightRefListID];
+
+                                int WeightId = TempList.WeightIDs[Face.Weight1Pos];
+                                Face.Weight1 = modelHeader.BoneWeightHeaderList[WeightId];
+
+                                WeightId = TempList.WeightIDs[Face.Weight2Pos];
+                                Face.Weight2 = modelHeader.BoneWeightHeaderList[WeightId];
+
+                                WeightId = TempList.WeightIDs[Face.Weight3Pos];
+                                Face.Weight3 = modelHeader.BoneWeightHeaderList[WeightId];
 
                                 Face.MaterialID = MatId;
 

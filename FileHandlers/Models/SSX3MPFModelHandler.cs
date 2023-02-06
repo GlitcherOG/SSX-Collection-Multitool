@@ -424,8 +424,6 @@ namespace SSXMultiTool.FileHandlers
 
                                     TempChunk = GenerateFaces(TempChunk, null);
 
-                                    TempChunk.Faces = UpdateWeights(TempChunk.Faces, TempModel.WeightRefrenceLists[TempMeshMorphChunk.WeightRefID], TempModel.BoneWeightHeaderList);
-
                                     TempMeshMorphChunk.MeshChunkList[d] = TempChunk;
                                 }
 
@@ -565,22 +563,6 @@ namespace SSXMultiTool.FileHandlers
             }
 
             return face;
-        }
-
-        public List<Face> UpdateWeights(List<Face> faces, WeightRefList WeightRefList, List<BoneWeightHeader> boneWeights)
-        {
-            for (int i = 0; i < faces.Count; i++)
-            {
-                var TempFace = faces[i];
-
-                TempFace.Weight1 = boneWeights[WeightRefList.WeightIDs[TempFace.Weight1Pos]];
-                TempFace.Weight2 = boneWeights[WeightRefList.WeightIDs[TempFace.Weight2Pos]];
-                TempFace.Weight3 = boneWeights[WeightRefList.WeightIDs[TempFace.Weight3Pos]];
-
-                faces[i] = TempFace;
-            }
-
-            return faces;
         }
 
         public void SaveDecompressed(string path)
