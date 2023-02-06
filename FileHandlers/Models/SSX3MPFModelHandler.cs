@@ -592,14 +592,61 @@ namespace SSXMultiTool.FileHandlers
             return face;
         }
 
-        public void SaveDecompressed(string path)
+        public void Save(string path, bool Compression)
         {
             Stream stream = new MemoryStream();
             StreamUtil.WriteBytes(stream, magicWords);
-            StreamUtil.WriteInt16(stream, NumModels);
-            StreamUtil.WriteInt16(stream, HeaderSize);
+            StreamUtil.WriteInt16(stream, ModelList.Count);
+            StreamUtil.WriteInt16(stream, 12);
+            DataOffset = 96 * ModelList.Count + 4 + 12;
             StreamUtil.WriteInt32(stream, DataOffset);
 
+            stream.Position = 96 * ModelList.Count + 4+12;
+
+            //Generate Matrix
+            for (int i = 0; i < 0; i++)
+            {
+                var Model = ModelList[i];
+                MemoryStream ModelStream = new MemoryStream();
+
+
+
+
+
+
+
+                ModelStream.Position = 0;
+                Model.Matrix = StreamUtil.ReadBytes(ModelStream, (int)(ModelStream.Length-1));
+                ModelStream.Dispose();
+                ModelStream.Close();
+                ModelList[i] = Model;
+            }
+
+
+            //Write Matrix and Update Position Offsets
+            for (int i = 0; i < ModelList.Count; i++)
+            {
+                var Model = ModelList[i];
+                Model.DataOffset = (int)stream.Position - (96 * ModelList.Count + 4 + 12);
+                var TempMatrix = new byte[1];
+                if (Compression)
+                {
+                    RefpackHandler.Compress(Model.Matrix, out TempMatrix);
+                }
+                else
+                {
+                    TempMatrix = Model.Matrix;
+                }
+                StreamUtil.WriteBytes(stream, TempMatrix);
+                StreamUtil.AlignBy16(stream);
+                Model.EntrySize = ((int)stream.Position - (96 * ModelList.Count + 4 + 12)) - Model.DataOffset;
+
+                ModelList[i] = Model;
+            }
+
+
+            //Go back and write Header
+            stream.Position = 12;
             for (int i = 0; i < ModelList.Count; i++)
             {
                 StreamUtil.WriteString(stream, ModelList[i].ModelName, 16);
@@ -633,15 +680,6 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteInt16(stream, ModelList[i].U28);
                 StreamUtil.WriteInt16(stream, ModelList[i].U29);
                 StreamUtil.WriteInt16(stream, ModelList[i].U30);
-            }
-            StreamUtil.AlignBy16(stream);
-
-
-            for (int i = 0; i < ModelList.Count; i++)
-            {
-                //Write Matrix
-                StreamUtil.WriteBytes(stream, ModelList[i].Matrix);
-                StreamUtil.AlignBy16(stream);
             }
 
             if (File.Exists(path))

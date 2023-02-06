@@ -168,12 +168,12 @@
             this.label59 = new System.Windows.Forms.Label();
             this.MpfExport = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.MpfSaveCompressed = new System.Windows.Forms.Button();
             this.label58 = new System.Windows.Forms.Label();
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.MpfBoneLoad = new System.Windows.Forms.Button();
             this.MpfModelList = new System.Windows.Forms.ListBox();
-            this.MPFSave = new System.Windows.Forms.Button();
+            this.MPFSaveDecompressed = new System.Windows.Forms.Button();
             this.MPFLoad = new System.Windows.Forms.Button();
             this.label57 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
@@ -1862,12 +1862,12 @@
             this.tabPage5.Controls.Add(this.label59);
             this.tabPage5.Controls.Add(this.MpfExport);
             this.tabPage5.Controls.Add(this.button6);
-            this.tabPage5.Controls.Add(this.button5);
+            this.tabPage5.Controls.Add(this.MpfSaveCompressed);
             this.tabPage5.Controls.Add(this.label58);
             this.tabPage5.Controls.Add(this.listBox2);
             this.tabPage5.Controls.Add(this.MpfBoneLoad);
             this.tabPage5.Controls.Add(this.MpfModelList);
-            this.tabPage5.Controls.Add(this.MPFSave);
+            this.tabPage5.Controls.Add(this.MPFSaveDecompressed);
             this.tabPage5.Controls.Add(this.MPFLoad);
             this.tabPage5.Controls.Add(this.label57);
             this.tabPage5.Location = new System.Drawing.Point(4, 24);
@@ -1914,14 +1914,15 @@
             this.button6.Text = "Import";
             this.button6.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // MpfSaveCompressed
             // 
-            this.button5.Location = new System.Drawing.Point(865, 502);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(73, 23);
-            this.button5.TabIndex = 9;
-            this.button5.Text = "Save";
-            this.button5.UseVisualStyleBackColor = true;
+            this.MpfSaveCompressed.Location = new System.Drawing.Point(865, 502);
+            this.MpfSaveCompressed.Name = "MpfSaveCompressed";
+            this.MpfSaveCompressed.Size = new System.Drawing.Size(73, 23);
+            this.MpfSaveCompressed.TabIndex = 9;
+            this.MpfSaveCompressed.Text = "Save";
+            this.MpfSaveCompressed.UseVisualStyleBackColor = true;
+            this.MpfSaveCompressed.Click += new System.EventHandler(this.MpfSaveCompressed_Click);
             // 
             // label58
             // 
@@ -1960,15 +1961,15 @@
             this.MpfModelList.Size = new System.Drawing.Size(196, 259);
             this.MpfModelList.TabIndex = 2;
             // 
-            // MPFSave
+            // MPFSaveDecompressed
             // 
-            this.MPFSave.Location = new System.Drawing.Point(782, 473);
-            this.MPFSave.Name = "MPFSave";
-            this.MPFSave.Size = new System.Drawing.Size(156, 23);
-            this.MPFSave.TabIndex = 1;
-            this.MPFSave.Text = "Save Decompressed";
-            this.MPFSave.UseVisualStyleBackColor = true;
-            this.MPFSave.Click += new System.EventHandler(this.MPFSave_Click);
+            this.MPFSaveDecompressed.Location = new System.Drawing.Point(782, 473);
+            this.MPFSaveDecompressed.Name = "MPFSaveDecompressed";
+            this.MPFSaveDecompressed.Size = new System.Drawing.Size(156, 23);
+            this.MPFSaveDecompressed.TabIndex = 1;
+            this.MPFSaveDecompressed.Text = "Save Decompressed";
+            this.MPFSaveDecompressed.UseVisualStyleBackColor = true;
+            this.MPFSaveDecompressed.Click += new System.EventHandler(this.MPFSaveDecompressed_Click);
             // 
             // MPFLoad
             // 
@@ -2193,11 +2194,11 @@
         private Button button1;
         private ListBox musiclistBox1;
         private TabPage tabPage5;
-        private Button MPFSave;
+        private Button MPFSaveDecompressed;
         private Button MPFLoad;
         private Button MpfExport;
         private Button button6;
-        private Button button5;
+        private Button MpfSaveCompressed;
         private Label label58;
         private ListBox listBox2;
         private Button MpfBoneLoad;

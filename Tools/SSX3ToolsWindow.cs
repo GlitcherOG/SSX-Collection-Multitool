@@ -536,7 +536,7 @@ namespace SSXMultiTool
             }
         }
 
-        private void MPFSave_Click(object sender, EventArgs e)
+        private void MPFSaveDecompressed_Click(object sender, EventArgs e)
         {
             SaveFileDialog openFileDialog = new SaveFileDialog
             {
@@ -546,7 +546,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                modelHandler.SaveDecompressed(openFileDialog.FileName);
+                modelHandler.Save(openFileDialog.FileName, false);
             }
         }
 
@@ -588,6 +588,20 @@ namespace SSXMultiTool
 
                     MPFWarningLabel.Text = ssx3ModelCombiner.CheckBones(0);
                 }
+            }
+        }
+
+        private void MpfSaveCompressed_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog openFileDialog = new SaveFileDialog
+            {
+                Filter = "Model File (*.mpf)|*.mpf|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                modelHandler.Save(openFileDialog.FileName, true);
             }
         }
     }
