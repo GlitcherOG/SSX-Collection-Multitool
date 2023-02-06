@@ -237,6 +237,7 @@ namespace SSXMultiTool
                 MaterialCount.Text = modelHeader.Value.materialDatas.Count.ToString();
                 IkCount.Text = modelHeader.Value.iKPoints.Count.ToString();
                 ShapeKeyCount.Text = modelHeader.Value.MorphKeyCount.ToString();
+                MpfWeights.Text = modelHeader.Value.boneWeightHeader.Count.ToString();
 
                 TristripCountLabel.Text = trickyModel.TristripCount(modelHeader.Value).ToString();
                 VerticeCount.Text = trickyModel.VerticeCount(modelHeader.Value).ToString();
@@ -260,6 +261,7 @@ namespace SSXMultiTool
                 MaterialCount.Text = "0";
                 IkCount.Text = "0";
                 ShapeKeyCount.Text = "0";
+                MpfWeights.Text = "0";
 
                 //Model Data
                 TristripCountLabel.Text = "0";

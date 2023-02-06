@@ -87,6 +87,8 @@
             this.MPFLoad = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.ELFLdrSetup = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
+            this.MpfWeights = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -163,7 +165,7 @@
             this.groupBox4.Controls.Add(this.VerticeCount);
             this.groupBox4.Controls.Add(this.MeshChunks);
             this.groupBox4.Controls.Add(this.label3);
-            this.groupBox4.Location = new System.Drawing.Point(210, 74);
+            this.groupBox4.Location = new System.Drawing.Point(210, 100);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(292, 109);
             this.groupBox4.TabIndex = 26;
@@ -485,6 +487,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label13);
+            this.groupBox2.Controls.Add(this.MpfWeights);
             this.groupBox2.Controls.Add(this.label14);
             this.groupBox2.Controls.Add(this.FileID);
             this.groupBox2.Controls.Add(this.label6);
@@ -497,7 +501,7 @@
             this.groupBox2.Controls.Add(this.IkCount);
             this.groupBox2.Location = new System.Drawing.Point(210, 6);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(292, 62);
+            this.groupBox2.Size = new System.Drawing.Size(292, 88);
             this.groupBox2.TabIndex = 24;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Model Header Info";
@@ -730,6 +734,24 @@
             this.ELFLdrSetup.UseVisualStyleBackColor = true;
             this.ELFLdrSetup.Click += new System.EventHandler(this.ELFLdrSetup_Click);
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 53);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(50, 15);
+            this.label13.TabIndex = 24;
+            this.label13.Text = "Weights";
+            // 
+            // MpfWeights
+            // 
+            this.MpfWeights.AutoSize = true;
+            this.MpfWeights.Location = new System.Drawing.Point(6, 68);
+            this.MpfWeights.Name = "MpfWeights";
+            this.MpfWeights.Size = new System.Drawing.Size(13, 15);
+            this.MpfWeights.TabIndex = 25;
+            this.MpfWeights.Text = "0";
+            // 
             // TrickyToolsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -818,5 +840,7 @@
         private NumericUpDown MatUnknown2;
         private Label label7;
         private NumericUpDown MatUnknown1;
+        private Label label13;
+        private Label MpfWeights;
     }
 }
