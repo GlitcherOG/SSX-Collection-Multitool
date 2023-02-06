@@ -557,35 +557,44 @@ namespace SSXMultiTool.FileHandlers
 
                 for (int i = 0; i < morphPointData.Count; i++)
                 {
+                    bool Point1Test = false;
+                    bool Point2Test = false;
+                    bool Point3Test = false;
                     for (int a = 0; a < morphPointData[i].MorphDataList.Count; a++)
                     {
                         if (Index1 == morphPointData[i].MorphDataList[a].ID)
                         {
                             face.MorphPoint1.Add(morphPointData[i].MorphDataList[a].vector3);
-                        }
-                        else
-                        {
-                            face.MorphPoint1.Add(new Vector3());
+                            Point1Test = true;
                         }
 
                         if (Index2 == morphPointData[i].MorphDataList[a].ID)
                         {
                             face.MorphPoint2.Add(morphPointData[i].MorphDataList[a].vector3);
-                        }
-                        else
-                        {
-                            face.MorphPoint2.Add(new Vector3());
+                            Point2Test = true;
                         }
 
 
                         if (Index3 == morphPointData[i].MorphDataList[a].ID)
                         {
                             face.MorphPoint3.Add(morphPointData[i].MorphDataList[a].vector3);
+                            Point3Test = true;
                         }
-                        else
-                        {
-                            face.MorphPoint3.Add(new Vector3());
-                        }
+                    }
+
+                    if(!Point1Test)
+                    {
+                        face.MorphPoint1.Add(new Vector3());
+                    }
+
+                    if (!Point2Test)
+                    {
+                        face.MorphPoint2.Add(new Vector3());
+                    }
+
+                    if (!Point3Test)
+                    {
+                        face.MorphPoint3.Add(new Vector3());
                     }
                 }
             }
