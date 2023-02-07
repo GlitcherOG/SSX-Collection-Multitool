@@ -15,7 +15,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
         public List<int> FileIDs = new List<int>();
 
-        public ReassignedMesh reassignedMesh = new ReassignedMesh();
+        public List<ReassignedMesh> reassignedMesh = new List<ReassignedMesh>();
 
         public void AddFile(SSX3MPFModelHandler modelHandler)
         {
@@ -61,7 +61,8 @@ namespace SSXMultiTool.FileHandlers.Models
             ReshuffleBones();
             TempMesh.faces = ReturnFixedFaces(TempModel, boneDatas);
             TempMesh.MeshName = TempModel.ModelName;
-            reassignedMesh = TempMesh;
+            reassignedMesh = new List<ReassignedMesh>();
+            reassignedMesh.Add(TempMesh);
             FixBoneParents();
         }
 

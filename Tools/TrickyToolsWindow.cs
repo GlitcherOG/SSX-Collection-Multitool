@@ -201,7 +201,7 @@ namespace SSXMultiTool
 
                         try
                         {
-                            TempCombiner = glftHandler.LoadGlft(openFileDialog.FileName);
+                            TempCombiner = glftHandler.LoadTrickyGlft(openFileDialog.FileName);
                         }
                         catch
                         {
