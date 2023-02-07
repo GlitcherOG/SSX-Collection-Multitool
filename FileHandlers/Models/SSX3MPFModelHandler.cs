@@ -761,6 +761,7 @@ namespace SSXMultiTool.FileHandlers
                     }
                 }
                 ModelStream.Position += MathOffset;
+                StreamUtil.AlignBy16(ModelStream);
 
 
                 Model.MeshDataOffset = (int)ModelStream.Position;
@@ -911,26 +912,11 @@ namespace SSXMultiTool.FileHandlers
                                     {
                                         StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
 
-                                        StreamUtil.WriteUInt8(ModelStream, 0x0A); // Can sometimes be 0x0A
+                                        StreamUtil.WriteUInt8(ModelStream, 0x00); // Can sometimes be 0x0A
 
                                         StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x14 });
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
 
-                                        if (!MeshTest)
-                                        {
-                                            if (TempGroupHeader.MeshChunkList.Count - 1 != d)
-                                            {
-                                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-                                            }
-                                            else
-                                            {
-                                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x08, 0x00, 0x00, 0x14, 0x06, 0x00, 0x00, 0x14 });
-                                            }
-                                        }
-                                        else
-                                        {
-                                            StreamUtil.WriteBytes(ModelStream, new byte[] { 0x06, 0x00, 0x00, 0x14, 0x06, 0x00, 0x00, 0x14 });
-                                        }
-                                        MeshTest = !MeshTest;
                                     }
                                     else
                                     {
@@ -968,6 +954,76 @@ namespace SSXMultiTool.FileHandlers
                                 }
                             }
 
+                            //Do Morph Stuff
+
+                            if (TempMaterialGroup.Type == 256)
+                            {
+                                TempGroupHeader.MorphOffset = (int)ModelStream.Position - TempGroupHeader.MeshOffset;
+                                for (int e = 0; e < Model.MorphKeyCount; e++)
+                                {
+                                    var TempMorphList = TempGroupHeader.MorphDataList[e];
+
+                                    int RowCountPos = (int)ModelStream.Position;
+                                    ModelStream.Position += 3;
+                                    StreamUtil.WriteInt32(ModelStream, 96);
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    if (TempMorphList.MorphDataList.Count != 0)
+                                    {
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0xB5, 0x80 });
+                                        StreamUtil.WriteUInt8(ModelStream, TempMorphList.MorphDataList.Count+1);
+                                        StreamUtil.WriteUInt8(ModelStream, 0x6E);
+                                        StreamUtil.WriteInt32(ModelStream, TempMorphList.MorphDataList.Count);
+                                        for (int d = 0; d < TempMorphList.MorphDataList.Count; d++)
+                                        {
+                                            StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.MorphDataList[d].vector3.X * 3f));
+                                            StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.MorphDataList[d].vector3.Y * 3f));
+                                            StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.MorphDataList[d].vector3.Z * 3f));
+                                            StreamUtil.WriteUInt8(ModelStream, TempMorphList.MorphDataList[d].ID*3);
+                                        }
+                                        StreamUtil.AlignBy16(ModelStream);
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x14 });
+
+                                        int TempPos = (int)ModelStream.Position;
+                                        ModelStream.Position = RowCountPos;
+                                        StreamUtil.WriteInt24(ModelStream, (TempPos - RowCountPos) / 16 - 1);
+                                        ModelStream.Position = TempPos;
+                                    }
+                                    else
+                                    {
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x14 });
+
+                                        int TempPos = (int)ModelStream.Position;
+                                        ModelStream.Position = RowCountPos;
+                                        StreamUtil.WriteInt24(ModelStream, 1);
+                                        ModelStream.Position = TempPos;
+                                    }
+                                    TempGroupHeader.MorphDataList[e] = TempMorphList;
+                                }
+                                if ((a == Model.MaterialGroupList.Count - 1 && b == TempMaterialGroup.WeightRefList.Count - 1 && c == TempWeightRefGroup.MorphMeshGroupList.Count - 1))
+                                {
+                                    //Write End of Meshdata
+                                    StreamUtil.WriteInt24(ModelStream, 1);
+                                    StreamUtil.WriteInt32(ModelStream, 96);
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01 });
+                                    StreamUtil.AlignBy16(ModelStream);
+                                    ModelStream.Position -= 1;
+                                    StreamUtil.WriteUInt8(ModelStream, 0);
+
+                                    StreamUtil.WriteInt24(ModelStream, 1);
+                                    StreamUtil.WriteInt32(ModelStream, 96);
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    ModelStream.Position += 4;
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
+
+                                    ModelStream.Position += 7;
+                                    StreamUtil.WriteUInt8(ModelStream, 17);
+                                }
+                            }
+
                             if (TempMaterialGroup.Type != 256)
                             {
                                 //Write End of Meshdata
@@ -993,7 +1049,6 @@ namespace SSXMultiTool.FileHandlers
                                     StreamUtil.WriteUInt8(ModelStream, 17);
                                 }
                             }
-
                             TempWeightRefGroup.MorphMeshGroupList[c] = TempGroupHeader;
                         }
                         TempMaterialGroup.WeightRefList[b] = TempWeightRefGroup;
