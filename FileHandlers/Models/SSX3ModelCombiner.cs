@@ -662,7 +662,7 @@ namespace SSXMultiTool.FileHandlers.Models
                                             {
                                                 SSX3MPFModelHandler.MorphData TempMorph = new SSX3MPFModelHandler.MorphData();
                                                 TempMorph.vector3 = TempMorphTargets[ei];
-                                                TempMorph.ID = staticMesh.Vertices.Count;
+                                                TempMorph.ID = staticMesh.Vertices.Count-1;
                                                 if(TempMorph.vector3 != Vector3.Zero)
                                                 {
                                                     staticMesh.MorphKeys[ei].MorphDataList.Add(TempMorph);
