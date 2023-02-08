@@ -412,6 +412,7 @@ namespace SSXMultiTool.FileHandlers
                     }
                 }
             }
+            colourTable.Format = temp.sshTable.Format;
             temp.sshTable = colourTable;
             sshImages[i] = temp;
         }

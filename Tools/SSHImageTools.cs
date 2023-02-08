@@ -424,5 +424,22 @@ namespace SSXMultiTool
                 UpdateFileText();
             }
         }
+
+        private void ColourByteSwappedCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ImageList.SelectedIndex != -1)
+            {
+                var SSHImage = sshHandler.sshImages[ImageList.SelectedIndex];
+                if (ColourByteSwappedCheckbox.Checked)
+                {
+                    SSHImage.sshTable.Format = 1;
+                }
+                else
+                {
+                    SSHImage.sshTable.Format = 0;
+                }
+                sshHandler.sshImages[ImageList.SelectedIndex] = SSHImage;
+            }
+        }
     }
 }

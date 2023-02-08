@@ -410,6 +410,7 @@
             this.ColourByteSwappedCheckbox.TabIndex = 28;
             this.ColourByteSwappedCheckbox.Text = "Byte Swapped";
             this.ColourByteSwappedCheckbox.UseVisualStyleBackColor = true;
+            this.ColourByteSwappedCheckbox.CheckedChanged += new System.EventHandler(this.UpdateImageDetails);
             this.ColourByteSwappedCheckbox.CheckStateChanged += new System.EventHandler(this.UpdateImageDetails);
             // 
             // HalfColourButton
