@@ -546,7 +546,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                modelHandler.Save(openFileDialog.FileName, false);
+                ssx3ModelCombiner.SaveMPF(openFileDialog.FileName, false);
             }
         }
 
@@ -600,7 +600,47 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                modelHandler.Save(openFileDialog.FileName, true);
+                ssx3ModelCombiner.SaveMPF(openFileDialog.FileName, true);
+            }
+        }
+
+        private void MpfImport_Click(object sender, EventArgs e)
+        {
+            if (MpfModelList.SelectedIndex != -1)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "gltf File (*.glb)|*.glb|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    SSX3ModelCombiner TempCombiner = null;
+
+                    try
+                    {
+                        TempCombiner = glftHandler.LoadSSX3Glft(openFileDialog.FileName);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Failed to Load File");
+                    }
+
+                    try
+                    {
+                        //trickyModel.NormalAverage = ImportAverageNormal.Checked;
+                        //trickyModel.BoneUpdate = BoneUpdateCheck.Checked;
+                        //trickyModel.TristripMode = TristripMethodList.SelectedIndex;
+                        ssx3ModelCombiner.StartRegenMesh(TempCombiner, MpfModelList.SelectedIndex);
+
+                        //UpdateData();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Failed to Convert File");
+                    }
+                }
             }
         }
     }

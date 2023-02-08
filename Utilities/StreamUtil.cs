@@ -223,6 +223,10 @@ namespace SSXMultiTool.Utilities
 
         public static void WriteString(Stream stream, string String, int Length = 0)
         {
+            if(String==null)
+            {
+                String = "";
+            }
             int tempLength = String.Length;
             if (Length != 0)
             {

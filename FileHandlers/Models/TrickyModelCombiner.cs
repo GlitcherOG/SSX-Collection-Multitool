@@ -1881,7 +1881,7 @@ namespace SSXMultiTool.FileHandlers.Models
                                     {
                                         var TempUV = TempMesh.uv[d];
                                         TempUV.Z = TempMesh.Weights[d] * 4 + 14;
-                                        TempUV.W = TempMesh.Weights[d] * 3 + 114; //Figure Out
+                                        TempUV.W = TempMesh.Weights[d] * 3 + 114;
                                         TempMesh.uv[d] = TempUV;
                                     }
                                 }

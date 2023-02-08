@@ -578,7 +578,6 @@ namespace SSXMultiTool.FileHandlers
                             Point2Test = true;
                         }
 
-
                         if (Index3 == morphPointData[i].MorphDataList[a].ID)
                         {
                             face.MorphPoint3.Add(morphPointData[i].MorphDataList[a].vector3);
@@ -1023,6 +1022,10 @@ namespace SSXMultiTool.FileHandlers
                                     StreamUtil.WriteUInt8(ModelStream, 17);
                                 }
                             }
+                            else
+                            {
+                                TempGroupHeader.MorphOffset = -1;
+                            }
 
                             if (TempMaterialGroup.Type != 256)
                             {
@@ -1055,13 +1058,6 @@ namespace SSXMultiTool.FileHandlers
                     }
                     Model.MaterialGroupList[a] = TempMaterialGroup;
                 }
-
-
-
-
-
-
-
 
 
                 //Regenerate Mesh Group
@@ -1331,6 +1327,8 @@ namespace SSXMultiTool.FileHandlers
             public int MorphMeshCount;
 
             public List<MorphMeshGroup> MorphMeshGroupList;
+
+            public List<int> weights;
         }
 
         public struct MorphMeshGroup
@@ -1359,6 +1357,13 @@ namespace SSXMultiTool.FileHandlers
             public List<int> Weights;
 
             public List<Face> Faces;
+
+
+            public int MatieralID;
+            public bool Grouped;
+
+            public List<int> weightsInts;
+            public List<MorphKey> MorphKeys;
         }
 
         public struct Face

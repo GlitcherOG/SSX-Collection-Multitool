@@ -167,7 +167,7 @@
             this.MPFWarningLabel = new System.Windows.Forms.Label();
             this.label59 = new System.Windows.Forms.Label();
             this.MpfExport = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.MpfImport = new System.Windows.Forms.Button();
             this.MpfSaveCompressed = new System.Windows.Forms.Button();
             this.label58 = new System.Windows.Forms.Label();
             this.listBox2 = new System.Windows.Forms.ListBox();
@@ -1861,7 +1861,7 @@
             this.tabPage5.Controls.Add(this.MPFWarningLabel);
             this.tabPage5.Controls.Add(this.label59);
             this.tabPage5.Controls.Add(this.MpfExport);
-            this.tabPage5.Controls.Add(this.button6);
+            this.tabPage5.Controls.Add(this.MpfImport);
             this.tabPage5.Controls.Add(this.MpfSaveCompressed);
             this.tabPage5.Controls.Add(this.label58);
             this.tabPage5.Controls.Add(this.listBox2);
@@ -1905,14 +1905,15 @@
             this.MpfExport.UseVisualStyleBackColor = true;
             this.MpfExport.Click += new System.EventHandler(this.MpfExport_Click);
             // 
-            // button6
+            // MpfImport
             // 
-            this.button6.Location = new System.Drawing.Point(165, 502);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(66, 23);
-            this.button6.TabIndex = 10;
-            this.button6.Text = "Import";
-            this.button6.UseVisualStyleBackColor = true;
+            this.MpfImport.Location = new System.Drawing.Point(165, 502);
+            this.MpfImport.Name = "MpfImport";
+            this.MpfImport.Size = new System.Drawing.Size(66, 23);
+            this.MpfImport.TabIndex = 10;
+            this.MpfImport.Text = "Import";
+            this.MpfImport.UseVisualStyleBackColor = true;
+            this.MpfImport.Click += new System.EventHandler(this.MpfImport_Click);
             // 
             // MpfSaveCompressed
             // 
@@ -2197,7 +2198,7 @@
         private Button MPFSaveDecompressed;
         private Button MPFLoad;
         private Button MpfExport;
-        private Button button6;
+        private Button MpfImport;
         private Button MpfSaveCompressed;
         private Label label58;
         private ListBox listBox2;
