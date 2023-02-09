@@ -2002,7 +2002,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
         static bool UVEqual(Vector4 Uv1, Vector4 Uv2)
         {
-            if ((int)(Uv1.X * 32768f) == (int)(Uv2.X * 32768f) && (int)(Uv1.Y * 32768f) == (int)(Uv2.Y * 32768f))
+            if ((int)(Uv1.X * 4096f) == (int)(Uv2.X * 4096f) && (int)(Uv1.Y * 4096f) == (int)(Uv2.Y * 4096f))
             {
                 return true;
             }

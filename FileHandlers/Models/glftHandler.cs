@@ -710,7 +710,7 @@ namespace SSXMultiTool.FileHandlers
 
             for (int a = 0; a < Ampatures[0].VisualChildren.Count; a++)
             {
-                if (Ampatures[0].VisualChildren[a].Parent.Equals(null))
+                if (Ampatures[0].VisualChildren[a].Name.ToLower() == "hips")
                 {
                     var StartBone = Ampatures[0].VisualChildren[a];
                     boneDatas = ReturnBoneAndChildrenSSX3(StartBone, true);

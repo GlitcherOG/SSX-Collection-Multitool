@@ -554,6 +554,11 @@ namespace SSXMultiTool
         {
             if(MpfModelList.SelectedIndex!=-1)
             {
+                if (ssx3ModelCombiner.CheckBones(MpfModelList.SelectedIndex) != "")
+                {
+                    MessageBox.Show(ssx3ModelCombiner.CheckBones(MpfModelList.SelectedIndex));
+                    return;
+                }
                 SaveFileDialog openFileDialog = new SaveFileDialog
                 {
                     Filter = "Model File (*.glb)|*.glb|All files (*.*)|*.*",
@@ -608,6 +613,11 @@ namespace SSXMultiTool
         {
             if (MpfModelList.SelectedIndex != -1)
             {
+                if (ssx3ModelCombiner.CheckBones(MpfModelList.SelectedIndex) != "")
+                {
+                    MessageBox.Show(ssx3ModelCombiner.CheckBones(MpfModelList.SelectedIndex));
+                    return;
+                }
                 OpenFileDialog openFileDialog = new OpenFileDialog
                 {
                     Filter = "gltf File (*.glb)|*.glb|All files (*.*)|*.*",
@@ -629,18 +639,57 @@ namespace SSXMultiTool
 
                     try
                     {
-                        //trickyModel.NormalAverage = ImportAverageNormal.Checked;
-                        //trickyModel.BoneUpdate = BoneUpdateCheck.Checked;
-                        //trickyModel.TristripMode = TristripMethodList.SelectedIndex;
                         ssx3ModelCombiner.StartRegenMesh(TempCombiner, MpfModelList.SelectedIndex);
-
-                        //UpdateData();
+                        UpdateData();
                     }
                     catch
                     {
                         MessageBox.Show("Failed to Convert File");
                     }
                 }
+            }
+        }
+
+        private void MpfModelList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateData();
+        }
+
+        void UpdateData()
+        {
+            if (MpfModelList.SelectedIndex != -1)
+            {
+                var TempModel = ssx3ModelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex];
+
+                FileID.Text = TempModel.FileID.ToString();
+                BoneCount.Text = TempModel.BoneCount.ToString();
+                MaterialCount.Text = TempModel.MaterialCount.ToString();
+                IkCount.Text = "0";
+                ShapeKeyCount.Text = TempModel.MorphKeyCount.ToString();
+                MpfWeights.Text = TempModel.WeightCount.ToString();
+
+                TristripCountLabel.Text = ssx3ModelCombiner.TristripCount(TempModel).ToString();
+                VerticeCount.Text = ssx3ModelCombiner.VerticeCount(TempModel).ToString();
+                MeshChunks.Text = ssx3ModelCombiner.ChunkCount(TempModel).ToString();
+                MaterialGroupCount.Text = TempModel.MaterialGroupList.Count.ToString();
+                WeightGroupCount.Text = ssx3ModelCombiner.WeigthRefCount(TempModel).ToString();
+                MorphGroupCount.Text = ssx3ModelCombiner.MorphGroupCount(TempModel).ToString();
+            }
+            else
+            {
+                FileID.Text = "0";
+                BoneCount.Text = "0";
+                MaterialCount.Text = "0";
+                IkCount.Text = "0";
+                ShapeKeyCount.Text = "0";
+                MpfWeights.Text = "0";
+
+                TristripCountLabel.Text = "0";
+                VerticeCount.Text = "0";
+                MeshChunks.Text = "0";
+                MaterialGroupCount.Text = "0";
+                WeightGroupCount.Text = "0";
+                MorphGroupCount.Text = "0";
             }
         }
     }

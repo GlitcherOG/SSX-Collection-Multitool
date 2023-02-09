@@ -19,7 +19,7 @@ namespace SSXMultiTool.FileHandlers.Models
         public List<ReassignedMesh> reassignedMesh = new List<ReassignedMesh>();
 
 
-        bool NormalAverage=true;
+        bool NormalAverage = false;
         public void AddFile(SSX3MPFModelHandler modelHandler)
         {
             modelHandlers = modelHandler;
@@ -48,19 +48,20 @@ namespace SSXMultiTool.FileHandlers.Models
 
         public void MeshReassigned(int MeshID)
         {
-            if (CheckBones(MeshID)!="")
-            {
-                MessageBox.Show(CheckBones(MeshID));
-                return;
-            }
             var TempModel = modelHandlers.ModelList[MeshID];
             materials = TempModel.MaterialList;
             var TempMesh = new ReassignedMesh();
-            if (TempModel.MaterialGroupList[0].Type==17)
+            if (TempModel.MaterialGroupList[0].Type == 17)
             {
                 TempMesh.ShadowModel = true;
             }
-            boneDatas = boneDatasOrg;
+
+            boneDatas = new List<SSX3MPFModelHandler.BoneData>();
+            for (int i = 0; i < boneDatasOrg.Count; i++)
+            {
+                boneDatas.Add(boneDatasOrg[i]);
+            }
+
             TempMesh.MorphTargetCount = TempModel.MorphKeyCount;
             ReshuffleBones();
             TempMesh.faces = ReturnFixedFaces(TempModel, boneDatas);
@@ -82,7 +83,7 @@ namespace SSXMultiTool.FileHandlers.Models
             List<int> RemoveInts = new List<int>();
             for (int i = 0; i < boneDatas.Count; i++)
             {
-                if (boneDatas[i].ParentFileID==-1&& boneDatas[i].ParentBone == -1)
+                if (boneDatas[i].ParentFileID == -1 && boneDatas[i].ParentBone == -1)
                 {
                     TempBoneDatas.Add(boneDatas[i]);
                     RemoveInts.Add(i - RemoveInts.Count);
@@ -101,7 +102,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     bool TestDone = false;
                     for (int a = 0; a < TempBoneDatas.Count; a++)
                     {
-                        if (boneDatas[i].ParentFileID== TempBoneDatas[a].FileID && boneDatas[i].ParentBone == TempBoneDatas[a].BonePos)
+                        if (boneDatas[i].ParentFileID == TempBoneDatas[a].FileID && boneDatas[i].ParentBone == TempBoneDatas[a].BonePos)
                         {
                             TempBoneDatas.Add(boneDatas[i]);
                             boneDatas.RemoveAt(i);
@@ -110,13 +111,13 @@ namespace SSXMultiTool.FileHandlers.Models
                         }
 
                     }
-                    if(TestDone)
+                    if (TestDone)
                     {
                         break;
                     }
                 }
 
-                if(boneDatas.Count==0)
+                if (boneDatas.Count == 0)
                 {
                     break;
                 }
@@ -198,7 +199,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
         public string CheckBones(int ModelID)
         {
-            if(ModelID==-1)
+            if (ModelID == -1)
             {
                 ModelID = 0;
             }
@@ -244,14 +245,14 @@ namespace SSXMultiTool.FileHandlers.Models
                 }
             }
 
-            for (int i = 0; i < boneDatas.Count; i++)
+            for (int i = 0; i < boneDatasOrg.Count; i++)
             {
                 bool test = false;
-                if (boneDatas[i].ParentBone != -1 && boneDatas[i].ParentFileID != -1)
+                if (boneDatasOrg[i].ParentBone != -1 && boneDatasOrg[i].ParentFileID != -1)
                 {
-                    for (int a = 0; a < boneDatas.Count; a++)
+                    for (int a = 0; a < boneDatasOrg.Count; a++)
                     {
-                        if (boneDatas[i].ParentBone == boneDatas[a].BonePos && boneDatas[i].ParentFileID == boneDatas[a].FileID)
+                        if (boneDatasOrg[i].ParentBone == boneDatasOrg[a].BonePos && boneDatasOrg[i].ParentFileID == boneDatasOrg[a].FileID)
                         {
                             test = true;
                             break;
@@ -259,22 +260,22 @@ namespace SSXMultiTool.FileHandlers.Models
                     }
                     if (!test)
                     {
-                        if (boneDatas[i].ParentFileID == 0)
+                        if (boneDatasOrg[i].ParentFileID == 0)
                         {
                             return "Missing Bones From Top";
                         }
                         else
-                        if (boneDatas[i].ParentFileID == 1)
+                        if (boneDatasOrg[i].ParentFileID == 1)
                         {
                             return "Missing Bones From Board Bindings";
                         }
-                        if (boneDatas[i].ParentFileID == 6)
+                        if (boneDatasOrg[i].ParentFileID == 6)
                         {
                             return "Missing Bones From Eyes";
                         }
                         else
                         {
-                            return "Missing Bones From File " + boneDatas[i].ParentFileID;
+                            return "Missing Bones From File " + boneDatasOrg[i].ParentFileID;
                         }
                     }
                 }
@@ -305,6 +306,27 @@ namespace SSXMultiTool.FileHandlers.Models
 
         public void StartRegenMesh(SSX3ModelCombiner ssx3ModelCombiner, int MeshID)
         {
+            //Check Bones
+            if (ssx3ModelCombiner.boneDatas.Count != boneDatasOrg.Count)
+            {
+                MessageBox.Show("Incorrect Ammount of Bones " + ssx3ModelCombiner.boneDatas.Count + "/" + boneDatasOrg.Count);
+                return;
+            }
+
+            //Check Morph
+            if (modelHandlers.ModelList[MeshID].MorphKeyCount != ssx3ModelCombiner.reassignedMesh[0].faces[0].MorphPoint1.Count)
+            {
+                MessageBox.Show("Incorrect Morph Ammount " + ssx3ModelCombiner.reassignedMesh[0].faces[0].MorphPoint1.Count + "/" + modelHandlers.ModelList[MeshID].MorphKeyCount);
+                return;
+            }
+
+            //Mesh Count
+            if (ssx3ModelCombiner.reassignedMesh.Count > 1)
+            {
+                MessageBox.Show("More than one mesh detected");
+                return;
+            }
+
 
             bool Shadow = false;
 
@@ -318,6 +340,8 @@ namespace SSXMultiTool.FileHandlers.Models
                 var TempReMesh = ssx3ModelCombiner.reassignedMesh[i];
                 TempReMesh.MorphTargetCount = modelHandlers.ModelList[MeshID].MorphKeyCount;
                 SSX3MPFModelHandler.MPFModelHeader TempTrickyMesh = modelHandlers.ModelList[MeshID];
+
+                TempTrickyMesh.TriangleCount = ssx3ModelCombiner.reassignedMesh[i].faces.Count;
 
                 //fix to be a proper regeneration
                 TempTrickyMesh.MaterialList = ssx3ModelCombiner.materials;
@@ -662,8 +686,8 @@ namespace SSXMultiTool.FileHandlers.Models
                                             {
                                                 SSX3MPFModelHandler.MorphData TempMorph = new SSX3MPFModelHandler.MorphData();
                                                 TempMorph.vector3 = TempMorphTargets[ei];
-                                                TempMorph.ID = staticMesh.Vertices.Count-1;
-                                                if(TempMorph.vector3 != Vector3.Zero)
+                                                TempMorph.ID = staticMesh.Vertices.Count - 1;
+                                                if (TempMorph.vector3 != Vector3.Zero)
                                                 {
                                                     staticMesh.MorphKeys[ei].MorphDataList.Add(TempMorph);
                                                 }
@@ -981,7 +1005,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
             static bool UVEqual(Vector4 Uv1, Vector4 Uv2)
             {
-                if ((int)(Uv1.X * 32768f) == (int)(Uv2.X * 32768f) && (int)(Uv1.Y * 32768f) == (int)(Uv2.Y * 32768f))
+                if ((int)(Uv1.X * 4096f) == (int)(Uv2.X * 4096f) && (int)(Uv1.Y * 4096f) == (int)(Uv2.Y * 4096f))
                 {
                     return true;
                 }
@@ -1030,6 +1054,99 @@ namespace SSXMultiTool.FileHandlers.Models
                 return new SSX3MPFModelHandler.BoneData();
             }
 
+        }
+
+        public int TristripCount(SSX3MPFModelHandler.MPFModelHeader modelHeader)
+        {
+            int Count = 0;
+
+            var TempMesh = modelHeader.MaterialGroupList;
+
+            for (int i = 0; i < TempMesh.Count; i++)
+            {
+                for (int a = 0; a < TempMesh[i].WeightRefList.Count; a++)
+                {
+                    for (int b = 0; b < TempMesh[i].WeightRefList[a].MorphMeshGroupList.Count; b++)
+                    {
+                        for (int c = 0; c < TempMesh[i].WeightRefList[a].MorphMeshGroupList[b].MeshChunkList.Count; c++)
+                        {
+                            Count += TempMesh[i].WeightRefList[a].MorphMeshGroupList[b].MeshChunkList[c].Strips.Count;
+                        }
+                    }
+                }
+            }
+
+            return Count;
+        }
+
+        public int VerticeCount(SSX3MPFModelHandler.MPFModelHeader modelHeader)
+        {
+            int Count = 0;
+            var TempMesh = modelHeader.MaterialGroupList;
+
+            for (int i = 0; i < TempMesh.Count; i++)
+            {
+                for (int a = 0; a < TempMesh[i].WeightRefList.Count; a++)
+                {
+                    for (int b = 0; b < TempMesh[i].WeightRefList[a].MorphMeshGroupList.Count; b++)
+                    {
+                        for (int c = 0; c < TempMesh[i].WeightRefList[a].MorphMeshGroupList[b].MeshChunkList.Count; c++)
+                        {
+                            Count += TempMesh[i].WeightRefList[a].MorphMeshGroupList[b].MeshChunkList[c].Vertices.Count;
+                        }
+                    }
+                }
+            }
+
+            return Count;
+        }
+
+        public int ChunkCount(SSX3MPFModelHandler.MPFModelHeader modelHeader)
+        {
+            int Count = 0;
+            var TempMesh = modelHeader.MaterialGroupList;
+
+            for (int i = 0; i < TempMesh.Count; i++)
+            {
+                for (int a = 0; a < TempMesh[i].WeightRefList.Count; a++)
+                {
+                    for (int b = 0; b < TempMesh[i].WeightRefList[a].MorphMeshGroupList.Count; b++)
+                    {
+                        Count += TempMesh[i].WeightRefList[a].MorphMeshGroupList[b].MeshChunkList.Count;
+                    }
+                }
+            }
+
+            return Count;
+        }
+
+        public int WeigthRefCount(SSX3MPFModelHandler.MPFModelHeader modelHeader)
+        {
+            int Count = 0;
+            var TempMesh = modelHeader.MaterialGroupList;
+
+            for (int i = 0; i < TempMesh.Count; i++)
+            {
+                Count += TempMesh[i].WeightRefList.Count;
+            }
+
+            return Count;
+        }
+
+        public int MorphGroupCount(SSX3MPFModelHandler.MPFModelHeader modelHeader)
+        {
+            int Count = 0;
+            var TempMesh = modelHeader.MaterialGroupList;
+
+            for (int i = 0; i < TempMesh.Count; i++)
+            {
+                for (int a = 0; a < TempMesh[i].WeightRefList.Count; a++)
+                {
+                    Count += TempMesh[i].WeightRefList[a].MorphMeshGroupList.Count;
+                }
+            }
+
+            return Count;
         }
 
         public struct ReassignedMesh

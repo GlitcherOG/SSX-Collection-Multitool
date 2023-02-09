@@ -228,12 +228,24 @@ namespace SSXMultiTool.Utilities
                 String = "";
             }
             int tempLength = String.Length;
-            if (Length != 0)
-            {
-                tempLength = Length;
-            }
             byte[] tempByte = new byte[tempLength];
             Encoding.ASCII.GetBytes(String).CopyTo(tempByte, 0);
+
+            if (Length != 0)
+            {
+                byte[] tempByte1 = new byte[Length];
+                for (int i = 0; i < Length; i++)
+                {
+                    if(tempByte.Length-1==i || String == "")
+                    {
+                        break;
+                    }
+                    tempByte1[i] = tempByte[i];
+                }
+                tempByte = tempByte1;
+            }
+
+
             stream.Write(tempByte, 0, tempByte.Length);
         }
 
