@@ -41,9 +41,7 @@ namespace SSXMultiTool.FileHandlers
                     modelHeader.WeightRefrenceOffset = StreamUtil.ReadInt32(stream);
                     modelHeader.BoneWeightOffset = StreamUtil.ReadInt32(stream);
 
-                    modelHeader.U14 = StreamUtil.ReadInt32(stream);
-                    modelHeader.U15 = StreamUtil.ReadInt32(stream);
-                    modelHeader.U16 = StreamUtil.ReadInt32(stream);
+                    stream.Position += 12;
 
                     modelHeader.WeightCount = StreamUtil.ReadInt16(stream);
                     modelHeader.WeightRefrenceCount = StreamUtil.ReadInt16(stream);
@@ -55,11 +53,7 @@ namespace SSXMultiTool.FileHandlers
                     modelHeader.FileID = StreamUtil.ReadInt16(stream);
                     modelHeader.TriangleCount = StreamUtil.ReadInt16(stream);
 
-                    modelHeader.U26 = StreamUtil.ReadInt16(stream);
-                    modelHeader.U27 = StreamUtil.ReadInt16(stream);
-                    modelHeader.U28 = StreamUtil.ReadInt16(stream);
-                    modelHeader.U29 = StreamUtil.ReadInt16(stream);
-                    modelHeader.U30 = StreamUtil.ReadInt16(stream);
+                    stream.Position += 10;
 
                     ModelList.Add(modelHeader);
                 }
@@ -1164,9 +1158,7 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteInt32(stream, ModelList[i].MorphIDOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].WeightRefrenceOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].BoneWeightOffset);
-                StreamUtil.WriteInt32(stream, ModelList[i].U14);
-                StreamUtil.WriteInt32(stream, ModelList[i].U15);
-                StreamUtil.WriteInt32(stream, ModelList[i].U16);
+                stream.Position += 12;
 
                 StreamUtil.WriteInt16(stream, ModelList[i].BoneWeightHeaderList.Count);
                 StreamUtil.WriteInt16(stream, ModelList[i].WeightRefrenceLists.Count);
@@ -1178,11 +1170,7 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteInt16(stream, ModelList[i].FileID);
                 StreamUtil.WriteInt16(stream, ModelList[i].TriangleCount);
 
-                StreamUtil.WriteInt16(stream, ModelList[i].U26);
-                StreamUtil.WriteInt16(stream, ModelList[i].U27);
-                StreamUtil.WriteInt16(stream, ModelList[i].U28);
-                StreamUtil.WriteInt16(stream, ModelList[i].U29);
-                StreamUtil.WriteInt16(stream, ModelList[i].U30);
+                stream.Position += 10;
             }
 
             if (File.Exists(path))
@@ -1213,11 +1201,6 @@ namespace SSXMultiTool.FileHandlers
             public int WeightRefrenceOffset;
             public int BoneWeightOffset;
 
-            //Unused?
-            public int U14;
-            public int U15; 
-            public int U16;
-
             //Counts
             public int WeightCount;
             public int WeightRefrenceCount;
@@ -1229,12 +1212,6 @@ namespace SSXMultiTool.FileHandlers
             public int FileID;
             public int TriangleCount; //Possibly Some Kind of Face Ammount Used in Store as Well
 
-            //Unused?
-            public int U26;
-            public int U27;
-            public int U28;
-            public int U29;
-            public int U30;
 
             public List<MaterialData> MaterialList;
             public List<BoneData> BoneList;

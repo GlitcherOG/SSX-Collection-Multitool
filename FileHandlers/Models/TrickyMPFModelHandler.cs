@@ -41,8 +41,7 @@ namespace SSXMultiTool.FileHandlers
                     modelHeader.NumberListOffset = StreamUtil.ReadInt32(stream);
                     modelHeader.BoneWeightOffet = StreamUtil.ReadInt32(stream);
 
-                    modelHeader.Unused1 = StreamUtil.ReadInt32(stream);
-                    modelHeader.Unused2 = StreamUtil.ReadInt32(stream);
+                    stream.Position += 8;
 
                     modelHeader.BoneWeightCount = StreamUtil.ReadInt16(stream);
                     modelHeader.NumberListCount = StreamUtil.ReadInt16(stream);
@@ -1099,8 +1098,7 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteInt32(stream, ModelList[i].NumberListOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].BoneWeightOffet);
 
-                StreamUtil.WriteInt32(stream, ModelList[i].Unused1);
-                StreamUtil.WriteInt32(stream, ModelList[i].Unused2);
+                stream.Position += 8;
 
                 StreamUtil.WriteInt16(stream, ModelList[i].boneWeightHeader.Count);
                 StreamUtil.WriteInt16(stream, ModelList[i].numberListRefs.Count);
@@ -1143,9 +1141,6 @@ namespace SSXMultiTool.FileHandlers
             public int MaterialOffset;
             public int NumberListOffset;
             public int BoneWeightOffet;
-
-            public int Unused1;
-            public int Unused2;
 
             //Counts
             public int BoneWeightCount;
