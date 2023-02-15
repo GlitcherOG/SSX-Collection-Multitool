@@ -164,30 +164,24 @@
             this.label13 = new System.Windows.Forms.Label();
             this.BoltCharacter = new System.Windows.Forms.ComboBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.MPFWarningLabel = new System.Windows.Forms.Label();
-            this.label59 = new System.Windows.Forms.Label();
-            this.MpfExport = new System.Windows.Forms.Button();
-            this.MpfImport = new System.Windows.Forms.Button();
-            this.MpfSaveCompressed = new System.Windows.Forms.Button();
-            this.MpfBoneLoad = new System.Windows.Forms.Button();
-            this.MpfModelList = new System.Windows.Forms.ListBox();
-            this.MPFSaveDecompressed = new System.Windows.Forms.Button();
-            this.MPFLoad = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label57 = new System.Windows.Forms.Label();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label60 = new System.Windows.Forms.Label();
-            this.MpfWeights = new System.Windows.Forms.Label();
-            this.label61 = new System.Windows.Forms.Label();
-            this.FileID = new System.Windows.Forms.Label();
-            this.label62 = new System.Windows.Forms.Label();
-            this.BoneCount = new System.Windows.Forms.Label();
-            this.label63 = new System.Windows.Forms.Label();
-            this.ShapeKeyCount = new System.Windows.Forms.Label();
-            this.MaterialCount = new System.Windows.Forms.Label();
-            this.label64 = new System.Windows.Forms.Label();
-            this.label65 = new System.Windows.Forms.Label();
-            this.IkCount = new System.Windows.Forms.Label();
+            this.TristripMethodList = new System.Windows.Forms.ComboBox();
+            this.BoneUpdateCheck = new System.Windows.Forms.CheckBox();
+            this.ImportAverageNormal = new System.Windows.Forms.CheckBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label74 = new System.Windows.Forms.Label();
+            this.MorphGroupCount = new System.Windows.Forms.Label();
+            this.label75 = new System.Windows.Forms.Label();
+            this.WeightGroupCount = new System.Windows.Forms.Label();
+            this.label76 = new System.Windows.Forms.Label();
+            this.MaterialGroupCount = new System.Windows.Forms.Label();
+            this.label77 = new System.Windows.Forms.Label();
+            this.TristripCountLabel = new System.Windows.Forms.Label();
+            this.label78 = new System.Windows.Forms.Label();
+            this.VerticeCount = new System.Windows.Forms.Label();
+            this.MeshChunks = new System.Windows.Forms.Label();
+            this.label79 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label66 = new System.Windows.Forms.Label();
             this.MatUnknown2 = new System.Windows.Forms.NumericUpDown();
@@ -206,19 +200,31 @@
             this.MatMainTexture = new System.Windows.Forms.TextBox();
             this.label73 = new System.Windows.Forms.Label();
             this.MaterialList = new System.Windows.Forms.ListBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label74 = new System.Windows.Forms.Label();
-            this.MorphGroupCount = new System.Windows.Forms.Label();
-            this.label75 = new System.Windows.Forms.Label();
-            this.WeightGroupCount = new System.Windows.Forms.Label();
-            this.label76 = new System.Windows.Forms.Label();
-            this.MaterialGroupCount = new System.Windows.Forms.Label();
-            this.label77 = new System.Windows.Forms.Label();
-            this.TristripCountLabel = new System.Windows.Forms.Label();
-            this.label78 = new System.Windows.Forms.Label();
-            this.VerticeCount = new System.Windows.Forms.Label();
-            this.MeshChunks = new System.Windows.Forms.Label();
-            this.label79 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label60 = new System.Windows.Forms.Label();
+            this.MpfWeights = new System.Windows.Forms.Label();
+            this.label61 = new System.Windows.Forms.Label();
+            this.FileID = new System.Windows.Forms.Label();
+            this.label62 = new System.Windows.Forms.Label();
+            this.BoneCount = new System.Windows.Forms.Label();
+            this.label63 = new System.Windows.Forms.Label();
+            this.ShapeKeyCount = new System.Windows.Forms.Label();
+            this.MaterialCount = new System.Windows.Forms.Label();
+            this.label64 = new System.Windows.Forms.Label();
+            this.label65 = new System.Windows.Forms.Label();
+            this.IkCount = new System.Windows.Forms.Label();
+            this.MPFWarningLabel = new System.Windows.Forms.Label();
+            this.label59 = new System.Windows.Forms.Label();
+            this.MpfExport = new System.Windows.Forms.Button();
+            this.MpfImport = new System.Windows.Forms.Button();
+            this.MpfSaveCompressed = new System.Windows.Forms.Button();
+            this.MpfBoneLoad = new System.Windows.Forms.Button();
+            this.MpfModelList = new System.Windows.Forms.ListBox();
+            this.MPFSaveDecompressed = new System.Windows.Forms.Button();
+            this.MPFLoad = new System.Windows.Forms.Button();
+            this.ModelListLabel = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.BiglessStore = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.charnumericUpDown5)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -259,12 +265,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.BoltUnlock)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BoltUnkownOne)).BeginInit();
             this.tabPage5.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MatUnknown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MatUnknown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MatFlagFactor)).BeginInit();
-            this.groupBox4.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // charnumericUpDown5
@@ -283,7 +291,7 @@
             this.charnumericUpDown5.Name = "charnumericUpDown5";
             this.charnumericUpDown5.Size = new System.Drawing.Size(75, 23);
             this.charnumericUpDown5.TabIndex = 22;
-            this.charnumericUpDown5.Click += new System.EventHandler(this.CharApply);
+            this.charnumericUpDown5.ValueChanged += new System.EventHandler(this.CharApply);
             // 
             // tabControl1
             // 
@@ -388,7 +396,7 @@
             this.charnumericUpDown6.Name = "charnumericUpDown6";
             this.charnumericUpDown6.Size = new System.Drawing.Size(75, 23);
             this.charnumericUpDown6.TabIndex = 24;
-            this.charnumericUpDown6.Click += new System.EventHandler(this.CharApply);
+            this.charnumericUpDown6.ValueChanged += new System.EventHandler(this.CharApply);
             // 
             // label12
             // 
@@ -424,7 +432,7 @@
             this.charnumericUpDown3.Name = "charnumericUpDown3";
             this.charnumericUpDown3.Size = new System.Drawing.Size(75, 23);
             this.charnumericUpDown3.TabIndex = 20;
-            this.charnumericUpDown3.Click += new System.EventHandler(this.CharApply);
+            this.charnumericUpDown3.ValueChanged += new System.EventHandler(this.CharApply);
             // 
             // label10
             // 
@@ -451,7 +459,7 @@
             this.charnumericUpDown4.Name = "charnumericUpDown4";
             this.charnumericUpDown4.Size = new System.Drawing.Size(75, 23);
             this.charnumericUpDown4.TabIndex = 18;
-            this.charnumericUpDown4.Click += new System.EventHandler(this.CharApply);
+            this.charnumericUpDown4.ValueChanged += new System.EventHandler(this.CharApply);
             // 
             // label9
             // 
@@ -478,7 +486,7 @@
             this.charnumericUpDown2.Name = "charnumericUpDown2";
             this.charnumericUpDown2.Size = new System.Drawing.Size(80, 23);
             this.charnumericUpDown2.TabIndex = 16;
-            this.charnumericUpDown2.Click += new System.EventHandler(this.CharApply);
+            this.charnumericUpDown2.ValueChanged += new System.EventHandler(this.CharApply);
             // 
             // label8
             // 
@@ -505,7 +513,7 @@
             this.charnumericUpDown1.Name = "charnumericUpDown1";
             this.charnumericUpDown1.Size = new System.Drawing.Size(120, 23);
             this.charnumericUpDown1.TabIndex = 14;
-            this.charnumericUpDown1.Click += new System.EventHandler(this.CharApply);
+            this.charnumericUpDown1.ValueChanged += new System.EventHandler(this.CharApply);
             // 
             // label7
             // 
@@ -525,7 +533,7 @@
             this.chartextBox6.Name = "chartextBox6";
             this.chartextBox6.Size = new System.Drawing.Size(694, 23);
             this.chartextBox6.TabIndex = 12;
-            this.chartextBox6.Click += new System.EventHandler(this.CharApply);
+            this.chartextBox6.TextChanged += new System.EventHandler(this.CharApply);
             // 
             // label6
             // 
@@ -545,7 +553,7 @@
             this.chartextBox5.Name = "chartextBox5";
             this.chartextBox5.Size = new System.Drawing.Size(694, 23);
             this.chartextBox5.TabIndex = 10;
-            this.chartextBox5.Click += new System.EventHandler(this.CharApply);
+            this.chartextBox5.TextChanged += new System.EventHandler(this.CharApply);
             // 
             // label5
             // 
@@ -565,7 +573,7 @@
             this.chartextBox4.Name = "chartextBox4";
             this.chartextBox4.Size = new System.Drawing.Size(694, 23);
             this.chartextBox4.TabIndex = 8;
-            this.chartextBox4.Click += new System.EventHandler(this.CharApply);
+            this.chartextBox4.TextChanged += new System.EventHandler(this.CharApply);
             // 
             // label4
             // 
@@ -586,6 +594,7 @@
             this.chartextBox3.Size = new System.Drawing.Size(694, 23);
             this.chartextBox3.TabIndex = 6;
             this.chartextBox3.Click += new System.EventHandler(this.CharApply);
+            this.chartextBox3.TextChanged += new System.EventHandler(this.CharApply);
             // 
             // label3
             // 
@@ -606,6 +615,7 @@
             this.chartextBox2.Size = new System.Drawing.Size(694, 23);
             this.chartextBox2.TabIndex = 4;
             this.chartextBox2.Click += new System.EventHandler(this.CharApply);
+            this.chartextBox2.TextChanged += new System.EventHandler(this.CharApply);
             // 
             // label2
             // 
@@ -1906,6 +1916,7 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.groupBox1);
             this.tabPage5.Controls.Add(this.groupBox4);
             this.tabPage5.Controls.Add(this.groupBox3);
             this.tabPage5.Controls.Add(this.groupBox2);
@@ -1918,7 +1929,7 @@
             this.tabPage5.Controls.Add(this.MpfModelList);
             this.tabPage5.Controls.Add(this.MPFSaveDecompressed);
             this.tabPage5.Controls.Add(this.MPFLoad);
-            this.tabPage5.Controls.Add(this.label57);
+            this.tabPage5.Controls.Add(this.ModelListLabel);
             this.tabPage5.Location = new System.Drawing.Point(4, 24);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Size = new System.Drawing.Size(941, 528);
@@ -1926,240 +1937,186 @@
             this.tabPage5.Text = "SSX 3 MPF(Models)";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
-            // MPFWarningLabel
+            // groupBox1
             // 
-            this.MPFWarningLabel.AutoSize = true;
-            this.MPFWarningLabel.Location = new System.Drawing.Point(205, 198);
-            this.MPFWarningLabel.Name = "MPFWarningLabel";
-            this.MPFWarningLabel.Size = new System.Drawing.Size(36, 15);
-            this.MPFWarningLabel.TabIndex = 13;
-            this.MPFWarningLabel.Text = "None";
-            // 
-            // label59
-            // 
-            this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(205, 183);
-            this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(52, 15);
-            this.label59.TabIndex = 12;
-            this.label59.Text = "Warning";
-            // 
-            // MpfExport
-            // 
-            this.MpfExport.Location = new System.Drawing.Point(782, 502);
-            this.MpfExport.Name = "MpfExport";
-            this.MpfExport.Size = new System.Drawing.Size(77, 23);
-            this.MpfExport.TabIndex = 11;
-            this.MpfExport.Text = "Export";
-            this.MpfExport.UseVisualStyleBackColor = true;
-            this.MpfExport.Click += new System.EventHandler(this.MpfExport_Click);
-            // 
-            // MpfImport
-            // 
-            this.MpfImport.Location = new System.Drawing.Point(165, 502);
-            this.MpfImport.Name = "MpfImport";
-            this.MpfImport.Size = new System.Drawing.Size(66, 23);
-            this.MpfImport.TabIndex = 10;
-            this.MpfImport.Text = "Import";
-            this.MpfImport.UseVisualStyleBackColor = true;
-            this.MpfImport.Click += new System.EventHandler(this.MpfImport_Click);
-            // 
-            // MpfSaveCompressed
-            // 
-            this.MpfSaveCompressed.Location = new System.Drawing.Point(865, 502);
-            this.MpfSaveCompressed.Name = "MpfSaveCompressed";
-            this.MpfSaveCompressed.Size = new System.Drawing.Size(73, 23);
-            this.MpfSaveCompressed.TabIndex = 9;
-            this.MpfSaveCompressed.Text = "Save";
-            this.MpfSaveCompressed.UseVisualStyleBackColor = true;
-            this.MpfSaveCompressed.Click += new System.EventHandler(this.MpfSaveCompressed_Click);
-            // 
-            // MpfBoneLoad
-            // 
-            this.MpfBoneLoad.Location = new System.Drawing.Point(84, 502);
-            this.MpfBoneLoad.Name = "MpfBoneLoad";
-            this.MpfBoneLoad.Size = new System.Drawing.Size(75, 23);
-            this.MpfBoneLoad.TabIndex = 4;
-            this.MpfBoneLoad.Text = "Bone Load";
-            this.MpfBoneLoad.UseVisualStyleBackColor = true;
-            this.MpfBoneLoad.Click += new System.EventHandler(this.MpfBoneLoad_Click);
-            // 
-            // MpfModelList
-            // 
-            this.MpfModelList.FormattingEnabled = true;
-            this.MpfModelList.ItemHeight = 15;
-            this.MpfModelList.Location = new System.Drawing.Point(3, 18);
-            this.MpfModelList.Name = "MpfModelList";
-            this.MpfModelList.Size = new System.Drawing.Size(196, 484);
-            this.MpfModelList.TabIndex = 2;
-            this.MpfModelList.SelectedIndexChanged += new System.EventHandler(this.MpfModelList_SelectedIndexChanged);
-            // 
-            // MPFSaveDecompressed
-            // 
-            this.MPFSaveDecompressed.Location = new System.Drawing.Point(782, 473);
-            this.MPFSaveDecompressed.Name = "MPFSaveDecompressed";
-            this.MPFSaveDecompressed.Size = new System.Drawing.Size(156, 23);
-            this.MPFSaveDecompressed.TabIndex = 1;
-            this.MPFSaveDecompressed.Text = "Save Decompressed";
-            this.MPFSaveDecompressed.UseVisualStyleBackColor = true;
-            this.MPFSaveDecompressed.Click += new System.EventHandler(this.MPFSaveDecompressed_Click);
-            // 
-            // MPFLoad
-            // 
-            this.MPFLoad.Location = new System.Drawing.Point(3, 502);
-            this.MPFLoad.Name = "MPFLoad";
-            this.MPFLoad.Size = new System.Drawing.Size(75, 23);
-            this.MPFLoad.TabIndex = 0;
-            this.MPFLoad.Text = "Load";
-            this.MPFLoad.UseVisualStyleBackColor = true;
-            this.MPFLoad.Click += new System.EventHandler(this.MPFLoad_Click);
+            this.groupBox1.Controls.Add(this.label57);
+            this.groupBox1.Controls.Add(this.TristripMethodList);
+            this.groupBox1.Controls.Add(this.BoneUpdateCheck);
+            this.groupBox1.Controls.Add(this.ImportAverageNormal);
+            this.groupBox1.Location = new System.Drawing.Point(205, 418);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(292, 78);
+            this.groupBox1.TabIndex = 28;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Import Settings";
             // 
             // label57
             // 
             this.label57.AutoSize = true;
-            this.label57.Location = new System.Drawing.Point(4, 4);
+            this.label57.Location = new System.Drawing.Point(149, 23);
             this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(62, 15);
+            this.label57.Size = new System.Drawing.Size(87, 15);
             this.label57.TabIndex = 3;
-            this.label57.Text = "Model List";
+            this.label57.Text = "Tristrip Method";
             // 
-            // tabPage4
+            // TristripMethodList
             // 
-            this.tabPage4.Location = new System.Drawing.Point(4, 24);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(941, 528);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Tools";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.TristripMethodList.FormattingEnabled = true;
+            this.TristripMethodList.Items.AddRange(new object[] {
+            "Nvida Tristrip"});
+            this.TristripMethodList.Location = new System.Drawing.Point(149, 41);
+            this.TristripMethodList.Name = "TristripMethodList";
+            this.TristripMethodList.Size = new System.Drawing.Size(121, 23);
+            this.TristripMethodList.TabIndex = 2;
             // 
-            // groupBox2
+            // BoneUpdateCheck
             // 
-            this.groupBox2.Controls.Add(this.label60);
-            this.groupBox2.Controls.Add(this.MpfWeights);
-            this.groupBox2.Controls.Add(this.label61);
-            this.groupBox2.Controls.Add(this.FileID);
-            this.groupBox2.Controls.Add(this.label62);
-            this.groupBox2.Controls.Add(this.BoneCount);
-            this.groupBox2.Controls.Add(this.label63);
-            this.groupBox2.Controls.Add(this.ShapeKeyCount);
-            this.groupBox2.Controls.Add(this.MaterialCount);
-            this.groupBox2.Controls.Add(this.label64);
-            this.groupBox2.Controls.Add(this.label65);
-            this.groupBox2.Controls.Add(this.IkCount);
-            this.groupBox2.Location = new System.Drawing.Point(205, 18);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(462, 63);
-            this.groupBox2.TabIndex = 25;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Model Header Info";
+            this.BoneUpdateCheck.AutoSize = true;
+            this.BoneUpdateCheck.Location = new System.Drawing.Point(6, 47);
+            this.BoneUpdateCheck.Name = "BoneUpdateCheck";
+            this.BoneUpdateCheck.Size = new System.Drawing.Size(131, 19);
+            this.BoneUpdateCheck.TabIndex = 1;
+            this.BoneUpdateCheck.Text = "Update Bones (WIP)";
+            this.BoneUpdateCheck.UseVisualStyleBackColor = true;
             // 
-            // label60
+            // ImportAverageNormal
             // 
-            this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(288, 19);
-            this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(50, 15);
-            this.label60.TabIndex = 24;
-            this.label60.Text = "Weights";
+            this.ImportAverageNormal.AutoSize = true;
+            this.ImportAverageNormal.Location = new System.Drawing.Point(6, 22);
+            this.ImportAverageNormal.Name = "ImportAverageNormal";
+            this.ImportAverageNormal.Size = new System.Drawing.Size(117, 19);
+            this.ImportAverageNormal.TabIndex = 0;
+            this.ImportAverageNormal.Text = "Average Normals";
+            this.ImportAverageNormal.UseVisualStyleBackColor = true;
             // 
-            // MpfWeights
+            // groupBox4
             // 
-            this.MpfWeights.AutoSize = true;
-            this.MpfWeights.Location = new System.Drawing.Point(288, 34);
-            this.MpfWeights.Name = "MpfWeights";
-            this.MpfWeights.Size = new System.Drawing.Size(13, 15);
-            this.MpfWeights.TabIndex = 25;
-            this.MpfWeights.Text = "0";
+            this.groupBox4.Controls.Add(this.label74);
+            this.groupBox4.Controls.Add(this.MorphGroupCount);
+            this.groupBox4.Controls.Add(this.label75);
+            this.groupBox4.Controls.Add(this.WeightGroupCount);
+            this.groupBox4.Controls.Add(this.label76);
+            this.groupBox4.Controls.Add(this.MaterialGroupCount);
+            this.groupBox4.Controls.Add(this.label77);
+            this.groupBox4.Controls.Add(this.TristripCountLabel);
+            this.groupBox4.Controls.Add(this.label78);
+            this.groupBox4.Controls.Add(this.VerticeCount);
+            this.groupBox4.Controls.Add(this.MeshChunks);
+            this.groupBox4.Controls.Add(this.label79);
+            this.groupBox4.Location = new System.Drawing.Point(209, 94);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(462, 93);
+            this.groupBox4.TabIndex = 27;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Model Data";
             // 
-            // label61
+            // label74
             // 
-            this.label61.AutoSize = true;
-            this.label61.Location = new System.Drawing.Point(6, 19);
-            this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(39, 15);
-            this.label61.TabIndex = 22;
-            this.label61.Text = "File ID";
+            this.label74.AutoSize = true;
+            this.label74.Location = new System.Drawing.Point(6, 50);
+            this.label74.Name = "label74";
+            this.label74.Size = new System.Drawing.Size(84, 15);
+            this.label74.TabIndex = 17;
+            this.label74.Text = "Morph Groups";
             // 
-            // FileID
+            // MorphGroupCount
             // 
-            this.FileID.AutoSize = true;
-            this.FileID.Location = new System.Drawing.Point(6, 34);
-            this.FileID.Name = "FileID";
-            this.FileID.Size = new System.Drawing.Size(13, 15);
-            this.FileID.TabIndex = 23;
-            this.FileID.Text = "0";
+            this.MorphGroupCount.AutoSize = true;
+            this.MorphGroupCount.Location = new System.Drawing.Point(6, 65);
+            this.MorphGroupCount.Name = "MorphGroupCount";
+            this.MorphGroupCount.Size = new System.Drawing.Size(13, 15);
+            this.MorphGroupCount.TabIndex = 18;
+            this.MorphGroupCount.Text = "0";
             // 
-            // label62
+            // label75
             // 
-            this.label62.AutoSize = true;
-            this.label62.Location = new System.Drawing.Point(51, 19);
-            this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(39, 15);
-            this.label62.TabIndex = 13;
-            this.label62.Text = "Bones";
+            this.label75.AutoSize = true;
+            this.label75.Location = new System.Drawing.Point(355, 19);
+            this.label75.Name = "label75";
+            this.label75.Size = new System.Drawing.Size(86, 15);
+            this.label75.TabIndex = 15;
+            this.label75.Text = "Weight Groups";
             // 
-            // BoneCount
+            // WeightGroupCount
             // 
-            this.BoneCount.AutoSize = true;
-            this.BoneCount.Location = new System.Drawing.Point(51, 34);
-            this.BoneCount.Name = "BoneCount";
-            this.BoneCount.Size = new System.Drawing.Size(13, 15);
-            this.BoneCount.TabIndex = 14;
-            this.BoneCount.Text = "0";
+            this.WeightGroupCount.AutoSize = true;
+            this.WeightGroupCount.Location = new System.Drawing.Point(355, 34);
+            this.WeightGroupCount.Name = "WeightGroupCount";
+            this.WeightGroupCount.Size = new System.Drawing.Size(13, 15);
+            this.WeightGroupCount.TabIndex = 16;
+            this.WeightGroupCount.Text = "0";
             // 
-            // label63
+            // label76
             // 
-            this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(96, 19);
-            this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(55, 15);
-            this.label63.TabIndex = 15;
-            this.label63.Text = "Materials";
+            this.label76.AutoSize = true;
+            this.label76.Location = new System.Drawing.Point(265, 19);
+            this.label76.Name = "label76";
+            this.label76.Size = new System.Drawing.Size(91, 15);
+            this.label76.TabIndex = 13;
+            this.label76.Text = "Material Groups";
             // 
-            // ShapeKeyCount
+            // MaterialGroupCount
             // 
-            this.ShapeKeyCount.AutoSize = true;
-            this.ShapeKeyCount.Location = new System.Drawing.Point(216, 34);
-            this.ShapeKeyCount.Name = "ShapeKeyCount";
-            this.ShapeKeyCount.Size = new System.Drawing.Size(13, 15);
-            this.ShapeKeyCount.TabIndex = 20;
-            this.ShapeKeyCount.Text = "0";
+            this.MaterialGroupCount.AutoSize = true;
+            this.MaterialGroupCount.Location = new System.Drawing.Point(265, 34);
+            this.MaterialGroupCount.Name = "MaterialGroupCount";
+            this.MaterialGroupCount.Size = new System.Drawing.Size(13, 15);
+            this.MaterialGroupCount.TabIndex = 14;
+            this.MaterialGroupCount.Text = "0";
             // 
-            // MaterialCount
+            // label77
             // 
-            this.MaterialCount.AutoSize = true;
-            this.MaterialCount.Location = new System.Drawing.Point(96, 34);
-            this.MaterialCount.Name = "MaterialCount";
-            this.MaterialCount.Size = new System.Drawing.Size(13, 15);
-            this.MaterialCount.TabIndex = 16;
-            this.MaterialCount.Text = "0";
+            this.label77.AutoSize = true;
+            this.label77.Location = new System.Drawing.Point(6, 19);
+            this.label77.Name = "label77";
+            this.label77.Size = new System.Drawing.Size(78, 15);
+            this.label77.TabIndex = 6;
+            this.label77.Text = "Tristrip Count";
             // 
-            // label64
+            // TristripCountLabel
             // 
-            this.label64.AutoSize = true;
-            this.label64.Location = new System.Drawing.Point(216, 19);
-            this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(66, 15);
-            this.label64.TabIndex = 19;
-            this.label64.Text = "Shape Keys";
+            this.TristripCountLabel.AutoSize = true;
+            this.TristripCountLabel.Location = new System.Drawing.Point(6, 34);
+            this.TristripCountLabel.Name = "TristripCountLabel";
+            this.TristripCountLabel.Size = new System.Drawing.Size(13, 15);
+            this.TristripCountLabel.TabIndex = 7;
+            this.TristripCountLabel.Text = "0";
             // 
-            // label65
+            // label78
             // 
-            this.label65.AutoSize = true;
-            this.label65.Location = new System.Drawing.Point(157, 19);
-            this.label65.Name = "label65";
-            this.label65.Size = new System.Drawing.Size(53, 15);
-            this.label65.TabIndex = 17;
-            this.label65.Text = "IK Points";
+            this.label78.AutoSize = true;
+            this.label78.Location = new System.Drawing.Point(96, 19);
+            this.label78.Name = "label78";
+            this.label78.Size = new System.Drawing.Size(78, 15);
+            this.label78.TabIndex = 8;
+            this.label78.Text = "Vertice Count";
             // 
-            // IkCount
+            // VerticeCount
             // 
-            this.IkCount.AutoSize = true;
-            this.IkCount.Location = new System.Drawing.Point(157, 34);
-            this.IkCount.Name = "IkCount";
-            this.IkCount.Size = new System.Drawing.Size(13, 15);
-            this.IkCount.TabIndex = 18;
-            this.IkCount.Text = "0";
+            this.VerticeCount.AutoSize = true;
+            this.VerticeCount.Location = new System.Drawing.Point(96, 34);
+            this.VerticeCount.Name = "VerticeCount";
+            this.VerticeCount.Size = new System.Drawing.Size(13, 15);
+            this.VerticeCount.TabIndex = 9;
+            this.VerticeCount.Text = "0";
+            // 
+            // MeshChunks
+            // 
+            this.MeshChunks.AutoSize = true;
+            this.MeshChunks.Location = new System.Drawing.Point(180, 34);
+            this.MeshChunks.Name = "MeshChunks";
+            this.MeshChunks.Size = new System.Drawing.Size(13, 15);
+            this.MeshChunks.TabIndex = 12;
+            this.MeshChunks.Text = "0";
+            // 
+            // label79
+            // 
+            this.label79.AutoSize = true;
+            this.label79.Location = new System.Drawing.Point(180, 19);
+            this.label79.Name = "label79";
+            this.label79.Size = new System.Drawing.Size(79, 15);
+            this.label79.TabIndex = 11;
+            this.label79.Text = "Mesh Chunks";
             // 
             // groupBox3
             // 
@@ -2180,7 +2137,7 @@
             this.groupBox3.Controls.Add(this.MatMainTexture);
             this.groupBox3.Controls.Add(this.label73);
             this.groupBox3.Controls.Add(this.MaterialList);
-            this.groupBox3.Location = new System.Drawing.Point(673, 18);
+            this.groupBox3.Location = new System.Drawing.Point(677, 25);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(254, 218);
             this.groupBox3.TabIndex = 26;
@@ -2357,134 +2314,253 @@
             this.MaterialList.Size = new System.Drawing.Size(70, 184);
             this.MaterialList.TabIndex = 27;
             // 
-            // groupBox4
+            // groupBox2
             // 
-            this.groupBox4.Controls.Add(this.label74);
-            this.groupBox4.Controls.Add(this.MorphGroupCount);
-            this.groupBox4.Controls.Add(this.label75);
-            this.groupBox4.Controls.Add(this.WeightGroupCount);
-            this.groupBox4.Controls.Add(this.label76);
-            this.groupBox4.Controls.Add(this.MaterialGroupCount);
-            this.groupBox4.Controls.Add(this.label77);
-            this.groupBox4.Controls.Add(this.TristripCountLabel);
-            this.groupBox4.Controls.Add(this.label78);
-            this.groupBox4.Controls.Add(this.VerticeCount);
-            this.groupBox4.Controls.Add(this.MeshChunks);
-            this.groupBox4.Controls.Add(this.label79);
-            this.groupBox4.Location = new System.Drawing.Point(205, 87);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(462, 93);
-            this.groupBox4.TabIndex = 27;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Model Data";
+            this.groupBox2.Controls.Add(this.label60);
+            this.groupBox2.Controls.Add(this.MpfWeights);
+            this.groupBox2.Controls.Add(this.label61);
+            this.groupBox2.Controls.Add(this.FileID);
+            this.groupBox2.Controls.Add(this.label62);
+            this.groupBox2.Controls.Add(this.BoneCount);
+            this.groupBox2.Controls.Add(this.label63);
+            this.groupBox2.Controls.Add(this.ShapeKeyCount);
+            this.groupBox2.Controls.Add(this.MaterialCount);
+            this.groupBox2.Controls.Add(this.label64);
+            this.groupBox2.Controls.Add(this.label65);
+            this.groupBox2.Controls.Add(this.IkCount);
+            this.groupBox2.Location = new System.Drawing.Point(209, 25);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(462, 63);
+            this.groupBox2.TabIndex = 25;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Model Header Info";
             // 
-            // label74
+            // label60
             // 
-            this.label74.AutoSize = true;
-            this.label74.Location = new System.Drawing.Point(6, 50);
-            this.label74.Name = "label74";
-            this.label74.Size = new System.Drawing.Size(84, 15);
-            this.label74.TabIndex = 17;
-            this.label74.Text = "Morph Groups";
+            this.label60.AutoSize = true;
+            this.label60.Location = new System.Drawing.Point(288, 19);
+            this.label60.Name = "label60";
+            this.label60.Size = new System.Drawing.Size(50, 15);
+            this.label60.TabIndex = 24;
+            this.label60.Text = "Weights";
             // 
-            // MorphGroupCount
+            // MpfWeights
             // 
-            this.MorphGroupCount.AutoSize = true;
-            this.MorphGroupCount.Location = new System.Drawing.Point(6, 65);
-            this.MorphGroupCount.Name = "MorphGroupCount";
-            this.MorphGroupCount.Size = new System.Drawing.Size(13, 15);
-            this.MorphGroupCount.TabIndex = 18;
-            this.MorphGroupCount.Text = "0";
+            this.MpfWeights.AutoSize = true;
+            this.MpfWeights.Location = new System.Drawing.Point(288, 34);
+            this.MpfWeights.Name = "MpfWeights";
+            this.MpfWeights.Size = new System.Drawing.Size(13, 15);
+            this.MpfWeights.TabIndex = 25;
+            this.MpfWeights.Text = "0";
             // 
-            // label75
+            // label61
             // 
-            this.label75.AutoSize = true;
-            this.label75.Location = new System.Drawing.Point(355, 19);
-            this.label75.Name = "label75";
-            this.label75.Size = new System.Drawing.Size(86, 15);
-            this.label75.TabIndex = 15;
-            this.label75.Text = "Weight Groups";
+            this.label61.AutoSize = true;
+            this.label61.Location = new System.Drawing.Point(6, 19);
+            this.label61.Name = "label61";
+            this.label61.Size = new System.Drawing.Size(39, 15);
+            this.label61.TabIndex = 22;
+            this.label61.Text = "File ID";
             // 
-            // WeightGroupCount
+            // FileID
             // 
-            this.WeightGroupCount.AutoSize = true;
-            this.WeightGroupCount.Location = new System.Drawing.Point(355, 34);
-            this.WeightGroupCount.Name = "WeightGroupCount";
-            this.WeightGroupCount.Size = new System.Drawing.Size(13, 15);
-            this.WeightGroupCount.TabIndex = 16;
-            this.WeightGroupCount.Text = "0";
+            this.FileID.AutoSize = true;
+            this.FileID.Location = new System.Drawing.Point(6, 34);
+            this.FileID.Name = "FileID";
+            this.FileID.Size = new System.Drawing.Size(13, 15);
+            this.FileID.TabIndex = 23;
+            this.FileID.Text = "0";
             // 
-            // label76
+            // label62
             // 
-            this.label76.AutoSize = true;
-            this.label76.Location = new System.Drawing.Point(265, 19);
-            this.label76.Name = "label76";
-            this.label76.Size = new System.Drawing.Size(91, 15);
-            this.label76.TabIndex = 13;
-            this.label76.Text = "Material Groups";
+            this.label62.AutoSize = true;
+            this.label62.Location = new System.Drawing.Point(51, 19);
+            this.label62.Name = "label62";
+            this.label62.Size = new System.Drawing.Size(39, 15);
+            this.label62.TabIndex = 13;
+            this.label62.Text = "Bones";
             // 
-            // MaterialGroupCount
+            // BoneCount
             // 
-            this.MaterialGroupCount.AutoSize = true;
-            this.MaterialGroupCount.Location = new System.Drawing.Point(265, 34);
-            this.MaterialGroupCount.Name = "MaterialGroupCount";
-            this.MaterialGroupCount.Size = new System.Drawing.Size(13, 15);
-            this.MaterialGroupCount.TabIndex = 14;
-            this.MaterialGroupCount.Text = "0";
+            this.BoneCount.AutoSize = true;
+            this.BoneCount.Location = new System.Drawing.Point(51, 34);
+            this.BoneCount.Name = "BoneCount";
+            this.BoneCount.Size = new System.Drawing.Size(13, 15);
+            this.BoneCount.TabIndex = 14;
+            this.BoneCount.Text = "0";
             // 
-            // label77
+            // label63
             // 
-            this.label77.AutoSize = true;
-            this.label77.Location = new System.Drawing.Point(6, 19);
-            this.label77.Name = "label77";
-            this.label77.Size = new System.Drawing.Size(78, 15);
-            this.label77.TabIndex = 6;
-            this.label77.Text = "Tristrip Count";
+            this.label63.AutoSize = true;
+            this.label63.Location = new System.Drawing.Point(96, 19);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(55, 15);
+            this.label63.TabIndex = 15;
+            this.label63.Text = "Materials";
             // 
-            // TristripCountLabel
+            // ShapeKeyCount
             // 
-            this.TristripCountLabel.AutoSize = true;
-            this.TristripCountLabel.Location = new System.Drawing.Point(6, 34);
-            this.TristripCountLabel.Name = "TristripCountLabel";
-            this.TristripCountLabel.Size = new System.Drawing.Size(13, 15);
-            this.TristripCountLabel.TabIndex = 7;
-            this.TristripCountLabel.Text = "0";
+            this.ShapeKeyCount.AutoSize = true;
+            this.ShapeKeyCount.Location = new System.Drawing.Point(216, 34);
+            this.ShapeKeyCount.Name = "ShapeKeyCount";
+            this.ShapeKeyCount.Size = new System.Drawing.Size(13, 15);
+            this.ShapeKeyCount.TabIndex = 20;
+            this.ShapeKeyCount.Text = "0";
             // 
-            // label78
+            // MaterialCount
             // 
-            this.label78.AutoSize = true;
-            this.label78.Location = new System.Drawing.Point(96, 19);
-            this.label78.Name = "label78";
-            this.label78.Size = new System.Drawing.Size(78, 15);
-            this.label78.TabIndex = 8;
-            this.label78.Text = "Vertice Count";
+            this.MaterialCount.AutoSize = true;
+            this.MaterialCount.Location = new System.Drawing.Point(96, 34);
+            this.MaterialCount.Name = "MaterialCount";
+            this.MaterialCount.Size = new System.Drawing.Size(13, 15);
+            this.MaterialCount.TabIndex = 16;
+            this.MaterialCount.Text = "0";
             // 
-            // VerticeCount
+            // label64
             // 
-            this.VerticeCount.AutoSize = true;
-            this.VerticeCount.Location = new System.Drawing.Point(96, 34);
-            this.VerticeCount.Name = "VerticeCount";
-            this.VerticeCount.Size = new System.Drawing.Size(13, 15);
-            this.VerticeCount.TabIndex = 9;
-            this.VerticeCount.Text = "0";
+            this.label64.AutoSize = true;
+            this.label64.Location = new System.Drawing.Point(216, 19);
+            this.label64.Name = "label64";
+            this.label64.Size = new System.Drawing.Size(66, 15);
+            this.label64.TabIndex = 19;
+            this.label64.Text = "Shape Keys";
             // 
-            // MeshChunks
+            // label65
             // 
-            this.MeshChunks.AutoSize = true;
-            this.MeshChunks.Location = new System.Drawing.Point(180, 34);
-            this.MeshChunks.Name = "MeshChunks";
-            this.MeshChunks.Size = new System.Drawing.Size(13, 15);
-            this.MeshChunks.TabIndex = 12;
-            this.MeshChunks.Text = "0";
+            this.label65.AutoSize = true;
+            this.label65.Location = new System.Drawing.Point(157, 19);
+            this.label65.Name = "label65";
+            this.label65.Size = new System.Drawing.Size(53, 15);
+            this.label65.TabIndex = 17;
+            this.label65.Text = "IK Points";
             // 
-            // label79
+            // IkCount
             // 
-            this.label79.AutoSize = true;
-            this.label79.Location = new System.Drawing.Point(180, 19);
-            this.label79.Name = "label79";
-            this.label79.Size = new System.Drawing.Size(79, 15);
-            this.label79.TabIndex = 11;
-            this.label79.Text = "Mesh Chunks";
+            this.IkCount.AutoSize = true;
+            this.IkCount.Location = new System.Drawing.Point(157, 34);
+            this.IkCount.Name = "IkCount";
+            this.IkCount.Size = new System.Drawing.Size(13, 15);
+            this.IkCount.TabIndex = 18;
+            this.IkCount.Text = "0";
+            // 
+            // MPFWarningLabel
+            // 
+            this.MPFWarningLabel.AutoSize = true;
+            this.MPFWarningLabel.Location = new System.Drawing.Point(215, 204);
+            this.MPFWarningLabel.Name = "MPFWarningLabel";
+            this.MPFWarningLabel.Size = new System.Drawing.Size(36, 15);
+            this.MPFWarningLabel.TabIndex = 13;
+            this.MPFWarningLabel.Text = "None";
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.Location = new System.Drawing.Point(215, 189);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(52, 15);
+            this.label59.TabIndex = 12;
+            this.label59.Text = "Warning";
+            // 
+            // MpfExport
+            // 
+            this.MpfExport.Location = new System.Drawing.Point(782, 502);
+            this.MpfExport.Name = "MpfExport";
+            this.MpfExport.Size = new System.Drawing.Size(77, 23);
+            this.MpfExport.TabIndex = 11;
+            this.MpfExport.Text = "Export";
+            this.MpfExport.UseVisualStyleBackColor = true;
+            this.MpfExport.Click += new System.EventHandler(this.MpfExport_Click);
+            // 
+            // MpfImport
+            // 
+            this.MpfImport.Location = new System.Drawing.Point(367, 502);
+            this.MpfImport.Name = "MpfImport";
+            this.MpfImport.Size = new System.Drawing.Size(66, 23);
+            this.MpfImport.TabIndex = 10;
+            this.MpfImport.Text = "Import";
+            this.MpfImport.UseVisualStyleBackColor = true;
+            this.MpfImport.Click += new System.EventHandler(this.MpfImport_Click);
+            // 
+            // MpfSaveCompressed
+            // 
+            this.MpfSaveCompressed.Location = new System.Drawing.Point(865, 502);
+            this.MpfSaveCompressed.Name = "MpfSaveCompressed";
+            this.MpfSaveCompressed.Size = new System.Drawing.Size(73, 23);
+            this.MpfSaveCompressed.TabIndex = 9;
+            this.MpfSaveCompressed.Text = "Save";
+            this.MpfSaveCompressed.UseVisualStyleBackColor = true;
+            this.MpfSaveCompressed.Click += new System.EventHandler(this.MpfSaveCompressed_Click);
+            // 
+            // MpfBoneLoad
+            // 
+            this.MpfBoneLoad.Location = new System.Drawing.Point(286, 502);
+            this.MpfBoneLoad.Name = "MpfBoneLoad";
+            this.MpfBoneLoad.Size = new System.Drawing.Size(75, 23);
+            this.MpfBoneLoad.TabIndex = 4;
+            this.MpfBoneLoad.Text = "Bone Load";
+            this.MpfBoneLoad.UseVisualStyleBackColor = true;
+            this.MpfBoneLoad.Click += new System.EventHandler(this.MpfBoneLoad_Click);
+            // 
+            // MpfModelList
+            // 
+            this.MpfModelList.FormattingEnabled = true;
+            this.MpfModelList.ItemHeight = 15;
+            this.MpfModelList.Location = new System.Drawing.Point(7, 25);
+            this.MpfModelList.Name = "MpfModelList";
+            this.MpfModelList.Size = new System.Drawing.Size(196, 499);
+            this.MpfModelList.TabIndex = 2;
+            this.MpfModelList.SelectedIndexChanged += new System.EventHandler(this.MpfModelList_SelectedIndexChanged);
+            // 
+            // MPFSaveDecompressed
+            // 
+            this.MPFSaveDecompressed.Location = new System.Drawing.Point(782, 473);
+            this.MPFSaveDecompressed.Name = "MPFSaveDecompressed";
+            this.MPFSaveDecompressed.Size = new System.Drawing.Size(156, 23);
+            this.MPFSaveDecompressed.TabIndex = 1;
+            this.MPFSaveDecompressed.Text = "Save Decompressed";
+            this.MPFSaveDecompressed.UseVisualStyleBackColor = true;
+            this.MPFSaveDecompressed.Visible = false;
+            this.MPFSaveDecompressed.Click += new System.EventHandler(this.MPFSaveDecompressed_Click);
+            // 
+            // MPFLoad
+            // 
+            this.MPFLoad.Location = new System.Drawing.Point(205, 502);
+            this.MPFLoad.Name = "MPFLoad";
+            this.MPFLoad.Size = new System.Drawing.Size(75, 23);
+            this.MPFLoad.TabIndex = 0;
+            this.MPFLoad.Text = "Load";
+            this.MPFLoad.UseVisualStyleBackColor = true;
+            this.MPFLoad.Click += new System.EventHandler(this.MPFLoad_Click);
+            // 
+            // ModelListLabel
+            // 
+            this.ModelListLabel.AutoSize = true;
+            this.ModelListLabel.Location = new System.Drawing.Point(7, 7);
+            this.ModelListLabel.Name = "ModelListLabel";
+            this.ModelListLabel.Size = new System.Drawing.Size(62, 15);
+            this.ModelListLabel.TabIndex = 3;
+            this.ModelListLabel.Text = "Model List";
+            this.ModelListLabel.Click += new System.EventHandler(this.ModelListLabel_Click);
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.BiglessStore);
+            this.tabPage4.Location = new System.Drawing.Point(4, 24);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(941, 528);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Tools";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // BiglessStore
+            // 
+            this.BiglessStore.Location = new System.Drawing.Point(13, 14);
+            this.BiglessStore.Name = "BiglessStore";
+            this.BiglessStore.Size = new System.Drawing.Size(133, 71);
+            this.BiglessStore.TabIndex = 0;
+            this.BiglessStore.Text = "Generate Bigless Store";
+            this.BiglessStore.UseVisualStyleBackColor = true;
+            this.BiglessStore.Click += new System.EventHandler(this.BiglessStore_Click);
             // 
             // SSX3ToolsWindow
             // 
@@ -2538,15 +2614,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.BoltUnkownOne)).EndInit();
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MatUnknown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MatUnknown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MatFlagFactor)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2696,7 +2775,7 @@
         private Button MpfImport;
         private Button MpfSaveCompressed;
         private Button MpfBoneLoad;
-        private Label label57;
+        private Label ModelListLabel;
         private ListBox MpfModelList;
         private Label MPFWarningLabel;
         private Label label59;
@@ -2744,5 +2823,11 @@
         private Label VerticeCount;
         private Label MeshChunks;
         private Label label79;
+        private Button BiglessStore;
+        private GroupBox groupBox1;
+        private Label label57;
+        private ComboBox TristripMethodList;
+        private CheckBox BoneUpdateCheck;
+        private CheckBox ImportAverageNormal;
     }
 }

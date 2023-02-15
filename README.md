@@ -15,9 +15,16 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 ## Current Todo
 - Fix Model Header Amination
 - MPF Check Magic Numbers
-- SSX 3 Morphs
 - SSX Tricky Mass Texture Replacer
-- Fix UI
+- SSX 3 Material Regeneration/UI
+- SSX 3 Faces Display (Weight/Store File)
+- SSX 3 Normal Average Proper
+- SSX Tricky Normal Average Proper
+- Deep Copy Bones Tricky
+
+**BONE**
+Take Bone Convert Local Matrix To World Point (With Redone Parent if any)
+Using Original Parent rotation if Any Calcuate what the local point would be from that using inverse?
 
 
 - Fix Normal Average, Bone Update

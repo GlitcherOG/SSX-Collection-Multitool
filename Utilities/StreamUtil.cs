@@ -236,7 +236,7 @@ namespace SSXMultiTool.Utilities
                 byte[] tempByte1 = new byte[Length];
                 for (int i = 0; i < Length; i++)
                 {
-                    if(tempByte.Length-1==i || String == "")
+                    if(tempByte.Length==i || String == "")
                     {
                         break;
                     }

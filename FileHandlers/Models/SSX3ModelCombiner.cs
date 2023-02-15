@@ -19,7 +19,8 @@ namespace SSXMultiTool.FileHandlers.Models
         public List<ReassignedMesh> reassignedMesh = new List<ReassignedMesh>();
 
 
-        bool NormalAverage = false;
+        public bool NormalAverage = false;
+        public bool UpdateBones = false;
         public void AddFile(SSX3MPFModelHandler modelHandler)
         {
             modelHandlers = modelHandler;
@@ -59,7 +60,27 @@ namespace SSXMultiTool.FileHandlers.Models
             boneDatas = new List<SSX3MPFModelHandler.BoneData>();
             for (int i = 0; i < boneDatasOrg.Count; i++)
             {
-                boneDatas.Add(boneDatasOrg[i]);
+                var NewBone = new SSX3MPFModelHandler.BoneData();
+
+                NewBone.BoneName = boneDatasOrg[i].BoneName;
+                NewBone.ParentFileID = boneDatasOrg[i].ParentFileID;
+                NewBone.ParentBone = boneDatasOrg[i].ParentBone;
+                NewBone.Unknown1 = boneDatasOrg[i].Unknown1;
+                NewBone.BoneID = boneDatasOrg[i].BoneID;
+
+                NewBone.Unknown2 = boneDatasOrg[i].Unknown2;
+                NewBone.Unknown3 = boneDatasOrg[i].Unknown3;
+                NewBone.Unknown4 = boneDatasOrg[i].Unknown4;
+                NewBone.Unknown5 = boneDatasOrg[i].Unknown5;
+                NewBone.Unknown6 = boneDatasOrg[i].Unknown6;
+
+                NewBone.Position = boneDatasOrg[i].Position;
+                NewBone.Rotation = boneDatasOrg[i].Rotation;
+                NewBone.Unknown = boneDatasOrg[i].Unknown;
+
+                NewBone.FileID = boneDatasOrg[i].FileID;
+                NewBone.BonePos = boneDatasOrg[i].BonePos;
+                boneDatas.Add(NewBone);
             }
 
             TempMesh.MorphTargetCount = TempModel.MorphKeyCount;
@@ -333,6 +354,117 @@ namespace SSXMultiTool.FileHandlers.Models
             if (MeshID == 3)
             {
                 Shadow = true;
+            }
+            List<Vector3> BonePositions = new List<Vector3>();
+            if (UpdateBones)
+            {
+                //DeepCloneBones
+                boneDatas = new List<SSX3MPFModelHandler.BoneData>();
+                for (int i = 0; i < boneDatasOrg.Count; i++)
+                {
+                    var NewBone = new SSX3MPFModelHandler.BoneData();
+
+                    NewBone.BoneName = boneDatasOrg[i].BoneName;
+                    NewBone.ParentFileID = boneDatasOrg[i].ParentFileID;
+                    NewBone.ParentBone = boneDatasOrg[i].ParentBone;
+                    NewBone.Unknown1 = boneDatasOrg[i].Unknown1;
+                    NewBone.BoneID = boneDatasOrg[i].BoneID;
+
+                    NewBone.Unknown2 = boneDatasOrg[i].Unknown2;
+                    NewBone.Unknown3 = boneDatasOrg[i].Unknown3;
+                    NewBone.Unknown4 = boneDatasOrg[i].Unknown4;
+                    NewBone.Unknown5 = boneDatasOrg[i].Unknown5;
+                    NewBone.Unknown6 = boneDatasOrg[i].Unknown6;
+
+                    NewBone.Position = boneDatasOrg[i].Position;
+                    NewBone.Rotation = boneDatasOrg[i].Rotation;
+                    NewBone.Unknown = boneDatasOrg[i].Unknown;
+
+                    NewBone.FileID = boneDatasOrg[i].FileID;
+                    NewBone.BonePos = boneDatasOrg[i].BonePos;
+                    boneDatas.Add(NewBone);
+                }
+
+
+                for (int a = 0; a < modelHandlers.ModelList[MeshID].BoneList.Count; a++)
+                {
+                    var TempBone = modelHandlers.ModelList[MeshID].BoneList[a];
+                    for (int b = 0; b < ssx3ModelCombiner.boneDatas.Count; b++)
+                    {
+                        var TempNewBone = ssx3ModelCombiner.boneDatas[b];
+                        if (TempBone.BoneName == TempNewBone.BoneName)
+                        {
+                            //TempBone.Position = TempNewBone.Position;
+                            //TempBone.Rotation = TempNewBone.Rotation;
+
+                            Vector3 TempWorldPos = TempNewBone.WorldMatrix.Translation;
+                            BonePositions.Add(TempWorldPos);
+                            ////Parent Point to Original 
+                            ReshuffleBones();
+                            FixBoneParents();
+
+                            var bindings = new List<SharpGLTF.Scenes.NodeBuilder>();
+                            SharpGLTF.Scenes.NodeBuilder Binding = new SharpGLTF.Scenes.NodeBuilder();
+                            for (int i = 0; i < boneDatas.Count; i++)
+                            {
+                                if (boneDatas[i].ParentBone == -1)
+                                {
+                                    Binding = new SharpGLTF.Scenes.NodeBuilder();
+                                }
+                                else
+                                {
+                                    Binding = bindings[boneDatas[i].ParentBone];
+                                }
+                                Binding = Binding.CreateNode(boneDatas[i].BoneName);
+
+                                Binding.WithLocalRotation(boneDatas[i].Rotation);
+                                Binding.WithLocalTranslation(new Vector3(boneDatas[i].Position.X, boneDatas[i].Position.Y, boneDatas[i].Position.Z));
+
+                                Binding.LocalMatrix = Binding.LocalMatrix;
+                                bindings.Add(Binding);
+                            }
+
+
+                            Matrix4x4 matrix4X4 = new Matrix4x4();
+                            if (TempBone.ParentBone == -1)
+                            {
+                                matrix4X4 = Matrix4x4.CreateTranslation(new Vector3());
+                            }
+                            else
+                            {
+                                for (int i = 0; i < bindings.Count; i++)
+                                {
+                                    if (TempNewBone.parentName == bindings[i].Name)
+                                    {
+                                        matrix4X4 = bindings[i].WorldMatrix;
+                                    }
+                                }
+                            }
+
+                            Matrix4x4 Inverted = new Matrix4x4();
+                            Matrix4x4.Invert(matrix4X4, out Inverted);
+                            //Inverted = Matrix4x4.Transpose(Inverted);
+
+
+                            Vector3 NewPos = Vector3.Transform(TempWorldPos, Inverted);
+
+
+                            TempBone.Position = new Vector4(NewPos.X, NewPos.Y, NewPos.Z, 1);
+                            //for (int c = 0; c < bones.Count; c++)
+                            //{
+                            //    if (bones[c].BoneName == TempBone.parentName)
+                            //    {
+                            //        TempBone.ParentBone = bones[c].BonePos;
+                            //        TempBone.ParentFileID = bones[c].FileID;
+                            //    }
+                            //}
+                        }
+                    }
+
+
+                    modelHandlers.ModelList[MeshID].BoneList[a] = TempBone;
+                }
+
             }
 
             for (int i = 0; i < ssx3ModelCombiner.reassignedMesh.Count; i++)

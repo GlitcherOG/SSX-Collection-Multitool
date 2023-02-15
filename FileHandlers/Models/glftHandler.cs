@@ -710,7 +710,7 @@ namespace SSXMultiTool.FileHandlers
 
             for (int a = 0; a < Ampatures[0].VisualChildren.Count; a++)
             {
-                if (Ampatures[0].VisualChildren[a].Name.ToLower() == "hips")
+                if (Ampatures[0].VisualChildren[a].Name.ToLower() == "hips" || Ampatures[0].VisualChildren[a].Name.ToLower() == "board_rootg")
                 {
                     var StartBone = Ampatures[0].VisualChildren[a];
                     boneDatas = ReturnBoneAndChildrenSSX3(StartBone, true);
@@ -964,6 +964,8 @@ namespace SSXMultiTool.FileHandlers
                 TempBoneData.parentName = nodeBuilder.Parent.Name;
             }
             TempBoneData.Rotation = nodeBuilder.LocalTransform.GetDecomposed().Rotation;
+
+            TempBoneData.WorldMatrix = nodeBuilder.WorldMatrix;
 
             boneDatas.Add(TempBoneData);
 

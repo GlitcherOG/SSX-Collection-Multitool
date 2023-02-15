@@ -45,7 +45,7 @@ namespace SSXMultiTool
 
         private void CharApply(object sender, EventArgs e)
         {
-            if (!DisableUpdate)
+            if (!DisableUpdate && charBox1.SelectedIndex!=-1)
             {
                 CharDB temp = new CharDB
                 {
@@ -552,7 +552,7 @@ namespace SSXMultiTool
 
         private void MpfExport_Click(object sender, EventArgs e)
         {
-            if(MpfModelList.SelectedIndex!=-1)
+            if (MpfModelList.SelectedIndex != -1)
             {
                 if (ssx3ModelCombiner.CheckBones(MpfModelList.SelectedIndex) != "")
                 {
@@ -639,6 +639,8 @@ namespace SSXMultiTool
 
                     try
                     {
+                        ssx3ModelCombiner.NormalAverage = ImportAverageNormal.Checked;
+                        ssx3ModelCombiner.UpdateBones = BoneUpdateCheck.Checked;
                         ssx3ModelCombiner.StartRegenMesh(TempCombiner, MpfModelList.SelectedIndex);
                         UpdateData();
                     }
@@ -691,6 +693,54 @@ namespace SSXMultiTool
                 WeightGroupCount.Text = "0";
                 MorphGroupCount.Text = "0";
             }
+        }
+
+        private void BiglessStore_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "BOLTPS2 File (*.dat)|*.dat|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var TempboltPS2 = new BoltPS2Handler();
+                TempboltPS2.load(openFileDialog.FileName);
+                for (int i = 0; i < TempboltPS2.characters.Count; i++)
+                {
+                    var TempCharacter = TempboltPS2.characters[i];
+                    for (int a = 0; a < TempCharacter.entries.Count; a++)
+                    {
+                        var TempEntries = TempCharacter.entries[a];
+
+                        if (TempEntries.ModelPath != null)
+                        {
+                            if (TempEntries.ModelPath.ToLower().Contains(".big|"))
+                            {
+                                TempEntries.ModelPath = TempEntries.ModelPath.ToLower().Replace(".big|", "/");
+                            }
+                        }
+
+                        if (TempEntries.TexturePath != null)
+                        {
+                            if (TempEntries.TexturePath.ToLower().Contains(".big|"))
+                            {
+                                TempEntries.TexturePath = TempEntries.TexturePath.ToLower().Replace(".big|", "/");
+                            }
+                        }
+                        TempCharacter.entries[a] = TempEntries;
+                    }
+                    TempboltPS2.characters[i] = TempCharacter;
+                }
+
+                TempboltPS2.Save(openFileDialog.FileName);
+            }
+        }
+
+        private void ModelListLabel_Click(object sender, EventArgs e)
+        {
+            MPFSaveDecompressed.Visible = true;
         }
     }
 }
