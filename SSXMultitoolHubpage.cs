@@ -1,4 +1,5 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
+using SSXMultiTool.Tools;
 using SSXMultiTool.Utilities;
 using SSXMultiTool.FileHandlers;
 using System;
@@ -72,6 +73,11 @@ namespace SSXMultiTool
         private void button1_Click(object sender, EventArgs e)
         {
             new OGToolsWindow().ShowDialog();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            new SSXOnTourToolsWindow().ShowDialog();
         }
     }
 }

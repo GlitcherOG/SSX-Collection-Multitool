@@ -65,7 +65,19 @@ namespace SSXMultiTool.FileHandlers
                     stream.Position = StartPos + ModelList[i].DataOffset;
 
                     MPFModelHeader modelHandler = ModelList[i];
-                    modelHandler.Matrix = StreamUtil.ReadBytes(stream, ModelList[i].EntrySize);
+
+                    int EntrySize = 0;
+
+                    if (i == ModelList.Count - 1)
+                    {
+                        EntrySize = (int)((stream.Length - DataOffset) - ModelList[i].DataOffset);
+                    }
+                    else
+                    {
+                        EntrySize = ModelList[i + 1].DataOffset - ModelList[i].DataOffset;
+                    }
+
+                    modelHandler.Matrix = StreamUtil.ReadBytes(stream, EntrySize);
                     modelHandler.Matrix = RefpackHandler.Decompress(modelHandler.Matrix);
                     ModelList[i] = modelHandler;
                 }
