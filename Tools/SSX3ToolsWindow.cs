@@ -676,6 +676,12 @@ namespace SSXMultiTool
                 MaterialGroupCount.Text = TempModel.MaterialGroupList.Count.ToString();
                 WeightGroupCount.Text = ssx3ModelCombiner.WeigthRefCount(TempModel).ToString();
                 MorphGroupCount.Text = ssx3ModelCombiner.MorphGroupCount(TempModel).ToString();
+
+                MaterialList.Items.Clear();
+                for (int i = 0; i < TempModel.MaterialList.Count; i++)
+                {
+                    MaterialList.Items.Add(TempModel.MaterialList[i].MainTexture);
+                }
             }
             else
             {
@@ -692,6 +698,7 @@ namespace SSXMultiTool
                 MaterialGroupCount.Text = "0";
                 WeightGroupCount.Text = "0";
                 MorphGroupCount.Text = "0";
+                MaterialList.Items.Clear();
             }
         }
 
@@ -741,6 +748,53 @@ namespace SSXMultiTool
         private void ModelListLabel_Click(object sender, EventArgs e)
         {
             MPFSaveDecompressed.Visible = true;
+        }
+        
+        private void MaterialList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(MaterialList.SelectedIndex != -1 && !DisableUpdate)
+            {
+                DisableUpdate = true;
+                var TempModel = ssx3ModelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex].MaterialList[MaterialList.SelectedIndex];
+                MatMainTexture.Text = TempModel.MainTexture;
+                MatTextureFlag1.Text = TempModel.Texture1;
+                MatTextureFlag2.Text = TempModel.Texture2;
+                MatTextureFlag3.Text = TempModel.Texture3;
+                MatTextureFlag4.Text = TempModel.Texture4;
+
+                MatFlagFactor.Value = (decimal)TempModel.FactorFloat;
+                MatUnknown1.Value = (decimal)TempModel.Unused1Float;
+                MatUnknown2.Value = (decimal)TempModel.Unused2Float;
+
+                DisableUpdate = false;
+            }
+        }
+
+        private void MatUpdate(object sender, EventArgs e)
+        {
+            if(!DisableUpdate && MaterialList.SelectedIndex != -1)
+            {
+                DisableUpdate = true;
+                var TempModel = ssx3ModelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex];
+                var TempMaterial = TempModel.MaterialList[MaterialList.SelectedIndex];
+
+                TempMaterial.MainTexture = MatMainTexture.Text;
+                TempMaterial.Texture1= MatTextureFlag1.Text;
+                TempMaterial.Texture2= MatTextureFlag2.Text;
+                TempMaterial.Texture3= MatTextureFlag3.Text;
+                TempMaterial.Texture4= MatTextureFlag4.Text;
+
+                TempMaterial.FactorFloat = (float)MatFlagFactor.Value;
+                TempMaterial.Unused1Float = (float)MatUnknown1.Value;
+                TempMaterial.Unused2Float = (float)MatUnknown2.Value;
+
+                MaterialList.Items[MaterialList.SelectedIndex] = TempMaterial.MainTexture;
+
+                TempModel.MaterialList[MaterialList.SelectedIndex] = TempMaterial;
+                ssx3ModelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex] = TempModel;
+
+                DisableUpdate = false;
+            }
         }
     }
 }
