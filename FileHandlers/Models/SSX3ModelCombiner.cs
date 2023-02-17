@@ -327,6 +327,13 @@ namespace SSXMultiTool.FileHandlers.Models
 
         public void StartRegenMesh(SSX3ModelCombiner ssx3ModelCombiner, int MeshID)
         {
+            //Mesh Count
+            if (ssx3ModelCombiner.reassignedMesh.Count > 1)
+            {
+                MessageBox.Show("More than one mesh detected");
+                return;
+            }
+
             //Check Bones
             if (ssx3ModelCombiner.boneDatas.Count != boneDatasOrg.Count)
             {
@@ -338,13 +345,6 @@ namespace SSXMultiTool.FileHandlers.Models
             if (modelHandlers.ModelList[MeshID].MorphKeyCount != ssx3ModelCombiner.reassignedMesh[0].faces[0].MorphPoint1.Count)
             {
                 MessageBox.Show("Incorrect Morph Ammount " + ssx3ModelCombiner.reassignedMesh[0].faces[0].MorphPoint1.Count + "/" + modelHandlers.ModelList[MeshID].MorphKeyCount);
-                return;
-            }
-
-            //Mesh Count
-            if (ssx3ModelCombiner.reassignedMesh.Count > 1)
-            {
-                MessageBox.Show("More than one mesh detected");
                 return;
             }
 
