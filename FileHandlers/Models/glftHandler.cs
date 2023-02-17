@@ -708,12 +708,23 @@ namespace SSXMultiTool.FileHandlers
             List<SSX3MPFModelHandler.BoneData> boneDatas = new List<SSX3MPFModelHandler.BoneData>();
             var Ampatures = Scene.FindArmatures();
 
-            for (int a = 0; a < Ampatures[0].VisualChildren.Count; a++)
+            bool FoundBone = false;
+            for (int z = 0; z < Ampatures.Count; z++)
             {
-                if (Ampatures[0].VisualChildren[a].Name.ToLower() == "hips" || Ampatures[0].VisualChildren[a].Name.ToLower() == "board_rootg")
+                for (int a = 0; a < Ampatures[z].VisualChildren.Count; a++)
                 {
-                    var StartBone = Ampatures[0].VisualChildren[a];
-                    boneDatas = ReturnBoneAndChildrenSSX3(StartBone, true);
+                    if (Ampatures[z].VisualChildren[a].Name.ToLower() == "hips" || Ampatures[z].VisualChildren[a].Name.ToLower() == "board_rootg")
+                    {
+                        var StartBone = Ampatures[z].VisualChildren[a];
+                        boneDatas = ReturnBoneAndChildrenSSX3(StartBone, true);
+                        FoundBone = true;
+                        break;
+                    }
+                }
+
+                if(FoundBone)
+                {
+                    break;
                 }
             }
 
