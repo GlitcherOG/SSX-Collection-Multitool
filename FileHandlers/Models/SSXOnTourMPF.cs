@@ -169,39 +169,41 @@ namespace SSXMultiTool.FileHandlers.Models
 
         public struct MPFHeader
         {
-            //Main Header//Offsets
+            //Main Header Offsets
             public string ModelName;
             public int DataOffset;
             public int EntrySize;
             public int U1; //Material?
             public int U2; //Bone
-            public int U3;
-            public int U4;
-            public int U5; //Data Offset Start
+            public int U3; //Weight?
+            public int U4; //Material Groups
+            public int U5; //Model Data Start
             public int U6; //Material?
-            public int U7;
+            public int U7; //Morph Data
             public int U8; //Entry Size?
-            public int U9;
-            public int U10;
+            public int U9;  //Weight Refrence
+            public int U10; //Weight?
 
+            //Unused
             public int U11;
             public int U12;
             public int U13;
             public int U14;
 
             //Header Counts
-            public int UC1;
-            public int UC2;
-            public int UC3;
-            public int UC4;
-            public int UC5;
-            public int UC6;
-            public int UC7;
-            public int UC8;
-            public int UC9;
-            public int UC10;
-            public int UC11;
+            public int UC1; //
+            public int UC2; //
+            public int UC3; //
+            public int UC4; // Bone Count
+            public int UC5; // Material Count
+            public int UC6; //
+            public int UC7; // Morph Count
+            public int UC8; //
+            public int UC9; // Face Count?
+            public int UC10; // 
+            public int UC11; //File ID
 
+            //Unused
             public int UC12;
             public int UC13;
             public int UC14;
