@@ -38,7 +38,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     TempHeader.U4 = StreamUtil.ReadInt32(stream);
                     TempHeader.U5 = StreamUtil.ReadInt32(stream);
                     TempHeader.MaterialOffset = StreamUtil.ReadInt32(stream);
-                    TempHeader.U7 = StreamUtil.ReadInt32(stream);
+                    TempHeader.MorphOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.U8 = StreamUtil.ReadInt32(stream);
                     TempHeader.U9 = StreamUtil.ReadInt32(stream);
                     TempHeader.U10 = StreamUtil.ReadInt32(stream);
@@ -54,7 +54,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     TempHeader.UC4 = StreamUtil.ReadInt16(stream);
                     TempHeader.MaterialCount = StreamUtil.ReadInt16(stream);
                     TempHeader.UC6 = StreamUtil.ReadInt16(stream);
-                    TempHeader.UC7 = StreamUtil.ReadInt16(stream);
+                    TempHeader.MorphCount = StreamUtil.ReadInt16(stream);
                     TempHeader.UC8 = StreamUtil.ReadInt16(stream);
                     TempHeader.UC9 = StreamUtil.ReadInt16(stream);
                     TempHeader.UC10 = StreamUtil.ReadInt16(stream);
@@ -160,9 +160,16 @@ namespace SSXMultiTool.FileHandlers.Models
                         TempModel.MaterialList.Add(TempMat);
                     }
 
-
-
-
+                    //Standard Morph
+                    streamMatrix.Position = TempModel.MorphOffset;
+                    TempModel.MorphHeaderList = new List<MorphHeader>();
+                    for (int a = 0; a < TempModel.MorphCount; a++)
+                    {
+                        var TempMorph = new MorphHeader();
+                        TempMorph.MorphName = StreamUtil.ReadString(streamMatrix, 28);
+                        TempMorph.MorphID = StreamUtil.ReadInt32(streamMatrix);
+                        TempModel.MorphHeaderList.Add(TempMorph);
+                    }
 
 
                     streamMatrix.Close();
@@ -197,7 +204,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 StreamUtil.WriteInt32(stream, TempModel.U4);
                 StreamUtil.WriteInt32(stream, TempModel.U5);
                 StreamUtil.WriteInt32(stream, TempModel.MaterialOffset);
-                StreamUtil.WriteInt32(stream, TempModel.U7);
+                StreamUtil.WriteInt32(stream, TempModel.MorphOffset);
                 StreamUtil.WriteInt32(stream, TempModel.U8);
                 StreamUtil.WriteInt32(stream, TempModel.U9);
                 StreamUtil.WriteInt32(stream, TempModel.U10);
@@ -212,7 +219,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 StreamUtil.WriteInt16(stream, TempModel.UC4);
                 StreamUtil.WriteInt16(stream, TempModel.MaterialCount);
                 StreamUtil.WriteInt16(stream, TempModel.UC6);
-                StreamUtil.WriteInt16(stream, TempModel.UC7);
+                StreamUtil.WriteInt16(stream, TempModel.MorphCount);
                 StreamUtil.WriteInt16(stream, TempModel.UC8);
                 StreamUtil.WriteInt16(stream, TempModel.UC9);
                 StreamUtil.WriteInt16(stream, TempModel.UC10);
@@ -256,7 +263,7 @@ namespace SSXMultiTool.FileHandlers.Models
             public int U4; //Material Groups
             public int U5; //Model Data Start
             public int MaterialOffset; //Material
-            public int U7; //Morph Data
+            public int MorphOffset; //Morph Data
             public int U8; //Alternative MorphData Size?
             public int U9;  //Weight Refrence
             public int U10; //Weights
@@ -274,7 +281,7 @@ namespace SSXMultiTool.FileHandlers.Models
             public int UC4; // Bone Count
             public int MaterialCount; // Material Count
             public int UC6; //
-            public int UC7; // Morph Count
+            public int MorphCount; // Morph Count
             public int UC8; //
             public int UC9; // Face Count? (Possibly Int32 not Int16)
             public int UC10; // 
@@ -290,6 +297,7 @@ namespace SSXMultiTool.FileHandlers.Models
             public byte[] Matrix;
 
             public List<MaterialData> MaterialList;
+            public List<MorphHeader> MorphHeaderList;
         }
 
         public struct MaterialData
@@ -303,6 +311,12 @@ namespace SSXMultiTool.FileHandlers.Models
             public float FactorFloat;
             public float Unused1Float;
             public float Unused2Float;
+        }
+
+        public struct MorphHeader
+        {
+            public string MorphName;
+            public int MorphID;
         }
     }
 }
