@@ -351,7 +351,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
             //Header Counts
             public int WeightCount;
-            public int WeightRefrenceCount; //
+            public int WeightRefrenceCount;
             public int UC3; //
             public int BoneCount; // Bone Count
             public int MaterialCount; // Material Count

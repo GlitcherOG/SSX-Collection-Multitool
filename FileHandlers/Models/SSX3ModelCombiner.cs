@@ -591,9 +591,7 @@ namespace SSXMultiTool.FileHandlers.Models
                         }
                         else
                         {
-                            TempFace.Id1 = VectorPoint.Count;
-
-                            VectorPoint.Add(GenerateVectorPoint(TempReMesh.faces[a], 1));
+                            TempFace.Id1 = TempID;
                             Test = true;
                         }
                     }
@@ -656,9 +654,7 @@ namespace SSXMultiTool.FileHandlers.Models
                         }
                         else
                         {
-                            TempFace.Id2 = VectorPoint.Count;
-
-                            VectorPoint.Add(GenerateVectorPoint(TempReMesh.faces[a], 2));
+                            TempFace.Id2 = TempID;
                             Test = true;
                         }
                     }
@@ -721,9 +717,7 @@ namespace SSXMultiTool.FileHandlers.Models
                         }
                         else
                         {
-                            TempFace.Id3 = VectorPoint.Count;
-
-                            VectorPoint.Add(GenerateVectorPoint(TempReMesh.faces[a], 3));
+                            TempFace.Id3 = TempID;
                             Test = true;
                         }
                     }
