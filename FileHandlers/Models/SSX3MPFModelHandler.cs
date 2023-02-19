@@ -33,7 +33,7 @@ namespace SSXMultiTool.FileHandlers
                     modelHeader.DataOffset = StreamUtil.ReadInt32(stream);
                     modelHeader.EntrySize = StreamUtil.ReadInt32(stream);
                     modelHeader.BoneOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.U7 = StreamUtil.ReadInt32(stream);
+                    modelHeader.UnusedIKPointOffset = StreamUtil.ReadInt32(stream);
                     modelHeader.MaterialGroupOffset = StreamUtil.ReadInt32(stream);
                     modelHeader.MeshDataOffset = StreamUtil.ReadInt32(stream);
                     modelHeader.MaterialOffset = StreamUtil.ReadInt32(stream);
@@ -48,7 +48,7 @@ namespace SSXMultiTool.FileHandlers
                     modelHeader.MaterialGroupCount = StreamUtil.ReadInt16(stream);
                     modelHeader.BoneCount = StreamUtil.ReadInt16(stream);
                     modelHeader.MaterialCount = StreamUtil.ReadInt16(stream);
-                    modelHeader.U22 = StreamUtil.ReadInt16(stream);
+                    modelHeader.UnusedIKPointCount = StreamUtil.ReadInt16(stream);
                     modelHeader.MorphKeyCount = StreamUtil.ReadInt16(stream);
                     modelHeader.FileID = StreamUtil.ReadInt16(stream);
                     modelHeader.TriangleCount = StreamUtil.ReadInt16(stream);
@@ -1163,7 +1163,7 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteInt32(stream, ModelList[i].DataOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].EntrySize);
                 StreamUtil.WriteInt32(stream, ModelList[i].BoneOffset);
-                StreamUtil.WriteInt32(stream, ModelList[i].U7);
+                StreamUtil.WriteInt32(stream, ModelList[i].UnusedIKPointOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].MaterialGroupOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].MeshDataOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].MaterialOffset);
@@ -1177,7 +1177,7 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteInt16(stream, ModelList[i].MaterialGroupList.Count);
                 StreamUtil.WriteInt16(stream, ModelList[i].BoneList.Count);
                 StreamUtil.WriteInt16(stream, ModelList[i].MaterialList.Count);
-                StreamUtil.WriteInt16(stream, ModelList[i].U22);
+                StreamUtil.WriteInt16(stream, ModelList[i].UnusedIKPointCount);
                 StreamUtil.WriteInt16(stream, ModelList[i].MorphKeyCount);
                 StreamUtil.WriteInt16(stream, ModelList[i].FileID);
                 StreamUtil.WriteInt16(stream, ModelList[i].TriangleCount);
@@ -1205,7 +1205,7 @@ namespace SSXMultiTool.FileHandlers
             public int DataOffset;
             public int EntrySize;
             public int BoneOffset; 
-            public int U7; //Weight Info (IK Points?)
+            public int UnusedIKPointOffset; //Weight Info (IK Points?)
             public int MaterialGroupOffset;
             public int MeshDataOffset;
             public int MaterialOffset;
@@ -1219,7 +1219,7 @@ namespace SSXMultiTool.FileHandlers
             public int MaterialGroupCount;
             public int BoneCount;
             public int MaterialCount;
-            public int U22; //IK Point Count??
+            public int UnusedIKPointCount; //IK Point Count??
             public int MorphKeyCount;
             public int FileID;
             public int TriangleCount; //Possibly Some Kind of Face Ammount Used in Store as Well

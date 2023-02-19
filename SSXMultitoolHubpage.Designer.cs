@@ -30,6 +30,7 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.SSX3ToolsButton = new System.Windows.Forms.Button();
             this.TrickyToolsButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -43,7 +44,6 @@
             this.SSHImageButton = new System.Windows.Forms.Button();
             this.LocFileButton = new System.Windows.Forms.Button();
             this.BigArchiveButton = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -72,6 +72,17 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Per Game Tools";
+            // 
+            // button2
+            // 
+            this.button2.Enabled = false;
+            this.button2.Location = new System.Drawing.Point(306, 22);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(94, 50);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "SSX On Tour Tools";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // SSX3ToolsButton
             // 
@@ -208,16 +219,6 @@
             this.BigArchiveButton.Text = "Big Archive";
             this.BigArchiveButton.UseVisualStyleBackColor = true;
             this.BigArchiveButton.Click += new System.EventHandler(this.BigArchiveButton_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(306, 22);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(94, 50);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "SSX On Tour Tools";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // SSXMultitoolHubpage
             // 

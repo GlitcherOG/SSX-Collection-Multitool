@@ -37,7 +37,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     TempHeader.U3 = StreamUtil.ReadInt32(stream);
                     TempHeader.U4 = StreamUtil.ReadInt32(stream);
                     TempHeader.U5 = StreamUtil.ReadInt32(stream);
-                    TempHeader.U6 = StreamUtil.ReadInt32(stream);
+                    TempHeader.MaterialOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.U7 = StreamUtil.ReadInt32(stream);
                     TempHeader.U8 = StreamUtil.ReadInt32(stream);
                     TempHeader.U9 = StreamUtil.ReadInt32(stream);
@@ -52,7 +52,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     TempHeader.UC2 = StreamUtil.ReadInt16(stream);
                     TempHeader.UC3 = StreamUtil.ReadInt16(stream);
                     TempHeader.UC4 = StreamUtil.ReadInt16(stream);
-                    TempHeader.UC5 = StreamUtil.ReadInt16(stream);
+                    TempHeader.MaterialCount = StreamUtil.ReadInt16(stream);
                     TempHeader.UC6 = StreamUtil.ReadInt16(stream);
                     TempHeader.UC7 = StreamUtil.ReadInt16(stream);
                     TempHeader.UC8 = StreamUtil.ReadInt16(stream);
@@ -65,6 +65,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     TempHeader.UC14 = StreamUtil.ReadInt16(stream);
                     TempHeader.UC15 = StreamUtil.ReadInt16(stream);
                     TempHeader.UC16 = StreamUtil.ReadInt16(stream);
+
 
                     ModelList.Add(TempHeader);
                 }
@@ -91,6 +92,82 @@ namespace SSXMultiTool.FileHandlers.Models
                     modelHandler.Matrix = StreamUtil.ReadBytes(stream, EntrySize);
                     modelHandler.Matrix = RefpackHandler.Decompress(modelHandler.Matrix);
                     ModelList[i] = modelHandler;
+                }
+
+
+
+                for (int i = 0; i < ModelList.Count; i++)
+                {
+                    var TempModel = ModelList[i];
+                    Stream streamMatrix = new MemoryStream();
+                    streamMatrix.Write(TempModel.Matrix, 0, TempModel.Matrix.Length);
+                    streamMatrix.Position = 0;
+
+                    //Material
+                    streamMatrix.Position = TempModel.MaterialOffset;
+                    TempModel.MaterialList = new List<MaterialData>();
+                    for (int a = 0; a < TempModel.MaterialCount; a++)
+                    {
+                        var TempMat = new MaterialData();
+                        TempMat.MainTexture = StreamUtil.ReadString(streamMatrix, 4);
+                        if (streamMatrix.ReadByte() != 0x00)
+                        {
+                            streamMatrix.Position -= 1;
+                            TempMat.Texture1 = StreamUtil.ReadString(streamMatrix, 4);
+                        }
+                        else
+                        {
+                            streamMatrix.Position += 3;
+                            TempMat.Texture1 = "";
+                        }
+
+                        if (streamMatrix.ReadByte() != 0x00)
+                        {
+                            streamMatrix.Position -= 1;
+                            TempMat.Texture2 = StreamUtil.ReadString(streamMatrix, 4);
+                        }
+                        else
+                        {
+                            streamMatrix.Position += 3;
+                            TempMat.Texture2 = "";
+                        }
+
+                        if (streamMatrix.ReadByte() != 0x00)
+                        {
+                            streamMatrix.Position -= 1;
+                            TempMat.Texture3 = StreamUtil.ReadString(streamMatrix, 4);
+                        }
+                        else
+                        {
+                            streamMatrix.Position += 3;
+                            TempMat.Texture3 = "";
+                        }
+
+                        if (streamMatrix.ReadByte() != 0x00)
+                        {
+                            streamMatrix.Position -= 1;
+                            TempMat.Texture4 = StreamUtil.ReadString(streamMatrix, 4);
+                        }
+                        else
+                        {
+                            streamMatrix.Position += 3;
+                            TempMat.Texture4 = "";
+                        }
+
+                        TempMat.FactorFloat = StreamUtil.ReadFloat(streamMatrix);
+                        TempMat.Unused1Float = StreamUtil.ReadFloat(streamMatrix);
+                        TempMat.Unused2Float = StreamUtil.ReadFloat(streamMatrix);
+                        TempModel.MaterialList.Add(TempMat);
+                    }
+
+
+
+
+
+
+                    streamMatrix.Close();
+                    streamMatrix.Dispose();
+                    ModelList[i] = TempModel;
                 }
             }
 
@@ -119,7 +196,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 StreamUtil.WriteInt32(stream, TempModel.U3);
                 StreamUtil.WriteInt32(stream, TempModel.U4);
                 StreamUtil.WriteInt32(stream, TempModel.U5);
-                StreamUtil.WriteInt32(stream, TempModel.U6);
+                StreamUtil.WriteInt32(stream, TempModel.MaterialOffset);
                 StreamUtil.WriteInt32(stream, TempModel.U7);
                 StreamUtil.WriteInt32(stream, TempModel.U8);
                 StreamUtil.WriteInt32(stream, TempModel.U9);
@@ -133,7 +210,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 StreamUtil.WriteInt16(stream, TempModel.UC2);
                 StreamUtil.WriteInt16(stream, TempModel.UC3);
                 StreamUtil.WriteInt16(stream, TempModel.UC4);
-                StreamUtil.WriteInt16(stream, TempModel.UC5);
+                StreamUtil.WriteInt16(stream, TempModel.MaterialCount);
                 StreamUtil.WriteInt16(stream, TempModel.UC6);
                 StreamUtil.WriteInt16(stream, TempModel.UC7);
                 StreamUtil.WriteInt16(stream, TempModel.UC8);
@@ -173,16 +250,16 @@ namespace SSXMultiTool.FileHandlers.Models
             public string ModelName;
             public int DataOffset;
             public int EntrySize;
-            public int U1; //Material?
+            public int U1; //Alternative MorphData?
             public int U2; //Bone
-            public int U3; //Weight?
+            public int U3; //IK Points (Unused)
             public int U4; //Material Groups
             public int U5; //Model Data Start
-            public int U6; //Material?
+            public int MaterialOffset; //Material
             public int U7; //Morph Data
-            public int U8; //Entry Size?
+            public int U8; //Alternative MorphData Size?
             public int U9;  //Weight Refrence
-            public int U10; //Weight?
+            public int U10; //Weights
 
             //Unused
             public int U11;
@@ -195,13 +272,13 @@ namespace SSXMultiTool.FileHandlers.Models
             public int UC2; //
             public int UC3; //
             public int UC4; // Bone Count
-            public int UC5; // Material Count
+            public int MaterialCount; // Material Count
             public int UC6; //
             public int UC7; // Morph Count
             public int UC8; //
-            public int UC9; // Face Count?
+            public int UC9; // Face Count? (Possibly Int32 not Int16)
             public int UC10; // 
-            public int UC11; //File ID
+            public int UC11; // File ID
 
             //Unused
             public int UC12;
@@ -211,6 +288,21 @@ namespace SSXMultiTool.FileHandlers.Models
             public int UC16;
 
             public byte[] Matrix;
+
+            public List<MaterialData> MaterialList;
+        }
+
+        public struct MaterialData
+        {
+            public string MainTexture;
+            public string Texture1;
+            public string Texture2;
+            public string Texture3;
+            public string Texture4;
+
+            public float FactorFloat;
+            public float Unused1Float;
+            public float Unused2Float;
         }
     }
 }
