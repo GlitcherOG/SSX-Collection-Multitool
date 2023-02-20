@@ -79,5 +79,10 @@ namespace SSXMultiTool
         {
             new SSXOnTourToolsWindow().ShowDialog();
         }
+
+        private void AudioWindowButton_Click(object sender, EventArgs e)
+        {
+            new AudioTools().ShowDialog();
+        }
     }
 }

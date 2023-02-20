@@ -44,6 +44,7 @@
             this.SSHImageButton = new System.Windows.Forms.Button();
             this.LocFileButton = new System.Windows.Forms.Button();
             this.BigArchiveButton = new System.Windows.Forms.Button();
+            this.AudioWindowButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -179,12 +180,13 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.AudioWindowButton);
             this.groupBox4.Controls.Add(this.SSHImageButton);
             this.groupBox4.Controls.Add(this.LocFileButton);
             this.groupBox4.Controls.Add(this.BigArchiveButton);
             this.groupBox4.Location = new System.Drawing.Point(12, 190);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(308, 83);
+            this.groupBox4.Size = new System.Drawing.Size(411, 83);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Misc Tools";
@@ -218,6 +220,16 @@
             this.BigArchiveButton.Text = "Big Archive";
             this.BigArchiveButton.UseVisualStyleBackColor = true;
             this.BigArchiveButton.Click += new System.EventHandler(this.BigArchiveButton_Click);
+            // 
+            // AudioWindowButton
+            // 
+            this.AudioWindowButton.Location = new System.Drawing.Point(306, 22);
+            this.AudioWindowButton.Name = "AudioWindowButton";
+            this.AudioWindowButton.Size = new System.Drawing.Size(94, 50);
+            this.AudioWindowButton.TabIndex = 3;
+            this.AudioWindowButton.Text = "Audio Tools";
+            this.AudioWindowButton.UseVisualStyleBackColor = true;
+            this.AudioWindowButton.Click += new System.EventHandler(this.AudioWindowButton_Click);
             // 
             // SSXMultitoolHubpage
             // 
@@ -256,5 +268,6 @@
         private Button button4;
         private Button SSX3LevelButton;
         private Button button2;
+        private Button AudioWindowButton;
     }
 }
