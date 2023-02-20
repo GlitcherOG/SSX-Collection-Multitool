@@ -451,7 +451,7 @@ namespace SSXMultiTool.FileHandlers.Models
                                 {
                                     var TempChunk = TempMeshMorphChunk.MeshChunkList[d];
 
-                                    //TempChunk = GenerateFaces(TempChunk, TempMeshMorphChunk.MorphDataList);
+                                    TempChunk = GenerateFaces(TempChunk, TempMeshMorphChunk.MorphDataList);
 
                                     TempMeshMorphChunk.MeshChunkList[d] = TempChunk;
                                 }
@@ -472,7 +472,164 @@ namespace SSXMultiTool.FileHandlers.Models
                 }
             }
 
+        }
 
+        public MeshChunk GenerateFaces(MeshChunk models, List<MorphKey> morphPointData)
+        {
+            var ModelData = models;
+            //Increment Strips
+            List<int> strip2 = new List<int>();
+            strip2.Add(0);
+            foreach (var item in ModelData.Strips)
+            {
+                strip2.Add(strip2[strip2.Count - 1] + item);
+            }
+
+            //Make Faces
+            ModelData.Faces = new List<Face>();
+            int localIndex = 0;
+            bool Rotation = false;
+            for (int b = 0; b < ModelData.Vertices.Count; b++)
+            {
+                if (InsideSplits(b, strip2))
+                {
+                    Rotation = false;
+                    localIndex = 1;
+                    continue;
+                }
+                if (localIndex < 2)
+                {
+                    localIndex++;
+                    continue;
+                }
+
+                ModelData.Faces.Add(CreateFaces(b, ModelData, Rotation, morphPointData));
+                Rotation = !Rotation;
+                localIndex++;
+            }
+
+            return ModelData;
+        }
+        public bool InsideSplits(int Number, List<int> splits)
+        {
+            foreach (var item in splits)
+            {
+                if (item == Number)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public Face CreateFaces(int Index, MeshChunk ModelData, bool roatation, List<MorphKey> morphPointData)
+        {
+            Face face = new Face();
+            int Index1 = 0;
+            int Index2 = 0;
+            int Index3 = 0;
+            //Fixes the Rotation For Exporting
+            //Swap When Exporting to other formats
+            //1-Clockwise
+            //0-Counter Clocwise
+            if (roatation)
+            {
+                Index1 = Index;
+                Index2 = Index - 1;
+                Index3 = Index - 2;
+            }
+            if (!roatation)
+            {
+                Index1 = Index - 2;
+                Index2 = Index - 1;
+                Index3 = Index;
+            }
+            face.V1 = ModelData.Vertices[Index1];
+            face.V2 = ModelData.Vertices[Index2];
+            face.V3 = ModelData.Vertices[Index3];
+
+            face.V1Pos = Index1;
+            face.V2Pos = Index2;
+            face.V3Pos = Index3;
+
+            if (ModelData.UV.Count != 0)
+            {
+                face.UV1 = ModelData.UV[Index1];
+                face.UV2 = ModelData.UV[Index2];
+                face.UV3 = ModelData.UV[Index3];
+
+                face.UV1Pos = Index1;
+                face.UV2Pos = Index2;
+                face.UV3Pos = Index3;
+
+                face.Normal1 = ModelData.UVNormals[Index1];
+                face.Normal2 = ModelData.UVNormals[Index2];
+                face.Normal3 = ModelData.UVNormals[Index3];
+
+                face.Normal1Pos = Index1;
+                face.Normal2Pos = Index2;
+                face.Normal3Pos = Index3;
+
+                face.Weight1Pos = (int)((face.UV1.Z - 17) / 4);
+                face.Weight2Pos = (int)((face.UV2.Z - 17) / 4);
+                face.Weight3Pos = (int)((face.UV3.Z - 17) / 4);
+            }
+            else
+            {
+                face.Weight1Pos = (ModelData.Weights[Index1] - 17) / 4;
+                face.Weight2Pos = (ModelData.Weights[Index2] - 17) / 4;
+                face.Weight3Pos = (ModelData.Weights[Index3] - 17) / 4;
+            }
+
+            if (morphPointData != null)
+            {
+                face.MorphPoint1 = new List<Vector3>();
+                face.MorphPoint2 = new List<Vector3>();
+                face.MorphPoint3 = new List<Vector3>();
+
+                for (int i = 0; i < morphPointData.Count; i++)
+                {
+                    bool Point1Test = false;
+                    bool Point2Test = false;
+                    bool Point3Test = false;
+                    for (int a = 0; a < morphPointData[i].MorphDataList.Count; a++)
+                    {
+                        if (Index1 == morphPointData[i].MorphDataList[a].ID)
+                        {
+                            face.MorphPoint1.Add(morphPointData[i].MorphDataList[a].vector3);
+                            Point1Test = true;
+                        }
+
+                        if (Index2 == morphPointData[i].MorphDataList[a].ID)
+                        {
+                            face.MorphPoint2.Add(morphPointData[i].MorphDataList[a].vector3);
+                            Point2Test = true;
+                        }
+
+                        if (Index3 == morphPointData[i].MorphDataList[a].ID)
+                        {
+                            face.MorphPoint3.Add(morphPointData[i].MorphDataList[a].vector3);
+                            Point3Test = true;
+                        }
+                    }
+
+                    if (!Point1Test)
+                    {
+                        face.MorphPoint1.Add(new Vector3());
+                    }
+
+                    if (!Point2Test)
+                    {
+                        face.MorphPoint2.Add(new Vector3());
+                    }
+
+                    if (!Point3Test)
+                    {
+                        face.MorphPoint3.Add(new Vector3());
+                    }
+                }
+            }
+
+            return face;
         }
 
         public void SaveDecompress(string Path)
