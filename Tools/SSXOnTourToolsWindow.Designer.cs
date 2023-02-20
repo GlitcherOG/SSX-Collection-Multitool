@@ -30,9 +30,10 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.MpfSave = new System.Windows.Forms.Button();
             this.MpfLoad = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.MpfSave = new System.Windows.Forms.Button();
+            this.MpfExport = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -49,6 +50,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.MpfExport);
             this.tabPage1.Controls.Add(this.MpfSave);
             this.tabPage1.Controls.Add(this.MpfLoad);
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
@@ -58,6 +60,16 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // MpfSave
+            // 
+            this.MpfSave.Location = new System.Drawing.Point(687, 369);
+            this.MpfSave.Name = "MpfSave";
+            this.MpfSave.Size = new System.Drawing.Size(75, 23);
+            this.MpfSave.TabIndex = 1;
+            this.MpfSave.Text = "Save";
+            this.MpfSave.UseVisualStyleBackColor = true;
+            this.MpfSave.Click += new System.EventHandler(this.MpfSave_Click);
             // 
             // MpfLoad
             // 
@@ -79,15 +91,15 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // MpfSave
+            // MpfExport
             // 
-            this.MpfSave.Location = new System.Drawing.Point(687, 369);
-            this.MpfSave.Name = "MpfSave";
-            this.MpfSave.Size = new System.Drawing.Size(75, 23);
-            this.MpfSave.TabIndex = 1;
-            this.MpfSave.Text = "Save";
-            this.MpfSave.UseVisualStyleBackColor = true;
-            this.MpfSave.Click += new System.EventHandler(this.MpfSave_Click);
+            this.MpfExport.Location = new System.Drawing.Point(606, 369);
+            this.MpfExport.Name = "MpfExport";
+            this.MpfExport.Size = new System.Drawing.Size(75, 23);
+            this.MpfExport.TabIndex = 2;
+            this.MpfExport.Text = "Export";
+            this.MpfExport.UseVisualStyleBackColor = true;
+            this.MpfExport.Click += new System.EventHandler(this.MpfExport_Click);
             // 
             // SSXOnTourToolsWindow
             // 
@@ -110,5 +122,6 @@
         private Button MpfLoad;
         private TabPage tabPage2;
         private Button MpfSave;
+        private Button MpfExport;
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SSXMultiTool.FileHandlers.Models;
 using System.IO;
+using SSXMultiTool.FileHandlers;
 
 namespace SSXMultiTool.Tools
 {
@@ -54,6 +55,20 @@ namespace SSXMultiTool.Tools
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 onTourMPF.SaveDecompress(openFileDialog.FileName);
+            }
+        }
+
+        private void MpfExport_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog openFileDialog = new SaveFileDialog
+            {
+                Filter = "Model File (*.glb)|*.glb|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                glftHandler.SaveSSXOnTourGlft(openFileDialog.FileName, onTourMPF);
             }
         }
     }
