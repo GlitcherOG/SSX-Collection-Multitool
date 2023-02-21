@@ -167,7 +167,7 @@ namespace SSXMultiTool.FileHandlers.Models
                             {
                                 var Face = Data.Faces[b];
 
-                                var TempList = modelHeader.WeightRefrenceLists[WeightRefListID];
+                                var TempList = modelHeader.WeightRefrenceList[WeightRefListID];
 
                                 int WeightId = TempList.WeightIDs[Face.Weight1Pos];
                                 Face.Weight1 = modelHeader.BoneWeightHeaderList[WeightId];

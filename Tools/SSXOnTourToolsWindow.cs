@@ -69,7 +69,7 @@ namespace SSXMultiTool.Tools
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                //onTourMPF.SaveDecompress(openFileDialog.FileName);
+                onTourMPF.SaveDecompress(openFileDialog.FileName);
             }
         }
 

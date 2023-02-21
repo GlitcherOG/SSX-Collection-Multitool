@@ -220,7 +220,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
                     //Weight Refrence List
                     streamMatrix.Position = TempModel.WeightRefrenceOffset;
-                    TempModel.WeightRefrenceLists = new List<WeightRefList>();
+                    TempModel.WeightRefrenceList = new List<WeightRefList>();
                     for (int b = 0; b < TempModel.WeightRefrenceCount; b++)
                     {
                         var NumberListRef = new WeightRefList();
@@ -235,7 +235,7 @@ namespace SSXMultiTool.FileHandlers.Models
                             NumberListRef.WeightIDs.Add(StreamUtil.ReadInt32(streamMatrix));
                         }
                         streamMatrix.Position = TempPos;
-                        TempModel.WeightRefrenceLists.Add(NumberListRef);
+                        TempModel.WeightRefrenceList.Add(NumberListRef);
                     }
 
                     //Mesh Group Data
@@ -280,7 +280,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
                         TempModel.MaterialGroupList.Add(TempChunkData);
                     }
-
+                    int Vertices = 0;
                     //Load Mesh Data
                     for (int a = 0; a < TempModel.MaterialGroupList.Count; a++)
                     {
@@ -394,7 +394,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
                                         }
                                         ModelData.Vertices = vertices;
-
+                                        Vertices += vertices.Count;
                                         streamMatrix.Position += 16 * 3;
                                         TempMeshMorphChunk.MeshChunkList.Add(ModelData);
                                     }
@@ -459,7 +459,16 @@ namespace SSXMultiTool.FileHandlers.Models
 
                     if(TempModel.AltMorphOffset!=0)
                     {
-
+                        streamMatrix.Position = TempModel.AltMorphOffset;
+                        TempModel.AltMorphList = new List<AltMorphHeader>();
+                        for (int a = 0; a < TempModel.AltMorphCount; a++)
+                        {
+                            var TempAltMorph = new AltMorphHeader();
+                            TempAltMorph.MorphName = StreamUtil.ReadString(streamMatrix, 28);
+                            TempAltMorph.MorphSize = StreamUtil.ReadInt32(streamMatrix);
+                            TempAltMorph.MorphOffset = StreamUtil.ReadInt32(streamMatrix);
+                            TempModel.AltMorphList.Add(TempAltMorph);
+                        }
                     }
 
 
@@ -729,8 +738,9 @@ namespace SSXMultiTool.FileHandlers.Models
             public List<BoneData> BoneList;
             public List<MorphHeader> MorphHeaderList;
             public List<BoneWeightHeader> BoneWeightHeaderList;
-            public List<WeightRefList> WeightRefrenceLists;
+            public List<WeightRefList> WeightRefrenceList;
             public List<MaterialGroup> MaterialGroupList;
+            public List<AltMorphHeader> AltMorphList;
         }
 
         public struct MaterialData
@@ -911,6 +921,13 @@ namespace SSXMultiTool.FileHandlers.Models
             public List<Vector3> MorphPoint3;
 
             public int MaterialID;
+        }
+
+        public struct AltMorphHeader
+        {
+            public string MorphName;
+            public int MorphSize;
+            public int MorphOffset;
         }
     }
 }
