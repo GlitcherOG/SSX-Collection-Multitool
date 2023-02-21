@@ -33,40 +33,31 @@ namespace SSXMultiTool.FileHandlers.Models
                     TempHeader.ModelName = StreamUtil.ReadString(stream, 16);
                     TempHeader.DataOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.EntrySize = StreamUtil.ReadInt32(stream);
-                    TempHeader.U1 = StreamUtil.ReadInt32(stream);
+                    TempHeader.AltMorphOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.BoneOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.IKPointOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.MaterialGroupOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.ModelDataOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.MaterialOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.MorphOffset = StreamUtil.ReadInt32(stream);
-                    TempHeader.U8 = StreamUtil.ReadInt32(stream);
+                    TempHeader.AltMorphSize = StreamUtil.ReadInt32(stream);
                     TempHeader.WeightRefrenceOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.BoneWeightOffset = StreamUtil.ReadInt32(stream);
 
-                    TempHeader.U11 = StreamUtil.ReadInt32(stream);
-                    TempHeader.U12 = StreamUtil.ReadInt32(stream);
-                    TempHeader.U13 = StreamUtil.ReadInt32(stream);
-                    TempHeader.U14 = StreamUtil.ReadInt32(stream);
+                    stream.Position += 4 * 4;
 
                     TempHeader.WeightCount = StreamUtil.ReadInt16(stream);
                     TempHeader.WeightRefrenceCount = StreamUtil.ReadInt16(stream);
                     TempHeader.MaterialGroupCount = StreamUtil.ReadInt16(stream);
                     TempHeader.BoneCount = StreamUtil.ReadInt16(stream);
                     TempHeader.MaterialCount = StreamUtil.ReadInt16(stream);
-                    TempHeader.UC6 = StreamUtil.ReadInt16(stream);
+                    TempHeader.IKCount = StreamUtil.ReadInt16(stream);
                     TempHeader.MorphCount = StreamUtil.ReadInt16(stream);
-                    TempHeader.UC8 = StreamUtil.ReadInt16(stream);
-                    TempHeader.UC9 = StreamUtil.ReadInt16(stream);
-                    TempHeader.UC10 = StreamUtil.ReadInt16(stream);
+                    TempHeader.AltMorphCount = StreamUtil.ReadInt16(stream);
+                    TempHeader.TriangleCount = StreamUtil.ReadInt32(stream);
                     TempHeader.FileID = StreamUtil.ReadInt16(stream);
-                   
 
-                    TempHeader.UC12 = StreamUtil.ReadInt16(stream);
-                    TempHeader.UC13 = StreamUtil.ReadInt16(stream);
-                    TempHeader.UC14 = StreamUtil.ReadInt16(stream);
-                    TempHeader.UC15 = StreamUtil.ReadInt16(stream);
-                    TempHeader.UC16 = StreamUtil.ReadInt16(stream);
+                    stream.Position += 2 * 5;
 
 
                     ModelList.Add(TempHeader);
@@ -466,6 +457,11 @@ namespace SSXMultiTool.FileHandlers.Models
                         TempModel.MaterialGroupList[a] = TempMaterialGroup;
                     }
 
+                    if(TempModel.AltMorphOffset!=0)
+                    {
+
+                    }
+
 
                     streamMatrix.Close();
                     streamMatrix.Dispose();
@@ -650,37 +646,31 @@ namespace SSXMultiTool.FileHandlers.Models
 
                 StreamUtil.WriteInt32(stream, TempModel.DataOffset);
                 StreamUtil.WriteInt32(stream, TempModel.EntrySize);
-                StreamUtil.WriteInt32(stream, TempModel.U1);
+                StreamUtil.WriteInt32(stream, TempModel.AltMorphOffset);
                 StreamUtil.WriteInt32(stream, TempModel.BoneOffset);
                 StreamUtil.WriteInt32(stream, TempModel.IKPointOffset);
                 StreamUtil.WriteInt32(stream, TempModel.MaterialGroupOffset);
                 StreamUtil.WriteInt32(stream, TempModel.ModelDataOffset);
                 StreamUtil.WriteInt32(stream, TempModel.MaterialOffset);
                 StreamUtil.WriteInt32(stream, TempModel.MorphOffset);
-                StreamUtil.WriteInt32(stream, TempModel.U8);
+                StreamUtil.WriteInt32(stream, TempModel.AltMorphSize);
                 StreamUtil.WriteInt32(stream, TempModel.WeightRefrenceOffset);
                 StreamUtil.WriteInt32(stream, TempModel.BoneWeightOffset);
-                StreamUtil.WriteInt32(stream, TempModel.U11);
-                StreamUtil.WriteInt32(stream, TempModel.U12);
-                StreamUtil.WriteInt32(stream, TempModel.U13);
-                StreamUtil.WriteInt32(stream, TempModel.U14);
+
+                stream.Position += 4 * 4;
 
                 StreamUtil.WriteInt16(stream, TempModel.WeightCount);
                 StreamUtil.WriteInt16(stream, TempModel.WeightRefrenceCount);
                 StreamUtil.WriteInt16(stream, TempModel.MaterialGroupCount);
                 StreamUtil.WriteInt16(stream, TempModel.BoneCount);
                 StreamUtil.WriteInt16(stream, TempModel.MaterialCount);
-                StreamUtil.WriteInt16(stream, TempModel.UC6);
+                StreamUtil.WriteInt16(stream, TempModel.IKCount);
                 StreamUtil.WriteInt16(stream, TempModel.MorphCount);
-                StreamUtil.WriteInt16(stream, TempModel.UC8);
-                StreamUtil.WriteInt16(stream, TempModel.UC9);
-                StreamUtil.WriteInt16(stream, TempModel.UC10);
+                StreamUtil.WriteInt16(stream, TempModel.AltMorphCount);
+                StreamUtil.WriteInt32(stream, TempModel.TriangleCount);
                 StreamUtil.WriteInt16(stream, TempModel.FileID);
-                StreamUtil.WriteInt16(stream, TempModel.UC12);
-                StreamUtil.WriteInt16(stream, TempModel.UC13);
-                StreamUtil.WriteInt16(stream, TempModel.UC14);
-                StreamUtil.WriteInt16(stream, TempModel.UC15);
-                StreamUtil.WriteInt16(stream, TempModel.UC16);
+
+                stream.Position += 2 * 5;
             }
 
             StreamUtil.AlignBy16(stream);
@@ -709,22 +699,16 @@ namespace SSXMultiTool.FileHandlers.Models
             public string ModelName;
             public int DataOffset;
             public int EntrySize;
-            public int U1; //Alternative MorphData?
+            public int AltMorphOffset;
             public int BoneOffset;
             public int IKPointOffset;
             public int MaterialGroupOffset;
             public int ModelDataOffset;
             public int MaterialOffset;
             public int MorphOffset;
-            public int U8; //Alternative MorphData Size?
+            public int AltMorphSize;
             public int WeightRefrenceOffset;
             public int BoneWeightOffset;
-
-            //Unused
-            public int U11;
-            public int U12;
-            public int U13;
-            public int U14;
 
             //Header Counts
             public int WeightCount;
@@ -732,19 +716,12 @@ namespace SSXMultiTool.FileHandlers.Models
             public int MaterialGroupCount;
             public int BoneCount;
             public int MaterialCount;
-            public int UC6;
+            public int IKCount; 
             public int MorphCount;
-            public int UC8;
-            public int UC9; // Face Count? (Possibly Int32 not Int16)
-            public int UC10; // 
+            public int AltMorphCount; 
+            public int TriangleCount; // Face Count? (Possibly Int32 not Int16)
             public int FileID;
 
-            //Unused
-            public int UC12;
-            public int UC13;
-            public int UC14;
-            public int UC15;
-            public int UC16;
 
             public byte[] Matrix;
 

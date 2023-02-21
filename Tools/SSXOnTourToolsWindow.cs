@@ -24,6 +24,16 @@ namespace SSXMultiTool.Tools
         private void MpfLoad_Click(object sender, EventArgs e)
         {
 
+
+            //string[] directory = Directory.GetFiles(@"H:\Visual Studio Projects\SSX Modder\bin\Debug\disk\Mods\SSX ON TOUR", "*.mpf", SearchOption.AllDirectories);
+            //for (int i = 0; i < directory.Length; i++)
+            //{
+            //    onTourMPF = new SSXOnTourMPF();
+            //    onTourMPF.Load(directory[i]);
+            //}
+            //MessageBox.Show("Done");
+            //return;
+
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 Filter = "Model File (*.mpf)|*.mpf|All files (*.*)|*.*",
