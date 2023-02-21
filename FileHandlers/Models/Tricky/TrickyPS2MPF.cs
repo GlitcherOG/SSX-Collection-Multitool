@@ -9,7 +9,7 @@ using System.Numerics;
 
 namespace SSXMultiTool.FileHandlers
 {
-    public class TrickyMPFModelHandler
+    public class TrickyPS2MPF
     {
         public int U1;
         public int HeaderCount;

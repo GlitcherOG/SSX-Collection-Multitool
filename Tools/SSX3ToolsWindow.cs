@@ -507,8 +507,8 @@ namespace SSXMultiTool
         }
         #endregion
 
-        SSX3MPFModelHandler modelHandler = new SSX3MPFModelHandler();
-        SSX3ModelCombiner ssx3ModelCombiner = new SSX3ModelCombiner();
+        SSX3PS2MPF modelHandler = new SSX3PS2MPF();
+        SSX3PS2ModelCombiner ssx3ModelCombiner = new SSX3PS2ModelCombiner();
 
         private void MPFLoad_Click(object sender, EventArgs e)
         {
@@ -520,8 +520,8 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                modelHandler = new SSX3MPFModelHandler();
-                ssx3ModelCombiner = new SSX3ModelCombiner();
+                modelHandler = new SSX3PS2MPF();
+                ssx3ModelCombiner = new SSX3PS2ModelCombiner();
                 modelHandler.load(openFileDialog.FileName);
                 ssx3ModelCombiner.AddFile(modelHandler);
 
@@ -586,7 +586,7 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    modelHandler = new SSX3MPFModelHandler();
+                    modelHandler = new SSX3PS2MPF();
                     modelHandler.load(openFileDialog.FileName);
                     ssx3ModelCombiner.AddBones(modelHandler);
 
@@ -626,7 +626,7 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    SSX3ModelCombiner TempCombiner = null;
+                    SSX3PS2ModelCombiner TempCombiner = null;
 
                     try
                     {

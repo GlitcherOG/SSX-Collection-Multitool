@@ -60,6 +60,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     TempHeader.UC9 = StreamUtil.ReadInt16(stream);
                     TempHeader.UC10 = StreamUtil.ReadInt16(stream);
                     TempHeader.FileID = StreamUtil.ReadInt16(stream);
+                   
 
                     TempHeader.UC12 = StreamUtil.ReadInt16(stream);
                     TempHeader.UC13 = StreamUtil.ReadInt16(stream);

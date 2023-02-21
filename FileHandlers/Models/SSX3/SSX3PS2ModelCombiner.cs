@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace SSXMultiTool.FileHandlers.Models
 {
-    public class SSX3ModelCombiner
+    public class SSX3PS2ModelCombiner
     {
-        public SSX3MPFModelHandler? modelHandlers = null;
-        public List<SSX3MPFModelHandler.BoneData> boneDatasOrg = new List<SSX3MPFModelHandler.BoneData>();
-        public List<SSX3MPFModelHandler.BoneData> boneDatas = new List<SSX3MPFModelHandler.BoneData>();
-        public List<SSX3MPFModelHandler.MaterialData> materials = new List<SSX3MPFModelHandler.MaterialData>();
+        public SSX3PS2MPF? modelHandlers = null;
+        public List<SSX3PS2MPF.BoneData> boneDatasOrg = new List<SSX3PS2MPF.BoneData>();
+        public List<SSX3PS2MPF.BoneData> boneDatas = new List<SSX3PS2MPF.BoneData>();
+        public List<SSX3PS2MPF.MaterialData> materials = new List<SSX3PS2MPF.MaterialData>();
 
         public List<int> FileIDs = new List<int>();
 
@@ -21,10 +21,10 @@ namespace SSXMultiTool.FileHandlers.Models
 
         public bool NormalAverage = false;
         public bool UpdateBones = false;
-        public void AddFile(SSX3MPFModelHandler modelHandler)
+        public void AddFile(SSX3PS2MPF modelHandler)
         {
             modelHandlers = modelHandler;
-            boneDatasOrg = new List<SSX3MPFModelHandler.BoneData>();
+            boneDatasOrg = new List<SSX3PS2MPF.BoneData>();
             for (int i = 0; i < modelHandler.ModelList.Count; i++)
             {
                 if (!FileIDs.Contains(modelHandler.ModelList[i].FileID))
@@ -35,7 +35,7 @@ namespace SSXMultiTool.FileHandlers.Models
             }
         }
 
-        public void AddBones(SSX3MPFModelHandler modelHandler)
+        public void AddBones(SSX3PS2MPF modelHandler)
         {
             for (int i = 0; i < modelHandler.ModelList.Count; i++)
             {
@@ -57,10 +57,10 @@ namespace SSXMultiTool.FileHandlers.Models
                 TempMesh.ShadowModel = true;
             }
 
-            boneDatas = new List<SSX3MPFModelHandler.BoneData>();
+            boneDatas = new List<SSX3PS2MPF.BoneData>();
             for (int i = 0; i < boneDatasOrg.Count; i++)
             {
-                var NewBone = new SSX3MPFModelHandler.BoneData();
+                var NewBone = new SSX3PS2MPF.BoneData();
 
                 NewBone.BoneName = boneDatasOrg[i].BoneName;
                 NewBone.ParentFileID = boneDatasOrg[i].ParentFileID;
@@ -99,7 +99,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
         public void ReshuffleBones()
         {
-            List<SSX3MPFModelHandler.BoneData> TempBoneDatas = new List<SSX3MPFModelHandler.BoneData>();
+            List<SSX3PS2MPF.BoneData> TempBoneDatas = new List<SSX3PS2MPF.BoneData>();
             //Add Bones with no Parents
             List<int> RemoveInts = new List<int>();
             for (int i = 0; i < boneDatas.Count; i++)
@@ -147,9 +147,9 @@ namespace SSXMultiTool.FileHandlers.Models
             boneDatas = TempBoneDatas;
         }
 
-        public List<SSX3MPFModelHandler.Face> ReturnFixedFaces(SSX3MPFModelHandler.MPFModelHeader modelHeader, List<SSX3MPFModelHandler.BoneData> BoneData)
+        public List<SSX3PS2MPF.Face> ReturnFixedFaces(SSX3PS2MPF.MPFModelHeader modelHeader, List<SSX3PS2MPF.BoneData> BoneData)
         {
-            List<SSX3MPFModelHandler.Face> NewFaces = new List<SSX3MPFModelHandler.Face>();
+            List<SSX3PS2MPF.Face> NewFaces = new List<SSX3PS2MPF.Face>();
 
             for (int i = 0; i < modelHeader.BoneWeightHeaderList.Count; i++)
             {
@@ -199,7 +199,7 @@ namespace SSXMultiTool.FileHandlers.Models
             return NewFaces;
         }
 
-        public SSX3MPFModelHandler.BoneWeightHeader FixBoneIDs(SSX3MPFModelHandler.BoneWeightHeader weightHeader, List<SSX3MPFModelHandler.BoneData> BoneData)
+        public SSX3PS2MPF.BoneWeightHeader FixBoneIDs(SSX3PS2MPF.BoneWeightHeader weightHeader, List<SSX3PS2MPF.BoneData> BoneData)
         {
             var NewHeader = weightHeader;
             for (int i = 0; i < NewHeader.BoneWeightList.Count; i++)
@@ -325,7 +325,7 @@ namespace SSXMultiTool.FileHandlers.Models
             }
         }
 
-        public void StartRegenMesh(SSX3ModelCombiner ssx3ModelCombiner, int MeshID)
+        public void StartRegenMesh(SSX3PS2ModelCombiner ssx3ModelCombiner, int MeshID)
         {
             //Mesh Count
             if (ssx3ModelCombiner.reassignedMesh.Count > 1)
@@ -359,10 +359,10 @@ namespace SSXMultiTool.FileHandlers.Models
             if (UpdateBones)
             {
                 //DeepCloneBones
-                boneDatas = new List<SSX3MPFModelHandler.BoneData>();
+                boneDatas = new List<SSX3PS2MPF.BoneData>();
                 for (int i = 0; i < boneDatasOrg.Count; i++)
                 {
-                    var NewBone = new SSX3MPFModelHandler.BoneData();
+                    var NewBone = new SSX3PS2MPF.BoneData();
 
                     NewBone.BoneName = boneDatasOrg[i].BoneName;
                     NewBone.ParentFileID = boneDatasOrg[i].ParentFileID;
@@ -471,7 +471,7 @@ namespace SSXMultiTool.FileHandlers.Models
             {
                 var TempReMesh = ssx3ModelCombiner.reassignedMesh[i];
                 TempReMesh.MorphTargetCount = modelHandlers.ModelList[MeshID].MorphKeyCount;
-                SSX3MPFModelHandler.MPFModelHeader TempTrickyMesh = modelHandlers.ModelList[MeshID];
+                SSX3PS2MPF.MPFModelHeader TempTrickyMesh = modelHandlers.ModelList[MeshID];
 
                 TempTrickyMesh.TriangleCount = ssx3ModelCombiner.reassignedMesh[i].faces.Count;
 
@@ -480,7 +480,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
                 //Generate Weight List
                 //Redo Data In Correct Formats IE make Weight List and make faces use the positions.
-                TempTrickyMesh.BoneWeightHeaderList = new List<SSX3MPFModelHandler.BoneWeightHeader>();
+                TempTrickyMesh.BoneWeightHeaderList = new List<SSX3PS2MPF.BoneWeightHeader>();
                 for (int a = 0; a < TempReMesh.faces.Count; a++)
                 {
                     var TempFace = TempReMesh.faces[a];
@@ -737,14 +737,14 @@ namespace SSXMultiTool.FileHandlers.Models
                 }
 
                 //Static mesh that shit
-                TempTrickyMesh.MaterialGroupList = new List<SSX3MPFModelHandler.MaterialGroup>();
-                List<SSX3MPFModelHandler.MeshChunk> meshList = new List<SSX3MPFModelHandler.MeshChunk>();
+                TempTrickyMesh.MaterialGroupList = new List<SSX3PS2MPF.MaterialGroup>();
+                List<SSX3PS2MPF.MeshChunk> meshList = new List<SSX3PS2MPF.MeshChunk>();
 
                 for (int a = 0; a < TempTrickyMesh.MaterialList.Count; a++)
                 {
                     while (true)
                     {
-                        SSX3MPFModelHandler.MeshChunk staticMesh = new SSX3MPFModelHandler.MeshChunk();
+                        SSX3PS2MPF.MeshChunk staticMesh = new SSX3PS2MPF.MeshChunk();
                         staticMesh.weightsInts = new List<int>();
 
                         staticMesh.Unknown1 = 17;
@@ -758,14 +758,14 @@ namespace SSXMultiTool.FileHandlers.Models
                         staticMesh.Strips = new List<int>();
                         staticMesh.UV = new List<Vector4>();
                         staticMesh.Weights = new List<int>();
-                        staticMesh.MorphKeys = new List<SSX3MPFModelHandler.MorphKey>();
+                        staticMesh.MorphKeys = new List<SSX3PS2MPF.MorphKey>();
 
                         if (TempReMesh.MorphTargetCount != 0)
                         {
                             for (int b = 0; b < TempReMesh.MorphTargetCount; b++)
                             {
-                                var NewKey = new SSX3MPFModelHandler.MorphKey();
-                                NewKey.MorphDataList = new List<SSX3MPFModelHandler.MorphData>();
+                                var NewKey = new SSX3PS2MPF.MorphKey();
+                                NewKey.MorphDataList = new List<SSX3PS2MPF.MorphData>();
                                 staticMesh.MorphKeys.Add(NewKey);
                             }
                         }
@@ -810,7 +810,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
                                             for (int ei = 0; ei < TempReMesh.MorphTargetCount; ei++)
                                             {
-                                                SSX3MPFModelHandler.MorphData TempMorph = new SSX3MPFModelHandler.MorphData();
+                                                SSX3PS2MPF.MorphData TempMorph = new SSX3PS2MPF.MorphData();
                                                 TempMorph.vector3 = TempMorphTargets[ei];
                                                 TempMorph.ID = staticMesh.Vertices.Count - 1;
                                                 if (TempMorph.vector3 != Vector3.Zero)
@@ -896,9 +896,9 @@ namespace SSXMultiTool.FileHandlers.Models
                                             if (TempTrickyMesh.MorphKeyCount != 0)
                                             {
                                                 //Add New
-                                                SSX3MPFModelHandler.MorphMeshGroup NewMorphHeader = new SSX3MPFModelHandler.MorphMeshGroup();
-                                                NewMorphHeader.MeshChunkList = new List<SSX3MPFModelHandler.MeshChunk>();
-                                                NewMorphHeader.MorphDataList = new List<SSX3MPFModelHandler.MorphKey>();
+                                                SSX3PS2MPF.MorphMeshGroup NewMorphHeader = new SSX3PS2MPF.MorphMeshGroup();
+                                                NewMorphHeader.MeshChunkList = new List<SSX3PS2MPF.MeshChunk>();
+                                                NewMorphHeader.MorphDataList = new List<SSX3PS2MPF.MorphKey>();
                                                 NewMorphHeader.MeshChunkList.Add(meshList[b]);
                                                 NewMorphHeader.MorphDataList = meshList[b].MorphKeys;
                                                 TempWeightRefGroup.MorphMeshGroupList.Add(NewMorphHeader);
@@ -909,12 +909,12 @@ namespace SSXMultiTool.FileHandlers.Models
                                                 //Add to zero
                                                 if (TempWeightRefGroup.MorphMeshGroupList.Count == 0)
                                                 {
-                                                    SSX3MPFModelHandler.MorphMeshGroup TempMorphHeader = new SSX3MPFModelHandler.MorphMeshGroup();
-                                                    TempMorphHeader.MeshChunkList = new List<SSX3MPFModelHandler.MeshChunk>();
-                                                    TempMorphHeader.MorphDataList = new List<SSX3MPFModelHandler.MorphKey>();
+                                                    SSX3PS2MPF.MorphMeshGroup TempMorphHeader = new SSX3PS2MPF.MorphMeshGroup();
+                                                    TempMorphHeader.MeshChunkList = new List<SSX3PS2MPF.MeshChunk>();
+                                                    TempMorphHeader.MorphDataList = new List<SSX3PS2MPF.MorphKey>();
                                                     TempWeightRefGroup.MorphMeshGroupList.Add(TempMorphHeader);
                                                 }
-                                                SSX3MPFModelHandler.MorphMeshGroup NewMorphHeader = TempWeightRefGroup.MorphMeshGroupList[0];
+                                                SSX3PS2MPF.MorphMeshGroup NewMorphHeader = TempWeightRefGroup.MorphMeshGroupList[0];
                                                 NewMorphHeader.MeshChunkList.Add(meshList[b]);
                                                 TempWeightRefGroup.MorphMeshGroupList[0] = NewMorphHeader;
 
@@ -930,8 +930,8 @@ namespace SSXMultiTool.FileHandlers.Models
 
                                     if (FirstAdd && !WeightRefGroupTest)
                                     {
-                                        SSX3MPFModelHandler.WeightRefGroup weightRefGroup = new SSX3MPFModelHandler.WeightRefGroup();
-                                        weightRefGroup.MorphMeshGroupList = new List<SSX3MPFModelHandler.MorphMeshGroup>();
+                                        SSX3PS2MPF.WeightRefGroup weightRefGroup = new SSX3PS2MPF.WeightRefGroup();
+                                        weightRefGroup.MorphMeshGroupList = new List<SSX3PS2MPF.MorphMeshGroup>();
                                         weightRefGroup.weights = new List<int>();
                                         TempMaterialGroup.WeightRefList.Add(weightRefGroup);
                                         TempTrickyMesh.MaterialGroupList[a] = TempMaterialGroup;
@@ -950,7 +950,7 @@ namespace SSXMultiTool.FileHandlers.Models
                         //Make Material and minus 1 from b
                         if (!MaterialGroupTest)
                         {
-                            var NewMaterialGroup = new SSX3MPFModelHandler.MaterialGroup();
+                            var NewMaterialGroup = new SSX3PS2MPF.MaterialGroup();
                             NewMaterialGroup.Material = meshList[b].MatieralID;
                             if (Shadow)
                             {
@@ -965,7 +965,7 @@ namespace SSXMultiTool.FileHandlers.Models
                                 NewMaterialGroup.Type = 1;
                             }
                             NewMaterialGroup.Unknown = -1;
-                            NewMaterialGroup.WeightRefList = new List<SSX3MPFModelHandler.WeightRefGroup>();
+                            NewMaterialGroup.WeightRefList = new List<SSX3PS2MPF.WeightRefGroup>();
                             TempTrickyMesh.MaterialGroupList.Add(NewMaterialGroup);
                             b--;
                         }
@@ -988,14 +988,14 @@ namespace SSXMultiTool.FileHandlers.Models
                 }
 
                 //Generate Number Ref and correct UV
-                TempTrickyMesh.WeightRefrenceLists = new List<SSX3MPFModelHandler.WeightRefList>();
+                TempTrickyMesh.WeightRefrenceLists = new List<SSX3PS2MPF.WeightRefList>();
                 for (int ei = 0; ei < TempTrickyMesh.MaterialGroupList.Count; ei++)
                 {
                     var TempMeshGroup = TempTrickyMesh.MaterialGroupList[ei];
                     for (int a = 0; a < TempMeshGroup.WeightRefList.Count; a++)
                     {
                         var TempSubGroup = TempMeshGroup.WeightRefList[a];
-                        SSX3MPFModelHandler.WeightRefList NumberRef = new SSX3MPFModelHandler.WeightRefList();
+                        SSX3PS2MPF.WeightRefList NumberRef = new SSX3PS2MPF.WeightRefList();
                         NumberRef.WeightIDs = new List<int>();
                         for (int b = 0; b < TempSubGroup.MorphMeshGroupList.Count; b++)
                         {
@@ -1046,7 +1046,7 @@ namespace SSXMultiTool.FileHandlers.Models
             }
 
 
-            static VectorPoint GenerateVectorPoint(SSX3MPFModelHandler.Face face, int Vertice)
+            static VectorPoint GenerateVectorPoint(SSX3PS2MPF.Face face, int Vertice)
             {
                 VectorPoint vectorPoint = new VectorPoint();
                 vectorPoint.Material = face.MaterialID;
@@ -1138,7 +1138,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 return false;
             }
 
-            static int ContainsWeight(SSX3MPFModelHandler.BoneWeightHeader boneWeight, List<SSX3MPFModelHandler.BoneWeightHeader> boneWeightList)
+            static int ContainsWeight(SSX3PS2MPF.BoneWeightHeader boneWeight, List<SSX3PS2MPF.BoneWeightHeader> boneWeightList)
             {
                 for (int i = 0; i < boneWeightList.Count; i++)
                 {
@@ -1167,7 +1167,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 return -1;
             }
 
-            static SSX3MPFModelHandler.BoneData FindBone(List<SSX3MPFModelHandler.BoneData> boneData, string BoneName)
+            static SSX3PS2MPF.BoneData FindBone(List<SSX3PS2MPF.BoneData> boneData, string BoneName)
             {
                 for (int i = 0; i < boneData.Count; i++)
                 {
@@ -1177,12 +1177,12 @@ namespace SSXMultiTool.FileHandlers.Models
                     }
                 }
 
-                return new SSX3MPFModelHandler.BoneData();
+                return new SSX3PS2MPF.BoneData();
             }
 
         }
 
-        public int TristripCount(SSX3MPFModelHandler.MPFModelHeader modelHeader)
+        public int TristripCount(SSX3PS2MPF.MPFModelHeader modelHeader)
         {
             int Count = 0;
 
@@ -1205,7 +1205,7 @@ namespace SSXMultiTool.FileHandlers.Models
             return Count;
         }
 
-        public int VerticeCount(SSX3MPFModelHandler.MPFModelHeader modelHeader)
+        public int VerticeCount(SSX3PS2MPF.MPFModelHeader modelHeader)
         {
             int Count = 0;
             var TempMesh = modelHeader.MaterialGroupList;
@@ -1227,7 +1227,7 @@ namespace SSXMultiTool.FileHandlers.Models
             return Count;
         }
 
-        public int ChunkCount(SSX3MPFModelHandler.MPFModelHeader modelHeader)
+        public int ChunkCount(SSX3PS2MPF.MPFModelHeader modelHeader)
         {
             int Count = 0;
             var TempMesh = modelHeader.MaterialGroupList;
@@ -1246,7 +1246,7 @@ namespace SSXMultiTool.FileHandlers.Models
             return Count;
         }
 
-        public int WeigthRefCount(SSX3MPFModelHandler.MPFModelHeader modelHeader)
+        public int WeigthRefCount(SSX3PS2MPF.MPFModelHeader modelHeader)
         {
             int Count = 0;
             var TempMesh = modelHeader.MaterialGroupList;
@@ -1259,7 +1259,7 @@ namespace SSXMultiTool.FileHandlers.Models
             return Count;
         }
 
-        public int MorphGroupCount(SSX3MPFModelHandler.MPFModelHeader modelHeader)
+        public int MorphGroupCount(SSX3PS2MPF.MPFModelHeader modelHeader)
         {
             int Count = 0;
             var TempMesh = modelHeader.MaterialGroupList;
@@ -1282,7 +1282,7 @@ namespace SSXMultiTool.FileHandlers.Models
             public bool ShadowModel;
             public int MorphTargetCount;
             //public List<Vector3> IKPoints;
-            public List<SSX3MPFModelHandler.Face> faces;
+            public List<SSX3PS2MPF.Face> faces;
         }
 
         public struct VectorPoint

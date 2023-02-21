@@ -9,7 +9,7 @@ using System.Numerics;
 
 namespace SSXMultiTool.FileHandlers
 {
-    public class SSX3MPFModelHandler
+    public class SSX3PS2MPF
     {
         public byte[] magicWords = new byte[4];
         public int NumModels;

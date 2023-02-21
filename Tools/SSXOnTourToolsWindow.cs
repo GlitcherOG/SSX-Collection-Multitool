@@ -20,16 +20,9 @@ namespace SSXMultiTool.Tools
             InitializeComponent();
         }
         SSXOnTourMPF onTourMPF = new SSXOnTourMPF();
+        SSXOnTourPS2ModelCombiner modelCombiner = new SSXOnTourPS2ModelCombiner();
         private void MpfLoad_Click(object sender, EventArgs e)
         {
-            //string[] directory = Directory.GetFiles(@"H:\Visual Studio Projects\SSX Modder\bin\Debug\disk\Mods\SSX ON TOUR", "*.mpf", SearchOption.AllDirectories);
-            //for (int i = 0; i < directory.Length; i++)
-            //{
-            //    onTourMPF = new SSXOnTourMPF();
-            //    onTourMPF.Load(directory[i]);
-            //}
-            //MessageBox.Show("Done");
-            //return;
 
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -41,6 +34,18 @@ namespace SSXMultiTool.Tools
             {
                 onTourMPF = new SSXOnTourMPF();
                 onTourMPF.Load(openFileDialog.FileName);
+                modelCombiner = new SSXOnTourPS2ModelCombiner();
+                modelCombiner.AddFile(onTourMPF);
+
+                MpfWarning.Text = modelCombiner.CheckBones(0);
+
+
+                MpfModelList.Items.Clear();
+                for (int i = 0; i < onTourMPF.ModelList.Count; i++)
+                {
+                    MpfModelList.Items.Add(onTourMPF.ModelList[i].ModelName);
+                }
+
             }
         }
 
@@ -54,21 +59,46 @@ namespace SSXMultiTool.Tools
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                onTourMPF.SaveDecompress(openFileDialog.FileName);
+                //onTourMPF.SaveDecompress(openFileDialog.FileName);
             }
         }
 
         private void MpfExport_Click(object sender, EventArgs e)
         {
-            SaveFileDialog openFileDialog = new SaveFileDialog
+            if (MpfModelList.SelectedIndex != -1)
             {
-                Filter = "Model File (*.glb)|*.glb|All files (*.*)|*.*",
-                FilterIndex = 1,
-                RestoreDirectory = false
-            };
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+                SaveFileDialog openFileDialog = new SaveFileDialog
+                {
+                    Filter = "Model File (*.glb)|*.glb|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    modelCombiner.MeshReassigned(MpfModelList.SelectedIndex);
+                    glftHandler.SaveSSXOnTourGlft(openFileDialog.FileName, modelCombiner);
+                }
+            }
+        }
+
+        private void MpfBoneLoad_Click(object sender, EventArgs e)
+        {
+            if (modelCombiner.modelHandlers != null)
             {
-                glftHandler.SaveSSXOnTourGlft(openFileDialog.FileName, onTourMPF);
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "Model File (*.mpf)|*.mpf|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    onTourMPF = new SSXOnTourMPF();
+                    onTourMPF.Load(openFileDialog.FileName);
+                    modelCombiner.AddBones(onTourMPF);
+
+                    MpfWarning.Text = modelCombiner.CheckBones(0);
+                }
             }
         }
     }

@@ -20,8 +20,8 @@ namespace SSXMultiTool
         {
             InitializeComponent();
         }
-        TrickyModelCombiner trickyModel = new TrickyModelCombiner();
-        TrickyMPFModelHandler trickyMPF = new TrickyMPFModelHandler();
+        TrickyPS2ModelCombiner trickyModel = new TrickyPS2ModelCombiner();
+        TrickyPS2MPF trickyMPF = new TrickyPS2MPF();
 
         private void MPFLoad_Click(object sender, EventArgs e)
         {
@@ -33,7 +33,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                trickyMPF = new TrickyMPFModelHandler();
+                trickyMPF = new TrickyPS2MPF();
                 trickyMPF.load(openFileDialog.FileName);
                 TristripMethodList.SelectedIndex = 0;
 
@@ -197,7 +197,7 @@ namespace SSXMultiTool
                 {
                     if ((trickyModel.Board != null) || (trickyModel.Head != null && trickyModel.Body != null))
                     {
-                        TrickyModelCombiner TempCombiner = null;
+                        TrickyPS2ModelCombiner TempCombiner = null;
 
                         try
                         {
@@ -228,7 +228,7 @@ namespace SSXMultiTool
             }
         }
 
-        void UpdateData(TrickyMPFModelHandler.MPFModelHeader? modelHeader = null)
+        void UpdateData(TrickyPS2MPF.MPFModelHeader? modelHeader = null)
         {
             if(modelHeader!=null)
             {
@@ -277,7 +277,7 @@ namespace SSXMultiTool
             }
         }
         bool MatDisableUpdate;
-        void MpfUpdateMaterial(TrickyMPFModelHandler.MPFModelHeader? modelHeader = null)
+        void MpfUpdateMaterial(TrickyPS2MPF.MPFModelHeader? modelHeader = null)
         {
             if(MaterialList.SelectedIndex!=-1 && modelHeader!=null)
             {
@@ -437,7 +437,7 @@ namespace SSXMultiTool
             {
                 MatDisableUpdate = true;
 
-                TrickyMPFModelHandler.MaterialData TempMat = new TrickyMPFModelHandler.MaterialData();
+                TrickyPS2MPF.MaterialData TempMat = new TrickyPS2MPF.MaterialData();
                 //Load Material
                 if (trickyModel.Board!=null)
                 {
