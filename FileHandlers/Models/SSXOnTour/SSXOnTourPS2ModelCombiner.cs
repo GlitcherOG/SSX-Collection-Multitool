@@ -87,6 +87,7 @@ namespace SSXMultiTool.FileHandlers.Models
             ReshuffleBones();
             TempMesh.faces = ReturnFixedFaces(TempModel, boneDatas);
             TempMesh.MeshName = TempModel.ModelName;
+            TempMesh.AltMorphTargetCount = TempModel.AltMorphCount;
             reassignedMesh = new List<ReassignedMesh>();
             reassignedMesh.Add(TempMesh);
             FixBoneParents();
@@ -328,6 +329,7 @@ namespace SSXMultiTool.FileHandlers.Models
             public int MeshId;
             public bool ShadowModel;
             public int MorphTargetCount;
+            public int AltMorphTargetCount;
             //public List<Vector3> IKPoints;
             public List<SSXOnTourMPF.Face> faces;
         }

@@ -518,10 +518,10 @@ namespace SSXMultiTool.FileHandlers.Models
                                             {
                                                 Vector4 TempNormal = new Vector4();
 
-                                                TempNormal.X = StreamUtil.ReadInt16(streamMatrix);
-                                                TempNormal.Y = StreamUtil.ReadInt16(streamMatrix);
-                                                TempNormal.Z = StreamUtil.ReadInt16(streamMatrix);
-                                                TempNormal.W = StreamUtil.ReadInt16(streamMatrix);
+                                                TempNormal.X = StreamUtil.ReadInt16(streamMatrix)/4096;
+                                                TempNormal.Y = StreamUtil.ReadInt16(streamMatrix) / 4096;
+                                                TempNormal.Z = StreamUtil.ReadInt16(streamMatrix) / 4096;
+                                                TempNormal.W = StreamUtil.ReadInt16(streamMatrix) / 4096;
 
                                                 TempAltMorphChunk.Normal.Add(TempNormal);
                                             }

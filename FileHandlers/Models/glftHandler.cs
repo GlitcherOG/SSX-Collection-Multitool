@@ -610,22 +610,23 @@ namespace SSXMultiTool.FileHandlers
 
                         mesh.UsePrimitive(materialBuilders[Handler.reassignedMesh[Z].faces[b].MaterialID]).AddTriangle((TempPos1, TempTexture1, TempBinding1), (TempPos2, TempTexture2, TempBinding2), (TempPos3, TempTexture3, TempBinding3));
 
-                        if (Handler.reassignedMesh[Z].MorphTargetCount != 0)
+                        if (Handler.reassignedMesh[Z].MorphTargetCount != 0 || Handler.reassignedMesh[Z].AltMorphTargetCount !=0)
                         {
-                            if (!pointMorphs.Contains(GeneratePointMorph(TempPos1.Position, Face.MorphPoint1)))
+                            if (!pointMorphs.Contains(GeneratePointMorph(TempPos1.Position, Face.MorphPoint1, Face.AltMorphPoint1, Face.AltMorphNormal1)))
                             {
-                                pointMorphs.Add(GeneratePointMorph(TempPos1.Position, Face.MorphPoint1));
+                                pointMorphs.Add(GeneratePointMorph(TempPos1.Position, Face.MorphPoint1, Face.AltMorphPoint1, Face.AltMorphNormal1));
                             }
-                            if (!pointMorphs.Contains(GeneratePointMorph(TempPos2.Position, Face.MorphPoint2)))
+                            if (!pointMorphs.Contains(GeneratePointMorph(TempPos2.Position, Face.MorphPoint2, Face.AltMorphPoint1, Face.AltMorphNormal1)))
                             {
-                                pointMorphs.Add(GeneratePointMorph(TempPos2.Position, Face.MorphPoint2));
+                                pointMorphs.Add(GeneratePointMorph(TempPos2.Position, Face.MorphPoint2, Face.AltMorphPoint1, Face.AltMorphNormal1));
                             }
-                            if (!pointMorphs.Contains(GeneratePointMorph(TempPos3.Position, Face.MorphPoint3)))
+                            if (!pointMorphs.Contains(GeneratePointMorph(TempPos3.Position, Face.MorphPoint3, Face.AltMorphPoint1, Face.AltMorphNormal1)))
                             {
-                                pointMorphs.Add(GeneratePointMorph(TempPos3.Position, Face.MorphPoint3));
+                                pointMorphs.Add(GeneratePointMorph(TempPos3.Position, Face.MorphPoint3, Face.AltMorphPoint1, Face.AltMorphNormal1));
                             }
                         }
                     }
+
 
                     for (int c = 0; c < Handler.reassignedMesh[Z].MorphTargetCount; c++)
                     {
@@ -638,6 +639,24 @@ namespace SSXMultiTool.FileHandlers
                                 {
                                     var NewVertexPosition = vertexPosition;
                                     NewVertexPosition.Position += pointMorphs[i].MorphPoints[c];
+                                    morphTargetBuilder.SetVertex(vertexPosition, NewVertexPosition);
+                                }
+                            }
+                        }
+                    }
+
+                    for (int c = 0; c < Handler.reassignedMesh[Z].AltMorphTargetCount; c++)
+                    {
+                        var morphTargetBuilder = mesh.UseMorphTarget(Handler.reassignedMesh[Z].MorphTargetCount + c);
+                        foreach (var vertexPosition in morphTargetBuilder.Vertices)
+                        {
+                            for (int i = 0; i < pointMorphs.Count; i++)
+                            {
+                                if (pointMorphs[i].Point == vertexPosition.Position)
+                                {
+                                    var NewVertexPosition = vertexPosition;
+                                    NewVertexPosition.Position += pointMorphs[i].AltMorphPoints[c];
+                                    NewVertexPosition.Normal += pointMorphs[i].AltMorphNormal[c];
                                     morphTargetBuilder.SetVertex(vertexPosition, NewVertexPosition);
                                 }
                             }
@@ -1170,11 +1189,15 @@ namespace SSXMultiTool.FileHandlers
             return boneDatas;
         }
 
-        public static PointMorph GeneratePointMorph(Vector3 Point, List<Vector3> MorphPoints)
+        public static PointMorph GeneratePointMorph(Vector3 Point, List<Vector3> MorphPoints, List<Vector3> AltMorphPoint = null, List<Vector3> AltMorphNormal = null)
         {
             PointMorph pointMorph = new PointMorph();
             pointMorph.Point = Point;
             pointMorph.MorphPoints = MorphPoints;
+
+            pointMorph.AltMorphPoints = AltMorphPoint;
+            pointMorph.AltMorphNormal = AltMorphNormal;
+
             return pointMorph;
         }
 
@@ -1182,6 +1205,9 @@ namespace SSXMultiTool.FileHandlers
         {
             public Vector3 Point;
             public List<Vector3> MorphPoints;
+
+            public List<Vector3> AltMorphPoints;
+            public List<Vector3> AltMorphNormal;
         }
 
         public static Quaternion ToQuaternion(Vector3 v)
