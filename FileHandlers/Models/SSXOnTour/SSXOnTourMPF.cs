@@ -33,14 +33,14 @@ namespace SSXMultiTool.FileHandlers.Models
                     TempHeader.ModelName = StreamUtil.ReadString(stream, 16);
                     TempHeader.DataOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.EntrySize = StreamUtil.ReadInt32(stream);
-                    TempHeader.AltMorphOffset = StreamUtil.ReadInt32(stream);
+                    TempHeader.AltMorphSize = StreamUtil.ReadInt32(stream);
                     TempHeader.BoneOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.IKPointOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.MaterialGroupOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.ModelDataOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.MaterialOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.MorphOffset = StreamUtil.ReadInt32(stream);
-                    TempHeader.AltMorphSize = StreamUtil.ReadInt32(stream);
+                    TempHeader.AltMorphOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.WeightRefrenceOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.BoneWeightOffset = StreamUtil.ReadInt32(stream);
 
@@ -280,7 +280,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
                         TempModel.MaterialGroupList.Add(TempChunkData);
                     }
-                    int Vertices = 0;
+                    int VerticesCount = 0;
                     //Load Mesh Data
                     for (int a = 0; a < TempModel.MaterialGroupList.Count; a++)
                     {
@@ -394,7 +394,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
                                         }
                                         ModelData.Vertices = vertices;
-                                        Vertices += vertices.Count;
+                                        VerticesCount += vertices.Count;
                                         streamMatrix.Position += 16 * 3;
                                         TempMeshMorphChunk.MeshChunkList.Add(ModelData);
                                     }
@@ -438,14 +438,17 @@ namespace SSXMultiTool.FileHandlers.Models
                                     }
                                 }
 
-                                //Generate Faces
-                                for (int d = 0; d < TempMeshMorphChunk.MeshChunkList.Count; d++)
+                                if (TempModel.AltMorphSize != 0)
                                 {
-                                    var TempChunk = TempMeshMorphChunk.MeshChunkList[d];
+                                    //Generate Faces
+                                    for (int d = 0; d < TempMeshMorphChunk.MeshChunkList.Count; d++)
+                                    {
+                                        var TempChunk = TempMeshMorphChunk.MeshChunkList[d];
 
-                                    TempChunk = GenerateFaces(TempChunk, TempMeshMorphChunk.MorphDataList);
+                                        TempChunk = GenerateFaces(TempChunk, TempMeshMorphChunk.MorphDataList, null, 0);
 
-                                    TempMeshMorphChunk.MeshChunkList[d] = TempChunk;
+                                        TempMeshMorphChunk.MeshChunkList[d] = TempChunk;
+                                    }
                                 }
 
                                 TempWeightRefGroup.MorphMeshGroupList[c] = TempMeshMorphChunk;
@@ -457,7 +460,7 @@ namespace SSXMultiTool.FileHandlers.Models
                         TempModel.MaterialGroupList[a] = TempMaterialGroup;
                     }
 
-                    if(TempModel.AltMorphOffset!=0)
+                    if (TempModel.AltMorphSize != 0)
                     {
                         streamMatrix.Position = TempModel.AltMorphOffset;
                         TempModel.AltMorphList = new List<AltMorphHeader>();
@@ -469,8 +472,118 @@ namespace SSXMultiTool.FileHandlers.Models
                             TempAltMorph.MorphOffset = StreamUtil.ReadInt32(streamMatrix);
                             TempModel.AltMorphList.Add(TempAltMorph);
                         }
-                    }
 
+                        for (int a = 0; a < TempModel.AltMorphList.Count; a++)
+                        {
+                            var TempAltMorphList = TempModel.AltMorphList[a];
+                            streamMatrix.Position = TempModel.AltMorphOffset + TempAltMorphList.MorphOffset;
+                            TempAltMorphList.MorphChunkList = new List<AltMorphChunk>();
+
+                            //Go to Chunks To start The REading Process
+                            for (int az = 0; az < TempModel.MaterialGroupList.Count; az++)
+                            {
+                                var TempMaterialGroup = TempModel.MaterialGroupList[az];
+
+                                for (int bz = 0; bz < TempMaterialGroup.WeightRefList.Count; bz++)
+                                {
+                                    var TempWeightRefList = TempMaterialGroup.WeightRefList[bz];
+
+                                    for (int cz = 0; cz < TempWeightRefList.MorphMeshGroupList.Count; cz++)
+                                    {
+                                        var TempMorphMeshGroup = TempWeightRefList.MorphMeshGroupList[cz];
+                                        for (int b = 0; b < TempMorphMeshGroup.MeshChunkList.Count; b++)
+                                        {
+                                            var TempAltMorphChunk = new AltMorphChunk();
+                                            TempAltMorphChunk.VerticeCount = StreamUtil.ReadInt32(streamMatrix);
+                                            TempAltMorphChunk.ChunkSize = StreamUtil.ReadInt32(streamMatrix);
+                                            TempAltMorphChunk.UVOffset = StreamUtil.ReadInt32(streamMatrix);
+                                            TempAltMorphChunk.NormalOffset = StreamUtil.ReadInt32(streamMatrix);
+                                            TempAltMorphChunk.VerticeOffset = StreamUtil.ReadInt32(streamMatrix);
+
+                                            TempAltMorphChunk.UV = new List<Vector4>();
+                                            for (int c = 0; c < TempAltMorphChunk.VerticeCount; c++)
+                                            {
+                                                Vector4 TempUV = new Vector4();
+
+                                                TempUV.X = StreamUtil.ReadInt8(streamMatrix);
+                                                TempUV.Y = StreamUtil.ReadInt8(streamMatrix);
+                                                TempUV.Z = StreamUtil.ReadInt8(streamMatrix);
+                                                TempUV.W = StreamUtil.ReadInt8(streamMatrix);
+
+                                                TempAltMorphChunk.UV.Add(TempUV);
+                                            }
+
+                                            TempAltMorphChunk.Normal = new List<Vector4>();
+                                            for (int c = 0; c < TempAltMorphChunk.VerticeCount; c++)
+                                            {
+                                                Vector4 TempNormal = new Vector4();
+
+                                                TempNormal.X = StreamUtil.ReadInt16(streamMatrix);
+                                                TempNormal.Y = StreamUtil.ReadInt16(streamMatrix);
+                                                TempNormal.Z = StreamUtil.ReadInt16(streamMatrix);
+                                                TempNormal.W = StreamUtil.ReadInt16(streamMatrix);
+
+                                                TempAltMorphChunk.Normal.Add(TempNormal);
+                                            }
+
+
+                                            TempAltMorphChunk.Position = new List<Vector3>();
+                                            for (int c = 0; c < TempAltMorphChunk.VerticeCount; c++)
+                                            {
+                                                Vector3 TempPosition = new Vector3();
+
+                                                TempPosition.X = StreamUtil.ReadFloat(streamMatrix);
+                                                TempPosition.Y = StreamUtil.ReadFloat(streamMatrix);
+                                                TempPosition.Z = StreamUtil.ReadFloat(streamMatrix);
+
+                                                TempAltMorphChunk.Position.Add(TempPosition);
+                                            }
+
+                                            TempAltMorphList.MorphChunkList.Add(TempAltMorphChunk);
+                                        }
+
+                                        TempWeightRefList.MorphMeshGroupList[cz] = TempMorphMeshGroup;
+                                    }
+
+                                    TempMaterialGroup.WeightRefList[bz] = TempWeightRefList;
+                                }
+
+                                TempModel.MaterialGroupList[az] = TempMaterialGroup;
+                            }
+
+                            TempModel.AltMorphList[a] = TempAltMorphList;
+                        }
+                    }
+                    int ChunkID = 0;
+                    //Go to Chunks To start The REading Process
+                    for (int az = 0; az < TempModel.MaterialGroupList.Count; az++)
+                    {
+                        var TempMaterialGroup = TempModel.MaterialGroupList[az];
+
+                        for (int bz = 0; bz < TempMaterialGroup.WeightRefList.Count; bz++)
+                        {
+                            var TempWeightRefList = TempMaterialGroup.WeightRefList[bz];
+
+                            for (int cz = 0; cz < TempWeightRefList.MorphMeshGroupList.Count; cz++)
+                            {
+                                var TempMorphMeshGroup = TempWeightRefList.MorphMeshGroupList[cz];
+                                for (int d = 0; d < TempMorphMeshGroup.MeshChunkList.Count; d++)
+                                {
+                                    var TempChunk = TempMorphMeshGroup.MeshChunkList[d];
+
+                                    TempChunk = GenerateFaces(TempChunk, TempMorphMeshGroup.MorphDataList, TempModel.AltMorphList, ChunkID);
+                                    ChunkID++;
+                                    TempMorphMeshGroup.MeshChunkList[d] = TempChunk;
+                                }
+
+                                TempWeightRefList.MorphMeshGroupList[cz] = TempMorphMeshGroup;
+                            }
+
+                            TempMaterialGroup.WeightRefList[bz] = TempWeightRefList;
+                        }
+
+                        TempModel.MaterialGroupList[az] = TempMaterialGroup;
+                    }
 
                     streamMatrix.Close();
                     streamMatrix.Dispose();
@@ -480,7 +593,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
         }
 
-        public MeshChunk GenerateFaces(MeshChunk models, List<MorphKey> morphPointData)
+        public MeshChunk GenerateFaces(MeshChunk models, List<MorphKey> morphPointData, List<AltMorphHeader> altMorphChunk, int MeshChunkID)
         {
             var ModelData = models;
             //Increment Strips
@@ -509,7 +622,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     continue;
                 }
 
-                ModelData.Faces.Add(CreateFaces(b, ModelData, Rotation, morphPointData));
+                ModelData.Faces.Add(CreateFaces(b, ModelData, Rotation, morphPointData, altMorphChunk, MeshChunkID));
                 Rotation = !Rotation;
                 localIndex++;
             }
@@ -527,7 +640,7 @@ namespace SSXMultiTool.FileHandlers.Models
             }
             return false;
         }
-        public Face CreateFaces(int Index, MeshChunk ModelData, bool roatation, List<MorphKey> morphPointData)
+        public Face CreateFaces(int Index, MeshChunk ModelData, bool roatation, List<MorphKey> morphPointData, List<AltMorphHeader> altMorphChunk, int MeshChunkID)
         {
             Face face = new Face();
             int Index1 = 0;
@@ -635,6 +748,28 @@ namespace SSXMultiTool.FileHandlers.Models
                 }
             }
 
+            if(altMorphChunk !=null)
+            {
+                face.AltMorphPoint1 = new List<Vector3>();
+                face.AltMorphPoint2 = new List<Vector3>();
+                face.AltMorphPoint3 = new List<Vector3>();
+
+                face.AltMorphNormal1 = new List<Vector3>();
+                face.AltMorphNormal2 = new List<Vector3>();
+                face.AltMorphNormal3 = new List<Vector3>();
+
+                for (int i = 0; i < altMorphChunk.Count; i++)
+                {
+                    face.AltMorphPoint1.Add(altMorphChunk[i].MorphChunkList[MeshChunkID].Position[Index1]);
+                    face.AltMorphPoint2.Add(altMorphChunk[i].MorphChunkList[MeshChunkID].Position[Index2]);
+                    face.AltMorphPoint3.Add(altMorphChunk[i].MorphChunkList[MeshChunkID].Position[Index3]);
+
+                    face.AltMorphNormal1.Add(new Vector3(altMorphChunk[i].MorphChunkList[MeshChunkID].Normal[Index1].X, altMorphChunk[i].MorphChunkList[MeshChunkID].Normal[Index1].Y, altMorphChunk[i].MorphChunkList[MeshChunkID].Normal[Index1].Z));
+                    face.AltMorphNormal2.Add(new Vector3(altMorphChunk[i].MorphChunkList[MeshChunkID].Normal[Index2].X, altMorphChunk[i].MorphChunkList[MeshChunkID].Normal[Index2].Y, altMorphChunk[i].MorphChunkList[MeshChunkID].Normal[Index2].Z));
+                    face.AltMorphNormal3.Add(new Vector3(altMorphChunk[i].MorphChunkList[MeshChunkID].Normal[Index3].X, altMorphChunk[i].MorphChunkList[MeshChunkID].Normal[Index3].Y, altMorphChunk[i].MorphChunkList[MeshChunkID].Normal[Index3].Z));
+                }
+            }
+
             return face;
         }
 
@@ -662,7 +797,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 StreamUtil.WriteInt32(stream, TempModel.ModelDataOffset);
                 StreamUtil.WriteInt32(stream, TempModel.MaterialOffset);
                 StreamUtil.WriteInt32(stream, TempModel.MorphOffset);
-                StreamUtil.WriteInt32(stream, TempModel.AltMorphSize);
+                StreamUtil.WriteInt32(stream, TempModel.AltMorphOffset);
                 StreamUtil.WriteInt32(stream, TempModel.WeightRefrenceOffset);
                 StreamUtil.WriteInt32(stream, TempModel.BoneWeightOffset);
 
@@ -708,14 +843,14 @@ namespace SSXMultiTool.FileHandlers.Models
             public string ModelName;
             public int DataOffset;
             public int EntrySize;
-            public int AltMorphOffset;
+            public int AltMorphSize;
             public int BoneOffset;
             public int IKPointOffset;
             public int MaterialGroupOffset;
             public int ModelDataOffset;
             public int MaterialOffset;
             public int MorphOffset;
-            public int AltMorphSize;
+            public int AltMorphOffset;
             public int WeightRefrenceOffset;
             public int BoneWeightOffset;
 
@@ -920,6 +1055,16 @@ namespace SSXMultiTool.FileHandlers.Models
             public List<Vector3> MorphPoint2;
             public List<Vector3> MorphPoint3;
 
+
+
+            public List<Vector3> AltMorphPoint1;
+            public List<Vector3> AltMorphPoint2;
+            public List<Vector3> AltMorphPoint3;
+
+            public List<Vector3> AltMorphNormal1;
+            public List<Vector3> AltMorphNormal2;
+            public List<Vector3> AltMorphNormal3;
+
             public int MaterialID;
         }
 
@@ -928,6 +1073,21 @@ namespace SSXMultiTool.FileHandlers.Models
             public string MorphName;
             public int MorphSize;
             public int MorphOffset;
+
+            public List<AltMorphChunk> MorphChunkList;
+        }
+
+        public struct AltMorphChunk
+        {
+            public int VerticeCount;
+            public int ChunkSize;
+            public int UVOffset;
+            public int NormalOffset;
+            public int VerticeOffset;
+
+            public List<Vector4> UV;
+            public List<Vector4> Normal;
+            public List<Vector3> Position;
         }
     }
 }
