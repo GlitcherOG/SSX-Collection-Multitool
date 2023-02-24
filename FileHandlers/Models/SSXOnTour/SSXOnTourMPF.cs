@@ -460,10 +460,10 @@ namespace SSXMultiTool.FileHandlers.Models
                         TempModel.MaterialGroupList[a] = TempMaterialGroup;
                     }
 
+                    TempModel.AltMorphList = new List<AltMorphHeader>();
                     if (TempModel.AltMorphSize != 0)
                     {
                         streamMatrix.Position = TempModel.AltMorphOffset;
-                        TempModel.AltMorphList = new List<AltMorphHeader>();
                         for (int a = 0; a < TempModel.AltMorphCount; a++)
                         {
                             var TempAltMorph = new AltMorphHeader();
@@ -773,64 +773,83 @@ namespace SSXMultiTool.FileHandlers.Models
             return face;
         }
 
-        public void SaveDecompress(string Path)
+        public void Save(string path, bool Compression)
         {
-            MemoryStream stream = new MemoryStream();
-
+            Stream stream = new MemoryStream();
             StreamUtil.WriteBytes(stream, magicWords);
             StreamUtil.WriteInt16(stream, ModelList.Count);
             StreamUtil.WriteInt16(stream, 12);
-            StreamUtil.WriteInt32(stream, DataOffset); //FIX OFFSET NUMBER
+            DataOffset = 112 * ModelList.Count + 4 + 12;
+            StreamUtil.WriteInt32(stream, DataOffset);
 
+            stream.Position = 112 * ModelList.Count + 4 + 12;
+
+            //Generate Matrix
+
+
+            //Write Matrix and Update Position Offsets
             for (int i = 0; i < ModelList.Count; i++)
             {
-                var TempModel = ModelList[i];
+                var Model = ModelList[i];
+                Model.DataOffset = (int)stream.Position - (96 * ModelList.Count + 4 + 12);
+                var TempMatrix = new byte[1];
+                if (Compression)
+                {
+                    RefpackHandler.Compress(Model.Matrix, out TempMatrix);
+                }
+                else
+                {
+                    TempMatrix = Model.Matrix;
+                }
+                StreamUtil.WriteBytes(stream, TempMatrix);
+                StreamUtil.AlignBy16(stream);
+                Model.EntrySize = Model.Matrix.Length;
 
-                StreamUtil.WriteString(stream, TempModel.ModelName, 16);
+                ModelList[i] = Model;
+            }
 
-                StreamUtil.WriteInt32(stream, TempModel.DataOffset);
-                StreamUtil.WriteInt32(stream, TempModel.EntrySize);
-                StreamUtil.WriteInt32(stream, TempModel.AltMorphOffset);
-                StreamUtil.WriteInt32(stream, TempModel.BoneOffset);
-                StreamUtil.WriteInt32(stream, TempModel.IKPointOffset);
-                StreamUtil.WriteInt32(stream, TempModel.MaterialGroupOffset);
-                StreamUtil.WriteInt32(stream, TempModel.ModelDataOffset);
-                StreamUtil.WriteInt32(stream, TempModel.MaterialOffset);
-                StreamUtil.WriteInt32(stream, TempModel.MorphOffset);
-                StreamUtil.WriteInt32(stream, TempModel.AltMorphOffset);
-                StreamUtil.WriteInt32(stream, TempModel.WeightRefrenceOffset);
-                StreamUtil.WriteInt32(stream, TempModel.BoneWeightOffset);
 
-                stream.Position += 4 * 4;
+            //Go back and write Header
+            stream.Position = 12;
+            for (int i = 0; i < ModelList.Count; i++)
+            {
+                StreamUtil.WriteString(stream, ModelList[i].ModelName, 16);
 
-                StreamUtil.WriteInt16(stream, TempModel.WeightCount);
-                StreamUtil.WriteInt16(stream, TempModel.WeightRefrenceCount);
-                StreamUtil.WriteInt16(stream, TempModel.MaterialGroupCount);
-                StreamUtil.WriteInt16(stream, TempModel.BoneCount);
-                StreamUtil.WriteInt16(stream, TempModel.MaterialCount);
-                StreamUtil.WriteInt16(stream, TempModel.IKCount);
-                StreamUtil.WriteInt16(stream, TempModel.MorphCount);
-                StreamUtil.WriteInt16(stream, TempModel.AltMorphCount);
-                StreamUtil.WriteInt32(stream, TempModel.TriangleCount);
-                StreamUtil.WriteInt16(stream, TempModel.FileID);
+                StreamUtil.WriteInt32(stream, ModelList[i].DataOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].EntrySize);
+                StreamUtil.WriteInt32(stream, ModelList[i].AltMorphOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].BoneOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].IKPointOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].MaterialGroupOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].ModelDataOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].MaterialOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].MorphOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].AltMorphOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].WeightRefrenceOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].BoneWeightOffset);
+
+                stream.Position += 4*4;
+
+                StreamUtil.WriteInt16(stream, ModelList[i].BoneWeightHeaderList.Count);
+                StreamUtil.WriteInt16(stream, ModelList[i].WeightRefrenceList.Count);
+                StreamUtil.WriteInt16(stream, ModelList[i].MaterialGroupList.Count);
+                StreamUtil.WriteInt16(stream, ModelList[i].BoneList.Count);
+                StreamUtil.WriteInt16(stream, ModelList[i].MaterialList.Count);
+                StreamUtil.WriteInt16(stream, ModelList[i].IKCount);
+                StreamUtil.WriteInt16(stream, ModelList[i].MorphHeaderList.Count);
+                StreamUtil.WriteInt16(stream, ModelList[i].AltMorphList.Count);
+                StreamUtil.WriteInt32(stream, ModelList[i].TriangleCount);
+                StreamUtil.WriteInt16(stream, ModelList[i].FileID);
 
                 stream.Position += 2 * 5;
             }
 
-            StreamUtil.AlignBy16(stream);
-
-            for (int i = 0; i < ModelList.Count; i++)
+            if (File.Exists(path))
             {
-                StreamUtil.WriteBytes(stream, ModelList[i].Matrix);
-                StreamUtil.AlignBy16(stream);
+                File.Delete(path);
             }
 
-
-            if (File.Exists(Path))
-            {
-                File.Delete(Path);
-            }
-            var file = File.Create(Path);
+            var file = File.Create(path);
             stream.Position = 0;
             stream.CopyTo(file);
             stream.Dispose();

@@ -373,6 +373,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     TempMesh.meshChunk.Add(meshChunk);
                 }
             }
+
             return TempMesh;
         }
 

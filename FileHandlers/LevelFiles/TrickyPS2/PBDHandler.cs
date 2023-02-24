@@ -421,6 +421,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             }
                             TempPrefab.objectData = meshHeader;
                         }
+
+                        if (TempPrefab.AnimOffset != 0 && TempPrefab.AnimOffset != -1)
+                        {
+                            stream.Position = StartPos + TempPrefab.AnimOffset;
+                            //Load Stuff
+                            
+                        }
                         stream.Position = tempPos;
                         TempHeader.PrefabObjects.Add(TempPrefab);
                     }
