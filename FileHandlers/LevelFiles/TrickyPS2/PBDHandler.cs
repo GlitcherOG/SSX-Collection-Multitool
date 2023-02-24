@@ -1671,6 +1671,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     }
                 }
 
+                TempInstance.HighestXYZ = HighestXYZ;
+                TempInstance.LowestXYZ = LowestXYZ;
 
                 Instances[i] = TempInstance;
             }
