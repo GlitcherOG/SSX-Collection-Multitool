@@ -785,13 +785,227 @@ namespace SSXMultiTool.FileHandlers.Models
             stream.Position = 112 * ModelList.Count + 4 + 12;
 
             //Generate Matrix
+            for (int i = 0; i < ModelList.Count; i++)
+            {
+                var Model = ModelList[i];
+                MemoryStream ModelStream = new MemoryStream();
+
+                Model.MaterialOffset = (int)ModelStream.Position;
+                for (int a = 0; a < Model.MaterialList.Count; a++)
+                {
+                    StreamUtil.WriteString(ModelStream, Model.MaterialList[a].MainTexture, 4);
+
+                    if (Model.MaterialList[a].Texture1 != "")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.MaterialList[a].Texture1, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
+                    if (Model.MaterialList[a].Texture2 != "")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.MaterialList[a].Texture2, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
+                    if (Model.MaterialList[a].Texture3 != "")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.MaterialList[a].Texture3, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
+                    if (Model.MaterialList[a].Texture4 != "")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.MaterialList[a].Texture4, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
+
+                    StreamUtil.WriteFloat32(ModelStream, Model.MaterialList[a].FactorFloat);
+                    StreamUtil.WriteFloat32(ModelStream, Model.MaterialList[a].Unused1Float);
+                    StreamUtil.WriteFloat32(ModelStream, Model.MaterialList[a].Unused2Float);
+                }
+
+                Model.BoneOffset = (int)ModelStream.Position;
+                for (int a = 0; a < Model.BoneList.Count; a++)
+                {
+                    StreamUtil.WriteString(ModelStream, Model.BoneList[a].BoneName, 16);
+                    StreamUtil.WriteInt16(ModelStream, Model.BoneList[a].ParentFileID);
+                    StreamUtil.WriteInt16(ModelStream, Model.BoneList[a].ParentBone);
+                    StreamUtil.WriteInt16(ModelStream, Model.BoneList[a].Unknown1);
+                    StreamUtil.WriteInt16(ModelStream, Model.BoneList[a].BoneID);
+
+                    StreamUtil.WriteUInt8(ModelStream, Model.BoneList[a].Unknown2);
+                    StreamUtil.WriteUInt8(ModelStream, Model.BoneList[a].Unknown3);
+                    StreamUtil.WriteUInt8(ModelStream, Model.BoneList[a].Unknown4);
+                    StreamUtil.WriteUInt8(ModelStream, Model.BoneList[a].Unknown5);
+
+                    StreamUtil.WriteInt32(ModelStream, Model.BoneList[a].Unknown6);
+
+                    StreamUtil.WriteVector4(ModelStream, Model.BoneList[a].Position);
+                    StreamUtil.WriteQuaternion(ModelStream, Model.BoneList[a].Rotation);
+                    StreamUtil.WriteVector4(ModelStream, Model.BoneList[a].Unknown);
+                }
+
+                //Morph Stuff Goes Here
+
+                //Bone Weigth
+                Model.BoneWeightOffset = (int)ModelStream.Position;
+                ModelStream.Position += 12 * Model.BoneWeightHeaderList.Count;
+                for (int a = 0; a < Model.BoneWeightHeaderList.Count; a++)
+                {
+                    var BoneWeightHeader = Model.BoneWeightHeaderList[a];
+                    BoneWeightHeader.WeightOffset = (int)ModelStream.Position;
+                    for (int b = 0; b < BoneWeightHeader.BoneWeightList.Count; b++)
+                    {
+                        StreamUtil.WriteInt16(ModelStream, BoneWeightHeader.BoneWeightList[b].Weight);
+                        StreamUtil.WriteUInt8(ModelStream, BoneWeightHeader.BoneWeightList[b].BoneID);
+                        StreamUtil.WriteUInt8(ModelStream, BoneWeightHeader.BoneWeightList[b].FileID);
+                    }
+                    Model.BoneWeightHeaderList[a] = BoneWeightHeader;
+                }
+
+                Model.WeightRefrenceOffset = (int)ModelStream.Position;
+                ModelStream.Position = Model.BoneWeightOffset;
+                for (int a = 0; a < Model.BoneWeightHeaderList.Count; a++)
+                {
+                    StreamUtil.WriteInt32(ModelStream, Model.BoneWeightHeaderList[a].BoneWeightList.Count);
+                    StreamUtil.WriteInt32(ModelStream, Model.BoneWeightHeaderList[a].WeightOffset);
+                    StreamUtil.WriteInt32(ModelStream, Model.BoneWeightHeaderList[a].Unknown);
+                }
+
+                ModelStream.Position = Model.WeightRefrenceOffset;
+
+                //Number Ref List
+                ModelStream.Position += Model.WeightRefrenceList.Count * 8;
+                for (int a = 0; a < Model.WeightRefrenceList.Count; a++)
+                {
+                    var TempNumberRef = Model.WeightRefrenceList[a];
+                    TempNumberRef.Offset = (int)ModelStream.Position;
+                    Model.WeightRefrenceList[a] = TempNumberRef;
+
+                    for (int c = 0; c < TempNumberRef.WeightIDs.Count; c++)
+                    {
+                        StreamUtil.WriteInt32(ModelStream, TempNumberRef.WeightIDs[c]);
+                    }
+                }
+
+                Model.MaterialGroupOffset = (int)ModelStream.Position;
+                ModelStream.Position = Model.WeightRefrenceOffset;
+
+                for (int a = 0; a < Model.WeightRefrenceList.Count; a++)
+                {
+                    var TempNumberRef = Model.WeightRefrenceList[a];
+                    StreamUtil.WriteInt32(ModelStream, TempNumberRef.WeightIDs.Count);
+                    StreamUtil.WriteInt32(ModelStream, TempNumberRef.Offset);
+                }
+
+                //Mesh Group
+                ModelStream.Position = Model.MaterialGroupOffset;
+                int MathOffset = 0;
+                for (int a = 0; a < Model.MaterialGroupList.Count; a++)
+                {
+                    MathOffset += 4 * 5;
+                    for (int b = 0; b < Model.MaterialGroupList[a].WeightRefList.Count; b++)
+                    {
+                        MathOffset += 8;
+                        MathOffset += Model.MaterialGroupList[a].WeightRefList[b].MorphMeshGroupList.Count * 4 * 2;
+                    }
+                }
+                ModelStream.Position += MathOffset;
+                StreamUtil.AlignBy16(ModelStream);
+
+
+
+                //Saving Mesh Chunks HERE
+
+
+
+
+                //Regenerate Mesh Group
+                ModelStream.Position = Model.MaterialGroupOffset;
+                //Go to end of structure
+                ModelStream.Position += 4 * 5 * Model.MaterialGroupList.Count;
+                for (int a = 0; a < Model.MaterialGroupList.Count; a++)
+                {
+                    ModelStream.Position += Model.MaterialGroupList[a].WeightRefList.Count * 8;
+                }
+                //Write End Of structure
+                for (int a = 0; a < Model.MaterialGroupList.Count; a++)
+                {
+                    var TempMeshGroup = Model.MaterialGroupList[a];
+                    for (int b = 0; b < TempMeshGroup.WeightRefList.Count; b++)
+                    {
+                        var TempSubGroup = TempMeshGroup.WeightRefList[b];
+                        TempSubGroup.MorphMeshOffset = (int)ModelStream.Position;
+                        for (int c = 0; c < TempSubGroup.MorphMeshGroupList.Count; c++)
+                        {
+                            StreamUtil.WriteInt32(ModelStream, TempSubGroup.MorphMeshGroupList[c].MeshOffset);
+                            StreamUtil.WriteInt32(ModelStream, TempSubGroup.MorphMeshGroupList[c].MorphOffset);
+                        }
+                        TempMeshGroup.WeightRefList[b] = TempSubGroup;
+                    }
+                    Model.MaterialGroupList[a] = TempMeshGroup;
+                }
+
+                //Goto 2nd part of structure
+                ModelStream.Position = Model.MaterialGroupOffset;
+                ModelStream.Position += 4 * 5 * Model.MaterialGroupList.Count;
+
+                //Write 2nd part of structure
+                //Write End Of structure
+                for (int a = 0; a < Model.MaterialGroupList.Count; a++)
+                {
+                    var TempMeshGroup = Model.MaterialGroupList[a];
+                    TempMeshGroup.WeightRefGroupOffset = (int)ModelStream.Position;
+                    for (int b = 0; b < TempMeshGroup.WeightRefList.Count; b++)
+                    {
+                        var TempSubGroup = TempMeshGroup.WeightRefList[b];
+                        StreamUtil.WriteInt32(ModelStream, TempSubGroup.MorphMeshOffset);
+                        StreamUtil.WriteInt32(ModelStream, TempSubGroup.MorphMeshGroupList.Count);
+                    }
+                    Model.MaterialGroupList[a] = TempMeshGroup;
+                }
+
+                //Goto start and writestart of structure
+                ModelStream.Position = Model.MaterialGroupOffset;
+                for (int a = 0; a < Model.MaterialGroupList.Count; a++)
+                {
+                    StreamUtil.WriteInt32(ModelStream, Model.MaterialGroupList[a].Type);
+                    StreamUtil.WriteInt32(ModelStream, Model.MaterialGroupList[a].Material);
+                    StreamUtil.WriteInt32(ModelStream, Model.MaterialGroupList[a].Unknown);
+                    StreamUtil.WriteInt32(ModelStream, Model.MaterialGroupList[a].WeightRefList.Count);
+                    StreamUtil.WriteInt32(ModelStream, Model.MaterialGroupList[a].WeightRefGroupOffset);
+                }
+
+                //AltMorph Stuff Here
+
+
+                ModelStream.Position = 0;
+                Model.Matrix = StreamUtil.ReadBytes(ModelStream, (int)(ModelStream.Length));
+                ModelStream.Dispose();
+                ModelStream.Close();
+                ModelList[i] = Model;
+            }
+
 
 
             //Write Matrix and Update Position Offsets
             for (int i = 0; i < ModelList.Count; i++)
             {
                 var Model = ModelList[i];
-                Model.DataOffset = (int)stream.Position - (96 * ModelList.Count + 4 + 12);
+                Model.DataOffset = (int)stream.Position - (112 * ModelList.Count + 4 + 12);
                 var TempMatrix = new byte[1];
                 if (Compression)
                 {
@@ -817,7 +1031,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
                 StreamUtil.WriteInt32(stream, ModelList[i].DataOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].EntrySize);
-                StreamUtil.WriteInt32(stream, ModelList[i].AltMorphOffset);
+                StreamUtil.WriteInt32(stream, ModelList[i].AltMorphSize);
                 StreamUtil.WriteInt32(stream, ModelList[i].BoneOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].IKPointOffset);
                 StreamUtil.WriteInt32(stream, ModelList[i].MaterialGroupOffset);
