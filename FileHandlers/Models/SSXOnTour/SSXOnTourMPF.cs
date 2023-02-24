@@ -518,10 +518,10 @@ namespace SSXMultiTool.FileHandlers.Models
                                             {
                                                 Vector4 TempNormal = new Vector4();
 
-                                                TempNormal.X = StreamUtil.ReadInt16(streamMatrix)/4096;
-                                                TempNormal.Y = StreamUtil.ReadInt16(streamMatrix) / 4096;
-                                                TempNormal.Z = StreamUtil.ReadInt16(streamMatrix) / 4096;
-                                                TempNormal.W = StreamUtil.ReadInt16(streamMatrix) / 4096;
+                                                TempNormal.X = StreamUtil.ReadInt16(streamMatrix)/4096f;
+                                                TempNormal.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                                                TempNormal.Z = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                                                TempNormal.W = StreamUtil.ReadInt16(streamMatrix) / 4096f;
 
                                                 TempAltMorphChunk.Normal.Add(TempNormal);
                                             }
@@ -858,7 +858,14 @@ namespace SSXMultiTool.FileHandlers.Models
                     StreamUtil.WriteVector4(ModelStream, Model.BoneList[a].Unknown);
                 }
 
-                //Morph Stuff Goes Here
+                //Morph 
+                Model.MorphOffset = (int)ModelStream.Position;
+                for (int a = 0; a < Model.MorphHeaderList.Count; a++)
+                {
+                    StreamUtil.WriteString(ModelStream,Model.MorphHeaderList[a].MorphName, 28);
+                    StreamUtil.WriteInt32(ModelStream, Model.MorphHeaderList[a].MorphID);
+
+                }
 
                 //Bone Weigth
                 Model.BoneWeightOffset = (int)ModelStream.Position;
@@ -926,12 +933,304 @@ namespace SSXMultiTool.FileHandlers.Models
                 ModelStream.Position += MathOffset;
                 StreamUtil.AlignBy16(ModelStream);
 
+                //Saving Mesh Chunks HERE FIX THE GOD DAMN ALT MORPH CHUNKS OFFSET SAVING
+                Model.ModelDataOffset = (int)ModelStream.Position;
+                for (int a = 0; a < Model.MaterialGroupList.Count; a++)
+                {
+                    var TempMaterialGroup = Model.MaterialGroupList[a];
+                    for (int b = 0; b < TempMaterialGroup.WeightRefList.Count; b++)
+                    {
+                        var TempWeightRefGroup = TempMaterialGroup.WeightRefList[b];
+                        for (int c = 0; c < TempWeightRefGroup.MorphMeshGroupList.Count; c++)
+                        {
+                            var TempGroupHeader = TempWeightRefGroup.MorphMeshGroupList[c];
+                            TempGroupHeader.MeshOffset = (int)ModelStream.Position;
+                            bool MeshTest = false;
+                            //Write Mesh Chunk
+                            for (int d = 0; d < TempGroupHeader.MeshChunkList.Count; d++)
+                            {
+                                var TempStaticMesh = TempGroupHeader.MeshChunkList[d];
+                                int RowCountPos = (int)ModelStream.Position;
+                                ModelStream.Position += 3;
+                                StreamUtil.WriteInt32(ModelStream, 16);
+                                StreamUtil.AlignBy16(ModelStream);
 
+                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80 });
+                                StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.Strips.Count + 2);
+                                StreamUtil.WriteUInt8(ModelStream, 0x6C);
 
-                //Saving Mesh Chunks HERE
+                                //Tristrip Header InfoCrap
+                                StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.Vertices.Count);
+                                if (TempMaterialGroup.Type == 1 || TempMaterialGroup.Type == 256)
+                                {
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x80, 0x00, 0x00, 0x00, 0x40, 0x2E, 0x30, 0x12, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                }
+                                else if (TempMaterialGroup.Type == 17)
+                                {
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x80, 0x00, 0x00, 0x00, 0x40, 0x22, 0x10, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                }
 
+                                StreamUtil.WriteInt32(ModelStream, TempStaticMesh.Strips.Count);
+                                StreamUtil.WriteInt32(ModelStream, TempStaticMesh.Unknown1);
+                                StreamUtil.WriteInt32(ModelStream, TempStaticMesh.Unknown2);
+                                StreamUtil.WriteInt32(ModelStream, TempStaticMesh.Vertices.Count);
 
+                                //Write Tristrips
+                                for (int e = 0; e < TempStaticMesh.Strips.Count; e++)
+                                {
+                                    StreamUtil.WriteInt32(ModelStream, TempStaticMesh.Strips[e]);
+                                    StreamUtil.AlignBy16(ModelStream);
+                                }
 
+                                //Go back and write rowcount
+                                int TempPos = (int)ModelStream.Position;
+                                ModelStream.Position = RowCountPos;
+                                StreamUtil.WriteInt24(ModelStream, (TempPos - RowCountPos) / 16 - 1);
+                                ModelStream.Position = TempPos;
+
+                                //Set New Rowcount
+                                RowCountPos = (int)ModelStream.Position;
+                                ModelStream.Position += 3;
+                                StreamUtil.WriteInt32(ModelStream, 16);
+                                StreamUtil.AlignBy16(ModelStream);
+
+                                //Write UV
+                                ModelStream.Position += 7;
+                                StreamUtil.WriteUInt8(ModelStream, 0x30);
+                                ModelStream.Position += 8;
+
+                                if (TempMaterialGroup.Type != 17)
+                                {
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x10, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x50, 0x50, 0x50, 0x50 });
+
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.Strips.Count + 2);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x80);
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.UV.Count);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x6D);
+
+                                    for (int e = 0; e < TempStaticMesh.UV.Count; e++)
+                                    {
+                                        StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.UV[e].X * 4096f));
+                                        StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.UV[e].Y * 4096f));
+                                        StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.UV[e].Z));
+                                        StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.UV[e].W));
+                                    }
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    //Write Normals
+                                    ModelStream.Position += 7;
+                                    StreamUtil.WriteUInt8(ModelStream, 0x30);
+                                    ModelStream.Position += 8;
+
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x40, 0x40, 0x40, 0x40 });
+
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.Strips.Count + 3);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x80);
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.UVNormals.Count);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x79);
+
+                                    for (int e = 0; e < TempStaticMesh.UVNormals.Count; e++)
+                                    {
+                                        StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.UVNormals[e].X * 32768f));
+                                        StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.UVNormals[e].Y * 32768f));
+                                        StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.UVNormals[e].Z * 32768f));
+                                    }
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    //Write Vertex Count
+                                    ModelStream.Position += 7;
+                                    StreamUtil.WriteUInt8(ModelStream, 0x30);
+                                    ModelStream.Position += 8;
+
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x3F, 0x00, 0x00, 0x00, 0x20, 0x40, 0x40, 0x40, 0x40 });
+
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.Strips.Count + 4);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x80);
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.Vertices.Count);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x78);
+
+                                    for (int e = 0; e < TempStaticMesh.Vertices.Count; e++)
+                                    {
+                                        StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.Vertices[e].X));
+                                        StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.Vertices[e].Y));
+                                        StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.Vertices[e].Z));
+                                    }
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    //Go back and write row count
+                                    TempPos = (int)ModelStream.Position;
+                                    ModelStream.Position = RowCountPos;
+                                    StreamUtil.WriteInt24(ModelStream, (TempPos - RowCountPos) / 16 - 1);
+                                    ModelStream.Position = TempPos;
+
+                                    //Write New RowCount that neve changes
+                                    StreamUtil.WriteInt24(ModelStream, 1);
+                                    if (TempMaterialGroup.Type != 256)
+                                    {
+                                        StreamUtil.WriteInt32(ModelStream, 16);
+                                    }
+                                    else
+                                    {
+                                        StreamUtil.WriteInt32(ModelStream, 0x60);
+                                    }
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    if (TempMaterialGroup.Type != 256)
+                                    {
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
+
+                                        StreamUtil.WriteUInt8(ModelStream, 0x00); // Can sometimes be 0x0A
+
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x14 });
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+
+                                    }
+                                    else
+                                    {
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                    }
+
+                                }
+                                else
+                                {
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x3F, 0x00, 0x00, 0x00, 0x20, 0x40, 0x40, 0x40, 0x40 });
+
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00 });
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.Strips.Count + 2);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x80);
+                                    StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.Vertices.Count);
+                                    StreamUtil.WriteUInt8(ModelStream, 0x6C);
+
+                                    for (int e = 0; e < TempStaticMesh.Vertices.Count; e++)
+                                    {
+                                        StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.Vertices[e].X));
+                                        StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.Vertices[e].Y));
+                                        StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.Vertices[e].Z));
+                                        StreamUtil.WriteInt32(ModelStream, (TempStaticMesh.Weights[e]));
+                                    }
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    //Go back and write row count
+                                    TempPos = (int)ModelStream.Position;
+                                    ModelStream.Position = RowCountPos;
+                                    StreamUtil.WriteInt24(ModelStream, (TempPos - RowCountPos) / 16 - 1);
+                                    ModelStream.Position = TempPos;
+
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x14 });
+                                }
+                            }
+
+                            //Do Morph Stuff
+
+                            if (TempMaterialGroup.Type == 256)
+                            {
+                                TempGroupHeader.MorphOffset = (int)ModelStream.Position - TempGroupHeader.MeshOffset;
+                                for (int e = 0; e < Model.MorphCount; e++)
+                                {
+                                    var TempMorphList = TempGroupHeader.MorphDataList[e];
+
+                                    int RowCountPos = (int)ModelStream.Position;
+                                    ModelStream.Position += 3;
+                                    StreamUtil.WriteInt32(ModelStream, 96);
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    if (TempMorphList.MorphDataList.Count != 0)
+                                    {
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0xB5, 0x80 });
+                                        StreamUtil.WriteUInt8(ModelStream, TempMorphList.MorphDataList.Count + 1);
+                                        StreamUtil.WriteUInt8(ModelStream, 0x6E);
+                                        StreamUtil.WriteInt32(ModelStream, TempMorphList.MorphDataList.Count);
+                                        for (int d = 0; d < TempMorphList.MorphDataList.Count; d++)
+                                        {
+                                            StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.MorphDataList[d].vector3.X * 2.5f));
+                                            StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.MorphDataList[d].vector3.Y * 2.5f));
+                                            StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.MorphDataList[d].vector3.Z * 2.5f));
+                                            StreamUtil.WriteUInt8(ModelStream, TempMorphList.MorphDataList[d].ID * 3);
+                                        }
+                                        StreamUtil.AlignBy16(ModelStream);
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x14 });
+
+                                        int TempPos = (int)ModelStream.Position;
+                                        ModelStream.Position = RowCountPos;
+                                        StreamUtil.WriteInt24(ModelStream, (TempPos - RowCountPos) / 16 - 1);
+                                        ModelStream.Position = TempPos;
+                                    }
+                                    else
+                                    {
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x14 });
+
+                                        int TempPos = (int)ModelStream.Position;
+                                        ModelStream.Position = RowCountPos;
+                                        StreamUtil.WriteInt24(ModelStream, 1);
+                                        ModelStream.Position = TempPos;
+                                    }
+                                    TempGroupHeader.MorphDataList[e] = TempMorphList;
+                                }
+                                if ((a == Model.MaterialGroupList.Count - 1 && b == TempMaterialGroup.WeightRefList.Count - 1 && c == TempWeightRefGroup.MorphMeshGroupList.Count - 1))
+                                {
+                                    //Write End of Meshdata
+                                    StreamUtil.WriteInt24(ModelStream, 1);
+                                    StreamUtil.WriteInt32(ModelStream, 96);
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01 });
+                                    StreamUtil.AlignBy16(ModelStream);
+                                    ModelStream.Position -= 1;
+                                    StreamUtil.WriteUInt8(ModelStream, 0);
+
+                                    StreamUtil.WriteInt24(ModelStream, 1);
+                                    StreamUtil.WriteInt32(ModelStream, 96);
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    ModelStream.Position += 4;
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
+
+                                    ModelStream.Position += 7;
+                                    StreamUtil.WriteUInt8(ModelStream, 17);
+                                }
+                            }
+                            else
+                            {
+                                TempGroupHeader.MorphOffset = -1;
+                            }
+
+                            if (TempMaterialGroup.Type != 256)
+                            {
+                                //Write End of Meshdata
+                                StreamUtil.WriteInt24(ModelStream, 1);
+                                StreamUtil.WriteInt32(ModelStream, 96);
+                                StreamUtil.AlignBy16(ModelStream);
+
+                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01 });
+                                StreamUtil.AlignBy16(ModelStream);
+                                ModelStream.Position -= 1;
+                                StreamUtil.WriteUInt8(ModelStream, 0);
+
+                                if ((a == Model.MaterialGroupList.Count - 1 && b == TempMaterialGroup.WeightRefList.Count - 1 && c == TempWeightRefGroup.MorphMeshGroupList.Count - 1))
+                                {
+                                    StreamUtil.WriteInt24(ModelStream, 1);
+                                    StreamUtil.WriteInt32(ModelStream, 96);
+                                    StreamUtil.AlignBy16(ModelStream);
+
+                                    ModelStream.Position += 4;
+                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
+
+                                    ModelStream.Position += 7;
+                                    StreamUtil.WriteUInt8(ModelStream, 17);
+                                }
+                            }
+                            TempWeightRefGroup.MorphMeshGroupList[c] = TempGroupHeader;
+                        }
+                        TempMaterialGroup.WeightRefList[b] = TempWeightRefGroup;
+                    }
+                    Model.MaterialGroupList[a] = TempMaterialGroup;
+                }
+                Model.AltMorphOffset = (int)ModelStream.Position;
+                Model.AltMorphSize = 0;
 
                 //Regenerate Mesh Group
                 ModelStream.Position = Model.MaterialGroupOffset;
@@ -989,8 +1288,73 @@ namespace SSXMultiTool.FileHandlers.Models
                     StreamUtil.WriteInt32(ModelStream, Model.MaterialGroupList[a].WeightRefGroupOffset);
                 }
 
-                //AltMorph Stuff Here
+                //AltMorph Data
+                if (Model.AltMorphList.Count != 0)
+                {
+                    ModelStream.Position = Model.AltMorphOffset;
 
+                    ModelStream.Position += 36 * Model.AltMorphList.Count;
+
+                    for (int a = 0; a < Model.AltMorphList.Count; a++)
+                    {
+                        var TempAltMorph = Model.AltMorphList[a];
+
+                        TempAltMorph.MorphOffset = (int)(ModelStream.Position - Model.AltMorphOffset);
+                        int TempPos = (int)ModelStream.Position;
+
+                        for (int b = 0; b < Model.AltMorphList[i].MorphChunkList.Count; b++)
+                        {
+                            StreamUtil.WriteInt32(ModelStream, Model.AltMorphList[i].MorphChunkList[b].Position.Count);
+                            int VertCount = Model.AltMorphList[i].MorphChunkList[b].Position.Count;
+                            StreamUtil.WriteInt32(ModelStream, 5 * 4 + VertCount * 4 + VertCount * 4 * 2 + VertCount * 4 * 3);
+                            StreamUtil.WriteInt32(ModelStream, Model.AltMorphList[i].MorphChunkList[b].UVOffset);
+                            StreamUtil.WriteInt32(ModelStream, Model.AltMorphList[i].MorphChunkList[b].NormalOffset);
+                            StreamUtil.WriteInt32(ModelStream, Model.AltMorphList[i].MorphChunkList[b].VerticeOffset);
+
+                            for (int c = 0; c < Model.AltMorphList[i].MorphChunkList[b].UV.Count; c++)
+                            {
+                                var TempUV = Model.AltMorphList[i].MorphChunkList[b].UV[c];
+                                StreamUtil.WriteUInt8(ModelStream, (int)TempUV.X);
+                                StreamUtil.WriteUInt8(ModelStream, (int)TempUV.Y);
+                                StreamUtil.WriteUInt8(ModelStream, (int)TempUV.Z);
+                                StreamUtil.WriteUInt8(ModelStream, (int)TempUV.W);
+                            }
+
+                            for (int c = 0; c < VertCount; c++)
+                            {
+                                var TempNormal = Model.AltMorphList[i].MorphChunkList[b].Normal[c];
+                                StreamUtil.WriteInt16(ModelStream, (int)(TempNormal.X * 4096f));
+                                StreamUtil.WriteInt16(ModelStream, (int)(TempNormal.Y * 4096f));
+                                StreamUtil.WriteInt16(ModelStream, (int)(TempNormal.Z * 4096f));
+                                StreamUtil.WriteInt16(ModelStream, (int)(TempNormal.W * 4096f));
+                            }
+
+                            for (int c = 0; c < VertCount; c++)
+                            {
+                                var TempVert = Model.AltMorphList[i].MorphChunkList[b].Position[c];
+                                StreamUtil.WriteFloat32(ModelStream, TempVert.X);
+                                StreamUtil.WriteFloat32(ModelStream, TempVert.Y);
+                                StreamUtil.WriteFloat32(ModelStream, TempVert.Z);
+                            }
+
+                        }
+
+                        TempAltMorph.MorphSize = (int)ModelStream.Position - TempPos;
+                        Model.AltMorphList[a] = TempAltMorph;
+                    }
+
+                    Model.AltMorphSize = (int)(ModelStream.Position - Model.AltMorphOffset);
+
+                    //Write AltMorph Header
+                    ModelStream.Position = Model.AltMorphOffset;
+                    for (int a = 0; a < Model.AltMorphList.Count; a++)
+                    {
+                        var TempAltMorph = Model.AltMorphList[a];
+                        StreamUtil.WriteString(ModelStream, TempAltMorph.MorphName, 28);
+                        StreamUtil.WriteInt32(ModelStream, TempAltMorph.MorphSize);
+                        StreamUtil.WriteInt32(ModelStream, TempAltMorph.MorphOffset);
+                    }
+                }
 
                 ModelStream.Position = 0;
                 Model.Matrix = StreamUtil.ReadBytes(ModelStream, (int)(ModelStream.Length));
