@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using SSXMultiTool.FileHandlers.Models;
 
 namespace SSXMultiTool
 {
@@ -30,6 +31,12 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                if (MpfHeaderChecker.DetectFileType(openFileDialog.FileName) != 0)
+                {
+                    MessageBox.Show(MpfHeaderChecker.TypeErrorMessage(MpfHeaderChecker.DetectFileType(openFileDialog.FileName)));
+                    return;
+                }
+
                 modelHandler = new SSXMPFModelHandler();
                 modelHandler.load(openFileDialog.FileName);
                 MPFList.Items.Clear();

@@ -520,6 +520,12 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                if (MpfHeaderChecker.DetectFileType(openFileDialog.FileName) != 2)
+                {
+                    MessageBox.Show(MpfHeaderChecker.TypeErrorMessage(MpfHeaderChecker.DetectFileType(openFileDialog.FileName)));
+                    return;
+                }
+
                 modelHandler = new SSX3PS2MPF();
                 ssx3ModelCombiner = new SSX3PS2ModelCombiner();
                 modelHandler.load(openFileDialog.FileName);

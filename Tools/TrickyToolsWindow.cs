@@ -33,6 +33,13 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                if(MpfHeaderChecker.DetectFileType(openFileDialog.FileName)!=1)
+                {
+                    MessageBox.Show(MpfHeaderChecker.TypeErrorMessage(MpfHeaderChecker.DetectFileType(openFileDialog.FileName)));
+                    return;
+                }
+
+
                 trickyMPF = new TrickyPS2MPF();
                 trickyMPF.load(openFileDialog.FileName);
                 TristripMethodList.SelectedIndex = 0;

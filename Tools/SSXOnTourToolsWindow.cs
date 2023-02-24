@@ -24,7 +24,6 @@ namespace SSXMultiTool.Tools
         private void MpfLoad_Click(object sender, EventArgs e)
         {
 
-
             //string[] directory = Directory.GetFiles(@"H:\Visual Studio Projects\SSX Modder\bin\Debug\disk\Mods\SSX ON TOUR", "*.mpf", SearchOption.AllDirectories);
             //for (int i = 0; i < directory.Length; i++)
             //{
@@ -42,6 +41,11 @@ namespace SSXMultiTool.Tools
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                if (MpfHeaderChecker.DetectFileType(openFileDialog.FileName) != 3)
+                {
+                    MessageBox.Show(MpfHeaderChecker.TypeErrorMessage(MpfHeaderChecker.DetectFileType(openFileDialog.FileName)));
+                    return;
+                }
                 onTourMPF = new SSXOnTourMPF();
                 onTourMPF.Load(openFileDialog.FileName);
                 modelCombiner = new SSXOnTourPS2ModelCombiner();
