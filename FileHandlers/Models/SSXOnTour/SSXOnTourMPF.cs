@@ -951,6 +951,8 @@ namespace SSXMultiTool.FileHandlers.Models
                             //Write Mesh Chunk
                             for (int d = 0; d < TempGroupHeader.MeshChunkList.Count; d++)
                             {
+
+
                                 var TempStaticMesh = TempGroupHeader.MeshChunkList[d];
                                 int RowCountPos = (int)ModelStream.Position;
                                 ModelStream.Position += 3;
@@ -1127,15 +1129,31 @@ namespace SSXMultiTool.FileHandlers.Models
 
                                         StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x14 });
                                         //Add Switching Bytes for Every 2 Chunks
-                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                        if (!MeshTest)
+                                        {
+                                            StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                        }
+                                        else
+                                        {
+                                            StreamUtil.WriteBytes(ModelStream, new byte[] { 0x06, 0x00, 0x00, 0x14, 0x06, 0x00, 0x00, 0x14 });
+                                        }
 
                                         StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
                                         //Add Switching Bytes for Every 2 Chunks
-                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                        if (!MeshTest)
+                                        {
+                                            StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                        }
+                                        else
+                                        {
+                                            StreamUtil.WriteBytes(ModelStream, new byte[] { 0x0E, 0x00, 0x00, 0x14, 0x0E, 0x00, 0x00, 0x14 });
+                                        }
 
+                                        MeshTest = !MeshTest;
                                     }
                                     else
                                     {
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
                                         StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
                                     }
                                     ChunkID++;
