@@ -1052,6 +1052,167 @@ namespace SSXMultiTool.FileHandlers
             return trickyModelCombiner;
         }
 
+        public static SSXOnTourPS2ModelCombiner LoadSSXOnTourGlft(string Path)
+        {
+            SSXOnTourPS2ModelCombiner trickyModelCombiner = new SSXOnTourPS2ModelCombiner();
+            trickyModelCombiner.materials = new List<SSXOnTourMPF.MaterialData>();
+            trickyModelCombiner.reassignedMesh = new List<SSXOnTourPS2ModelCombiner.ReassignedMesh>();
+            var Scene = SharpGLTF.Scenes.SceneBuilder.LoadDefaultScene(Path);
+            var Instances = Scene.Instances.ToArray();
+
+            //Read Bones Building List
+            List<SSXOnTourMPF.BoneData> boneDatas = new List<SSXOnTourMPF.BoneData>();
+            var Ampatures = Scene.FindArmatures();
+
+            bool FoundBone = false;
+            for (int z = 0; z < Ampatures.Count; z++)
+            {
+                for (int a = 0; a < Ampatures[z].VisualChildren.Count; a++)
+                {
+                    if (Ampatures[z].VisualChildren[a].Name.ToLower() == "hips" || Ampatures[z].VisualChildren[a].Name.ToLower() == "board_rootg")
+                    {
+                        var StartBone = Ampatures[z].VisualChildren[a];
+                        boneDatas = ReturnBoneAndChildrenSSXOnTour(StartBone, true);
+                        FoundBone = true;
+                        break;
+                    }
+                }
+
+                if (FoundBone)
+                {
+                    break;
+                }
+            }
+
+            trickyModelCombiner.boneDatas = boneDatas;
+
+            for (int i = 0; i < Instances.Length; i++)
+            {
+                if (Instances[i].Content.GetType().Name == "SkinnedTransformer")
+                {
+                    var GLFTMesh = Instances[i].Content.GetGeometryAsset();
+                    var SkinnedMesh = (SharpGLTF.Scenes.SkinnedTransformer)Instances[i].Content;
+                    SSXOnTourPS2ModelCombiner.ReassignedMesh reassignedMesh = new SSXOnTourPS2ModelCombiner.ReassignedMesh();
+                    reassignedMesh.MeshName = GLFTMesh.Name;
+                    reassignedMesh.faces = new List<SSXOnTourMPF.Face>();
+
+                    var JointBindings = SkinnedMesh.GetJointBindings();
+                    var MaterialArray = GLFTMesh.Primitives.ToArray();
+                    for (int a = 0; a < MaterialArray.Length; a++)
+                    {
+                        //Build New Material With Primitive Name
+                        trickyModelCombiner.materials = MakeNewMaterialSSXOnTour(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
+
+                        int MatID = FindMaterialIDSSXOnTour(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
+
+                        //Build Vertex List
+                        List<VertexDataSSXOnTour> VertexList = new List<VertexDataSSXOnTour>();
+                        var OldVertexList = MaterialArray[a].Vertices.ToArray();
+                        int MorphTargetsCount = MaterialArray[a].MorphTargets.Count;
+
+                        for (int b = 0; b < OldVertexList.Length; b++)
+                        {
+                            var NewVertex = new VertexDataSSXOnTour();
+
+                            var TempGeo = OldVertexList[b].GetGeometry();
+                            var TempSkinning = OldVertexList[b].GetSkinning();
+                            var TempMaterial = OldVertexList[b].GetMaterial();
+
+                            //Get Postion Normal and UV
+                            NewVertex.Position = TempGeo.GetPosition();
+
+                            Vector3 TempNormal;
+                            if (TempGeo.TryGetNormal(out TempNormal))
+                            {
+                                NewVertex.Normal = TempNormal;
+                            }
+                            try
+                            {
+                                NewVertex.UV = TempMaterial.GetTexCoord(0);
+                            }
+                            catch
+                            {
+                                NewVertex.UV = new Vector2();
+                            }
+
+                            //Get Weights
+                            NewVertex.weightHeader = new SSXOnTourMPF.BoneWeightHeader();
+                            NewVertex.weightHeader.Unknown = 0;
+                            NewVertex.weightHeader.BoneWeightList = new List<SSXOnTourMPF.BoneWeight>();
+
+                            for (int d = 0; d < TempSkinning.MaxBindings; d++)
+                            {
+                                var BindingList = TempSkinning.GetBinding(d);
+                                if (BindingList.Weight != 0)
+                                {
+                                    SSXOnTourMPF.BoneWeight TempWeight = new SSXOnTourMPF.BoneWeight();
+                                    TempWeight.BoneID = BindingList.Index;
+                                    TempWeight.Weight = (int)(BindingList.Weight * 100f);
+                                    TempWeight.boneName = JointBindings[BindingList.Index].Joint.Name;
+                                    NewVertex.weightHeader.BoneWeightList.Add(TempWeight);
+                                }
+                            }
+
+                            //Add Morph Data
+                            NewVertex.MorphPoints = new List<Vector3>();
+                            NewVertex.NormalPoints = new List<Vector3>();
+                            for (int d = 0; d < MorphTargetsCount; d++)
+                            {
+                                NewVertex.MorphPoints.Add(MaterialArray[a].MorphTargets[d].GetVertex(b).GetGeometry().GetPosition() - NewVertex.Position);
+                                Vector3 Normal;
+                                if (MaterialArray[a].MorphTargets[d].GetVertex(b).GetGeometry().TryGetNormal(out Normal))
+                                {
+                                    NewVertex.NormalPoints.Add(Normal - NewVertex.Normal);
+                                }
+                            }
+
+                            VertexList.Add(NewVertex);
+                        }
+
+                        //Build Faces
+                        var TriangleList = MaterialArray[a].Triangles;
+                        for (int b = 0; b < TriangleList.Count; b++)
+                        {
+                            SSXOnTourMPF.Face TempFace = new SSXOnTourMPF.Face();
+                            var FaceTri = TriangleList[b];
+
+                            var TempPoint = VertexList[FaceTri.A];
+
+                            TempFace.V1 = TempPoint.Position;
+                            TempFace.Normal1 = TempPoint.Normal;
+                            TempFace.UV1 = new Vector4(TempPoint.UV, 0, 0);
+                            TempFace.Weight1 = TempPoint.weightHeader;
+                            TempFace.MorphPoint1 = TempPoint.MorphPoints;
+
+                            TempPoint = VertexList[FaceTri.B];
+
+                            TempFace.V2 = TempPoint.Position;
+                            TempFace.Normal2 = TempPoint.Normal;
+                            TempFace.UV2 = new Vector4(TempPoint.UV, 0, 0);
+                            TempFace.Weight2 = TempPoint.weightHeader;
+                            TempFace.MorphPoint2 = TempPoint.MorphPoints;
+
+                            TempPoint = VertexList[FaceTri.C];
+
+                            TempFace.V3 = TempPoint.Position;
+                            TempFace.Normal3 = TempPoint.Normal;
+                            TempFace.UV3 = new Vector4(TempPoint.UV, 0, 0);
+                            TempFace.Weight3 = TempPoint.weightHeader;
+                            TempFace.MorphPoint3 = TempPoint.MorphPoints;
+
+                            TempFace.MaterialID = MatID;
+
+                            reassignedMesh.faces.Add(TempFace);
+                        }
+                    }
+
+                    trickyModelCombiner.reassignedMesh.Add(reassignedMesh);
+                }
+            }
+
+            return trickyModelCombiner;
+        }
+
         static List<TrickyPS2MPF.MaterialData> MakeNewMaterial(List<TrickyPS2MPF.MaterialData> materials, string name)
         {
             bool test = false;
@@ -1094,6 +1255,27 @@ namespace SSXMultiTool.FileHandlers
             return materials;
         }
 
+        static List<SSXOnTourMPF.MaterialData> MakeNewMaterialSSXOnTour(List<SSXOnTourMPF.MaterialData> materials, string name)
+        {
+            bool test = false;
+            for (int i = 0; i < materials.Count; i++)
+            {
+                if (materials[i].MainTexture == name)
+                {
+                    test = true;
+                    break;
+                }
+            }
+            if (!test)
+            {
+                SSXOnTourMPF.MaterialData newmat = new SSXOnTourMPF.MaterialData();
+                newmat.MainTexture = name;
+                materials.Add(newmat);
+            }
+
+            return materials;
+        }
+
         static int FindMaterialID(List<TrickyPS2MPF.MaterialData> materials, string name)
         {
             for (int i = 0; i < materials.Count; i++)
@@ -1107,6 +1289,18 @@ namespace SSXMultiTool.FileHandlers
         }
 
         static int FindMaterialIDSSX3(List<SSX3PS2MPF.MaterialData> materials, string name)
+        {
+            for (int i = 0; i < materials.Count; i++)
+            {
+                if (materials[i].MainTexture == name)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        static int FindMaterialIDSSXOnTour(List<SSXOnTourMPF.MaterialData> materials, string name)
         {
             for (int i = 0; i < materials.Count; i++)
             {
@@ -1136,6 +1330,17 @@ namespace SSXMultiTool.FileHandlers
 
             public SSX3PS2MPF.BoneWeightHeader weightHeader;
             public List<Vector3> MorphPoints;
+        }
+
+        struct VertexDataSSXOnTour
+        {
+            public Vector3 Position;
+            public Vector3 Normal;
+            public Vector2 UV;
+
+            public SSXOnTourMPF.BoneWeightHeader weightHeader;
+            public List<Vector3> MorphPoints;
+            public List<Vector3> NormalPoints;
         }
 
         public static List<TrickyPS2MPF.BoneData> ReturnBoneAndChildren(SharpGLTF.Scenes.NodeBuilder nodeBuilder, bool startBone)
@@ -1184,6 +1389,32 @@ namespace SSXMultiTool.FileHandlers
             for (int i = 0; i < nodeBuilder.VisualChildren.Count; i++)
             {
                 boneDatas.AddRange(ReturnBoneAndChildrenSSX3(nodeBuilder.VisualChildren[i], false));
+            }
+
+            return boneDatas;
+        }
+
+        public static List<SSXOnTourMPF.BoneData> ReturnBoneAndChildrenSSXOnTour(SharpGLTF.Scenes.NodeBuilder nodeBuilder, bool startBone)
+        {
+            List<SSXOnTourMPF.BoneData> boneDatas = new List<SSXOnTourMPF.BoneData>();
+            var TempBoneData = new SSXOnTourMPF.BoneData();
+
+            TempBoneData.BoneName = nodeBuilder.Name;
+            Vector4 TempVector = new Vector4(nodeBuilder.LocalTransform.Translation.X, nodeBuilder.LocalTransform.Translation.Y, nodeBuilder.LocalTransform.Translation.Z, 1);
+            TempBoneData.Position = TempVector;
+            if (nodeBuilder.Parent != null)
+            {
+                TempBoneData.parentName = nodeBuilder.Parent.Name;
+            }
+            TempBoneData.Rotation = nodeBuilder.LocalTransform.GetDecomposed().Rotation;
+
+            //TempBoneData.WorldMatrix = nodeBuilder.WorldMatrix;
+
+            boneDatas.Add(TempBoneData);
+
+            for (int i = 0; i < nodeBuilder.VisualChildren.Count; i++)
+            {
+                boneDatas.AddRange(ReturnBoneAndChildrenSSXOnTour(nodeBuilder.VisualChildren[i], false));
             }
 
             return boneDatas;

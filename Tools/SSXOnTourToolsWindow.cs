@@ -73,7 +73,7 @@ namespace SSXMultiTool.Tools
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                onTourMPF.Save(openFileDialog.FileName, false);
+                onTourMPF.Save(openFileDialog.FileName, true);
             }
         }
 
@@ -113,6 +113,20 @@ namespace SSXMultiTool.Tools
 
                     MpfWarning.Text = modelCombiner.CheckBones(0);
                 }
+            }
+        }
+
+        private void MPFSaveDecompressed_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog openFileDialog = new SaveFileDialog
+            {
+                Filter = "Model File (*.mpf)|*.mpf|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                onTourMPF.Save(openFileDialog.FileName, false);
             }
         }
     }

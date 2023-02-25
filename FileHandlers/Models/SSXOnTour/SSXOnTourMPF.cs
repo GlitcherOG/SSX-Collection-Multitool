@@ -1576,6 +1576,8 @@ namespace SSXMultiTool.FileHandlers.Models
 
             public int FileID;
             public int BonePos;
+
+            public string parentName;
         }
 
         public struct BoneWeightHeader
