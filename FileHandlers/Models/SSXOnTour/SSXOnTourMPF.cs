@@ -933,6 +933,8 @@ namespace SSXMultiTool.FileHandlers.Models
                 ModelStream.Position += MathOffset;
                 StreamUtil.AlignBy16(ModelStream);
 
+                int ChunkID = 0;
+
                 //Saving Mesh Chunks HERE FIX THE GOD DAMN ALT MORPH CHUNKS OFFSET SAVING
                 Model.ModelDataOffset = (int)ModelStream.Position;
                 for (int a = 0; a < Model.MaterialGroupList.Count; a++)
@@ -1009,6 +1011,19 @@ namespace SSXMultiTool.FileHandlers.Models
                                     StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.UV.Count);
                                     StreamUtil.WriteUInt8(ModelStream, 0x6D);
 
+                                    //OFFSET SET HERE
+                                    for (int e = 0; e < Model.AltMorphList.Count; e++)
+                                    {
+                                        var TempMorphList = Model.AltMorphList[e];
+
+                                        var TempMorphChunk = TempMorphList.MorphChunkList[ChunkID];
+
+                                        TempMorphChunk.UVOffset = (int)ModelStream.Position - Model.ModelDataOffset;
+
+                                        TempMorphList.MorphChunkList[ChunkID] = TempMorphChunk;
+                                        Model.AltMorphList[e] = TempMorphList;
+                                    }
+
                                     for (int e = 0; e < TempStaticMesh.UV.Count; e++)
                                     {
                                         StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.UV[e].X * 4096f));
@@ -1031,6 +1046,19 @@ namespace SSXMultiTool.FileHandlers.Models
                                     StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.UVNormals.Count);
                                     StreamUtil.WriteUInt8(ModelStream, 0x79);
 
+                                    //OFFSET SET HERE
+                                    for (int e = 0; e < Model.AltMorphList.Count; e++)
+                                    {
+                                        var TempMorphList = Model.AltMorphList[e];
+
+                                        var TempMorphChunk = TempMorphList.MorphChunkList[ChunkID];
+
+                                        TempMorphChunk.NormalOffset = (int)ModelStream.Position - Model.ModelDataOffset;
+
+                                        TempMorphList.MorphChunkList[ChunkID] = TempMorphChunk;
+                                        Model.AltMorphList[e] = TempMorphList;
+                                    }
+
                                     for (int e = 0; e < TempStaticMesh.UVNormals.Count; e++)
                                     {
                                         StreamUtil.WriteInt16(ModelStream, (int)(TempStaticMesh.UVNormals[e].X * 32768f));
@@ -1052,6 +1080,19 @@ namespace SSXMultiTool.FileHandlers.Models
                                     StreamUtil.WriteUInt8(ModelStream, TempStaticMesh.Vertices.Count);
                                     StreamUtil.WriteUInt8(ModelStream, 0x78);
 
+                                    //OFFSET SET HERE
+                                    for (int e = 0; e < Model.AltMorphList.Count; e++)
+                                    {
+                                        var TempMorphList = Model.AltMorphList[e];
+
+                                        var TempMorphChunk = TempMorphList.MorphChunkList[ChunkID];
+
+                                        TempMorphChunk.VerticeOffset = (int)ModelStream.Position - Model.ModelDataOffset;
+
+                                        TempMorphList.MorphChunkList[ChunkID] = TempMorphChunk;
+                                        Model.AltMorphList[e] = TempMorphList;
+                                    }
+
                                     for (int e = 0; e < TempStaticMesh.Vertices.Count; e++)
                                     {
                                         StreamUtil.WriteFloat32(ModelStream, (TempStaticMesh.Vertices[e].X));
@@ -1067,7 +1108,7 @@ namespace SSXMultiTool.FileHandlers.Models
                                     ModelStream.Position = TempPos;
 
                                     //Write New RowCount that neve changes
-                                    StreamUtil.WriteInt24(ModelStream, 1);
+                                    StreamUtil.WriteInt24(ModelStream, 2);
                                     if (TempMaterialGroup.Type != 256)
                                     {
                                         StreamUtil.WriteInt32(ModelStream, 16);
@@ -1085,6 +1126,11 @@ namespace SSXMultiTool.FileHandlers.Models
                                         StreamUtil.WriteUInt8(ModelStream, 0x00); // Can sometimes be 0x0A
 
                                         StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x14 });
+                                        //Add Switching Bytes for Every 2 Chunks
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+
+                                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                                        //Add Switching Bytes for Every 2 Chunks
                                         StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
 
                                     }
@@ -1092,7 +1138,7 @@ namespace SSXMultiTool.FileHandlers.Models
                                     {
                                         StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
                                     }
-
+                                    ChunkID++;
                                 }
                                 else
                                 {
@@ -1210,18 +1256,15 @@ namespace SSXMultiTool.FileHandlers.Models
                                 ModelStream.Position -= 1;
                                 StreamUtil.WriteUInt8(ModelStream, 0);
 
-                                if ((a == Model.MaterialGroupList.Count - 1 && b == TempMaterialGroup.WeightRefList.Count - 1 && c == TempWeightRefGroup.MorphMeshGroupList.Count - 1))
-                                {
-                                    StreamUtil.WriteInt24(ModelStream, 1);
-                                    StreamUtil.WriteInt32(ModelStream, 96);
-                                    StreamUtil.AlignBy16(ModelStream);
+                                StreamUtil.WriteInt24(ModelStream, 1);
+                                StreamUtil.WriteInt32(ModelStream, 96);
+                                StreamUtil.AlignBy16(ModelStream);
 
-                                    ModelStream.Position += 4;
-                                    StreamUtil.WriteBytes(ModelStream, new byte[] { 0x01, 0x01, 0x00, 0x01 });
+                                StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x01 });
+                                StreamUtil.AlignBy16(ModelStream);
+                                ModelStream.Position -= 1;
+                                StreamUtil.WriteUInt8(ModelStream, 0x11);
 
-                                    ModelStream.Position += 7;
-                                    StreamUtil.WriteUInt8(ModelStream, 17);
-                                }
                             }
                             TempWeightRefGroup.MorphMeshGroupList[c] = TempGroupHeader;
                         }
