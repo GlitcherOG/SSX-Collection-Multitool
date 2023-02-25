@@ -1183,6 +1183,7 @@ namespace SSXMultiTool.FileHandlers
                             TempFace.UV1 = new Vector4(TempPoint.UV, 0, 0);
                             TempFace.Weight1 = TempPoint.weightHeader;
                             TempFace.MorphPoint1 = TempPoint.MorphPoints;
+                            TempFace.AltMorphNormal1 = TempPoint.NormalPoints;
 
                             TempPoint = VertexList[FaceTri.B];
 
@@ -1191,6 +1192,7 @@ namespace SSXMultiTool.FileHandlers
                             TempFace.UV2 = new Vector4(TempPoint.UV, 0, 0);
                             TempFace.Weight2 = TempPoint.weightHeader;
                             TempFace.MorphPoint2 = TempPoint.MorphPoints;
+                            TempFace.AltMorphNormal2 = TempPoint.NormalPoints;
 
                             TempPoint = VertexList[FaceTri.C];
 
@@ -1199,6 +1201,7 @@ namespace SSXMultiTool.FileHandlers
                             TempFace.UV3 = new Vector4(TempPoint.UV, 0, 0);
                             TempFace.Weight3 = TempPoint.weightHeader;
                             TempFace.MorphPoint3 = TempPoint.MorphPoints;
+                            TempFace.AltMorphNormal3 = TempPoint.NormalPoints;
 
                             TempFace.MaterialID = MatID;
 
