@@ -47,6 +47,11 @@ namespace SSXMultiTool.FileHandlers.Models
             }
         }
 
+        public void SaveMPF(string Path, bool Compression)
+        {
+            modelHandlers.Save(Path, Compression);
+        }
+
         public void MeshReassigned(int MeshID)
         {
             var TempModel = modelHandlers.ModelList[MeshID];
@@ -911,6 +916,7 @@ namespace SSXMultiTool.FileHandlers.Models
                         staticMesh.UV = new List<Vector4>();
                         staticMesh.Weights = new List<int>();
                         staticMesh.MorphKeys = new List<SSXOnTourMPF.MorphKey>();
+                        staticMesh.AltMorphChunks = new List<SSXOnTourMPF.AltMorphChunk>();
 
                         if (TempReMesh.MorphTargetCount != 0)
                         {
@@ -925,7 +931,14 @@ namespace SSXMultiTool.FileHandlers.Models
                         //Generate Alt Morph Chunk
                         if(AltMorph)
                         {
-
+                            for (int ei = 0; ei < TempReMesh.AltMorphTargetCount; ei++)
+                            {
+                                var NewAltMorph = new SSXOnTourMPF.AltMorphChunk();
+                                NewAltMorph.UV = new List<Vector4>();
+                                NewAltMorph.Position = new List<Vector3>();
+                                NewAltMorph.Normal = new List<Vector4>();
+                                staticMesh.AltMorphChunks.Add(NewAltMorph);
+                            }
                         }
 
                         for (int b = 0; b < indiceTristrips.Count; b++)
@@ -980,7 +993,15 @@ namespace SSXMultiTool.FileHandlers.Models
                                         //Add Points To Alt Morph Chunk
                                         if(AltMorph)
                                         {
+                                            for (int ei = 0; ei < TempReMesh.AltMorphTargetCount; ei++)
+                                            {
+                                                var TempAltMorph = staticMesh.AltMorphChunks[ei];
 
+                                                TempAltMorph.UV.Add(new Vector4());
+                                                TempAltMorph.Normal.Add(new Vector4(VectorPoint[indiceTristrips[b].Indices[d]].AltNormals[ei].X, VectorPoint[indiceTristrips[b].Indices[d]].AltNormals[ei].Y, VectorPoint[indiceTristrips[b].Indices[d]].AltNormals[ei].Z, 0));
+                                                TempAltMorph.Position.Add(VectorPoint[indiceTristrips[b].Indices[d]].AltMorph[ei]);
+                                                staticMesh.AltMorphChunks[ei] = TempAltMorph;
+                                            }
                                         }
                                     }
                                 }
@@ -1007,7 +1028,16 @@ namespace SSXMultiTool.FileHandlers.Models
                     }
                 }
 
-                //Once Chunked If AltMorph Seperate and Put into there Proper Place
+                //Reset AltMorph
+                for (int ei = 0; ei < TempTrickyMesh.AltMorphList.Count; ei++)
+                {
+                    var TempAltMorph = TempTrickyMesh.AltMorphList[ei];
+
+                    TempAltMorph.MorphChunkList = new List<SSXOnTourMPF.AltMorphChunk>();
+
+                    TempTrickyMesh.AltMorphList[ei] = TempAltMorph;
+                }
+
 
                 //Group that shit MK2
                 while (true)
@@ -1067,6 +1097,14 @@ namespace SSXMultiTool.FileHandlers.Models
                                                 NewMorphHeader.MeshChunkList.Add(meshList[b]);
 
                                                 //Alt Morph
+                                                for (int ei = 0; ei < TempTrickyMesh.AltMorphList.Count; ei++)
+                                                {
+                                                    var TempAltMorph = TempTrickyMesh.AltMorphList[ei];
+
+                                                    TempAltMorph.MorphChunkList.Add(meshList[b].AltMorphChunks[ei]);
+
+                                                    TempTrickyMesh.AltMorphList[ei] = TempAltMorph;
+                                                }
 
                                                 NewMorphHeader.MorphDataList = meshList[b].MorphKeys;
                                                 TempWeightRefGroup.MorphMeshGroupList.Add(NewMorphHeader);
@@ -1083,9 +1121,18 @@ namespace SSXMultiTool.FileHandlers.Models
                                                     TempWeightRefGroup.MorphMeshGroupList.Add(TempMorphHeader);
                                                 }
                                                 SSXOnTourMPF.MorphMeshGroup NewMorphHeader = TempWeightRefGroup.MorphMeshGroupList[0];
+
                                                 NewMorphHeader.MeshChunkList.Add(meshList[b]);
 
                                                 //Alt Morph Add
+                                                for (int ei = 0; ei < TempTrickyMesh.AltMorphList.Count; ei++)
+                                                {
+                                                    var TempAltMorph = TempTrickyMesh.AltMorphList[ei];
+
+                                                    TempAltMorph.MorphChunkList.Add(meshList[b].AltMorphChunks[ei]);
+
+                                                    TempTrickyMesh.AltMorphList[ei] = TempAltMorph;
+                                                }
 
                                                 TempWeightRefGroup.MorphMeshGroupList[0] = NewMorphHeader;
 

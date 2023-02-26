@@ -73,7 +73,7 @@ namespace SSXMultiTool.Tools
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                onTourMPF.Save(openFileDialog.FileName, true);
+                modelCombiner.SaveMPF(openFileDialog.FileName, true);
             }
         }
 
@@ -126,7 +126,50 @@ namespace SSXMultiTool.Tools
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                onTourMPF.Save(openFileDialog.FileName, false);
+                modelCombiner.SaveMPF(openFileDialog.FileName, false);
+            }
+        }
+
+        private void MpfImport_Click(object sender, EventArgs e)
+        {
+            if (MpfModelList.SelectedIndex != -1)
+            {
+                if (modelCombiner.CheckBones(MpfModelList.SelectedIndex) != "")
+                {
+                    MessageBox.Show(modelCombiner.CheckBones(MpfModelList.SelectedIndex));
+                    return;
+                }
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "gltf File (*.glb)|*.glb|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    SSXOnTourPS2ModelCombiner TempCombiner = null;
+
+                    try
+                    {
+                        TempCombiner = glftHandler.LoadSSXOnTourGlft(openFileDialog.FileName);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Failed to Load File");
+                    }
+
+                    try
+                    {
+                        //modelCombiner.NormalAverage = ImportAverageNormal.Checked;
+                        //modelCombiner.UpdateBones = BoneUpdateCheck.Checked;
+                        modelCombiner.StartRegenMesh(TempCombiner, MpfModelList.SelectedIndex);
+                        //UpdateData();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Failed to Convert File");
+                    }
+                }
             }
         }
     }

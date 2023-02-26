@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.MpfImport = new System.Windows.Forms.Button();
             this.MPFSaveDecompressed = new System.Windows.Forms.Button();
             this.MpfModelList = new System.Windows.Forms.ListBox();
             this.MpfWarning = new System.Windows.Forms.Label();
@@ -38,7 +39,6 @@
             this.MpfExport = new System.Windows.Forms.Button();
             this.MpfSave = new System.Windows.Forms.Button();
             this.MpfLoad = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -54,7 +54,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.button1);
+            this.tabPage1.Controls.Add(this.MpfImport);
             this.tabPage1.Controls.Add(this.MPFSaveDecompressed);
             this.tabPage1.Controls.Add(this.MpfModelList);
             this.tabPage1.Controls.Add(this.MpfWarning);
@@ -70,6 +70,16 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "SSX On Tour Models (MPF)";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // MpfImport
+            // 
+            this.MpfImport.Location = new System.Drawing.Point(168, 369);
+            this.MpfImport.Name = "MpfImport";
+            this.MpfImport.Size = new System.Drawing.Size(75, 23);
+            this.MpfImport.TabIndex = 8;
+            this.MpfImport.Text = "Import";
+            this.MpfImport.UseVisualStyleBackColor = true;
+            this.MpfImport.Click += new System.EventHandler(this.MpfImport_Click);
             // 
             // MPFSaveDecompressed
             // 
@@ -148,15 +158,6 @@
             this.MpfLoad.UseVisualStyleBackColor = true;
             this.MpfLoad.Click += new System.EventHandler(this.MpfLoad_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(168, 369);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Import";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // SSXOnTourToolsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -184,6 +185,6 @@
         private Label label1;
         private ListBox MpfModelList;
         private Button MPFSaveDecompressed;
-        private Button button1;
+        private Button MpfImport;
     }
 }

@@ -1673,6 +1673,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
             public List<int> weightsInts;
             public List<MorphKey> MorphKeys;
+            public List<AltMorphChunk> AltMorphChunks;
         }
 
         public struct Face
