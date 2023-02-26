@@ -323,6 +323,7 @@ namespace SSXMultiTool.FileHandlers.Models
             }
         }
 
+        //Fix Shadow Model and Fix Alt Morph
         public void StartRegenMesh(SSXOnTourPS2ModelCombiner ssx3ModelCombiner, int MeshID)
         {
             //Mesh Count
@@ -349,10 +350,15 @@ namespace SSXMultiTool.FileHandlers.Models
 
             bool Shadow = false;
 
-            if (MeshID == 3)
+            if (modelHandlers.ModelList[MeshID].MaterialGroupList[0].Type==17)
             {
                 Shadow = true;
             }
+
+            //Update Alt Morph
+
+
+
             List<Vector3> BonePositions = new List<Vector3>();
             if (UpdateBones)
             {
