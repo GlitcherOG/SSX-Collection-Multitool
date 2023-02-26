@@ -656,14 +656,36 @@ namespace SSXMultiTool.FileHandlers.Models
                                     {
 
                                     }
-                                    //Add AltMorph Here
+                                    else if (AltMorph)
+                                    {
+                                        if (!AltMorphPointsEqual(TempReMesh.faces[a].MorphPoint1, TempReMesh.faces[a].AltMorphNormal1, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            TempFace.Id1 = TempID;
+                                            Test = true;
+                                        }
+                                    }
                                     else
                                     {
                                         TempFace.Id1 = TempID;
                                         Test = true;
                                     }
                                 }
-                                //Add AltMorph Here
+                                else if (AltMorph)
+                                {
+                                    if (!AltMorphPointsEqual(TempReMesh.faces[a].MorphPoint1, TempReMesh.faces[a].AltMorphNormal1, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        TempFace.Id1 = TempID;
+                                        Test = true;
+                                    }
+                                }
                                 else
                                 {
                                     TempFace.Id1 = TempID;
@@ -718,6 +740,30 @@ namespace SSXMultiTool.FileHandlers.Models
                                 if (TempReMesh.MorphTargetCount != 0)
                                 {
                                     if (!MorphPointsEqual(TempReMesh.faces[a].MorphPoint2, VectorPoint[TempID].MorphData))
+                                    {
+
+                                    }
+                                    else if (AltMorph)
+                                    {
+                                        if (!AltMorphPointsEqual(TempReMesh.faces[a].MorphPoint2, TempReMesh.faces[a].AltMorphNormal2, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            TempFace.Id2 = TempID;
+                                            Test = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        TempFace.Id2 = TempID;
+                                        Test = true;
+                                    }
+                                }
+                                else if (AltMorph)
+                                {
+                                    if (!AltMorphPointsEqual(TempReMesh.faces[a].MorphPoint2, TempReMesh.faces[a].AltMorphNormal2, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
                                     {
 
                                     }
@@ -781,6 +827,30 @@ namespace SSXMultiTool.FileHandlers.Models
                                 if (TempReMesh.MorphTargetCount != 0)
                                 {
                                     if (!MorphPointsEqual(TempReMesh.faces[a].MorphPoint3, VectorPoint[TempID].MorphData))
+                                    {
+
+                                    }
+                                    else if (AltMorph)
+                                    {
+                                        if (!AltMorphPointsEqual(TempReMesh.faces[a].MorphPoint3, TempReMesh.faces[a].AltMorphNormal3, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            TempFace.Id3 = TempID;
+                                            Test = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        TempFace.Id3 = TempID;
+                                        Test = true;
+                                    }
+                                }
+                                else if (AltMorph)
+                                {
+                                    if (!AltMorphPointsEqual(TempReMesh.faces[a].MorphPoint3, TempReMesh.faces[a].AltMorphNormal3, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
                                     {
 
                                     }
@@ -852,6 +922,12 @@ namespace SSXMultiTool.FileHandlers.Models
                             }
                         }
 
+                        //Generate Alt Morph Chunk
+                        if(AltMorph)
+                        {
+
+                        }
+
                         for (int b = 0; b < indiceTristrips.Count; b++)
                         {
                             if (VectorPoint[indiceTristrips[b].Indices[0]].Material == staticMesh.MatieralID && !indiceTristrips[b].Used)
@@ -901,6 +977,11 @@ namespace SSXMultiTool.FileHandlers.Models
                                                 }
                                             }
                                         }
+                                        //Add Points To Alt Morph Chunk
+                                        if(AltMorph)
+                                        {
+
+                                        }
                                     }
                                 }
                             }
@@ -925,6 +1006,8 @@ namespace SSXMultiTool.FileHandlers.Models
                         }
                     }
                 }
+
+                //Once Chunked If AltMorph Seperate and Put into there Proper Place
 
                 //Group that shit MK2
                 while (true)
@@ -982,6 +1065,9 @@ namespace SSXMultiTool.FileHandlers.Models
                                                 NewMorphHeader.MeshChunkList = new List<SSXOnTourMPF.MeshChunk>();
                                                 NewMorphHeader.MorphDataList = new List<SSXOnTourMPF.MorphKey>();
                                                 NewMorphHeader.MeshChunkList.Add(meshList[b]);
+
+                                                //Alt Morph
+
                                                 NewMorphHeader.MorphDataList = meshList[b].MorphKeys;
                                                 TempWeightRefGroup.MorphMeshGroupList.Add(NewMorphHeader);
 
@@ -998,6 +1084,9 @@ namespace SSXMultiTool.FileHandlers.Models
                                                 }
                                                 SSXOnTourMPF.MorphMeshGroup NewMorphHeader = TempWeightRefGroup.MorphMeshGroupList[0];
                                                 NewMorphHeader.MeshChunkList.Add(meshList[b]);
+
+                                                //Alt Morph Add
+
                                                 TempWeightRefGroup.MorphMeshGroupList[0] = NewMorphHeader;
 
                                             }
@@ -1132,7 +1221,6 @@ namespace SSXMultiTool.FileHandlers.Models
             {
                 VectorPoint vectorPoint = new VectorPoint();
                 vectorPoint.Material = face.MaterialID;
-                vectorPoint.Normals = new List<Vector3>();
                 if (Vertice == 1)
                 {
                     vectorPoint.vector = face.V1;
@@ -1140,7 +1228,8 @@ namespace SSXMultiTool.FileHandlers.Models
                     vectorPoint.TextureCord = face.UV1;
                     vectorPoint.Weight = face.Weight1Pos;
                     vectorPoint.MorphData = face.MorphPoint1;
-                    vectorPoint.Normals.Add(face.Normal1);
+                    vectorPoint.AltMorph = face.AltMorphPoint1;
+                    vectorPoint.AltNormals = face.AltMorphNormal1;
                 }
 
                 if (Vertice == 2)
@@ -1150,7 +1239,8 @@ namespace SSXMultiTool.FileHandlers.Models
                     vectorPoint.TextureCord = face.UV2;
                     vectorPoint.Weight = face.Weight2Pos;
                     vectorPoint.MorphData = face.MorphPoint2;
-                    vectorPoint.Normals.Add(face.Normal2);
+                    vectorPoint.AltMorph = face.AltMorphPoint2;
+                    vectorPoint.AltNormals = face.AltMorphNormal2;
                 }
 
                 if (Vertice == 3)
@@ -1160,7 +1250,8 @@ namespace SSXMultiTool.FileHandlers.Models
                     vectorPoint.TextureCord = face.UV3;
                     vectorPoint.Weight = face.Weight3Pos;
                     vectorPoint.MorphData = face.MorphPoint3;
-                    vectorPoint.Normals.Add(face.Normal3);
+                    vectorPoint.AltMorph = face.AltMorphPoint3;
+                    vectorPoint.AltNormals = face.AltMorphNormal3;
                 }
 
                 return vectorPoint;
@@ -1195,6 +1286,33 @@ namespace SSXMultiTool.FileHandlers.Models
                 }
 
                 if (TestMain == Vertex.Count)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+            static bool AltMorphPointsEqual(List<Vector3> Vertex, List<Vector3> Normal, List<Vector3> ListVertex, List<Vector3> ListNormal)
+            {
+                int TestMain = 0;
+                for (int i = 0; i < Vertex.Count; i++)
+                {
+                    if (ListVertex[i] == Vertex[i])
+                    {
+                        TestMain++;
+                    }
+                }
+
+                for (int i = 0; i < Normal.Count; i++)
+                {
+                    if (ListNormal[i] == Normal[i])
+                    {
+                        TestMain++;
+                    }
+                }
+
+                if (TestMain == Vertex.Count*2)
                 {
                     return true;
                 }
@@ -1283,8 +1401,9 @@ namespace SSXMultiTool.FileHandlers.Models
             public Vector3 normal;
             public Vector4 TextureCord;
             public int Weight;
-            public List<Vector3> Normals;
             public List<Vector3> MorphData;
+            public List<Vector3> AltMorph;
+            public List<Vector3> AltNormals;
         }
 
 

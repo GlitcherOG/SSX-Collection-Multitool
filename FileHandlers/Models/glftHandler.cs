@@ -843,6 +843,27 @@ namespace SSXMultiTool.FileHandlers
                                 }
                             }
 
+                            //Correct Weights
+                            int Count = 0;
+                            for (int d = 0; d < NewVertex.weightHeader.boneWeights.Count; d++)
+                            {
+                                Count += NewVertex.weightHeader.boneWeights[d].Weight;
+                            }
+
+                            if(Count!=100)
+                            {
+                                var TempWeight = NewVertex.weightHeader.boneWeights[0];
+                                if (Count>100)
+                                {
+                                    TempWeight.Weight -= Count - 100;
+                                }
+                                else if (Count < 100)
+                                {
+                                    TempWeight.Weight += 100 - Count;
+                                }
+                                NewVertex.weightHeader.boneWeights[0] = TempWeight;
+                            }
+
                             //Add Morph Data
                             NewVertex.MorphPoints = new List<Vector3>();
                             for (int d = 0; d < MorphTargetsCount; d++)
@@ -998,6 +1019,27 @@ namespace SSXMultiTool.FileHandlers
                                 }
                             }
 
+                            //Correct Weights
+                            int Count = 0;
+                            for (int d = 0; d < NewVertex.weightHeader.BoneWeightList.Count; d++)
+                            {
+                                Count += NewVertex.weightHeader.BoneWeightList[d].Weight;
+                            }
+
+                            if (Count != 100)
+                            {
+                                var TempWeight = NewVertex.weightHeader.BoneWeightList[0];
+                                if (Count > 100)
+                                {
+                                    TempWeight.Weight -= Count - 100;
+                                }
+                                else if (Count < 100)
+                                {
+                                    TempWeight.Weight += 100 - Count;
+                                }
+                                NewVertex.weightHeader.BoneWeightList[0] = TempWeight;
+                            }
+
                             //Add Morph Data
                             NewVertex.MorphPoints = new List<Vector3>();
                             for (int d = 0; d < MorphTargetsCount; d++)
@@ -1151,6 +1193,27 @@ namespace SSXMultiTool.FileHandlers
                                     TempWeight.boneName = JointBindings[BindingList.Index].Joint.Name;
                                     NewVertex.weightHeader.BoneWeightList.Add(TempWeight);
                                 }
+                            }
+
+                            //Correct Weights
+                            int Count = 0;
+                            for (int d = 0; d < NewVertex.weightHeader.BoneWeightList.Count; d++)
+                            {
+                                Count += NewVertex.weightHeader.BoneWeightList[d].Weight;
+                            }
+
+                            if (Count != 100)
+                            {
+                                var TempWeight = NewVertex.weightHeader.BoneWeightList[0];
+                                if (Count > 100)
+                                {
+                                    TempWeight.Weight -= Count - 100;
+                                }
+                                else if (Count < 100)
+                                {
+                                    TempWeight.Weight += 100 - Count;
+                                }
+                                NewVertex.weightHeader.BoneWeightList[0] = TempWeight;
                             }
 
                             //Add Morph Data
