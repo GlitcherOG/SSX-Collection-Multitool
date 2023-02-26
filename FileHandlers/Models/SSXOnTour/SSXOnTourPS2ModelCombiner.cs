@@ -355,8 +355,85 @@ namespace SSXMultiTool.FileHandlers.Models
                 Shadow = true;
             }
 
-            //Update Alt Morph
+            bool AltMorph = false;
 
+            //Update Alt Morph
+            if (modelHandlers.ModelList[MeshID].AltMorphList.Count != 0)
+            {
+                AltMorph = true;
+                for (int i = 0; i < ssx3ModelCombiner.reassignedMesh.Count; i++)
+                {
+                    var TempMesh = ssx3ModelCombiner.reassignedMesh[i];
+                    for (int a = 0; a < ssx3ModelCombiner.reassignedMesh[i].faces.Count; a++)
+                    {
+                        var TempFace = ssx3ModelCombiner.reassignedMesh[i].faces[a];
+
+                        List<Vector3> MorphList1 = new List<Vector3>();
+                        List<Vector3> MorphList2 = new List<Vector3>();
+                        List<Vector3> MorphList3 = new List<Vector3>();
+
+                        List<Vector3> AltMorphList1 = new List<Vector3>();
+                        List<Vector3> AltMorphList2 = new List<Vector3>();
+                        List<Vector3> AltMorphList3 = new List<Vector3>();
+
+                        List<Vector3> AltNormalList1 = new List<Vector3>();
+                        List<Vector3> AltNormalList2 = new List<Vector3>();
+                        List<Vector3> AltNormalList3 = new List<Vector3>();
+
+
+                        for (int b = 0; b < modelHandlers.ModelList[MeshID].MorphHeaderList.Count; b++)
+                        {
+                            MorphList1.Add(TempFace.MorphPoint1[b]);
+                            MorphList2.Add(TempFace.MorphPoint2[b]);
+                            MorphList3.Add(TempFace.MorphPoint3[b]);
+                        }
+
+                        for (int b = modelHandlers.ModelList[MeshID].MorphHeaderList.Count; b < modelHandlers.ModelList[MeshID].MorphHeaderList.Count + modelHandlers.ModelList[MeshID].AltMorphList.Count; b++)
+                        {
+                            AltMorphList1.Add(TempFace.AltMorphPoint1[b]);
+                            AltMorphList2.Add(TempFace.AltMorphPoint2[b]);
+                            AltMorphList3.Add(TempFace.AltMorphPoint3[b]);
+
+                            AltNormalList1.Add(TempFace.AltMorphNormal1[b]);
+                            AltNormalList2.Add(TempFace.AltMorphNormal2[b]);
+                            AltNormalList3.Add(TempFace.AltMorphNormal3[b]);
+                        }
+
+                        TempFace.MorphPoint1 = MorphList1;
+                        TempFace.MorphPoint2 = MorphList2;
+                        TempFace.MorphPoint3 = MorphList3;
+
+                        TempFace.AltMorphPoint1 = AltMorphList1;
+                        TempFace.AltMorphPoint2 = AltMorphList2;
+                        TempFace.AltMorphPoint3 = AltMorphList3;
+
+                        TempFace.AltMorphNormal1 = AltNormalList1;
+                        TempFace.AltMorphNormal2 = AltNormalList2;
+                        TempFace.AltMorphNormal3 = AltNormalList3;
+
+                        ssx3ModelCombiner.reassignedMesh[i].faces[a] = TempFace;
+                    }
+                    ssx3ModelCombiner.reassignedMesh[i] = TempMesh;
+                }
+            }
+            else if (modelHandlers.ModelList[MeshID].MorphHeaderList.Count !=0)
+            {
+                for (int i = 0; i < ssx3ModelCombiner.reassignedMesh.Count; i++)
+                {
+                    var TempMesh = ssx3ModelCombiner.reassignedMesh[i];
+                    for (int a = 0; a < ssx3ModelCombiner.reassignedMesh[i].faces.Count; a++)
+                    {
+                        var TempFace = ssx3ModelCombiner.reassignedMesh[i].faces[a];
+
+                        TempFace.AltMorphNormal1 = new List<Vector3>();
+                        TempFace.AltMorphNormal1 = new List<Vector3>();
+                        TempFace.AltMorphNormal1 = new List<Vector3>();
+
+                        ssx3ModelCombiner.reassignedMesh[i].faces[a] = TempFace;
+                    }
+                    ssx3ModelCombiner.reassignedMesh[i] = TempMesh;
+                }
+            }
 
 
             List<Vector3> BonePositions = new List<Vector3>();
@@ -579,12 +656,14 @@ namespace SSXMultiTool.FileHandlers.Models
                                     {
 
                                     }
+                                    //Add AltMorph Here
                                     else
                                     {
                                         TempFace.Id1 = TempID;
                                         Test = true;
                                     }
                                 }
+                                //Add AltMorph Here
                                 else
                                 {
                                     TempFace.Id1 = TempID;
