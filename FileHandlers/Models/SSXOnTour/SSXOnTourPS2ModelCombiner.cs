@@ -346,9 +346,9 @@ namespace SSXMultiTool.FileHandlers.Models
             }
 
             //Check Morph
-            if (modelHandlers.ModelList[MeshID].MorphCount != ssx3ModelCombiner.reassignedMesh[0].faces[0].MorphPoint1.Count)
+            if (modelHandlers.ModelList[MeshID].MorphCount+ modelHandlers.ModelList[MeshID].AltMorphCount != ssx3ModelCombiner.reassignedMesh[0].faces[0].MorphPoint1.Count)
             {
-                MessageBox.Show("Incorrect Morph Ammount " + ssx3ModelCombiner.reassignedMesh[0].faces[0].MorphPoint1.Count + "/" + modelHandlers.ModelList[MeshID].MorphCount);
+                MessageBox.Show("Incorrect Morph Ammount " + ssx3ModelCombiner.reassignedMesh[0].faces[0].MorphPoint1.Count + "/" + (modelHandlers.ModelList[MeshID].MorphCount + modelHandlers.ModelList[MeshID].AltMorphCount).ToString());
                 return;
             }
 
