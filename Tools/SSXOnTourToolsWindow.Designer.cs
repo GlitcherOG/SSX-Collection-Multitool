@@ -192,6 +192,7 @@
             this.MatUnknown2.Name = "MatUnknown2";
             this.MatUnknown2.Size = new System.Drawing.Size(81, 23);
             this.MatUnknown2.TabIndex = 42;
+            this.MatUnknown2.ValueChanged += new System.EventHandler(this.MatUpdate);
             // 
             // label67
             // 
@@ -219,6 +220,7 @@
             this.MatUnknown1.Name = "MatUnknown1";
             this.MatUnknown1.Size = new System.Drawing.Size(81, 23);
             this.MatUnknown1.TabIndex = 40;
+            this.MatUnknown1.ValueChanged += new System.EventHandler(this.MatUpdate);
             // 
             // label68
             // 
@@ -246,6 +248,7 @@
             this.MatFlagFactor.Name = "MatFlagFactor";
             this.MatFlagFactor.Size = new System.Drawing.Size(81, 23);
             this.MatFlagFactor.TabIndex = 38;
+            this.MatFlagFactor.ValueChanged += new System.EventHandler(this.MatUpdate);
             // 
             // MatTextureFlag4
             // 
@@ -253,6 +256,7 @@
             this.MatTextureFlag4.Name = "MatTextureFlag4";
             this.MatTextureFlag4.Size = new System.Drawing.Size(79, 23);
             this.MatTextureFlag4.TabIndex = 37;
+            this.MatTextureFlag4.TextChanged += new System.EventHandler(this.MatUpdate);
             // 
             // label69
             // 
@@ -269,6 +273,7 @@
             this.MatTextureFlag3.Name = "MatTextureFlag3";
             this.MatTextureFlag3.Size = new System.Drawing.Size(79, 23);
             this.MatTextureFlag3.TabIndex = 35;
+            this.MatTextureFlag3.TextChanged += new System.EventHandler(this.MatUpdate);
             // 
             // label70
             // 
@@ -285,6 +290,7 @@
             this.MatTextureFlag2.Name = "MatTextureFlag2";
             this.MatTextureFlag2.Size = new System.Drawing.Size(79, 23);
             this.MatTextureFlag2.TabIndex = 33;
+            this.MatTextureFlag2.TextChanged += new System.EventHandler(this.MatUpdate);
             // 
             // label71
             // 
@@ -301,6 +307,7 @@
             this.MatTextureFlag1.Name = "MatTextureFlag1";
             this.MatTextureFlag1.Size = new System.Drawing.Size(79, 23);
             this.MatTextureFlag1.TabIndex = 31;
+            this.MatTextureFlag1.TextChanged += new System.EventHandler(this.MatUpdate);
             // 
             // label72
             // 
@@ -317,6 +324,7 @@
             this.MatMainTexture.Name = "MatMainTexture";
             this.MatMainTexture.Size = new System.Drawing.Size(79, 23);
             this.MatMainTexture.TabIndex = 29;
+            this.MatMainTexture.TextChanged += new System.EventHandler(this.MatUpdate);
             // 
             // label73
             // 
@@ -335,6 +343,7 @@
             this.MaterialList.Name = "MaterialList";
             this.MaterialList.Size = new System.Drawing.Size(70, 184);
             this.MaterialList.TabIndex = 27;
+            this.MaterialList.SelectedIndexChanged += new System.EventHandler(this.MaterialList_SelectedIndexChanged);
             // 
             // groupBox4
             // 
