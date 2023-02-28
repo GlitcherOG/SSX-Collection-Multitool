@@ -52,7 +52,7 @@ namespace SSXMultiTool.Tools
                 modelCombiner.AddFile(onTourMPF);
 
                 MpfWarning.Text = modelCombiner.CheckBones(0);
-
+                UpdateData();
 
                 MpfModelList.Items.Clear();
                 for (int i = 0; i < onTourMPF.ModelList.Count; i++)
@@ -163,13 +163,66 @@ namespace SSXMultiTool.Tools
                         //modelCombiner.NormalAverage = ImportAverageNormal.Checked;
                         //modelCombiner.UpdateBones = BoneUpdateCheck.Checked;
                         modelCombiner.StartRegenMesh(TempCombiner, MpfModelList.SelectedIndex);
-                        //UpdateData();
+                        UpdateData();
                     }
                     catch
                     {
                         MessageBox.Show("Failed to Convert File");
                     }
                 }
+            }
+        }
+
+        void UpdateData()
+        {
+            if (MpfModelList.SelectedIndex != -1)
+            {
+                var TempModel = modelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex];
+
+                FileID.Text = TempModel.FileID.ToString();
+                BoneCount.Text = TempModel.BoneCount.ToString();
+                MaterialCount.Text = TempModel.MaterialCount.ToString();
+                IkCount.Text = "0";
+                ShapeKeyCount.Text = TempModel.MorphCount.ToString();
+                MpfWeights.Text = TempModel.WeightCount.ToString();
+
+                TristripCountLabel.Text = modelCombiner.TristripCount(TempModel).ToString();
+                VerticeCount.Text = modelCombiner.VerticeCount(TempModel).ToString();
+                MeshChunks.Text = modelCombiner.ChunkCount(TempModel).ToString();
+                MaterialGroupCount.Text = TempModel.MaterialGroupList.Count.ToString();
+                WeightGroupCount.Text = modelCombiner.WeigthRefCount(TempModel).ToString();
+                MorphGroupCount.Text = modelCombiner.MorphGroupCount(TempModel).ToString();
+
+                MaterialList.Items.Clear();
+                for (int i = 0; i < TempModel.MaterialList.Count; i++)
+                {
+                    MaterialList.Items.Add(TempModel.MaterialList[i].MainTexture);
+                }
+            }
+            else
+            {
+                FileID.Text = "0";
+                BoneCount.Text = "0";
+                MaterialCount.Text = "0";
+                IkCount.Text = "0";
+                ShapeKeyCount.Text = "0";
+                MpfWeights.Text = "0";
+
+                TristripCountLabel.Text = "0";
+                VerticeCount.Text = "0";
+                MeshChunks.Text = "0";
+                MaterialGroupCount.Text = "0";
+                WeightGroupCount.Text = "0";
+                MorphGroupCount.Text = "0";
+                MaterialList.Items.Clear();
+            }
+        }
+
+        private void MpfModelList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(MpfModelList.SelectedIndex != -1)
+            {
+                UpdateData();
             }
         }
     }

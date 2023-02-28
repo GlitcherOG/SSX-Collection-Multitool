@@ -1263,170 +1263,262 @@ namespace SSXMultiTool.FileHandlers.Models
                 modelHandlers.ModelList[MeshID] = TempTrickyMesh;
             }
 
+        }
 
-            static VectorPoint GenerateVectorPoint(SSXOnTourMPF.Face face, int Vertice)
+        static VectorPoint GenerateVectorPoint(SSXOnTourMPF.Face face, int Vertice)
+        {
+            VectorPoint vectorPoint = new VectorPoint();
+            vectorPoint.Material = face.MaterialID;
+            if (Vertice == 1)
             {
-                VectorPoint vectorPoint = new VectorPoint();
-                vectorPoint.Material = face.MaterialID;
-                if (Vertice == 1)
-                {
-                    vectorPoint.vector = face.V1;
-                    vectorPoint.normal = face.Normal1;
-                    vectorPoint.TextureCord = face.UV1;
-                    vectorPoint.Weight = face.Weight1Pos;
-                    vectorPoint.MorphData = face.MorphPoint1;
-                    vectorPoint.AltMorph = face.AltMorphPoint1;
-                    vectorPoint.AltNormals = face.AltMorphNormal1;
-                }
-
-                if (Vertice == 2)
-                {
-                    vectorPoint.vector = face.V2;
-                    vectorPoint.normal = face.Normal2;
-                    vectorPoint.TextureCord = face.UV2;
-                    vectorPoint.Weight = face.Weight2Pos;
-                    vectorPoint.MorphData = face.MorphPoint2;
-                    vectorPoint.AltMorph = face.AltMorphPoint2;
-                    vectorPoint.AltNormals = face.AltMorphNormal2;
-                }
-
-                if (Vertice == 3)
-                {
-                    vectorPoint.vector = face.V3;
-                    vectorPoint.normal = face.Normal3;
-                    vectorPoint.TextureCord = face.UV3;
-                    vectorPoint.Weight = face.Weight3Pos;
-                    vectorPoint.MorphData = face.MorphPoint3;
-                    vectorPoint.AltMorph = face.AltMorphPoint3;
-                    vectorPoint.AltNormals = face.AltMorphNormal3;
-                }
-
-                return vectorPoint;
+                vectorPoint.vector = face.V1;
+                vectorPoint.normal = face.Normal1;
+                vectorPoint.TextureCord = face.UV1;
+                vectorPoint.Weight = face.Weight1Pos;
+                vectorPoint.MorphData = face.MorphPoint1;
+                vectorPoint.AltMorph = face.AltMorphPoint1;
+                vectorPoint.AltNormals = face.AltMorphNormal1;
             }
 
-            static int ContainsVertice(Vector3 vector1, List<VectorPoint> Point, int TestInt = 0)
+            if (Vertice == 2)
             {
-                int TestID = 0;
-                for (int i = 0; i < Point.Count; i++)
+                vectorPoint.vector = face.V2;
+                vectorPoint.normal = face.Normal2;
+                vectorPoint.TextureCord = face.UV2;
+                vectorPoint.Weight = face.Weight2Pos;
+                vectorPoint.MorphData = face.MorphPoint2;
+                vectorPoint.AltMorph = face.AltMorphPoint2;
+                vectorPoint.AltNormals = face.AltMorphNormal2;
+            }
+
+            if (Vertice == 3)
+            {
+                vectorPoint.vector = face.V3;
+                vectorPoint.normal = face.Normal3;
+                vectorPoint.TextureCord = face.UV3;
+                vectorPoint.Weight = face.Weight3Pos;
+                vectorPoint.MorphData = face.MorphPoint3;
+                vectorPoint.AltMorph = face.AltMorphPoint3;
+                vectorPoint.AltNormals = face.AltMorphNormal3;
+            }
+
+            return vectorPoint;
+        }
+
+        static int ContainsVertice(Vector3 vector1, List<VectorPoint> Point, int TestInt = 0)
+        {
+            int TestID = 0;
+            for (int i = 0; i < Point.Count; i++)
+            {
+                if (vector1.X <= Point[i].vector.X + 0.01f && vector1.X >= Point[i].vector.X - 0.01f && vector1.Y <= Point[i].vector.Y + 0.01f && vector1.Y >= Point[i].vector.Y - 0.01f && vector1.Z <= Point[i].vector.Z + 0.01f && vector1.Z >= Point[i].vector.Z - 0.01f)
                 {
-                    if (vector1.X <= Point[i].vector.X + 0.01f && vector1.X >= Point[i].vector.X - 0.01f && vector1.Y <= Point[i].vector.Y + 0.01f && vector1.Y >= Point[i].vector.Y - 0.01f && vector1.Z <= Point[i].vector.Z + 0.01f && vector1.Z >= Point[i].vector.Z - 0.01f)
+                    if (TestID == TestInt)
                     {
-                        if (TestID == TestInt)
+                        return i;
+                    }
+                    TestID++;
+                }
+            }
+            return -1;
+        }
+
+        static bool MorphPointsEqual(List<Vector3> Vertex, List<Vector3> ListVertex)
+        {
+            int TestMain = 0;
+            for (int i = 0; i < Vertex.Count; i++)
+            {
+                if (ListVertex[i] == Vertex[i])
+                {
+                    TestMain++;
+                }
+            }
+
+            if (TestMain == Vertex.Count)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        static bool AltMorphPointsEqual(List<Vector3> Vertex, List<Vector3> Normal, List<Vector3> ListVertex, List<Vector3> ListNormal)
+        {
+            int TestMain = 0;
+            for (int i = 0; i < Vertex.Count; i++)
+            {
+                if (ListVertex[i] == Vertex[i])
+                {
+                    TestMain++;
+                }
+            }
+
+            for (int i = 0; i < Normal.Count; i++)
+            {
+                if (ListNormal[i] == Normal[i])
+                {
+                    TestMain++;
+                }
+            }
+
+            if (TestMain == Vertex.Count * 2)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        static bool NormalsEqual(Vector3 normal1, Vector3 normal2)
+        {
+            if ((int)(normal1.X * 32768f) == (int)(normal2.X * 32768f) && (int)(normal1.Y * 32768f) == (int)(normal2.Y * 32768f) && (int)(normal1.Z * 32768f) == (int)(normal2.Z * 32768f))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        static bool UVEqual(Vector4 Uv1, Vector4 Uv2)
+        {
+            if ((int)(Uv1.X * 4096f) == (int)(Uv2.X * 4096f) && (int)(Uv1.Y * 4096f) == (int)(Uv2.Y * 4096f))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        static int ContainsWeight(SSXOnTourMPF.BoneWeightHeader boneWeight, List<SSXOnTourMPF.BoneWeightHeader> boneWeightList)
+        {
+            for (int i = 0; i < boneWeightList.Count; i++)
+            {
+                if (boneWeightList[i].BoneWeightList.Count == boneWeight.BoneWeightList.Count)
+                {
+                    bool Test = false;
+                    for (int a = 0; a < boneWeightList[i].BoneWeightList.Count; a++)
+                    {
+                        if (boneWeightList[i].BoneWeightList[a].Weight == boneWeight.BoneWeightList[a].Weight && boneWeightList[i].BoneWeightList[a].BoneID == boneWeight.BoneWeightList[a].BoneID)
                         {
-                            return i;
+                            Test = true;
                         }
-                        TestID++;
-                    }
-                }
-                return -1;
-            }
-
-            static bool MorphPointsEqual(List<Vector3> Vertex, List<Vector3> ListVertex)
-            {
-                int TestMain = 0;
-                for (int i = 0; i < Vertex.Count; i++)
-                {
-                    if (ListVertex[i] == Vertex[i])
-                    {
-                        TestMain++;
-                    }
-                }
-
-                if (TestMain == Vertex.Count)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-
-            static bool AltMorphPointsEqual(List<Vector3> Vertex, List<Vector3> Normal, List<Vector3> ListVertex, List<Vector3> ListNormal)
-            {
-                int TestMain = 0;
-                for (int i = 0; i < Vertex.Count; i++)
-                {
-                    if (ListVertex[i] == Vertex[i])
-                    {
-                        TestMain++;
-                    }
-                }
-
-                for (int i = 0; i < Normal.Count; i++)
-                {
-                    if (ListNormal[i] == Normal[i])
-                    {
-                        TestMain++;
-                    }
-                }
-
-                if (TestMain == Vertex.Count*2)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-
-            static bool NormalsEqual(Vector3 normal1, Vector3 normal2)
-            {
-                if ((int)(normal1.X * 32768f) == (int)(normal2.X * 32768f) && (int)(normal1.Y * 32768f) == (int)(normal2.Y * 32768f) && (int)(normal1.Z * 32768f) == (int)(normal2.Z * 32768f))
-                {
-                    return true;
-                }
-                return false;
-            }
-
-            static bool UVEqual(Vector4 Uv1, Vector4 Uv2)
-            {
-                if ((int)(Uv1.X * 4096f) == (int)(Uv2.X * 4096f) && (int)(Uv1.Y * 4096f) == (int)(Uv2.Y * 4096f))
-                {
-                    return true;
-                }
-                return false;
-            }
-
-            static int ContainsWeight(SSXOnTourMPF.BoneWeightHeader boneWeight, List<SSXOnTourMPF.BoneWeightHeader> boneWeightList)
-            {
-                for (int i = 0; i < boneWeightList.Count; i++)
-                {
-                    if (boneWeightList[i].BoneWeightList.Count == boneWeight.BoneWeightList.Count)
-                    {
-                        bool Test = false;
-                        for (int a = 0; a < boneWeightList[i].BoneWeightList.Count; a++)
+                        else
                         {
-                            if (boneWeightList[i].BoneWeightList[a].Weight == boneWeight.BoneWeightList[a].Weight && boneWeightList[i].BoneWeightList[a].BoneID == boneWeight.BoneWeightList[a].BoneID)
-                            {
-                                Test = true;
-                            }
-                            else
-                            {
-                                Test = false;
-                                break;
-                            }
-                        }
-                        if (Test)
-                        {
-                            return i;
+                            Test = false;
+                            break;
                         }
                     }
-                }
-
-                return -1;
-            }
-
-            static SSXOnTourMPF.BoneData FindBone(List<SSXOnTourMPF.BoneData> boneData, string BoneName)
-            {
-                for (int i = 0; i < boneData.Count; i++)
-                {
-                    if (boneData[i].BoneName.ToLower() == BoneName.ToLower())
+                    if (Test)
                     {
-                        return boneData[i];
+                        return i;
                     }
                 }
-
-                return new SSXOnTourMPF.BoneData();
             }
 
+            return -1;
+        }
+
+        static SSXOnTourMPF.BoneData FindBone(List<SSXOnTourMPF.BoneData> boneData, string BoneName)
+        {
+            for (int i = 0; i < boneData.Count; i++)
+            {
+                if (boneData[i].BoneName.ToLower() == BoneName.ToLower())
+                {
+                    return boneData[i];
+                }
+            }
+
+            return new SSXOnTourMPF.BoneData();
+        }
+
+        public int TristripCount(SSXOnTourMPF.MPFHeader modelHeader)
+        {
+            int Count = 0;
+
+            var TempMesh = modelHeader.MaterialGroupList;
+
+            for (int i = 0; i < TempMesh.Count; i++)
+            {
+                for (int a = 0; a < TempMesh[i].WeightRefList.Count; a++)
+                {
+                    for (int b = 0; b < TempMesh[i].WeightRefList[a].MorphMeshGroupList.Count; b++)
+                    {
+                        for (int c = 0; c < TempMesh[i].WeightRefList[a].MorphMeshGroupList[b].MeshChunkList.Count; c++)
+                        {
+                            Count += TempMesh[i].WeightRefList[a].MorphMeshGroupList[b].MeshChunkList[c].Strips.Count;
+                        }
+                    }
+                }
+            }
+
+            return Count;
+        }
+
+        public int VerticeCount(SSXOnTourMPF.MPFHeader modelHeader)
+        {
+            int Count = 0;
+            var TempMesh = modelHeader.MaterialGroupList;
+
+            for (int i = 0; i < TempMesh.Count; i++)
+            {
+                for (int a = 0; a < TempMesh[i].WeightRefList.Count; a++)
+                {
+                    for (int b = 0; b < TempMesh[i].WeightRefList[a].MorphMeshGroupList.Count; b++)
+                    {
+                        for (int c = 0; c < TempMesh[i].WeightRefList[a].MorphMeshGroupList[b].MeshChunkList.Count; c++)
+                        {
+                            Count += TempMesh[i].WeightRefList[a].MorphMeshGroupList[b].MeshChunkList[c].Vertices.Count;
+                        }
+                    }
+                }
+            }
+
+            return Count;
+        }
+
+        public int ChunkCount(SSXOnTourMPF.MPFHeader modelHeader)
+        {
+            int Count = 0;
+            var TempMesh = modelHeader.MaterialGroupList;
+
+            for (int i = 0; i < TempMesh.Count; i++)
+            {
+                for (int a = 0; a < TempMesh[i].WeightRefList.Count; a++)
+                {
+                    for (int b = 0; b < TempMesh[i].WeightRefList[a].MorphMeshGroupList.Count; b++)
+                    {
+                        Count += TempMesh[i].WeightRefList[a].MorphMeshGroupList[b].MeshChunkList.Count;
+                    }
+                }
+            }
+
+            return Count;
+        }
+
+        public int WeigthRefCount(SSXOnTourMPF.MPFHeader modelHeader)
+        {
+            int Count = 0;
+            var TempMesh = modelHeader.MaterialGroupList;
+
+            for (int i = 0; i < TempMesh.Count; i++)
+            {
+                Count += TempMesh[i].WeightRefList.Count;
+            }
+
+            return Count;
+        }
+
+        public int MorphGroupCount(SSXOnTourMPF.MPFHeader modelHeader)
+        {
+            int Count = 0;
+            var TempMesh = modelHeader.MaterialGroupList;
+
+            for (int i = 0; i < TempMesh.Count; i++)
+            {
+                for (int a = 0; a < TempMesh[i].WeightRefList.Count; a++)
+                {
+                    Count += TempMesh[i].WeightRefList[a].MorphMeshGroupList.Count;
+                }
+            }
+
+            return Count;
         }
 
         public struct ReassignedMesh

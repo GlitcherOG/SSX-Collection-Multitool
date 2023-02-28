@@ -1111,7 +1111,7 @@ namespace SSXMultiTool.FileHandlers
             {
                 for (int a = 0; a < Ampatures[z].VisualChildren.Count; a++)
                 {
-                    if (Ampatures[z].VisualChildren[a].Name.ToLower() == "hips" || Ampatures[z].VisualChildren[a].Name.ToLower() == "board_rootg")
+                    if (Ampatures[z].VisualChildren[a].Name.ToLower() == "hips" || Ampatures[z].VisualChildren[a].Name.ToLower() == "hipsl" || Ampatures[z].VisualChildren[a].Name.ToLower() == "board_childg")
                     {
                         var StartBone = Ampatures[z].VisualChildren[a];
                         boneDatas = ReturnBoneAndChildrenSSXOnTour(StartBone, true);
