@@ -12,11 +12,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
     public class LightmapGenerator
     {
-        public static SSHHandler GenerateNewLightmap(PBDHandler handler, SSHHandler textures)
+        public static OldSSHHandler GenerateNewLightmap(PBDHandler handler, OldSSHHandler textures)
         {
             //Reset LightingData
             handler = GenerateNewLightmapPoints(handler);
-            SSHHandler LightmapHandler = GenerateUnlitLightmap(handler);
+            OldSSHHandler LightmapHandler = GenerateUnlitLightmap(handler);
 
             for (int i = 0; i < handler.Patches.Count; i++)
             {
@@ -225,9 +225,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             return handler;
         }
 
-        public static SSHHandler GenerateUnlitLightmap(PBDHandler pbdHandler)
+        public static OldSSHHandler GenerateUnlitLightmap(PBDHandler pbdHandler)
         {
-            SSHHandler LightmapHandler = new SSHHandler();
+            OldSSHHandler LightmapHandler = new OldSSHHandler();
             LightmapHandler.format = "G278";
             int maxLightmap = 0;
             for (int i = 0; i < pbdHandler.Patches.Count; i++)

@@ -394,9 +394,9 @@ namespace SSXMultiTool
             pbdHandler.ExportModels(ExportPath + "/Models/");
 
             //Load and Export Textures
-            SSHHandler TextureHandler = new SSHHandler();
-            SSHHandler SkyboxHandler = new SSHHandler();
-            SSHHandler LightmapHandler = new SSHHandler();
+            OldSSHHandler TextureHandler = new OldSSHHandler();
+            OldSSHHandler SkyboxHandler = new OldSSHHandler();
+            OldSSHHandler LightmapHandler = new OldSSHHandler();
             Directory.CreateDirectory(ExportPath + "/Textures");
             Directory.CreateDirectory(ExportPath + "/Skybox");
             Directory.CreateDirectory(ExportPath + "/Skybox/Textures");
@@ -1078,7 +1078,7 @@ namespace SSXMultiTool
             }
 
             //Build Textures
-            SSHHandler TextureHandler = new SSHHandler();
+            OldSSHHandler TextureHandler = new OldSSHHandler();
             TextureHandler.format = "G278";
 
             string[] ImageFiles = Directory.GetFiles(LoadPath + "/Textures", "*.png");
@@ -1133,7 +1133,7 @@ namespace SSXMultiTool
             if (SkyboxFiles.Length != 0)
             {
                 //Build Skybox
-                SSHHandler SkyboxHandler = new SSHHandler();
+                OldSSHHandler SkyboxHandler = new OldSSHHandler();
                 SkyboxHandler.format = "G278";
 
                 for (int i = 0; i < SkyboxFiles.Length; i++)
@@ -1150,7 +1150,7 @@ namespace SSXMultiTool
                 SkyboxHandler.SaveSSH(ExportPath + "_sky.ssh", true);
             }
 
-            SSHHandler LightmapHandler = new SSHHandler();
+            OldSSHHandler LightmapHandler = new OldSSHHandler();
             //Build Lightmap
             if (!Unilightmap)
             {

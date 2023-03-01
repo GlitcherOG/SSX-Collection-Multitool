@@ -9,7 +9,7 @@ using SSXMultiTool.Utilities;
 
 namespace SSXMultiTool.FileHandlers
 {
-    public class SSHHandler
+    public class OldSSHHandler
     {
         public string MagicWord;
         public int fileSize;
@@ -60,42 +60,45 @@ namespace SSXMultiTool.FileHandlers
                 }
                 else if (MagicWord == "ShpS")
                 {
-                    fileSize = StreamUtil.ReadInt32(stream);
+                    sshImages = new List<SSHImage>();
+                    MessageBox.Show("Error Reading File new SSH Detected");
 
-                    imageCount = StreamUtil.ReadInt32Big(stream);
+                    //fileSize = StreamUtil.ReadInt32(stream);
 
-                    stream.Position += 4; //Find Out
+                    //imageCount = StreamUtil.ReadInt32Big(stream);
 
-                    for (int i = 0; i < imageCount; i++)
-                    {
-                        SSHImage tempImage = new SSHImage();
+                    //stream.Position += 4; //Find Out
 
-                        tempImage.offset = StreamUtil.ReadInt32Big(stream);
+                    //for (int i = 0; i < imageCount; i++)
+                    //{
+                    //    SSHImage tempImage = new SSHImage();
 
-                        stream.Position += 4; //Size
+                    //    tempImage.offset = StreamUtil.ReadInt32Big(stream);
 
-                        tempImage.shortname = StreamUtil.ReadNullEndString(stream);
+                    //    stream.Position += 4; //Size
 
-                        sshImages.Add(tempImage);
-                    }
+                    //    tempImage.shortname = StreamUtil.ReadNullEndString(stream);
 
-                    format = StreamUtil.ReadString(stream,4);
+                    //    sshImages.Add(tempImage);
+                    //}
 
-                    stream.Position += 4; //Blank
+                    //format = StreamUtil.ReadString(stream,4);
 
-                    group = StreamUtil.ReadString(stream, 4);
+                    //stream.Position += 4; //Blank
 
-                    endingstring = StreamUtil.ReadString(stream, 4);
+                    //group = StreamUtil.ReadString(stream, 4);
 
-                    //try
-                    {
-                        //StandardToBitmap(stream, (int)stream.Position);
-                    }
-                    //catch
-                    {
-                        sshImages = new List<SSHImage>();
-                        MessageBox.Show("Error reading File " + MagicWord + " " + format);
-                    }
+                    //endingstring = StreamUtil.ReadString(stream, 4);
+
+                    ////try
+                    //{
+                    //    //StandardToBitmap(stream, (int)stream.Position);
+                    //}
+                    ////catch
+                    //{
+                    //    sshImages = new List<SSHImage>();
+                    //    MessageBox.Show("Error reading File " + MagicWord + " " + format);
+                    //}
 
                 }
                 else
