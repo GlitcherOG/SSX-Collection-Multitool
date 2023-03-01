@@ -107,6 +107,13 @@ namespace SSXMultiTool.Tools
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
+                    if (MpfHeaderChecker.DetectFileType(openFileDialog.FileName) != 3)
+                    {
+                        MessageBox.Show(MpfHeaderChecker.TypeErrorMessage(MpfHeaderChecker.DetectFileType(openFileDialog.FileName)));
+                        return;
+                    }
+
+
                     onTourMPF = new SSXOnTourMPF();
                     onTourMPF.Load(openFileDialog.FileName);
                     modelCombiner.AddBones(onTourMPF);
