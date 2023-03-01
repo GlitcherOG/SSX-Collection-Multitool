@@ -483,7 +483,8 @@ namespace SSXMultiTool.FileHandlers.Models
                             //TempBone.Position = TempNewBone.Position;
                             //TempBone.Rotation = TempNewBone.Rotation;
 
-                            //BonePositions.Add(TempWorldPos);
+                            Vector3 TempWorldPos = TempNewBone.WorldMatrix.Translation;
+                            BonePositions.Add(TempWorldPos);
                             ////Parent Point to Original 
                             ReshuffleBones();
                             FixBoneParents();
@@ -528,13 +529,13 @@ namespace SSXMultiTool.FileHandlers.Models
 
                             Matrix4x4 Inverted = new Matrix4x4();
                             Matrix4x4.Invert(matrix4X4, out Inverted);
-                            //Inverted = Matrix4x4.Transpose(Inverted);
+                            Inverted = Matrix4x4.Transpose(Inverted);
 
 
-                            //Vector3 NewPos = Vector3.Transform(TempWorldPos, Inverted);
+                            Vector3 NewPos = Vector3.Transform(TempWorldPos, Inverted);
 
 
-                            //TempBone.Position = new Vector4(NewPos.X, NewPos.Y, NewPos.Z, 1);
+                            TempBone.Position = new Vector4(NewPos.X, NewPos.Y, NewPos.Z, 1);
                             //for (int c = 0; c < bones.Count; c++)
                             //{
                             //    if (bones[c].BoneName == TempBone.parentName)

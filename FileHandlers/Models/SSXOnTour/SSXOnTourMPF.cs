@@ -1578,6 +1578,7 @@ namespace SSXMultiTool.FileHandlers.Models
             public int BonePos;
 
             public string parentName;
+            public Matrix4x4 WorldMatrix;
         }
 
         public struct BoneWeightHeader

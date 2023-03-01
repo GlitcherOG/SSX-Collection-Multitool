@@ -160,8 +160,8 @@ namespace SSXMultiTool.Tools
 
                     try
                     {
-                        //modelCombiner.NormalAverage = ImportAverageNormal.Checked;
-                        //modelCombiner.UpdateBones = BoneUpdateCheck.Checked;
+                        modelCombiner.NormalAverage = ImportAverageNormal.Checked;
+                        modelCombiner.UpdateBones = BoneUpdateCheck.Checked;
                         modelCombiner.StartRegenMesh(TempCombiner, MpfModelList.SelectedIndex);
                         UpdateData();
                     }

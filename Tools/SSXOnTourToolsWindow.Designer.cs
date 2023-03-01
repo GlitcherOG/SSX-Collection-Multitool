@@ -86,6 +86,11 @@
             this.MpfExport = new System.Windows.Forms.Button();
             this.MpfSave = new System.Windows.Forms.Button();
             this.MpfLoad = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label57 = new System.Windows.Forms.Label();
+            this.TristripMethodList = new System.Windows.Forms.ComboBox();
+            this.BoneUpdateCheck = new System.Windows.Forms.CheckBox();
+            this.ImportAverageNormal = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -94,6 +99,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.MatFlagFactor)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -110,6 +116,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.groupBox3);
             this.tabPage1.Controls.Add(this.groupBox4);
@@ -719,6 +726,58 @@
             this.MpfLoad.UseVisualStyleBackColor = true;
             this.MpfLoad.Click += new System.EventHandler(this.MpfLoad_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label57);
+            this.groupBox1.Controls.Add(this.TristripMethodList);
+            this.groupBox1.Controls.Add(this.BoneUpdateCheck);
+            this.groupBox1.Controls.Add(this.ImportAverageNormal);
+            this.groupBox1.Location = new System.Drawing.Point(166, 352);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(292, 78);
+            this.groupBox1.TabIndex = 29;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Import Settings";
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(149, 23);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(87, 15);
+            this.label57.TabIndex = 3;
+            this.label57.Text = "Tristrip Method";
+            // 
+            // TristripMethodList
+            // 
+            this.TristripMethodList.FormattingEnabled = true;
+            this.TristripMethodList.Items.AddRange(new object[] {
+            "Nvida Tristrip"});
+            this.TristripMethodList.Location = new System.Drawing.Point(149, 41);
+            this.TristripMethodList.Name = "TristripMethodList";
+            this.TristripMethodList.Size = new System.Drawing.Size(121, 23);
+            this.TristripMethodList.TabIndex = 2;
+            // 
+            // BoneUpdateCheck
+            // 
+            this.BoneUpdateCheck.AutoSize = true;
+            this.BoneUpdateCheck.Location = new System.Drawing.Point(6, 47);
+            this.BoneUpdateCheck.Name = "BoneUpdateCheck";
+            this.BoneUpdateCheck.Size = new System.Drawing.Size(131, 19);
+            this.BoneUpdateCheck.TabIndex = 1;
+            this.BoneUpdateCheck.Text = "Update Bones (WIP)";
+            this.BoneUpdateCheck.UseVisualStyleBackColor = true;
+            // 
+            // ImportAverageNormal
+            // 
+            this.ImportAverageNormal.AutoSize = true;
+            this.ImportAverageNormal.Location = new System.Drawing.Point(6, 22);
+            this.ImportAverageNormal.Name = "ImportAverageNormal";
+            this.ImportAverageNormal.Size = new System.Drawing.Size(117, 19);
+            this.ImportAverageNormal.TabIndex = 0;
+            this.ImportAverageNormal.Text = "Average Normals";
+            this.ImportAverageNormal.UseVisualStyleBackColor = true;
+            // 
             // SSXOnTourToolsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -739,6 +798,8 @@
             this.groupBox4.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -803,5 +864,10 @@
         private Label label73;
         private ListBox MaterialList;
         private Label label2;
+        private GroupBox groupBox1;
+        private Label label57;
+        private ComboBox TristripMethodList;
+        private CheckBox BoneUpdateCheck;
+        private CheckBox ImportAverageNormal;
     }
 }

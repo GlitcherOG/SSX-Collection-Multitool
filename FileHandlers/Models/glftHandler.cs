@@ -1474,7 +1474,7 @@ namespace SSXMultiTool.FileHandlers
             }
             TempBoneData.Rotation = nodeBuilder.LocalTransform.GetDecomposed().Rotation;
 
-            //TempBoneData.WorldMatrix = nodeBuilder.WorldMatrix;
+            TempBoneData.WorldMatrix = nodeBuilder.WorldMatrix;
 
             boneDatas.Add(TempBoneData);
 
