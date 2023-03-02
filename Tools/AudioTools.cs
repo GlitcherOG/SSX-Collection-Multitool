@@ -10,6 +10,9 @@ using System.Windows.Forms;
 using System.IO;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Diagnostics;
+using System.Media;
+using NAudio;
+using NAudio.Wave;
 
 namespace SSXMultiTool.Tools
 {
@@ -79,6 +82,8 @@ namespace SSXMultiTool.Tools
                         }
 
                         Directory.Delete(Application.StartupPath + "/TempAudio", true);
+
+                        MessageBox.Show("Audio Extracted");
                     }
                 }
 
@@ -231,7 +236,41 @@ namespace SSXMultiTool.Tools
                     File.Copy(Application.StartupPath + "/TempAudio/Audio.bnk", openFileDialog.FileName);
 
                     Directory.Delete(Application.StartupPath + "/TempAudio", true);
+
+                    MessageBox.Show("Audio BNK Built");
                 }
+            }
+        }
+
+        private void BnkFileList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(BnkFileList.SelectedIndex!=-1)
+            {
+                using (var reader = new WaveFileReader(Files[BnkFileList.SelectedIndex]))
+                {
+                    BnkTime.Text = reader.TotalTime.ToString(@"hh\:mm\:ss\.ff");
+                    BnkSample.Text = reader.WaveFormat.SampleRate.ToString();
+                    BnkFileSize.Text = reader.Length.ToString();
+                    BnkTotalSamples.Text = (reader.TotalTime.TotalSeconds * reader.WaveFormat.SampleRate).ToString();
+
+                }
+            }
+        }
+        WaveFileReader waveFile = null;
+        WaveOut waveOut = null;
+        private void bnkPlay_Click(object sender, EventArgs e)
+        {
+            if (BnkFileList.SelectedIndex != -1)
+            {
+                if(waveOut!=null)
+                {
+                    waveOut.Stop();
+                    waveFile.Close();
+                }
+                waveFile = new WaveFileReader(Files[BnkFileList.SelectedIndex]);
+                waveOut = new WaveOut();
+                waveOut.Init(waveFile);
+                waveOut.Play();
             }
         }
     }

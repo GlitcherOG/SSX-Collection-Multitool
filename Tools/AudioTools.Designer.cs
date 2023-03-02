@@ -30,6 +30,11 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.BnkTotalSamples = new System.Windows.Forms.Label();
+            this.BnkSample = new System.Windows.Forms.Label();
+            this.BnkFileSize = new System.Windows.Forms.Label();
+            this.BnkTime = new System.Windows.Forms.Label();
+            this.bnkPlay = new System.Windows.Forms.Button();
             this.BnkRemoveFile = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -57,6 +62,11 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.BnkTotalSamples);
+            this.tabPage1.Controls.Add(this.BnkSample);
+            this.tabPage1.Controls.Add(this.BnkFileSize);
+            this.tabPage1.Controls.Add(this.BnkTime);
+            this.tabPage1.Controls.Add(this.bnkPlay);
             this.tabPage1.Controls.Add(this.BnkRemoveFile);
             this.tabPage1.Controls.Add(this.label4);
             this.tabPage1.Controls.Add(this.label3);
@@ -77,6 +87,52 @@
             this.tabPage1.Text = "PS2 Bank Files (.bnk)";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // BnkTotalSamples
+            // 
+            this.BnkTotalSamples.AutoSize = true;
+            this.BnkTotalSamples.Location = new System.Drawing.Point(464, 23);
+            this.BnkTotalSamples.Name = "BnkTotalSamples";
+            this.BnkTotalSamples.Size = new System.Drawing.Size(13, 15);
+            this.BnkTotalSamples.TabIndex = 16;
+            this.BnkTotalSamples.Text = "0";
+            // 
+            // BnkSample
+            // 
+            this.BnkSample.AutoSize = true;
+            this.BnkSample.Location = new System.Drawing.Point(371, 23);
+            this.BnkSample.Name = "BnkSample";
+            this.BnkSample.Size = new System.Drawing.Size(13, 15);
+            this.BnkSample.TabIndex = 15;
+            this.BnkSample.Text = "0";
+            // 
+            // BnkFileSize
+            // 
+            this.BnkFileSize.AutoSize = true;
+            this.BnkFileSize.Location = new System.Drawing.Point(292, 23);
+            this.BnkFileSize.Name = "BnkFileSize";
+            this.BnkFileSize.Size = new System.Drawing.Size(13, 15);
+            this.BnkFileSize.TabIndex = 14;
+            this.BnkFileSize.Text = "0";
+            // 
+            // BnkTime
+            // 
+            this.BnkTime.AutoSize = true;
+            this.BnkTime.Location = new System.Drawing.Point(188, 23);
+            this.BnkTime.Name = "BnkTime";
+            this.BnkTime.Size = new System.Drawing.Size(13, 15);
+            this.BnkTime.TabIndex = 13;
+            this.BnkTime.Text = "0";
+            // 
+            // bnkPlay
+            // 
+            this.bnkPlay.Location = new System.Drawing.Point(182, 369);
+            this.bnkPlay.Name = "bnkPlay";
+            this.bnkPlay.Size = new System.Drawing.Size(75, 23);
+            this.bnkPlay.TabIndex = 12;
+            this.bnkPlay.Text = "Play Audio";
+            this.bnkPlay.UseVisualStyleBackColor = true;
+            this.bnkPlay.Click += new System.EventHandler(this.bnkPlay_Click);
+            // 
             // BnkRemoveFile
             // 
             this.BnkRemoveFile.Location = new System.Drawing.Point(6, 340);
@@ -90,7 +146,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(449, 8);
+            this.label4.Location = new System.Drawing.Point(464, 8);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(79, 15);
             this.label4.TabIndex = 10;
@@ -99,7 +155,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(359, 8);
+            this.label3.Location = new System.Drawing.Point(371, 8);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(72, 15);
             this.label3.TabIndex = 9;
@@ -151,6 +207,7 @@
             this.BnkFileList.Name = "BnkFileList";
             this.BnkFileList.Size = new System.Drawing.Size(170, 334);
             this.BnkFileList.TabIndex = 4;
+            this.BnkFileList.SelectedIndexChanged += new System.EventHandler(this.BnkFileList_SelectedIndexChanged);
             // 
             // BnkLoadFolder
             // 
@@ -223,5 +280,10 @@
         private Label label3;
         private Label label2;
         private Button BnkRemoveFile;
+        private Button bnkPlay;
+        private Label BnkTotalSamples;
+        private Label BnkSample;
+        private Label BnkFileSize;
+        private Label BnkTime;
     }
 }

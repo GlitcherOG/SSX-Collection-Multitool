@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAPICodePack-Shell" Version="1.1.0" />
+    <PackageReference Include="NAudio" Version="2.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="SharpGLTF.Core" Version="1.0.0-alpha0028" />
     <PackageReference Include="SharpGLTF.Toolkit" Version="1.0.0-alpha0028" />
