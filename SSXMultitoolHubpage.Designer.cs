@@ -41,10 +41,10 @@
             this.SSX3LevelButton = new System.Windows.Forms.Button();
             this.TrickyLevelButton = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.AudioWindowButton = new System.Windows.Forms.Button();
             this.SSHImageButton = new System.Windows.Forms.Button();
             this.LocFileButton = new System.Windows.Forms.Button();
             this.BigArchiveButton = new System.Windows.Forms.Button();
-            this.AudioWindowButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -191,6 +191,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Misc Tools";
             // 
+            // AudioWindowButton
+            // 
+            this.AudioWindowButton.Location = new System.Drawing.Point(306, 22);
+            this.AudioWindowButton.Name = "AudioWindowButton";
+            this.AudioWindowButton.Size = new System.Drawing.Size(94, 50);
+            this.AudioWindowButton.TabIndex = 3;
+            this.AudioWindowButton.Text = "Audio Tools";
+            this.AudioWindowButton.UseVisualStyleBackColor = true;
+            this.AudioWindowButton.Click += new System.EventHandler(this.AudioWindowButton_Click);
+            // 
             // SSHImageButton
             // 
             this.SSHImageButton.Location = new System.Drawing.Point(206, 22);
@@ -220,16 +230,6 @@
             this.BigArchiveButton.Text = "Big Archive";
             this.BigArchiveButton.UseVisualStyleBackColor = true;
             this.BigArchiveButton.Click += new System.EventHandler(this.BigArchiveButton_Click);
-            // 
-            // AudioWindowButton
-            // 
-            this.AudioWindowButton.Location = new System.Drawing.Point(306, 22);
-            this.AudioWindowButton.Name = "AudioWindowButton";
-            this.AudioWindowButton.Size = new System.Drawing.Size(94, 50);
-            this.AudioWindowButton.TabIndex = 3;
-            this.AudioWindowButton.Text = "Audio Tools";
-            this.AudioWindowButton.UseVisualStyleBackColor = true;
-            this.AudioWindowButton.Click += new System.EventHandler(this.AudioWindowButton_Click);
             // 
             // SSXMultitoolHubpage
             // 
