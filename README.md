@@ -4,31 +4,19 @@ This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX
 
 ## Current Features
 - SSH (SHPS) Texture Extractor/Maker (SSX, Tricky, SSX 3)
-- Big (BigF, Big4 And C0FB) Decompressor/Extractor and Making/Compressor (BigF, Big4 And C0FB)
+- Big Decompressor and Compressor (BigF, Big4 And C0FB)
 - Character DB Editor (SSX 3)
 - Music Inf Editor (SSX 3)
 - Loc (Language) Files Editor
 - (WIP) SSX 3 Store/Item Editing (BoltPS2.Dat)
-- (WIP) SSX 3 SSB Unpacker
-- (WIP) SSX Tricky MPF Extractor
+- SSX MPF Model Extractor/Importer (Tricky, 3, On Tour)
 
 ## Current Todo
-- Fix Model Header Amination
-- MPF Check Magic Numbers
+- Fix Big Compression Lagging
+- Fix Model Header Amination PDB
 - SSX Tricky Mass Texture Replacer
-- SSX 3 Material Regeneration/UI
-- SSX 3 Faces Display (Weight/Store File)
 - SSX 3 Normal Average Proper
 - SSX Tricky Normal Average Proper
-- Deep Copy Bones Tricky
-
-**BONE**
-Take Bone Convert Local Matrix To World Point (With Redone Parent if any)
-Using Original Parent rotation if Any Calcuate what the local point would be from that using inverse?
-
-
-- Fix Normal Average, Bone Update
-- Add Weight Testing in nivida tristirpper
 - Redo Folder Loading SSH
 - LOC Script Update
 - Export As Txt
@@ -41,7 +29,6 @@ Using Original Parent rotation if Any Calcuate what the local point would be fro
 - Delete PAD files
 - Allow Arguments to boot certain forms at launch
 - Open File location On Big Extraction and Making/SSH Files
- - Reimport Mesh
 
 
  ## Special Thanks
