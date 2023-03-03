@@ -47,13 +47,18 @@
             this.BnkBuild = new System.Windows.Forms.Button();
             this.BnkWavExtract = new System.Windows.Forms.Button();
             this.BnkLoadFile = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.HdrLoad = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -249,6 +254,36 @@
             this.BnkLoadFile.UseVisualStyleBackColor = true;
             this.BnkLoadFile.Click += new System.EventHandler(this.BnkLoadFile_Click);
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.button2);
+            this.tabPage2.Controls.Add(this.HdrLoad);
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(768, 398);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "PS2 Voice Files (.dat/.hdr)";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // HdrLoad
+            // 
+            this.HdrLoad.Location = new System.Drawing.Point(3, 372);
+            this.HdrLoad.Name = "HdrLoad";
+            this.HdrLoad.Size = new System.Drawing.Size(75, 23);
+            this.HdrLoad.TabIndex = 0;
+            this.HdrLoad.Text = "Load .HDR";
+            this.HdrLoad.UseVisualStyleBackColor = true;
+            this.HdrLoad.Click += new System.EventHandler(this.HdrLoad_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(84, 372);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "Load .DAT";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
             // AudioTools
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -260,6 +295,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -285,5 +321,8 @@
         private Label BnkSample;
         private Label BnkFileSize;
         private Label BnkTime;
+        private TabPage tabPage2;
+        private Button button2;
+        private Button HdrLoad;
     }
 }

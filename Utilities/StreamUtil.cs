@@ -74,6 +74,13 @@ namespace SSXMultiTool.Utilities
             return BitConverter.ToInt16(tempByte, 0);
         }
 
+        public static int ReadUInt16(Stream stream)
+        {
+            byte[] tempByte = new byte[2];
+            stream.Read(tempByte, 0, tempByte.Length);
+            return BitConverter.ToUInt16(tempByte, 0);
+        }
+
         public static int ReadInt16Big(Stream stream)
         {
             byte[] tempByte = new byte[2];

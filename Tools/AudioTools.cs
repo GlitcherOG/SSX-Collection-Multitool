@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.Media;
 using NAudio;
 using NAudio.Wave;
+using SSXMultiTool.FileHandlers;
 
 namespace SSXMultiTool.Tools
 {
@@ -271,6 +272,20 @@ namespace SSXMultiTool.Tools
                 waveOut = new WaveOut();
                 waveOut.Init(waveFile);
                 waveOut.Play();
+            }
+        }
+        HDRHandler hdrHandler = new HDRHandler();
+        private void HdrLoad_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "PS2 Audio Header File (*.hdr)|*.hdr|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                hdrHandler.Load(openFileDialog.FileName);
             }
         }
     }
