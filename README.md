@@ -1,34 +1,41 @@
 # SSX Collection Multitool
- 
-This is a redone version of my [original tool](https://github.com/GlitcherOG/SSX-PS2-Collection-Modder) created in .net framework. It was moved over to .net due to certain limitations discovered in the programs development that made loading of certain files next to impossible as such it was decided to just redo the entire project and improve it as i did.
+
+This is a completely remade version of my [original tool](https://github.com/GlitcherOG/SSX-PS2-Collection-Modder) created with the .NET framework. It was moved over to .NET due to certain limitations discovered in the program's development that made the loading of certain files next to impossible.  
+As such, I chose to redo the entire project and improve it as I did so.
 
 ## Current Features
+### General
 - SSH (SHPS) Texture Extractor/Maker (SSX, Tricky, SSX 3)
 - Big Decompressor and Compressor (BigF, Big4 And C0FB)
-- Character DB Editor (SSX 3)
-- Music Inf Editor (SSX 3)
 - Loc (Language) Files Editor
-- (WIP) SSX 3 Store/Item Editing (BoltPS2.Dat)
 - SSX MPF Model Extractor/Importer (Tricky, 3, On Tour)
 
+### SSX 3
+- Character DB Editor
+- Music Inf Editor
+- (WIP) SSX 3 Store/Item Editing
+
 ## Current Todo
-- Fix Big Compression Lagging
-- Fix Model Header Amination PDB
-- SSX Tricky Mass Texture Replacer
-- SSX 3 Normal Average Proper
-- SSX Tricky Normal Average Proper
-- Redo Folder Loading SSH
-- LOC Script Update
-- Export As Txt
-- Import As Txt if line count matches
+### General
+- [ ] Fix Model Header Amination
+- [ ] Fix Normal Average, Bone Update
+- [ ] Redo Folder Loading SSH
+- [ ] LOC Script Update
+- [ ] Export As TXT
+- [ ] Import As TXT if line count matches
+
+### SSX Tricky
+- [ ] Normal Average Proper
+
+### SSX 3
+- [ ] Normal Average Proper
 
 ## Todo
-- Setup ISO Handler
-- Setup Settings Page
-- OG, Tricky Pages
-- Delete PAD files
-- Allow Arguments to boot certain forms at launch
-- Open File location On Big Extraction and Making/SSH Files
+- [ ] Setup ISO Handler
+- [ ] Setup Settings Page
+- [ ] Delete PAD files
+- [ ] Allow Arguments to boot certain forms at launch
+- [ ] Open File location On Big Extraction and Making/SSH Files
 
 
  ## Special Thanks
