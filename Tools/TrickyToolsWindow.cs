@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using SSXMultiTool.FileHandlers.Models.Tricky;
 
 namespace SSXMultiTool
 {
@@ -33,7 +34,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if(MpfHeaderChecker.DetectFileType(openFileDialog.FileName)!=1)
+                if (MpfHeaderChecker.DetectFileType(openFileDialog.FileName) != 1)
                 {
                     MessageBox.Show(MpfHeaderChecker.TypeErrorMessage(MpfHeaderChecker.DetectFileType(openFileDialog.FileName)));
                     return;
@@ -46,7 +47,7 @@ namespace SSXMultiTool
 
                 int Type = trickyModel.DectectModelType(trickyMPF);
 
-                if((Type==0 && trickyModel.Head!=null)|| (Type == 1 && trickyModel.Body != null))
+                if ((Type == 0 && trickyModel.Head != null) || (Type == 1 && trickyModel.Body != null))
                 {
                     MpfList.Items.Clear();
                     MpfList.Items.Add("Character 3000");
@@ -56,7 +57,7 @@ namespace SSXMultiTool
                 }
                 else
                 {
-                    if(trickyModel.Body == null)
+                    if (trickyModel.Body == null)
                     {
                         MpfList.Items.Clear();
                         MpfList.Items.Add("Please Load Matching Body File");
@@ -177,7 +178,7 @@ namespace SSXMultiTool
                 }
                 else
                 {
-                    string Path = openFileDialog.FileName.Remove(openFileDialog.FileName.Length-8,8);
+                    string Path = openFileDialog.FileName.Remove(openFileDialog.FileName.Length - 8, 8);
 
                     trickyMPF = trickyModel.Body;
 
@@ -237,7 +238,7 @@ namespace SSXMultiTool
 
         void UpdateData(TrickyPS2MPF.MPFModelHeader? modelHeader = null)
         {
-            if(modelHeader!=null)
+            if (modelHeader != null)
             {
                 FileID.Text = modelHeader.Value.FileID.ToString();
                 BoneCount.Text = modelHeader.Value.boneDatas.Count.ToString();
@@ -286,7 +287,7 @@ namespace SSXMultiTool
         bool MatDisableUpdate;
         void MpfUpdateMaterial(TrickyPS2MPF.MPFModelHeader? modelHeader = null)
         {
-            if(MaterialList.SelectedIndex!=-1 && modelHeader!=null)
+            if (MaterialList.SelectedIndex != -1 && modelHeader != null)
             {
                 MatDisableUpdate = true;
                 MatMainTexture.Text = modelHeader.Value.materialDatas[MaterialList.SelectedIndex].MainTexture;
@@ -334,7 +335,7 @@ namespace SSXMultiTool
         {
             CharacterParts.Items.Clear();
             int MeshID = MpfList.SelectedIndex;
-            if (trickyModel.Body!=null && trickyModel.Head != null)
+            if (trickyModel.Body != null && trickyModel.Head != null)
             {
                 for (int i = 0; i < trickyModel.Body.ModelList.Count; i++)
                 {
@@ -364,14 +365,14 @@ namespace SSXMultiTool
 
         private void CharacterParts_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(CharacterParts.SelectedIndex!=-1)
+            if (CharacterParts.SelectedIndex != -1)
             {
                 string LookingFor = CharacterParts.Items[CharacterParts.SelectedIndex].ToString();
                 int MeshID = -1;
 
                 for (int i = 0; i < trickyModel.Body.ModelList.Count; i++)
                 {
-                    if(LookingFor== trickyModel.Body.ModelList[i].FileName)
+                    if (LookingFor == trickyModel.Body.ModelList[i].FileName)
                     {
                         MeshID = i;
                         UpdateData(trickyModel.Body.ModelList[i]);
@@ -397,7 +398,7 @@ namespace SSXMultiTool
 
         private void MaterialList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(MaterialList.SelectedIndex != -1)
+            if (MaterialList.SelectedIndex != -1)
             {
                 if (trickyModel.Board != null)
                 {
@@ -440,17 +441,17 @@ namespace SSXMultiTool
 
         private void MPFUpdateMat(object sender, EventArgs e)
         {
-            if(MaterialList.SelectedIndex!=-1&&!MatDisableUpdate)
+            if (MaterialList.SelectedIndex != -1 && !MatDisableUpdate)
             {
                 MatDisableUpdate = true;
 
                 TrickyPS2MPF.MaterialData TempMat = new TrickyPS2MPF.MaterialData();
                 //Load Material
-                if (trickyModel.Board!=null)
+                if (trickyModel.Board != null)
                 {
                     TempMat = trickyModel.Board.ModelList[MpfList.SelectedIndex].materialDatas[MaterialList.SelectedIndex];
                 }
-                else if (trickyModel.Head!=null && trickyModel.Body!=null)
+                else if (trickyModel.Head != null && trickyModel.Body != null)
                 {
                     string LookingFor = CharacterParts.Items[CharacterParts.SelectedIndex].ToString();
                     int MeshID = -1;
@@ -527,5 +528,21 @@ namespace SSXMultiTool
             }
         }
 
+        TrickyXboxMXF xboxMXF = new TrickyXboxMXF();
+        private void MXFLoad_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "MXF Model File (*.mxf)|*.mxf|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                xboxMXF = new TrickyXboxMXF();
+
+                xboxMXF.Load(openFileDialog.FileName);
+            }
+        }
     }
 }
