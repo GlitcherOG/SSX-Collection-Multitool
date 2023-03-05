@@ -103,7 +103,8 @@ namespace SSXMultiTool
                 patch.R4C4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[15]);
 
                 patch.PatchStyle = pbdHandler.Patches[i].PatchStyle;
-                patch.Unknown2 = pbdHandler.Patches[i].Unknown2;
+                //patch.Unknown2 = pbdHandler.Patches[i].Unknown2;
+                patch.PatchVisablity = pbdHandler.Patches[i].PatchVisablity;
                 patch.TextureAssigment = pbdHandler.Patches[i].TextureAssigment;
                 patch.LightmapID = pbdHandler.Patches[i].LightmapID;
                 patch.Unknown4 = pbdHandler.Patches[i].Unknown4;
@@ -851,7 +852,8 @@ namespace SSXMultiTool
                 patch.Point4 = JsonUtil.Vector3ToVector4(bezierUtil.RawPoints[15]);
 
                 patch.PatchStyle = ImportPatch.PatchStyle;
-                patch.Unknown2 = ImportPatch.Unknown2;
+                patch.Unknown2 = 41;
+                patch.PatchVisablity = ImportPatch.PatchVisablity;
                 patch.TextureAssigment = ImportPatch.TextureAssigment;
                 if (lightingFixObjects.Count-1 >= patch.TextureAssigment)
                 {

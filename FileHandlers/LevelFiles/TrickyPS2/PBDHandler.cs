@@ -148,7 +148,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     patch.Point4 = StreamUtil.ReadVector4(stream);
 
                     patch.PatchStyle = StreamUtil.ReadInt32(stream);
-                    patch.Unknown2 = StreamUtil.ReadInt32(stream); //Material/Lighting
+                    patch.Unknown2 = StreamUtil.ReadInt16(stream); //Material/Lighting
+                    patch.PatchVisablity = StreamUtil.ReadInt16(stream);
                     patch.TextureAssigment = StreamUtil.ReadInt16(stream);
 
                     patch.LightmapID = StreamUtil.ReadInt16(stream);
@@ -157,6 +158,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     patch.Unknown4 = StreamUtil.ReadInt32(stream); //Negitive one
                     patch.Unknown5 = StreamUtil.ReadInt32(stream);
                     patch.Unknown6 = StreamUtil.ReadInt32(stream);
+
 
                     Patches.Add(patch);
                 }
@@ -672,7 +674,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteVector4(stream, TempPatch.Point4);
 
                 StreamUtil.WriteInt32(stream, TempPatch.PatchStyle);
-                StreamUtil.WriteInt32(stream, TempPatch.Unknown2);
+                StreamUtil.WriteInt16(stream, TempPatch.Unknown2); //41
+                StreamUtil.WriteInt16(stream, TempPatch.PatchVisablity);
                 StreamUtil.WriteInt16(stream, TempPatch.TextureAssigment);
                 StreamUtil.WriteInt16(stream, TempPatch.LightmapID);
                 StreamUtil.WriteInt32(stream, TempPatch.Unknown4);
@@ -1643,6 +1646,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public void RegenerateLowestAndHighest()
         {
+            //Patches
+            for (int i = 0; i < Patches.Count; i++)
+            {
+                var TempPatch = Patches[i];
+
+
+                Patches[i] = TempPatch;
+            }
+
+            //Instances
             for (int i = 0; i < Instances.Count; i++)
             {
                 var TempInstance = Instances[i];
@@ -1919,6 +1932,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public Vector4 UVPoint3;
         public Vector4 UVPoint4;
 
+        //public List<Vector4> Points;
+
         public Vector4 R4C4;
         public Vector4 R4C3;
         public Vector4 R4C2;
@@ -1965,7 +1980,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         //18 - Show Off Ramp/Metal
         public int PatchStyle; //Type
 
-        public int Unknown2; // Some Kind of material Assignment Or Lighting
+        public int Unknown2;
+        public int PatchVisablity;
         public int TextureAssigment; // Texture Assigment 
         public int LightmapID;
         public int Unknown4; //Negative one

@@ -8,7 +8,7 @@ using SSXMultiTool.Utilities;
 
 namespace SSXMultiTool.FileHandlers
 {
-    internal class HDRHandler
+    public class HDRHandler
     {
         public int U1;
         public int U2;
@@ -37,7 +37,7 @@ namespace SSXMultiTool.FileHandlers
                 //StreamUtil.AlignBy16(stream);
 
                 stream.Position += 4-OffsetBytes;
-
+                int Temp = 0;
                 fileHeaders = new List<FileHeader>();
                 for (int i = 0; i < FileCount; i++)
                 {
@@ -67,6 +67,7 @@ namespace SSXMultiTool.FileHandlers
                     }
 
                     TempHeader.Unknown2 = StreamUtil.ReadInt16(stream);
+                    Temp += TempHeader.Unknown2;
                     fileHeaders.Add(TempHeader);
                 }
                 U6 = StreamUtil.ReadInt16(stream);

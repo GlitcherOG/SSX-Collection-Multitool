@@ -288,5 +288,7 @@ namespace SSXMultiTool.Tools
                 hdrHandler.Load(openFileDialog.FileName);
             }
         }
+        
+
     }
 }

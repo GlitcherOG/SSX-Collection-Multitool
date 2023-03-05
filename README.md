@@ -23,6 +23,7 @@ As such, I chose to redo the entire project and improve it as I did so.
 - [ ] LOC Script Update
 - [ ] Export As TXT
 - [ ] Import As TXT if line count matches
+- [ ] Fix Model Orientation
 
 ### SSX Tricky
 - [ ] Normal Average Proper

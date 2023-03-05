@@ -66,7 +66,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public float[] R1C1;
 
             public int PatchStyle;
-            public int Unknown2;
+            //public int Unknown2;
+            public int PatchVisablity;
             public int TextureAssigment;
             public int LightmapID;
             public int Unknown4;
