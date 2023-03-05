@@ -27,7 +27,7 @@ namespace SSXMultiTool.Tools
 
         private void BnkWavExtract_Click(object sender, EventArgs e)
         {
-            if(CheckSX())
+            if (CheckSX())
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog
                 {
@@ -77,7 +77,7 @@ namespace SSXMultiTool.Tools
                             File.Delete(Files[i]);
                         }
 
-                        while(Directory.GetFiles(Application.StartupPath + "/TempAudio").Length!=0)
+                        while (Directory.GetFiles(Application.StartupPath + "/TempAudio").Length != 0)
                         {
 
                         }
@@ -94,7 +94,7 @@ namespace SSXMultiTool.Tools
         private bool CheckSX()
         {
             string StringPath = Application.StartupPath;
-            if (Directory.GetFiles(StringPath, "sx.exe", SearchOption.TopDirectoryOnly).Length==1)
+            if (Directory.GetFiles(StringPath, "sx.exe", SearchOption.TopDirectoryOnly).Length == 1)
             {
                 return true;
             }
@@ -126,7 +126,7 @@ namespace SSXMultiTool.Tools
 
         private void BnkRemoveFile_Click(object sender, EventArgs e)
         {
-            if(BnkFileList.SelectedIndex!=-1)
+            if (BnkFileList.SelectedIndex != -1)
             {
                 Files.RemoveAt(BnkFileList.SelectedIndex);
 
@@ -159,12 +159,12 @@ namespace SSXMultiTool.Tools
 
         private void BnkDown_Click(object sender, EventArgs e)
         {
-            if (BnkFileList.SelectedIndex != -1 && BnkFileList.SelectedIndex != Files.Count-1)
+            if (BnkFileList.SelectedIndex != -1 && BnkFileList.SelectedIndex != Files.Count - 1)
             {
                 int Pos = BnkFileList.SelectedIndex;
                 var Tempstring = Files[Pos];
                 Files.RemoveAt(Pos);
-                Files.Insert(Pos+1, Tempstring);
+                Files.Insert(Pos + 1, Tempstring);
                 BnkFileList.Items.Clear();
 
                 for (int i = 0; i < Files.Count; i++)
@@ -172,7 +172,7 @@ namespace SSXMultiTool.Tools
                     BnkFileList.Items.Add(Path.GetFileName(Files[i]));
                 }
 
-                BnkFileList.SelectedIndex = Pos +1;
+                BnkFileList.SelectedIndex = Pos + 1;
             }
         }
 
@@ -199,7 +199,7 @@ namespace SSXMultiTool.Tools
 
         private void BnkBuild_Click(object sender, EventArgs e)
         {
-            if(Files.Count!=0)
+            if (Files.Count != 0)
             {
                 SaveFileDialog openFileDialog = new SaveFileDialog
                 {
@@ -227,7 +227,7 @@ namespace SSXMultiTool.Tools
                     FileInfo f = new FileInfo(Application.StartupPath);
                     string drive = Path.GetPathRoot(f.FullName);
 
-                    cmd.StandardInput.WriteLine(drive.Substring(0,2));
+                    cmd.StandardInput.WriteLine(drive.Substring(0, 2));
                     cmd.StandardInput.WriteLine("cd " + Application.StartupPath + "/TempAudio");
                     cmd.StandardInput.WriteLine("sx.exe -ps2bank -mt_blk -playlocmaincpu  *.wav -=Audio.bnk");
                     cmd.StandardInput.Flush();
@@ -245,7 +245,7 @@ namespace SSXMultiTool.Tools
 
         private void BnkFileList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(BnkFileList.SelectedIndex!=-1)
+            if (BnkFileList.SelectedIndex != -1)
             {
                 using (var reader = new WaveFileReader(Files[BnkFileList.SelectedIndex]))
                 {
@@ -263,7 +263,7 @@ namespace SSXMultiTool.Tools
         {
             if (BnkFileList.SelectedIndex != -1)
             {
-                if(waveOut!=null)
+                if (waveOut != null)
                 {
                     waveOut.Stop();
                     waveFile.Close();
@@ -288,7 +288,36 @@ namespace SSXMultiTool.Tools
                 hdrHandler.Load(openFileDialog.FileName);
             }
         }
-        
 
+        DATAudio datAudio = new DATAudio();
+        private void hdrExtract_Click(object sender, EventArgs e)
+        {
+            if (true /*CheckSX()*/)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
+                    {
+                        IsFolderPicker = true,
+                        Title = "Select Extract Folder",
+                    };
+                    if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
+                    {
+                        datAudio = new DATAudio();
+
+                        datAudio.ExtractGuess(openFileDialog.FileName, openFileDialog1.FileName);
+
+                        MessageBox.Show("Audio Extracted");
+                    }
+                }
+
+            }
+        }
     }
 }
