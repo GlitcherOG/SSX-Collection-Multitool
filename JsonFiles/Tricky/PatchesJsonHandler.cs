@@ -70,9 +70,9 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int PatchVisablity;
             public int TextureAssigment;
             public int LightmapID;
-            public int Unknown4;
-            public int Unknown5;
-            public int Unknown6;
+            //public int Unknown4;
+            //public int Unknown5;
+            //public int Unknown6;
         }
     }
 }

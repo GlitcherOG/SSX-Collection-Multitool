@@ -107,9 +107,9 @@ namespace SSXMultiTool
                 patch.PatchVisablity = pbdHandler.Patches[i].PatchVisablity;
                 patch.TextureAssigment = pbdHandler.Patches[i].TextureAssigment;
                 patch.LightmapID = pbdHandler.Patches[i].LightmapID;
-                patch.Unknown4 = pbdHandler.Patches[i].Unknown4;
-                patch.Unknown5 = pbdHandler.Patches[i].Unknown5;
-                patch.Unknown6 = pbdHandler.Patches[i].Unknown6;
+                //patch.Unknown4 = pbdHandler.Patches[i].Unknown4;
+                //patch.Unknown5 = pbdHandler.Patches[i].Unknown5;
+                //patch.Unknown6 = pbdHandler.Patches[i].Unknown6;
                 patchPoints.patches.Add(patch);
             }
             patchPoints.CreateJson(ExportPath + "/Patches.json");
@@ -860,9 +860,9 @@ namespace SSXMultiTool
                     lightingFixObjects[patch.TextureAssigment].Patch.Add(i);
                 }
                 patch.LightmapID = ImportPatch.LightmapID;
-                patch.Unknown4 = ImportPatch.Unknown4;
-                patch.Unknown5 = ImportPatch.Unknown5;
-                patch.Unknown6 = ImportPatch.Unknown6;
+                //patch.Unknown4 = ImportPatch.Unknown4;
+                //patch.Unknown5 = ImportPatch.Unknown5;
+                //patch.Unknown6 = ImportPatch.Unknown6;
 
                 pbdHandler.Patches.Add(patch);
 

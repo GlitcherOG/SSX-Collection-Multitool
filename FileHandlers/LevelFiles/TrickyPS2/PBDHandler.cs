@@ -148,7 +148,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     patch.Point4 = StreamUtil.ReadVector4(stream);
 
                     patch.PatchStyle = StreamUtil.ReadInt32(stream);
-                    patch.Unknown2 = StreamUtil.ReadInt16(stream); //Material/Lighting
+                    patch.Unknown2 = StreamUtil.ReadInt16(stream);
                     patch.PatchVisablity = StreamUtil.ReadInt16(stream);
                     patch.TextureAssigment = StreamUtil.ReadInt16(stream);
 
