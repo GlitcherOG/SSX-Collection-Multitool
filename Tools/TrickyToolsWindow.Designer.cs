@@ -87,10 +87,35 @@
             MpfList = new ListBox();
             MPFExtract = new Button();
             MPFLoad = new Button();
-            tabPage2 = new TabPage();
-            ELFLdrSetup = new Button();
             tabPage3 = new TabPage();
             MXFLoad = new Button();
+            tabPage4 = new TabPage();
+            groupBox6 = new GroupBox();
+            groupBox8 = new GroupBox();
+            groupBox7 = new GroupBox();
+            listBox2 = new ListBox();
+            hdrSave = new Button();
+            HdrLoad = new Button();
+            groupBox5 = new GroupBox();
+            listBox1 = new ListBox();
+            bnkPlay = new Button();
+            BnkTotalSamples = new Label();
+            label27 = new Label();
+            hdrBuildDAT = new Button();
+            button1 = new Button();
+            hdrExtract = new Button();
+            BnkSample = new Label();
+            button3 = new Button();
+            label26 = new Label();
+            button4 = new Button();
+            BnkFileSize = new Label();
+            button5 = new Button();
+            label22 = new Label();
+            button6 = new Button();
+            label24 = new Label();
+            BnkTime = new Label();
+            tabPage2 = new TabPage();
+            ELFLdrSetup = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -100,14 +125,18 @@
             ((System.ComponentModel.ISupportInitialize)MatFlagFactor).BeginInit();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
-            tabPage2.SuspendLayout();
             tabPage3.SuspendLayout();
+            tabPage4.SuspendLayout();
+            groupBox6.SuspendLayout();
+            groupBox5.SuspendLayout();
+            tabPage2.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
             // 
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage3);
+            tabControl1.Controls.Add(tabPage4);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Location = new Point(12, 12);
             tabControl1.Name = "tabControl1";
@@ -324,7 +353,6 @@
             MatUnknown2.DecimalPlaces = 6;
             MatUnknown2.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
             MatUnknown2.Location = new Point(167, 183);
-            MatUnknown2.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
             MatUnknown2.Name = "MatUnknown2";
             MatUnknown2.Size = new Size(81, 23);
             MatUnknown2.TabIndex = 42;
@@ -344,7 +372,6 @@
             MatUnknown1.DecimalPlaces = 6;
             MatUnknown1.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
             MatUnknown1.Location = new Point(82, 183);
-            MatUnknown1.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
             MatUnknown1.Name = "MatUnknown1";
             MatUnknown1.Size = new Size(81, 23);
             MatUnknown1.TabIndex = 40;
@@ -364,7 +391,6 @@
             MatFlagFactor.DecimalPlaces = 6;
             MatFlagFactor.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
             MatFlagFactor.Location = new Point(167, 136);
-            MatFlagFactor.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
             MatFlagFactor.Name = "MatFlagFactor";
             MatFlagFactor.Size = new Size(81, 23);
             MatFlagFactor.TabIndex = 38;
@@ -710,26 +736,6 @@
             MPFLoad.UseVisualStyleBackColor = true;
             MPFLoad.Click += MPFLoad_Click;
             // 
-            // tabPage2
-            // 
-            tabPage2.Controls.Add(ELFLdrSetup);
-            tabPage2.Location = new Point(4, 24);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Size = new Size(768, 398);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "Tools";
-            tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // ELFLdrSetup
-            // 
-            ELFLdrSetup.Location = new Point(3, 3);
-            ELFLdrSetup.Name = "ELFLdrSetup";
-            ELFLdrSetup.Size = new Size(132, 72);
-            ELFLdrSetup.TabIndex = 0;
-            ELFLdrSetup.Text = "Setup For ELFLdr";
-            ELFLdrSetup.UseVisualStyleBackColor = true;
-            ELFLdrSetup.Click += ELFLdrSetup_Click;
-            // 
             // tabPage3
             // 
             tabPage3.Controls.Add(MXFLoad);
@@ -749,6 +755,277 @@
             MXFLoad.Text = "Load";
             MXFLoad.UseVisualStyleBackColor = true;
             MXFLoad.Click += MXFLoad_Click;
+            // 
+            // tabPage4
+            // 
+            tabPage4.Controls.Add(groupBox6);
+            tabPage4.Controls.Add(groupBox5);
+            tabPage4.Location = new Point(4, 24);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Size = new Size(768, 398);
+            tabPage4.TabIndex = 3;
+            tabPage4.Text = "Tricky Sound Files (.HDR/.DAT)";
+            tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            groupBox6.Controls.Add(groupBox8);
+            groupBox6.Controls.Add(groupBox7);
+            groupBox6.Controls.Add(listBox2);
+            groupBox6.Controls.Add(hdrSave);
+            groupBox6.Controls.Add(HdrLoad);
+            groupBox6.Location = new Point(376, 9);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Size = new Size(389, 386);
+            groupBox6.TabIndex = 39;
+            groupBox6.TabStop = false;
+            groupBox6.Text = ".HDR";
+            // 
+            // groupBox8
+            // 
+            groupBox8.Location = new Point(182, 22);
+            groupBox8.Name = "groupBox8";
+            groupBox8.Size = new Size(200, 154);
+            groupBox8.TabIndex = 40;
+            groupBox8.TabStop = false;
+            groupBox8.Text = "HDR Entry";
+            // 
+            // groupBox7
+            // 
+            groupBox7.Location = new Point(182, 182);
+            groupBox7.Name = "groupBox7";
+            groupBox7.Size = new Size(200, 174);
+            groupBox7.TabIndex = 39;
+            groupBox7.TabStop = false;
+            groupBox7.Text = "Header Info";
+            // 
+            // listBox2
+            // 
+            listBox2.FormattingEnabled = true;
+            listBox2.ItemHeight = 15;
+            listBox2.Location = new Point(6, 22);
+            listBox2.Name = "listBox2";
+            listBox2.Size = new Size(170, 334);
+            listBox2.TabIndex = 38;
+            // 
+            // hdrSave
+            // 
+            hdrSave.Location = new Point(308, 357);
+            hdrSave.Name = "hdrSave";
+            hdrSave.Size = new Size(75, 23);
+            hdrSave.TabIndex = 28;
+            hdrSave.Text = "Save .HDR";
+            hdrSave.UseVisualStyleBackColor = true;
+            // 
+            // HdrLoad
+            // 
+            HdrLoad.Location = new Point(6, 357);
+            HdrLoad.Name = "HdrLoad";
+            HdrLoad.Size = new Size(80, 23);
+            HdrLoad.TabIndex = 19;
+            HdrLoad.Text = "Load .HDR";
+            HdrLoad.UseVisualStyleBackColor = true;
+            HdrLoad.Click += HdrLoad_Click;
+            // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(listBox1);
+            groupBox5.Controls.Add(bnkPlay);
+            groupBox5.Controls.Add(BnkTotalSamples);
+            groupBox5.Controls.Add(label27);
+            groupBox5.Controls.Add(hdrBuildDAT);
+            groupBox5.Controls.Add(button1);
+            groupBox5.Controls.Add(hdrExtract);
+            groupBox5.Controls.Add(BnkSample);
+            groupBox5.Controls.Add(button3);
+            groupBox5.Controls.Add(label26);
+            groupBox5.Controls.Add(button4);
+            groupBox5.Controls.Add(BnkFileSize);
+            groupBox5.Controls.Add(button5);
+            groupBox5.Controls.Add(label22);
+            groupBox5.Controls.Add(button6);
+            groupBox5.Controls.Add(label24);
+            groupBox5.Controls.Add(BnkTime);
+            groupBox5.Location = new Point(10, 9);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(360, 386);
+            groupBox5.TabIndex = 38;
+            groupBox5.TabStop = false;
+            groupBox5.Text = ".DAT";
+            // 
+            // listBox1
+            // 
+            listBox1.FormattingEnabled = true;
+            listBox1.ItemHeight = 15;
+            listBox1.Location = new Point(6, 23);
+            listBox1.Name = "listBox1";
+            listBox1.Size = new Size(170, 304);
+            listBox1.TabIndex = 24;
+            // 
+            // bnkPlay
+            // 
+            bnkPlay.Location = new Point(182, 328);
+            bnkPlay.Name = "bnkPlay";
+            bnkPlay.Size = new Size(84, 23);
+            bnkPlay.TabIndex = 33;
+            bnkPlay.Text = "Play Audio";
+            bnkPlay.UseVisualStyleBackColor = true;
+            // 
+            // BnkTotalSamples
+            // 
+            BnkTotalSamples.AutoSize = true;
+            BnkTotalSamples.Location = new Point(272, 68);
+            BnkTotalSamples.Name = "BnkTotalSamples";
+            BnkTotalSamples.Size = new Size(13, 15);
+            BnkTotalSamples.TabIndex = 37;
+            BnkTotalSamples.Text = "0";
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Location = new Point(182, 23);
+            label27.Name = "label27";
+            label27.Size = new Size(73, 15);
+            label27.TabIndex = 29;
+            label27.Text = "Time Length";
+            // 
+            // hdrBuildDAT
+            // 
+            hdrBuildDAT.Enabled = false;
+            hdrBuildDAT.Location = new Point(272, 357);
+            hdrBuildDAT.Name = "hdrBuildDAT";
+            hdrBuildDAT.Size = new Size(82, 23);
+            hdrBuildDAT.TabIndex = 21;
+            hdrBuildDAT.Text = "Build .DAT";
+            hdrBuildDAT.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(6, 328);
+            button1.Name = "button1";
+            button1.Size = new Size(38, 23);
+            button1.TabIndex = 27;
+            button1.Text = "-";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // hdrExtract
+            // 
+            hdrExtract.Location = new Point(182, 357);
+            hdrExtract.Name = "hdrExtract";
+            hdrExtract.Size = new Size(84, 23);
+            hdrExtract.TabIndex = 20;
+            hdrExtract.Text = "Extract .DAT";
+            hdrExtract.UseVisualStyleBackColor = true;
+            // 
+            // BnkSample
+            // 
+            BnkSample.AutoSize = true;
+            BnkSample.Location = new Point(182, 68);
+            BnkSample.Name = "BnkSample";
+            BnkSample.Size = new Size(13, 15);
+            BnkSample.TabIndex = 36;
+            BnkSample.Text = "0";
+            // 
+            // button3
+            // 
+            button3.Location = new Point(96, 328);
+            button3.Name = "button3";
+            button3.Size = new Size(32, 23);
+            button3.TabIndex = 26;
+            button3.Text = "\\/";
+            button3.UseVisualStyleBackColor = true;
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Location = new Point(272, 23);
+            label26.Name = "label26";
+            label26.Size = new Size(48, 15);
+            label26.TabIndex = 30;
+            label26.Text = "File Size";
+            // 
+            // button4
+            // 
+            button4.Location = new Point(48, 328);
+            button4.Name = "button4";
+            button4.Size = new Size(33, 23);
+            button4.TabIndex = 25;
+            button4.Text = "/\\";
+            button4.UseVisualStyleBackColor = true;
+            // 
+            // BnkFileSize
+            // 
+            BnkFileSize.AutoSize = true;
+            BnkFileSize.Location = new Point(272, 38);
+            BnkFileSize.Name = "BnkFileSize";
+            BnkFileSize.Size = new Size(13, 15);
+            BnkFileSize.TabIndex = 35;
+            BnkFileSize.Text = "0";
+            // 
+            // button5
+            // 
+            button5.Location = new Point(6, 357);
+            button5.Name = "button5";
+            button5.Size = new Size(170, 23);
+            button5.TabIndex = 23;
+            button5.Text = "Load Folder";
+            button5.UseVisualStyleBackColor = true;
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Location = new Point(272, 53);
+            label22.Name = "label22";
+            label22.Size = new Size(79, 15);
+            label22.TabIndex = 32;
+            label22.Text = "Total Samples";
+            // 
+            // button6
+            // 
+            button6.Location = new Point(134, 328);
+            button6.Name = "button6";
+            button6.Size = new Size(42, 23);
+            button6.TabIndex = 22;
+            button6.Text = "+";
+            button6.UseVisualStyleBackColor = true;
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Location = new Point(182, 53);
+            label24.Name = "label24";
+            label24.Size = new Size(72, 15);
+            label24.TabIndex = 31;
+            label24.Text = "Sample Rate";
+            // 
+            // BnkTime
+            // 
+            BnkTime.AutoSize = true;
+            BnkTime.Location = new Point(182, 38);
+            BnkTime.Name = "BnkTime";
+            BnkTime.Size = new Size(13, 15);
+            BnkTime.TabIndex = 34;
+            BnkTime.Text = "0";
+            // 
+            // tabPage2
+            // 
+            tabPage2.Controls.Add(ELFLdrSetup);
+            tabPage2.Location = new Point(4, 24);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Size = new Size(768, 398);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "Tools";
+            tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // ELFLdrSetup
+            // 
+            ELFLdrSetup.Location = new Point(3, 3);
+            ELFLdrSetup.Name = "ELFLdrSetup";
+            ELFLdrSetup.Size = new Size(132, 72);
+            ELFLdrSetup.TabIndex = 0;
+            ELFLdrSetup.Text = "Setup For ELFLdr";
+            ELFLdrSetup.UseVisualStyleBackColor = true;
+            ELFLdrSetup.Click += ELFLdrSetup_Click;
             // 
             // TrickyToolsWindow
             // 
@@ -772,8 +1049,12 @@
             groupBox2.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            tabPage2.ResumeLayout(false);
             tabPage3.ResumeLayout(false);
+            tabPage4.ResumeLayout(false);
+            groupBox6.ResumeLayout(false);
+            groupBox5.ResumeLayout(false);
+            groupBox5.PerformLayout();
+            tabPage2.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -842,5 +1123,30 @@
         private Label MpfWeights;
         private TabPage tabPage3;
         private Button MXFLoad;
+        private TabPage tabPage4;
+        private Button hdrSave;
+        private Button button1;
+        private Button button3;
+        private Button button4;
+        private ListBox listBox1;
+        private Button button5;
+        private Button button6;
+        private Button hdrBuildDAT;
+        private Button hdrExtract;
+        private Button HdrLoad;
+        private Label BnkTotalSamples;
+        private Label BnkSample;
+        private Label BnkFileSize;
+        private Label BnkTime;
+        private Button bnkPlay;
+        private Label label22;
+        private Label label24;
+        private Label label26;
+        private Label label27;
+        private GroupBox groupBox6;
+        private ListBox listBox2;
+        private GroupBox groupBox5;
+        private GroupBox groupBox8;
+        private GroupBox groupBox7;
     }
 }

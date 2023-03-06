@@ -21,6 +21,8 @@ namespace SSXMultiTool
         {
             InitializeComponent();
         }
+
+        #region Tricky PS2 Models
         TrickyPS2ModelCombiner trickyModel = new TrickyPS2ModelCombiner();
         TrickyPS2MPF trickyMPF = new TrickyPS2MPF();
 
@@ -527,6 +529,7 @@ namespace SSXMultiTool
                 MatDisableUpdate = false;
             }
         }
+        #endregion
 
         TrickyXboxMXF xboxMXF = new TrickyXboxMXF();
         private void MXFLoad_Click(object sender, EventArgs e)
@@ -542,6 +545,22 @@ namespace SSXMultiTool
                 xboxMXF = new TrickyXboxMXF();
 
                 xboxMXF.Load(openFileDialog.FileName);
+            }
+        }
+
+        HDRHandler hdrHandler = new HDRHandler();
+        private void HdrLoad_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "PS2 Audio Header File (*.hdr)|*.hdr|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                hdrHandler.Load(openFileDialog.FileName);
+                hdrBuildDAT.Enabled = true;
             }
         }
     }
