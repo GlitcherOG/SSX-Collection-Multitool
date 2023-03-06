@@ -118,9 +118,13 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteInt16(stream, TempHeader.Unknown2);
             }
 
-            if (OffsetBytes != 1)
+            if (OffsetBytes != 3)
             {
-                stream.Position += OffsetBytes - 1;
+                stream.Position += 1;
+            }
+            else
+            {
+                stream.Position += 2;
             }
 
             for (int i = 0; i < Padding.Count; i++)

@@ -27,6 +27,9 @@ As such, I chose to redo the entire project and improve it as I did so.
 
 ### SSX Tricky
 - [ ] Normal Average Proper
+- [ ] Move Voice Replacer to Tool Window
+- [ ] Make Buttons Work
+- [ ] Check its 2002 Version
 
 ### SSX 3
 - [ ] Normal Average Proper

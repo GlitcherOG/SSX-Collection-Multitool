@@ -166,7 +166,8 @@ namespace SSXMultiTool
         {
             if (BigTypeCombobox.Enabled)
             {
-                LoadFolderPath(bigHandler.bigPath, !bigHandler.CompressBuild);
+                //LoadFolderPath(bigHandler.bigPath, !bigHandler.CompressBuild);
+                bigHandler.CompressBuild = !bigHandler.CompressBuild;
                 CompressionButton.Text = "Compressed Build: "+bigHandler.CompressBuild.ToString();
             }
         }
