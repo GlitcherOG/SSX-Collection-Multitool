@@ -157,7 +157,7 @@ namespace SSXMultiTool.FileHandlers
 
                     cmd.StandardInput.WriteLine(drive);
                     cmd.StandardInput.WriteLine("cd " + Application.StartupPath + "/TempAudio");
-                    cmd.StandardInput.WriteLine("sx.exe -ps2stream -eaxa_blk -playlocmaincpu -fps1 Temp.wav -=Temp.mus -v3");
+                    cmd.StandardInput.WriteLine("sx.exe -ps2stream -mt_blk -playlocmaincpu -removeuserall Temp.wav -=Temp.mus -v3");
                     cmd.StandardInput.Flush();
                     cmd.StandardInput.Close();
                     cmd.WaitForExit();

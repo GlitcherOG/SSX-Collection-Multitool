@@ -351,7 +351,16 @@ namespace SSXMultiTool.Tools
 
         private void hdrSave_Click(object sender, EventArgs e)
         {
-
+            SaveFileDialog openFileDialog1 = new SaveFileDialog
+            {
+                Filter = "PS2 Audio File (*.hdr)|*.hdr|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                hdrHandler.Save(openFileDialog1.FileName);
+            }
         }
     }
 }

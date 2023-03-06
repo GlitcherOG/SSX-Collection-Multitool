@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 using SSXMultiTool.Utilities;
 
 namespace SSXMultiTool.FileHandlers
@@ -37,7 +38,6 @@ namespace SSXMultiTool.FileHandlers
                 //StreamUtil.AlignBy16(stream);
 
                 stream.Position += 4-OffsetBytes;
-                int Temp = 0;
                 fileHeaders = new List<FileHeader>();
                 for (int i = 0; i < FileCount; i++)
                 {
@@ -67,7 +67,6 @@ namespace SSXMultiTool.FileHandlers
                     }
 
                     TempHeader.Unknown2 = StreamUtil.ReadInt16(stream);
-                    Temp += TempHeader.Unknown2;
                     fileHeaders.Add(TempHeader);
                 }
                 U6 = StreamUtil.ReadInt16(stream);
@@ -79,6 +78,65 @@ namespace SSXMultiTool.FileHandlers
                 }
 
             }
+        }
+
+        public void Save(string Path)
+        {
+            MemoryStream stream = new MemoryStream();
+
+            StreamUtil.WriteInt16(stream, U1);
+            StreamUtil.WriteInt16(stream, U2);
+            StreamUtil.WriteUInt8(stream, OffsetBytes);
+            StreamUtil.WriteUInt8(stream, fileHeaders.Count);
+            StreamUtil.WriteUInt8(stream, Padding.Count);
+            StreamUtil.WriteUInt8(stream, U4);
+            StreamUtil.WriteInt16(stream, U5);
+
+            stream.Position += 4 - OffsetBytes;
+
+            for (int i = 0; i < fileHeaders.Count; i++)
+            {
+                var TempHeader = fileHeaders[i];
+                if (OffsetBytes == 1)
+                {
+                    StreamUtil.WriteUInt8(stream, TempHeader.OffsetInt);
+                }
+                if (OffsetBytes == 2)
+                {
+                    StreamUtil.WriteInt16Big(stream, TempHeader.OffsetInt);
+                }
+                if (OffsetBytes == 3)
+                {
+                    StreamUtil.WriteInt24Big(stream, TempHeader.OffsetInt);
+                }
+                if (OffsetBytes == 4)
+                {
+                    StreamUtil.WriteUInt8(stream, TempHeader.Speaker);
+                    StreamUtil.WriteInt24Big(stream, TempHeader.OffsetInt);
+                }
+
+                StreamUtil.WriteInt16(stream, TempHeader.Unknown2);
+            }
+
+            if (OffsetBytes != 1)
+            {
+                stream.Position += OffsetBytes - 1;
+            }
+
+            for (int i = 0; i < Padding.Count; i++)
+            {
+                StreamUtil.WriteUInt8(stream, Padding[i]);
+            }
+
+            if (File.Exists(Path))
+            {
+                File.Delete(Path);
+            }
+            var file = File.Create(Path);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            stream.Dispose();
+            file.Close();
         }
 
 
