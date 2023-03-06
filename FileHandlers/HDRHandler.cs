@@ -19,8 +19,8 @@ namespace SSXMultiTool.FileHandlers
         public int U5;
         public int U6;
 
-        List<FileHeader> fileHeaders = new List<FileHeader>();
-        List<int> Padding = new List<int>();
+        public List<FileHeader> fileHeaders = new List<FileHeader>();
+        public List<int> Padding = new List<int>();
         public void Load(string Path)
         {
             using (Stream stream = File.Open(Path, FileMode.Open))
@@ -83,7 +83,7 @@ namespace SSXMultiTool.FileHandlers
 
 
 
-        struct FileHeader
+        public struct FileHeader
         {
             public int Speaker;
             public byte[] Offset;

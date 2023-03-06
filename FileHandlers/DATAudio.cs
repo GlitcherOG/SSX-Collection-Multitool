@@ -66,6 +66,12 @@ namespace SSXMultiTool.FileHandlers
                     {
                         File.Delete(Application.StartupPath + "/TempAudio/Temp.mus");
                     }
+
+                    while(File.Exists(Application.StartupPath + "/TempAudio/Temp.mus"))
+                    {
+
+                    }
+
                     var file = File.Create(Application.StartupPath + "/TempAudio/Temp.mus");
                     StreamMemory.Position = 0;
                     StreamMemory.CopyTo(file);
@@ -90,12 +96,114 @@ namespace SSXMultiTool.FileHandlers
                     cmd.StandardInput.Close();
                     cmd.WaitForExit();
 
-                    File.Copy(Application.StartupPath + "/TempAudio/Temp.wav", ExtractFolder + "/" + i + ".wav", true);
+                    File.Copy(Application.StartupPath + "/TempAudio/Temp.wav", ExtractFolder + "/" + $"{i:000}" + ".wav", true);
                     //File.Delete(ExtractFolder + "/" + i + ".wav");
                 }
             }
 
             Directory.Delete(Application.StartupPath + "/TempAudio", true);
+        }
+
+        public HDRHandler GenerateDATAndHDR(string[] FileOpen, string FileSave, HDRHandler hdrHandler)
+        {
+            Directory.CreateDirectory(Application.StartupPath + "/TempAudio");
+            Directory.CreateDirectory(Application.StartupPath + "/TempAudio/Holder");
+            File.Copy(Application.StartupPath + "/sx.exe", Application.StartupPath + "/TempAudio/sx.exe", true);
+            if (File.Exists(FileSave))
+            {
+                File.Delete(FileSave);
+            }
+            while (File.Exists(FileSave))
+            {
+
+            }
+            var file = File.Create(FileSave);
+            while (!File.Exists(FileSave))
+            {
+
+            }
+            file.Close();
+
+            List<string> HolderPaths = new List<string>();
+            //Create File and memory stream
+            using (Stream stream = File.Open(FileSave, FileMode.Open))
+            {
+                for (int i = 0; i < FileOpen.Length; i++)
+                {
+                    //Copy File
+                    if (File.Exists(Application.StartupPath + "/TempAudio/Temp.mus"))
+                    {
+                        File.Delete(Application.StartupPath + "/TempAudio/Temp.mus");
+                    }
+
+                    while (File.Exists(Application.StartupPath + "/TempAudio/Temp.mus"))
+                    {
+
+                    }
+
+                    File.Copy(FileOpen[i], Application.StartupPath + "/TempAudio/Temp.wav", true);
+
+
+                    Process cmd = new Process();
+                    cmd.StartInfo.FileName = "cmd.exe";
+                    cmd.StartInfo.RedirectStandardInput = true;
+                    cmd.StartInfo.RedirectStandardOutput = false;
+                    cmd.StartInfo.CreateNoWindow = false;
+                    cmd.StartInfo.UseShellExecute = false;
+                    cmd.Start();
+
+                    FileInfo f = new FileInfo(Application.StartupPath);
+                    string drive = System.IO.Path.GetPathRoot(f.FullName.Substring(0, 2));
+
+                    cmd.StandardInput.WriteLine(drive);
+                    cmd.StandardInput.WriteLine("cd " + Application.StartupPath + "/TempAudio");
+                    cmd.StandardInput.WriteLine("sx.exe -ps2stream -eaxa_blk -playlocmaincpu -fps1 Temp.wav -=Temp.mus -v3");
+                    cmd.StandardInput.Flush();
+                    cmd.StandardInput.Close();
+                    cmd.WaitForExit();
+
+
+                    HolderPaths.Add(Application.StartupPath + "/TempAudio/Holder/" + $"{i:000}" + ".Mus");
+                    File.Copy(Application.StartupPath + "/TempAudio/Temp.mus", Application.StartupPath + "/TempAudio/Holder/" + $"{i:000}" + ".Mus", true);
+                }
+                long CurrentOffset = 0;
+                //Recalculate Offsets
+                for (int i = 0; i < HolderPaths.Count; i++)
+                {
+                    var TempHolder = File.Open(HolderPaths[i], FileMode.Open);
+                    var TempHdrHeader = hdrHandler.fileHeaders[i];
+                    TempHolder.Position = TempHolder.Length;
+                    StreamUtil.AlignBy(TempHolder, 0x100 * (hdrHandler.U4 + 1));
+                    long FixedLength = TempHolder.Position;
+                    TempHolder.Close();
+                    TempHdrHeader.OffsetInt = (int)(CurrentOffset / (0x100 * (hdrHandler.U4 + 1)));
+                    CurrentOffset += FixedLength;
+
+                    hdrHandler.fileHeaders[i] = TempHdrHeader;
+
+                }
+
+
+
+                for (int i = 0; i < HolderPaths.Count; i++)
+                {
+                    using (Stream stream1 = File.Open(HolderPaths[i], FileMode.Open))
+                    {
+                        stream.Position = hdrHandler.fileHeaders[i].OffsetInt * 0x100 * (hdrHandler.U4 + 1);
+
+                        StreamUtil.WriteStreamIntoStream(stream, stream1);
+                    }
+
+                    File.Delete(HolderPaths[i]);
+                }
+
+            }
+
+
+
+            Directory.Delete(Application.StartupPath + "/TempAudio", true);
+
+            return hdrHandler;
         }
     }
 }

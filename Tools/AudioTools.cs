@@ -14,6 +14,7 @@ using System.Media;
 using NAudio;
 using NAudio.Wave;
 using SSXMultiTool.FileHandlers;
+using SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2;
 
 namespace SSXMultiTool.Tools
 {
@@ -318,6 +319,39 @@ namespace SSXMultiTool.Tools
                 }
 
             }
+        }
+
+        private void hdrBuildDAT_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog openFileDialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+                Title = "Select Extract Folder",
+            };
+            if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                SaveFileDialog openFileDialog1 = new SaveFileDialog
+                {
+                    Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    if (hdrHandler.fileHeaders.Count != Directory.GetFiles(openFileDialog.FileName, "*.wav", SearchOption.TopDirectoryOnly).Length)
+                    {
+                        MessageBox.Show("Incorrect Wav Count " + hdrHandler.fileHeaders.Count + "/" + Directory.GetFiles(openFileDialog.FileName, "*.wav", SearchOption.TopDirectoryOnly).Length);
+                        return;
+                    }
+                    hdrHandler = datAudio.GenerateDATAndHDR(Directory.GetFiles(openFileDialog.FileName, "*.wav", SearchOption.TopDirectoryOnly), openFileDialog1.FileName, hdrHandler);
+                    MessageBox.Show("File Generated");
+                }
+            }
+        }
+
+        private void hdrSave_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

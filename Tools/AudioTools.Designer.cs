@@ -48,9 +48,16 @@
             BnkWavExtract = new Button();
             BnkLoadFile = new Button();
             tabPage2 = new TabPage();
+            button1 = new Button();
             button2 = new Button();
-            HdrLoad = new Button();
+            button3 = new Button();
+            listBox1 = new ListBox();
+            button4 = new Button();
+            button5 = new Button();
+            hdrBuildDAT = new Button();
             hdrExtract = new Button();
+            HdrLoad = new Button();
+            hdrSave = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -257,8 +264,15 @@
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(hdrExtract);
+            tabPage2.Controls.Add(hdrSave);
+            tabPage2.Controls.Add(button1);
             tabPage2.Controls.Add(button2);
+            tabPage2.Controls.Add(button3);
+            tabPage2.Controls.Add(listBox1);
+            tabPage2.Controls.Add(button4);
+            tabPage2.Controls.Add(button5);
+            tabPage2.Controls.Add(hdrBuildDAT);
+            tabPage2.Controls.Add(hdrExtract);
             tabPage2.Controls.Add(HdrLoad);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
@@ -267,34 +281,99 @@
             tabPage2.Text = "PS2 Voice Files (.dat/.hdr)";
             tabPage2.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            button1.Location = new Point(3, 343);
+            button1.Name = "button1";
+            button1.Size = new Size(38, 23);
+            button1.TabIndex = 17;
+            button1.Text = "-";
+            button1.UseVisualStyleBackColor = true;
+            // 
             // button2
             // 
-            button2.Location = new Point(84, 372);
+            button2.Location = new Point(93, 343);
             button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 1;
-            button2.Text = "Load .DAT";
+            button2.Size = new Size(32, 23);
+            button2.TabIndex = 16;
+            button2.Text = "\\/";
             button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(45, 343);
+            button3.Name = "button3";
+            button3.Size = new Size(33, 23);
+            button3.TabIndex = 15;
+            button3.Text = "/\\";
+            button3.UseVisualStyleBackColor = true;
+            // 
+            // listBox1
+            // 
+            listBox1.FormattingEnabled = true;
+            listBox1.ItemHeight = 15;
+            listBox1.Location = new Point(3, 3);
+            listBox1.Name = "listBox1";
+            listBox1.Size = new Size(170, 334);
+            listBox1.TabIndex = 14;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(3, 372);
+            button4.Name = "button4";
+            button4.Size = new Size(84, 23);
+            button4.TabIndex = 13;
+            button4.Text = "Load Folder";
+            button4.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            button5.Location = new Point(131, 343);
+            button5.Name = "button5";
+            button5.Size = new Size(42, 23);
+            button5.TabIndex = 12;
+            button5.Text = "+";
+            button5.UseVisualStyleBackColor = true;
+            // 
+            // hdrBuildDAT
+            // 
+            hdrBuildDAT.Location = new Point(609, 372);
+            hdrBuildDAT.Name = "hdrBuildDAT";
+            hdrBuildDAT.Size = new Size(75, 23);
+            hdrBuildDAT.TabIndex = 3;
+            hdrBuildDAT.Text = "Build .DAT";
+            hdrBuildDAT.UseVisualStyleBackColor = true;
+            hdrBuildDAT.Click += hdrBuildDAT_Click;
+            // 
+            // hdrExtract
+            // 
+            hdrExtract.Location = new Point(179, 372);
+            hdrExtract.Name = "hdrExtract";
+            hdrExtract.Size = new Size(84, 23);
+            hdrExtract.TabIndex = 2;
+            hdrExtract.Text = "Extract .DAT";
+            hdrExtract.UseVisualStyleBackColor = true;
+            hdrExtract.Click += hdrExtract_Click;
             // 
             // HdrLoad
             // 
-            HdrLoad.Location = new Point(3, 372);
+            HdrLoad.Location = new Point(93, 372);
             HdrLoad.Name = "HdrLoad";
-            HdrLoad.Size = new Size(75, 23);
+            HdrLoad.Size = new Size(80, 23);
             HdrLoad.TabIndex = 0;
             HdrLoad.Text = "Load .HDR";
             HdrLoad.UseVisualStyleBackColor = true;
             HdrLoad.Click += HdrLoad_Click;
             // 
-            // hdrExtract
+            // hdrSave
             // 
-            hdrExtract.Location = new Point(563, 363);
-            hdrExtract.Name = "hdrExtract";
-            hdrExtract.Size = new Size(75, 23);
-            hdrExtract.TabIndex = 2;
-            hdrExtract.Text = "Extract .DAT";
-            hdrExtract.UseVisualStyleBackColor = true;
-            hdrExtract.Click += hdrExtract_Click;
+            hdrSave.Location = new Point(690, 372);
+            hdrSave.Name = "hdrSave";
+            hdrSave.Size = new Size(75, 23);
+            hdrSave.TabIndex = 18;
+            hdrSave.Text = "Save .HDR";
+            hdrSave.UseVisualStyleBackColor = true;
+            hdrSave.Click += hdrSave_Click;
             // 
             // AudioTools
             // 
@@ -333,8 +412,15 @@
         private Label BnkFileSize;
         private Label BnkTime;
         private TabPage tabPage2;
-        private Button button2;
         private Button HdrLoad;
         private Button hdrExtract;
+        private Button hdrBuildDAT;
+        private Button button1;
+        private Button button2;
+        private Button button3;
+        private ListBox listBox1;
+        private Button button4;
+        private Button button5;
+        private Button hdrSave;
     }
 }
