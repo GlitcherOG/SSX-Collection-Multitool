@@ -62,7 +62,7 @@ namespace SSXMultiTool.FileHandlers
                     if (TempHeader.Offset.Length == 4)
                     {
                         stream.Position -= 4;
-                        TempHeader.Speaker = StreamUtil.ReadUInt8(stream);
+                        TempHeader.Unknown = StreamUtil.ReadUInt8(stream);
                         TempHeader.OffsetInt = StreamUtil.ReadInt24Big(stream);
                     }
 
@@ -111,7 +111,7 @@ namespace SSXMultiTool.FileHandlers
                 }
                 if (OffsetBytes == 4)
                 {
-                    StreamUtil.WriteUInt8(stream, TempHeader.Speaker);
+                    StreamUtil.WriteUInt8(stream, TempHeader.Unknown);
                     StreamUtil.WriteInt24Big(stream, TempHeader.OffsetInt);
                 }
 
@@ -147,7 +147,7 @@ namespace SSXMultiTool.FileHandlers
 
         public struct FileHeader
         {
-            public int Speaker;
+            public int Unknown;
             public byte[] Offset;
             public int Unknown2;
 

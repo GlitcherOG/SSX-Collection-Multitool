@@ -548,6 +548,18 @@ namespace SSXMultiTool
             }
         }
 
+        private bool CheckSX()
+        {
+            string StringPath = Application.StartupPath;
+            if (Directory.GetFiles(StringPath, "sx_2002.exe", SearchOption.TopDirectoryOnly).Length == 1)
+            {
+                return true;
+            }
+            MessageBox.Show("Missing sx_2002.exe");
+            return false;
+        }
+
+        DATAudio datAudio = new DATAudio();
         HDRHandler hdrHandler = new HDRHandler();
         private void HdrLoad_Click(object sender, EventArgs e)
         {
@@ -561,6 +573,81 @@ namespace SSXMultiTool
             {
                 hdrHandler.Load(openFileDialog.FileName);
                 hdrBuildDAT.Enabled = true;
+            }
+        }
+
+        private void hdrExtract_Click(object sender, EventArgs e)
+        {
+            if (CheckSX())
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
+                    {
+                        IsFolderPicker = true,
+                        Title = "Select Extract Folder",
+                    };
+                    if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
+                    {
+                        datAudio = new DATAudio();
+
+                        datAudio.ExtractGuess(openFileDialog.FileName, openFileDialog1.FileName);
+
+                        MessageBox.Show("Audio Extracted");
+                    }
+                }
+
+            }
+        }
+
+        private void hdrBuildDAT_Click(object sender, EventArgs e)
+        {
+            if (CheckSX())
+            {
+                CommonOpenFileDialog openFileDialog = new CommonOpenFileDialog
+                {
+                    IsFolderPicker = true,
+                    Title = "Select Extract Folder",
+                };
+                if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
+                {
+                    SaveFileDialog openFileDialog1 = new SaveFileDialog
+                    {
+                        Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
+                        FilterIndex = 1,
+                        RestoreDirectory = false
+                    };
+                    if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        if (hdrHandler.fileHeaders.Count != Directory.GetFiles(openFileDialog.FileName, "*.wav", SearchOption.TopDirectoryOnly).Length)
+                        {
+                            MessageBox.Show("Incorrect Wav Count " + hdrHandler.fileHeaders.Count + "/" + Directory.GetFiles(openFileDialog.FileName, "*.wav", SearchOption.TopDirectoryOnly).Length);
+                            return;
+                        }
+                        hdrHandler = datAudio.GenerateDATAndHDR(Directory.GetFiles(openFileDialog.FileName, "*.wav", SearchOption.TopDirectoryOnly), openFileDialog1.FileName, hdrHandler);
+                        MessageBox.Show("File Generated");
+                    }
+                }
+            }
+        }
+
+        private void hdrSave_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog openFileDialog1 = new SaveFileDialog
+            {
+                Filter = "PS2 Audio File (*.hdr)|*.hdr|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                hdrHandler.Save(openFileDialog1.FileName);
             }
         }
     }

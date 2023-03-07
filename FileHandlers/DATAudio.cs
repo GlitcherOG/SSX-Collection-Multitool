@@ -22,7 +22,7 @@ namespace SSXMultiTool.FileHandlers
         public void ExtractGuess(string OpenPath, string ExtractFolder)
         {
             Directory.CreateDirectory(Application.StartupPath + "/TempAudio");
-            File.Copy(Application.StartupPath + "/sx.exe", Application.StartupPath + "/TempAudio/sx.exe", true);
+            File.Copy(Application.StartupPath + "/sx_2002.exe", Application.StartupPath + "/TempAudio/sx.exe", true);
             List<long> Offsets = new List<long>();
             using (Stream stream = File.Open(OpenPath, FileMode.Open))
             {
@@ -108,7 +108,7 @@ namespace SSXMultiTool.FileHandlers
         {
             Directory.CreateDirectory(Application.StartupPath + "/TempAudio");
             Directory.CreateDirectory(Application.StartupPath + "/TempAudio/Holder");
-            File.Copy(Application.StartupPath + "/sx.exe", Application.StartupPath + "/TempAudio/sx.exe", true);
+            File.Copy(Application.StartupPath + "/sx_2002.exe", Application.StartupPath + "/TempAudio/sx.exe", true);
             if (File.Exists(FileSave))
             {
                 File.Delete(FileSave);

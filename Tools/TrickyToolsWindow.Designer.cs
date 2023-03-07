@@ -816,6 +816,7 @@
             hdrSave.TabIndex = 28;
             hdrSave.Text = "Save .HDR";
             hdrSave.UseVisualStyleBackColor = true;
+            hdrSave.Click += hdrSave_Click;
             // 
             // HdrLoad
             // 
@@ -898,6 +899,7 @@
             hdrBuildDAT.TabIndex = 21;
             hdrBuildDAT.Text = "Build .DAT";
             hdrBuildDAT.UseVisualStyleBackColor = true;
+            hdrBuildDAT.Click += hdrBuildDAT_Click;
             // 
             // button1
             // 
@@ -916,6 +918,7 @@
             hdrExtract.TabIndex = 20;
             hdrExtract.Text = "Extract .DAT";
             hdrExtract.UseVisualStyleBackColor = true;
+            hdrExtract.Click += hdrExtract_Click;
             // 
             // BnkSample
             // 
