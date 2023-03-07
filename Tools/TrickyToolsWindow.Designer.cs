@@ -92,28 +92,38 @@
             tabPage4 = new TabPage();
             groupBox6 = new GroupBox();
             groupBox8 = new GroupBox();
+            hdrEntryU3 = new NumericUpDown();
+            label32 = new Label();
+            hdrEntryU2 = new NumericUpDown();
+            label31 = new Label();
+            hdrEntryU1 = new NumericUpDown();
+            label30 = new Label();
             groupBox7 = new GroupBox();
-            listBox2 = new ListBox();
+            hdrU2 = new NumericUpDown();
+            label29 = new Label();
+            hdrU1 = new NumericUpDown();
+            label28 = new Label();
+            hdrList2 = new ListBox();
             hdrSave = new Button();
             HdrLoad = new Button();
             groupBox5 = new GroupBox();
-            listBox1 = new ListBox();
-            bnkPlay = new Button();
-            BnkTotalSamples = new Label();
+            hdrFileList = new ListBox();
+            hdrPlay = new Button();
+            HDRTotalSamples = new Label();
             label27 = new Label();
             hdrBuildDAT = new Button();
-            button1 = new Button();
+            hdrRemoveFile = new Button();
             hdrExtract = new Button();
-            BnkSample = new Label();
-            button3 = new Button();
+            HDRSample = new Label();
+            hdrDown = new Button();
             label26 = new Label();
-            button4 = new Button();
-            BnkFileSize = new Label();
-            button5 = new Button();
+            hdrUp = new Button();
+            HDRFileSize = new Label();
+            hdrLoadFolder = new Button();
             label22 = new Label();
-            button6 = new Button();
+            hdrAddFile = new Button();
             label24 = new Label();
-            BnkTime = new Label();
+            HDRTime = new Label();
             tabPage2 = new TabPage();
             ELFLdrSetup = new Button();
             tabControl1.SuspendLayout();
@@ -128,6 +138,13 @@
             tabPage3.SuspendLayout();
             tabPage4.SuspendLayout();
             groupBox6.SuspendLayout();
+            groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)hdrEntryU3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)hdrEntryU2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)hdrEntryU1).BeginInit();
+            groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)hdrU2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)hdrU1).BeginInit();
             groupBox5.SuspendLayout();
             tabPage2.SuspendLayout();
             SuspendLayout();
@@ -771,7 +788,7 @@
             // 
             groupBox6.Controls.Add(groupBox8);
             groupBox6.Controls.Add(groupBox7);
-            groupBox6.Controls.Add(listBox2);
+            groupBox6.Controls.Add(hdrList2);
             groupBox6.Controls.Add(hdrSave);
             groupBox6.Controls.Add(HdrLoad);
             groupBox6.Location = new Point(376, 9);
@@ -783,6 +800,12 @@
             // 
             // groupBox8
             // 
+            groupBox8.Controls.Add(hdrEntryU3);
+            groupBox8.Controls.Add(label32);
+            groupBox8.Controls.Add(hdrEntryU2);
+            groupBox8.Controls.Add(label31);
+            groupBox8.Controls.Add(hdrEntryU1);
+            groupBox8.Controls.Add(label30);
             groupBox8.Location = new Point(182, 22);
             groupBox8.Name = "groupBox8";
             groupBox8.Size = new Size(200, 154);
@@ -790,8 +813,66 @@
             groupBox8.TabStop = false;
             groupBox8.Text = "HDR Entry";
             // 
+            // hdrEntryU3
+            // 
+            hdrEntryU3.Location = new Point(6, 119);
+            hdrEntryU3.Maximum = new decimal(new int[] { 1000000000, 0, 0, 0 });
+            hdrEntryU3.Name = "hdrEntryU3";
+            hdrEntryU3.Size = new Size(188, 23);
+            hdrEntryU3.TabIndex = 9;
+            hdrEntryU3.ValueChanged += hdrEntryU1_ValueChanged;
+            // 
+            // label32
+            // 
+            label32.AutoSize = true;
+            label32.Location = new Point(6, 101);
+            label32.Name = "label32";
+            label32.Size = new Size(50, 15);
+            label32.TabIndex = 8;
+            label32.Text = "Event ID";
+            // 
+            // hdrEntryU2
+            // 
+            hdrEntryU2.Location = new Point(6, 75);
+            hdrEntryU2.Maximum = new decimal(new int[] { 1000000000, 0, 0, 0 });
+            hdrEntryU2.Name = "hdrEntryU2";
+            hdrEntryU2.Size = new Size(188, 23);
+            hdrEntryU2.TabIndex = 7;
+            hdrEntryU2.ValueChanged += hdrEntryU1_ValueChanged;
+            // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Location = new Point(6, 57);
+            label31.Name = "label31";
+            label31.Size = new Size(92, 15);
+            label31.TabIndex = 6;
+            label31.Text = "U2 (Speaker ID?)";
+            // 
+            // hdrEntryU1
+            // 
+            hdrEntryU1.Location = new Point(6, 34);
+            hdrEntryU1.Maximum = new decimal(new int[] { 1000000000, 0, 0, 0 });
+            hdrEntryU1.Name = "hdrEntryU1";
+            hdrEntryU1.Size = new Size(188, 23);
+            hdrEntryU1.TabIndex = 5;
+            hdrEntryU1.ValueChanged += hdrEntryU1_ValueChanged;
+            // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Location = new Point(6, 16);
+            label30.Name = "label30";
+            label30.Size = new Size(21, 15);
+            label30.TabIndex = 4;
+            label30.Text = "U1";
+            // 
             // groupBox7
             // 
+            groupBox7.Controls.Add(hdrU2);
+            groupBox7.Controls.Add(label29);
+            groupBox7.Controls.Add(hdrU1);
+            groupBox7.Controls.Add(label28);
             groupBox7.Location = new Point(182, 182);
             groupBox7.Name = "groupBox7";
             groupBox7.Size = new Size(200, 174);
@@ -799,14 +880,51 @@
             groupBox7.TabStop = false;
             groupBox7.Text = "Header Info";
             // 
-            // listBox2
+            // hdrU2
             // 
-            listBox2.FormattingEnabled = true;
-            listBox2.ItemHeight = 15;
-            listBox2.Location = new Point(6, 22);
-            listBox2.Name = "listBox2";
-            listBox2.Size = new Size(170, 334);
-            listBox2.TabIndex = 38;
+            hdrU2.Location = new Point(6, 81);
+            hdrU2.Maximum = new decimal(new int[] { 1000000000, 0, 0, 0 });
+            hdrU2.Name = "hdrU2";
+            hdrU2.Size = new Size(188, 23);
+            hdrU2.TabIndex = 3;
+            hdrU2.ValueChanged += hdrU1_ValueChanged;
+            // 
+            // label29
+            // 
+            label29.AutoSize = true;
+            label29.Location = new Point(6, 63);
+            label29.Name = "label29";
+            label29.Size = new Size(21, 15);
+            label29.TabIndex = 2;
+            label29.Text = "U2";
+            // 
+            // hdrU1
+            // 
+            hdrU1.Location = new Point(6, 37);
+            hdrU1.Maximum = new decimal(new int[] { 1000000000, 0, 0, 0 });
+            hdrU1.Name = "hdrU1";
+            hdrU1.Size = new Size(188, 23);
+            hdrU1.TabIndex = 1;
+            hdrU1.ValueChanged += hdrU1_ValueChanged;
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.Location = new Point(6, 19);
+            label28.Name = "label28";
+            label28.Size = new Size(21, 15);
+            label28.TabIndex = 0;
+            label28.Text = "U1";
+            // 
+            // hdrList2
+            // 
+            hdrList2.FormattingEnabled = true;
+            hdrList2.ItemHeight = 15;
+            hdrList2.Location = new Point(6, 22);
+            hdrList2.Name = "hdrList2";
+            hdrList2.Size = new Size(170, 334);
+            hdrList2.TabIndex = 38;
+            hdrList2.SelectedIndexChanged += hdrList2_SelectedIndexChanged;
             // 
             // hdrSave
             // 
@@ -830,23 +948,23 @@
             // 
             // groupBox5
             // 
-            groupBox5.Controls.Add(listBox1);
-            groupBox5.Controls.Add(bnkPlay);
-            groupBox5.Controls.Add(BnkTotalSamples);
+            groupBox5.Controls.Add(hdrFileList);
+            groupBox5.Controls.Add(hdrPlay);
+            groupBox5.Controls.Add(HDRTotalSamples);
             groupBox5.Controls.Add(label27);
             groupBox5.Controls.Add(hdrBuildDAT);
-            groupBox5.Controls.Add(button1);
+            groupBox5.Controls.Add(hdrRemoveFile);
             groupBox5.Controls.Add(hdrExtract);
-            groupBox5.Controls.Add(BnkSample);
-            groupBox5.Controls.Add(button3);
+            groupBox5.Controls.Add(HDRSample);
+            groupBox5.Controls.Add(hdrDown);
             groupBox5.Controls.Add(label26);
-            groupBox5.Controls.Add(button4);
-            groupBox5.Controls.Add(BnkFileSize);
-            groupBox5.Controls.Add(button5);
+            groupBox5.Controls.Add(hdrUp);
+            groupBox5.Controls.Add(HDRFileSize);
+            groupBox5.Controls.Add(hdrLoadFolder);
             groupBox5.Controls.Add(label22);
-            groupBox5.Controls.Add(button6);
+            groupBox5.Controls.Add(hdrAddFile);
             groupBox5.Controls.Add(label24);
-            groupBox5.Controls.Add(BnkTime);
+            groupBox5.Controls.Add(HDRTime);
             groupBox5.Location = new Point(10, 9);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(360, 386);
@@ -854,32 +972,34 @@
             groupBox5.TabStop = false;
             groupBox5.Text = ".DAT";
             // 
-            // listBox1
+            // hdrFileList
             // 
-            listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 15;
-            listBox1.Location = new Point(6, 23);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(170, 304);
-            listBox1.TabIndex = 24;
+            hdrFileList.FormattingEnabled = true;
+            hdrFileList.ItemHeight = 15;
+            hdrFileList.Location = new Point(6, 23);
+            hdrFileList.Name = "hdrFileList";
+            hdrFileList.Size = new Size(170, 304);
+            hdrFileList.TabIndex = 24;
+            hdrFileList.SelectedIndexChanged += hdrFileList_SelectedIndexChanged;
             // 
-            // bnkPlay
+            // hdrPlay
             // 
-            bnkPlay.Location = new Point(182, 328);
-            bnkPlay.Name = "bnkPlay";
-            bnkPlay.Size = new Size(84, 23);
-            bnkPlay.TabIndex = 33;
-            bnkPlay.Text = "Play Audio";
-            bnkPlay.UseVisualStyleBackColor = true;
+            hdrPlay.Location = new Point(182, 328);
+            hdrPlay.Name = "hdrPlay";
+            hdrPlay.Size = new Size(84, 23);
+            hdrPlay.TabIndex = 33;
+            hdrPlay.Text = "Play Audio";
+            hdrPlay.UseVisualStyleBackColor = true;
+            hdrPlay.Click += hdrPlay_Click;
             // 
-            // BnkTotalSamples
+            // HDRTotalSamples
             // 
-            BnkTotalSamples.AutoSize = true;
-            BnkTotalSamples.Location = new Point(272, 68);
-            BnkTotalSamples.Name = "BnkTotalSamples";
-            BnkTotalSamples.Size = new Size(13, 15);
-            BnkTotalSamples.TabIndex = 37;
-            BnkTotalSamples.Text = "0";
+            HDRTotalSamples.AutoSize = true;
+            HDRTotalSamples.Location = new Point(272, 68);
+            HDRTotalSamples.Name = "HDRTotalSamples";
+            HDRTotalSamples.Size = new Size(13, 15);
+            HDRTotalSamples.TabIndex = 37;
+            HDRTotalSamples.Text = "0";
             // 
             // label27
             // 
@@ -901,14 +1021,15 @@
             hdrBuildDAT.UseVisualStyleBackColor = true;
             hdrBuildDAT.Click += hdrBuildDAT_Click;
             // 
-            // button1
+            // hdrRemoveFile
             // 
-            button1.Location = new Point(6, 328);
-            button1.Name = "button1";
-            button1.Size = new Size(38, 23);
-            button1.TabIndex = 27;
-            button1.Text = "-";
-            button1.UseVisualStyleBackColor = true;
+            hdrRemoveFile.Location = new Point(6, 328);
+            hdrRemoveFile.Name = "hdrRemoveFile";
+            hdrRemoveFile.Size = new Size(38, 23);
+            hdrRemoveFile.TabIndex = 27;
+            hdrRemoveFile.Text = "-";
+            hdrRemoveFile.UseVisualStyleBackColor = true;
+            hdrRemoveFile.Click += hdrRemoveFile_Click;
             // 
             // hdrExtract
             // 
@@ -920,23 +1041,24 @@
             hdrExtract.UseVisualStyleBackColor = true;
             hdrExtract.Click += hdrExtract_Click;
             // 
-            // BnkSample
+            // HDRSample
             // 
-            BnkSample.AutoSize = true;
-            BnkSample.Location = new Point(182, 68);
-            BnkSample.Name = "BnkSample";
-            BnkSample.Size = new Size(13, 15);
-            BnkSample.TabIndex = 36;
-            BnkSample.Text = "0";
+            HDRSample.AutoSize = true;
+            HDRSample.Location = new Point(182, 68);
+            HDRSample.Name = "HDRSample";
+            HDRSample.Size = new Size(13, 15);
+            HDRSample.TabIndex = 36;
+            HDRSample.Text = "0";
             // 
-            // button3
+            // hdrDown
             // 
-            button3.Location = new Point(96, 328);
-            button3.Name = "button3";
-            button3.Size = new Size(32, 23);
-            button3.TabIndex = 26;
-            button3.Text = "\\/";
-            button3.UseVisualStyleBackColor = true;
+            hdrDown.Location = new Point(96, 328);
+            hdrDown.Name = "hdrDown";
+            hdrDown.Size = new Size(32, 23);
+            hdrDown.TabIndex = 26;
+            hdrDown.Text = "\\/";
+            hdrDown.UseVisualStyleBackColor = true;
+            hdrDown.Click += hdrDown_Click;
             // 
             // label26
             // 
@@ -947,32 +1069,34 @@
             label26.TabIndex = 30;
             label26.Text = "File Size";
             // 
-            // button4
+            // hdrUp
             // 
-            button4.Location = new Point(48, 328);
-            button4.Name = "button4";
-            button4.Size = new Size(33, 23);
-            button4.TabIndex = 25;
-            button4.Text = "/\\";
-            button4.UseVisualStyleBackColor = true;
+            hdrUp.Location = new Point(48, 328);
+            hdrUp.Name = "hdrUp";
+            hdrUp.Size = new Size(33, 23);
+            hdrUp.TabIndex = 25;
+            hdrUp.Text = "/\\";
+            hdrUp.UseVisualStyleBackColor = true;
+            hdrUp.Click += hdrUp_Click;
             // 
-            // BnkFileSize
+            // HDRFileSize
             // 
-            BnkFileSize.AutoSize = true;
-            BnkFileSize.Location = new Point(272, 38);
-            BnkFileSize.Name = "BnkFileSize";
-            BnkFileSize.Size = new Size(13, 15);
-            BnkFileSize.TabIndex = 35;
-            BnkFileSize.Text = "0";
+            HDRFileSize.AutoSize = true;
+            HDRFileSize.Location = new Point(272, 38);
+            HDRFileSize.Name = "HDRFileSize";
+            HDRFileSize.Size = new Size(13, 15);
+            HDRFileSize.TabIndex = 35;
+            HDRFileSize.Text = "0";
             // 
-            // button5
+            // hdrLoadFolder
             // 
-            button5.Location = new Point(6, 357);
-            button5.Name = "button5";
-            button5.Size = new Size(170, 23);
-            button5.TabIndex = 23;
-            button5.Text = "Load Folder";
-            button5.UseVisualStyleBackColor = true;
+            hdrLoadFolder.Location = new Point(6, 357);
+            hdrLoadFolder.Name = "hdrLoadFolder";
+            hdrLoadFolder.Size = new Size(170, 23);
+            hdrLoadFolder.TabIndex = 23;
+            hdrLoadFolder.Text = "Load Folder";
+            hdrLoadFolder.UseVisualStyleBackColor = true;
+            hdrLoadFolder.Click += hdrLoadFolder_Click;
             // 
             // label22
             // 
@@ -983,14 +1107,15 @@
             label22.TabIndex = 32;
             label22.Text = "Total Samples";
             // 
-            // button6
+            // hdrAddFile
             // 
-            button6.Location = new Point(134, 328);
-            button6.Name = "button6";
-            button6.Size = new Size(42, 23);
-            button6.TabIndex = 22;
-            button6.Text = "+";
-            button6.UseVisualStyleBackColor = true;
+            hdrAddFile.Location = new Point(134, 328);
+            hdrAddFile.Name = "hdrAddFile";
+            hdrAddFile.Size = new Size(42, 23);
+            hdrAddFile.TabIndex = 22;
+            hdrAddFile.Text = "+";
+            hdrAddFile.UseVisualStyleBackColor = true;
+            hdrAddFile.Click += hdrAddFile_Click;
             // 
             // label24
             // 
@@ -1001,14 +1126,14 @@
             label24.TabIndex = 31;
             label24.Text = "Sample Rate";
             // 
-            // BnkTime
+            // HDRTime
             // 
-            BnkTime.AutoSize = true;
-            BnkTime.Location = new Point(182, 38);
-            BnkTime.Name = "BnkTime";
-            BnkTime.Size = new Size(13, 15);
-            BnkTime.TabIndex = 34;
-            BnkTime.Text = "0";
+            HDRTime.AutoSize = true;
+            HDRTime.Location = new Point(182, 38);
+            HDRTime.Name = "HDRTime";
+            HDRTime.Size = new Size(13, 15);
+            HDRTime.TabIndex = 34;
+            HDRTime.Text = "0";
             // 
             // tabPage2
             // 
@@ -1038,6 +1163,7 @@
             Controls.Add(tabControl1);
             Name = "TrickyToolsWindow";
             Text = "TrickyToolsWindow";
+            FormClosing += TrickyToolsWindow_FormClosing;
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
@@ -1055,6 +1181,15 @@
             tabPage3.ResumeLayout(false);
             tabPage4.ResumeLayout(false);
             groupBox6.ResumeLayout(false);
+            groupBox8.ResumeLayout(false);
+            groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)hdrEntryU3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)hdrEntryU2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)hdrEntryU1).EndInit();
+            groupBox7.ResumeLayout(false);
+            groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)hdrU2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)hdrU1).EndInit();
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
             tabPage2.ResumeLayout(false);
@@ -1128,28 +1263,38 @@
         private Button MXFLoad;
         private TabPage tabPage4;
         private Button hdrSave;
-        private Button button1;
-        private Button button3;
-        private Button button4;
-        private ListBox listBox1;
-        private Button button5;
-        private Button button6;
+        private Button hdrRemoveFile;
+        private Button hdrDown;
+        private Button hdrUp;
+        private ListBox hdrFileList;
+        private Button hdrLoadFolder;
+        private Button hdrAddFile;
         private Button hdrBuildDAT;
         private Button hdrExtract;
         private Button HdrLoad;
-        private Label BnkTotalSamples;
-        private Label BnkSample;
-        private Label BnkFileSize;
-        private Label BnkTime;
-        private Button bnkPlay;
+        private Label HDRTotalSamples;
+        private Label HDRSample;
+        private Label HDRFileSize;
+        private Label HDRTime;
+        private Button hdrPlay;
         private Label label22;
         private Label label24;
         private Label label26;
         private Label label27;
         private GroupBox groupBox6;
-        private ListBox listBox2;
+        private ListBox hdrList2;
         private GroupBox groupBox5;
         private GroupBox groupBox8;
         private GroupBox groupBox7;
+        private NumericUpDown hdrU2;
+        private Label label29;
+        private NumericUpDown hdrU1;
+        private Label label28;
+        private NumericUpDown hdrEntryU2;
+        private Label label31;
+        private NumericUpDown hdrEntryU1;
+        private Label label30;
+        private NumericUpDown hdrEntryU3;
+        private Label label32;
     }
 }

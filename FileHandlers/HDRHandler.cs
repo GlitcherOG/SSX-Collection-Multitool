@@ -66,7 +66,8 @@ namespace SSXMultiTool.FileHandlers
                         TempHeader.OffsetInt = StreamUtil.ReadInt24Big(stream);
                     }
 
-                    TempHeader.Unknown2 = StreamUtil.ReadInt16(stream);
+                    TempHeader.Unknown2 = StreamUtil.ReadInt8(stream);
+                    TempHeader.EventID = StreamUtil.ReadInt8(stream);
                     fileHeaders.Add(TempHeader);
                 }
                 U6 = StreamUtil.ReadInt16(stream);
@@ -115,7 +116,8 @@ namespace SSXMultiTool.FileHandlers
                     StreamUtil.WriteInt24Big(stream, TempHeader.OffsetInt);
                 }
 
-                StreamUtil.WriteInt16(stream, TempHeader.Unknown2);
+                StreamUtil.WriteUInt8(stream, TempHeader.Unknown2);
+                StreamUtil.WriteUInt8(stream, TempHeader.EventID);
             }
 
             if (OffsetBytes != 3)
@@ -150,6 +152,7 @@ namespace SSXMultiTool.FileHandlers
             public int Unknown;
             public byte[] Offset;
             public int Unknown2;
+            public int EventID;
 
             public int OffsetInt;
         }

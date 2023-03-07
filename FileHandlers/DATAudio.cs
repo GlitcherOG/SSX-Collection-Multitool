@@ -189,7 +189,7 @@ namespace SSXMultiTool.FileHandlers
                 {
                     using (Stream stream1 = File.Open(HolderPaths[i], FileMode.Open))
                     {
-                        stream.Position = hdrHandler.fileHeaders[i].OffsetInt * 0x100 * (hdrHandler.U4 + 1);
+                        stream.Position = (hdrHandler.fileHeaders[i].OffsetInt * 0x100) / (hdrHandler.U4 + 1);
 
                         StreamUtil.WriteStreamIntoStream(stream, stream1);
                     }
