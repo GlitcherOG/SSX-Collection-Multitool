@@ -13,7 +13,7 @@ namespace SSXMultiTool.FileHandlers
     {
         public int U1;
         public int U2;
-        public int OffsetBytes;
+        public int EntryTypes;
         public int FileCount;
         public int PaddingCount;
         public int U4;
@@ -28,49 +28,61 @@ namespace SSXMultiTool.FileHandlers
             {
                 U1 = StreamUtil.ReadInt16(stream);
                 U2 = StreamUtil.ReadInt16(stream); //Always -1
-                OffsetBytes = StreamUtil.ReadUInt8(stream);
+                EntryTypes = StreamUtil.ReadUInt8(stream);
                 FileCount = StreamUtil.ReadUInt8(stream);
                 PaddingCount = StreamUtil.ReadUInt8(stream);
                 U4 = StreamUtil.ReadUInt8(stream); //Multi 0 == 1
                 U5 = StreamUtil.ReadInt16(stream);
 
-                //stream
-                //StreamUtil.AlignBy16(stream);
+                if(EntryTypes == 0 || EntryTypes == 2)
+                {
+                    stream.Position += 2;
+                }
+                else if (EntryTypes == 3 || EntryTypes == 1)
+                {
+                    stream.Position += 1;
+                }
 
-                stream.Position += 4-OffsetBytes;
+
                 fileHeaders = new List<FileHeader>();
                 for (int i = 0; i < FileCount; i++)
                 {
                     var TempHeader = new FileHeader();
-                    TempHeader.Offset = StreamUtil.ReadBytes(stream, OffsetBytes);
 
-                    if(TempHeader.Offset.Length==1)
+                    if (EntryTypes == 0)
                     {
-                        stream.Position -= 1;
-                        TempHeader.OffsetInt = (byte)TempHeader.Offset[0];
-                    }
-                    if (TempHeader.Offset.Length == 2)
-                    {
-                        stream.Position -= 2;
                         TempHeader.OffsetInt = StreamUtil.ReadInt16Big(stream);
                     }
-                    if (TempHeader.Offset.Length == 3)
+                    if (EntryTypes == 1)
                     {
-                        stream.Position -= 3;
-                        TempHeader.OffsetInt = StreamUtil.ReadInt24Big(stream);
+                        TempHeader.Unknown = StreamUtil.ReadInt8(stream);
+                        TempHeader.OffsetInt = StreamUtil.ReadInt16Big(stream);
                     }
-                    if (TempHeader.Offset.Length == 4)
+                    if (EntryTypes == 2)
                     {
-                        stream.Position -= 4;
+                        TempHeader.OffsetInt = StreamUtil.ReadInt16Big(stream);
+                        TempHeader.Unknown2 = StreamUtil.ReadInt8(stream);
+                        TempHeader.EventID = StreamUtil.ReadInt8(stream);
+                    }
+                    if (EntryTypes == 3)
+                    {
+                        TempHeader.OffsetInt = StreamUtil.ReadInt24Big(stream);
+                        TempHeader.Unknown2 = StreamUtil.ReadInt8(stream);
+                        TempHeader.EventID = StreamUtil.ReadInt8(stream);
+                    }
+                    if (EntryTypes == 4)
+                    {
                         TempHeader.Unknown = StreamUtil.ReadUInt8(stream);
                         TempHeader.OffsetInt = StreamUtil.ReadInt24Big(stream);
+                        TempHeader.Unknown2 = StreamUtil.ReadInt8(stream);
+                        TempHeader.EventID = StreamUtil.ReadInt8(stream);
                     }
 
-                    TempHeader.Unknown2 = StreamUtil.ReadInt8(stream);
-                    TempHeader.EventID = StreamUtil.ReadInt8(stream);
                     fileHeaders.Add(TempHeader);
                 }
-                U6 = StreamUtil.ReadInt16(stream);
+
+                //Garbage stuff here
+
 
                 Padding = new List<int>();
                 for (int i = 0; i < PaddingCount; i++)
@@ -87,47 +99,44 @@ namespace SSXMultiTool.FileHandlers
 
             StreamUtil.WriteInt16(stream, U1);
             StreamUtil.WriteInt16(stream, U2);
-            StreamUtil.WriteUInt8(stream, OffsetBytes);
+            StreamUtil.WriteUInt8(stream, EntryTypes);
             StreamUtil.WriteUInt8(stream, fileHeaders.Count);
             StreamUtil.WriteUInt8(stream, Padding.Count);
             StreamUtil.WriteUInt8(stream, U4);
             StreamUtil.WriteInt16(stream, U5);
 
-            stream.Position += 4 - OffsetBytes;
+            stream.Position += 4 - EntryTypes;
 
             for (int i = 0; i < fileHeaders.Count; i++)
             {
                 var TempHeader = fileHeaders[i];
-                if (OffsetBytes == 1)
-                {
-                    StreamUtil.WriteUInt8(stream, TempHeader.OffsetInt);
-                }
-                if (OffsetBytes == 2)
+                if (EntryTypes == 1)
                 {
                     StreamUtil.WriteInt16Big(stream, TempHeader.OffsetInt);
                 }
-                if (OffsetBytes == 3)
+                if (EntryTypes == 2)
+                {
+                    StreamUtil.WriteUInt8(stream, TempHeader.Unknown);
+                    StreamUtil.WriteInt16Big(stream, TempHeader.OffsetInt);
+                }
+                if (EntryTypes == 3)
                 {
                     StreamUtil.WriteInt24Big(stream, TempHeader.OffsetInt);
+                    StreamUtil.WriteUInt8(stream, TempHeader.Unknown2);
+                    StreamUtil.WriteUInt8(stream, TempHeader.EventID);
                 }
-                if (OffsetBytes == 4)
+                if (EntryTypes == 4)
                 {
                     StreamUtil.WriteUInt8(stream, TempHeader.Unknown);
                     StreamUtil.WriteInt24Big(stream, TempHeader.OffsetInt);
+                    StreamUtil.WriteUInt8(stream, TempHeader.Unknown2);
+                    StreamUtil.WriteUInt8(stream, TempHeader.EventID);
                 }
-
-                StreamUtil.WriteUInt8(stream, TempHeader.Unknown2);
-                StreamUtil.WriteUInt8(stream, TempHeader.EventID);
             }
 
-            if (OffsetBytes != 3)
-            {
-                stream.Position += 1;
-            }
-            else
-            {
-                stream.Position += 2;
-            }
+            //Garbage stuff here
+
+
 
             for (int i = 0; i < Padding.Count; i++)
             {
