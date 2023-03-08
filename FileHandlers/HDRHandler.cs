@@ -18,7 +18,8 @@ namespace SSXMultiTool.FileHandlers
         public int PaddingCount;
         public int U4;
         public int U5;
-        public int U6;
+
+        public int GapSize;
 
         public List<FileHeader> fileHeaders = new List<FileHeader>();
         public List<int> Padding = new List<int>();
@@ -82,7 +83,17 @@ namespace SSXMultiTool.FileHandlers
                 }
 
                 //Garbage stuff here
+                if(PaddingCount>0)
+                {
+                    long Pos = stream.Position;
 
+                    long NewPos = ByteUtil.FindPosition(stream, new byte[1] { 0xff });
+
+                    if (NewPos != -1)
+                    {
+                        GapSize = (int)(NewPos - Pos);
+                    }
+                }
 
                 Padding = new List<int>();
                 for (int i = 0; i < PaddingCount; i++)
@@ -135,7 +146,7 @@ namespace SSXMultiTool.FileHandlers
             }
 
             //Garbage stuff here
-
+            stream.Position += GapSize;
 
 
             for (int i = 0; i < Padding.Count; i++)
