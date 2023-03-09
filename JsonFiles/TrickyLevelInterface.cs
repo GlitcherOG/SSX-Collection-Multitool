@@ -10,6 +10,7 @@ using SSXMultiTool.Utilities;
 using System.Numerics;
 using System.IO;
 using SSXMultiTool.FileHandlers.Models;
+using static SSXMultiTool.JsonFiles.Tricky.InstanceJsonHandler;
 
 namespace SSXMultiTool
 {
@@ -158,31 +159,15 @@ namespace SSXMultiTool
                 ParticleInstanceJsonHandler.ParticleJson TempParticle = new ParticleInstanceJsonHandler.ParticleJson();
                 TempParticle.ParticleName = mapHandler.ParticleInstances[i].Name;
 
-                Matrix4x4 matrix4X4 = new Matrix4x4();
-                matrix4X4.M11 = pbdHandler.particleInstances[i].MatrixCol1.X;
-                matrix4X4.M12 = pbdHandler.particleInstances[i].MatrixCol2.X;
-                matrix4X4.M13 = pbdHandler.particleInstances[i].MatrixCol3.X;
-                matrix4X4.M14 = pbdHandler.particleInstances[i].ParticleInstancePosition.X;
+                Vector3 Scale;
+                Quaternion Rotation;
+                Vector3 Location;
 
-                matrix4X4.M21 = pbdHandler.particleInstances[i].MatrixCol1.Y;
-                matrix4X4.M22 = pbdHandler.particleInstances[i].MatrixCol2.Y;
-                matrix4X4.M23 = pbdHandler.particleInstances[i].MatrixCol3.Y;
-                matrix4X4.M24 = pbdHandler.particleInstances[i].ParticleInstancePosition.Y;
+                Matrix4x4.Decompose(pbdHandler.particleInstances[i].matrix4X4, out Scale, out Rotation, out Location);
+                TempParticle.Location = JsonUtil.Vector3ToArray(Location);
+                TempParticle.Rotation = JsonUtil.QuaternionToArray(Rotation);
+                TempParticle.Scale = JsonUtil.Vector3ToArray(Scale);
 
-                matrix4X4.M31 = pbdHandler.particleInstances[i].MatrixCol1.Z;
-                matrix4X4.M32 = pbdHandler.particleInstances[i].MatrixCol2.Z;
-                matrix4X4.M33 = pbdHandler.particleInstances[i].MatrixCol3.Z;
-                matrix4X4.M34 = pbdHandler.particleInstances[i].ParticleInstancePosition.Z;
-
-                matrix4X4.M41 = pbdHandler.particleInstances[i].MatrixCol1.W;
-                matrix4X4.M42 = pbdHandler.particleInstances[i].MatrixCol2.W;
-                matrix4X4.M43 = pbdHandler.particleInstances[i].MatrixCol3.W;
-                matrix4X4.M44 = pbdHandler.particleInstances[i].ParticleInstancePosition.W;
-
-                TempParticle.MatrixCol1 = pbdHandler.particleInstances[i].MatrixCol1;
-                TempParticle.MatrixCol2 = pbdHandler.particleInstances[i].MatrixCol2;
-                TempParticle.MatrixCol3 = pbdHandler.particleInstances[i].MatrixCol3;
-                TempParticle.ParticleInstancePosition = pbdHandler.particleInstances[i].ParticleInstancePosition;
                 TempParticle.UnknownInt1 = pbdHandler.particleInstances[i].UnknownInt1;
                 TempParticle.LowestXYZ = pbdHandler.particleInstances[i].LowestXYZ;
                 TempParticle.HighestXYZ = pbdHandler.particleInstances[i].HighestXYZ;
@@ -225,7 +210,6 @@ namespace SSXMultiTool
                 materialJson.MaterialsJsons.Add(TempMaterial);
             }
             materialJson.CreateJson(ExportPath + "/Material.json");
-
 
             //Create Lights Json
             lightJsonHandler = new LightJsonHandler();

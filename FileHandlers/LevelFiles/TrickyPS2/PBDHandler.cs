@@ -199,10 +199,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 for (int i = 0; i < NumParticleInstances; i++)
                 {
                     ParticleInstance TempParticle = new ParticleInstance();
-                    TempParticle.MatrixCol1 = StreamUtil.ReadVector4(stream);
-                    TempParticle.MatrixCol2 = StreamUtil.ReadVector4(stream);
-                    TempParticle.MatrixCol3 = StreamUtil.ReadVector4(stream);
-                    TempParticle.ParticleInstancePosition = StreamUtil.ReadVector4(stream);
+                    TempParticle.matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
                     TempParticle.UnknownInt1 = StreamUtil.ReadInt32(stream);
                     TempParticle.LowestXYZ = StreamUtil.ReadVector3(stream);
                     TempParticle.HighestXYZ = StreamUtil.ReadVector3(stream);
@@ -428,7 +425,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         {
                             stream.Position = StartPos + TempPrefab.AnimOffset;
                             //Load Stuff
-                            
+                            TempPrefab.AnimationBytes = StreamUtil.ReadBytes(stream, 76);
                         }
                         stream.Position = tempPos;
                         TempHeader.PrefabObjects.Add(TempPrefab);
@@ -713,10 +710,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             for (int i = 0; i < particleInstances.Count; i++)
             {
                 var TempParticle = particleInstances[i];
-                StreamUtil.WriteVector4(stream, TempParticle.MatrixCol1);
-                StreamUtil.WriteVector4(stream, TempParticle.MatrixCol2);
-                StreamUtil.WriteVector4(stream, TempParticle.MatrixCol3);
-                StreamUtil.WriteVector4(stream, TempParticle.ParticleInstancePosition);
+                StreamUtil.WriteMatrix4x4(stream, TempParticle.matrix4X4);
                 StreamUtil.WriteInt32(stream, TempParticle.UnknownInt1);
                 StreamUtil.WriteVector3(stream, TempParticle.LowestXYZ);
                 StreamUtil.WriteVector3(stream, TempParticle.HighestXYZ);
@@ -1722,6 +1716,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public Matrix4x4 matrix4X4;
         public ObjectData objectData;
+        public ObjectAnimation objectAnimation;
+        public byte[] AnimationBytes;
     }
 
     public struct ObjectData
@@ -1754,6 +1750,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int Length3;
 
         public Mesh FullMesh;
+    }
+
+    public struct ObjectAnimation
+    {
+
     }
 
     public struct ParticleModel
@@ -1826,10 +1827,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
     public struct ParticleInstance
     {
-        public Vector4 MatrixCol1;
-        public Vector4 MatrixCol2;
-        public Vector4 MatrixCol3;
-        public Vector4 ParticleInstancePosition;
+        public Matrix4x4 matrix4X4;
         public int UnknownInt1;
         public Vector3 LowestXYZ;
         public Vector3 HighestXYZ;
