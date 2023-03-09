@@ -38,7 +38,6 @@ namespace SSXMultiTool.JsonFiles.Tricky
         public struct PrefabJson
         {
             public string PrefabName;
-            public int MaterialBlockID;
             public int Unknown3;
             public float AnimTime;
             public List<ObjectHeader> PrefabObjects;

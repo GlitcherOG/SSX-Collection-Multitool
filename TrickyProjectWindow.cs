@@ -31,7 +31,7 @@ namespace SSXMultiTool
                 {
                     IsFolderPicker = true
                 };
-                if(commonDialog.ShowDialog() == CommonFileDialogResult.Ok)
+                if (commonDialog.ShowDialog() == CommonFileDialogResult.Ok)
                 {
                     if (Directory.GetFiles(commonDialog.FileName).Count() != 1)
                     {
@@ -41,7 +41,7 @@ namespace SSXMultiTool
                             bigHandler.LoadBig(openFileDialog.FileName);
                             bigHandler.ExtractBig(Application.StartupPath + "\\TempExtract");
                             string[] strings = Directory.GetFiles(Application.StartupPath + "\\TempExtract", "*.map", SearchOption.AllDirectories);
-                            if(strings.Length!=0)
+                            if (strings.Length != 0)
                             {
                                 ExtractFiles(strings[0], commonDialog.FileName);
                                 MessageBox.Show("Level Extracted");
@@ -87,13 +87,12 @@ namespace SSXMultiTool
             InstancesLabel.Text = trickyLevelInterface.instancesJson.instances.Count.ToString();
             ParticleInstancesLabel.Text = trickyLevelInterface.particleInstanceJson.particleJsons.Count.ToString();
             MaterialLabel.Text = trickyLevelInterface.materialJson.MaterialsJsons.Count.ToString();
-            MaterialBlockLabel.Text = trickyLevelInterface.materialBlockJson.MaterialBlockJsons.Count.ToString();
             SplinesLabel.Text = trickyLevelInterface.splineJsonHandler.SplineJsons.Count.ToString();
             LightLabel.Text = trickyLevelInterface.lightJsonHandler.LightJsons.Count.ToString();
             TextureFlipLabel.Text = trickyLevelInterface.textureFlipbookJsonHandler.FlipbookJsons.Count.ToString();
             ModelsLabel.Text = trickyLevelInterface.prefabJsonHandler.PrefabJsons.Count.ToString();
             ParticleModelLabels.Text = trickyLevelInterface.particleModelJsonHandler.ParticleModelJsons.Count.ToString();
-            if(ProjectPath!=null && ProjectPath != "")
+            if (ProjectPath != null && ProjectPath != "")
             {
                 TextureLabel.Text = Directory.GetFiles(ProjectPath + "/Textures", "*.png").Length.ToString();
                 SykboxLabel.Text = Directory.GetFiles(ProjectPath + "/Skybox/Textures", "*.png").Length.ToString();
@@ -123,13 +122,12 @@ namespace SSXMultiTool
                 {
                     trickyLevelInterface = new TrickyLevelInterface();
                     trickyLevelInterface.AttemptLightingFix = EmulatorLigthFix.Checked;
-                    trickyLevelInterface.LTGRegenerate = RegenLTG.Checked;
                     if (openFileDialog.FileName.ToLower().Contains(".big"))
                     {
                         Directory.CreateDirectory(Application.StartupPath + "\\TempExtract");
                         Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\Data");
                         Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\data\\models");
-                        string InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(openFileDialog.FileName.ToLower()).Substring(0, Path.GetFileName(openFileDialog.FileName).Length-3) + "map";
+                        string InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(openFileDialog.FileName.ToLower()).Substring(0, Path.GetFileName(openFileDialog.FileName).Length - 3) + "map";
                         trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, InputPath);
                         BigHandler bigHandler = new BigHandler();
                         bigHandler.LoadFolderC0FB(Application.StartupPath + "\\TempExtract");

@@ -28,661 +28,616 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ExtractLevel = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.TextureLabel = new System.Windows.Forms.Label();
-            this.LightmapLabel = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.SykboxLabel = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.PatchesLabel = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.InstancesLabel = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.ParticleInstancesLabel = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.MaterialLabel = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.MaterialBlockLabel = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.ModelsLabel = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.ParticleModelLabels = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.SplinesLabel = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.LightLabel = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.TextureFlipLabel = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.LevelNameTextbox = new System.Windows.Forms.TextBox();
-            this.AuthorTextbox = new System.Windows.Forms.TextBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.VersionTextbox = new System.Windows.Forms.TextBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this.DescriptionTextbox = new System.Windows.Forms.RichTextBox();
-            this.label30 = new System.Windows.Forms.Label();
-            this.CourseLengthTextbox = new System.Windows.Forms.TextBox();
-            this.label31 = new System.Windows.Forms.Label();
-            this.VerticalDropTextbox = new System.Windows.Forms.TextBox();
-            this.label32 = new System.Windows.Forms.Label();
-            this.LocationTextbox = new System.Windows.Forms.TextBox();
-            this.label33 = new System.Windows.Forms.Label();
-            this.DifficultyTextbox = new System.Windows.Forms.TextBox();
-            this.label34 = new System.Windows.Forms.Label();
-            this.RebuildButton = new System.Windows.Forms.Button();
-            this.LoadProject = new System.Windows.Forms.Button();
-            this.SaveConfig = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.EmulatorLigthFix = new System.Windows.Forms.CheckBox();
-            this.RegenLTG = new System.Windows.Forms.CheckBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.SuspendLayout();
+            ExtractLevel = new Button();
+            label1 = new Label();
+            TextureLabel = new Label();
+            LightmapLabel = new Label();
+            label4 = new Label();
+            SykboxLabel = new Label();
+            label6 = new Label();
+            PatchesLabel = new Label();
+            label8 = new Label();
+            InstancesLabel = new Label();
+            label10 = new Label();
+            ParticleInstancesLabel = new Label();
+            label12 = new Label();
+            MaterialLabel = new Label();
+            label14 = new Label();
+            ModelsLabel = new Label();
+            label18 = new Label();
+            ParticleModelLabels = new Label();
+            label20 = new Label();
+            SplinesLabel = new Label();
+            label22 = new Label();
+            LightLabel = new Label();
+            label24 = new Label();
+            TextureFlipLabel = new Label();
+            label26 = new Label();
+            label27 = new Label();
+            LevelNameTextbox = new TextBox();
+            AuthorTextbox = new TextBox();
+            label28 = new Label();
+            VersionTextbox = new TextBox();
+            label29 = new Label();
+            DescriptionTextbox = new RichTextBox();
+            label30 = new Label();
+            CourseLengthTextbox = new TextBox();
+            label31 = new Label();
+            VerticalDropTextbox = new TextBox();
+            label32 = new Label();
+            LocationTextbox = new TextBox();
+            label33 = new Label();
+            DifficultyTextbox = new TextBox();
+            label34 = new Label();
+            RebuildButton = new Button();
+            LoadProject = new Button();
+            SaveConfig = new Button();
+            groupBox1 = new GroupBox();
+            groupBox2 = new GroupBox();
+            EmulatorLigthFix = new CheckBox();
+            RegenLTG = new CheckBox();
+            groupBox3 = new GroupBox();
+            label2 = new Label();
+            label3 = new Label();
+            label5 = new Label();
+            label11 = new Label();
+            checkBox1 = new CheckBox();
+            groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
+            groupBox3.SuspendLayout();
+            SuspendLayout();
             // 
             // ExtractLevel
             // 
-            this.ExtractLevel.Location = new System.Drawing.Point(12, 415);
-            this.ExtractLevel.Name = "ExtractLevel";
-            this.ExtractLevel.Size = new System.Drawing.Size(97, 23);
-            this.ExtractLevel.TabIndex = 0;
-            this.ExtractLevel.Text = "Extract Level";
-            this.ExtractLevel.UseVisualStyleBackColor = true;
-            this.ExtractLevel.Click += new System.EventHandler(this.ExtractLevel_Click);
+            ExtractLevel.Location = new Point(12, 415);
+            ExtractLevel.Name = "ExtractLevel";
+            ExtractLevel.Size = new Size(97, 23);
+            ExtractLevel.TabIndex = 0;
+            ExtractLevel.Text = "Extract Level";
+            ExtractLevel.UseVisualStyleBackColor = true;
+            ExtractLevel.Click += ExtractLevel_Click;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Textures";
+            label1.AutoSize = true;
+            label1.Location = new Point(9, 19);
+            label1.Name = "label1";
+            label1.Size = new Size(50, 15);
+            label1.TabIndex = 1;
+            label1.Text = "Textures";
             // 
             // TextureLabel
             // 
-            this.TextureLabel.AutoSize = true;
-            this.TextureLabel.Location = new System.Drawing.Point(9, 34);
-            this.TextureLabel.Name = "TextureLabel";
-            this.TextureLabel.Size = new System.Drawing.Size(13, 15);
-            this.TextureLabel.TabIndex = 2;
-            this.TextureLabel.Text = "0";
+            TextureLabel.AutoSize = true;
+            TextureLabel.Location = new Point(9, 34);
+            TextureLabel.Name = "TextureLabel";
+            TextureLabel.Size = new Size(13, 15);
+            TextureLabel.TabIndex = 2;
+            TextureLabel.Text = "0";
             // 
             // LightmapLabel
             // 
-            this.LightmapLabel.AutoSize = true;
-            this.LightmapLabel.Location = new System.Drawing.Point(68, 34);
-            this.LightmapLabel.Name = "LightmapLabel";
-            this.LightmapLabel.Size = new System.Drawing.Size(13, 15);
-            this.LightmapLabel.TabIndex = 4;
-            this.LightmapLabel.Text = "0";
+            LightmapLabel.AutoSize = true;
+            LightmapLabel.Location = new Point(68, 34);
+            LightmapLabel.Name = "LightmapLabel";
+            LightmapLabel.Size = new Size(13, 15);
+            LightmapLabel.TabIndex = 4;
+            LightmapLabel.Text = "0";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(68, 19);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(63, 15);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Lightmaps";
+            label4.AutoSize = true;
+            label4.Location = new Point(68, 19);
+            label4.Name = "label4";
+            label4.Size = new Size(63, 15);
+            label4.TabIndex = 3;
+            label4.Text = "Lightmaps";
             // 
             // SykboxLabel
             // 
-            this.SykboxLabel.AutoSize = true;
-            this.SykboxLabel.Location = new System.Drawing.Point(137, 34);
-            this.SykboxLabel.Name = "SykboxLabel";
-            this.SykboxLabel.Size = new System.Drawing.Size(13, 15);
-            this.SykboxLabel.TabIndex = 6;
-            this.SykboxLabel.Text = "0";
+            SykboxLabel.AutoSize = true;
+            SykboxLabel.Location = new Point(137, 34);
+            SykboxLabel.Name = "SykboxLabel";
+            SykboxLabel.Size = new Size(13, 15);
+            SykboxLabel.TabIndex = 6;
+            SykboxLabel.Text = "0";
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(137, 19);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(45, 15);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Skybox";
+            label6.AutoSize = true;
+            label6.Location = new Point(137, 19);
+            label6.Name = "label6";
+            label6.Size = new Size(45, 15);
+            label6.TabIndex = 5;
+            label6.Text = "Skybox";
             // 
             // PatchesLabel
             // 
-            this.PatchesLabel.AutoSize = true;
-            this.PatchesLabel.Location = new System.Drawing.Point(11, 34);
-            this.PatchesLabel.Name = "PatchesLabel";
-            this.PatchesLabel.Size = new System.Drawing.Size(13, 15);
-            this.PatchesLabel.TabIndex = 8;
-            this.PatchesLabel.Text = "0";
+            PatchesLabel.AutoSize = true;
+            PatchesLabel.Location = new Point(11, 34);
+            PatchesLabel.Name = "PatchesLabel";
+            PatchesLabel.Size = new Size(13, 15);
+            PatchesLabel.TabIndex = 8;
+            PatchesLabel.Text = "0";
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(11, 19);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(48, 15);
-            this.label8.TabIndex = 7;
-            this.label8.Text = "Patches";
+            label8.AutoSize = true;
+            label8.Location = new Point(11, 19);
+            label8.Name = "label8";
+            label8.Size = new Size(48, 15);
+            label8.TabIndex = 7;
+            label8.Text = "Patches";
             // 
             // InstancesLabel
             // 
-            this.InstancesLabel.AutoSize = true;
-            this.InstancesLabel.Location = new System.Drawing.Point(65, 34);
-            this.InstancesLabel.Name = "InstancesLabel";
-            this.InstancesLabel.Size = new System.Drawing.Size(13, 15);
-            this.InstancesLabel.TabIndex = 10;
-            this.InstancesLabel.Text = "0";
+            InstancesLabel.AutoSize = true;
+            InstancesLabel.Location = new Point(65, 34);
+            InstancesLabel.Name = "InstancesLabel";
+            InstancesLabel.Size = new Size(13, 15);
+            InstancesLabel.TabIndex = 10;
+            InstancesLabel.Text = "0";
             // 
             // label10
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(65, 19);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(56, 15);
-            this.label10.TabIndex = 9;
-            this.label10.Text = "Instances";
+            label10.AutoSize = true;
+            label10.Location = new Point(65, 19);
+            label10.Name = "label10";
+            label10.Size = new Size(56, 15);
+            label10.TabIndex = 9;
+            label10.Text = "Instances";
             // 
             // ParticleInstancesLabel
             // 
-            this.ParticleInstancesLabel.AutoSize = true;
-            this.ParticleInstancesLabel.Location = new System.Drawing.Point(126, 34);
-            this.ParticleInstancesLabel.Name = "ParticleInstancesLabel";
-            this.ParticleInstancesLabel.Size = new System.Drawing.Size(13, 15);
-            this.ParticleInstancesLabel.TabIndex = 12;
-            this.ParticleInstancesLabel.Text = "0";
+            ParticleInstancesLabel.AutoSize = true;
+            ParticleInstancesLabel.Location = new Point(126, 34);
+            ParticleInstancesLabel.Name = "ParticleInstancesLabel";
+            ParticleInstancesLabel.Size = new Size(13, 15);
+            ParticleInstancesLabel.TabIndex = 12;
+            ParticleInstancesLabel.Text = "0";
             // 
             // label12
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(126, 19);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(98, 15);
-            this.label12.TabIndex = 11;
-            this.label12.Text = "Particle Instances";
+            label12.AutoSize = true;
+            label12.Location = new Point(126, 19);
+            label12.Name = "label12";
+            label12.Size = new Size(98, 15);
+            label12.TabIndex = 11;
+            label12.Text = "Particle Instances";
             // 
             // MaterialLabel
             // 
-            this.MaterialLabel.AutoSize = true;
-            this.MaterialLabel.Location = new System.Drawing.Point(230, 34);
-            this.MaterialLabel.Name = "MaterialLabel";
-            this.MaterialLabel.Size = new System.Drawing.Size(13, 15);
-            this.MaterialLabel.TabIndex = 14;
-            this.MaterialLabel.Text = "0";
+            MaterialLabel.AutoSize = true;
+            MaterialLabel.Location = new Point(230, 34);
+            MaterialLabel.Name = "MaterialLabel";
+            MaterialLabel.Size = new Size(13, 15);
+            MaterialLabel.TabIndex = 14;
+            MaterialLabel.Text = "0";
             // 
             // label14
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(230, 19);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(50, 15);
-            this.label14.TabIndex = 13;
-            this.label14.Text = "Material";
-            // 
-            // MaterialBlockLabel
-            // 
-            this.MaterialBlockLabel.AutoSize = true;
-            this.MaterialBlockLabel.Location = new System.Drawing.Point(286, 34);
-            this.MaterialBlockLabel.Name = "MaterialBlockLabel";
-            this.MaterialBlockLabel.Size = new System.Drawing.Size(13, 15);
-            this.MaterialBlockLabel.TabIndex = 16;
-            this.MaterialBlockLabel.Text = "0";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(286, 19);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(82, 15);
-            this.label16.TabIndex = 15;
-            this.label16.Text = "Material Block";
+            label14.AutoSize = true;
+            label14.Location = new Point(230, 19);
+            label14.Name = "label14";
+            label14.Size = new Size(50, 15);
+            label14.TabIndex = 13;
+            label14.Text = "Material";
             // 
             // ModelsLabel
             // 
-            this.ModelsLabel.AutoSize = true;
-            this.ModelsLabel.Location = new System.Drawing.Point(12, 73);
-            this.ModelsLabel.Name = "ModelsLabel";
-            this.ModelsLabel.Size = new System.Drawing.Size(13, 15);
-            this.ModelsLabel.TabIndex = 18;
-            this.ModelsLabel.Text = "0";
+            ModelsLabel.AutoSize = true;
+            ModelsLabel.Location = new Point(483, 34);
+            ModelsLabel.Name = "ModelsLabel";
+            ModelsLabel.Size = new Size(13, 15);
+            ModelsLabel.TabIndex = 18;
+            ModelsLabel.Text = "0";
             // 
             // label18
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(12, 58);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(46, 15);
-            this.label18.TabIndex = 17;
-            this.label18.Text = "Models";
+            label18.AutoSize = true;
+            label18.Location = new Point(483, 19);
+            label18.Name = "label18";
+            label18.Size = new Size(46, 15);
+            label18.TabIndex = 17;
+            label18.Text = "Prefabs";
             // 
             // ParticleModelLabels
             // 
-            this.ParticleModelLabels.AutoSize = true;
-            this.ParticleModelLabels.Location = new System.Drawing.Point(65, 73);
-            this.ParticleModelLabels.Name = "ParticleModelLabels";
-            this.ParticleModelLabels.Size = new System.Drawing.Size(13, 15);
-            this.ParticleModelLabels.TabIndex = 20;
-            this.ParticleModelLabels.Text = "0";
+            ParticleModelLabels.AutoSize = true;
+            ParticleModelLabels.Location = new Point(11, 79);
+            ParticleModelLabels.Name = "ParticleModelLabels";
+            ParticleModelLabels.Size = new Size(13, 15);
+            ParticleModelLabels.TabIndex = 20;
+            ParticleModelLabels.Text = "0";
             // 
             // label20
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(65, 58);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(88, 15);
-            this.label20.TabIndex = 19;
-            this.label20.Text = "Particle Models";
+            label20.AutoSize = true;
+            label20.Location = new Point(11, 64);
+            label20.Name = "label20";
+            label20.Size = new Size(88, 15);
+            label20.TabIndex = 19;
+            label20.Text = "Particle Models";
             // 
             // SplinesLabel
             // 
-            this.SplinesLabel.AutoSize = true;
-            this.SplinesLabel.Location = new System.Drawing.Point(374, 34);
-            this.SplinesLabel.Name = "SplinesLabel";
-            this.SplinesLabel.Size = new System.Drawing.Size(13, 15);
-            this.SplinesLabel.TabIndex = 22;
-            this.SplinesLabel.Text = "0";
+            SplinesLabel.AutoSize = true;
+            SplinesLabel.Location = new Point(283, 34);
+            SplinesLabel.Name = "SplinesLabel";
+            SplinesLabel.Size = new Size(13, 15);
+            SplinesLabel.TabIndex = 22;
+            SplinesLabel.Text = "0";
             // 
             // label22
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(374, 19);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(44, 15);
-            this.label22.TabIndex = 21;
-            this.label22.Text = "Splines";
+            label22.AutoSize = true;
+            label22.Location = new Point(283, 19);
+            label22.Name = "label22";
+            label22.Size = new Size(44, 15);
+            label22.TabIndex = 21;
+            label22.Text = "Splines";
             // 
             // LightLabel
             // 
-            this.LightLabel.AutoSize = true;
-            this.LightLabel.Location = new System.Drawing.Point(424, 34);
-            this.LightLabel.Name = "LightLabel";
-            this.LightLabel.Size = new System.Drawing.Size(13, 15);
-            this.LightLabel.TabIndex = 24;
-            this.LightLabel.Text = "0";
+            LightLabel.AutoSize = true;
+            LightLabel.Location = new Point(333, 34);
+            LightLabel.Name = "LightLabel";
+            LightLabel.Size = new Size(13, 15);
+            LightLabel.TabIndex = 24;
+            LightLabel.Text = "0";
             // 
             // label24
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(424, 19);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(39, 15);
-            this.label24.TabIndex = 23;
-            this.label24.Text = "Lights";
+            label24.AutoSize = true;
+            label24.Location = new Point(333, 19);
+            label24.Name = "label24";
+            label24.Size = new Size(39, 15);
+            label24.TabIndex = 23;
+            label24.Text = "Lights";
             // 
             // TextureFlipLabel
             // 
-            this.TextureFlipLabel.AutoSize = true;
-            this.TextureFlipLabel.Location = new System.Drawing.Point(474, 34);
-            this.TextureFlipLabel.Name = "TextureFlipLabel";
-            this.TextureFlipLabel.Size = new System.Drawing.Size(13, 15);
-            this.TextureFlipLabel.TabIndex = 26;
-            this.TextureFlipLabel.Text = "0";
+            TextureFlipLabel.AutoSize = true;
+            TextureFlipLabel.Location = new Point(383, 34);
+            TextureFlipLabel.Name = "TextureFlipLabel";
+            TextureFlipLabel.Size = new Size(13, 15);
+            TextureFlipLabel.TabIndex = 26;
+            TextureFlipLabel.Text = "0";
             // 
             // label26
             // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(474, 19);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(94, 15);
-            this.label26.TabIndex = 25;
-            this.label26.Text = "Texture Flipbook";
+            label26.AutoSize = true;
+            label26.Location = new Point(383, 19);
+            label26.Name = "label26";
+            label26.Size = new Size(94, 15);
+            label26.TabIndex = 25;
+            label26.Text = "Texture Flipbook";
             // 
             // label27
             // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(12, 9);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(69, 15);
-            this.label27.TabIndex = 27;
-            this.label27.Text = "Level Name";
+            label27.AutoSize = true;
+            label27.Location = new Point(12, 9);
+            label27.Name = "label27";
+            label27.Size = new Size(69, 15);
+            label27.TabIndex = 27;
+            label27.Text = "Level Name";
             // 
             // LevelNameTextbox
             // 
-            this.LevelNameTextbox.Location = new System.Drawing.Point(12, 27);
-            this.LevelNameTextbox.Name = "LevelNameTextbox";
-            this.LevelNameTextbox.Size = new System.Drawing.Size(221, 23);
-            this.LevelNameTextbox.TabIndex = 28;
+            LevelNameTextbox.Location = new Point(12, 27);
+            LevelNameTextbox.Name = "LevelNameTextbox";
+            LevelNameTextbox.Size = new Size(221, 23);
+            LevelNameTextbox.TabIndex = 28;
             // 
             // AuthorTextbox
             // 
-            this.AuthorTextbox.Location = new System.Drawing.Point(12, 71);
-            this.AuthorTextbox.Name = "AuthorTextbox";
-            this.AuthorTextbox.Size = new System.Drawing.Size(151, 23);
-            this.AuthorTextbox.TabIndex = 30;
+            AuthorTextbox.Location = new Point(12, 71);
+            AuthorTextbox.Name = "AuthorTextbox";
+            AuthorTextbox.Size = new Size(151, 23);
+            AuthorTextbox.TabIndex = 30;
             // 
             // label28
             // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(12, 53);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(44, 15);
-            this.label28.TabIndex = 29;
-            this.label28.Text = "Author";
+            label28.AutoSize = true;
+            label28.Location = new Point(12, 53);
+            label28.Name = "label28";
+            label28.Size = new Size(44, 15);
+            label28.TabIndex = 29;
+            label28.Text = "Author";
             // 
             // VersionTextbox
             // 
-            this.VersionTextbox.Location = new System.Drawing.Point(12, 115);
-            this.VersionTextbox.Name = "VersionTextbox";
-            this.VersionTextbox.Size = new System.Drawing.Size(151, 23);
-            this.VersionTextbox.TabIndex = 32;
+            VersionTextbox.Location = new Point(12, 115);
+            VersionTextbox.Name = "VersionTextbox";
+            VersionTextbox.Size = new Size(151, 23);
+            VersionTextbox.TabIndex = 32;
             // 
             // label29
             // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(12, 97);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(45, 15);
-            this.label29.TabIndex = 31;
-            this.label29.Text = "Version";
+            label29.AutoSize = true;
+            label29.Location = new Point(12, 97);
+            label29.Name = "label29";
+            label29.Size = new Size(45, 15);
+            label29.TabIndex = 31;
+            label29.Text = "Version";
             // 
             // DescriptionTextbox
             // 
-            this.DescriptionTextbox.Location = new System.Drawing.Point(397, 27);
-            this.DescriptionTextbox.Name = "DescriptionTextbox";
-            this.DescriptionTextbox.Size = new System.Drawing.Size(391, 111);
-            this.DescriptionTextbox.TabIndex = 33;
-            this.DescriptionTextbox.Text = "";
+            DescriptionTextbox.Location = new Point(397, 27);
+            DescriptionTextbox.Name = "DescriptionTextbox";
+            DescriptionTextbox.Size = new Size(391, 111);
+            DescriptionTextbox.TabIndex = 33;
+            DescriptionTextbox.Text = "";
             // 
             // label30
             // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(397, 9);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(67, 15);
-            this.label30.TabIndex = 34;
-            this.label30.Text = "Description";
+            label30.AutoSize = true;
+            label30.Location = new Point(397, 9);
+            label30.Name = "label30";
+            label30.Size = new Size(67, 15);
+            label30.TabIndex = 34;
+            label30.Text = "Description";
             // 
             // CourseLengthTextbox
             // 
-            this.CourseLengthTextbox.Location = new System.Drawing.Point(285, 115);
-            this.CourseLengthTextbox.Name = "CourseLengthTextbox";
-            this.CourseLengthTextbox.Size = new System.Drawing.Size(100, 23);
-            this.CourseLengthTextbox.TabIndex = 40;
+            CourseLengthTextbox.Location = new Point(285, 115);
+            CourseLengthTextbox.Name = "CourseLengthTextbox";
+            CourseLengthTextbox.Size = new Size(100, 23);
+            CourseLengthTextbox.TabIndex = 40;
             // 
             // label31
             // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(285, 97);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(84, 15);
-            this.label31.TabIndex = 39;
-            this.label31.Text = "Course Length";
+            label31.AutoSize = true;
+            label31.Location = new Point(285, 97);
+            label31.Name = "label31";
+            label31.Size = new Size(84, 15);
+            label31.TabIndex = 39;
+            label31.Text = "Course Length";
             // 
             // VerticalDropTextbox
             // 
-            this.VerticalDropTextbox.Location = new System.Drawing.Point(178, 115);
-            this.VerticalDropTextbox.Name = "VerticalDropTextbox";
-            this.VerticalDropTextbox.Size = new System.Drawing.Size(100, 23);
-            this.VerticalDropTextbox.TabIndex = 38;
+            VerticalDropTextbox.Location = new Point(178, 115);
+            VerticalDropTextbox.Name = "VerticalDropTextbox";
+            VerticalDropTextbox.Size = new Size(100, 23);
+            VerticalDropTextbox.TabIndex = 38;
             // 
             // label32
             // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(178, 97);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(74, 15);
-            this.label32.TabIndex = 37;
-            this.label32.Text = "Vertical Drop";
+            label32.AutoSize = true;
+            label32.Location = new Point(178, 97);
+            label32.Name = "label32";
+            label32.Size = new Size(74, 15);
+            label32.TabIndex = 37;
+            label32.Text = "Vertical Drop";
             // 
             // LocationTextbox
             // 
-            this.LocationTextbox.Location = new System.Drawing.Point(285, 71);
-            this.LocationTextbox.Name = "LocationTextbox";
-            this.LocationTextbox.Size = new System.Drawing.Size(100, 23);
-            this.LocationTextbox.TabIndex = 36;
+            LocationTextbox.Location = new Point(285, 71);
+            LocationTextbox.Name = "LocationTextbox";
+            LocationTextbox.Size = new Size(100, 23);
+            LocationTextbox.TabIndex = 36;
             // 
             // label33
             // 
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(285, 53);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(53, 15);
-            this.label33.TabIndex = 35;
-            this.label33.Text = "Location";
+            label33.AutoSize = true;
+            label33.Location = new Point(285, 53);
+            label33.Name = "label33";
+            label33.Size = new Size(53, 15);
+            label33.TabIndex = 35;
+            label33.Text = "Location";
             // 
             // DifficultyTextbox
             // 
-            this.DifficultyTextbox.Location = new System.Drawing.Point(178, 71);
-            this.DifficultyTextbox.Name = "DifficultyTextbox";
-            this.DifficultyTextbox.Size = new System.Drawing.Size(100, 23);
-            this.DifficultyTextbox.TabIndex = 42;
+            DifficultyTextbox.Location = new Point(178, 71);
+            DifficultyTextbox.Name = "DifficultyTextbox";
+            DifficultyTextbox.Size = new Size(100, 23);
+            DifficultyTextbox.TabIndex = 42;
             // 
             // label34
             // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(178, 53);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(55, 15);
-            this.label34.TabIndex = 41;
-            this.label34.Text = "Difficulty";
+            label34.AutoSize = true;
+            label34.Location = new Point(178, 53);
+            label34.Name = "label34";
+            label34.Size = new Size(55, 15);
+            label34.TabIndex = 41;
+            label34.Text = "Difficulty";
             // 
             // RebuildButton
             // 
-            this.RebuildButton.Enabled = false;
-            this.RebuildButton.Location = new System.Drawing.Point(671, 415);
-            this.RebuildButton.Name = "RebuildButton";
-            this.RebuildButton.Size = new System.Drawing.Size(117, 23);
-            this.RebuildButton.TabIndex = 43;
-            this.RebuildButton.Text = "Build Level";
-            this.RebuildButton.UseVisualStyleBackColor = true;
-            this.RebuildButton.Click += new System.EventHandler(this.RebuildButton_Click);
+            RebuildButton.Enabled = false;
+            RebuildButton.Location = new Point(671, 415);
+            RebuildButton.Name = "RebuildButton";
+            RebuildButton.Size = new Size(117, 23);
+            RebuildButton.TabIndex = 43;
+            RebuildButton.Text = "Build Level";
+            RebuildButton.UseVisualStyleBackColor = true;
+            RebuildButton.Click += RebuildButton_Click;
             // 
             // LoadProject
             // 
-            this.LoadProject.Location = new System.Drawing.Point(115, 415);
-            this.LoadProject.Name = "LoadProject";
-            this.LoadProject.Size = new System.Drawing.Size(97, 23);
-            this.LoadProject.TabIndex = 44;
-            this.LoadProject.Text = "Load Project";
-            this.LoadProject.UseVisualStyleBackColor = true;
-            this.LoadProject.Click += new System.EventHandler(this.LoadProject_Click);
+            LoadProject.Location = new Point(115, 415);
+            LoadProject.Name = "LoadProject";
+            LoadProject.Size = new Size(97, 23);
+            LoadProject.TabIndex = 44;
+            LoadProject.Text = "Load Project";
+            LoadProject.UseVisualStyleBackColor = true;
+            LoadProject.Click += LoadProject_Click;
             // 
             // SaveConfig
             // 
-            this.SaveConfig.Enabled = false;
-            this.SaveConfig.Location = new System.Drawing.Point(568, 415);
-            this.SaveConfig.Name = "SaveConfig";
-            this.SaveConfig.Size = new System.Drawing.Size(97, 23);
-            this.SaveConfig.TabIndex = 45;
-            this.SaveConfig.Text = "Save Config";
-            this.SaveConfig.UseVisualStyleBackColor = true;
-            this.SaveConfig.Click += new System.EventHandler(this.SaveConfig_Click);
+            SaveConfig.Enabled = false;
+            SaveConfig.Location = new Point(568, 415);
+            SaveConfig.Name = "SaveConfig";
+            SaveConfig.Size = new Size(97, 23);
+            SaveConfig.TabIndex = 45;
+            SaveConfig.Text = "Save Config";
+            SaveConfig.UseVisualStyleBackColor = true;
+            SaveConfig.Click += SaveConfig_Click;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.TextureLabel);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.LightmapLabel);
-            this.groupBox1.Controls.Add(this.SykboxLabel);
-            this.groupBox1.Location = new System.Drawing.Point(12, 144);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 58);
-            this.groupBox1.TabIndex = 46;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Images";
+            groupBox1.Controls.Add(label6);
+            groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(TextureLabel);
+            groupBox1.Controls.Add(label4);
+            groupBox1.Controls.Add(LightmapLabel);
+            groupBox1.Controls.Add(SykboxLabel);
+            groupBox1.Location = new Point(12, 144);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(200, 58);
+            groupBox1.TabIndex = 46;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Images";
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.PatchesLabel);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.InstancesLabel);
-            this.groupBox2.Controls.Add(this.label12);
-            this.groupBox2.Controls.Add(this.ParticleInstancesLabel);
-            this.groupBox2.Controls.Add(this.label14);
-            this.groupBox2.Controls.Add(this.MaterialLabel);
-            this.groupBox2.Controls.Add(this.label16);
-            this.groupBox2.Controls.Add(this.MaterialBlockLabel);
-            this.groupBox2.Controls.Add(this.label18);
-            this.groupBox2.Controls.Add(this.ModelsLabel);
-            this.groupBox2.Controls.Add(this.label20);
-            this.groupBox2.Controls.Add(this.ParticleModelLabels);
-            this.groupBox2.Controls.Add(this.label22);
-            this.groupBox2.Controls.Add(this.SplinesLabel);
-            this.groupBox2.Controls.Add(this.label24);
-            this.groupBox2.Controls.Add(this.LightLabel);
-            this.groupBox2.Controls.Add(this.label26);
-            this.groupBox2.Controls.Add(this.TextureFlipLabel);
-            this.groupBox2.Location = new System.Drawing.Point(219, 144);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(569, 101);
-            this.groupBox2.TabIndex = 47;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "PBD Data";
+            groupBox2.Controls.Add(label8);
+            groupBox2.Controls.Add(PatchesLabel);
+            groupBox2.Controls.Add(label10);
+            groupBox2.Controls.Add(InstancesLabel);
+            groupBox2.Controls.Add(label12);
+            groupBox2.Controls.Add(ParticleInstancesLabel);
+            groupBox2.Controls.Add(label14);
+            groupBox2.Controls.Add(MaterialLabel);
+            groupBox2.Controls.Add(label18);
+            groupBox2.Controls.Add(ModelsLabel);
+            groupBox2.Controls.Add(label20);
+            groupBox2.Controls.Add(ParticleModelLabels);
+            groupBox2.Controls.Add(label22);
+            groupBox2.Controls.Add(SplinesLabel);
+            groupBox2.Controls.Add(label24);
+            groupBox2.Controls.Add(LightLabel);
+            groupBox2.Controls.Add(label26);
+            groupBox2.Controls.Add(TextureFlipLabel);
+            groupBox2.Location = new Point(219, 144);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(569, 101);
+            groupBox2.TabIndex = 47;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "PBD Data";
             // 
             // EmulatorLigthFix
             // 
-            this.EmulatorLigthFix.AutoSize = true;
-            this.EmulatorLigthFix.Location = new System.Drawing.Point(617, 390);
-            this.EmulatorLigthFix.Name = "EmulatorLigthFix";
-            this.EmulatorLigthFix.Size = new System.Drawing.Size(171, 19);
-            this.EmulatorLigthFix.TabIndex = 48;
-            this.EmulatorLigthFix.Text = "Emulator Lighting Fix (WIP)";
-            this.EmulatorLigthFix.UseVisualStyleBackColor = true;
+            EmulatorLigthFix.AutoSize = true;
+            EmulatorLigthFix.Location = new Point(617, 390);
+            EmulatorLigthFix.Name = "EmulatorLigthFix";
+            EmulatorLigthFix.Size = new Size(171, 19);
+            EmulatorLigthFix.TabIndex = 48;
+            EmulatorLigthFix.Text = "Emulator Lighting Fix (WIP)";
+            EmulatorLigthFix.UseVisualStyleBackColor = true;
             // 
             // RegenLTG
             // 
-            this.RegenLTG.AutoSize = true;
-            this.RegenLTG.Checked = true;
-            this.RegenLTG.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.RegenLTG.Location = new System.Drawing.Point(617, 365);
-            this.RegenLTG.Name = "RegenLTG";
-            this.RegenLTG.Size = new System.Drawing.Size(106, 19);
-            this.RegenLTG.TabIndex = 49;
-            this.RegenLTG.Text = "Regenerate LTG";
-            this.RegenLTG.UseVisualStyleBackColor = true;
+            RegenLTG.AutoSize = true;
+            RegenLTG.Checked = true;
+            RegenLTG.CheckState = CheckState.Checked;
+            RegenLTG.Location = new Point(617, 365);
+            RegenLTG.Name = "RegenLTG";
+            RegenLTG.Size = new Size(106, 19);
+            RegenLTG.TabIndex = 49;
+            RegenLTG.Text = "Regenerate LTG";
+            RegenLTG.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Location = new System.Drawing.Point(13, 208);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(200, 62);
-            this.groupBox3.TabIndex = 47;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Skybox";
+            groupBox3.Controls.Add(label2);
+            groupBox3.Controls.Add(label3);
+            groupBox3.Controls.Add(label5);
+            groupBox3.Controls.Add(label11);
+            groupBox3.Location = new Point(13, 208);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(200, 62);
+            groupBox3.TabIndex = 47;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Skybox";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(148, 19);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 15);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Models";
+            label2.AutoSize = true;
+            label2.Location = new Point(70, 19);
+            label2.Name = "label2";
+            label2.Size = new Size(46, 15);
+            label2.TabIndex = 5;
+            label2.Text = "Models";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 19);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 15);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Materials";
+            label3.AutoSize = true;
+            label3.Location = new Point(9, 19);
+            label3.Name = "label3";
+            label3.Size = new Size(55, 15);
+            label3.TabIndex = 1;
+            label3.Text = "Materials";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 34);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(13, 15);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "0";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(62, 19);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(87, 15);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "Material Blocks";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(67, 34);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(13, 15);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "0";
+            label5.AutoSize = true;
+            label5.Location = new Point(9, 34);
+            label5.Name = "label5";
+            label5.Size = new Size(13, 15);
+            label5.TabIndex = 2;
+            label5.Text = "0";
             // 
             // label11
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(148, 34);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(13, 15);
-            this.label11.TabIndex = 6;
-            this.label11.Text = "0";
+            label11.AutoSize = true;
+            label11.Location = new Point(70, 34);
+            label11.Name = "label11";
+            label11.Size = new Size(13, 15);
+            label11.TabIndex = 6;
+            label11.Text = "0";
             // 
             // checkBox1
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(617, 340);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(155, 19);
-            this.checkBox1.TabIndex = 50;
-            this.checkBox1.Text = "Generate Unlit Lightmap";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(617, 340);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(155, 19);
+            checkBox1.TabIndex = 50;
+            checkBox1.Text = "Generate Unlit Lightmap";
+            checkBox1.UseVisualStyleBackColor = true;
             // 
             // TrickyProjectWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.RegenLTG);
-            this.Controls.Add(this.EmulatorLigthFix);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.SaveConfig);
-            this.Controls.Add(this.LoadProject);
-            this.Controls.Add(this.RebuildButton);
-            this.Controls.Add(this.DifficultyTextbox);
-            this.Controls.Add(this.label34);
-            this.Controls.Add(this.CourseLengthTextbox);
-            this.Controls.Add(this.label31);
-            this.Controls.Add(this.VerticalDropTextbox);
-            this.Controls.Add(this.label32);
-            this.Controls.Add(this.LocationTextbox);
-            this.Controls.Add(this.label33);
-            this.Controls.Add(this.label30);
-            this.Controls.Add(this.DescriptionTextbox);
-            this.Controls.Add(this.VersionTextbox);
-            this.Controls.Add(this.label29);
-            this.Controls.Add(this.AuthorTextbox);
-            this.Controls.Add(this.label28);
-            this.Controls.Add(this.LevelNameTextbox);
-            this.Controls.Add(this.label27);
-            this.Controls.Add(this.ExtractLevel);
-            this.Name = "TrickyProjectWindow";
-            this.Text = "Tricky Project Window";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(checkBox1);
+            Controls.Add(groupBox3);
+            Controls.Add(RegenLTG);
+            Controls.Add(EmulatorLigthFix);
+            Controls.Add(groupBox2);
+            Controls.Add(groupBox1);
+            Controls.Add(SaveConfig);
+            Controls.Add(LoadProject);
+            Controls.Add(RebuildButton);
+            Controls.Add(DifficultyTextbox);
+            Controls.Add(label34);
+            Controls.Add(CourseLengthTextbox);
+            Controls.Add(label31);
+            Controls.Add(VerticalDropTextbox);
+            Controls.Add(label32);
+            Controls.Add(LocationTextbox);
+            Controls.Add(label33);
+            Controls.Add(label30);
+            Controls.Add(DescriptionTextbox);
+            Controls.Add(VersionTextbox);
+            Controls.Add(label29);
+            Controls.Add(AuthorTextbox);
+            Controls.Add(label28);
+            Controls.Add(LevelNameTextbox);
+            Controls.Add(label27);
+            Controls.Add(ExtractLevel);
+            Name = "TrickyProjectWindow";
+            Text = "Tricky Project Window";
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -702,8 +657,6 @@
         private Label label12;
         private Label MaterialLabel;
         private Label label14;
-        private Label MaterialBlockLabel;
-        private Label label16;
         private Label ModelsLabel;
         private Label label18;
         private Label ParticleModelLabels;
@@ -741,8 +694,6 @@
         private Label label2;
         private Label label3;
         private Label label5;
-        private Label label7;
-        private Label label9;
         private Label label11;
         private CheckBox checkBox1;
     }

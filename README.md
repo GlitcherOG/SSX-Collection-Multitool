@@ -30,6 +30,7 @@ As such, I chose to redo the entire project and improve it as I did so.
 - [ ] Move Voice Replacer to Tool Window
 - [ ] Make Buttons Work
 - [ ] Check its 2002 Version
+- [ ] Merge Material Block and Prefabs 
 
 ### SSX 3
 - [ ] Normal Average Proper
