@@ -378,7 +378,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         TempPrefab.Matrix4x4Offset = StreamUtil.ReadInt32(stream);
 
                         long tempPos = stream.Position;
-                        if (TempPrefab.Matrix4x4Offset != 0 && TempPrefab.Matrix4x4Offset != -1)
+                        if (TempPrefab.Matrix4x4Offset != -1)
                         {
                             stream.Position = StartPos + TempPrefab.Matrix4x4Offset;
                             TempPrefab.matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
@@ -421,7 +421,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             TempPrefab.objectData = meshHeader;
                         }
 
-                        if (TempPrefab.AnimOffset != 0 && TempPrefab.AnimOffset != -1)
+                        if (TempPrefab.AnimOffset != 0)
                         {
                             stream.Position = StartPos + TempPrefab.AnimOffset;
                             //Load Stuff
@@ -939,6 +939,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempPrefab.PrefabObjects[a] = TempObject;
                 }
 
+                //Write AnimData
+                for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
+                {
+                    var TempObject = TempPrefab.PrefabObjects[a];
+                    TempObject.AnimOffset = 0;
+                    if (TempObject.AnimationBytes != null)
+                    {
+                        TempObject.AnimOffset = (int)stream.Position;
+                        StreamUtil.WriteBytes(stream, TempObject.AnimationBytes);
+                    }
+                    TempPrefab.PrefabObjects[a] = TempObject;
+                }
+
                 //Go back and write ObjectOffsets
                 TempPos = (int)stream.Position;
                 stream.Position = TempObjectPos;
@@ -958,7 +971,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectMediumOffset);
                         StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectLowOffset);
                     }
-                    StreamUtil.WriteInt32(stream, 0); //aminoffset
+                    if (TempPrefab.PrefabObjects[a].AnimOffset != 0)
+                    {
+                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].AnimOffset - StartPosObject);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].AnimOffset);
+                    }
                     if (TempPrefab.PrefabObjects[a].Matrix4x4Offset != -1)
                     {
                         StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].Matrix4x4Offset - StartPosObject);
