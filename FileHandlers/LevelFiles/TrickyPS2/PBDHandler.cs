@@ -8,6 +8,7 @@ using System.Numerics;
 using SSXMultiTool.Utilities;
 using SSXMultiTool.FileHandlers;
 using SSXMultiTool.FileHandlers.Models;
+using static System.Windows.Forms.AxHost;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
@@ -428,21 +429,30 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             //Load Stuff
                             var TempAnimation = new ObjectAnimation();
 
-                            //All blank its possibly used for other animation types?
+                            //Possibly Starting Animation Postion/Rotation
+                            TempAnimation.U1 = StreamUtil.ReadFloat(stream);
+                            TempAnimation.U2 = StreamUtil.ReadFloat(stream);
+                            TempAnimation.U3 = StreamUtil.ReadFloat(stream);
+                            TempAnimation.U4 = StreamUtil.ReadFloat(stream);
+                            TempAnimation.U5 = StreamUtil.ReadFloat(stream);
+                            TempAnimation.U6 = StreamUtil.ReadFloat(stream);
 
-                            TempAnimation.U1 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U2 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U3 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U4 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U5 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U6 = StreamUtil.ReadInt32(stream);
+                            TempAnimation.AnimationAction = StreamUtil.ReadInt32(stream);
 
+                            //Animation Type
+                            //1 - X Position
+                            //2 - Y Position
+                            //4 - Z Position
+                            //8 - X Rotate
+                            //16 - Y Rotate
+                            //32 - Z Rotate
+
+                            TempAnimation.OffsetCount = StreamUtil.ReadInt32(stream);
                             TempAnimation.OffsetStart = StreamUtil.ReadInt32(stream);
-                            TempAnimation.Size = StreamUtil.ReadInt32(stream);
 
                             TempAnimation.Offsets = new List<int>();
 
-                            for (int b = 0; b < TempAnimation.Size; b++)
+                            for (int b = 0; b < TempAnimation.OffsetCount; b++)
                             {
                                 TempAnimation.Offsets.Add(StreamUtil.ReadInt32(stream));
                             }
@@ -453,16 +463,22 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 stream.Position = StartPos + TempPrefab.AnimOffset + TempAnimation.Offsets[b];
                                 var TempAnimationEntry = new AnimationEntry();
 
-                                TempAnimationEntry.EntrySize = StreamUtil.ReadInt32(stream); //Always 0x28?
-                                TempAnimationEntry.U1 = StreamUtil.ReadInt32(stream); //Possibly Size Value?
-                                TempAnimationEntry.U2 = StreamUtil.ReadInt32(stream); //Always 8 could be type?
-                                TempAnimationEntry.U3 = StreamUtil.ReadFloat(stream);
-                                TempAnimationEntry.U4 = StreamUtil.ReadFloat(stream);
-                                TempAnimationEntry.Rotation = StreamUtil.ReadFloat(stream); //Z-Axis Rotation?
-                                TempAnimationEntry.U5 = StreamUtil.ReadFloat(stream);
-                                TempAnimationEntry.U6 = StreamUtil.ReadInt32(stream);
-                                TempAnimationEntry.U7 = StreamUtil.ReadFloat(stream); //Time of animation??
-                                TempAnimationEntry.U8 = StreamUtil.ReadFloat(stream);
+                                TempAnimationEntry.MathCount = StreamUtil.ReadInt32(stream);
+                                TempAnimationEntry.MathOffset = StreamUtil.ReadInt32(stream);
+
+                                TempAnimationEntry.animationMaths = new List<AnimationMath>();
+
+                                for (int c = 0; c < TempAnimationEntry.MathCount; c++)
+                                {
+                                    AnimationMath TempMath = new AnimationMath();
+                                    TempMath.Unknown1 = StreamUtil.ReadFloat(stream);
+                                    TempMath.Unknown2 = StreamUtil.ReadFloat(stream);
+                                    TempMath.Unknown3 = StreamUtil.ReadFloat(stream);
+                                    TempMath.Unknown4 = StreamUtil.ReadFloat(stream);
+                                    TempMath.Unknown5 = StreamUtil.ReadFloat(stream);
+                                    TempMath.Unknown6 = StreamUtil.ReadFloat(stream);
+                                    TempAnimationEntry.animationMaths.Add(TempMath);
+                                }
 
                                 TempAnimation.animationEntries.Add(TempAnimationEntry);
                             }
@@ -1815,31 +1831,44 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
     public struct ObjectAnimation
     {
-        public int U1;
-        public int U2;
-        public int U3;
-        public int U4;
-        public int U5;
-        public int U6;
+        //Start AnimPos/Rot?
+        public float U1;
+        public float U2;
+        public float U3;
+        public float U4;
+        public float U5;
+        public float U6;
 
+        public int AnimationAction; //Stored as Bit Flags
+                                    //1 - X Position
+                                    //2 - Y Position
+                                    //4 - Z Position
+                                    //8 - X Rotate
+                                    //16 - Y Rotate
+                                    //32 - Z Rotate
+
+        public int OffsetCount;
         public int OffsetStart;
-        public int Size;
         public List<int> Offsets;
         public List<AnimationEntry> animationEntries; //Probably Frames
     }
 
     public struct AnimationEntry
     {
-        public int EntrySize;
-        public int U1;
-        public int U2;
-        public float U3;
-        public float U4;
-        public float Rotation; //? Z-Axis Maybe
-        public float U5;
-        public int U6;
-        public float U7; //Time of frame?
-        public float U8;
+        public int MathCount;
+        public int MathOffset;
+
+        public List<AnimationMath> animationMaths;
+    }
+
+    public struct AnimationMath
+    {
+        public float Unknown1;
+        public float Unknown2;
+        public float Unknown3;
+        public float Unknown4;
+        public float Unknown5;
+        public float Unknown6;
     }
 
     public struct ParticleModel
