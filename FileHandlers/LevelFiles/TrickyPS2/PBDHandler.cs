@@ -426,28 +426,46 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             stream.Position = StartPos + TempPrefab.AnimOffset;
 
                             //Load Stuff
-                            TempPrefab.AnimationBytes = StreamUtil.ReadBytes(stream, 76);
-                            stream.Position -= 76;
                             var TempAnimation = new ObjectAnimation();
+
+                            //All blank its possibly used for other animation types?
+
                             TempAnimation.U1 = StreamUtil.ReadInt32(stream);
                             TempAnimation.U2 = StreamUtil.ReadInt32(stream);
                             TempAnimation.U3 = StreamUtil.ReadInt32(stream);
                             TempAnimation.U4 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U5 = StreamUtil.ReadFloat(stream);
+                            TempAnimation.U5 = StreamUtil.ReadInt32(stream);
                             TempAnimation.U6 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U7 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U8 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U9 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U10 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U11 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U12 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U13 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U14 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U15 = StreamUtil.ReadFloat(stream);
-                            TempAnimation.U16 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U17 = StreamUtil.ReadInt32(stream);
-                            TempAnimation.U18 = StreamUtil.ReadFloat(stream);
-                            TempAnimation.U19 = StreamUtil.ReadInt32(stream);
+
+                            TempAnimation.OffsetStart = StreamUtil.ReadInt32(stream);
+                            TempAnimation.Size = StreamUtil.ReadInt32(stream);
+
+                            TempAnimation.Offsets = new List<int>();
+
+                            for (int b = 0; b < TempAnimation.Size; b++)
+                            {
+                                TempAnimation.Offsets.Add(StreamUtil.ReadInt32(stream));
+                            }
+
+                            TempAnimation.animationEntries = new List<AnimationEntry>();
+                            for (int b = 0; b < TempAnimation.Offsets.Count; b++)
+                            {
+                                stream.Position = StartPos + TempPrefab.AnimOffset + TempAnimation.Offsets[b];
+                                var TempAnimationEntry = new AnimationEntry();
+
+                                TempAnimationEntry.EntrySize = StreamUtil.ReadInt32(stream); //Always 0x28?
+                                TempAnimationEntry.U1 = StreamUtil.ReadInt32(stream); //Possibly Size Value?
+                                TempAnimationEntry.U2 = StreamUtil.ReadInt32(stream); //Always 8 could be type?
+                                TempAnimationEntry.U3 = StreamUtil.ReadFloat(stream);
+                                TempAnimationEntry.U4 = StreamUtil.ReadFloat(stream);
+                                TempAnimationEntry.Rotation = StreamUtil.ReadFloat(stream); //Z-Axis Rotation?
+                                TempAnimationEntry.U5 = StreamUtil.ReadFloat(stream);
+                                TempAnimationEntry.U6 = StreamUtil.ReadInt32(stream);
+                                TempAnimationEntry.U7 = StreamUtil.ReadFloat(stream); //Time of animation??
+                                TempAnimationEntry.U8 = StreamUtil.ReadFloat(stream);
+
+                                TempAnimation.animationEntries.Add(TempAnimationEntry);
+                            }
 
                             TempPrefab.objectAnimation = TempAnimation;
                         }
@@ -971,28 +989,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     if (TempObject.AnimationBytes != null)
                     {
                         TempObject.AnimOffset = (int)stream.Position;
-                        StreamUtil.WriteBytes(stream, TempObject.AnimationBytes);
-
-                        stream.Position -= 76;
-
-                        StreamUtil.WriteInt32(stream, TempObject.objectAnimation.U1);
-                        StreamUtil.WriteInt32(stream, TempObject.objectAnimation.U2);
-                        StreamUtil.WriteInt32(stream, TempObject.objectAnimation.U3);
-                        StreamUtil.WriteInt32(stream, TempObject.objectAnimation.U4);
-                        StreamUtil.WriteFloat32(stream, TempObject.objectAnimation.U5);
-                        StreamUtil.WriteInt32(stream, TempObject.objectAnimation.U6);
-                        StreamUtil.WriteInt32(stream, TempObject.objectAnimation.U7);
-                        StreamUtil.WriteInt32(stream, TempObject.objectAnimation.U8);
-                        StreamUtil.WriteInt32(stream, TempObject.objectAnimation.U9);
-                        StreamUtil.WriteInt32(stream, TempObject.objectAnimation.U10);
-                        StreamUtil.WriteInt32(stream, TempObject.objectAnimation.U11);
-                        StreamUtil.WriteInt32(stream, TempObject.objectAnimation.U12);
-                        StreamUtil.WriteInt32(stream, TempObject.objectAnimation.U13); //Freezes Animation? Possibly startting 
-                        StreamUtil.WriteFloat32(stream, TempObject.objectAnimation.U14); //Z Axis Rotation?
-                        StreamUtil.WriteInt32(stream, TempObject.objectAnimation.U16);
-                        StreamUtil.WriteInt32(stream, TempObject.objectAnimation.U17);
-                        StreamUtil.WriteFloat32(stream, TempObject.objectAnimation.U18);
-                        StreamUtil.WriteInt32(stream, TempObject.objectAnimation.U19);
                     }
                     TempPrefab.PrefabObjects[a] = TempObject;
                 }
@@ -1823,21 +1819,27 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int U2;
         public int U3;
         public int U4;
+        public int U5;
+        public int U6;
+
+        public int OffsetStart;
+        public int Size;
+        public List<int> Offsets;
+        public List<AnimationEntry> animationEntries; //Probably Frames
+    }
+
+    public struct AnimationEntry
+    {
+        public int EntrySize;
+        public int U1;
+        public int U2;
+        public float U3;
+        public float U4;
+        public float Rotation; //? Z-Axis Maybe
         public float U5;
         public int U6;
-        public int U7;
-        public int U8;
-        public int U9;
-        public int U10;
-        public int U11;
-        public int U12;
-        public int U13;
-        public int U14;
-        public float U15;
-        public int U16;
-        public int U17;
-        public float U18;
-        public int U19;
+        public float U7; //Time of frame?
+        public float U8;
     }
 
     public struct ParticleModel
