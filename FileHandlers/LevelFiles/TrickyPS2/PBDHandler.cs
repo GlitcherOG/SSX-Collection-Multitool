@@ -356,15 +356,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     var TempHeader = new Prefabs();
                     TempHeader.TotalLength = StreamUtil.ReadInt32(stream);
                     TempHeader.ObjectCount = StreamUtil.ReadInt32(stream);
-                    TempHeader.ObjectOffset = StreamUtil.ReadInt32(stream); //Size From Start? Idk it doesnt seem to change
+                    TempHeader.ObjectOffset = StreamUtil.ReadInt32(stream);
                     TempHeader.MaterialBlockID = StreamUtil.ReadInt32(stream);
-                    TempHeader.Unknown3 = StreamUtil.ReadInt32(stream); //Doesnt Change as well
+                    TempHeader.Unknown3 = StreamUtil.ReadInt32(stream); //Does change sometimes
                     TempHeader.AnimTime = StreamUtil.ReadFloat(stream);
                     TempHeader.Scale = StreamUtil.ReadVector3(stream);
                     TempHeader.TotalMeshCount = StreamUtil.ReadInt32(stream);
                     TempHeader.VertexCount = StreamUtil.ReadInt32(stream);
                     TempHeader.TriStripCount = StreamUtil.ReadInt32(stream);
                     TempHeader.Unknown4 = StreamUtil.ReadInt32(stream); //Who even knows
+
                     TempHeader.NonTriCount = StreamUtil.ReadInt32(stream);
 
                     TempHeader.PrefabObjects = new List<ObjectHeader>();
@@ -399,7 +400,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             meshHeader.MeshCount = StreamUtil.ReadInt32(stream);
                             meshHeader.FaceCount = StreamUtil.ReadInt32(stream);
 
-                            meshHeader.TotalOffsetsLength = StreamUtil.ReadInt32(stream); //Totatl Context Lengths
+                            meshHeader.TotalOffsetsLength = StreamUtil.ReadInt32(stream);
 
                             meshHeader.MeshOffsetPositions = new List<int>();
                             for (int c = 0; c < meshHeader.MeshCount; c++)
