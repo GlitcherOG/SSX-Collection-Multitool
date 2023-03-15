@@ -9,6 +9,7 @@ using SSXMultiTool.Utilities;
 using SSXMultiTool.FileHandlers;
 using SSXMultiTool.FileHandlers.Models;
 using static System.Windows.Forms.AxHost;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
@@ -471,12 +472,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 for (int c = 0; c < TempAnimationEntry.MathCount; c++)
                                 {
                                     AnimationMath TempMath = new AnimationMath();
-                                    TempMath.Unknown1 = StreamUtil.ReadFloat(stream);
-                                    TempMath.Unknown2 = StreamUtil.ReadFloat(stream);
-                                    TempMath.Unknown3 = StreamUtil.ReadFloat(stream);
-                                    TempMath.Unknown4 = StreamUtil.ReadFloat(stream);
-                                    TempMath.Unknown5 = StreamUtil.ReadFloat(stream);
-                                    TempMath.Unknown6 = StreamUtil.ReadFloat(stream);
+                                    TempMath.Value1 = StreamUtil.ReadFloat(stream);
+                                    TempMath.Value2 = StreamUtil.ReadFloat(stream);
+                                    TempMath.Value3 = StreamUtil.ReadFloat(stream);
+                                    TempMath.Value4 = StreamUtil.ReadFloat(stream);
+                                    TempMath.Value5 = StreamUtil.ReadFloat(stream);
+                                    TempMath.Value6 = StreamUtil.ReadFloat(stream);
                                     TempAnimationEntry.animationMaths.Add(TempMath);
                                 }
 
@@ -1002,9 +1003,57 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     var TempObject = TempPrefab.PrefabObjects[a];
                     TempObject.AnimOffset = 0;
-                    if (TempObject.AnimationBytes != null)
+                    if (TempObject.objectAnimation.animationEntries != null)
                     {
                         TempObject.AnimOffset = (int)stream.Position;
+
+                        var TempAnim = TempObject.objectAnimation;
+
+                        StreamUtil.WriteFloat32(stream, TempAnim.U1);
+                        StreamUtil.WriteFloat32(stream, TempAnim.U2);
+                        StreamUtil.WriteFloat32(stream, TempAnim.U3);
+                        StreamUtil.WriteFloat32(stream, TempAnim.U4);
+                        StreamUtil.WriteFloat32(stream, TempAnim.U5);
+                        StreamUtil.WriteFloat32(stream, TempAnim.U6);
+
+                        StreamUtil.WriteInt32(stream, TempAnim.AnimationAction);
+
+                        StreamUtil.WriteInt32(stream, TempAnim.animationEntries.Count);
+                        StreamUtil.WriteInt32(stream, (int)(stream.Position - TempObject.AnimOffset + 4));
+
+                        //Leave Space For Offsets
+
+                        List<int> Offsets = new List<int>();
+                        int OffsetPos = (int)stream.Position;
+                        stream.Position += 4 * TempAnim.animationEntries.Count;
+
+                        for (int b = 0; b < TempAnim.animationEntries.Count; b++)
+                        {
+                            Offsets.Add((int)(stream.Position - TempObject.AnimOffset));
+                            StreamUtil.WriteInt32(stream, TempAnim.animationEntries[b].animationMaths.Count);
+                            StreamUtil.WriteInt32(stream, 8);
+
+                            for (int c = 0; c < TempAnim.animationEntries[b].animationMaths.Count; c++)
+                            {
+                                StreamUtil.WriteFloat32(stream, TempAnim.animationEntries[b].animationMaths[c].Value1);
+                                StreamUtil.WriteFloat32(stream, TempAnim.animationEntries[b].animationMaths[c].Value2);
+                                StreamUtil.WriteFloat32(stream, TempAnim.animationEntries[b].animationMaths[c].Value3);
+                                StreamUtil.WriteFloat32(stream, TempAnim.animationEntries[b].animationMaths[c].Value4);
+                                StreamUtil.WriteFloat32(stream, TempAnim.animationEntries[b].animationMaths[c].Value5);
+                                StreamUtil.WriteFloat32(stream, TempAnim.animationEntries[b].animationMaths[c].Value6);
+                            }
+                        }
+
+
+                        //Write Offsets
+                        int EndAnimPos = (int)stream.Position;
+                        stream.Position = OffsetPos;
+                        for (int b = 0; b < Offsets.Count; b++)
+                        {
+                            StreamUtil.WriteInt32(stream, Offsets[b]);
+                        }
+                        stream.Position = EndAnimPos;
+
                     }
                     TempPrefab.PrefabObjects[a] = TempObject;
                 }
@@ -1794,7 +1843,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public Matrix4x4 matrix4X4;
         public ObjectData objectData;
         public ObjectAnimation objectAnimation;
-        public byte[] AnimationBytes;
     }
 
     public struct ObjectData
@@ -1863,12 +1911,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
     public struct AnimationMath
     {
-        public float Unknown1;
-        public float Unknown2;
-        public float Unknown3;
-        public float Unknown4;
-        public float Unknown5;
-        public float Unknown6;
+        public float Value1;
+        public float Value2;
+        public float Value3;
+        public float Value4;
+        public float Value5;
+        public float Value6;
     }
 
     public struct ParticleModel
