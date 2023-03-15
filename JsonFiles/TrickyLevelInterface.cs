@@ -300,7 +300,7 @@ namespace SSXMultiTool
                     var TempPrefabObject = new PrefabJsonHandler.ObjectHeader();
                     TempPrefabObject.ParentID = pbdHandler.PrefabData[i].PrefabObjects[a].ParentID;
                     TempPrefabObject.Flags = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.Flags;
-                    TempPrefabObject.AnimOffset = pbdHandler.PrefabData[i].PrefabObjects[a].AnimOffset;
+                    //TempPrefabObject.AnimOffset = pbdHandler.PrefabData[i].PrefabObjects[a].AnimOffset;
 
                     TempPrefabObject.MeshData = new List<PrefabJsonHandler.MeshHeader>();
                     if (pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets != null)
@@ -428,7 +428,7 @@ namespace SSXMultiTool
                         var TempPrefabObject = new PrefabJsonHandler.ObjectHeader();
                         TempPrefabObject.ParentID = skypbdHandler.PrefabData[i].PrefabObjects[a].ParentID;
                         TempPrefabObject.Flags = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.Flags;
-                        TempPrefabObject.AnimOffset = skypbdHandler.PrefabData[i].PrefabObjects[a].AnimOffset;
+                        //TempPrefabObject.AnimOffset = skypbdHandler.PrefabData[i].PrefabObjects[a].AnimOffset;
 
                         TempPrefabObject.MeshData = new List<PrefabJsonHandler.MeshHeader>();
 
