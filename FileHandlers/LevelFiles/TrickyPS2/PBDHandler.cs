@@ -6,10 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 using SSXMultiTool.Utilities;
-using SSXMultiTool.FileHandlers;
 using SSXMultiTool.FileHandlers.Models;
-using static System.Windows.Forms.AxHost;
-using System.Security.Cryptography.X509Certificates;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {

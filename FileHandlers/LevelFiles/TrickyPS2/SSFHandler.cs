@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using SSXMultiTool.Utilities;
@@ -17,8 +18,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int UStruct1Offset;
         public int UStruct2Count;
         public int UStruct2Offset; 
-        public int UStruct3Count;
-        public int UStruct3Offset;
+        public int CollisonModelCount;
+        public int CollisonModelOffset;
         public int UStruct4Count;
         public int UStruct4Offset;
         public int FunctionCount;
@@ -32,7 +33,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public List<UStruct1> uStruct1s = new List<UStruct1>();
         public List<UStruct2> uStruct2s = new List<UStruct2>();
-        public List<UStruct3> uStruct3s = new List<UStruct3>();
+        public List<CollisonModelPointer> CollisonModelPointers = new List<CollisonModelPointer>();
         public List<UStruct4> uStruct4s = new List<UStruct4>();
         public List<Function> Functions = new List<Function>();
         public List<UStruct5> uStruct5s = new List<UStruct5>();
@@ -50,8 +51,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 UStruct1Offset = StreamUtil.ReadInt32(stream);
                 UStruct2Count = StreamUtil.ReadInt32(stream);
                 UStruct2Offset = StreamUtil.ReadInt32(stream);
-                UStruct3Count = StreamUtil.ReadInt32(stream);
-                UStruct3Offset = StreamUtil.ReadInt32(stream);
+                CollisonModelCount = StreamUtil.ReadInt32(stream);
+                CollisonModelOffset = StreamUtil.ReadInt32(stream);
                 UStruct4Count = StreamUtil.ReadInt32(stream);
                 UStruct4Offset = StreamUtil.ReadInt32(stream);
                 FunctionCount = StreamUtil.ReadInt32(stream);
@@ -85,22 +86,72 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     var TempUstruct2 = new UStruct2();
 
-                    TempUstruct2.U1 = StreamUtil.ReadInt32(stream);
-                    TempUstruct2.U2 = StreamUtil.ReadInt32(stream);
-                    TempUstruct2.U3 = StreamUtil.ReadInt32(stream);
+                    TempUstruct2.Offset = StreamUtil.ReadInt32(stream);
+                    TempUstruct2.ByteSize = StreamUtil.ReadInt32(stream);
+                    TempUstruct2.Count = StreamUtil.ReadInt32(stream);
+
+                    var TempPos = stream.Position;
+                    stream.Position = TempUstruct2.Offset;
+
+                    //Inset Stuff Here
+
+
+                    stream.Position = TempPos;
+
                     uStruct2s.Add(TempUstruct2);
                 }
-
-                uStruct3s = new List<UStruct3>();
-                stream.Position = UStruct3Offset;
-                for (int i = 0; i < UStruct3Count; i++)
+                //Collision Models
+                CollisonModelPointers = new List<CollisonModelPointer>();
+                stream.Position = CollisonModelOffset;
+                for (int i = 0; i < CollisonModelCount; i++)
                 {
-                    var TempUstruct3 = new UStruct3();
+                    var TempUstruct3 = new CollisonModelPointer();
 
-                    TempUstruct3.U1 = StreamUtil.ReadInt32(stream);
-                    TempUstruct3.U2 = StreamUtil.ReadInt32(stream);
-                    TempUstruct3.U3 = StreamUtil.ReadInt32(stream);
-                    uStruct3s.Add(TempUstruct3);
+                    TempUstruct3.Offset = StreamUtil.ReadInt32(stream);
+                    TempUstruct3.ByteSize = StreamUtil.ReadInt32(stream);
+                    TempUstruct3.Count = StreamUtil.ReadInt32(stream);
+
+                    var TempPos = stream.Position;
+                    stream.Position = TempUstruct3.Offset;
+
+                    //Inset Stuff Here
+                    TempUstruct3.Models = new List<CollisonModel>();
+                    for (int a = 0; a < TempUstruct3.Count; a++)
+                    {
+                        var TempModel = new CollisonModel();
+                        TempModel.FaceCount = StreamUtil.ReadInt32(stream);
+                        TempModel.VerticeCount = StreamUtil.ReadInt32(stream);
+                        TempModel.U1 = StreamUtil.ReadInt32(stream);
+
+
+                        TempModel.Index = new List<int>();
+                        TempModel.Vertices = new List<Vector4>();
+                        TempModel.Unkowns = new List<Vector4>();
+
+                        for (int b = 0; b < TempModel.FaceCount*3; b++)
+                        {
+                            TempModel.Index.Add(StreamUtil.ReadInt32(stream));
+                        }
+                        StreamUtil.AlignBy16(stream);
+
+                        for (int b = 0; b < TempModel.VerticeCount; b++)
+                        {
+                            TempModel.Vertices.Add(StreamUtil.ReadVector4(stream));
+                        }
+
+                        for (int b = 0; b < TempModel.FaceCount; b++)
+                        {
+                            TempModel.Unkowns.Add(StreamUtil.ReadVector4(stream));
+                        }
+
+
+                        TempUstruct3.Models.Add(TempModel);
+                    }
+
+
+                    stream.Position = TempPos;
+
+                    CollisonModelPointers.Add(TempUstruct3);
                 }
 
                 uStruct4s = new List<UStruct4>();
@@ -170,16 +221,29 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public struct UStruct2
         {
-            public int U1;
-            public int U2;
-            public int U3;
+            public int Offset;
+            public int ByteSize;
+            public int Count;
         }
 
-        public struct UStruct3
+        public struct CollisonModelPointer
         {
+            public int Offset;
+            public int ByteSize;
+            public int Count;
+
+            public List<CollisonModel> Models;
+        }
+
+        public struct CollisonModel
+        {
+            public int FaceCount;
+            public int VerticeCount;
             public int U1;
-            public int U2;
-            public int U3;
+
+            public List<int> Index;
+            public List<Vector4> Vertices;
+            public List<Vector4> Unkowns;
         }
 
         public struct UStruct4
