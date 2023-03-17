@@ -26,10 +26,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int FunctionOffset;
         public int UStruct5Count;
         public int UStruct5Offset;
-        public int UIntsCount;
-        public int UIntsOffset;
-        public int UStruct6Count;
-        public int UStruct6Offset;
+        public int InstanceCount;
+        public int InstanceOffset;
+        public int SplineCount;
+        public int SplineOffset;
 
         public List<UStruct1> uStruct1s = new List<UStruct1>();
         public List<UStruct2> uStruct2s = new List<UStruct2>();
@@ -37,8 +37,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<UStruct4> uStruct4s = new List<UStruct4>();
         public List<Function> Functions = new List<Function>();
         public List<UStruct5> uStruct5s = new List<UStruct5>();
-        public List<UStruct6> uStruct6s = new List<UStruct6>();
-        public List<int> UInts = new List<int>();
+        public List<Spline> Splines = new List<Spline>();
+        public List<int> InstanceState = new List<int>();
 
         public void Load(string Path)
         {
@@ -59,11 +59,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 FunctionOffset = StreamUtil.ReadInt32(stream);
                 UStruct5Count = StreamUtil.ReadInt32(stream);
                 UStruct5Offset = StreamUtil.ReadInt32(stream);
-                UIntsCount = StreamUtil.ReadInt32(stream);
-                UIntsOffset = StreamUtil.ReadInt32(stream);
-                UStruct6Count = StreamUtil.ReadInt32(stream);
-                UStruct6Offset = StreamUtil.ReadInt32(stream);
+                InstanceCount = StreamUtil.ReadInt32(stream);
+                InstanceOffset = StreamUtil.ReadInt32(stream);
+                SplineCount = StreamUtil.ReadInt32(stream);
+                SplineOffset = StreamUtil.ReadInt32(stream);
 
+                //Nothing?
                 uStruct1s = new List<UStruct1>();
                 stream.Position = UStruct1Offset;
                 for (int i = 0; i < UStruct1Count; i++)
@@ -79,7 +80,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempUstruct1.U7 = StreamUtil.ReadInt32(stream);
                     uStruct1s.Add(TempUstruct1);
                 }
-
+                //Phyisics Objects
                 uStruct2s = new List<UStruct2>();
                 stream.Position = UStruct2Offset;
                 for (int i = 0; i < UStruct2Count; i++)
@@ -148,19 +149,18 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         TempUstruct3.Models.Add(TempModel);
                     }
 
-
                     stream.Position = TempPos;
 
                     CollisonModelPointers.Add(TempUstruct3);
                 }
-
+                //Animation Stuff in someway
                 uStruct4s = new List<UStruct4>();
-                stream.Position = UStruct4Offset;
+                stream.Position = UStruct4Offset; 
                 for (int i = 0; i < UStruct4Count; i++)
                 {
                     var TempUstruct4 = new UStruct4();
-                    TempUstruct4.U1 = StreamUtil.ReadInt32(stream);
-                    TempUstruct4.U2 = StreamUtil.ReadInt32(stream);
+                    TempUstruct4.U1 = StreamUtil.ReadInt32(stream); //Count
+                    TempUstruct4.U2 = StreamUtil.ReadInt32(stream); //Offset
                     uStruct4s.Add(TempUstruct4);
                 }
 
@@ -175,6 +175,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     Functions.Add(TempFunction);
                 }
 
+                //Appears to do nothing
                 uStruct5s = new List<UStruct5>();
                 stream.Position = UStruct5Offset;
                 for (int i = 0; i < UStruct5Count; i++)
@@ -189,20 +190,42 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     uStruct5s.Add(TempUstruct5);
                 }
 
-                UInts = new List<int>();
-                for (int i = 0; i < UIntsCount; i++)
+                //Breaks Collison, Animation, Material Visablity
+                InstanceState = new List<int>();
+                stream.Position = InstanceOffset;
+                for (int i = 0; i < InstanceCount; i++)
                 {
-                    UInts.Add(StreamUtil.ReadInt32(stream));
+                    InstanceState.Add(StreamUtil.ReadInt32(stream));
                 }
 
-                uStruct6s = new List<UStruct6>();
-                stream.Position = UStruct6Offset;
-                for (int i = 0; i < UStruct6Count; i++)
+                //0 - Nothing
+                //12 - Smoking
+                //36 - Invisible no Collision
+                //56 - Nothing
+
+
+                Splines = new List<Spline>();
+                stream.Position = SplineOffset;
+                for (int i = 0; i < SplineCount; i++)
                 {
-                    var TempUstruct6 = new UStruct6();
-                    TempUstruct6.U1 = StreamUtil.ReadInt32(stream);
-                    TempUstruct6.U2 = StreamUtil.ReadInt32(stream);
-                    uStruct6s.Add(TempUstruct6);
+                    var TempUstruct6 = new Spline();
+                    TempUstruct6.U1 = StreamUtil.ReadInt16(stream);
+                    TempUstruct6.U2 = StreamUtil.ReadInt16(stream);
+                    TempUstruct6.SplineStyle = StreamUtil.ReadInt32(stream); //Spline Style
+                    Splines.Add(TempUstruct6);
+                }
+
+            }
+        }
+
+        public void SaveTest(string Path)
+        {
+            using (Stream stream = File.Open(Path, FileMode.Open))
+            {
+                stream.Position = InstanceOffset;
+                for (int i = 0; i < InstanceCount; i++)
+                {
+                    StreamUtil.WriteInt32(stream, 128);
                 }
 
             }
@@ -248,8 +271,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public struct UStruct4
         {
-            public int U1;
-            public int U2;
+            public int U1; //Count
+            public int U2; //Offset
         }
 
         public struct Function
@@ -269,10 +292,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int U6;
         }
 
-        public struct UStruct6
+        public struct Spline
         {
             public int U1;
             public int U2;
+            public int SplineStyle;
         }
     }
 }

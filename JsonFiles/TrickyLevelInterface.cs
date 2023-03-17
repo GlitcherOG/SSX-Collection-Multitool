@@ -37,6 +37,10 @@ namespace SSXMultiTool
 
         public void ExtractTrickyLevelFiles(string LoadPath, string ExportPath)
         {
+            SSFHandler ssfHandler = new SSFHandler();
+            ssfHandler.Load(LoadPath + ".ssf");
+            ssfHandler.SaveTest(LoadPath + ".ssf");
+
             //Load Map
             MapHandler mapHandler = new MapHandler();
             mapHandler.Load(LoadPath + ".map");
@@ -148,6 +152,8 @@ namespace SSXMultiTool
                 instanceJson.UnknownInt32 = pbdHandler.Instances[i].UnknownInt32;
 
                 instanceJson.LTGState = ltgHandler.FindIfInstaneState(i);
+                instanceJson.SSFState = ssfHandler.InstanceState[i];
+
                 instancesJson.instances.Add(instanceJson);
             }
             instancesJson.CreateJson(ExportPath + "/Instances.json");
