@@ -11,6 +11,7 @@ using System.Numerics;
 using System.IO;
 using SSXMultiTool.FileHandlers.Models;
 using static SSXMultiTool.JsonFiles.Tricky.InstanceJsonHandler;
+using System.Windows.Documents;
 
 namespace SSXMultiTool
 {
@@ -35,6 +36,14 @@ namespace SSXMultiTool
             public List<int> Patch;
         }
 
+        struct InstanceExport
+        {
+            public int InstanceIndex;
+            public string InstanceName;
+            public int SsfIndex;
+            public int Struct5U5;
+        }
+
         public void ExtractTrickyLevelFiles(string LoadPath, string ExportPath)
         {
             SSFHandler ssfHandler = new SSFHandler();
@@ -51,6 +60,23 @@ namespace SSXMultiTool
 
             LTGHandler ltgHandler = new LTGHandler();
             ltgHandler.LoadLTG(LoadPath + ".ltg");
+
+            List<InstanceExport> instanceExports = new List<InstanceExport>();
+
+            for (int i = 0; i < pbdHandler.Instances.Count; i++)
+            {
+                var TempInstance = new InstanceExport();
+
+                TempInstance.InstanceIndex = i;
+                TempInstance.InstanceName = mapHandler.InternalInstances[i].Name;
+                TempInstance.SsfIndex = ssfHandler.InstanceState[i];
+                TempInstance.Struct5U5 = ssfHandler.uStruct5s[ssfHandler.InstanceState[i]].CollsionMode;
+
+                instanceExports.Add(TempInstance);
+            }
+
+
+
 
             //Create Patches JSON
             patchPoints = new PatchesJsonHandler();

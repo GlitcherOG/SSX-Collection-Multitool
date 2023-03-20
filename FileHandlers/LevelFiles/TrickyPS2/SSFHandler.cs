@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using SSXMultiTool.Utilities;
+using static SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2.SSFHandler;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
@@ -14,14 +15,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int U1;
         public int U2;
         public float U3;
-        public int UStruct1Count;
-        public int UStruct1Offset;
+        public int EffectSlotsCount;
+        public int EffectSlotsOffset;
         public int UStruct2Count;
         public int UStruct2Offset; 
         public int CollisonModelCount;
         public int CollisonModelOffset;
-        public int UStruct4Count;
-        public int UStruct4Offset;
+        public int EffectsCount;
+        public int EffectsOffset;
         public int FunctionCount;
         public int FunctionOffset;
         public int UStruct5Count;
@@ -31,10 +32,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int SplineCount;
         public int SplineOffset;
 
-        public List<UStruct1> uStruct1s = new List<UStruct1>();
+        public List<EffectSlot> EffectSlots = new List<EffectSlot>();
         public List<UStruct2> uStruct2s = new List<UStruct2>();
         public List<CollisonModelPointer> CollisonModelPointers = new List<CollisonModelPointer>();
-        public List<UStruct4> uStruct4s = new List<UStruct4>();
+        public List<EffectStruct> Effects = new List<EffectStruct>();
         public List<Function> Functions = new List<Function>();
         public List<UStruct5> uStruct5s = new List<UStruct5>();
         public List<Spline> Splines = new List<Spline>();
@@ -47,14 +48,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 U1 = StreamUtil.ReadInt32(stream);
                 U2 = StreamUtil.ReadInt32(stream);
                 U3 = StreamUtil.ReadFloat(stream);
-                UStruct1Count = StreamUtil.ReadInt32(stream);
-                UStruct1Offset = StreamUtil.ReadInt32(stream);
+                EffectSlotsCount = StreamUtil.ReadInt32(stream);
+                EffectSlotsOffset = StreamUtil.ReadInt32(stream);
                 UStruct2Count = StreamUtil.ReadInt32(stream);
                 UStruct2Offset = StreamUtil.ReadInt32(stream);
                 CollisonModelCount = StreamUtil.ReadInt32(stream);
                 CollisonModelOffset = StreamUtil.ReadInt32(stream);
-                UStruct4Count = StreamUtil.ReadInt32(stream);
-                UStruct4Offset = StreamUtil.ReadInt32(stream);
+                EffectsCount = StreamUtil.ReadInt32(stream);
+                EffectsOffset = StreamUtil.ReadInt32(stream);
                 FunctionCount = StreamUtil.ReadInt32(stream);
                 FunctionOffset = StreamUtil.ReadInt32(stream);
                 UStruct5Count = StreamUtil.ReadInt32(stream);
@@ -64,21 +65,20 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 SplineCount = StreamUtil.ReadInt32(stream);
                 SplineOffset = StreamUtil.ReadInt32(stream);
 
-                //Nothing?
-                uStruct1s = new List<UStruct1>();
-                stream.Position = UStruct1Offset;
-                for (int i = 0; i < UStruct1Count; i++)
+                EffectSlots = new List<EffectSlot>();
+                stream.Position = EffectSlotsOffset;
+                for (int i = 0; i < EffectSlotsCount; i++)
                 {
-                    var TempUstruct1 = new UStruct1();
+                    var TempUstruct1 = new EffectSlot();
 
-                    TempUstruct1.U1 = StreamUtil.ReadInt32(stream);
-                    TempUstruct1.U2 = StreamUtil.ReadInt32(stream);
-                    TempUstruct1.U3 = StreamUtil.ReadInt32(stream);
-                    TempUstruct1.U4 = StreamUtil.ReadInt32(stream);
-                    TempUstruct1.U5 = StreamUtil.ReadInt32(stream);
-                    TempUstruct1.U6 = StreamUtil.ReadInt32(stream);
-                    TempUstruct1.U7 = StreamUtil.ReadInt32(stream);
-                    uStruct1s.Add(TempUstruct1);
+                    TempUstruct1.Slot1 = StreamUtil.ReadInt32(stream);
+                    TempUstruct1.Slot2 = StreamUtil.ReadInt32(stream);
+                    TempUstruct1.Slot3 = StreamUtil.ReadInt32(stream);
+                    TempUstruct1.Slot4 = StreamUtil.ReadInt32(stream);
+                    TempUstruct1.Slot5 = StreamUtil.ReadInt32(stream);
+                    TempUstruct1.Slot6 = StreamUtil.ReadInt32(stream);
+                    TempUstruct1.Slot7 = StreamUtil.ReadInt32(stream);
+                    EffectSlots.Add(TempUstruct1);
                 }
                 //Phyisics Objects
                 uStruct2s = new List<UStruct2>();
@@ -122,18 +122,20 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         var TempModel = new CollisonModel();
                         TempModel.FaceCount = StreamUtil.ReadInt32(stream);
                         TempModel.VerticeCount = StreamUtil.ReadInt32(stream);
-                        TempModel.U1 = StreamUtil.ReadInt32(stream);
+                        TempModel.VerticeOffsetAlign = StreamUtil.ReadInt32(stream);
 
 
                         TempModel.Index = new List<int>();
                         TempModel.Vertices = new List<Vector4>();
-                        TempModel.Unkowns = new List<Vector4>();
+                        TempModel.FaceNormals = new List<Vector4>();
 
                         for (int b = 0; b < TempModel.FaceCount*3; b++)
                         {
                             TempModel.Index.Add(StreamUtil.ReadInt32(stream));
                         }
-                        StreamUtil.AlignBy16(stream);
+                        stream.Position += TempModel.VerticeOffsetAlign;
+
+                        //StreamUtil.AlignBy16(stream);
 
                         for (int b = 0; b < TempModel.VerticeCount; b++)
                         {
@@ -142,7 +144,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                         for (int b = 0; b < TempModel.FaceCount; b++)
                         {
-                            TempModel.Unkowns.Add(StreamUtil.ReadVector4(stream));
+                            TempModel.FaceNormals.Add(StreamUtil.ReadVector4(stream));
                         }
 
 
@@ -153,15 +155,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     CollisonModelPointers.Add(TempUstruct3);
                 }
-                //Animation Stuff in someway
-                uStruct4s = new List<UStruct4>();
-                stream.Position = UStruct4Offset; 
-                for (int i = 0; i < UStruct4Count; i++)
+                
+                Effects = new List<EffectStruct>();
+                stream.Position = EffectsOffset; 
+                for (int i = 0; i < EffectsCount; i++)
                 {
-                    var TempUstruct4 = new UStruct4();
-                    TempUstruct4.U1 = StreamUtil.ReadInt32(stream); //Count
+                    var TempUstruct4 = new EffectStruct();
+                    TempUstruct4.U1 = StreamUtil.ReadInt32(stream); //Type
                     TempUstruct4.U2 = StreamUtil.ReadInt32(stream); //Offset
-                    uStruct4s.Add(TempUstruct4);
+                    Effects.Add(TempUstruct4);
                 }
 
                 Functions = new List<Function>();
@@ -170,7 +172,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     var TempFunction = new Function();
                     TempFunction.U1 = StreamUtil.ReadInt32(stream);
-                    TempFunction.U2 = StreamUtil.ReadInt32(stream);
+                    TempFunction.U2 = StreamUtil.ReadInt32(stream); //Offset
                     TempFunction.FunctionName = StreamUtil.ReadString(stream, 16);
                     Functions.Add(TempFunction);
                 }
@@ -181,12 +183,30 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 for (int i = 0; i < UStruct5Count; i++)
                 {
                     var TempUstruct5 = new UStruct5();
-                    TempUstruct5.U1 = StreamUtil.ReadInt32(stream);
-                    TempUstruct5.U2 = StreamUtil.ReadInt32(stream);
-                    TempUstruct5.U3 = StreamUtil.ReadInt32(stream);
-                    TempUstruct5.U4 = StreamUtil.ReadInt32(stream);
-                    TempUstruct5.U5 = StreamUtil.ReadInt32(stream);
-                    TempUstruct5.U6 = StreamUtil.ReadInt32(stream);
+                    TempUstruct5.U1 = StreamUtil.ReadUInt8(stream);
+                    TempUstruct5.U12 = StreamUtil.ReadUInt8(stream);
+                    TempUstruct5.U13 = StreamUtil.ReadUInt8(stream);
+                    TempUstruct5.U14 = StreamUtil.ReadUInt8(stream);
+
+
+                    TempUstruct5.PlayerBounce = StreamUtil.ReadFloat(stream);
+                    TempUstruct5.U3 = StreamUtil.ReadFloat(stream);
+
+                    TempUstruct5.U4 = StreamUtil.ReadInt32(stream); //-1
+
+                    TempUstruct5.CollsionMode = StreamUtil.ReadInt16(stream);
+
+                    if (TempUstruct5.CollsionMode != 3)
+                    {
+                        TempUstruct5.CollisonModelIndex = StreamUtil.ReadInt16(stream);
+                        TempUstruct5.EffectSlotIndex = StreamUtil.ReadInt16(stream);
+                    }
+                    else
+                    {
+                        TempUstruct5.PhysicsIndex = StreamUtil.ReadInt16(stream);
+                        TempUstruct5.EffectSlotIndex = StreamUtil.ReadInt16(stream);
+                    }
+                    TempUstruct5.U8 = StreamUtil.ReadInt16(stream);
                     uStruct5s.Add(TempUstruct5);
                 }
 
@@ -198,12 +218,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     InstanceState.Add(StreamUtil.ReadInt32(stream));
                 }
 
-                //0 - Nothing
-                //12 - Smoking
-                //36 - Invisible no Collision
-                //56 - Nothing
-
-
                 Splines = new List<Spline>();
                 stream.Position = SplineOffset;
                 for (int i = 0; i < SplineCount; i++)
@@ -211,7 +225,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     var TempUstruct6 = new Spline();
                     TempUstruct6.U1 = StreamUtil.ReadInt16(stream);
                     TempUstruct6.U2 = StreamUtil.ReadInt16(stream);
-                    TempUstruct6.SplineStyle = StreamUtil.ReadInt32(stream); //Spline Style
+                    TempUstruct6.SplineStyle = StreamUtil.ReadInt32(stream); 
                     Splines.Add(TempUstruct6);
                 }
 
@@ -225,21 +239,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 stream.Position = InstanceOffset;
                 for (int i = 0; i < InstanceCount; i++)
                 {
-                    StreamUtil.WriteInt32(stream, 128);
+                    StreamUtil.WriteInt32(stream, 84);
                 }
 
             }
         }
 
-        public struct UStruct1
+        public struct EffectSlot
         {
-            public int U1;
-            public int U2;
-            public int U3;
-            public int U4;
-            public int U5;
-            public int U6;
-            public int U7;
+            public int Slot1;
+            public int Slot2;
+            public int Slot3;
+            public int Slot4;
+            public int Slot5;
+            public int Slot6;
+            public int Slot7;
         }
 
         public struct UStruct2
@@ -253,7 +267,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         {
             public int Offset;
             public int ByteSize;
-            public int Count;
+            public int Count; //Maybe?
 
             public List<CollisonModel> Models;
         }
@@ -262,14 +276,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         {
             public int FaceCount;
             public int VerticeCount;
-            public int U1;
+            public int VerticeOffsetAlign;
 
             public List<int> Index;
             public List<Vector4> Vertices;
-            public List<Vector4> Unkowns;
+            public List<Vector4> FaceNormals;
         }
 
-        public struct UStruct4
+        public struct EffectStruct
         {
             public int U1; //Count
             public int U2; //Offset
@@ -285,11 +299,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public struct UStruct5
         {
             public int U1;
-            public int U2;
-            public int U3;
+            public int U12;
+            public int U13;
+            public int U14;
+
+            public float PlayerBounce;
+            public float U3;
+
             public int U4;
-            public int U5;
-            public int U6;
+            public int CollsionMode;
+            public int CollisonModelIndex;
+            public int EffectSlotIndex;
+
+            public int PhysicsIndex;
+
+            public int U8;
         }
 
         public struct Spline
@@ -300,3 +324,37 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         }
     }
 }
+
+
+//sub_type:
+//0: # "Roller"?
+//    'fff'
+//    'iii'
+//2: # "Debounce"?
+//5: # "DeadNode"? b = 2, 4
+//6: # "Counter"
+//7: # "Boost" 
+//8: # "Timer"
+//9: # "Rail"
+//10: # "UVScroll" b = 0
+//    'ii'
+//    'f'
+//11: # "TexFlip" #print(f.tell())
+//12: # "Fence"
+//13: # "Flag"
+//14: # "Cracked"
+//15: # "LapBoost"
+//16: # "RandomBoost"
+//17: # "CrowdBox"
+//18: # "ZBoost"
+//19: # "UVScrollTexFlip"
+//20: # "cMeshAnim"
+//21: # "TrickTrigger"
+//22: # "Particle"
+//23: # "Movie"
+//24: # "TubeEndBoost"
+
+//256: # "AnimObject"
+//257: # "AnimDelta"
+//258: # "AnimCombo"
+//259: # "AnimTexFlip"
