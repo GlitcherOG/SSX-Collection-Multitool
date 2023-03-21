@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 using SSXMultiTool.Utilities;
 using static SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2.SSFHandler;
 
@@ -89,7 +90,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     TempUstruct2.Offset = StreamUtil.ReadInt32(stream);
                     TempUstruct2.ByteSize = StreamUtil.ReadInt32(stream);
-                    TempUstruct2.Count = StreamUtil.ReadInt32(stream);
+                    TempUstruct2.Count = StreamUtil.ReadInt32(stream); //Probably?
 
                     var TempPos = stream.Position;
                     stream.Position = TempUstruct2.Offset;
@@ -110,7 +111,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     TempUstruct3.Offset = StreamUtil.ReadInt32(stream);
                     TempUstruct3.ByteSize = StreamUtil.ReadInt32(stream);
-                    TempUstruct3.Count = StreamUtil.ReadInt32(stream);
+                    TempUstruct3.Count = StreamUtil.ReadInt32(stream); //Probably?
 
                     var TempPos = stream.Position;
                     stream.Position = TempUstruct3.Offset;
@@ -244,6 +245,44 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             }
         }
+
+        public void SaveModels(string Path)
+        {
+            int c = 0;
+            for (int a = 0; a < CollisonModelPointers.Count; a++)
+            {
+                var TempCollision = CollisonModelPointers[a];
+
+                for (int ax = 0; ax < TempCollision.Models.Count; ax++)
+                {
+                    var Data = TempCollision.Models[ax];
+
+                    string outputString = "";
+                    string output = "# Exported From SSX Using SSX Multitool Modder by GlitcherOG \n";
+
+                    outputString += "o Mesh" + c + "\n";
+                    for (int b = 0; b < Data.FaceCount; b++)
+                    {
+                        outputString += "f " + (Data.Index[3*b]+1) + "//" + (b+1).ToString() + " " + (Data.Index[3*b+1]+1) + "//" + (b+1).ToString() + " " + (Data.Index[3*b+2]+1) + "//" + (b+1).ToString() + "\n";
+                    }
+
+                    for (int z = 0; z < Data.Vertices.Count; z++)
+                    {
+                        output += "v " + Data.Vertices[z].X + " " + Data.Vertices[z].Y + " " + Data.Vertices[z].Z + "\n";
+                    }
+                    for (int z = 0; z < Data.FaceNormals.Count; z++)
+                    {
+                        output += "vn " + Data.FaceNormals[z].X + " " + Data.FaceNormals[z].Y + " " + Data.FaceNormals[z].Z + "\n";
+                    }
+                    output += outputString;
+                    File.WriteAllText(Path + "/" + c + ".obj", output);
+                    c++;
+                }
+
+            }
+
+        }
+
 
         public struct EffectSlot
         {

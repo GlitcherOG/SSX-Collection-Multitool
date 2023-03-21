@@ -48,7 +48,10 @@ namespace SSXMultiTool
         {
             SSFHandler ssfHandler = new SSFHandler();
             ssfHandler.Load(LoadPath + ".ssf");
-            ssfHandler.SaveTest(LoadPath + ".ssf");
+            //ssfHandler.SaveTest(LoadPath + ".ssf");
+
+            Directory.CreateDirectory(ExportPath + "\\Collision");
+            ssfHandler.SaveModels(ExportPath + "\\Collision");
 
             //Load Map
             MapHandler mapHandler = new MapHandler();
