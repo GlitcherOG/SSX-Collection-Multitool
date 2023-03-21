@@ -246,6 +246,100 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
         }
 
+        public void Save(string path)
+        {
+            MemoryStream stream = new MemoryStream();
+
+            stream.Position = 76;
+
+            EffectsOffset = (int)stream.Position;
+            for (int i = 0; i < EffectSlots.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, EffectSlots[i].Slot1);
+                StreamUtil.WriteInt32(stream, EffectSlots[i].Slot2);
+                StreamUtil.WriteInt32(stream, EffectSlots[i].Slot3);
+                StreamUtil.WriteInt32(stream, EffectSlots[i].Slot4);
+                StreamUtil.WriteInt32(stream, EffectSlots[i].Slot5);
+                StreamUtil.WriteInt32(stream, EffectSlots[i].Slot6);
+                StreamUtil.WriteInt32(stream, EffectSlots[i].Slot7);
+            }
+
+            
+            UStruct2Offset = (int)stream.Position;
+            //Skip passed it all and write shit
+            stream.Position += (uStruct2s.Count * 4 * 3) + (CollisonModelPointers.Count * 4 * 3) + (Functions.Count*16 + Functions.Count*2*4) + (Effects.Count*4*2);
+
+
+
+            stream.Position = UStruct2Offset;
+            for (int i = 0; i < uStruct2s.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, uStruct2s[i].Offset);
+                StreamUtil.WriteInt32(stream, uStruct2s[i].ByteSize);
+                StreamUtil.WriteInt32(stream, uStruct2s[i].Count);
+            }
+
+            CollisonModelOffset = (int)stream.Position;
+            for (int i = 0; i < CollisonModelPointers.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, CollisonModelPointers[i].Offset);
+                StreamUtil.WriteInt32(stream, CollisonModelPointers[i].ByteSize);
+                StreamUtil.WriteInt32(stream, CollisonModelPointers[i].Count);
+            }
+
+            FunctionOffset = (int)stream.Position;
+            for (int i = 0; i < Functions.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, Functions[i].U1);
+                StreamUtil.WriteInt32(stream, Functions[i].U2);
+                StreamUtil.WriteString(stream, Functions[i].FunctionName, 16);
+            }
+
+            EffectsOffset = (int)stream.Position;
+            for (int i = 0; i < Effects.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, Effects[i].U1);
+                StreamUtil.WriteInt32(stream, Effects[i].U2);
+            }
+
+
+
+
+
+
+            stream.Position = 0;
+
+            StreamUtil.WriteInt32(stream, U1);
+            StreamUtil.WriteInt32(stream, U2);
+            StreamUtil.WriteFloat32(stream, U3);
+            StreamUtil.WriteInt32(stream, EffectSlots.Count);
+            StreamUtil.WriteInt32(stream, EffectSlotsOffset);
+            StreamUtil.WriteInt32(stream, uStruct2s.Count);
+            StreamUtil.WriteInt32(stream, UStruct2Offset);
+            StreamUtil.WriteInt32(stream, CollisonModelPointers.Count);
+            StreamUtil.WriteInt32(stream, CollisonModelOffset);
+            StreamUtil.WriteInt32(stream, Effects.Count);
+            StreamUtil.WriteInt32(stream, EffectsOffset);
+            StreamUtil.WriteInt32(stream, Functions.Count);
+            StreamUtil.WriteInt32(stream, FunctionOffset);
+            StreamUtil.WriteInt32(stream, uStruct5s.Count);
+            StreamUtil.WriteInt32(stream, UStruct5Offset);
+            StreamUtil.WriteInt32(stream, InstanceState.Count);
+            StreamUtil.WriteInt32(stream, InstanceOffset);
+            StreamUtil.WriteInt32(stream, Splines.Count);
+            StreamUtil.WriteInt32(stream, SplineOffset);
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            var file = File.Create(path);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            stream.Dispose();
+            file.Close();
+        }
+
         public void SaveModels(string Path)
         {
             int c = 0;
