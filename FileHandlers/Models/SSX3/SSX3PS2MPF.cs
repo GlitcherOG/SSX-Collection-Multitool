@@ -24,22 +24,22 @@ namespace SSXMultiTool.FileHandlers
                 magicWords = StreamUtil.ReadBytes(stream, 4);
                 NumModels = StreamUtil.ReadInt16(stream);
                 HeaderSize = StreamUtil.ReadInt16(stream);
-                DataOffset = StreamUtil.ReadInt32(stream);
+                DataOffset = StreamUtil.ReadUInt32(stream);
                 for (int i = 0; i < NumModels; i++)
                 {
                     MPFModelHeader modelHeader = new MPFModelHeader();
 
                     modelHeader.ModelName = StreamUtil.ReadString(stream, 16);
-                    modelHeader.DataOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.EntrySize = StreamUtil.ReadInt32(stream);
-                    modelHeader.BoneOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.UnusedIKPointOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.MaterialGroupOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.MeshDataOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.MaterialOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.MorphIDOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.WeightRefrenceOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.BoneWeightOffset = StreamUtil.ReadInt32(stream);
+                    modelHeader.DataOffset = StreamUtil.ReadUInt32(stream);
+                    modelHeader.EntrySize = StreamUtil.ReadUInt32(stream);
+                    modelHeader.BoneOffset = StreamUtil.ReadUInt32(stream);
+                    modelHeader.UnusedIKPointOffset = StreamUtil.ReadUInt32(stream);
+                    modelHeader.MaterialGroupOffset = StreamUtil.ReadUInt32(stream);
+                    modelHeader.MeshDataOffset = StreamUtil.ReadUInt32(stream);
+                    modelHeader.MaterialOffset = StreamUtil.ReadUInt32(stream);
+                    modelHeader.MorphIDOffset = StreamUtil.ReadUInt32(stream);
+                    modelHeader.WeightRefrenceOffset = StreamUtil.ReadUInt32(stream);
+                    modelHeader.BoneWeightOffset = StreamUtil.ReadUInt32(stream);
 
                     stream.Position += 12;
 
@@ -163,7 +163,7 @@ namespace SSXMultiTool.FileHandlers
                         TempBoneData.Unknown4 = StreamUtil.ReadInt8(streamMatrix);
                         TempBoneData.Unknown5 = StreamUtil.ReadInt8(streamMatrix);
 
-                        TempBoneData.Unknown6 = StreamUtil.ReadInt32(streamMatrix);
+                        TempBoneData.Unknown6 = StreamUtil.ReadUInt32(streamMatrix);
 
                         TempBoneData.Position = StreamUtil.ReadVector4(streamMatrix);
                         TempBoneData.Rotation = StreamUtil.ReadQuaternion(streamMatrix);
@@ -180,7 +180,7 @@ namespace SSXMultiTool.FileHandlers
                     TempModel.MorphKeyIDList = new List<int>();
                     for (int a = 0; a < TempModel.MorphKeyCount; a++)
                     {
-                        TempModel.MorphKeyIDList.Add(StreamUtil.ReadInt32(streamMatrix));
+                        TempModel.MorphKeyIDList.Add(StreamUtil.ReadUInt32(streamMatrix));
                     }
 
                     //Bone Weight Info 
@@ -190,9 +190,9 @@ namespace SSXMultiTool.FileHandlers
                     {
                         var BoneWeight = new BoneWeightHeader();
 
-                        BoneWeight.WeightCount = StreamUtil.ReadInt32(streamMatrix);
-                        BoneWeight.WeightOffset = StreamUtil.ReadInt32(streamMatrix);
-                        BoneWeight.Unknown = StreamUtil.ReadInt32(streamMatrix);
+                        BoneWeight.WeightCount = StreamUtil.ReadUInt32(streamMatrix);
+                        BoneWeight.WeightOffset = StreamUtil.ReadUInt32(streamMatrix);
+                        BoneWeight.Unknown = StreamUtil.ReadUInt32(streamMatrix);
                         BoneWeight.BoneWeightList = new List<BoneWeight>();
                         int TempPos = (int)streamMatrix.Position;
                         streamMatrix.Position = BoneWeight.WeightOffset;
@@ -214,15 +214,15 @@ namespace SSXMultiTool.FileHandlers
                     for (int b = 0; b < TempModel.WeightRefrenceCount; b++)
                     {
                         var NumberListRef = new WeightRefList();
-                        NumberListRef.ListCount = StreamUtil.ReadInt32(streamMatrix);
-                        NumberListRef.Offset = StreamUtil.ReadInt32(streamMatrix);
+                        NumberListRef.ListCount = StreamUtil.ReadUInt32(streamMatrix);
+                        NumberListRef.Offset = StreamUtil.ReadUInt32(streamMatrix);
                         NumberListRef.WeightIDs = new List<int>();
 
                         int TempPos = (int)streamMatrix.Position;
                         streamMatrix.Position = NumberListRef.Offset;
                         for (int c = 0; c < NumberListRef.ListCount; c++)
                         {
-                            NumberListRef.WeightIDs.Add(StreamUtil.ReadInt32(streamMatrix));
+                            NumberListRef.WeightIDs.Add(StreamUtil.ReadUInt32(streamMatrix));
                         }
                         streamMatrix.Position = TempPos;
                         TempModel.WeightRefrenceLists.Add(NumberListRef);
@@ -235,11 +235,11 @@ namespace SSXMultiTool.FileHandlers
                     for (int a = 0; a < TempModel.MaterialGroupCount; a++)
                     {
                         var TempChunkData = new MaterialGroup();
-                        TempChunkData.Type = StreamUtil.ReadInt32(streamMatrix);
-                        TempChunkData.Material = StreamUtil.ReadInt32(streamMatrix);
-                        TempChunkData.Unknown = StreamUtil.ReadInt32(streamMatrix);
-                        TempChunkData.WeightRefGroupCount = StreamUtil.ReadInt32(streamMatrix);
-                        TempChunkData.WeightRefGroupOffset = StreamUtil.ReadInt32(streamMatrix);
+                        TempChunkData.Type = StreamUtil.ReadUInt32(streamMatrix);
+                        TempChunkData.Material = StreamUtil.ReadUInt32(streamMatrix);
+                        TempChunkData.Unknown = StreamUtil.ReadUInt32(streamMatrix);
+                        TempChunkData.WeightRefGroupCount = StreamUtil.ReadUInt32(streamMatrix);
+                        TempChunkData.WeightRefGroupOffset = StreamUtil.ReadUInt32(streamMatrix);
 
                         int TempPos = (int)streamMatrix.Position;
                         streamMatrix.Position = TempChunkData.WeightRefGroupOffset;
@@ -247,16 +247,16 @@ namespace SSXMultiTool.FileHandlers
                         for (int b = 0; b < TempChunkData.WeightRefGroupCount; b++)
                         {
                             var TempSubHeader = new WeightRefGroup();
-                            TempSubHeader.MorphMeshOffset = StreamUtil.ReadInt32(streamMatrix);
-                            TempSubHeader.MorphMeshCount = StreamUtil.ReadInt32(streamMatrix);
+                            TempSubHeader.MorphMeshOffset = StreamUtil.ReadUInt32(streamMatrix);
+                            TempSubHeader.MorphMeshCount = StreamUtil.ReadUInt32(streamMatrix);
                             int TempPos1 = (int)streamMatrix.Position;
                             TempSubHeader.MorphMeshGroupList = new List<MorphMeshGroup>();
                             streamMatrix.Position = TempSubHeader.MorphMeshOffset;
                             for (int c = 0; c < TempSubHeader.MorphMeshCount; c++)
                             {
                                 var TempMeshGroupHeader = new MorphMeshGroup();
-                                TempMeshGroupHeader.MeshOffset = StreamUtil.ReadInt32(streamMatrix);
-                                TempMeshGroupHeader.MorphOffset = StreamUtil.ReadInt32(streamMatrix);
+                                TempMeshGroupHeader.MeshOffset = StreamUtil.ReadUInt32(streamMatrix);
+                                TempMeshGroupHeader.MorphOffset = StreamUtil.ReadUInt32(streamMatrix);
                                 TempMeshGroupHeader.WeightRefID = NumberWeightRef;
                                 TempSubHeader.MorphMeshGroupList.Add(TempMeshGroupHeader);
                             }
@@ -301,16 +301,16 @@ namespace SSXMultiTool.FileHandlers
                                         streamMatrix.Position += 16;
                                         var ModelData = new MeshChunk();
 
-                                        ModelData.StripCount = StreamUtil.ReadInt32(streamMatrix);
-                                        ModelData.Unknown1 = StreamUtil.ReadInt32(streamMatrix);
-                                        ModelData.Unknown2 = StreamUtil.ReadInt32(streamMatrix);
-                                        ModelData.VertexCount = StreamUtil.ReadInt32(streamMatrix);
+                                        ModelData.StripCount = StreamUtil.ReadUInt32(streamMatrix);
+                                        ModelData.Unknown1 = StreamUtil.ReadUInt32(streamMatrix);
+                                        ModelData.Unknown2 = StreamUtil.ReadUInt32(streamMatrix);
+                                        ModelData.VertexCount = StreamUtil.ReadUInt32(streamMatrix);
 
                                         //Load Strip Count
                                         List<int> TempStrips = new List<int>();
                                         for (int d = 0; d < ModelData.StripCount; d++)
                                         {
-                                            TempStrips.Add(StreamUtil.ReadInt32(streamMatrix));
+                                            TempStrips.Add(StreamUtil.ReadUInt32(streamMatrix));
                                             streamMatrix.Position += 12;
                                         }
                                         streamMatrix.Position += 16;
@@ -376,7 +376,7 @@ namespace SSXMultiTool.FileHandlers
                                                     vertex.X = StreamUtil.ReadFloat(streamMatrix);
                                                     vertex.Y = StreamUtil.ReadFloat(streamMatrix);
                                                     vertex.Z = StreamUtil.ReadFloat(streamMatrix);
-                                                    ModelData.Weights.Add(StreamUtil.ReadInt32(streamMatrix));
+                                                    ModelData.Weights.Add(StreamUtil.ReadUInt32(streamMatrix));
                                                     vertices.Add(vertex);
                                                 }
                                             }
@@ -406,7 +406,7 @@ namespace SSXMultiTool.FileHandlers
                                         streamMatrix.Position += 1;
                                         if (TempMorphKey.MorphPointCount > 0)
                                         {
-                                            TempMorphKey.ListAmmount = StreamUtil.ReadInt32(streamMatrix);
+                                            TempMorphKey.ListAmmount = StreamUtil.ReadUInt32(streamMatrix);
                                             for (int dcb = 0; dcb < TempMorphKey.ListAmmount; dcb++)
                                             {
                                                 var TempMorphData = new MorphData();

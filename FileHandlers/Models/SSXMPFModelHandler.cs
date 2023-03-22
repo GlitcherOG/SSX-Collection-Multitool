@@ -21,22 +21,22 @@ namespace SSXMultiTool.FileHandlers
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
-                U1= StreamUtil.ReadInt32(stream);
+                U1= StreamUtil.ReadUInt32(stream);
                 HeaderCount = StreamUtil.ReadInt16(stream);
                 HeaderSize = StreamUtil.ReadInt16(stream);
-                FileStart = StreamUtil.ReadInt32(stream);
+                FileStart = StreamUtil.ReadUInt32(stream);
                 //Load Headers
                 for (int i = 0; i < HeaderCount; i++)
                 {
                     MPFModelHeader modelHeader = new MPFModelHeader();
 
                     modelHeader.FileName = StreamUtil.ReadString(stream, 16);
-                    modelHeader.DataOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.EntrySize = StreamUtil.ReadInt32(stream);
-                    modelHeader.BoneOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.IKPointOffset = StreamUtil.ReadInt32(stream);
-                    modelHeader.ChunkOffsets = StreamUtil.ReadInt32(stream);
-                    modelHeader.DataStart = StreamUtil.ReadInt32(stream);
+                    modelHeader.DataOffset = StreamUtil.ReadUInt32(stream);
+                    modelHeader.EntrySize = StreamUtil.ReadUInt32(stream);
+                    modelHeader.BoneOffset = StreamUtil.ReadUInt32(stream);
+                    modelHeader.IKPointOffset = StreamUtil.ReadUInt32(stream);
+                    modelHeader.ChunkOffsets = StreamUtil.ReadUInt32(stream);
+                    modelHeader.DataStart = StreamUtil.ReadUInt32(stream);
 
                     modelHeader.ChunksCount = StreamUtil.ReadInt16(stream);
                     modelHeader.BoneCount = StreamUtil.ReadInt16(stream);
@@ -117,13 +117,13 @@ namespace SSXMultiTool.FileHandlers
                 for (int b = 0; b < Model.ChunksCount; b++)
                 {
                     MaterialGroup materialGroup = new MaterialGroup();
-                    materialGroup.ID = StreamUtil.ReadInt32(streamMatrix);
-                    materialGroup.MaterialID = StreamUtil.ReadInt32(streamMatrix);
-                    materialGroup.Unknown = StreamUtil.ReadInt32(streamMatrix);
-                    materialGroup.MeshOffset = StreamUtil.ReadInt32(streamMatrix);
-                    materialGroup.MeshOffsetEnd = StreamUtil.ReadInt32(streamMatrix);
-                    materialGroup.MorphMeshOffset = StreamUtil.ReadInt32(streamMatrix);
-                    materialGroup.MorphMeshOffsetEnd = StreamUtil.ReadInt32(streamMatrix);
+                    materialGroup.ID = StreamUtil.ReadUInt32(streamMatrix);
+                    materialGroup.MaterialID = StreamUtil.ReadUInt32(streamMatrix);
+                    materialGroup.Unknown = StreamUtil.ReadUInt32(streamMatrix);
+                    materialGroup.MeshOffset = StreamUtil.ReadUInt32(streamMatrix);
+                    materialGroup.MeshOffsetEnd = StreamUtil.ReadUInt32(streamMatrix);
+                    materialGroup.MorphMeshOffset = StreamUtil.ReadUInt32(streamMatrix);
+                    materialGroup.MorphMeshOffsetEnd = StreamUtil.ReadUInt32(streamMatrix);
                     Model.MaterialGroups.Add(materialGroup);
                 }
 
@@ -147,16 +147,16 @@ namespace SSXMultiTool.FileHandlers
                             {
                                 break;
                             }
-                            ModelData.StripCount = StreamUtil.ReadInt32(streamMatrix);
-                            ModelData.Unknown1 = StreamUtil.ReadInt32(streamMatrix);
-                            ModelData.Unknown2 = StreamUtil.ReadInt32(streamMatrix);
-                            ModelData.VertexCount = StreamUtil.ReadInt32(streamMatrix);
+                            ModelData.StripCount = StreamUtil.ReadUInt32(streamMatrix);
+                            ModelData.Unknown1 = StreamUtil.ReadUInt32(streamMatrix);
+                            ModelData.Unknown2 = StreamUtil.ReadUInt32(streamMatrix);
+                            ModelData.VertexCount = StreamUtil.ReadUInt32(streamMatrix);
 
                             //Load Strip Count
                             List<int> TempStrips = new List<int>();
                             for (int a = 0; a < ModelData.StripCount; a++)
                             {
-                                TempStrips.Add(StreamUtil.ReadInt32(streamMatrix));
+                                TempStrips.Add(StreamUtil.ReadUInt32(streamMatrix));
                                 streamMatrix.Position += 12;
                             }
                             streamMatrix.Position += 16;
@@ -230,20 +230,20 @@ namespace SSXMultiTool.FileHandlers
                                 break;
                             }
 
-                            modelSplitData.StripCount = StreamUtil.ReadInt32(streamMatrix);
-                            modelSplitData.Unkown1 = StreamUtil.ReadInt32(streamMatrix);
-                            modelSplitData.Unkown2 = StreamUtil.ReadInt32(streamMatrix);
-                            modelSplitData.Unkown3 = StreamUtil.ReadInt32(streamMatrix);
+                            modelSplitData.StripCount = StreamUtil.ReadUInt32(streamMatrix);
+                            modelSplitData.Unkown1 = StreamUtil.ReadUInt32(streamMatrix);
+                            modelSplitData.Unkown2 = StreamUtil.ReadUInt32(streamMatrix);
+                            modelSplitData.Unkown3 = StreamUtil.ReadUInt32(streamMatrix);
 
                             //No Tristrip
                             var TempStrips = new List<NewSplit>();
                             for (int a = 0; a < modelSplitData.StripCount; a++)
                             {
                                 NewSplit newSplit = new NewSplit();
-                                newSplit.Unknown = StreamUtil.ReadInt32(streamMatrix);
-                                newSplit.Unknown1 = StreamUtil.ReadInt32(streamMatrix);
-                                newSplit.Unknown2 = StreamUtil.ReadInt32(streamMatrix);
-                                newSplit.Unknown3 = StreamUtil.ReadInt32(streamMatrix);
+                                newSplit.Unknown = StreamUtil.ReadUInt32(streamMatrix);
+                                newSplit.Unknown1 = StreamUtil.ReadUInt32(streamMatrix);
+                                newSplit.Unknown2 = StreamUtil.ReadUInt32(streamMatrix);
+                                newSplit.Unknown3 = StreamUtil.ReadUInt32(streamMatrix);
                                 TempStrips.Add(newSplit);
                             }
                             modelSplitData.newSplits = TempStrips;

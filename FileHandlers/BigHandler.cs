@@ -58,7 +58,7 @@ namespace SSXMultiTool.FileHandlers
         public void ReadBigF(Stream stream)
         {
 
-            bigHeader.fileSize = StreamUtil.ReadInt32(stream);
+            bigHeader.fileSize = StreamUtil.ReadUInt32(stream);
 
             bigHeader.fileCount = StreamUtil.ReadInt32Big(stream);
 

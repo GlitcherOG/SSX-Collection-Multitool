@@ -25,30 +25,30 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 Version = StreamUtil.ReadBytes(stream, 4);
                 NumModels = StreamUtil.ReadInt16(stream);
                 OffsetModelHeader = StreamUtil.ReadInt16(stream);
-                OffsetModelData = StreamUtil.ReadInt32(stream);
+                OffsetModelData = StreamUtil.ReadUInt32(stream);
 
                 modelHeaders = new List<ModelHeader>();
                 for (int i = 0; i < NumModels; i++)
                 {
                     var TempModelHeader = new ModelHeader();
                     TempModelHeader.ModelName = StreamUtil.ReadString(stream, 16);
-                    TempModelHeader.ModelOffset = StreamUtil.ReadInt32(stream);
-                    TempModelHeader.ModelSize = StreamUtil.ReadInt32(stream);
-                    TempModelHeader.OffsetBoneData = StreamUtil.ReadInt32(stream);
-                    TempModelHeader.OffsetBoneData2 = StreamUtil.ReadInt32(stream);
+                    TempModelHeader.ModelOffset = StreamUtil.ReadUInt32(stream);
+                    TempModelHeader.ModelSize = StreamUtil.ReadUInt32(stream);
+                    TempModelHeader.OffsetBoneData = StreamUtil.ReadUInt32(stream);
+                    TempModelHeader.OffsetBoneData2 = StreamUtil.ReadUInt32(stream);
 
-                    TempModelHeader.OffsetMateralList = StreamUtil.ReadInt32(stream);
-                    TempModelHeader.OffsetBoneData3 = StreamUtil.ReadInt32(stream);
-                    TempModelHeader.OffsetIKPointList = StreamUtil.ReadInt32(stream);
-                    TempModelHeader.OffsetMorphList = StreamUtil.ReadInt32(stream);
+                    TempModelHeader.OffsetMateralList = StreamUtil.ReadUInt32(stream);
+                    TempModelHeader.OffsetBoneData3 = StreamUtil.ReadUInt32(stream);
+                    TempModelHeader.OffsetIKPointList = StreamUtil.ReadUInt32(stream);
+                    TempModelHeader.OffsetMorphList = StreamUtil.ReadUInt32(stream);
 
-                    TempModelHeader.OffsetSkinningSection = StreamUtil.ReadInt32(stream);
-                    TempModelHeader.OffsetTristripSection = StreamUtil.ReadInt32(stream);
-                    TempModelHeader.Unknown0 = StreamUtil.ReadInt32(stream);
-                    TempModelHeader.OffsetVertexSection = StreamUtil.ReadInt32(stream);
+                    TempModelHeader.OffsetSkinningSection = StreamUtil.ReadUInt32(stream);
+                    TempModelHeader.OffsetTristripSection = StreamUtil.ReadUInt32(stream);
+                    TempModelHeader.Unknown0 = StreamUtil.ReadUInt32(stream);
+                    TempModelHeader.OffsetVertexSection = StreamUtil.ReadUInt32(stream);
 
-                    TempModelHeader.OffsetLastData = StreamUtil.ReadInt32(stream);
-                    TempModelHeader.OffsetUnknownData = StreamUtil.ReadInt32(stream);
+                    TempModelHeader.OffsetLastData = StreamUtil.ReadUInt32(stream);
+                    TempModelHeader.OffsetUnknownData = StreamUtil.ReadUInt32(stream);
 
                     stream.Position += 298;
 

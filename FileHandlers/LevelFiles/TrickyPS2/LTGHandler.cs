@@ -52,18 +52,18 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 WorldBounds3 = StreamUtil.ReadVector3(stream);
 
                 mainBboxSize = StreamUtil.ReadFloat(stream);
-                pointerCount = StreamUtil.ReadInt32(stream);
-                pointerListCount = StreamUtil.ReadInt32(stream);
-                totalGridCount = StreamUtil.ReadInt32(stream);
-                mainBboxCount = StreamUtil.ReadInt32(stream);
-                mainBboxEmptyCount = StreamUtil.ReadInt32(stream);
+                pointerCount = StreamUtil.ReadUInt32(stream);
+                pointerListCount = StreamUtil.ReadUInt32(stream);
+                totalGridCount = StreamUtil.ReadUInt32(stream);
+                mainBboxCount = StreamUtil.ReadUInt32(stream);
+                mainBboxEmptyCount = StreamUtil.ReadUInt32(stream);
 
                 nodeBoxSize = StreamUtil.ReadFloat(stream);
-                nodeBoxWidth = StreamUtil.ReadInt32(stream);
-                nodeBoxCount = StreamUtil.ReadInt32(stream);
+                nodeBoxWidth = StreamUtil.ReadUInt32(stream);
+                nodeBoxCount = StreamUtil.ReadUInt32(stream);
 
-                pointerListOffset = StreamUtil.ReadInt32(stream);
-                bboxDataListOffset = StreamUtil.ReadInt32(stream);
+                pointerListOffset = StreamUtil.ReadUInt32(stream);
+                bboxDataListOffset = StreamUtil.ReadUInt32(stream);
 
                 offsetList = new int[pointerCount, pointerListCount];
                 stream.Position = pointerListOffset;
@@ -71,7 +71,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     for (int x = 0; x < pointerCount; x++)
                     {
-                        offsetList[x, y] = StreamUtil.ReadInt32(stream);
+                        offsetList[x, y] = StreamUtil.ReadUInt32(stream);
                     }
                 }
 
@@ -95,15 +95,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             tempbBox.totalLightCount = StreamUtil.ReadInt16(stream);
                             tempbBox.totalLightsCrossingCount = StreamUtil.ReadInt16(stream);
                             tempbBox.totalParticleInstanceCount = StreamUtil.ReadInt16(stream);
-                            tempbBox.Unknown1 = StreamUtil.ReadInt32(stream); // Unknown
-                            tempbBox.totalElements = StreamUtil.ReadInt32(stream); // Total Elements
-                            tempbBox.mainBoxHeaderSize = StreamUtil.ReadInt32(stream); // Mainbox Header Size?
-                            tempbBox.patchIndexOffset = StreamUtil.ReadInt32(stream); // Patch Index Offset
-                            tempbBox.instanceIndexOffset = StreamUtil.ReadInt32(stream); // Instance Index Offset
-                            tempbBox.splineIndexOffset = StreamUtil.ReadInt32(stream); // Spline Index Offset
-                            tempbBox.lightIndexOffset = StreamUtil.ReadInt32(stream); // Light Index Offset
-                            tempbBox.lightCrossingIndexOffset = StreamUtil.ReadInt32(stream); // Light Corssing Index Offset
-                            tempbBox.particleIndexOffset = StreamUtil.ReadInt32(stream); // Particle Index Offset
+                            tempbBox.Unknown1 = StreamUtil.ReadUInt32(stream); // Unknown
+                            tempbBox.totalElements = StreamUtil.ReadUInt32(stream); // Total Elements
+                            tempbBox.mainBoxHeaderSize = StreamUtil.ReadUInt32(stream); // Mainbox Header Size?
+                            tempbBox.patchIndexOffset = StreamUtil.ReadUInt32(stream); // Patch Index Offset
+                            tempbBox.instanceIndexOffset = StreamUtil.ReadUInt32(stream); // Instance Index Offset
+                            tempbBox.splineIndexOffset = StreamUtil.ReadUInt32(stream); // Spline Index Offset
+                            tempbBox.lightIndexOffset = StreamUtil.ReadUInt32(stream); // Light Index Offset
+                            tempbBox.lightCrossingIndexOffset = StreamUtil.ReadUInt32(stream); // Light Corssing Index Offset
+                            tempbBox.particleIndexOffset = StreamUtil.ReadUInt32(stream); // Particle Index Offset
 
                             tempbBox.nodeBBoxes = new nodeBBox[nodeBoxWidth, nodeBoxWidth];
 
@@ -126,12 +126,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                     tempNode.particleCount = StreamUtil.ReadInt16(stream);
                                     tempNode.Unknown1 = StreamUtil.ReadInt16(stream);
 
-                                    tempNode.patchesOffset = StreamUtil.ReadInt32(stream);
-                                    tempNode.instancesOffset = StreamUtil.ReadInt32(stream);
-                                    tempNode.splinesOffset = StreamUtil.ReadInt32(stream);
-                                    tempNode.lightsOffset = StreamUtil.ReadInt32(stream);
-                                    tempNode.lightsCrossingOffset = StreamUtil.ReadInt32(stream);
-                                    tempNode.particleModelsOffset = StreamUtil.ReadInt32(stream);
+                                    tempNode.patchesOffset = StreamUtil.ReadUInt32(stream);
+                                    tempNode.instancesOffset = StreamUtil.ReadUInt32(stream);
+                                    tempNode.splinesOffset = StreamUtil.ReadUInt32(stream);
+                                    tempNode.lightsOffset = StreamUtil.ReadUInt32(stream);
+                                    tempNode.lightsCrossingOffset = StreamUtil.ReadUInt32(stream);
+                                    tempNode.particleModelsOffset = StreamUtil.ReadUInt32(stream);
 
                                     tempNode.PatchIndex = ReadOffsetData(stream, offsetList[x, y] + tempNode.patchesOffset, tempNode.patchCount);
                                     if (tempNode.instAndGemCount >= tempNode.instanceCount)
@@ -1007,7 +1007,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             stream.Position = offset;
             for (int i = 0; i < count; i++)
             {
-                ints.Add(StreamUtil.ReadInt32(stream));
+                ints.Add(StreamUtil.ReadUInt32(stream));
             }
             stream.Position = OldPos;
             return ints;

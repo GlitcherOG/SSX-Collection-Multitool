@@ -51,7 +51,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     }
                     string MagicWords = StreamUtil.ReadString(stream, 4);
 
-                    int Size = StreamUtil.ReadInt32(stream);
+                    int Size = StreamUtil.ReadUInt32(stream);
                     byte[] Data = new byte[Size-8];
                     byte[] DecompressedData = new byte[1];
                     Data = StreamUtil.ReadBytes(stream, Size-8);
@@ -70,7 +70,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             MemoryStream memoryStream1 = new MemoryStream();
                             int ID = StreamUtil.ReadUInt8(memoryStream);
                             int ChunkSize = StreamUtil.ReadInt24(memoryStream);
-                            int RID = StreamUtil.ReadInt32(memoryStream);
+                            int RID = StreamUtil.ReadUInt32(memoryStream);
 
                             byte[] NewData= StreamUtil.ReadBytes(memoryStream, ChunkSize);
                             StreamUtil.WriteBytes(memoryStream1, NewData);

@@ -31,9 +31,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             {
                 stream.Position += 0x08;
 
-                pathAOffset = StreamUtil.ReadInt32(stream);
-                pathBOffset = StreamUtil.ReadInt32(stream);
-                pathACount = StreamUtil.ReadInt32(stream);
+                pathAOffset = StreamUtil.ReadUInt32(stream);
+                pathBOffset = StreamUtil.ReadUInt32(stream);
+                pathACount = StreamUtil.ReadUInt32(stream);
 
                 //Skip to path A
                 stream.Position = 0x30;
@@ -42,16 +42,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 for (int i = 0; i < pathACount; i++)
                 {
                     var TempTypeA = new PathTypeA();
-                    TempTypeA.Unknown1 = StreamUtil.ReadInt32(stream);
-                    TempTypeA.Unknown2 = StreamUtil.ReadInt32(stream);
-                    TempTypeA.Unknown3 = StreamUtil.ReadInt32(stream);
-                    TempTypeA.Unknown4 = StreamUtil.ReadInt32(stream);
-                    TempTypeA.Unknown5 = StreamUtil.ReadInt32(stream);
-                    TempTypeA.Unknown6 = StreamUtil.ReadInt32(stream);
-                    TempTypeA.Unknown7 = StreamUtil.ReadInt32(stream);
+                    TempTypeA.Unknown1 = StreamUtil.ReadUInt32(stream);
+                    TempTypeA.Unknown2 = StreamUtil.ReadUInt32(stream);
+                    TempTypeA.Unknown3 = StreamUtil.ReadUInt32(stream);
+                    TempTypeA.Unknown4 = StreamUtil.ReadUInt32(stream);
+                    TempTypeA.Unknown5 = StreamUtil.ReadUInt32(stream);
+                    TempTypeA.Unknown6 = StreamUtil.ReadUInt32(stream);
+                    TempTypeA.Unknown7 = StreamUtil.ReadUInt32(stream);
 
-                    TempTypeA.pathPointsCount = StreamUtil.ReadInt32(stream);
-                    TempTypeA.UnknownCount = StreamUtil.ReadInt32(stream);
+                    TempTypeA.pathPointsCount = StreamUtil.ReadUInt32(stream);
+                    TempTypeA.UnknownCount = StreamUtil.ReadUInt32(stream);
 
                     TempTypeA.pathPos = StreamUtil.ReadVector3(stream);
                     TempTypeA.bboxMin = StreamUtil.ReadVector3(stream);
@@ -68,8 +68,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     for (int a = 0; a < TempTypeA.UnknownCount; a++)
                     {
                         var TempUnknownListTypeA = new UnkownListTypeA();
-                        TempUnknownListTypeA.Unknown1 = StreamUtil.ReadInt32(stream);
-                        TempUnknownListTypeA.Unknown2 = StreamUtil.ReadInt32(stream);
+                        TempUnknownListTypeA.Unknown1 = StreamUtil.ReadUInt32(stream);
+                        TempUnknownListTypeA.Unknown2 = StreamUtil.ReadUInt32(stream);
                         TempUnknownListTypeA.Unknown3 = StreamUtil.ReadFloat(stream);
                         TempUnknownListTypeA.Unknown4 = StreamUtil.ReadFloat(stream);
                         TempTypeA.unkownListTypeAs.Add(TempUnknownListTypeA);
@@ -79,22 +79,22 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 //Skip to PathB
                 stream.Position = pathBOffset + 16;
-                Unknown1 = StreamUtil.ReadInt32(stream);
-                Unknown2 = StreamUtil.ReadInt32(stream);
-                pathBCount = StreamUtil.ReadInt32(stream);
-                pathBUnknown = StreamUtil.ReadInt32(stream);
+                Unknown1 = StreamUtil.ReadUInt32(stream);
+                Unknown2 = StreamUtil.ReadUInt32(stream);
+                pathBCount = StreamUtil.ReadUInt32(stream);
+                pathBUnknown = StreamUtil.ReadUInt32(stream);
 
                 typeBs = new List<PathTypeB>();
                 for (int i = 0; i < pathBCount; i++)
                 {
                     var TempTypeB = new PathTypeB();
-                    TempTypeB.Unknown1 = StreamUtil.ReadInt32(stream);
-                    TempTypeB.Unknown2 = StreamUtil.ReadInt32(stream);
-                    TempTypeB.Unknown3 = StreamUtil.ReadInt32(stream);
+                    TempTypeB.Unknown1 = StreamUtil.ReadUInt32(stream);
+                    TempTypeB.Unknown2 = StreamUtil.ReadUInt32(stream);
+                    TempTypeB.Unknown3 = StreamUtil.ReadUInt32(stream);
                     TempTypeB.Unknown4 = StreamUtil.ReadFloat(stream);
 
-                    TempTypeB.pathPointsCount = StreamUtil.ReadInt32(stream);
-                    TempTypeB.UnknownCount = StreamUtil.ReadInt32(stream);
+                    TempTypeB.pathPointsCount = StreamUtil.ReadUInt32(stream);
+                    TempTypeB.UnknownCount = StreamUtil.ReadUInt32(stream);
 
                     TempTypeB.pathPos = StreamUtil.ReadVector3(stream);
                     TempTypeB.bboxMin = StreamUtil.ReadVector3(stream);
@@ -111,8 +111,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     for (int a = 0; a < TempTypeB.UnknownCount; a++)
                     {
                         var TempUnknownListTypeA = new UnkownListTypeA();
-                        TempUnknownListTypeA.Unknown1 = StreamUtil.ReadInt32(stream);
-                        TempUnknownListTypeA.Unknown2 = StreamUtil.ReadInt32(stream);
+                        TempUnknownListTypeA.Unknown1 = StreamUtil.ReadUInt32(stream);
+                        TempUnknownListTypeA.Unknown2 = StreamUtil.ReadUInt32(stream);
                         TempUnknownListTypeA.Unknown3 = StreamUtil.ReadFloat(stream);
                         TempUnknownListTypeA.Unknown4 = StreamUtil.ReadFloat(stream);
                         TempTypeB.unkownListTypeAs.Add(TempUnknownListTypeA);
@@ -130,9 +130,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             {
                 stream.Position += 0x08;
 
-                pathAOffset = StreamUtil.ReadInt32(stream);
-                pathBOffset = StreamUtil.ReadInt32(stream);
-                pathACount = StreamUtil.ReadInt32(stream);
+                pathAOffset = StreamUtil.ReadUInt32(stream);
+                pathBOffset = StreamUtil.ReadUInt32(stream);
+                pathACount = StreamUtil.ReadUInt32(stream);
 
                 //Skip to path A
                 stream.Position = 0x30;
@@ -172,10 +172,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 //Skip to PathB
                 stream.Position = pathBOffset + 16;
-                Unknown1 = StreamUtil.ReadInt32(stream);
-                Unknown2 = StreamUtil.ReadInt32(stream);
-                pathBCount = StreamUtil.ReadInt32(stream);
-                pathBUnknown = StreamUtil.ReadInt32(stream);
+                Unknown1 = StreamUtil.ReadUInt32(stream);
+                Unknown2 = StreamUtil.ReadUInt32(stream);
+                pathBCount = StreamUtil.ReadUInt32(stream);
+                pathBUnknown = StreamUtil.ReadUInt32(stream);
 
                 for (int i = 0; i < typeBs.Count; i++)
                 {

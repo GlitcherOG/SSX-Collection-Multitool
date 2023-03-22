@@ -29,23 +29,23 @@ namespace SSXMultiTool.FileHandlers
 
                     temp.NickName = StreamUtil.ReadString(stream, 16);
 
-                    temp.Unkown1 = StreamUtil.ReadInt32(stream);
+                    temp.Unkown1 = StreamUtil.ReadUInt32(stream);
 
-                    temp.Stance = StreamUtil.ReadInt32(stream);
+                    temp.Stance = StreamUtil.ReadUInt32(stream);
 
-                    temp.ModelSize = StreamUtil.ReadInt32(stream);
+                    temp.ModelSize = StreamUtil.ReadUInt32(stream);
 
                     temp.BloodType = StreamUtil.ReadString(stream, 16);
 
-                    temp.Gender = StreamUtil.ReadInt32(stream);
+                    temp.Gender = StreamUtil.ReadUInt32(stream);
 
-                    temp.Age = StreamUtil.ReadInt32(stream);
+                    temp.Age = StreamUtil.ReadUInt32(stream);
 
                     temp.Height = StreamUtil.ReadString(stream, 16);
 
                     temp.Nationality = StreamUtil.ReadString(stream, 16);
 
-                    temp.Position = StreamUtil.ReadInt32(stream);
+                    temp.Position = StreamUtil.ReadUInt32(stream);
                     charDBs.Add(temp);
                 }
             }

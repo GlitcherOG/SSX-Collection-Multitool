@@ -28,10 +28,10 @@ namespace SSXMultiTool.FileHandlers
             {
                 characters = new List<Character>();
 
-                unknown = StreamUtil.ReadInt32(stream);
+                unknown = StreamUtil.ReadUInt32(stream);
 
                 //4829
-                ItemEntryAmmount = StreamUtil.ReadInt32(stream);
+                ItemEntryAmmount = StreamUtil.ReadUInt32(stream);
 
                 for (int i = 0; i < ItemEntryAmmount; i++)
                 {
@@ -57,16 +57,16 @@ namespace SSXMultiTool.FileHandlers
                     temp1.SpecialID2 = stream.ReadByte(); //19
                     temp1.SpecialID3 = stream.ReadByte(); //20
 
-                    temp1.nameOffset = StreamUtil.ReadInt32(stream);
-                    temp1.ModelIDOffset = StreamUtil.ReadInt32(stream);
-                    temp1.ModelID2Offset = StreamUtil.ReadInt32(stream);
-                    temp1.ModelID3Offset = StreamUtil.ReadInt32(stream);
-                    temp1.ModelID4Offset = StreamUtil.ReadInt32(stream);
-                    temp1.ModelPathOffset = StreamUtil.ReadInt32(stream);
-                    temp1.TexturePathOffset = StreamUtil.ReadInt32(stream);
-                    temp1.SmallIconOffset = StreamUtil.ReadInt32(stream);
+                    temp1.nameOffset = StreamUtil.ReadUInt32(stream);
+                    temp1.ModelIDOffset = StreamUtil.ReadUInt32(stream);
+                    temp1.ModelID2Offset = StreamUtil.ReadUInt32(stream);
+                    temp1.ModelID3Offset = StreamUtil.ReadUInt32(stream);
+                    temp1.ModelID4Offset = StreamUtil.ReadUInt32(stream);
+                    temp1.ModelPathOffset = StreamUtil.ReadUInt32(stream);
+                    temp1.TexturePathOffset = StreamUtil.ReadUInt32(stream);
+                    temp1.SmallIconOffset = StreamUtil.ReadUInt32(stream);
 
-                    temp1.unkownInt6 = StreamUtil.ReadInt32(stream);
+                    temp1.unkownInt6 = StreamUtil.ReadUInt32(stream);
                     
                     if(characters.Count-1 != temp1.CharacterID)
                     {
@@ -84,7 +84,7 @@ namespace SSXMultiTool.FileHandlers
                 }
 
                 //7327
-                ammount2 = StreamUtil.ReadInt32(stream);
+                ammount2 = StreamUtil.ReadUInt32(stream);
 
                 for (int i = 0; i < ammount2; i++)
                 {
@@ -105,33 +105,33 @@ namespace SSXMultiTool.FileHandlers
                 }
 
                 //152
-                ammount3 = StreamUtil.ReadInt32(stream);
+                ammount3 = StreamUtil.ReadUInt32(stream);
 
                 for (int i = 0; i < ammount3; i++)
                 {
                     //Read 8 bytes
                     Unkown3 temp3 = new Unkown3();
-                    temp3.UnkownInt = StreamUtil.ReadInt32(stream);
+                    temp3.UnkownInt = StreamUtil.ReadUInt32(stream);
                     temp3.UnkownInt2 = StreamUtil.ReadInt16(stream);
                     temp3.UnkownInt3 = StreamUtil.ReadInt16(stream);
                     unkown3.Add(temp3);
                 }
 
                 //88
-                ammount4 = StreamUtil.ReadInt32(stream);
+                ammount4 = StreamUtil.ReadUInt32(stream);
 
                 for (int i = 0; i < ammount4; i++)
                 {
                     //Read 8 Bytes
                     Unkown3 temp4 = new Unkown3();
-                    temp4.UnkownInt = StreamUtil.ReadInt32(stream);
+                    temp4.UnkownInt = StreamUtil.ReadUInt32(stream);
                     temp4.UnkownInt2 = StreamUtil.ReadInt16(stream);
                     temp4.UnkownInt3 = StreamUtil.ReadInt16(stream);
                     unkown4.Add(temp4);
                 }
 
                 //181173
-                StringListLength = StreamUtil.ReadInt32(stream);
+                StringListLength = StreamUtil.ReadUInt32(stream);
                 long startpos = stream.Position;
 
                 while (stream.Position < stream.Length - 1)

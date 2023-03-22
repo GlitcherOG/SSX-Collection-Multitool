@@ -37,12 +37,12 @@ namespace SSXMultiTool.FileHandlers
                 stream.Read(LOCLHeader, 0, 12);
 
                 //Save Ammount of Entires
-                TextCount = StreamUtil.ReadInt32(stream);
+                TextCount = StreamUtil.ReadUInt32(stream);
 
                 //Grab List of Offsets
                 for (int i = 0; i < TextCount; i++)
                 {
-                    int posLoc = StreamUtil.ReadInt32(stream);
+                    int posLoc = StreamUtil.ReadUInt32(stream);
                     SEpos.Add(posLoc);
                 }
 

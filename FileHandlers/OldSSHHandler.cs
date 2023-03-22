@@ -27,9 +27,9 @@ namespace SSXMultiTool.FileHandlers
 
                 if (MagicWord == "SHPS")
                 {
-                    fileSize = StreamUtil.ReadInt32(stream);
+                    fileSize = StreamUtil.ReadUInt32(stream);
 
-                    imageCount = StreamUtil.ReadInt32(stream);
+                    imageCount = StreamUtil.ReadUInt32(stream);
 
                     format = StreamUtil.ReadString(stream, 4);
 
@@ -39,7 +39,7 @@ namespace SSXMultiTool.FileHandlers
 
                         tempImage.shortname = StreamUtil.ReadString(stream, 4);
 
-                        tempImage.offset = StreamUtil.ReadInt32(stream);
+                        tempImage.offset = StreamUtil.ReadUInt32(stream);
 
                         sshImages.Add(tempImage);
                     }
@@ -204,7 +204,7 @@ namespace SSXMultiTool.FileHandlers
 
                     sshTable.Total = StreamUtil.ReadInt16(stream);
 
-                    sshTable.Format = StreamUtil.ReadInt32(stream);
+                    sshTable.Format = StreamUtil.ReadUInt32(stream);
 
                     sshTable.colorTable = new List<Color>();
 
@@ -295,7 +295,7 @@ namespace SSXMultiTool.FileHandlers
                 {
                     stream.Position = endPos;
 
-                    tempImage.unknownEnd = StreamUtil.ReadInt32(stream);
+                    tempImage.unknownEnd = StreamUtil.ReadUInt32(stream);
 
                     tempImage.longname = StreamUtil.ReadNullEndString(stream);
                 }

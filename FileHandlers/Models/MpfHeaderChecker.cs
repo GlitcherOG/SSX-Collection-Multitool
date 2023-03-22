@@ -22,7 +22,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
             using (Stream stream = File.Open(path, FileMode.Open))
             {
-                int Temp = StreamUtil.ReadInt32(stream);
+                int Temp = StreamUtil.ReadUInt32(stream);
 
                 if(Temp==3)
                 {

@@ -21,13 +21,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 bool test = false;
 
                 Unknown1 = StreamUtil.ReadBytes(stream, 8);
-                NumArrays = StreamUtil.ReadInt32(stream);
+                NumArrays = StreamUtil.ReadUInt32(stream);
                 nameLists = new List<NameList>();
                 for (int i = 0; i < 9; i++)
                 {
                     var TempNameList = new NameList();
                     TempNameList.Unknown2 = StreamUtil.ReadBytes(stream, 4);
-                    TempNameList.NumStrings = StreamUtil.ReadInt32(stream);
+                    TempNameList.NumStrings = StreamUtil.ReadUInt32(stream);
                     TempNameList.strings = new List<string>();
                     for (int a = 0; a < TempNameList.NumStrings; a++)
                     {

@@ -25,9 +25,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
             using (Stream stream = File.Open(path, FileMode.Open))
             {
                 UnknownBytes = StreamUtil.ReadBytes(stream, 8);
-                numLocations = StreamUtil.ReadInt32(stream);
-                numUnknown1 = StreamUtil.ReadInt32(stream);
-                numUnknown2 = StreamUtil.ReadInt32(stream);
+                numLocations = StreamUtil.ReadUInt32(stream);
+                numUnknown1 = StreamUtil.ReadUInt32(stream);
+                numUnknown2 = StreamUtil.ReadUInt32(stream);
                 UnknownBytes2 = StreamUtil.ReadBytes(stream, 60);
 
                 locations = new List<Location>();
@@ -35,10 +35,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 {
                     var TempLocation = new Location();
                     TempLocation.Name = StreamUtil.ReadString(stream, 16);
-                    TempLocation.Unknown1 = StreamUtil.ReadInt32(stream);
-                    TempLocation.Unknown2 = StreamUtil.ReadInt32(stream);
-                    TempLocation.Unknown3 = StreamUtil.ReadInt32(stream);
-                    TempLocation.Unknown4 = StreamUtil.ReadInt32(stream);
+                    TempLocation.Unknown1 = StreamUtil.ReadUInt32(stream);
+                    TempLocation.Unknown2 = StreamUtil.ReadUInt32(stream);
+                    TempLocation.Unknown3 = StreamUtil.ReadUInt32(stream);
+                    TempLocation.Unknown4 = StreamUtil.ReadUInt32(stream);
 
                     TempLocation.Unknown5 = StreamUtil.ReadInt16(stream);
                     TempLocation.Unknown6 = StreamUtil.ReadInt16(stream);
@@ -97,10 +97,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     TempUnknown1.UnknownFloat19 = StreamUtil.ReadFloat(stream);
                     TempUnknown1.UnknownFloat20 = StreamUtil.ReadFloat(stream);
 
-                    TempUnknown1.UnknownInt1 = StreamUtil.ReadInt32(stream);
-                    TempUnknown1.UnknownInt2 = StreamUtil.ReadInt32(stream);
-                    TempUnknown1.UnknownInt3 = StreamUtil.ReadInt32(stream);
-                    TempUnknown1.UnknownInt4 = StreamUtil.ReadInt32(stream);
+                    TempUnknown1.UnknownInt1 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown1.UnknownInt2 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown1.UnknownInt3 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown1.UnknownInt4 = StreamUtil.ReadUInt32(stream);
 
                     Unknown1s.Add(TempUnknown1);
                 }
@@ -110,23 +110,23 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 for (int i = 0; i < numUnknown2; i++)
                 {
                     var TempUnknown2 = new Unknown2();
-                    TempUnknown2.UnknownInt1 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt2 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt3 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt4 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt5 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt6 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt7 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt8 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt9 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt10 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt11 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt12 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt13 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt14 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt15 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt16 = StreamUtil.ReadInt32(stream);
-                    TempUnknown2.UnknownInt17 = StreamUtil.ReadInt32(stream);
+                    TempUnknown2.UnknownInt1 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt2 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt3 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt4 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt5 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt6 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt7 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt8 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt9 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt10 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt11 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt12 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt13 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt14 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt15 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt16 = StreamUtil.ReadUInt32(stream);
+                    TempUnknown2.UnknownInt17 = StreamUtil.ReadUInt32(stream);
                     unknown2s.Add(TempUnknown2);
                 }
             }

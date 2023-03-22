@@ -111,7 +111,7 @@ namespace SSXMultiTool.Utilities
             return BitConverter.ToInt32(tempByte, 0);
         }
 
-        public static int ReadInt32(Stream stream)
+        public static int ReadUInt32(Stream stream)
         {
             byte[] tempByte = new byte[4];
             stream.Read(tempByte, 0, tempByte.Length);

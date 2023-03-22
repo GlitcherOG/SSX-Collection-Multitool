@@ -46,25 +46,25 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         {
             using (Stream stream = File.Open(Path, FileMode.Open))
             {
-                U1 = StreamUtil.ReadInt32(stream);
-                U2 = StreamUtil.ReadInt32(stream);
+                U1 = StreamUtil.ReadUInt32(stream);
+                U2 = StreamUtil.ReadUInt32(stream);
                 U3 = StreamUtil.ReadFloat(stream);
-                EffectSlotsCount = StreamUtil.ReadInt32(stream);
-                EffectSlotsOffset = StreamUtil.ReadInt32(stream);
-                UStruct2Count = StreamUtil.ReadInt32(stream);
-                UStruct2Offset = StreamUtil.ReadInt32(stream);
-                CollisonModelCount = StreamUtil.ReadInt32(stream);
-                CollisonModelOffset = StreamUtil.ReadInt32(stream);
-                EffectsCount = StreamUtil.ReadInt32(stream);
-                EffectsOffset = StreamUtil.ReadInt32(stream);
-                FunctionCount = StreamUtil.ReadInt32(stream);
-                FunctionOffset = StreamUtil.ReadInt32(stream);
-                UStruct5Count = StreamUtil.ReadInt32(stream);
-                UStruct5Offset = StreamUtil.ReadInt32(stream);
-                InstanceCount = StreamUtil.ReadInt32(stream);
-                InstanceOffset = StreamUtil.ReadInt32(stream);
-                SplineCount = StreamUtil.ReadInt32(stream);
-                SplineOffset = StreamUtil.ReadInt32(stream);
+                EffectSlotsCount = StreamUtil.ReadUInt32(stream);
+                EffectSlotsOffset = StreamUtil.ReadUInt32(stream);
+                UStruct2Count = StreamUtil.ReadUInt32(stream);
+                UStruct2Offset = StreamUtil.ReadUInt32(stream);
+                CollisonModelCount = StreamUtil.ReadUInt32(stream);
+                CollisonModelOffset = StreamUtil.ReadUInt32(stream);
+                EffectsCount = StreamUtil.ReadUInt32(stream);
+                EffectsOffset = StreamUtil.ReadUInt32(stream);
+                FunctionCount = StreamUtil.ReadUInt32(stream);
+                FunctionOffset = StreamUtil.ReadUInt32(stream);
+                UStruct5Count = StreamUtil.ReadUInt32(stream);
+                UStruct5Offset = StreamUtil.ReadUInt32(stream);
+                InstanceCount = StreamUtil.ReadUInt32(stream);
+                InstanceOffset = StreamUtil.ReadUInt32(stream);
+                SplineCount = StreamUtil.ReadUInt32(stream);
+                SplineOffset = StreamUtil.ReadUInt32(stream);
 
                 EffectSlots = new List<EffectSlot>();
                 stream.Position = EffectSlotsOffset;
@@ -72,13 +72,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     var TempUstruct1 = new EffectSlot();
 
-                    TempUstruct1.Slot1 = StreamUtil.ReadInt32(stream);
-                    TempUstruct1.Slot2 = StreamUtil.ReadInt32(stream);
-                    TempUstruct1.Slot3 = StreamUtil.ReadInt32(stream);
-                    TempUstruct1.Slot4 = StreamUtil.ReadInt32(stream);
-                    TempUstruct1.Slot5 = StreamUtil.ReadInt32(stream);
-                    TempUstruct1.Slot6 = StreamUtil.ReadInt32(stream);
-                    TempUstruct1.Slot7 = StreamUtil.ReadInt32(stream);
+                    TempUstruct1.Slot1 = StreamUtil.ReadUInt32(stream);
+                    TempUstruct1.Slot2 = StreamUtil.ReadUInt32(stream);
+                    TempUstruct1.Slot3 = StreamUtil.ReadUInt32(stream);
+                    TempUstruct1.Slot4 = StreamUtil.ReadUInt32(stream);
+                    TempUstruct1.Slot5 = StreamUtil.ReadUInt32(stream);
+                    TempUstruct1.Slot6 = StreamUtil.ReadUInt32(stream);
+                    TempUstruct1.Slot7 = StreamUtil.ReadUInt32(stream);
                     EffectSlots.Add(TempUstruct1);
                 }
                 //Phyisics Objects
@@ -88,9 +88,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     var TempUstruct2 = new UStruct2();
 
-                    TempUstruct2.Offset = StreamUtil.ReadInt32(stream);
-                    TempUstruct2.ByteSize = StreamUtil.ReadInt32(stream);
-                    TempUstruct2.Count = StreamUtil.ReadInt32(stream); //Probably?
+                    TempUstruct2.Offset = StreamUtil.ReadUInt32(stream);
+                    TempUstruct2.ByteSize = StreamUtil.ReadUInt32(stream);
+                    TempUstruct2.Count = StreamUtil.ReadUInt32(stream); //Probably?
 
                     var TempPos = stream.Position;
                     stream.Position = TempUstruct2.Offset;
@@ -109,9 +109,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     var TempUstruct3 = new CollisonModelPointer();
 
-                    TempUstruct3.Offset = StreamUtil.ReadInt32(stream);
-                    TempUstruct3.ByteSize = StreamUtil.ReadInt32(stream);
-                    TempUstruct3.Count = StreamUtil.ReadInt32(stream); //Probably?
+                    TempUstruct3.Offset = StreamUtil.ReadUInt32(stream);
+                    TempUstruct3.ByteSize = StreamUtil.ReadUInt32(stream);
+                    TempUstruct3.Count = StreamUtil.ReadUInt32(stream); //Probably?
 
                     var TempPos = stream.Position;
                     stream.Position = TempUstruct3.Offset;
@@ -121,9 +121,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     for (int a = 0; a < TempUstruct3.Count; a++)
                     {
                         var TempModel = new CollisonModel();
-                        TempModel.FaceCount = StreamUtil.ReadInt32(stream);
-                        TempModel.VerticeCount = StreamUtil.ReadInt32(stream);
-                        TempModel.VerticeOffsetAlign = StreamUtil.ReadInt32(stream);
+                        TempModel.FaceCount = StreamUtil.ReadUInt32(stream);
+                        TempModel.VerticeCount = StreamUtil.ReadUInt32(stream);
+                        TempModel.VerticeOffsetAlign = StreamUtil.ReadUInt32(stream);
 
 
                         TempModel.Index = new List<int>();
@@ -132,7 +132,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                         for (int b = 0; b < TempModel.FaceCount*3; b++)
                         {
-                            TempModel.Index.Add(StreamUtil.ReadInt32(stream));
+                            TempModel.Index.Add(StreamUtil.ReadUInt32(stream));
                         }
                         stream.Position += TempModel.VerticeOffsetAlign;
 
@@ -162,8 +162,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 for (int i = 0; i < EffectsCount; i++)
                 {
                     var TempUstruct4 = new EffectStruct();
-                    TempUstruct4.U1 = StreamUtil.ReadInt32(stream); //Type
-                    TempUstruct4.U2 = StreamUtil.ReadInt32(stream); //Offset
+                    TempUstruct4.U1 = StreamUtil.ReadUInt32(stream); //Type
+                    TempUstruct4.U2 = StreamUtil.ReadUInt32(stream); //Offset
                     Effects.Add(TempUstruct4);
                 }
 
@@ -172,8 +172,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 for (int i = 0; i < FunctionCount; i++)
                 {
                     var TempFunction = new Function();
-                    TempFunction.U1 = StreamUtil.ReadInt32(stream);
-                    TempFunction.U2 = StreamUtil.ReadInt32(stream); //Offset
+                    TempFunction.U1 = StreamUtil.ReadUInt32(stream);
+                    TempFunction.U2 = StreamUtil.ReadUInt32(stream); //Offset
                     TempFunction.FunctionName = StreamUtil.ReadString(stream, 16);
                     Functions.Add(TempFunction);
                 }
@@ -193,7 +193,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempUstruct5.PlayerBounce = StreamUtil.ReadFloat(stream);
                     TempUstruct5.U3 = StreamUtil.ReadFloat(stream);
 
-                    TempUstruct5.U4 = StreamUtil.ReadInt32(stream); //-1
+                    TempUstruct5.U4 = StreamUtil.ReadUInt32(stream); //-1
 
                     TempUstruct5.CollsionMode = StreamUtil.ReadInt16(stream);
 
@@ -216,7 +216,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 stream.Position = InstanceOffset;
                 for (int i = 0; i < InstanceCount; i++)
                 {
-                    InstanceState.Add(StreamUtil.ReadInt32(stream));
+                    InstanceState.Add(StreamUtil.ReadUInt32(stream));
                 }
 
                 Splines = new List<Spline>();
@@ -226,7 +226,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     var TempUstruct6 = new Spline();
                     TempUstruct6.U1 = StreamUtil.ReadInt16(stream);
                     TempUstruct6.U2 = StreamUtil.ReadInt16(stream);
-                    TempUstruct6.SplineStyle = StreamUtil.ReadInt32(stream); 
+                    TempUstruct6.SplineStyle = StreamUtil.ReadUInt32(stream); 
                     Splines.Add(TempUstruct6);
                 }
 
