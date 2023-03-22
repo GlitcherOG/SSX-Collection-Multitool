@@ -1375,8 +1375,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                             }
                                             else
                                             {
-                                                LowestXYZ = JsonUtil.Lowest(LowestXYZ, TempMeshOffset.FullMesh.meshChunk[i].vertices[a]);
-                                                HighestXYZ = JsonUtil.Highest(HighestXYZ, TempMeshOffset.FullMesh.meshChunk[i].vertices[a]);
+                                                LowestXYZ = MathUtil.Lowest(LowestXYZ, TempMeshOffset.FullMesh.meshChunk[i].vertices[a]);
+                                                HighestXYZ = MathUtil.Highest(HighestXYZ, TempMeshOffset.FullMesh.meshChunk[i].vertices[a]);
                                             }
                                         }
                                     }
@@ -1404,7 +1404,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     LowestXYZ.Z = -LowestXYZ.Z;
                 }
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, LowestXYZ);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, LowestXYZ);
 
 
                 //Calculate Scale
@@ -1795,8 +1795,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 {
                                     var Vertice = Vector3.Transform(TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices[d], TempInstance.matrix4X4);
 
-                                    LowestXYZ = JsonUtil.Lowest(LowestXYZ, Vertice);
-                                    HighestXYZ = JsonUtil.Highest(HighestXYZ, Vertice);
+                                    LowestXYZ = MathUtil.Lowest(LowestXYZ, Vertice);
+                                    HighestXYZ = MathUtil.Highest(HighestXYZ, Vertice);
                                 }
                             }
                         }

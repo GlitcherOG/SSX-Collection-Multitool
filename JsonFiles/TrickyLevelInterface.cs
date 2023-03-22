@@ -821,38 +821,38 @@ namespace SSXMultiTool
                 patch.R4C4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[15]);
 
                 Vector3 HighestXYZ = bezierUtil.RawPoints[0];
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[1]);
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[2]);
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[3]);
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[4]);
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[5]);
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[6]);
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[7]);
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[8]);
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[9]);
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[10]);
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[11]);
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[12]);
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[13]);
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[14]);
-                HighestXYZ = JsonUtil.Highest(HighestXYZ, bezierUtil.RawPoints[15]);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[1]);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[2]);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[3]);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[4]);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[5]);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[6]);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[7]);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[8]);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[9]);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[10]);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[11]);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[12]);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[13]);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[14]);
+                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[15]);
 
                 Vector3 LowestXYZ = bezierUtil.RawPoints[0];
-                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[1]);
-                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[2]);
-                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[3]);
-                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[4]);
-                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[5]);
-                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[6]);
-                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[7]);
-                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[8]);
-                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[9]);
-                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[10]);
-                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[11]);
-                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[12]);
-                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[13]);
-                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[14]);
-                LowestXYZ = JsonUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[15]);
+                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[1]);
+                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[2]);
+                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[3]);
+                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[4]);
+                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[5]);
+                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[6]);
+                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[7]);
+                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[8]);
+                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[9]);
+                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[10]);
+                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[11]);
+                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[12]);
+                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[13]);
+                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[14]);
+                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[15]);
 
                 patch.HighestXYZ = HighestXYZ;
                 patch.LowestXYZ = LowestXYZ;
@@ -942,20 +942,20 @@ namespace SSXMultiTool
                     segments.SplineParent = i;
 
                     Vector3 HighestXYZSegment = bezierUtil.RawPoints[0];
-                    HighestXYZSegment = JsonUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[1]);
-                    HighestXYZSegment = JsonUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[2]);
-                    HighestXYZSegment = JsonUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[3]);
+                    HighestXYZSegment = MathUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[1]);
+                    HighestXYZSegment = MathUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[2]);
+                    HighestXYZSegment = MathUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[3]);
 
                     segments.HighestXYZ = HighestXYZSegment;
-                    HighestXYZSpline = JsonUtil.Highest(HighestXYZSpline, HighestXYZSegment);
+                    HighestXYZSpline = MathUtil.Highest(HighestXYZSpline, HighestXYZSegment);
 
                     Vector3 LowestXYZSegment = bezierUtil.RawPoints[0];
-                    LowestXYZSegment = JsonUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[1]);
-                    LowestXYZSegment = JsonUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[2]);
-                    LowestXYZSegment = JsonUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[3]);
+                    LowestXYZSegment = MathUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[1]);
+                    LowestXYZSegment = MathUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[2]);
+                    LowestXYZSegment = MathUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[3]);
 
                     segments.LowestXYZ = LowestXYZSegment;
-                    LowestXYZSpline = JsonUtil.Highest(LowestXYZSpline, LowestXYZSegment);
+                    LowestXYZSpline = MathUtil.Highest(LowestXYZSpline, LowestXYZSegment);
 
                     segments.SegmentDisatnce = JsonUtil.GenerateDistance(bezierUtil.RawPoints[0], bezierUtil.RawPoints[1], bezierUtil.RawPoints[2], bezierUtil.RawPoints[3]);
                     segments.PreviousSegmentsDistance = PreviousSegmentDiffrence;
@@ -1223,8 +1223,8 @@ namespace SSXMultiTool
                 Vector3 bboxMax = NewPath.pathPos;
                 for (int a = 0; a < TempPath.vectorPoints.Count; a++)
                 {
-                    bboxMin = JsonUtil.Lowest(bboxMin, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
-                    bboxMax = JsonUtil.Highest(bboxMax, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
+                    bboxMin = MathUtil.Lowest(bboxMin, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
+                    bboxMax = MathUtil.Highest(bboxMax, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
                 }
                 NewPath.bboxMin = bboxMin;
                 NewPath.bboxMax = bboxMax;
@@ -1276,8 +1276,8 @@ namespace SSXMultiTool
                 Vector3 bboxMax = NewPath.pathPos;
                 for (int a = 0; a < TempPath.vectorPoints.Count; a++)
                 {
-                    bboxMin = JsonUtil.Lowest(bboxMin, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
-                    bboxMax = JsonUtil.Highest(bboxMax, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
+                    bboxMin = MathUtil.Lowest(bboxMin, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
+                    bboxMax = MathUtil.Highest(bboxMax, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
                 }
                 NewPath.bboxMin = bboxMin;
                 NewPath.bboxMax = bboxMax;

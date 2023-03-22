@@ -169,28 +169,28 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             //Generate New High/Lowest World Map
             for (int i = 0; i < pbdHandler.Patches.Count; i++)
             {
-                WorldBounds1 = JsonUtil.Lowest(WorldBounds1, pbdHandler.Patches[i].LowestXYZ);
-                WorldBounds2 = JsonUtil.Highest(WorldBounds2, pbdHandler.Patches[i].HighestXYZ);
+                WorldBounds1 = MathUtil.Lowest(WorldBounds1, pbdHandler.Patches[i].LowestXYZ);
+                WorldBounds2 = MathUtil.Highest(WorldBounds2, pbdHandler.Patches[i].HighestXYZ);
             }
             for (int i = 0; i < pbdHandler.Instances.Count; i++)
             {
-                WorldBounds1 = JsonUtil.Lowest(WorldBounds1, pbdHandler.Instances[i].LowestXYZ);
-                WorldBounds2 = JsonUtil.Highest(WorldBounds2, pbdHandler.Instances[i].HighestXYZ);
+                WorldBounds1 = MathUtil.Lowest(WorldBounds1, pbdHandler.Instances[i].LowestXYZ);
+                WorldBounds2 = MathUtil.Highest(WorldBounds2, pbdHandler.Instances[i].HighestXYZ);
             }
             for (int i = 0; i < pbdHandler.splinesSegments.Count; i++)
             {
-                WorldBounds1 = JsonUtil.Lowest(WorldBounds1, pbdHandler.splinesSegments[i].LowestXYZ);
-                WorldBounds2 = JsonUtil.Highest(WorldBounds2, pbdHandler.splinesSegments[i].HighestXYZ);
+                WorldBounds1 = MathUtil.Lowest(WorldBounds1, pbdHandler.splinesSegments[i].LowestXYZ);
+                WorldBounds2 = MathUtil.Highest(WorldBounds2, pbdHandler.splinesSegments[i].HighestXYZ);
             }
             for (int i = 0; i < pbdHandler.lights.Count; i++)
             {
-                WorldBounds1 = JsonUtil.Lowest(WorldBounds1, pbdHandler.lights[i].LowestXYZ);
-                WorldBounds2 = JsonUtil.Highest(WorldBounds2, pbdHandler.lights[i].HighestXYZ);
+                WorldBounds1 = MathUtil.Lowest(WorldBounds1, pbdHandler.lights[i].LowestXYZ);
+                WorldBounds2 = MathUtil.Highest(WorldBounds2, pbdHandler.lights[i].HighestXYZ);
             }
             for (int i = 0; i < pbdHandler.particleInstances.Count; i++)
             {
-                WorldBounds1 = JsonUtil.Lowest(WorldBounds1, pbdHandler.particleInstances[i].LowestXYZ);
-                WorldBounds2 = JsonUtil.Highest(WorldBounds2, pbdHandler.particleInstances[i].HighestXYZ);
+                WorldBounds1 = MathUtil.Lowest(WorldBounds1, pbdHandler.particleInstances[i].LowestXYZ);
+                WorldBounds2 = MathUtil.Highest(WorldBounds2, pbdHandler.particleInstances[i].HighestXYZ);
             }
 
 
@@ -540,8 +540,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 }
                                 for (int i = 0; i < TempNodeBox.PatchIndex.Count; i++)
                                 {
-                                    TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.Patches[TempNodeBox.PatchIndex[i]].LowestXYZ);
-                                    TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.Patches[TempNodeBox.PatchIndex[i]].HighestXYZ);
+                                    TempNodeBox.WorldBounds1 = MathUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.Patches[TempNodeBox.PatchIndex[i]].LowestXYZ);
+                                    TempNodeBox.WorldBounds2 = MathUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.Patches[TempNodeBox.PatchIndex[i]].HighestXYZ);
                                 }
                             }
                             //Resize For Instances
@@ -557,8 +557,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 }
                                 for (int i = 0; i < TempNodeBox.InstanceIndex.Count; i++)
                                 {
-                                    TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.Instances[TempNodeBox.InstanceIndex[i]].LowestXYZ);
-                                    TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.Instances[TempNodeBox.InstanceIndex[i]].HighestXYZ);
+                                    TempNodeBox.WorldBounds1 = MathUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.Instances[TempNodeBox.InstanceIndex[i]].LowestXYZ);
+                                    TempNodeBox.WorldBounds2 = MathUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.Instances[TempNodeBox.InstanceIndex[i]].HighestXYZ);
                                 }
                             }
                             //Gem Instances
@@ -574,8 +574,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 }
                                 for (int i = 0; i < TempNodeBox.GemIndex.Count; i++)
                                 {
-                                    TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.Instances[TempNodeBox.GemIndex[i]].LowestXYZ);
-                                    TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.Instances[TempNodeBox.GemIndex[i]].HighestXYZ);
+                                    TempNodeBox.WorldBounds1 = MathUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.Instances[TempNodeBox.GemIndex[i]].LowestXYZ);
+                                    TempNodeBox.WorldBounds2 = MathUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.Instances[TempNodeBox.GemIndex[i]].HighestXYZ);
                                 }
                             }
                             //Race Instances
@@ -591,8 +591,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 }
                                 for (int i = 0; i < TempNodeBox.RaceInstanceIndex.Count; i++)
                                 {
-                                    TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.Instances[TempNodeBox.RaceInstanceIndex[i]].LowestXYZ);
-                                    TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.Instances[TempNodeBox.RaceInstanceIndex[i]].HighestXYZ);
+                                    TempNodeBox.WorldBounds1 = MathUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.Instances[TempNodeBox.RaceInstanceIndex[i]].LowestXYZ);
+                                    TempNodeBox.WorldBounds2 = MathUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.Instances[TempNodeBox.RaceInstanceIndex[i]].HighestXYZ);
                                 }
                             }
                             //Spline Segments
@@ -607,8 +607,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 }
                                 for (int i = 0; i < TempNodeBox.SplineIndex.Count; i++)
                                 {
-                                    TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.splinesSegments[TempNodeBox.SplineIndex[i]].LowestXYZ);
-                                    TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.splinesSegments[TempNodeBox.SplineIndex[i]].HighestXYZ);
+                                    TempNodeBox.WorldBounds1 = MathUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.splinesSegments[TempNodeBox.SplineIndex[i]].LowestXYZ);
+                                    TempNodeBox.WorldBounds2 = MathUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.splinesSegments[TempNodeBox.SplineIndex[i]].HighestXYZ);
                                 }
                             }
                             //Light
@@ -623,8 +623,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 }
                                 for (int i = 0; i < TempNodeBox.LightIndex.Count; i++)
                                 {
-                                    TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.lights[TempNodeBox.LightIndex[i]].LowestXYZ);
-                                    TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.lights[TempNodeBox.LightIndex[i]].HighestXYZ);
+                                    TempNodeBox.WorldBounds1 = MathUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.lights[TempNodeBox.LightIndex[i]].LowestXYZ);
+                                    TempNodeBox.WorldBounds2 = MathUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.lights[TempNodeBox.LightIndex[i]].HighestXYZ);
                                 }
                             }
                             //ParticleInstance
@@ -639,8 +639,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 }
                                 for (int i = 0; i < TempNodeBox.ParticleIndex.Count; i++)
                                 {
-                                    TempNodeBox.WorldBounds1 = JsonUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.particleInstances[TempNodeBox.ParticleIndex[i]].LowestXYZ);
-                                    TempNodeBox.WorldBounds2 = JsonUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.particleInstances[TempNodeBox.ParticleIndex[i]].HighestXYZ);
+                                    TempNodeBox.WorldBounds1 = MathUtil.Lowest(TempNodeBox.WorldBounds1, pbdHandler.particleInstances[TempNodeBox.ParticleIndex[i]].LowestXYZ);
+                                    TempNodeBox.WorldBounds2 = MathUtil.Highest(TempNodeBox.WorldBounds2, pbdHandler.particleInstances[TempNodeBox.ParticleIndex[i]].HighestXYZ);
                                 }
                             }
 
@@ -680,8 +680,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             {
                                 if (defaultset)
                                 {
-                                    TempMainBox.WorldBounds1 = JsonUtil.Lowest(TempMainBox.WorldBounds1, TempMainBox.nodeBBoxes[x1, y1].WorldBounds1);
-                                    TempMainBox.WorldBounds2 = JsonUtil.Highest(TempMainBox.WorldBounds2, TempMainBox.nodeBBoxes[x1, y1].WorldBounds2);
+                                    TempMainBox.WorldBounds1 = MathUtil.Lowest(TempMainBox.WorldBounds1, TempMainBox.nodeBBoxes[x1, y1].WorldBounds1);
+                                    TempMainBox.WorldBounds2 = MathUtil.Highest(TempMainBox.WorldBounds2, TempMainBox.nodeBBoxes[x1, y1].WorldBounds2);
                                 }
                                 else
                                 {
