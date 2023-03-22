@@ -302,9 +302,49 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, Effects[i].U2);
             }
 
+            UStruct5Offset = (int)stream.Position;
+            for (int i = 0; i < uStruct5s.Count; i++)
+            {
+                var TempUstruct5 = uStruct5s[i];
 
+                StreamUtil.WriteUInt8(stream, TempUstruct5.U1);
+                StreamUtil.WriteUInt8(stream, TempUstruct5.U12);
+                StreamUtil.WriteUInt8(stream, TempUstruct5.U13);
+                StreamUtil.WriteUInt8(stream, TempUstruct5.U14);
 
+                StreamUtil.WriteFloat32(stream, TempUstruct5.PlayerBounce);
+                StreamUtil.WriteFloat32(stream, TempUstruct5.U3);
 
+                StreamUtil.WriteInt32(stream, TempUstruct5.U4);
+
+                StreamUtil.WriteInt16(stream, TempUstruct5.CollsionMode);
+
+                if (TempUstruct5.CollsionMode != 3)
+                {
+                    StreamUtil.WriteInt16(stream, TempUstruct5.CollisonModelIndex);
+                    StreamUtil.WriteInt16(stream, TempUstruct5.EffectSlotIndex);
+                }
+                else
+                {
+                    StreamUtil.WriteInt16(stream, TempUstruct5.PhysicsIndex);
+                    StreamUtil.WriteInt16(stream, TempUstruct5.EffectSlotIndex);
+                }
+                StreamUtil.WriteInt16(stream, TempUstruct5.U8);
+            }
+
+            InstanceOffset = (int)stream.Position;
+            for (int i = 0; i < InstanceState.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, InstanceState[i]);
+            }
+
+            SplineOffset = (int)stream.Position;
+            for (int i = 0; i < Splines.Count; i++)
+            {
+                StreamUtil.WriteInt16(stream, Splines[i].U1);
+                StreamUtil.WriteInt16(stream, Splines[i].U2);
+                StreamUtil.WriteInt16(stream, Splines[i].SplineStyle);
+            }
 
 
             stream.Position = 0;

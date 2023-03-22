@@ -61,7 +61,7 @@ namespace SSXMultiTool
             {
                 sshHandler.BMPExtract(openFileDialog.FileName);
                 GC.Collect();
-                Process.Start(openFileDialog.FileName);
+                //Process.Start(openFileDialog.FileName);
             }
         }
 

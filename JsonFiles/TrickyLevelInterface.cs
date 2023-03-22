@@ -40,8 +40,7 @@ namespace SSXMultiTool
         {
             public int InstanceIndex;
             public string InstanceName;
-            public int SsfIndex;
-            public int Struct5U5;
+            public string TextureID;
         }
 
         public void ExtractTrickyLevelFiles(string LoadPath, string ExportPath)
@@ -51,7 +50,7 @@ namespace SSXMultiTool
             //ssfHandler.SaveTest(LoadPath + ".ssf");
 
             Directory.CreateDirectory(ExportPath + "\\Collision");
-            ssfHandler.SaveModels(ExportPath + "\\Collision");
+            //ssfHandler.SaveModels(ExportPath + "\\Collision");
 
             //Load Map
             MapHandler mapHandler = new MapHandler();
@@ -72,8 +71,25 @@ namespace SSXMultiTool
 
                 TempInstance.InstanceIndex = i;
                 TempInstance.InstanceName = mapHandler.InternalInstances[i].Name;
-                TempInstance.SsfIndex = ssfHandler.InstanceState[i];
-                TempInstance.Struct5U5 = ssfHandler.uStruct5s[ssfHandler.InstanceState[i]].CollsionMode;
+
+                int MaterialBlock = pbdHandler.PrefabData[pbdHandler.Instances[i].ModelID].MaterialBlockID;
+
+
+                TempInstance.TextureID = "";
+
+                for (int a = 0; a < pbdHandler.PrefabData[pbdHandler.Instances[i].ModelID].PrefabObjects.Count; a++)
+                {
+                    var Temp = pbdHandler.PrefabData[pbdHandler.Instances[i].ModelID].PrefabObjects[a];
+                    if (Temp.objectData.MeshOffsets != null)
+                    {
+                        for (int b = 0; b < Temp.objectData.MeshOffsets.Count; b++)
+                        {
+                            var TempMesh = Temp.objectData.MeshOffsets[b];
+                            TempInstance.TextureID = TempInstance.TextureID + pbdHandler.materialBlocks[MaterialBlock].ints[TempMesh.MaterialBlockPos] + ", ";
+                        }
+                    }
+                }
+
 
                 instanceExports.Add(TempInstance);
             }
