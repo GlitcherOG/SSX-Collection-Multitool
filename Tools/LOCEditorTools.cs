@@ -33,9 +33,9 @@ namespace SSXMultiTool
                 lOCEditor = new LOCHandler();
                 ListText.Items.Clear();
                 lOCEditor.ReadLocFile(openFileDialog.FileName);
-                for (int i = 0; i < lOCEditor.textList.Count; i++)
+                for (int i = 0; i < lOCEditor.StringList.Count; i++)
                 {
-                    ListText.Items.Add(lOCEditor.textList[i]);
+                    ListText.Items.Add(lOCEditor.StringList[i]);
                 }
             }
         }
@@ -58,7 +58,7 @@ namespace SSXMultiTool
         {
             if (ListText.SelectedIndex != -1)
             {
-                MainTextbox.Text = lOCEditor.textList[ListText.SelectedIndex];
+                MainTextbox.Text = lOCEditor.StringList[ListText.SelectedIndex];
             }
         }
 
@@ -67,7 +67,7 @@ namespace SSXMultiTool
             if (ListText.SelectedIndex != -1)
             {
                 int pos = MainTextbox.SelectionStart;
-                lOCEditor.textList[ListText.SelectedIndex] = MainTextbox.Text;
+                lOCEditor.StringList[ListText.SelectedIndex] = MainTextbox.Text;
                 ListText.Items[ListText.SelectedIndex] = MainTextbox.Text;
                 MainTextbox.SelectionStart = pos;
             }
@@ -86,7 +86,7 @@ namespace SSXMultiTool
             }
             for (int i = a; i > -1; i--)
             {
-                if (lOCEditor.textList[i].ToLower().Contains(SearchTextBar.Text.ToLower()))
+                if (lOCEditor.StringList[i].ToLower().Contains(SearchTextBar.Text.ToLower()))
                 {
                     ListText.SelectedIndex = i;
                     break;
@@ -105,9 +105,9 @@ namespace SSXMultiTool
             {
                 a++;
             }
-            for (int i = a; i < lOCEditor.textList.Count; i++)
+            for (int i = a; i < lOCEditor.StringList.Count; i++)
             {
-                if (lOCEditor.textList[i].ToLower().Contains(SearchTextBar.Text.ToLower()))
+                if (lOCEditor.StringList[i].ToLower().Contains(SearchTextBar.Text.ToLower()))
                 {
                     ListText.SelectedIndex = i;
                     break;

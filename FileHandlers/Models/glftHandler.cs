@@ -8,8 +8,9 @@ using SharpGLTF.Geometry;
 using SharpGLTF.Geometry.VertexTypes;
 using SharpGLTF.Materials;
 using SharpGLTF.Schema2;
-using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
-using SSXMultiTool.FileHandlers.Models;
+using SSXMultiTool.FileHandlers.Models.Tricky;
+using SSXMultiTool.FileHandlers.Models.OnTour;
+using SSXMultiTool.FileHandlers.Models.SSX3;
 using SSXMultiTool.Utilities;
 
 //https://github.com/vpenades/SharpGLTF/blob/master/src/SharpGLTF.Toolkit/Geometry/readme.md

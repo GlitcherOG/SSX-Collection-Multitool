@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 using SSXMultiTool.Utilities;
-using SSXMultiTool.FileHandlers.Models;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {

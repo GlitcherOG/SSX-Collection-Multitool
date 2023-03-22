@@ -5,7 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SSXMultiTool.FileHandlers.Models
+namespace SSXMultiTool.FileHandlers.Models.SSX3
 {
     public class SSX3PS2ModelCombiner
     {

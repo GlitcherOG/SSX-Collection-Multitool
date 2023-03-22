@@ -653,6 +653,8 @@ namespace SSXMultiTool.FileHandlers.Models
             return tristripList;
         }
 
+        //Making a note for future me Max Tristrip of 25 works best for many reasons you probably dont remember mainly todo with weights. SO DONT TOUCH IT
+        //Validating strips will cause it to return a null list 9/10 times since the tristrips we are asking to generate are so complex
         public static List<IndiceTristrip> GenerateTristripNivda(List<IndiceFace> indiceFaces, int TristripMax = 25)
         {
             List<IndiceTristrip> tristripList = new List<IndiceTristrip>();

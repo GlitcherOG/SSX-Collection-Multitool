@@ -5,8 +5,9 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using SSXMultiTool.FileHandlers.Models;
 
-namespace SSXMultiTool.FileHandlers.Models
+namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
     public class objHandler
     {
@@ -247,7 +248,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     bool Test = false;
                     for (int a = 0; a < point.Count; a++)
                     {
-                        if(point[a].vector == TempMesh.meshFaces[i].V1)
+                        if (point[a].vector == TempMesh.meshFaces[i].V1)
                         {
                             if (point[a].normal == TempMesh.meshFaces[i].Normal1)
                             {
@@ -261,7 +262,7 @@ namespace SSXMultiTool.FileHandlers.Models
                         }
                     }
 
-                    if(!Test)
+                    if (!Test)
                     {
                         TempFace.Id1 = point.Count;
                         VectorPoint vectorPoint = new VectorPoint();
@@ -328,7 +329,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     faces.Add(TempFace);
                 }
 
-                List <TristripGenerator.IndiceTristrip> TempStrips = TristripGenerator.GenerateTristripNivda(faces);
+                List<TristripGenerator.IndiceTristrip> TempStrips = TristripGenerator.GenerateTristripNivda(faces);
 
                 TempMesh.meshChunk = new List<MeshChunk>();
 
@@ -340,7 +341,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 meshChunk.TextureCords = new List<Vector2>();
                 for (int i = 0; i < TempStrips.Count; i++)
                 {
-                    if(meshChunk.vertices.Count+ TempStrips[i].Indices.Count <= 50 )
+                    if (meshChunk.vertices.Count + TempStrips[i].Indices.Count <= 50)
                     {
                         meshChunk.Tristrip.Add(TempStrips[i].Indices.Count);
                         for (int a = 0; a < TempStrips[i].Indices.Count; a++)
@@ -368,7 +369,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     }
                 }
 
-                if(!meshChunk.Equals(new MeshChunk()))
+                if (!meshChunk.Equals(new MeshChunk()))
                 {
                     TempMesh.meshChunk.Add(meshChunk);
                 }

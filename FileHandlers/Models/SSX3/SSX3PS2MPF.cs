@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 
-namespace SSXMultiTool.FileHandlers
+namespace SSXMultiTool.FileHandlers.Models.SSX3
 {
     public class SSX3PS2MPF
     {

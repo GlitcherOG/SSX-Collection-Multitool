@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using SSXMultiTool.Utilities;
 using System.Numerics;
 
-namespace SSXMultiTool.FileHandlers
+namespace SSXMultiTool.FileHandlers.Models.Tricky
 {
     public class TrickyPS2MPF
     {

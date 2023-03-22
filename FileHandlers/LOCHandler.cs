@@ -15,8 +15,8 @@ namespace SSXMultiTool.FileHandlers
         public byte[] headerBytes;
         public byte[] LOCLHeader;
         public int TextCount;
-        public List<int> SEpos = new List<int>();
-        public List<string> textList = new List<string>();
+        public List<int> StringOffsets = new List<int>();
+        public List<string> StringList = new List<string>();
 
         public void ReadLocFile(string path)
         {
@@ -43,7 +43,7 @@ namespace SSXMultiTool.FileHandlers
                 for (int i = 0; i < TextCount; i++)
                 {
                     int posLoc = StreamUtil.ReadUInt32(stream);
-                    SEpos.Add(posLoc);
+                    StringOffsets.Add(posLoc);
                 }
 
                 //Using Offsets Grab Text
@@ -56,7 +56,7 @@ namespace SSXMultiTool.FileHandlers
                     }
                     else
                     {
-                        Length = SEpos[i + 1] - SEpos[i];
+                        Length = StringOffsets[i + 1] - StringOffsets[i];
                     }
                     byte[] byteString = new byte[Length];
                     stream.Read(byteString, 0, Length);
@@ -75,7 +75,7 @@ namespace SSXMultiTool.FileHandlers
                         modString[a] = byteString[a];
                     }
                     string Text = System.Text.Encoding.Unicode.GetString(modString);
-                    textList.Add(Text);
+                    StringList.Add(Text);
                 }
                 stream.Dispose();
             }
@@ -92,28 +92,28 @@ namespace SSXMultiTool.FileHandlers
             stream.Write(LOCLHeader, 0, LOCLHeader.Length);
             StreamUtil.WriteInt32(stream, TextCount);
             //Write Intial Offset
-            stream.Write(BitConverter.GetBytes(SEpos[0]), 0, 4);
+            stream.Write(BitConverter.GetBytes(StringOffsets[0]), 0, 4);
 
             //Set New Offsets
-            for (int i = 0; i < textList.Count; i++)
+            for (int i = 0; i < StringList.Count; i++)
             {
-                string temp = textList[i];
+                string temp = StringList[i];
                 Stream stream1 = new MemoryStream();
                 byte[] temp1 = Encoding.Unicode.GetBytes(temp);
                 stream1.Write(temp1, 0, temp1.Length);
-                int Diff = (int)(stream1.Length) + SEpos[i] + 4;
-                if (i < SEpos.Count - 1)
+                int Diff = (int)(stream1.Length) + StringOffsets[i] + 4;
+                if (i < StringOffsets.Count - 1)
                 {
-                    SEpos[i + 1] = Diff;
+                    StringOffsets[i + 1] = Diff;
                     stream.Write(BitConverter.GetBytes(Diff), 0, 4);
                 }
             }
 
             //Set strings
-            for (int i = 0; i < textList.Count; i++)
+            for (int i = 0; i < StringList.Count; i++)
             {
                 byte[] temp;
-                temp = Encoding.Unicode.GetBytes(textList[i]);
+                temp = Encoding.Unicode.GetBytes(StringList[i]);
                 stream.Write(temp, 0, temp.Length);
                 for (int ai = 0; ai < 4; ai++)
                 {

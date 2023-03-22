@@ -1,4 +1,5 @@
 ﻿using SSXMultiTool.FileHandlers;
+using SSXMultiTool.FileHandlers.Models.SSX3;
 using SSXMultiTool.FileHandlers.Models;
 using System;
 using System.Collections.Generic;

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 
-namespace SSXMultiTool.FileHandlers.Models
+namespace SSXMultiTool.FileHandlers.Models.Tricky
 {
     public class TrickyPS2ModelCombiner
     {

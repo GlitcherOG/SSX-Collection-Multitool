@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SSXMultiTool.Utilities;
 
-namespace SSXMultiTool.FileHandlers.Models
+namespace SSXMultiTool.FileHandlers.Models.OnTour
 {
     public class SSXOnTourMPF
     {
