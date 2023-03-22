@@ -67,86 +67,65 @@ namespace SSXMultiTool.Utilities
             return ByteUtil.BytesToBitConvert(tempByte, 4, 15);
         }
 
-        public static int ReadInt16(Stream stream)
+        public static int ReadInt16(Stream stream, bool BigEndian = false)
         {
             byte[] tempByte = new byte[2];
             stream.Read(tempByte, 0, tempByte.Length);
+
+            if (BigEndian)
+                Array.Reverse(tempByte);
+
             return BitConverter.ToInt16(tempByte, 0);
         }
 
-        public static int ReadUInt16(Stream stream)
+        public static int ReadUInt16(Stream stream, bool BigEndian = false)
         {
             byte[] tempByte = new byte[2];
             stream.Read(tempByte, 0, tempByte.Length);
+
+            if (BigEndian)
+                Array.Reverse(tempByte);
+
             return BitConverter.ToUInt16(tempByte, 0);
         }
 
-        public static int ReadInt16Big(Stream stream)
-        {
-            byte[] tempByte = new byte[2];
-            stream.Read(tempByte, 0, tempByte.Length);
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(tempByte);
-            return BitConverter.ToInt16(tempByte, 0);
-        }
-
-        public static int ReadInt24(Stream stream)
+        public static int ReadInt24(Stream stream, bool BigEndian = false)
         {
             byte[] tempByte = new byte[4];
             stream.Read(tempByte, 0, 3);
-            return BitConverter.ToInt32(tempByte, 0);
-        }
 
-        public static int ReadInt24Big(Stream stream)
-        {
-            byte[] tempByte = new byte[4];
-            stream.Read(tempByte, 0, 3);
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(tempByte);
-            for (int bi = 1; bi < tempByte.Length; bi++)
+            if(BigEndian)
             {
-                tempByte[bi - 1] = tempByte[bi];
+                Array.Reverse(tempByte);
+                for (int bi = 1; bi < tempByte.Length; bi++)
+                {
+                    tempByte[bi - 1] = tempByte[bi];
+                }
+                tempByte[3] = 0x00;
             }
-            tempByte[3] = 0x00;
+
             return BitConverter.ToInt32(tempByte, 0);
         }
 
-        public static int ReadUInt32(Stream stream)
+        public static int ReadUInt32(Stream stream, bool BigEndian = false)
         {
             byte[] tempByte = new byte[4];
             stream.Read(tempByte, 0, tempByte.Length);
+
+            if (BigEndian)
+                Array.Reverse(tempByte);
+
             return (int)BitConverter.ToUInt32(tempByte, 0);
         }
 
-        public static int ReadInt32Big(Stream stream)
+        public static float ReadFloat(Stream stream, bool BigEndian = false)
         {
             byte[] tempByte = new byte[4];
             stream.Read(tempByte, 0, tempByte.Length);
-            if (BitConverter.IsLittleEndian)
+
+            if (BigEndian)
                 Array.Reverse(tempByte);
-            return BitConverter.ToInt32(tempByte, 0);
-        }
 
-        public static float ReadFloat(Stream stream)
-        {
-            byte[] tempByte = new byte[4];
-            stream.Read(tempByte, 0, tempByte.Length);
-            return BitConverter.ToSingle(tempByte, 0);
-        }
-
-        public static float ReadFloat16(Stream stream)
-        {
-            byte[] tempByte = new byte[2];
-            stream.Read(tempByte, 0, tempByte.Length);
-            return (float)BitConverter.ToHalf(tempByte, 0);
-        }
-
-        public static float ReadFloatBig(Stream stream)
-        {
-            byte[] tempByte = new byte[4];
-            stream.Read(tempByte, 0, tempByte.Length);
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(tempByte);
             return BitConverter.ToSingle(tempByte, 0);
         }
 
@@ -159,57 +138,57 @@ namespace SSXMultiTool.Utilities
             return Color.FromArgb(A, R, G, B);
         }
 
-        public static Vector3 ReadVector3(Stream stream)
+        public static Vector3 ReadVector3(Stream stream, bool BigEndian = false)
         {
             Vector3 vertex = new Vector3();
-            vertex.X = StreamUtil.ReadFloat(stream);
-            vertex.Y = StreamUtil.ReadFloat(stream);
-            vertex.Z = StreamUtil.ReadFloat(stream);
+            vertex.X = StreamUtil.ReadFloat(stream, BigEndian);
+            vertex.Y = StreamUtil.ReadFloat(stream, BigEndian);
+            vertex.Z = StreamUtil.ReadFloat(stream, BigEndian);
             return vertex;
         }
 
-        public static Vector4 ReadVector4(Stream stream)
+        public static Vector4 ReadVector4(Stream stream, bool BigEndian = false)
         {
             Vector4 vertex = new Vector4();
-            vertex.X = StreamUtil.ReadFloat(stream);
-            vertex.Y = StreamUtil.ReadFloat(stream);
-            vertex.Z = StreamUtil.ReadFloat(stream);
-            vertex.W = StreamUtil.ReadFloat(stream);
+            vertex.X = StreamUtil.ReadFloat(stream, BigEndian);
+            vertex.Y = StreamUtil.ReadFloat(stream, BigEndian);
+            vertex.Z = StreamUtil.ReadFloat(stream, BigEndian);
+            vertex.W = StreamUtil.ReadFloat(stream, BigEndian);
             return vertex;
         }
 
-        public static Quaternion ReadQuaternion(Stream stream)
+        public static Quaternion ReadQuaternion(Stream stream, bool BigEndian = false)
         {
             Quaternion vertex = new Quaternion();
-            vertex.X = StreamUtil.ReadFloat(stream);
-            vertex.Y = StreamUtil.ReadFloat(stream);
-            vertex.Z = StreamUtil.ReadFloat(stream);
-            vertex.W = StreamUtil.ReadFloat(stream);
+            vertex.X = StreamUtil.ReadFloat(stream, BigEndian);
+            vertex.Y = StreamUtil.ReadFloat(stream, BigEndian);
+            vertex.Z = StreamUtil.ReadFloat(stream, BigEndian);
+            vertex.W = StreamUtil.ReadFloat(stream, BigEndian);
             return vertex;
         }
 
-        public static Matrix4x4 ReadMatrix4x4(Stream stream)
+        public static Matrix4x4 ReadMatrix4x4(Stream stream, bool BigEndian = false)
         {
             Matrix4x4 matrix4X4 = new Matrix4x4();
-            matrix4X4.M11 = StreamUtil.ReadFloat(stream);
-            matrix4X4.M12 = StreamUtil.ReadFloat(stream);
-            matrix4X4.M13 = StreamUtil.ReadFloat(stream);
-            matrix4X4.M14 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M11 = StreamUtil.ReadFloat(stream, BigEndian);
+            matrix4X4.M12 = StreamUtil.ReadFloat(stream, BigEndian);
+            matrix4X4.M13 = StreamUtil.ReadFloat(stream, BigEndian);
+            matrix4X4.M14 = StreamUtil.ReadFloat(stream, BigEndian);
 
-            matrix4X4.M21 = StreamUtil.ReadFloat(stream);
-            matrix4X4.M22 = StreamUtil.ReadFloat(stream);
-            matrix4X4.M23 = StreamUtil.ReadFloat(stream);
-            matrix4X4.M24 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M21 = StreamUtil.ReadFloat(stream, BigEndian);
+            matrix4X4.M22 = StreamUtil.ReadFloat(stream, BigEndian);
+            matrix4X4.M23 = StreamUtil.ReadFloat(stream, BigEndian);
+            matrix4X4.M24 = StreamUtil.ReadFloat(stream, BigEndian);
 
-            matrix4X4.M31 = StreamUtil.ReadFloat(stream);
-            matrix4X4.M32 = StreamUtil.ReadFloat(stream);
-            matrix4X4.M33 = StreamUtil.ReadFloat(stream);
-            matrix4X4.M34 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M31 = StreamUtil.ReadFloat(stream, BigEndian);
+            matrix4X4.M32 = StreamUtil.ReadFloat(stream, BigEndian);
+            matrix4X4.M33 = StreamUtil.ReadFloat(stream, BigEndian);
+            matrix4X4.M34 = StreamUtil.ReadFloat(stream, BigEndian);
 
-            matrix4X4.M41 = StreamUtil.ReadFloat(stream);
-            matrix4X4.M42 = StreamUtil.ReadFloat(stream);
-            matrix4X4.M43 = StreamUtil.ReadFloat(stream);
-            matrix4X4.M44 = StreamUtil.ReadFloat(stream);
+            matrix4X4.M41 = StreamUtil.ReadFloat(stream, BigEndian);
+            matrix4X4.M42 = StreamUtil.ReadFloat(stream, BigEndian);
+            matrix4X4.M43 = StreamUtil.ReadFloat(stream, BigEndian);
+            matrix4X4.M44 = StreamUtil.ReadFloat(stream, BigEndian);
 
             return matrix4X4;
         }
@@ -268,68 +247,125 @@ namespace SSXMultiTool.Utilities
             stream.Write(tempByte, 0, 1);
         }
 
-        public static void WriteInt16(Stream stream, int Int)
+        public static void WriteInt16(Stream stream, int Int, bool BigEndian = false)
         {
             short TempInt = (short)Int;
-            byte[] tempByte = new byte[4];
+            byte[] tempByte = new byte[2];
             BitConverter.GetBytes(TempInt).CopyTo(tempByte, 0);
+
+            if (BigEndian)
+                Array.Reverse(tempByte);
+
+
             stream.Write(tempByte, 0, 2);
         }
 
-        public static void WriteInt16Big(Stream stream, int Int)
+        public static void WriteInt24(Stream stream, int Int, bool BigEndian = false)
         {
             byte[] tempByte = new byte[4];
             BitConverter.GetBytes(Int).CopyTo(tempByte, 0);
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(tempByte);
-            tempByte[1] = tempByte[3];
-            tempByte[0] = tempByte[2];
-            stream.Write(tempByte, 0, 2);
-        }
 
-        public static void WriteInt24(Stream stream, int Int)
-        {
-            byte[] tempByte = new byte[4];
-            BitConverter.GetBytes(Int).CopyTo(tempByte, 0);
+            if (BigEndian)
+            {
+                Array.Reverse(tempByte);
+                tempByte[0] = tempByte[1];
+                tempByte[1] = tempByte[2];
+                tempByte[2] = tempByte[3];
+            }
+
             stream.Write(tempByte, 0, 3);
         }
 
-        public static void WriteInt24Big(Stream stream, int Int)
+        public static void WriteInt32(Stream stream, int Int, bool BigEndian = false)
         {
             byte[] tempByte = new byte[4];
             BitConverter.GetBytes(Int).CopyTo(tempByte, 0);
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(tempByte);
-            tempByte[0] = tempByte[1];
-            tempByte[1] = tempByte[2];
-            tempByte[2] = tempByte[3];
-            stream.Write(tempByte, 0, 3);
-        }
 
-        public static void WriteInt32(Stream stream, int Int)
-        {
-            byte[] tempByte = new byte[4];
-            BitConverter.GetBytes(Int).CopyTo(tempByte, 0);
+            if (BigEndian)
+            {
+                Array.Reverse(tempByte);
+            }
+
             stream.Write(tempByte, 0, tempByte.Length);
         }
 
-        public static void WriteInt32Big(Stream stream, int Int)
-        {
-            byte[] tempByte = new byte[4];
-            BitConverter.GetBytes(Int).CopyTo(tempByte, 0);
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(tempByte);
-            stream.Write(tempByte, 0, tempByte.Length);
-        }
-
-        #endregion
-
-        public static void WriteFloat32(Stream stream, float Float)
+        public static void WriteFloat32(Stream stream, float Float, bool BigEndian = false)
         {
             byte[] tempByte = new byte[4];
             BitConverter.GetBytes(Float).CopyTo(tempByte, 0);
+
+            if (BigEndian)
+            {
+                Array.Reverse(tempByte);
+            }
+
             stream.Write(tempByte, 0, tempByte.Length);
         }
+
+        public static void WriteVector3(Stream stream, Vector3 vertex3, bool BigEndian = false)
+        {
+            StreamUtil.WriteFloat32(stream, vertex3.X, BigEndian);
+            StreamUtil.WriteFloat32(stream, vertex3.Y, BigEndian);
+            StreamUtil.WriteFloat32(stream, vertex3.Z, BigEndian);
+        }
+
+        public static void WriteVector4(Stream stream, Vector4 vertex4, bool BigEndian = false)
+        {
+            StreamUtil.WriteFloat32(stream, vertex4.X, BigEndian);
+            StreamUtil.WriteFloat32(stream, vertex4.Y, BigEndian);
+            StreamUtil.WriteFloat32(stream, vertex4.Z, BigEndian);
+            StreamUtil.WriteFloat32(stream, vertex4.W, BigEndian);
+        }
+
+        public static void WriteQuaternion(Stream stream, Quaternion vertex4, bool BigEndian = false)
+        {
+            StreamUtil.WriteFloat32(stream, vertex4.X, BigEndian);
+            StreamUtil.WriteFloat32(stream, vertex4.Y, BigEndian);
+            StreamUtil.WriteFloat32(stream, vertex4.Z, BigEndian);
+            StreamUtil.WriteFloat32(stream, vertex4.W, BigEndian);
+        }
+
+        public static void WriteMatrix4x4(Stream stream, Matrix4x4 matrix4X4, bool BigEndian = false)
+        {
+            StreamUtil.WriteFloat32(stream, matrix4X4.M11, BigEndian);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M12, BigEndian);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M13, BigEndian);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M14, BigEndian);
+
+            StreamUtil.WriteFloat32(stream, matrix4X4.M21, BigEndian);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M22, BigEndian);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M23, BigEndian);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M24, BigEndian);
+
+            StreamUtil.WriteFloat32(stream, matrix4X4.M31, BigEndian);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M32, BigEndian);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M33, BigEndian);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M34, BigEndian);
+
+            StreamUtil.WriteFloat32(stream, matrix4X4.M41, BigEndian);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M42, BigEndian);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M43, BigEndian);
+            StreamUtil.WriteFloat32(stream, matrix4X4.M44, BigEndian);
+        }
+
+        public static void WriteStreamIntoStream(Stream MainStream, Stream Input, int StartPos = -1, int Length = -1)
+        {
+            if(Length ==-1)
+            {
+                Length = (int)Input.Length;
+            }
+            if(StartPos==-1)
+            {
+                StartPos = 0;
+            }
+
+            Input.Position = StartPos;
+            byte[] Buffer = new byte[Length];
+            Buffer = ReadBytes(Input, (int)Input.Length);
+            WriteBytes(MainStream, Buffer);
+        }
+
+        #endregion
 
         public static void AlignBy16(Stream stream)
         {
@@ -347,60 +383,6 @@ namespace SSXMultiTool.Utilities
             {
                 stream.Position += Num;
             }
-        }
-
-        public static void WriteVector3(Stream stream, Vector3 vertex3)
-        {
-            StreamUtil.WriteFloat32(stream, vertex3.X);
-            StreamUtil.WriteFloat32(stream, vertex3.Y);
-            StreamUtil.WriteFloat32(stream, vertex3.Z);
-        }
-
-        public static void WriteVector4(Stream stream, Vector4 vertex4)
-        {
-            StreamUtil.WriteFloat32(stream, vertex4.X);
-            StreamUtil.WriteFloat32(stream, vertex4.Y);
-            StreamUtil.WriteFloat32(stream, vertex4.Z);
-            StreamUtil.WriteFloat32(stream, vertex4.W);
-        }
-
-        public static void WriteQuaternion(Stream stream, Quaternion vertex4)
-        {
-            StreamUtil.WriteFloat32(stream, vertex4.X);
-            StreamUtil.WriteFloat32(stream, vertex4.Y);
-            StreamUtil.WriteFloat32(stream, vertex4.Z);
-            StreamUtil.WriteFloat32(stream, vertex4.W);
-        }
-
-        public static void WriteMatrix4x4(Stream stream, Matrix4x4 matrix4X4)
-        {
-            StreamUtil.WriteFloat32(stream, matrix4X4.M11);
-            StreamUtil.WriteFloat32(stream, matrix4X4.M12);
-            StreamUtil.WriteFloat32(stream, matrix4X4.M13);
-            StreamUtil.WriteFloat32(stream, matrix4X4.M14);
-
-            StreamUtil.WriteFloat32(stream, matrix4X4.M21);
-            StreamUtil.WriteFloat32(stream, matrix4X4.M22);
-            StreamUtil.WriteFloat32(stream, matrix4X4.M23);
-            StreamUtil.WriteFloat32(stream, matrix4X4.M24);
-
-            StreamUtil.WriteFloat32(stream, matrix4X4.M31);
-            StreamUtil.WriteFloat32(stream, matrix4X4.M32);
-            StreamUtil.WriteFloat32(stream, matrix4X4.M33);
-            StreamUtil.WriteFloat32(stream, matrix4X4.M34);
-
-            StreamUtil.WriteFloat32(stream, matrix4X4.M41);
-            StreamUtil.WriteFloat32(stream, matrix4X4.M42);
-            StreamUtil.WriteFloat32(stream, matrix4X4.M43);
-            StreamUtil.WriteFloat32(stream, matrix4X4.M44);
-        }
-
-        public static void WriteStreamIntoStream(Stream MainStream, Stream Input)
-        {
-            Input.Position = 0;
-            byte[] Buffer = new byte[Input.Length];
-            Buffer = ReadBytes(Input, (int)Input.Length);
-            WriteBytes(MainStream, Buffer);
         }
     }
 }

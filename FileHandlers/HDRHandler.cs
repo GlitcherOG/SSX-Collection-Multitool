@@ -52,29 +52,29 @@ namespace SSXMultiTool.FileHandlers
 
                     if (EntryTypes == 0)
                     {
-                        TempHeader.OffsetInt = StreamUtil.ReadInt16Big(stream);
+                        TempHeader.OffsetInt = StreamUtil.ReadInt16(stream, true);
                     }
                     if (EntryTypes == 1)
                     {
                         TempHeader.Unknown = StreamUtil.ReadInt8(stream);
-                        TempHeader.OffsetInt = StreamUtil.ReadInt16Big(stream);
+                        TempHeader.OffsetInt = StreamUtil.ReadInt16(stream, true);
                     }
                     if (EntryTypes == 2)
                     {
-                        TempHeader.OffsetInt = StreamUtil.ReadInt16Big(stream);
+                        TempHeader.OffsetInt = StreamUtil.ReadInt16(stream, true);
                         TempHeader.Unknown2 = StreamUtil.ReadInt8(stream);
                         TempHeader.EventID = StreamUtil.ReadInt8(stream);
                     }
                     if (EntryTypes == 3)
                     {
-                        TempHeader.OffsetInt = StreamUtil.ReadInt24Big(stream);
+                        TempHeader.OffsetInt = StreamUtil.ReadInt24(stream, true);
                         TempHeader.Unknown2 = StreamUtil.ReadInt8(stream);
                         TempHeader.EventID = StreamUtil.ReadInt8(stream);
                     }
                     if (EntryTypes == 4)
                     {
                         TempHeader.Unknown = StreamUtil.ReadUInt8(stream);
-                        TempHeader.OffsetInt = StreamUtil.ReadInt24Big(stream);
+                        TempHeader.OffsetInt = StreamUtil.ReadInt24(stream, true);
                         TempHeader.Unknown2 = StreamUtil.ReadInt8(stream);
                         TempHeader.EventID = StreamUtil.ReadInt8(stream);
                     }
@@ -123,23 +123,23 @@ namespace SSXMultiTool.FileHandlers
                 var TempHeader = fileHeaders[i];
                 if (EntryTypes == 1)
                 {
-                    StreamUtil.WriteInt16Big(stream, TempHeader.OffsetInt);
+                    StreamUtil.WriteInt16(stream, TempHeader.OffsetInt, true);
                 }
                 if (EntryTypes == 2)
                 {
                     StreamUtil.WriteUInt8(stream, TempHeader.Unknown);
-                    StreamUtil.WriteInt16Big(stream, TempHeader.OffsetInt);
+                    StreamUtil.WriteInt16(stream, TempHeader.OffsetInt, true);
                 }
                 if (EntryTypes == 3)
                 {
-                    StreamUtil.WriteInt24Big(stream, TempHeader.OffsetInt);
+                    StreamUtil.WriteInt24(stream, TempHeader.OffsetInt, true);
                     StreamUtil.WriteUInt8(stream, TempHeader.Unknown2);
                     StreamUtil.WriteUInt8(stream, TempHeader.EventID);
                 }
                 if (EntryTypes == 4)
                 {
                     StreamUtil.WriteUInt8(stream, TempHeader.Unknown);
-                    StreamUtil.WriteInt24Big(stream, TempHeader.OffsetInt);
+                    StreamUtil.WriteInt24(stream, TempHeader.OffsetInt, true);
                     StreamUtil.WriteUInt8(stream, TempHeader.Unknown2);
                     StreamUtil.WriteUInt8(stream, TempHeader.EventID);
                 }

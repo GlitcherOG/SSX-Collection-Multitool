@@ -60,17 +60,17 @@ namespace SSXMultiTool.FileHandlers
 
             bigHeader.fileSize = StreamUtil.ReadUInt32(stream);
 
-            bigHeader.fileCount = StreamUtil.ReadInt32Big(stream);
+            bigHeader.fileCount = StreamUtil.ReadUInt32(stream, true);
 
-            bigHeader.startOffset = StreamUtil.ReadInt32Big(stream);
+            bigHeader.startOffset = StreamUtil.ReadUInt32(stream, true);
 
             for (int i = 0; i < bigHeader.fileCount; i++)
             {
                 BIGFFiles temp = new BIGFFiles();
 
-                temp.offset = StreamUtil.ReadInt32Big(stream);
+                temp.offset = StreamUtil.ReadUInt32(stream, true);
 
-                temp.size = StreamUtil.ReadInt32Big(stream);
+                temp.size = StreamUtil.ReadUInt32(stream, true);
 
                 temp.path = StreamUtil.ReadNullEndString(stream);
                 bigFiles.Add(temp);
@@ -89,7 +89,7 @@ namespace SSXMultiTool.FileHandlers
                 if (bytes[1] == 0xFB && bytes[0] == 0x10)
                 {
                     tempFile.Compressed = true;
-                    tempFile.UncompressedSize = StreamUtil.ReadInt24Big(stream);
+                    tempFile.UncompressedSize = StreamUtil.ReadInt24(stream, true);
                     bigFiles[i] = tempFile;
                 }
             }
@@ -100,17 +100,17 @@ namespace SSXMultiTool.FileHandlers
         {
             bigType = BigType.C0FB;
 
-            bigHeader.startOffset = StreamUtil.ReadInt16Big(stream);
+            bigHeader.startOffset = StreamUtil.ReadInt16(stream, true);
 
-            bigHeader.fileCount = StreamUtil.ReadInt16Big(stream);
+            bigHeader.fileCount = StreamUtil.ReadInt16(stream, true);
 
             for (int i = 0; i < bigHeader.fileCount; i++)
             {
                 BIGFFiles temp = new BIGFFiles();
 
-                temp.offset = StreamUtil.ReadInt24Big(stream);
+                temp.offset = StreamUtil.ReadInt24(stream, true);
 
-                temp.size = StreamUtil.ReadInt24Big(stream);
+                temp.size = StreamUtil.ReadInt24(stream, true);
 
                 temp.path = StreamUtil.ReadNullEndString(stream);
                 bigFiles.Add(temp);
@@ -126,7 +126,7 @@ namespace SSXMultiTool.FileHandlers
                 if (bytes[1] == 0xFB)
                 {
                     tempFile.Compressed = true;
-                    tempFile.UncompressedSize = StreamUtil.ReadInt24Big(stream);
+                    tempFile.UncompressedSize = StreamUtil.ReadInt24(stream, true);
                     bigFiles[i] = tempFile;
                 }
             }
@@ -297,7 +297,7 @@ namespace SSXMultiTool.FileHandlers
             stream.Write(tempByte, 0, tempByte.Length);
 
             //Set Ammount
-            StreamUtil.WriteInt32Big(stream, bigHeader.fileCount);
+            StreamUtil.WriteInt32(stream, bigHeader.fileCount, true);
 
             //Set Blank Start of file offset
             tempByte = new byte[4];
@@ -306,10 +306,10 @@ namespace SSXMultiTool.FileHandlers
             for (int i = 0; i < bigFiles.Count; i++)
             {
                 //Write offset
-                StreamUtil.WriteInt32Big(stream, bigFiles[i].offset);
+                StreamUtil.WriteInt32(stream, bigFiles[i].offset, true);
 
                 //Write size
-                StreamUtil.WriteInt32Big(stream, bigFiles[i].size);
+                StreamUtil.WriteInt32(stream, bigFiles[i].size, true);
 
 
                 //Write Path
@@ -325,7 +325,7 @@ namespace SSXMultiTool.FileHandlers
             long pos = stream.Position;
             stream.Position = 12;
 
-            StreamUtil.WriteInt32Big(stream, (int)pos);
+            StreamUtil.WriteInt32(stream, (int)pos, true);
 
             stream.Position = stream.Length;
 
@@ -355,7 +355,7 @@ namespace SSXMultiTool.FileHandlers
             //Set filesize
             stream.Position = 4;
 
-            StreamUtil.WriteInt32Big(stream, (int)stream.Length);
+            StreamUtil.WriteInt32(stream, (int)stream.Length, true);
         }
 
         public void BuildBigC0FB(Stream stream)
@@ -368,15 +368,15 @@ namespace SSXMultiTool.FileHandlers
             stream.Write(tempByte, 0, tempByte.Length);
 
             //Set Ammount
-            StreamUtil.WriteInt16Big(stream, bigHeader.fileCount);
+            StreamUtil.WriteInt16(stream, bigHeader.fileCount, true);
 
             for (int i = 0; i < bigFiles.Count; i++)
             {
                 //Write offset
-                StreamUtil.WriteInt24Big(stream, bigFiles[i].offset);
+                StreamUtil.WriteInt24(stream, bigFiles[i].offset, true);
 
                 //Write size
-                StreamUtil.WriteInt24Big(stream, bigFiles[i].size);
+                StreamUtil.WriteInt24(stream, bigFiles[i].size, true);
 
                 //Write Path
                 StreamUtil.WriteNullString(stream, bigFiles[i].path.Replace(@"\",@"/"));
@@ -386,7 +386,7 @@ namespace SSXMultiTool.FileHandlers
             long pos = stream.Position;
             stream.Position = 2;
 
-            StreamUtil.WriteInt16Big(stream, (int)pos);
+            StreamUtil.WriteInt16(stream, (int)pos , true);
 
             stream.Position = stream.Length;
 

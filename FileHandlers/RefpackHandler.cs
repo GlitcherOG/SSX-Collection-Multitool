@@ -37,7 +37,7 @@ namespace SSXMultiTool.FileHandlers
                 stream.Position += 3;
             }
 
-            DecompressSize = StreamUtil.ReadInt24Big(stream);
+            DecompressSize = StreamUtil.ReadInt24(stream, true);
 
             return DecompressSize;
         }
@@ -82,7 +82,7 @@ namespace SSXMultiTool.FileHandlers
                 stream.Position+=3;
             }
 
-            DecompressSize = StreamUtil.ReadInt24Big(stream);
+            DecompressSize = StreamUtil.ReadInt24(stream, true);
 
             Output = new byte[DecompressSize];
 
