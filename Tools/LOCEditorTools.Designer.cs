@@ -28,108 +28,116 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.LoadButton = new System.Windows.Forms.Button();
-            this.SaveButton = new System.Windows.Forms.Button();
-            this.FindBackButton = new System.Windows.Forms.Button();
-            this.ListText = new System.Windows.Forms.ListBox();
-            this.SearchTextBar = new System.Windows.Forms.TextBox();
-            this.FindNextButton = new System.Windows.Forms.Button();
-            this.MainTextbox = new System.Windows.Forms.RichTextBox();
-            this.SuspendLayout();
+            LoadButton = new Button();
+            SaveButton = new Button();
+            FindBackButton = new Button();
+            ListText = new ListBox();
+            SearchTextBar = new TextBox();
+            FindNextButton = new Button();
+            MainTextbox = new RichTextBox();
+            ExportTXT = new Button();
+            SuspendLayout();
             // 
             // LoadButton
             // 
-            this.LoadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.LoadButton.Location = new System.Drawing.Point(632, 415);
-            this.LoadButton.Name = "LoadButton";
-            this.LoadButton.Size = new System.Drawing.Size(75, 23);
-            this.LoadButton.TabIndex = 0;
-            this.LoadButton.Text = "Load";
-            this.LoadButton.UseVisualStyleBackColor = true;
-            this.LoadButton.Click += new System.EventHandler(this.LoadButton_Click);
+            LoadButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            LoadButton.Location = new Point(345, 415);
+            LoadButton.Name = "LoadButton";
+            LoadButton.Size = new Size(75, 23);
+            LoadButton.TabIndex = 0;
+            LoadButton.Text = "Load";
+            LoadButton.UseVisualStyleBackColor = true;
+            LoadButton.Click += LoadButton_Click;
             // 
             // SaveButton
             // 
-            this.SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveButton.Location = new System.Drawing.Point(713, 415);
-            this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(75, 23);
-            this.SaveButton.TabIndex = 1;
-            this.SaveButton.Text = "Save";
-            this.SaveButton.UseVisualStyleBackColor = true;
-            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            SaveButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            SaveButton.Location = new Point(713, 415);
+            SaveButton.Name = "SaveButton";
+            SaveButton.Size = new Size(75, 23);
+            SaveButton.TabIndex = 1;
+            SaveButton.Text = "Save";
+            SaveButton.UseVisualStyleBackColor = true;
+            SaveButton.Click += SaveButton_Click;
             // 
             // FindBackButton
             // 
-            this.FindBackButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.FindBackButton.Location = new System.Drawing.Point(12, 415);
-            this.FindBackButton.Name = "FindBackButton";
-            this.FindBackButton.Size = new System.Drawing.Size(75, 23);
-            this.FindBackButton.TabIndex = 2;
-            this.FindBackButton.Text = "Find Back";
-            this.FindBackButton.UseVisualStyleBackColor = true;
-            this.FindBackButton.Click += new System.EventHandler(this.FindBackButton_Click);
+            FindBackButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            FindBackButton.Location = new Point(12, 415);
+            FindBackButton.Name = "FindBackButton";
+            FindBackButton.Size = new Size(75, 23);
+            FindBackButton.TabIndex = 2;
+            FindBackButton.Text = "Find Back";
+            FindBackButton.UseVisualStyleBackColor = true;
+            FindBackButton.Click += FindBackButton_Click;
             // 
             // ListText
             // 
-            this.ListText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.ListText.FormattingEnabled = true;
-            this.ListText.ItemHeight = 15;
-            this.ListText.Location = new System.Drawing.Point(12, 12);
-            this.ListText.Name = "ListText";
-            this.ListText.Size = new System.Drawing.Size(327, 394);
-            this.ListText.TabIndex = 3;
-            this.ListText.SelectedIndexChanged += new System.EventHandler(this.ListText_SelectedIndexChanged);
+            ListText.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            ListText.FormattingEnabled = true;
+            ListText.ItemHeight = 15;
+            ListText.Location = new Point(12, 12);
+            ListText.Name = "ListText";
+            ListText.Size = new Size(327, 394);
+            ListText.TabIndex = 3;
+            ListText.SelectedIndexChanged += ListText_SelectedIndexChanged;
             // 
             // SearchTextBar
             // 
-            this.SearchTextBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.SearchTextBar.Location = new System.Drawing.Point(93, 415);
-            this.SearchTextBar.Name = "SearchTextBar";
-            this.SearchTextBar.Size = new System.Drawing.Size(165, 23);
-            this.SearchTextBar.TabIndex = 4;
+            SearchTextBar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            SearchTextBar.Location = new Point(93, 415);
+            SearchTextBar.Name = "SearchTextBar";
+            SearchTextBar.Size = new Size(165, 23);
+            SearchTextBar.TabIndex = 4;
             // 
             // FindNextButton
             // 
-            this.FindNextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.FindNextButton.Location = new System.Drawing.Point(264, 415);
-            this.FindNextButton.Name = "FindNextButton";
-            this.FindNextButton.Size = new System.Drawing.Size(75, 23);
-            this.FindNextButton.TabIndex = 5;
-            this.FindNextButton.Text = "Find Next";
-            this.FindNextButton.UseVisualStyleBackColor = true;
-            this.FindNextButton.Click += new System.EventHandler(this.FindNextButton_Click);
+            FindNextButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            FindNextButton.Location = new Point(264, 415);
+            FindNextButton.Name = "FindNextButton";
+            FindNextButton.Size = new Size(75, 23);
+            FindNextButton.TabIndex = 5;
+            FindNextButton.Text = "Find Next";
+            FindNextButton.UseVisualStyleBackColor = true;
+            FindNextButton.Click += FindNextButton_Click;
             // 
             // MainTextbox
             // 
-            this.MainTextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MainTextbox.Location = new System.Drawing.Point(345, 12);
-            this.MainTextbox.Name = "MainTextbox";
-            this.MainTextbox.Size = new System.Drawing.Size(443, 394);
-            this.MainTextbox.TabIndex = 6;
-            this.MainTextbox.Text = "";
-            this.MainTextbox.TextChanged += new System.EventHandler(this.MainTextbox_TextChanged);
+            MainTextbox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            MainTextbox.Location = new Point(345, 12);
+            MainTextbox.Name = "MainTextbox";
+            MainTextbox.Size = new Size(443, 394);
+            MainTextbox.TabIndex = 6;
+            MainTextbox.Text = "";
+            MainTextbox.TextChanged += MainTextbox_TextChanged;
+            // 
+            // ExportTXT
+            // 
+            ExportTXT.Location = new Point(632, 415);
+            ExportTXT.Name = "ExportTXT";
+            ExportTXT.Size = new Size(75, 23);
+            ExportTXT.TabIndex = 7;
+            ExportTXT.Text = "Export TXT";
+            ExportTXT.UseVisualStyleBackColor = true;
+            ExportTXT.Click += ExportTXT_Click;
             // 
             // LOCEditorTools
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.MainTextbox);
-            this.Controls.Add(this.FindNextButton);
-            this.Controls.Add(this.SearchTextBar);
-            this.Controls.Add(this.ListText);
-            this.Controls.Add(this.FindBackButton);
-            this.Controls.Add(this.SaveButton);
-            this.Controls.Add(this.LoadButton);
-            this.Name = "LOCEditorTools";
-            this.Text = "LOC Editor";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(ExportTXT);
+            Controls.Add(MainTextbox);
+            Controls.Add(FindNextButton);
+            Controls.Add(SearchTextBar);
+            Controls.Add(ListText);
+            Controls.Add(FindBackButton);
+            Controls.Add(SaveButton);
+            Controls.Add(LoadButton);
+            Name = "LOCEditorTools";
+            Text = "LOC Editor";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -141,5 +149,6 @@
         private TextBox SearchTextBar;
         private Button FindNextButton;
         private RichTextBox MainTextbox;
+        private Button ExportTXT;
     }
 }

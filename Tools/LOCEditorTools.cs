@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -111,6 +112,35 @@ namespace SSXMultiTool
                 {
                     ListText.SelectedIndex = i;
                     break;
+                }
+            }
+        }
+
+        private void ExportTXT_Click(object sender, EventArgs e)
+        {
+            if (lOCEditor.StringList.Count != 0)
+            {
+                SaveFileDialog openFileDialog = new SaveFileDialog
+                {
+                    Filter = "Txt File (*.txt)|*.txt|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if(File.Exists(openFileDialog.FileName))
+                    {
+                        File.Delete(openFileDialog.FileName);
+                    }
+
+                    var NewFile = File.CreateText(openFileDialog.FileName);
+
+                    for (int i = 0; i < lOCEditor.StringList.Count; i++)
+                    {
+                        NewFile.WriteLine(lOCEditor.StringList[i]);
+                    }
+
+                    NewFile.Close();
                 }
             }
         }
