@@ -128,7 +128,7 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if(File.Exists(openFileDialog.FileName))
+                    if (File.Exists(openFileDialog.FileName))
                     {
                         File.Delete(openFileDialog.FileName);
                     }
@@ -137,10 +137,61 @@ namespace SSXMultiTool
 
                     for (int i = 0; i < lOCEditor.StringList.Count; i++)
                     {
-                        NewFile.WriteLine(lOCEditor.StringList[i]);
+                        NewFile.WriteLine(lOCEditor.StringList[i].Replace("\n", "/n").Replace("\r","/r"));
                     }
 
                     NewFile.Close();
+                }
+            }
+        }
+
+        private void ImportTXT_Click(object sender, EventArgs e)
+        {
+            if (lOCEditor.StringList.Count != 0)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "Txt File (*.txt)|*.txt|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    var OldFile = File.OpenText(openFileDialog.FileName);
+
+                    List<string> strings = new List<string>();
+
+                    while (true)
+                    {
+                        string? TempString = OldFile.ReadLine();
+
+                        if (TempString == null)
+                        {
+                            break;
+                        }
+
+                        strings.Add(TempString.Replace("/n", "\n").Replace("/r", "\r"));
+                    }
+
+                    if (strings.Count < lOCEditor.StringList.Count)
+                    {
+                        MessageBox.Show("Error Incorrect Ammount Of Strings " + strings.Count + "/" + lOCEditor.StringList.Count);
+                    }
+
+                    for (int i = 0; i < lOCEditor.StringList.Count; i++)
+                    {
+                        lOCEditor.StringList[i] = strings[i];
+                    }
+
+                    OldFile.Close();
+
+                    ListText.Items.Clear();
+
+                    for (int i = 0; i < lOCEditor.StringList.Count; i++)
+                    {
+                        ListText.Items.Add(lOCEditor.StringList[i]);
+                    }
+
                 }
             }
         }

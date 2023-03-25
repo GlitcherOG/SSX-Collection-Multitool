@@ -20,9 +20,6 @@ As such, I chose to redo the entire project and improve it as I did so.
 - [ ] Fix Model Header Amination
 - [ ] Fix Normal Average, Bone Update
 - [ ] Redo Folder Loading SSH
-- [ ] LOC Script Update
-- [ ] Export As TXT
-- [ ] Import As TXT if line count matches
 - [ ] Fix Model Orientation
 
 ### SSX Tricky

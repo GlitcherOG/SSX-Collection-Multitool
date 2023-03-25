@@ -36,6 +36,7 @@
             FindNextButton = new Button();
             MainTextbox = new RichTextBox();
             ExportTXT = new Button();
+            ImportTXT = new Button();
             SuspendLayout();
             // 
             // LoadButton
@@ -113,6 +114,7 @@
             // 
             // ExportTXT
             // 
+            ExportTXT.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             ExportTXT.Location = new Point(632, 415);
             ExportTXT.Name = "ExportTXT";
             ExportTXT.Size = new Size(75, 23);
@@ -121,11 +123,23 @@
             ExportTXT.UseVisualStyleBackColor = true;
             ExportTXT.Click += ExportTXT_Click;
             // 
+            // ImportTXT
+            // 
+            ImportTXT.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            ImportTXT.Location = new Point(426, 415);
+            ImportTXT.Name = "ImportTXT";
+            ImportTXT.Size = new Size(75, 23);
+            ImportTXT.TabIndex = 8;
+            ImportTXT.Text = "Import TXT";
+            ImportTXT.UseVisualStyleBackColor = true;
+            ImportTXT.Click += ImportTXT_Click;
+            // 
             // LOCEditorTools
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(ImportTXT);
             Controls.Add(ExportTXT);
             Controls.Add(MainTextbox);
             Controls.Add(FindNextButton);
@@ -150,5 +164,6 @@
         private Button FindNextButton;
         private RichTextBox MainTextbox;
         private Button ExportTXT;
+        private Button ImportTXT;
     }
 }
