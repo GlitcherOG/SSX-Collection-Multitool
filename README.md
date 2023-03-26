@@ -21,13 +21,11 @@ As such, I chose to redo the entire project and improve it as I did so.
 - [ ] Fix Normal Average, Bone Update
 - [ ] Redo Folder Loading SSH
 - [ ] Fix Model Orientation
+- [ ] Replace Loc Newline with ### or something similar
 
 ### SSX Tricky
 - [ ] Normal Average Proper
-- [ ] Move Voice Replacer to Tool Window
-- [ ] Make Buttons Work
 - [ ] Check its 2002 Version
-- [ ] Merge Material Block and Prefabs 
 
 ### SSX 3
 - [ ] Normal Average Proper

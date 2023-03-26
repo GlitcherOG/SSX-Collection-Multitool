@@ -123,6 +123,9 @@ namespace SSXMultiTool.FileHandlers
 
             var scene = new SharpGLTF.Scenes.SceneBuilder();
 
+
+
+
             scene.AddSkinnedMesh(mesh, Matrix4x4.Identity, bindings.ToArray());
 
             if (modelHeader.IKPoint != null)
@@ -173,7 +176,6 @@ namespace SSXMultiTool.FileHandlers
                 Binding.WithLocalRotation(MathUtil.ToQuaternion(new Vector3(-tempX, -tempY, -tempZ)));
                 Binding.WithLocalTranslation(Handler.bones[i].Position);
 
-                Binding.LocalMatrix = Binding.LocalMatrix;
                 bindings.Add(Binding);
             }
 
@@ -273,7 +275,7 @@ namespace SSXMultiTool.FileHandlers
                         }
                     }
                     
-                    scene.AddSkinnedMesh(mesh, Matrix4x4.CreateTranslation(0, 0, 0), bindings.ToArray());
+                    scene.AddSkinnedMesh(mesh, Matrix4x4.CreateFromYawPitchRoll(0, 0/*-1.5708f*/, 0), bindings.ToArray());
                 }
                 else
                 {
@@ -318,7 +320,7 @@ namespace SSXMultiTool.FileHandlers
 
                         mesh.UsePrimitive(materialBuilders[Face.MaterialID]).AddTriangle((TempPos1, TempBinding1), (TempPos2, TempBinding2), (TempPos3, TempBinding3));
                     }
-                    scene.AddSkinnedMesh(mesh, Matrix4x4.CreateTranslation(0, 0, 0), bindings.ToArray());
+                    scene.AddSkinnedMesh(mesh, Matrix4x4.CreateFromYawPitchRoll(0, 0, 0), bindings.ToArray());
                 }
                 if (Handler.reassignedMesh[a].IKPoints != null)
                 {

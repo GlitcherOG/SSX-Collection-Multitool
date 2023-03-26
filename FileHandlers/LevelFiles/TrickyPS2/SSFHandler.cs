@@ -18,27 +18,27 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public float U3;
         public int EffectSlotsCount;
         public int EffectSlotsOffset;
-        public int UStruct2Count;
-        public int UStruct2Offset; 
+        public int PhysicsCount;
+        public int PhysicsOffset; 
         public int CollisonModelCount;
         public int CollisonModelOffset;
         public int EffectsCount;
         public int EffectsOffset;
         public int FunctionCount;
         public int FunctionOffset;
-        public int UStruct5Count;
-        public int UStruct5Offset;
+        public int ObjectPropertiesCount;
+        public int ObjectPropertiesOffset;
         public int InstanceCount;
         public int InstanceOffset;
         public int SplineCount;
         public int SplineOffset;
 
         public List<EffectSlot> EffectSlots = new List<EffectSlot>();
-        public List<UStruct2> uStruct2s = new List<UStruct2>();
+        public List<UStruct2> PhysicsObjects = new List<UStruct2>();
         public List<CollisonModelPointer> CollisonModelPointers = new List<CollisonModelPointer>();
         public List<EffectStruct> Effects = new List<EffectStruct>();
         public List<Function> Functions = new List<Function>();
-        public List<UStruct5> uStruct5s = new List<UStruct5>();
+        public List<UStruct5> ObjectProperties = new List<UStruct5>();
         public List<Spline> Splines = new List<Spline>();
         public List<int> InstanceState = new List<int>();
 
@@ -51,16 +51,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 U3 = StreamUtil.ReadFloat(stream);
                 EffectSlotsCount = StreamUtil.ReadUInt32(stream);
                 EffectSlotsOffset = StreamUtil.ReadUInt32(stream);
-                UStruct2Count = StreamUtil.ReadUInt32(stream);
-                UStruct2Offset = StreamUtil.ReadUInt32(stream);
+                PhysicsCount = StreamUtil.ReadUInt32(stream);
+                PhysicsOffset = StreamUtil.ReadUInt32(stream);
                 CollisonModelCount = StreamUtil.ReadUInt32(stream);
                 CollisonModelOffset = StreamUtil.ReadUInt32(stream);
                 EffectsCount = StreamUtil.ReadUInt32(stream);
                 EffectsOffset = StreamUtil.ReadUInt32(stream);
                 FunctionCount = StreamUtil.ReadUInt32(stream);
                 FunctionOffset = StreamUtil.ReadUInt32(stream);
-                UStruct5Count = StreamUtil.ReadUInt32(stream);
-                UStruct5Offset = StreamUtil.ReadUInt32(stream);
+                ObjectPropertiesCount = StreamUtil.ReadUInt32(stream);
+                ObjectPropertiesOffset = StreamUtil.ReadUInt32(stream);
                 InstanceCount = StreamUtil.ReadUInt32(stream);
                 InstanceOffset = StreamUtil.ReadUInt32(stream);
                 SplineCount = StreamUtil.ReadUInt32(stream);
@@ -82,9 +82,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     EffectSlots.Add(TempUstruct1);
                 }
                 //Phyisics Objects
-                uStruct2s = new List<UStruct2>();
-                stream.Position = UStruct2Offset;
-                for (int i = 0; i < UStruct2Count; i++)
+                PhysicsObjects = new List<UStruct2>();
+                stream.Position = PhysicsOffset;
+                for (int i = 0; i < PhysicsCount; i++)
                 {
                     var TempUstruct2 = new UStruct2();
 
@@ -100,7 +100,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     stream.Position = TempPos;
 
-                    uStruct2s.Add(TempUstruct2);
+                    PhysicsObjects.Add(TempUstruct2);
                 }
                 //Collision Models
                 CollisonModelPointers = new List<CollisonModelPointer>();
@@ -179,9 +179,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
 
                 //Appears to do nothing
-                uStruct5s = new List<UStruct5>();
-                stream.Position = UStruct5Offset;
-                for (int i = 0; i < UStruct5Count; i++)
+                ObjectProperties = new List<UStruct5>();
+                stream.Position = ObjectPropertiesOffset;
+                for (int i = 0; i < ObjectPropertiesCount; i++)
                 {
                     var TempUstruct5 = new UStruct5();
                     TempUstruct5.U1 = StreamUtil.ReadUInt8(stream);
@@ -208,7 +208,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         TempUstruct5.EffectSlotIndex = StreamUtil.ReadInt16(stream);
                     }
                     TempUstruct5.U8 = StreamUtil.ReadInt16(stream);
-                    uStruct5s.Add(TempUstruct5);
+                    ObjectProperties.Add(TempUstruct5);
                 }
 
                 //Breaks Collison, Animation, Material Visablity
@@ -264,19 +264,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, EffectSlots[i].Slot7);
             }
 
-            
-            UStruct2Offset = (int)stream.Position;
+
+            PhysicsOffset = (int)stream.Position;
             //Skip passed it all and write shit
-            stream.Position += (uStruct2s.Count * 4 * 3) + (CollisonModelPointers.Count * 4 * 3) + (Functions.Count*16 + Functions.Count*2*4) + (Effects.Count*4*2);
+            stream.Position += (PhysicsObjects.Count * 4 * 3) + (CollisonModelPointers.Count * 4 * 3) + (Functions.Count*16 + Functions.Count*2*4) + (Effects.Count*4*2);
 
 
 
-            stream.Position = UStruct2Offset;
-            for (int i = 0; i < uStruct2s.Count; i++)
+            stream.Position = PhysicsOffset;
+            for (int i = 0; i < PhysicsObjects.Count; i++)
             {
-                StreamUtil.WriteInt32(stream, uStruct2s[i].Offset);
-                StreamUtil.WriteInt32(stream, uStruct2s[i].ByteSize);
-                StreamUtil.WriteInt32(stream, uStruct2s[i].Count);
+                StreamUtil.WriteInt32(stream, PhysicsObjects[i].Offset);
+                StreamUtil.WriteInt32(stream, PhysicsObjects[i].ByteSize);
+                StreamUtil.WriteInt32(stream, PhysicsObjects[i].Count);
             }
 
             CollisonModelOffset = (int)stream.Position;
@@ -302,10 +302,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, Effects[i].U2);
             }
 
-            UStruct5Offset = (int)stream.Position;
-            for (int i = 0; i < uStruct5s.Count; i++)
+            ObjectPropertiesOffset = (int)stream.Position;
+            for (int i = 0; i < ObjectProperties.Count; i++)
             {
-                var TempUstruct5 = uStruct5s[i];
+                var TempUstruct5 = ObjectProperties[i];
 
                 StreamUtil.WriteUInt8(stream, TempUstruct5.U1);
                 StreamUtil.WriteUInt8(stream, TempUstruct5.U12);
@@ -354,16 +354,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             StreamUtil.WriteFloat32(stream, U3);
             StreamUtil.WriteInt32(stream, EffectSlots.Count);
             StreamUtil.WriteInt32(stream, EffectSlotsOffset);
-            StreamUtil.WriteInt32(stream, uStruct2s.Count);
-            StreamUtil.WriteInt32(stream, UStruct2Offset);
+            StreamUtil.WriteInt32(stream, PhysicsObjects.Count);
+            StreamUtil.WriteInt32(stream, PhysicsOffset);
             StreamUtil.WriteInt32(stream, CollisonModelPointers.Count);
             StreamUtil.WriteInt32(stream, CollisonModelOffset);
             StreamUtil.WriteInt32(stream, Effects.Count);
             StreamUtil.WriteInt32(stream, EffectsOffset);
             StreamUtil.WriteInt32(stream, Functions.Count);
             StreamUtil.WriteInt32(stream, FunctionOffset);
-            StreamUtil.WriteInt32(stream, uStruct5s.Count);
-            StreamUtil.WriteInt32(stream, UStruct5Offset);
+            StreamUtil.WriteInt32(stream, ObjectProperties.Count);
+            StreamUtil.WriteInt32(stream, ObjectPropertiesOffset);
             StreamUtil.WriteInt32(stream, InstanceState.Count);
             StreamUtil.WriteInt32(stream, InstanceOffset);
             StreamUtil.WriteInt32(stream, Splines.Count);
