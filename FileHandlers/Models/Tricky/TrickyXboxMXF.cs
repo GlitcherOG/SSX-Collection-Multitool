@@ -181,6 +181,30 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         Model.iKPoints.Add(TempIKPoint);
                     }
 
+                    streamMatrix.Position = Model.OffsetMorphList;
+                    Model.morphHeader = new List<MorphHeader>();
+                    for (int a = 0; a < Model.NumMorphs; a++)
+                    {
+                        var TempMorph = new MorphHeader();
+
+                        TempMorph.NumMorphData = StreamUtil.ReadUInt32(streamMatrix);
+                        TempMorph.OffsetMorphDataList = StreamUtil.ReadUInt32(streamMatrix);
+
+                        TempMorph.MorphDataList = new List<MorphData>();
+                        streamMatrix.Position = TempMorph.OffsetMorphDataList;
+                        for (int b = 0; b < TempMorph.NumMorphData; b++)
+                        {
+                            var TempMorphData= new MorphData();
+
+                            TempMorphData.Morph = StreamUtil.ReadVector3(streamMatrix);
+                            TempMorphData.VertexIndex = StreamUtil.ReadUInt16(streamMatrix);
+                            TempMorphData.U1 = StreamUtil.ReadUInt8(streamMatrix);
+                            TempMorphData.U2 = StreamUtil.ReadUInt8(streamMatrix);
+                            TempMorph.MorphDataList.Add(TempMorphData);
+                        }
+                        Model.morphHeader.Add(TempMorph);
+
+                    }
 
 
                 }
@@ -233,6 +257,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public List<MaterialData> materialDatas;
         public List<BoneData> boneDatas;
         public List<Vector3> iKPoints;
+        public List<MorphHeader> morphHeader;
     }
 
     public struct MaterialData
@@ -276,4 +301,19 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public string parentName;
     }
 
+    public struct MorphHeader
+    {
+        public int NumMorphData;
+        public int OffsetMorphDataList;
+
+        public List<MorphData> MorphDataList;
+    }
+
+    public struct MorphData
+    {
+        public Vector3 Morph;
+        public int VertexIndex;
+        public int U1;
+        public int U2;
+    }
 }
