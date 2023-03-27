@@ -36,7 +36,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<EffectSlot> EffectSlots = new List<EffectSlot>();
         public List<UStruct2> PhysicsObjects = new List<UStruct2>();
         public List<CollisonModelPointer> CollisonModelPointers = new List<CollisonModelPointer>();
-        public List<EffectStruct> Effects = new List<EffectStruct>();
+        public List<EffectHeaderStruct> EffectHeaders = new List<EffectHeaderStruct>();
         public List<Function> Functions = new List<Function>();
         public List<UStruct5> ObjectProperties = new List<UStruct5>();
         public List<Spline> Splines = new List<Spline>();
@@ -156,16 +156,29 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     CollisonModelPointers.Add(TempUstruct3);
                 }
-                
-                Effects = new List<EffectStruct>();
+
+                EffectHeaders = new List<EffectHeaderStruct>();
                 stream.Position = EffectsOffset; 
                 for (int i = 0; i < EffectsCount; i++)
                 {
-                    var TempUstruct4 = new EffectStruct();
-                    TempUstruct4.U1 = StreamUtil.ReadUInt32(stream); //Type
-                    TempUstruct4.U2 = StreamUtil.ReadUInt32(stream); //Offset
-                    Effects.Add(TempUstruct4);
+                    var TempUstruct4 = new EffectHeaderStruct();
+                    TempUstruct4.EffectCount = StreamUtil.ReadUInt32(stream); //Type
+                    TempUstruct4.EffectOffset = StreamUtil.ReadUInt32(stream); //Offset
+                    EffectHeaders.Add(TempUstruct4);
                 }
+
+                //Effects Start Here
+                int EffectStartPos = (int)stream.Position;
+
+                for (int i = 0; i < EffectHeaders.Count; i++)
+                {
+                    stream.Position = EffectHeaders[i].EffectOffset + EffectStartPos;
+
+
+
+                }
+
+
 
                 Functions = new List<Function>();
                 stream.Position = FunctionOffset;
@@ -267,7 +280,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             PhysicsOffset = (int)stream.Position;
             //Skip passed it all and write shit
-            stream.Position += (PhysicsObjects.Count * 4 * 3) + (CollisonModelPointers.Count * 4 * 3) + (Functions.Count*16 + Functions.Count*2*4) + (Effects.Count*4*2);
+            stream.Position += (PhysicsObjects.Count * 4 * 3) + (CollisonModelPointers.Count * 4 * 3) + (Functions.Count*16 + Functions.Count*2*4) + (EffectHeaders.Count*4*2);
 
 
 
@@ -296,10 +309,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
 
             EffectsOffset = (int)stream.Position;
-            for (int i = 0; i < Effects.Count; i++)
+            for (int i = 0; i < EffectHeaders.Count; i++)
             {
-                StreamUtil.WriteInt32(stream, Effects[i].U1);
-                StreamUtil.WriteInt32(stream, Effects[i].U2);
+                StreamUtil.WriteInt32(stream, EffectHeaders[i].EffectCount);
+                StreamUtil.WriteInt32(stream, EffectHeaders[i].EffectOffset);
             }
 
             ObjectPropertiesOffset = (int)stream.Position;
@@ -358,7 +371,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             StreamUtil.WriteInt32(stream, PhysicsOffset);
             StreamUtil.WriteInt32(stream, CollisonModelPointers.Count);
             StreamUtil.WriteInt32(stream, CollisonModelOffset);
-            StreamUtil.WriteInt32(stream, Effects.Count);
+            StreamUtil.WriteInt32(stream, EffectHeaders.Count);
             StreamUtil.WriteInt32(stream, EffectsOffset);
             StreamUtil.WriteInt32(stream, Functions.Count);
             StreamUtil.WriteInt32(stream, FunctionOffset);
@@ -456,10 +469,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public List<Vector4> FaceNormals;
         }
 
-        public struct EffectStruct
+        public struct EffectHeaderStruct
         {
-            public int U1; //Count
-            public int U2; //Offset
+            public int EffectCount; //Count
+            public int EffectOffset; //Offset
         }
 
         public struct Function
