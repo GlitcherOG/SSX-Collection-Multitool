@@ -122,6 +122,8 @@ namespace SSXMultiTool
                 {
                     trickyLevelInterface = new TrickyLevelInterface();
                     trickyLevelInterface.AttemptLightingFix = EmulatorLigthFix.Checked;
+                    trickyLevelInterface.Unilightmap = UnlitCheckbox.Checked;
+
                     if (openFileDialog.FileName.ToLower().Contains(".big"))
                     {
                         Directory.CreateDirectory(Application.StartupPath + "\\TempExtract");

@@ -75,13 +75,12 @@
             groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
             EmulatorLigthFix = new CheckBox();
-            RegenLTG = new CheckBox();
             groupBox3 = new GroupBox();
             label2 = new Label();
             label3 = new Label();
             label5 = new Label();
             label11 = new Label();
-            checkBox1 = new CheckBox();
+            UnlitCheckbox = new CheckBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -526,18 +525,6 @@
             EmulatorLigthFix.Text = "Emulator Lighting Fix (WIP)";
             EmulatorLigthFix.UseVisualStyleBackColor = true;
             // 
-            // RegenLTG
-            // 
-            RegenLTG.AutoSize = true;
-            RegenLTG.Checked = true;
-            RegenLTG.CheckState = CheckState.Checked;
-            RegenLTG.Location = new Point(617, 365);
-            RegenLTG.Name = "RegenLTG";
-            RegenLTG.Size = new Size(106, 19);
-            RegenLTG.TabIndex = 49;
-            RegenLTG.Text = "Regenerate LTG";
-            RegenLTG.UseVisualStyleBackColor = true;
-            // 
             // groupBox3
             // 
             groupBox3.Controls.Add(label2);
@@ -587,24 +574,23 @@
             label11.TabIndex = 6;
             label11.Text = "0";
             // 
-            // checkBox1
+            // UnlitCheckbox
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(617, 340);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(155, 19);
-            checkBox1.TabIndex = 50;
-            checkBox1.Text = "Generate Unlit Lightmap";
-            checkBox1.UseVisualStyleBackColor = true;
+            UnlitCheckbox.AutoSize = true;
+            UnlitCheckbox.Location = new Point(617, 365);
+            UnlitCheckbox.Name = "UnlitCheckbox";
+            UnlitCheckbox.Size = new Size(155, 19);
+            UnlitCheckbox.TabIndex = 50;
+            UnlitCheckbox.Text = "Generate Unlit Lightmap";
+            UnlitCheckbox.UseVisualStyleBackColor = true;
             // 
             // TrickyProjectWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(checkBox1);
+            Controls.Add(UnlitCheckbox);
             Controls.Add(groupBox3);
-            Controls.Add(RegenLTG);
             Controls.Add(EmulatorLigthFix);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
@@ -689,12 +675,11 @@
         private GroupBox groupBox1;
         private GroupBox groupBox2;
         private CheckBox EmulatorLigthFix;
-        private CheckBox RegenLTG;
         private GroupBox groupBox3;
         private Label label2;
         private Label label3;
         private Label label5;
         private Label label11;
-        private CheckBox checkBox1;
+        private CheckBox UnlitCheckbox;
     }
 }
