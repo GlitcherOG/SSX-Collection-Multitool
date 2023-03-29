@@ -208,7 +208,6 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                     streamMatrix.Position = Model.OffsetWeight;
                     Model.boneWeightHeaders = new List<BoneWeightHeader>();
-
                     for (int b = 0; b < Model.NumWeights; b++)
                     {
                         var BoneWeight = new BoneWeightHeader();
@@ -232,6 +231,30 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         Model.boneWeightHeaders.Add(BoneWeight);
                     }
 
+                    streamMatrix.Position = Model.OffsetTristripSection;
+                    Model.tristripHeaders = new List<TristripHeader>();
+
+                    for (int a = 0; a < Model.NumTristripGroups; a++)
+                    {
+                        var TempTristrip = new TristripHeader();
+                        TempTristrip.IndexListOffset = StreamUtil.ReadUInt32(streamMatrix);
+                        TempTristrip.NumIndices = StreamUtil.ReadUInt16(streamMatrix);
+                        TempTristrip.MaterialIndex0 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempTristrip.MaterialIndex1 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempTristrip.MaterialIndex2 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempTristrip.MaterialIndex3 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempTristrip.MaterialIndex4 = StreamUtil.ReadUInt16(streamMatrix);
+
+                        TempTristrip.IndexList = new List<int>();
+                        int TempPos = (int)streamMatrix.Position;
+                        for (int b = 0; b < TempTristrip.NumIndices; b++)
+                        {
+                            TempTristrip.IndexList.Add(StreamUtil.ReadUInt16(streamMatrix));
+                        }
+
+                        streamMatrix.Position = TempPos;
+                        Model.tristripHeaders.Add(TempTristrip);
+                    }
 
                 }
 
@@ -285,6 +308,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public List<Vector3> iKPoints;
         public List<MorphHeader> morphHeader;
         public List<BoneWeightHeader> boneWeightHeaders;
+        public List<TristripHeader> tristripHeaders;
     }
 
     public struct MaterialData
@@ -359,5 +383,18 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public int Weight;
         public int BoneID;
         public int FileID;
+    }
+
+    public struct TristripHeader
+    {
+        public int IndexListOffset;
+        public int NumIndices;
+        public int MaterialIndex0;
+        public int MaterialIndex1;
+        public int MaterialIndex2;
+        public int MaterialIndex3;
+        public int MaterialIndex4;
+
+        public List<int> IndexList;
     }
 }
