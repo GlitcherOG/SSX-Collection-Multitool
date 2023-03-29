@@ -256,6 +256,25 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         Model.tristripHeaders.Add(TempTristrip);
                     }
 
+                    streamMatrix.Position = Model.OffsetVertexSection;
+                    Model.vertexDatas = new List<VertexData>();
+                    for (int a = 0; a < Model.NumVertices; a++)
+                    {
+                        var TempVertexData = new VertexData();
+
+                        TempVertexData.VertexPosition = StreamUtil.ReadVector3(streamMatrix);
+                        TempVertexData.Unknown1 = StreamUtil.ReadFloat(streamMatrix);
+                        TempVertexData.VertexNormal = StreamUtil.ReadVector3(streamMatrix);
+                        TempVertexData.Unknown2 = StreamUtil.ReadFloat(streamMatrix);
+                        TempVertexData.VertexTangentNormal = StreamUtil.ReadVector3(streamMatrix);
+                        TempVertexData.Unknown3 = StreamUtil.ReadFloat(streamMatrix);
+                        TempVertexData.VertexUV = StreamUtil.ReadVector2(streamMatrix);
+                        TempVertexData.Unknown4 = StreamUtil.ReadUInt32(streamMatrix);
+                        TempVertexData.WeightIndex = StreamUtil.ReadUInt32(streamMatrix);
+
+                        Model.vertexDatas.Add(TempVertexData);
+                    }
+
                 }
 
             }
@@ -309,6 +328,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public List<MorphHeader> morphHeader;
         public List<BoneWeightHeader> boneWeightHeaders;
         public List<TristripHeader> tristripHeaders;
+        public List<VertexData> vertexDatas;
     }
 
     public struct MaterialData
@@ -396,5 +416,18 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public int MaterialIndex4;
 
         public List<int> IndexList;
+    }
+
+    public struct VertexData
+    {
+        public Vector3 VertexPosition;
+        public float Unknown1;
+        public Vector3 VertexNormal;
+        public float Unknown2;
+        public Vector3 VertexTangentNormal;
+        public float Unknown3;
+        public Vector2 VertexUV;
+        public int Unknown4;
+        public int WeightIndex; 
     }
 }

@@ -138,6 +138,14 @@ namespace SSXMultiTool.Utilities
             return Color.FromArgb(A, R, G, B);
         }
 
+        public static Vector2 ReadVector2(Stream stream, bool BigEndian = false)
+        {
+            Vector2 vertex = new Vector2();
+            vertex.X = StreamUtil.ReadFloat(stream, BigEndian);
+            vertex.Y = StreamUtil.ReadFloat(stream, BigEndian);
+            return vertex;
+        }
+
         public static Vector3 ReadVector3(Stream stream, bool BigEndian = false)
         {
             Vector3 vertex = new Vector3();
