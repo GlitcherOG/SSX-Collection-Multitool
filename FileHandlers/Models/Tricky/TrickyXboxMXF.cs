@@ -42,7 +42,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     TempModelHeader.OffsetIKPointList = StreamUtil.ReadUInt32(stream);
                     TempModelHeader.OffsetMorphList = StreamUtil.ReadUInt32(stream);
 
-                    TempModelHeader.OffsetSkinningSection = StreamUtil.ReadUInt32(stream);
+                    TempModelHeader.OffsetWeight = StreamUtil.ReadUInt32(stream);
                     TempModelHeader.OffsetTristripSection = StreamUtil.ReadUInt32(stream);
                     TempModelHeader.Unknown0 = StreamUtil.ReadUInt32(stream);
                     TempModelHeader.OffsetVertexSection = StreamUtil.ReadUInt32(stream);
@@ -58,7 +58,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     TempModelHeader.NumMorphs = StreamUtil.ReadInt16(stream);
                     TempModelHeader.NumMaterials = StreamUtil.ReadInt16(stream);
                     TempModelHeader.NumIKPoints = StreamUtil.ReadInt16(stream);
-                    TempModelHeader.NumSkinningHeaders = StreamUtil.ReadInt16(stream);
+                    TempModelHeader.NumWeights = StreamUtil.ReadInt16(stream);
                     TempModelHeader.NumTristripGroups = StreamUtil.ReadInt16(stream);
                     TempModelHeader.Unknown3 = StreamUtil.ReadInt16(stream);
                     TempModelHeader.NumVertices = StreamUtil.ReadInt16(stream);
@@ -206,6 +206,32 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                     }
 
+                    streamMatrix.Position = Model.OffsetWeight;
+                    Model.boneWeightHeaders = new List<BoneWeightHeader>();
+
+                    for (int b = 0; b < Model.NumWeights; b++)
+                    {
+                        var BoneWeight = new BoneWeightHeader();
+
+                        BoneWeight.WeightCount = StreamUtil.ReadUInt32(streamMatrix);
+                        BoneWeight.WeightListOffset = StreamUtil.ReadUInt32(streamMatrix);
+                        BoneWeight.Unknown1 = StreamUtil.ReadUInt16(streamMatrix);
+                        BoneWeight.Unknown2 = StreamUtil.ReadUInt16(streamMatrix);
+                        BoneWeight.boneWeights = new List<BoneWeight>();
+                        int TempPos = (int)streamMatrix.Position;
+                        streamMatrix.Position = BoneWeight.WeightListOffset;
+                        for (int a = 0; a < BoneWeight.WeightCount; a++)
+                        {
+                            var boneWeight = new BoneWeight();
+                            boneWeight.Weight = StreamUtil.ReadInt16(streamMatrix);
+                            boneWeight.BoneID = StreamUtil.ReadUInt8(streamMatrix);
+                            boneWeight.FileID = StreamUtil.ReadUInt8(streamMatrix);
+                            BoneWeight.boneWeights.Add(boneWeight);
+                        }
+                        streamMatrix.Position = TempPos;
+                        Model.boneWeightHeaders.Add(BoneWeight);
+                    }
+
 
                 }
 
@@ -229,7 +255,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public int OffsetIKPointList;
         public int OffsetMorphList;
 
-        public int OffsetSkinningSection;
+        public int OffsetWeight;
         public int OffsetTristripSection;
         public int Unknown0;
         public int OffsetVertexSection;
@@ -243,7 +269,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public int NumMorphs;
         public int NumMaterials;
         public int NumIKPoints;
-        public int NumSkinningHeaders;
+        public int NumWeights;
         public int NumTristripGroups;
         public int Unknown3;
         public int NumVertices;
@@ -258,6 +284,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public List<BoneData> boneDatas;
         public List<Vector3> iKPoints;
         public List<MorphHeader> morphHeader;
+        public List<BoneWeightHeader> boneWeightHeaders;
     }
 
     public struct MaterialData
@@ -315,5 +342,22 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public int VertexIndex;
         public int U1;
         public int U2;
+    }
+
+    public struct BoneWeightHeader
+    {
+        public int WeightCount;
+        public int WeightListOffset;
+        public int Unknown1;
+        public int Unknown2;
+
+        public List<BoneWeight> boneWeights;
+    }
+
+    public struct BoneWeight
+    {
+        public int Weight;
+        public int BoneID;
+        public int FileID;
     }
 }

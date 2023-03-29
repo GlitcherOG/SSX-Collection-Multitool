@@ -219,13 +219,13 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 {
                     var BoneWeight = new BoneWeightHeader();
 
-                    BoneWeight.length = StreamUtil.ReadUInt32(streamMatrix);
+                    BoneWeight.WeightCount = StreamUtil.ReadUInt32(streamMatrix);
                     BoneWeight.WeightListOffset = StreamUtil.ReadUInt32(streamMatrix);
-                    BoneWeight.unknown = StreamUtil.ReadUInt32(streamMatrix);
+                    BoneWeight.Unknown = StreamUtil.ReadUInt32(streamMatrix);
                     BoneWeight.boneWeights = new List<BoneWeight>();
                     int TempPos = (int)streamMatrix.Position;
                     streamMatrix.Position = BoneWeight.WeightListOffset;
-                    for (int a = 0; a < BoneWeight.length; a++)
+                    for (int a = 0; a < BoneWeight.WeightCount; a++)
                     {
                         var boneWeight = new BoneWeight();
                         boneWeight.Weight = StreamUtil.ReadInt16(streamMatrix);
@@ -653,7 +653,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 {
                     StreamUtil.WriteInt32(ModelStream, Model.boneWeightHeader[a].boneWeights.Count);
                     StreamUtil.WriteInt32(ModelStream, Model.boneWeightHeader[a].WeightListOffset);
-                    StreamUtil.WriteInt32(ModelStream, Model.boneWeightHeader[a].unknown);
+                    StreamUtil.WriteInt32(ModelStream, Model.boneWeightHeader[a].Unknown);
                 }
 
                 ModelStream.Position = Model.NumberListOffset;
@@ -1253,9 +1253,9 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
         public struct BoneWeightHeader
         {
-            public int length;
+            public int WeightCount;
             public int WeightListOffset;
-            public int unknown; //Always 36
+            public int Unknown; //Always 36
 
             public List<BoneWeight> boneWeights;
         }
