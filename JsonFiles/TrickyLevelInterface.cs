@@ -50,7 +50,7 @@ namespace SSXMultiTool
             //ssfHandler.SaveTest(LoadPath + ".ssf");
 
             Directory.CreateDirectory(ExportPath + "\\Collision");
-            //ssfHandler.SaveModels(ExportPath + "\\Collision");
+            ssfHandler.SaveModels(ExportPath + "\\Collision");
 
             //Load Map
             MapHandler mapHandler = new MapHandler();
@@ -376,6 +376,50 @@ namespace SSXMultiTool
                     TempPrefabObject.Position = JsonUtil.Vector3ToArray(Location);
                     TempPrefabObject.Rotation = JsonUtil.QuaternionToArray(Rotation);
                     TempPrefabObject.Scale = JsonUtil.Vector3ToArray(Scale);
+
+                    if(pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries !=null)
+                    {
+                        var TempAnimation = new PrefabJsonHandler.ObjectAnimation();
+
+                        TempAnimation.U1 = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.U1;
+                        TempAnimation.U2 = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.U2;
+                        TempAnimation.U3 = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.U3;
+                        TempAnimation.U4 = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.U4;
+                        TempAnimation.U5 = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.U5;
+                        TempAnimation.U6 = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.U6;
+
+                        TempAnimation.AnimationAction = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.AnimationAction;
+
+                        TempAnimation.AnimationEntries = new List<PrefabJsonHandler.AnimationEntry>();
+
+                        for (int b = 0; b < pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries.Count; b++)
+                        {
+                            var TempEntry = new PrefabJsonHandler.AnimationEntry();
+                            TempEntry.AnimationMaths = new List<PrefabJsonHandler.AnimationMath>();
+                            for (int c = 0; c < pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries[b].animationMaths.Count; c++)
+                            {
+                                var TempMaths = new PrefabJsonHandler.AnimationMath();
+
+                                TempMaths.Value1 = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries[b].animationMaths[c].Value1;
+                                TempMaths.Value2 = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries[b].animationMaths[c].Value2;
+                                TempMaths.Value3 = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries[b].animationMaths[c].Value3;
+                                TempMaths.Value4 = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries[b].animationMaths[c].Value4;
+                                TempMaths.Value5 = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries[b].animationMaths[c].Value5;
+                                TempMaths.Value6 = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries[b].animationMaths[c].Value6;
+
+                                TempEntry.AnimationMaths.Add(TempMaths);
+                            }
+
+
+                            TempAnimation.AnimationEntries.Add(TempEntry);
+                        }
+
+
+                        TempPrefabObject.Animation = TempAnimation;
+                    }
+
+
+
 
                     TempModel.PrefabObjects.Add(TempPrefabObject);
                 }

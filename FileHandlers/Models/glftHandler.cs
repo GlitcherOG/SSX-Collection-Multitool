@@ -831,7 +831,7 @@ namespace SSXMultiTool.FileHandlers
 
                             //Get Weights
                             NewVertex.weightHeader = new TrickyPS2MPF.BoneWeightHeader();
-                            NewVertex.weightHeader.unknown = 36;
+                            NewVertex.weightHeader.Unknown = 36;
                             NewVertex.weightHeader.boneWeights = new List<TrickyPS2MPF.BoneWeight>();
 
                             for (int d = 0; d < TempSkinning.MaxBindings; d++)
