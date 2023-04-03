@@ -1093,9 +1093,12 @@ namespace SSXMultiTool
                 var NewMaterial = new TrickyMaterial();
 
                 NewMaterial.TextureID = materialJson.MaterialsJsons[i].TextureID;
-                if (lightingFixObjects.Count - 1 >= NewMaterial.TextureID)
+                if (AttemptLightingFix && NewMaterial.TextureID != -1)
                 {
-                    lightingFixObjects[NewMaterial.TextureID].Object.Add(i);
+                    if (lightingFixObjects.Count - 1 >= NewMaterial.TextureID)
+                    {
+                        lightingFixObjects[NewMaterial.TextureID].Object.Add(i);
+                    }
                 }
                 NewMaterial.UnknownInt2 = materialJson.MaterialsJsons[i].UnknownInt2;
                 NewMaterial.UnknownInt3 = materialJson.MaterialsJsons[i].UnknownInt3;

@@ -755,7 +755,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, TempInstance.UnknownInt26);
                 StreamUtil.WriteInt32(stream, TempInstance.UnknownInt27);
                 StreamUtil.WriteInt32(stream, TempInstance.UnknownInt28);
-                StreamUtil.WriteInt32(stream, TempInstance.ModelID2);
+                StreamUtil.WriteInt32(stream, TempInstance.ModelID2); //SSF Index?
                 StreamUtil.WriteInt32(stream, TempInstance.UnknownInt30);
                 StreamUtil.WriteInt32(stream, TempInstance.UnknownInt31);
                 StreamUtil.WriteInt32(stream, TempInstance.UnknownInt32);
