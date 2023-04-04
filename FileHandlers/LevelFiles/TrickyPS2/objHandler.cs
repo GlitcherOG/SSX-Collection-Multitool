@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -25,6 +26,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 List<Vector2> TextureCords = new List<Vector2>();
                 Mesh mesh = new Mesh();
                 mesh.meshFaces = new List<Faces>();
+
+                CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+                ci.NumberFormat.CurrencyDecimalSeparator = ".";
+
                 //Load File
                 for (int a = 0; a < Lines.Length; a++)
                 {
@@ -42,9 +47,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     {
                         string[] splitLine = Lines[a].Split(' ');
                         Vector3 vector3 = new Vector3();
-                        vector3.X = float.Parse(splitLine[1]);
-                        vector3.Y = float.Parse(splitLine[2]);
-                        vector3.Z = float.Parse(splitLine[3]);
+                        vector3.X = float.Parse(splitLine[1], new CultureInfo("en-US").NumberFormat);
+                        vector3.Y = float.Parse(splitLine[2], new CultureInfo("en-US").NumberFormat);
+                        vector3.Z = float.Parse(splitLine[3], new CultureInfo("en-US").NumberFormat);
                         vertices.Add(vector3);
                     }
 
@@ -52,8 +57,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     {
                         string[] splitLine = Lines[a].Split(' ');
                         Vector2 vector2 = new Vector2();
-                        vector2.X = float.Parse(splitLine[1]);
-                        vector2.Y = float.Parse(splitLine[2]);
+                        vector2.X = float.Parse(splitLine[1], new CultureInfo("en-US").NumberFormat);
+                        vector2.Y = float.Parse(splitLine[2], new CultureInfo("en-US").NumberFormat);
                         TextureCords.Add(vector2);
                     }
 
@@ -61,9 +66,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     {
                         string[] splitLine = Lines[a].Split(' ');
                         Vector3 vector3 = new Vector3();
-                        vector3.X = float.Parse(splitLine[1]);
-                        vector3.Y = float.Parse(splitLine[2]);
-                        vector3.Z = float.Parse(splitLine[3]);
+                        vector3.X = float.Parse(splitLine[1], new CultureInfo("en-US").NumberFormat);
+                        vector3.Y = float.Parse(splitLine[2], new CultureInfo("en-US").NumberFormat);
+                        vector3.Z = float.Parse(splitLine[3], new CultureInfo("en-US").NumberFormat);
                         normals.Add(vector3);
                     }
 
