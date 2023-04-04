@@ -1022,7 +1022,7 @@ namespace SSXMultiTool
                 pbdHandler.splines.Add(spline);
             }
 
-            pbdHandler.ImportMeshes(ExportPath + "\\Models");
+            pbdHandler.ImportMeshes(LoadPath + "\\Models");
 
             instancesJson = new InstanceJsonHandler();
             instancesJson = InstanceJsonHandler.Load(LoadPath + "/Instances.json");
