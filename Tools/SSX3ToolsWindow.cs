@@ -46,7 +46,7 @@ namespace SSXMultiTool
 
         private void CharApply(object sender, EventArgs e)
         {
-            if (!DisableUpdate && charBox1.SelectedIndex!=-1)
+            if (!DisableUpdate && charBox1.SelectedIndex != -1)
             {
                 CharDB temp = new CharDB
                 {
@@ -763,10 +763,10 @@ namespace SSXMultiTool
         {
             MPFSaveDecompressed.Visible = true;
         }
-        
+
         private void MaterialList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(MaterialList.SelectedIndex != -1 && !DisableUpdate)
+            if (MaterialList.SelectedIndex != -1 && !DisableUpdate)
             {
                 DisableUpdate = true;
                 var TempModel = ssx3ModelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex].MaterialList[MaterialList.SelectedIndex];
@@ -786,17 +786,17 @@ namespace SSXMultiTool
 
         private void MatUpdate(object sender, EventArgs e)
         {
-            if(!DisableUpdate && MaterialList.SelectedIndex != -1)
+            if (!DisableUpdate && MaterialList.SelectedIndex != -1)
             {
                 DisableUpdate = true;
                 var TempModel = ssx3ModelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex];
                 var TempMaterial = TempModel.MaterialList[MaterialList.SelectedIndex];
 
                 TempMaterial.MainTexture = MatMainTexture.Text;
-                TempMaterial.Texture1= MatTextureFlag1.Text;
-                TempMaterial.Texture2= MatTextureFlag2.Text;
-                TempMaterial.Texture3= MatTextureFlag3.Text;
-                TempMaterial.Texture4= MatTextureFlag4.Text;
+                TempMaterial.Texture1 = MatTextureFlag1.Text;
+                TempMaterial.Texture2 = MatTextureFlag2.Text;
+                TempMaterial.Texture3 = MatTextureFlag3.Text;
+                TempMaterial.Texture4 = MatTextureFlag4.Text;
 
                 TempMaterial.FactorFloat = (float)MatFlagFactor.Value;
                 TempMaterial.Unused1Float = (float)MatUnknown1.Value;
