@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 using SSXMultiTool.Utilities;
+using System.Globalization;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
@@ -1311,15 +1312,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                             for (int z = 0; z < vertices.Count; z++)
                             {
-                                output += "v " + vertices[z].X + " " + vertices[z].Y + " " + vertices[z].Z + "\n";
+                                output += "v " + vertices[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + vertices[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + vertices[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
                             }
                             for (int z = 0; z < UV.Count; z++)
                             {
-                                output += "vt " + UV[z].X + " " + -UV[z].Y + "\n";
+                                output += "vt " + UV[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + (-UV[z].Y).ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
                             }
                             for (int z = 0; z < Normals.Count; z++)
                             {
-                                output += "vn " + Normals[z].X + " " + Normals[z].Y + " " + Normals[z].Z + "\n";
+                                output += "vn " + Normals[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Normals[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Normals[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
                             }
                             output += outputString;
                             File.WriteAllText(path + "/" + PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets[i].MeshID.ToString() + ".obj", output);
@@ -1355,6 +1356,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             {
                                 ModelObject modelObject = objHandler.LoadFile(FolderPath + "\\" + TempMeshOffset.MeshPath);
                                 TempMeshOffset.FullMesh = objHandler.GenerateTristripDataOneNew(modelObject.Meshs[0]);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error File " + TempMeshOffset.MeshPath + " Doesnt Exist");
                             }
 
                             if (!TempMeshOffset.FullMesh.Equals(null))

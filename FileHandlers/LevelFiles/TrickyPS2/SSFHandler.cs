@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -415,11 +416,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     for (int z = 0; z < Data.Vertices.Count; z++)
                     {
-                        output += "v " + Data.Vertices[z].X + " " + Data.Vertices[z].Y + " " + Data.Vertices[z].Z + "\n";
+                        output += "v " + Data.Vertices[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Data.Vertices[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Data.Vertices[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
                     }
                     for (int z = 0; z < Data.FaceNormals.Count; z++)
                     {
-                        output += "vn " + Data.FaceNormals[z].X + " " + Data.FaceNormals[z].Y + " " + Data.FaceNormals[z].Z + "\n";
+                        output += "vn " + Data.FaceNormals[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Data.FaceNormals[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Data.FaceNormals[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
                     }
                     output += outputString;
                     File.WriteAllText(Path + "/" + c + ".obj", output);
