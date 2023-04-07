@@ -62,7 +62,7 @@ namespace SSXMultiTool.Tools
 
                         cmd.StandardInput.WriteLine(drive);
                         cmd.StandardInput.WriteLine("cd " + Application.StartupPath + "/TempAudio");
-                        cmd.StandardInput.WriteLine("sx.exe -wave -s16l_int -playlocmaincpu  Audio.bnk -onetomany -=*.wav");
+                        cmd.StandardInput.WriteLine("sx.exe -wave -s16l_int -playlocmaincpu Audio.bnk -onetomany -=*");
                         cmd.StandardInput.Flush();
                         cmd.StandardInput.Close();
                         cmd.WaitForExit();
@@ -72,10 +72,21 @@ namespace SSXMultiTool.Tools
                         File.Delete(Application.StartupPath + "/TempAudio/sx.exe");
                         File.Delete(Application.StartupPath + "/TempAudio/Audio.bnk");
                         string[] Files = Directory.GetFiles(Application.StartupPath + "/TempAudio");
-                        for (int i = 0; i < Files.Length; i++)
+
+                        int[] FileNumbers = new int[Files.Length];
+
+                        for (int i = 0; i < FileNumbers.Length; i++)
                         {
-                            File.Copy(Files[i], openFileDialog1.FileName + "/" + i + ".wav", true);
-                            File.Delete(Files[i]);
+                            var temp = Files[i].Split(".");
+                            FileNumbers[i] = int.Parse(temp[temp.Length-1]);
+                        }
+                        Array.Sort(FileNumbers);
+
+
+                        for (int i = 0; i < FileNumbers.Length; i++)
+                        {
+                            File.Copy(Application.StartupPath + "/TempAudio/." + FileNumbers[i], openFileDialog1.FileName + "/" + $"{FileNumbers[i]:000}" + ".wav", true);
+                            File.Delete(Application.StartupPath + "/TempAudio/." + FileNumbers[i]);
                         }
 
                         while (Directory.GetFiles(Application.StartupPath + "/TempAudio").Length != 0)
