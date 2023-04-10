@@ -178,7 +178,7 @@ namespace SSXMultiTool.FileHandlers
             for (int i = 0; i < paths.Length; i++)
             {
                 BIGFFiles tempFile = new BIGFFiles();
-                tempFile.path = paths[i].Remove(0, path.Length+1).Replace("//",@"/");
+                tempFile.path = paths[i].Remove(0, path.Length+1).Replace("//",@"/").Replace("\\", "/");
                 FileOffset += tempFile.path.Length + 9;
                 Stream stream = File.OpenRead(paths[i]);
                 if (CompressBuild)
@@ -253,37 +253,44 @@ namespace SSXMultiTool.FileHandlers
 
         public void BuildBig(string path)
         {
-            if (File.Exists(path))
+            try
             {
-                File.Delete(path);
-            }
-            var file = File.Create(path);
-            Stream stream = file;
-
-            if (bigType == BigType.BIGF || bigType == BigType.BIG4)
-            {
-                var temp = bigType;
-                LoadFolder(bigPath);
-                if(temp == BigType.BIG4)
+                if (File.Exists(path))
                 {
-                    bigType = BigType.BIG4;
+                    File.Delete(path);
                 }
-                BuildBigF(stream);
-            }
-            else if (bigType == BigType.C0FB)
-            {
-                LoadFolderC0FB(bigPath);
-                BuildBigC0FB(stream);
-            }
-            else
-            {
-                MessageBox.Show("Unkown format");
-            }
+                var file = File.Create(path);
+                Stream stream = file;
 
-            stream.Dispose();
-            stream.Close();
-            file.Close();
-            GC.Collect();
+                if (bigType == BigType.BIGF || bigType == BigType.BIG4)
+                {
+                    var temp = bigType;
+                    LoadFolder(bigPath);
+                    if (temp == BigType.BIG4)
+                    {
+                        bigType = BigType.BIG4;
+                    }
+                    BuildBigF(stream);
+                }
+                else if (bigType == BigType.C0FB)
+                {
+                    LoadFolderC0FB(bigPath);
+                    BuildBigC0FB(stream);
+                }
+                else
+                {
+                    MessageBox.Show("Unkown format");
+                }
+
+                stream.Dispose();
+                stream.Close();
+                file.Close();
+                GC.Collect();
+            }
+            catch
+            {
+                MessageBox.Show("Unable to Build Big File");
+            }
         }
 
         public void BuildBigF(Stream stream)

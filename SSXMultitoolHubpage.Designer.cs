@@ -28,226 +28,224 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.SSX3ToolsButton = new System.Windows.Forms.Button();
-            this.TrickyToolsButton = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.SSX3LevelButton = new System.Windows.Forms.Button();
-            this.TrickyLevelButton = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.AudioWindowButton = new System.Windows.Forms.Button();
-            this.SSHImageButton = new System.Windows.Forms.Button();
-            this.LocFileButton = new System.Windows.Forms.Button();
-            this.BigArchiveButton = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.SuspendLayout();
+            button1 = new Button();
+            groupBox1 = new GroupBox();
+            button2 = new Button();
+            SSX3ToolsButton = new Button();
+            TrickyToolsButton = new Button();
+            groupBox2 = new GroupBox();
+            button5 = new Button();
+            button6 = new Button();
+            groupBox3 = new GroupBox();
+            button4 = new Button();
+            SSX3LevelButton = new Button();
+            TrickyLevelButton = new Button();
+            groupBox4 = new GroupBox();
+            AudioWindowButton = new Button();
+            SSHImageButton = new Button();
+            LocFileButton = new Button();
+            BigArchiveButton = new Button();
+            groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
+            groupBox3.SuspendLayout();
+            groupBox4.SuspendLayout();
+            SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(6, 22);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(94, 50);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "SSX Tools";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            button1.Location = new Point(6, 22);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 50);
+            button1.TabIndex = 0;
+            button1.Text = "SSX Tools";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.SSX3ToolsButton);
-            this.groupBox1.Controls.Add(this.TrickyToolsButton);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(411, 83);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Per Game Tools";
+            groupBox1.Controls.Add(button2);
+            groupBox1.Controls.Add(SSX3ToolsButton);
+            groupBox1.Controls.Add(TrickyToolsButton);
+            groupBox1.Controls.Add(button1);
+            groupBox1.Location = new Point(12, 12);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(411, 83);
+            groupBox1.TabIndex = 3;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Per Game Tools";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(306, 22);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(94, 50);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "SSX On Tour Tools";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            button2.Location = new Point(306, 22);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 50);
+            button2.TabIndex = 3;
+            button2.Text = "SSX On Tour Tools";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // SSX3ToolsButton
             // 
-            this.SSX3ToolsButton.Location = new System.Drawing.Point(206, 22);
-            this.SSX3ToolsButton.Name = "SSX3ToolsButton";
-            this.SSX3ToolsButton.Size = new System.Drawing.Size(94, 50);
-            this.SSX3ToolsButton.TabIndex = 2;
-            this.SSX3ToolsButton.Text = "SSX 3 Tools";
-            this.SSX3ToolsButton.UseVisualStyleBackColor = true;
-            this.SSX3ToolsButton.Click += new System.EventHandler(this.SSX3ToolsButton_Click);
+            SSX3ToolsButton.Location = new Point(206, 22);
+            SSX3ToolsButton.Name = "SSX3ToolsButton";
+            SSX3ToolsButton.Size = new Size(94, 50);
+            SSX3ToolsButton.TabIndex = 2;
+            SSX3ToolsButton.Text = "SSX 3 Tools";
+            SSX3ToolsButton.UseVisualStyleBackColor = true;
+            SSX3ToolsButton.Click += SSX3ToolsButton_Click;
             // 
             // TrickyToolsButton
             // 
-            this.TrickyToolsButton.Location = new System.Drawing.Point(106, 22);
-            this.TrickyToolsButton.Name = "TrickyToolsButton";
-            this.TrickyToolsButton.Size = new System.Drawing.Size(94, 50);
-            this.TrickyToolsButton.TabIndex = 1;
-            this.TrickyToolsButton.Text = "SSX Tricky Tools";
-            this.TrickyToolsButton.UseVisualStyleBackColor = true;
-            this.TrickyToolsButton.Click += new System.EventHandler(this.TrickyToolsButton_Click);
+            TrickyToolsButton.Location = new Point(106, 22);
+            TrickyToolsButton.Name = "TrickyToolsButton";
+            TrickyToolsButton.Size = new Size(94, 50);
+            TrickyToolsButton.TabIndex = 1;
+            TrickyToolsButton.Text = "SSX Tricky Tools";
+            TrickyToolsButton.UseVisualStyleBackColor = true;
+            TrickyToolsButton.Click += TrickyToolsButton_Click;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button5);
-            this.groupBox2.Controls.Add(this.button6);
-            this.groupBox2.Location = new System.Drawing.Point(12, 279);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(213, 83);
-            this.groupBox2.TabIndex = 4;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Modding Tools";
+            groupBox2.Controls.Add(button5);
+            groupBox2.Controls.Add(button6);
+            groupBox2.Location = new Point(12, 279);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(213, 83);
+            groupBox2.TabIndex = 4;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Modding Tools";
             // 
             // button5
             // 
-            this.button5.Enabled = false;
-            this.button5.Location = new System.Drawing.Point(106, 22);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(94, 50);
-            this.button5.TabIndex = 1;
-            this.button5.Text = "Mod Maker";
-            this.button5.UseVisualStyleBackColor = true;
+            button5.Enabled = false;
+            button5.Location = new Point(106, 22);
+            button5.Name = "button5";
+            button5.Size = new Size(94, 50);
+            button5.TabIndex = 1;
+            button5.Text = "Mod Maker";
+            button5.UseVisualStyleBackColor = true;
             // 
             // button6
             // 
-            this.button6.Enabled = false;
-            this.button6.Location = new System.Drawing.Point(6, 22);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(94, 50);
-            this.button6.TabIndex = 0;
-            this.button6.Text = "Mod Loader";
-            this.button6.UseVisualStyleBackColor = true;
+            button6.Enabled = false;
+            button6.Location = new Point(6, 22);
+            button6.Name = "button6";
+            button6.Size = new Size(94, 50);
+            button6.TabIndex = 0;
+            button6.Text = "Mod Loader";
+            button6.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.button4);
-            this.groupBox3.Controls.Add(this.SSX3LevelButton);
-            this.groupBox3.Controls.Add(this.TrickyLevelButton);
-            this.groupBox3.Location = new System.Drawing.Point(12, 101);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(308, 83);
-            this.groupBox3.TabIndex = 5;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Game Level Tools";
+            groupBox3.Controls.Add(button4);
+            groupBox3.Controls.Add(SSX3LevelButton);
+            groupBox3.Controls.Add(TrickyLevelButton);
+            groupBox3.Location = new Point(12, 101);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(308, 83);
+            groupBox3.TabIndex = 5;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Game Level Tools";
             // 
             // button4
             // 
-            this.button4.Enabled = false;
-            this.button4.Location = new System.Drawing.Point(6, 22);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(94, 50);
-            this.button4.TabIndex = 2;
-            this.button4.Text = "SSX Level Files";
-            this.button4.UseVisualStyleBackColor = true;
+            button4.Enabled = false;
+            button4.Location = new Point(6, 22);
+            button4.Name = "button4";
+            button4.Size = new Size(94, 50);
+            button4.TabIndex = 2;
+            button4.Text = "SSX Level Files";
+            button4.UseVisualStyleBackColor = true;
             // 
             // SSX3LevelButton
             // 
-            this.SSX3LevelButton.Enabled = false;
-            this.SSX3LevelButton.Location = new System.Drawing.Point(206, 22);
-            this.SSX3LevelButton.Name = "SSX3LevelButton";
-            this.SSX3LevelButton.Size = new System.Drawing.Size(94, 50);
-            this.SSX3LevelButton.TabIndex = 1;
-            this.SSX3LevelButton.Text = "SSX 3 Level Files";
-            this.SSX3LevelButton.UseVisualStyleBackColor = true;
-            this.SSX3LevelButton.Click += new System.EventHandler(this.SSX3LevelButton_Click);
+            SSX3LevelButton.Location = new Point(206, 22);
+            SSX3LevelButton.Name = "SSX3LevelButton";
+            SSX3LevelButton.Size = new Size(94, 50);
+            SSX3LevelButton.TabIndex = 1;
+            SSX3LevelButton.Text = "SSX 3 Level Files";
+            SSX3LevelButton.UseVisualStyleBackColor = true;
+            SSX3LevelButton.Click += SSX3LevelButton_Click;
             // 
             // TrickyLevelButton
             // 
-            this.TrickyLevelButton.Location = new System.Drawing.Point(106, 22);
-            this.TrickyLevelButton.Name = "TrickyLevelButton";
-            this.TrickyLevelButton.Size = new System.Drawing.Size(94, 50);
-            this.TrickyLevelButton.TabIndex = 0;
-            this.TrickyLevelButton.Text = "SSX Tricky Level Files";
-            this.TrickyLevelButton.UseVisualStyleBackColor = true;
-            this.TrickyLevelButton.Click += new System.EventHandler(this.TrickyLevelButton_Click);
+            TrickyLevelButton.Location = new Point(106, 22);
+            TrickyLevelButton.Name = "TrickyLevelButton";
+            TrickyLevelButton.Size = new Size(94, 50);
+            TrickyLevelButton.TabIndex = 0;
+            TrickyLevelButton.Text = "SSX Tricky Level Files";
+            TrickyLevelButton.UseVisualStyleBackColor = true;
+            TrickyLevelButton.Click += TrickyLevelButton_Click;
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.AudioWindowButton);
-            this.groupBox4.Controls.Add(this.SSHImageButton);
-            this.groupBox4.Controls.Add(this.LocFileButton);
-            this.groupBox4.Controls.Add(this.BigArchiveButton);
-            this.groupBox4.Location = new System.Drawing.Point(12, 190);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(411, 83);
-            this.groupBox4.TabIndex = 4;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Misc Tools";
+            groupBox4.Controls.Add(AudioWindowButton);
+            groupBox4.Controls.Add(SSHImageButton);
+            groupBox4.Controls.Add(LocFileButton);
+            groupBox4.Controls.Add(BigArchiveButton);
+            groupBox4.Location = new Point(12, 190);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Size = new Size(411, 83);
+            groupBox4.TabIndex = 4;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Misc Tools";
             // 
             // AudioWindowButton
             // 
-            this.AudioWindowButton.Location = new System.Drawing.Point(306, 22);
-            this.AudioWindowButton.Name = "AudioWindowButton";
-            this.AudioWindowButton.Size = new System.Drawing.Size(94, 50);
-            this.AudioWindowButton.TabIndex = 3;
-            this.AudioWindowButton.Text = "Audio Tools";
-            this.AudioWindowButton.UseVisualStyleBackColor = true;
-            this.AudioWindowButton.Click += new System.EventHandler(this.AudioWindowButton_Click);
+            AudioWindowButton.Location = new Point(306, 22);
+            AudioWindowButton.Name = "AudioWindowButton";
+            AudioWindowButton.Size = new Size(94, 50);
+            AudioWindowButton.TabIndex = 3;
+            AudioWindowButton.Text = "Audio Tools";
+            AudioWindowButton.UseVisualStyleBackColor = true;
+            AudioWindowButton.Click += AudioWindowButton_Click;
             // 
             // SSHImageButton
             // 
-            this.SSHImageButton.Location = new System.Drawing.Point(206, 22);
-            this.SSHImageButton.Name = "SSHImageButton";
-            this.SSHImageButton.Size = new System.Drawing.Size(94, 50);
-            this.SSHImageButton.TabIndex = 2;
-            this.SSHImageButton.Text = "SSH Image File";
-            this.SSHImageButton.UseVisualStyleBackColor = true;
-            this.SSHImageButton.Click += new System.EventHandler(this.SSHImageButton_Click);
+            SSHImageButton.Location = new Point(206, 22);
+            SSHImageButton.Name = "SSHImageButton";
+            SSHImageButton.Size = new Size(94, 50);
+            SSHImageButton.TabIndex = 2;
+            SSHImageButton.Text = "SSH Image File";
+            SSHImageButton.UseVisualStyleBackColor = true;
+            SSHImageButton.Click += SSHImageButton_Click;
             // 
             // LocFileButton
             // 
-            this.LocFileButton.Location = new System.Drawing.Point(106, 22);
-            this.LocFileButton.Name = "LocFileButton";
-            this.LocFileButton.Size = new System.Drawing.Size(94, 50);
-            this.LocFileButton.TabIndex = 1;
-            this.LocFileButton.Text = "LOC Files";
-            this.LocFileButton.UseVisualStyleBackColor = true;
-            this.LocFileButton.Click += new System.EventHandler(this.LocFileButton_Click);
+            LocFileButton.Location = new Point(106, 22);
+            LocFileButton.Name = "LocFileButton";
+            LocFileButton.Size = new Size(94, 50);
+            LocFileButton.TabIndex = 1;
+            LocFileButton.Text = "LOC Files";
+            LocFileButton.UseVisualStyleBackColor = true;
+            LocFileButton.Click += LocFileButton_Click;
             // 
             // BigArchiveButton
             // 
-            this.BigArchiveButton.Location = new System.Drawing.Point(6, 22);
-            this.BigArchiveButton.Name = "BigArchiveButton";
-            this.BigArchiveButton.Size = new System.Drawing.Size(94, 50);
-            this.BigArchiveButton.TabIndex = 0;
-            this.BigArchiveButton.Text = "Big Archive";
-            this.BigArchiveButton.UseVisualStyleBackColor = true;
-            this.BigArchiveButton.Click += new System.EventHandler(this.BigArchiveButton_Click);
+            BigArchiveButton.Location = new Point(6, 22);
+            BigArchiveButton.Name = "BigArchiveButton";
+            BigArchiveButton.Size = new Size(94, 50);
+            BigArchiveButton.TabIndex = 0;
+            BigArchiveButton.Text = "Big Archive";
+            BigArchiveButton.UseVisualStyleBackColor = true;
+            BigArchiveButton.Click += BigArchiveButton_Click;
             // 
             // SSXMultitoolHubpage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
-            this.Name = "SSXMultitoolHubpage";
-            this.Text = "SSX Multitool Hubpage";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(groupBox4);
+            Controls.Add(groupBox3);
+            Controls.Add(groupBox2);
+            Controls.Add(groupBox1);
+            Name = "SSXMultitoolHubpage";
+            Text = "SSX Multitool Hubpage";
+            groupBox1.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
+            groupBox3.ResumeLayout(false);
+            groupBox4.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion

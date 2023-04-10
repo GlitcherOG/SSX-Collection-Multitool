@@ -28,66 +28,77 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.LevelExtract = new System.Windows.Forms.Button();
-            this.PackSSB = new System.Windows.Forms.Button();
-            this.LoadSDB = new System.Windows.Forms.Button();
-            this.PSMLoad = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            LevelExtract = new Button();
+            PackSSB = new Button();
+            LoadSDB = new Button();
+            PSMLoad = new Button();
+            button1 = new Button();
+            SuspendLayout();
             // 
             // LevelExtract
             // 
-            this.LevelExtract.Location = new System.Drawing.Point(12, 404);
-            this.LevelExtract.Name = "LevelExtract";
-            this.LevelExtract.Size = new System.Drawing.Size(118, 34);
-            this.LevelExtract.TabIndex = 0;
-            this.LevelExtract.Text = "Unpack SSB";
-            this.LevelExtract.UseVisualStyleBackColor = true;
-            this.LevelExtract.Click += new System.EventHandler(this.LevelExtract_Click);
+            LevelExtract.Location = new Point(12, 404);
+            LevelExtract.Name = "LevelExtract";
+            LevelExtract.Size = new Size(118, 34);
+            LevelExtract.TabIndex = 0;
+            LevelExtract.Text = "Unpack SSB";
+            LevelExtract.UseVisualStyleBackColor = true;
+            LevelExtract.Click += LevelExtract_Click;
             // 
             // PackSSB
             // 
-            this.PackSSB.Enabled = false;
-            this.PackSSB.Location = new System.Drawing.Point(670, 404);
-            this.PackSSB.Name = "PackSSB";
-            this.PackSSB.Size = new System.Drawing.Size(118, 34);
-            this.PackSSB.TabIndex = 1;
-            this.PackSSB.Text = "Pack SSB";
-            this.PackSSB.UseVisualStyleBackColor = true;
-            this.PackSSB.Click += new System.EventHandler(this.PackSSB_Click);
+            PackSSB.Enabled = false;
+            PackSSB.Location = new Point(670, 404);
+            PackSSB.Name = "PackSSB";
+            PackSSB.Size = new Size(118, 34);
+            PackSSB.TabIndex = 1;
+            PackSSB.Text = "Pack SSB";
+            PackSSB.UseVisualStyleBackColor = true;
+            PackSSB.Click += PackSSB_Click;
             // 
             // LoadSDB
             // 
-            this.LoadSDB.Location = new System.Drawing.Point(12, 364);
-            this.LoadSDB.Name = "LoadSDB";
-            this.LoadSDB.Size = new System.Drawing.Size(118, 34);
-            this.LoadSDB.TabIndex = 2;
-            this.LoadSDB.Text = "Load SDB";
-            this.LoadSDB.UseVisualStyleBackColor = true;
-            this.LoadSDB.Click += new System.EventHandler(this.LoadSDB_Click);
+            LoadSDB.Location = new Point(12, 364);
+            LoadSDB.Name = "LoadSDB";
+            LoadSDB.Size = new Size(118, 34);
+            LoadSDB.TabIndex = 2;
+            LoadSDB.Text = "Load SDB";
+            LoadSDB.UseVisualStyleBackColor = true;
+            LoadSDB.Click += LoadSDB_Click;
             // 
             // PSMLoad
             // 
-            this.PSMLoad.Location = new System.Drawing.Point(12, 324);
-            this.PSMLoad.Name = "PSMLoad";
-            this.PSMLoad.Size = new System.Drawing.Size(118, 34);
-            this.PSMLoad.TabIndex = 3;
-            this.PSMLoad.Text = "Load PSM";
-            this.PSMLoad.UseVisualStyleBackColor = true;
-            this.PSMLoad.Click += new System.EventHandler(this.PSMLoad_Click);
+            PSMLoad.Location = new Point(12, 324);
+            PSMLoad.Name = "PSMLoad";
+            PSMLoad.Size = new Size(118, 34);
+            PSMLoad.TabIndex = 3;
+            PSMLoad.Text = "Load PSM";
+            PSMLoad.UseVisualStyleBackColor = true;
+            PSMLoad.Click += PSMLoad_Click;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(670, 364);
+            button1.Name = "button1";
+            button1.Size = new Size(118, 34);
+            button1.TabIndex = 4;
+            button1.Text = "Save SDB";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // SSX3ProjectWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.PSMLoad);
-            this.Controls.Add(this.LoadSDB);
-            this.Controls.Add(this.PackSSB);
-            this.Controls.Add(this.LevelExtract);
-            this.Name = "SSX3ProjectWindow";
-            this.Text = "SSX3ProjectWindow";
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(button1);
+            Controls.Add(PSMLoad);
+            Controls.Add(LoadSDB);
+            Controls.Add(PackSSB);
+            Controls.Add(LevelExtract);
+            Name = "SSX3ProjectWindow";
+            Text = "SSX3ProjectWindow";
+            ResumeLayout(false);
         }
 
         #endregion
@@ -96,5 +107,6 @@
         private Button PackSSB;
         private Button LoadSDB;
         private Button PSMLoad;
+        private Button button1;
     }
 }
