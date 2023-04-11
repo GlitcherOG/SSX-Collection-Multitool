@@ -121,9 +121,7 @@ namespace SSXMultiTool.FileHandlers
 
                 stream.Position = tempImage.offset;
 
-                tempByte = new byte[1];
-                stream.Read(tempByte, 0, tempByte.Length);
-                tempImageHeader.MatrixFormat = tempByte[0];
+                tempImageHeader.MatrixFormat = StreamUtil.ReadUInt8(stream);
 
                 tempImageHeader.Size = StreamUtil.ReadInt24(stream);
 
