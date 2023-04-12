@@ -389,9 +389,9 @@ namespace SSXMultiTool.FileHandlers
             SSHImage temp = sshImages[i];
             SSHColourTable colourTable = new SSHColourTable();
             colourTable.colorTable = new List<Color>();
-            if (sshImages[i].MetalBin)
+            if (temp.MetalBin)
             {
-                if (sshImages[i].bitmap.Width != sshImages[i].metalBitmap.Width && sshImages[i].bitmap.Height != sshImages[i].metalBitmap.Height)
+                if (sshImages[i].bitmap.Width != sshImages[i].metalBitmap.Width || sshImages[i].bitmap.Height != sshImages[i].metalBitmap.Height)
                 {
                     Bitmap metalBitmap = new Bitmap(sshImages[i].bitmap.Width, sshImages[i].bitmap.Height, PixelFormat.Format32bppArgb);
                     temp.metalBitmap = metalBitmap;
@@ -401,10 +401,10 @@ namespace SSXMultiTool.FileHandlers
             {
                 for (int x = 0; x < temp.bitmap.Width; x++)
                 {
-                    Color color = sshImages[i].bitmap.GetPixel(x, y);
-                    if (sshImages[i].MetalBin)
+                    Color color = temp.bitmap.GetPixel(x, y);
+                    if (temp.MetalBin)
                     {
-                        color = Color.FromArgb(sshImages[i].metalBitmap.GetPixel(x, y).R, color.R, color.G, color.B);
+                        color = Color.FromArgb(temp.metalBitmap.GetPixel(x, y).R, color.R, color.G, color.B);
                     }
 
                     if (!colourTable.colorTable.Contains(color))
