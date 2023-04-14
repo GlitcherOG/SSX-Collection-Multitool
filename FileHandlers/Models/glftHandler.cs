@@ -13,6 +13,7 @@ using SSXMultiTool.FileHandlers.Models.OnTour;
 using SSXMultiTool.FileHandlers.Models.SSX3;
 using SSXMultiTool.Utilities;
 using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
+using static SSXMultiTool.FileHandlers.glftHandler;
 
 //https://github.com/vpenades/SharpGLTF/blob/master/src/SharpGLTF.Toolkit/Geometry/readme.md
 namespace SSXMultiTool.FileHandlers
@@ -377,6 +378,7 @@ namespace SSXMultiTool.FileHandlers
 
             //for (int i = 0; i < Handler; i++)
             {
+                List<PointMorph> pointMorphs = new List<PointMorph>();
                 var mesh = new MeshBuilder<VertexPositionNormalTangent, VertexTexture1, VertexJoints4>(Handler.ModelName);
 
                 for (int a = 0; a < Handler.tristripHeaders.Count; a++)
@@ -440,13 +442,47 @@ namespace SSXMultiTool.FileHandlers
                         TempBinding3.SetBindings(bindings1);
 
                         mesh.UsePrimitive(materialBuilders[TristripTemp.MaterialIndex0]).AddTriangle((TempPos1, TempTexture1, TempBinding1), (TempPos2, TempTexture2, TempBinding2), (TempPos3, TempTexture3, TempBinding3));
+
+                        if (Handler.NumMorphs != 0)
+                        {
+                            if (!pointMorphs.Contains(GeneratePointMorph(TempPos1.Position, Face.MorphPoint1)))
+                            {
+                                pointMorphs.Add(GeneratePointMorph(TempPos1.Position, Face.MorphPoint1));
+                            }
+                            if (!pointMorphs.Contains(GeneratePointMorph(TempPos2.Position, Face.MorphPoint2)))
+                            {
+                                pointMorphs.Add(GeneratePointMorph(TempPos2.Position, Face.MorphPoint2));
+                            }
+                            if (!pointMorphs.Contains(GeneratePointMorph(TempPos3.Position, Face.MorphPoint3)))
+                            {
+                                pointMorphs.Add(GeneratePointMorph(TempPos3.Position, Face.MorphPoint3));
+                            }
+                        }
                     }
 
+
+
+                }
+
+                for (int c = 0; c < Handler.NumMorphs; c++)
+                {
+                    var morphTargetBuilder = mesh.UseMorphTarget(c);
+                    foreach (var vertexPosition in morphTargetBuilder.Vertices)
+                    {
+                        for (int i = 0; i < pointMorphs.Count; i++)
+                        {
+                            if (pointMorphs[i].Point == vertexPosition.Position)
+                            {
+                                var NewVertexPosition = vertexPosition;
+                                NewVertexPosition.Position += pointMorphs[i].MorphPoints[c];
+                                morphTargetBuilder.SetVertex(vertexPosition, NewVertexPosition);
+                            }
+                        }
+                    }
                 }
 
                 scene.AddSkinnedMesh(mesh, Matrix4x4.CreateFromYawPitchRoll(0, 0/*-1.5708f*/, 0), bindings.ToArray());
             }
-
 
             // save the model in different formats
             var model = scene.ToGltf2();

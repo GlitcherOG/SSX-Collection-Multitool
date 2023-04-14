@@ -291,6 +291,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         TempVertexData.Unknown4 = StreamUtil.ReadUInt32(streamMatrix);
                         TempVertexData.WeightIndex = StreamUtil.ReadUInt32(streamMatrix);
 
+                        TempVertexData.MorphData = new List<Vector3>();
+
                         Model.unknownVertexData.Add(TempVertexData);
                     }
 
@@ -326,7 +328,21 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         Model.lastDatas.Add(TempLastData);
                     }
 
+                    //Add Morph to VertexData
+                    for (int a = 0; a < Model.morphHeader.Count; a++)
+                    {
+                        var MorphHeader = Model.morphHeader[a];
 
+                        for (int b = 0; b < MorphHeader.MorphDataList.Count; b++)
+                        {
+                            var MorphData = MorphHeader.MorphDataList[b];
+
+                            Model.vertexDatas[MorphData.VertexIndex].MorphData.Add(MorphData.Morph);
+                        }
+                    }
+
+
+                    //Generate the Faces
                     for (int a = 0; a < Model.tristripHeaders.Count; a++)
                     {
                         var TempHeader = Model.tristripHeaders[a];
