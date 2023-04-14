@@ -483,7 +483,15 @@ namespace SSXMultiTool.FileHandlers
 
                 scene.AddSkinnedMesh(mesh, Matrix4x4.CreateFromYawPitchRoll(0, 0/*-1.5708f*/, 0), bindings.ToArray());
             }
-
+            if (Handler.iKPoints != null)
+            {
+                for (int i = 0; i < Handler.iKPoints.Count; i++)
+                {
+                    var Temp = new SharpGLTF.Scenes.NodeBuilder("IKPoint " + i.ToString());
+                    Temp.WithLocalTranslation(Handler.iKPoints[i]);
+                    scene.AddNode(Temp);
+                }
+            }
             // save the model in different formats
             var model = scene.ToGltf2();
             model.SaveGLB(Output);
