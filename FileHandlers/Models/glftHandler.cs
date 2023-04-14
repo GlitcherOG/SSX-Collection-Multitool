@@ -376,7 +376,7 @@ namespace SSXMultiTool.FileHandlers
                 bindings.Add(Binding);
             }
 
-            //for (int i = 0; i < Handler; i++)
+            for (int i = 0; i < 1; i++)
             {
                 List<PointMorph> pointMorphs = new List<PointMorph>();
                 var mesh = new MeshBuilder<VertexPositionNormalTangent, VertexTexture1, VertexJoints4>(Handler.ModelName);
@@ -401,7 +401,7 @@ namespace SSXMultiTool.FileHandlers
                         VertexPositionNormalTangent TempPos3 = new VertexPositionNormalTangent();
                         TempPos3.Position = Face.V3;
                         TempPos3.Normal = Face.Normal3;
-                        TempPos2.Tangent = new Vector4(Face.TangentNormal3.X, Face.TangentNormal3.Y, Face.TangentNormal3.Z, 1);
+                        TempPos3.Tangent = new Vector4(Face.TangentNormal3.X, Face.TangentNormal3.Y, Face.TangentNormal3.Z, 1);
 
                         VertexTexture1 TempTexture1 = new VertexTexture1();
                         TempTexture1.TexCoord.X = (float)Face.UV1.X;
@@ -459,9 +459,6 @@ namespace SSXMultiTool.FileHandlers
                             }
                         }
                     }
-
-
-
                 }
 
                 for (int c = 0; c < Handler.NumMorphs; c++)
@@ -469,12 +466,12 @@ namespace SSXMultiTool.FileHandlers
                     var morphTargetBuilder = mesh.UseMorphTarget(c);
                     foreach (var vertexPosition in morphTargetBuilder.Vertices)
                     {
-                        for (int i = 0; i < pointMorphs.Count; i++)
+                        for (int d = 0; d < pointMorphs.Count; d++)
                         {
-                            if (pointMorphs[i].Point == vertexPosition.Position)
+                            if (pointMorphs[d].Point == vertexPosition.Position)
                             {
                                 var NewVertexPosition = vertexPosition;
-                                NewVertexPosition.Position += pointMorphs[i].MorphPoints[c];
+                                NewVertexPosition.Position += pointMorphs[d].MorphPoints[c];
                                 morphTargetBuilder.SetVertex(vertexPosition, NewVertexPosition);
                             }
                         }
