@@ -50,7 +50,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     TempModelHeader.OffsetLastData = StreamUtil.ReadUInt32(stream);
                     TempModelHeader.OffsetUnknownData = StreamUtil.ReadUInt32(stream);
 
-                    stream.Position += 298;
+                    stream.Position += 0x12A/*298*/;
 
                     TempModelHeader.Unknown1 = StreamUtil.ReadInt16(stream);
                     TempModelHeader.Unknown2 = StreamUtil.ReadInt16(stream);
@@ -275,6 +275,55 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         Model.vertexDatas.Add(TempVertexData);
                     }
 
+                    Model.unknownVertexData = new List<VertexData>();
+                    for (int a = 0; a < Model.Unknown1; a++)
+                    {
+                        var TempVertexData = new VertexData();
+
+                        TempVertexData.VertexPosition = StreamUtil.ReadVector3(streamMatrix);
+                        TempVertexData.Unknown1 = StreamUtil.ReadFloat(streamMatrix);
+                        TempVertexData.VertexNormal = StreamUtil.ReadVector3(streamMatrix);
+                        TempVertexData.Unknown2 = StreamUtil.ReadFloat(streamMatrix);
+                        TempVertexData.VertexTangentNormal = StreamUtil.ReadVector3(streamMatrix);
+                        TempVertexData.Unknown3 = StreamUtil.ReadFloat(streamMatrix);
+                        TempVertexData.VertexUV = StreamUtil.ReadVector2(streamMatrix);
+                        TempVertexData.Unknown4 = StreamUtil.ReadUInt32(streamMatrix);
+                        TempVertexData.WeightIndex = StreamUtil.ReadUInt32(streamMatrix);
+
+                        Model.unknownVertexData.Add(TempVertexData);
+                    }
+
+                    stream.Position = Model.OffsetUnknownData;
+                    Model.unknownDatas = new List<UnknownData>();
+                    for (int a = 0; a < Model.NumUnknownData; a++)
+                    {
+                        var TempUnknownData= new UnknownData();
+
+                        TempUnknownData.U1 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempUnknownData.U2 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempUnknownData.U3 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempUnknownData.U4 = StreamUtil.ReadUInt16(streamMatrix);
+
+                        Model.unknownDatas.Add(TempUnknownData);
+                    }
+
+                    stream.Position = Model.OffsetLastData;
+                    Model.lastDatas = new List<LastData>();
+                    for (int a = 0; a < Model.NumLastData; a++)
+                    {
+                        var TempLastData = new LastData();
+                        TempLastData.U1 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempLastData.U2 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempLastData.U3 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempLastData.U4 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempLastData.U5 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempLastData.U6 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempLastData.U7 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempLastData.U8 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempLastData.U9 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempLastData.U10 = StreamUtil.ReadUInt16(streamMatrix);
+                        Model.lastDatas.Add(TempLastData);
+                    }
                 }
 
             }
@@ -329,6 +378,9 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public List<BoneWeightHeader> boneWeightHeaders;
         public List<TristripHeader> tristripHeaders;
         public List<VertexData> vertexDatas;
+        public List<VertexData> unknownVertexData;
+        public List<UnknownData> unknownDatas;
+        public List<LastData> lastDatas;
     }
 
     public struct MaterialData
@@ -429,5 +481,28 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public Vector2 VertexUV;
         public int Unknown4;
         public int WeightIndex; 
+    }
+
+    public struct UnknownData
+    {
+        public int U1; //Weight
+        public int U2; //Index
+        public int U3; //Index
+        public int U4; //Index
+    }
+
+    public struct LastData
+    {
+        public int U1;
+        public int U2;
+        public int U3;
+        public int U4;
+        public int U5;
+        public int U6;
+        public int U7;
+        public int U8;
+        public int U9;
+        public int U10;
+
     }
 }
