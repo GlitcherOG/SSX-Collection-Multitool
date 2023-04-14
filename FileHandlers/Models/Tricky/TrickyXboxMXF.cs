@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
 using SSXMultiTool.Utilities;
 
 namespace SSXMultiTool.FileHandlers.Models.Tricky
@@ -75,7 +76,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 {
                     stream.Position = StartPos + modelHeaders[i].ModelOffset;
                     ModelHeader modelHandler = modelHeaders[i];
-                    modelHandler.Matrix = StreamUtil.ReadBytes(stream, modelHeaders[i].ModelOffset);
+                    modelHandler.Matrix = StreamUtil.ReadBytes(stream, modelHeaders[i].ModelSize);
                     modelHeaders[i] = modelHandler;
                 }
 
@@ -276,7 +277,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     }
 
                     Model.unknownVertexData = new List<VertexData>();
-                    for (int a = 0; a < Model.Unknown1; a++)
+                    for (int a = 0; a < Model.NumVertices; a++)
                     {
                         var TempVertexData = new VertexData();
 
@@ -324,185 +325,271 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         TempLastData.U10 = StreamUtil.ReadUInt16(streamMatrix);
                         Model.lastDatas.Add(TempLastData);
                     }
+
+
+                    for (int a = 0; a < Model.tristripHeaders.Count; a++)
+                    {
+                        var TempHeader = Model.tristripHeaders[a];
+
+                        TempHeader.faces = new List<Face>();
+                        for (int b = 0; b < TempHeader.IndexList.Count / 3; b++)
+                        {
+                            var NewFace = new Face();
+
+                            NewFace.V1 = Model.vertexDatas[TempHeader.IndexList[b * 3]].VertexPosition;
+                            NewFace.UV1 = Model.vertexDatas[TempHeader.IndexList[b * 3]].VertexUV;
+                            NewFace.Normal1 = Model.vertexDatas[TempHeader.IndexList[b * 3]].VertexNormal;
+                            NewFace.TangentNormal1 = Model.vertexDatas[TempHeader.IndexList[b * 3]].VertexTangentNormal;
+                            NewFace.Weight1 = Model.boneWeightHeaders[Model.vertexDatas[TempHeader.IndexList[b * 3]].WeightIndex];
+                            NewFace.MorphPoint1 = Model.vertexDatas[TempHeader.IndexList[b * 3]].MorphData;
+
+                            NewFace.V2 = Model.vertexDatas[TempHeader.IndexList[b * 3  + 1]].VertexPosition;
+                            NewFace.UV2 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 1]].VertexUV;
+                            NewFace.Normal2 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 1]].VertexNormal;
+                            NewFace.TangentNormal2 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 1]].VertexTangentNormal;
+                            NewFace.Weight2 = Model.boneWeightHeaders[Model.vertexDatas[TempHeader.IndexList[b * 3 + 1]].WeightIndex];
+                            NewFace.MorphPoint2 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 1]].MorphData;
+
+                            NewFace.V3 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 2]].VertexPosition;
+                            NewFace.UV3 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 2]].VertexUV;
+                            NewFace.Normal3 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 2]].VertexNormal;
+                            NewFace.TangentNormal3 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 2]].VertexTangentNormal;
+                            NewFace.Weight3 = Model.boneWeightHeaders[Model.vertexDatas[TempHeader.IndexList[b * 3 + 2]].WeightIndex];
+                            NewFace.MorphPoint3 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 2]].MorphData;
+
+                            TempHeader.faces.Add(NewFace);
+                        }
+
+                        Model.tristripHeaders[a] = TempHeader;
+                    }
+
+                    modelHeaders[i] = Model;
                 }
 
             }
         }
 
+        public struct ModelHeader
+        {
+            public string ModelName;
+            public int ModelOffset;
+            public int ModelSize;
+            public int OffsetBoneData;
+            public int OffsetBoneData2;
 
-    }
+            public int OffsetMateralList;
+            public int OffsetBoneData3;
+            public int OffsetIKPointList;
+            public int OffsetMorphList;
 
+            public int OffsetWeight;
+            public int OffsetTristripSection;
+            public int Unknown0;
+            public int OffsetVertexSection;
 
-    public struct ModelHeader
-    {
-        public string ModelName;
-        public int ModelOffset;
-        public int ModelSize;
-        public int OffsetBoneData;
-        public int OffsetBoneData2;
+            public int OffsetLastData;
+            public int OffsetUnknownData;
 
-        public int OffsetMateralList;
-        public int OffsetBoneData3;
-        public int OffsetIKPointList;
-        public int OffsetMorphList;
+            public int Unknown1;
+            public int Unknown2;
+            public int NumBones;
+            public int NumMorphs;
+            public int NumMaterials;
+            public int NumIKPoints;
+            public int NumWeights;
+            public int NumTristripGroups;
+            public int Unknown3;
+            public int NumVertices;
 
-        public int OffsetWeight;
-        public int OffsetTristripSection;
-        public int Unknown0;
-        public int OffsetVertexSection;
+            public int FileID;
+            public int NumLastData;
+            public int NumUnknownData;
 
-        public int OffsetLastData;
-        public int OffsetUnknownData;
+            public byte[] Matrix;
 
-        public int Unknown1;
-        public int Unknown2;
-        public int NumBones;
-        public int NumMorphs;
-        public int NumMaterials;
-        public int NumIKPoints;
-        public int NumWeights;
-        public int NumTristripGroups;
-        public int Unknown3;
-        public int NumVertices;
+            public List<MaterialData> materialDatas;
+            public List<BoneData> boneDatas;
+            public List<Vector3> iKPoints;
+            public List<MorphHeader> morphHeader;
+            public List<BoneWeightHeader> boneWeightHeaders;
+            public List<TristripHeader> tristripHeaders;
+            public List<VertexData> vertexDatas;
+            public List<VertexData> unknownVertexData;
+            public List<UnknownData> unknownDatas;
+            public List<LastData> lastDatas;
+        }
 
-        public int FileID;
-        public int NumLastData;
-        public int NumUnknownData;
+        public struct MaterialData
+        {
+            public string MainTexture;
+            public string Texture1;
+            public string Texture2;
+            public string Texture3;
+            public string Texture4;
 
-        public byte[] Matrix;
+            public float FactorFloat;
+            public float Unused1Float;
+            public float Unused2Float;
+        }
 
-        public List<MaterialData> materialDatas;
-        public List<BoneData> boneDatas;
-        public List<Vector3> iKPoints;
-        public List<MorphHeader> morphHeader;
-        public List<BoneWeightHeader> boneWeightHeaders;
-        public List<TristripHeader> tristripHeaders;
-        public List<VertexData> vertexDatas;
-        public List<VertexData> unknownVertexData;
-        public List<UnknownData> unknownDatas;
-        public List<LastData> lastDatas;
-    }
+        public struct BoneData
+        {
+            public string BoneName;
+            public int ParentFileID;
+            public int ParentBone;
+            public int Unknown2;
+            public int BoneID;
 
-    public struct MaterialData
-    {
-        public string MainTexture;
-        public string Texture1;
-        public string Texture2;
-        public string Texture3;
-        public string Texture4;
+            public Vector3 Position;
+            public Vector3 Radians;
 
-        public float FactorFloat;
-        public float Unused1Float;
-        public float Unused2Float;
-    }
+            public float XRadian2;
+            public float YRadian2;
+            public float ZRadian2;
 
-    public struct BoneData
-    {
-        public string BoneName;
-        public int ParentFileID;
-        public int ParentBone;
-        public int Unknown2;
-        public int BoneID;
+            public float UnknownFloat1;
+            public float UnknownFloat2;
+            public float UnknownFloat3;
+            public float UnknownFloat4;
+            public float UnknownFloat5;
+            public float UnknownFloat6;
 
-        public Vector3 Position;
-        public Vector3 Radians;
+            public int FileID;
+            public int BonePos;
 
-        public float XRadian2;
-        public float YRadian2;
-        public float ZRadian2;
+            public string parentName;
+        }
 
-        public float UnknownFloat1;
-        public float UnknownFloat2;
-        public float UnknownFloat3;
-        public float UnknownFloat4;
-        public float UnknownFloat5;
-        public float UnknownFloat6;
+        public struct MorphHeader
+        {
+            public int NumMorphData;
+            public int OffsetMorphDataList;
 
-        public int FileID;
-        public int BonePos;
+            public List<MorphData> MorphDataList;
+        }
 
-        public string parentName;
-    }
+        public struct MorphData
+        {
+            public Vector3 Morph;
+            public int VertexIndex;
+            public int U1;
+            public int U2;
+        }
 
-    public struct MorphHeader
-    {
-        public int NumMorphData;
-        public int OffsetMorphDataList;
+        public struct BoneWeightHeader
+        {
+            public int WeightCount;
+            public int WeightListOffset;
+            public int Unknown1;
+            public int Unknown2;
 
-        public List<MorphData> MorphDataList;
-    }
+            public List<BoneWeight> boneWeights;
+        }
 
-    public struct MorphData
-    {
-        public Vector3 Morph;
-        public int VertexIndex;
-        public int U1;
-        public int U2;
-    }
+        public struct BoneWeight
+        {
+            public int Weight;
+            public int BoneID;
+            public int FileID;
+        }
 
-    public struct BoneWeightHeader
-    {
-        public int WeightCount;
-        public int WeightListOffset;
-        public int Unknown1;
-        public int Unknown2;
+        public struct TristripHeader
+        {
+            public int IndexListOffset;
+            public int NumIndices;
+            public int MaterialIndex0;
+            public int MaterialIndex1;
+            public int MaterialIndex2;
+            public int MaterialIndex3;
+            public int MaterialIndex4;
 
-        public List<BoneWeight> boneWeights;
-    }
+            public List<int> IndexList;
 
-    public struct BoneWeight
-    {
-        public int Weight;
-        public int BoneID;
-        public int FileID;
-    }
+            public List<Face> faces;
+        }
 
-    public struct TristripHeader
-    {
-        public int IndexListOffset;
-        public int NumIndices;
-        public int MaterialIndex0;
-        public int MaterialIndex1;
-        public int MaterialIndex2;
-        public int MaterialIndex3;
-        public int MaterialIndex4;
+        public struct VertexData
+        {
+            public Vector3 VertexPosition;
+            public float Unknown1;
+            public Vector3 VertexNormal;
+            public float Unknown2;
+            public Vector3 VertexTangentNormal;
+            public float Unknown3;
+            public Vector2 VertexUV;
+            public int Unknown4;
+            public int WeightIndex;
 
-        public List<int> IndexList;
-    }
+            public List<Vector3> MorphData;
+        }
 
-    public struct VertexData
-    {
-        public Vector3 VertexPosition;
-        public float Unknown1;
-        public Vector3 VertexNormal;
-        public float Unknown2;
-        public Vector3 VertexTangentNormal;
-        public float Unknown3;
-        public Vector2 VertexUV;
-        public int Unknown4;
-        public int WeightIndex; 
-    }
+        public struct UnknownData
+        {
+            public int U1; //Weight
+            public int U2; //Index
+            public int U3; //Index
+            public int U4; //Index
+        }
 
-    public struct UnknownData
-    {
-        public int U1; //Weight
-        public int U2; //Index
-        public int U3; //Index
-        public int U4; //Index
-    }
+        public struct LastData
+        {
+            public int U1;
+            public int U2;
+            public int U3;
+            public int U4;
+            public int U5;
+            public int U6;
+            public int U7;
+            public int U8;
+            public int U9;
+            public int U10;
+        }
 
-    public struct LastData
-    {
-        public int U1;
-        public int U2;
-        public int U3;
-        public int U4;
-        public int U5;
-        public int U6;
-        public int U7;
-        public int U8;
-        public int U9;
-        public int U10;
+        public struct Face
+        {
+            public Vector3 V1;
+            public Vector3 V2;
+            public Vector3 V3;
 
+            public int V1Pos;
+            public int V2Pos;
+            public int V3Pos;
+
+            public Vector2 UV1;
+            public Vector2 UV2;
+            public Vector2 UV3;
+
+            public int UV1Pos;
+            public int UV2Pos;
+            public int UV3Pos;
+
+            public Vector3 Normal1;
+            public Vector3 Normal2;
+            public Vector3 Normal3;
+
+            public int Normal1Pos;
+            public int Normal2Pos;
+            public int Normal3Pos;
+
+            public Vector3 TangentNormal1;
+            public Vector3 TangentNormal2;
+            public Vector3 TangentNormal3;
+
+            public int TangentNormal1Pos;
+            public int TangentNormal2Pos;
+            public int TangentNormal3Pos;
+
+            public BoneWeightHeader Weight1;
+            public BoneWeightHeader Weight2;
+            public BoneWeightHeader Weight3;
+
+            public int Weight1Pos;
+            public int Weight2Pos;
+            public int Weight3Pos;
+
+            public List<Vector3> MorphPoint1;
+            public List<Vector3> MorphPoint2;
+            public List<Vector3> MorphPoint3;
+        }
     }
 }

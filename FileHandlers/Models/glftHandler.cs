@@ -12,6 +12,7 @@ using SSXMultiTool.FileHandlers.Models.Tricky;
 using SSXMultiTool.FileHandlers.Models.OnTour;
 using SSXMultiTool.FileHandlers.Models.SSX3;
 using SSXMultiTool.Utilities;
+using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
 
 //https://github.com/vpenades/SharpGLTF/blob/master/src/SharpGLTF.Toolkit/Geometry/readme.md
 namespace SSXMultiTool.FileHandlers
@@ -144,7 +145,7 @@ namespace SSXMultiTool.FileHandlers
             model.SaveGLB(Output);
         }
 
-        public static void SaveTrickyglTF(string Output, TrickyPS2ModelCombiner Handler)
+        public static void SaveTrickyPS2glTF(string Output, TrickyPS2ModelCombiner Handler)
         {
             var scene = new SharpGLTF.Scenes.SceneBuilder();
 
@@ -333,6 +334,119 @@ namespace SSXMultiTool.FileHandlers
                     }
                 }
             }
+
+            // save the model in different formats
+            var model = scene.ToGltf2();
+            model.SaveGLB(Output);
+        }
+
+        public static void SaveTrickyXboxglTF(string Output, TrickyXboxMXF.ModelHeader Handler)
+        {
+            var scene = new SharpGLTF.Scenes.SceneBuilder();
+
+            List<MaterialBuilder> materialBuilders = new List<MaterialBuilder>();
+            for (int i = 0; i < Handler.materialDatas.Count; i++)
+            {
+                var TempVar = Handler.materialDatas[i];
+                var material1 = new MaterialBuilder(TempVar.MainTexture)
+                .WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
+                materialBuilders.Add(material1);
+            }
+            var bindings = new List<SharpGLTF.Scenes.NodeBuilder>();
+            SharpGLTF.Scenes.NodeBuilder Binding = new SharpGLTF.Scenes.NodeBuilder();
+            for (int i = 0; i < Handler.boneDatas.Count; i++)
+            {
+                if (Handler.boneDatas[i].ParentBone == -1)
+                {
+                    Binding = new SharpGLTF.Scenes.NodeBuilder();
+                }
+                else
+                {
+                    Binding = bindings[Handler.boneDatas[i].ParentBone];
+                }
+                Binding = Binding.CreateNode(Handler.boneDatas[i].BoneName);
+                float tempX = Handler.boneDatas[i].Radians.X;
+                float tempY = Handler.boneDatas[i].Radians.Y;
+                float tempZ = Handler.boneDatas[i].Radians.Z;
+
+                Binding.WithLocalRotation(MathUtil.ToQuaternion(new Vector3(-tempX, -tempY, -tempZ)));
+                Binding.WithLocalTranslation(Handler.boneDatas[i].Position);
+
+                bindings.Add(Binding);
+            }
+
+            //for (int i = 0; i < Handler; i++)
+            {
+                var mesh = new MeshBuilder<VertexPositionNormalTangent, VertexTexture1, VertexJoints4>(Handler.ModelName);
+
+                for (int a = 0; a < Handler.tristripHeaders.Count; a++)
+                {
+                    var TristripTemp = Handler.tristripHeaders[a];
+                    for (int b = 0; b < TristripTemp.faces.Count; b++)
+                    {
+                        var Face = TristripTemp.faces[b];
+
+                        VertexPositionNormalTangent TempPos1 = new VertexPositionNormalTangent();
+                        TempPos1.Position = Face.V1;
+                        TempPos1.Normal = Face.Normal1;
+                        TempPos1.Tangent = new Vector4(Face.TangentNormal1.X, Face.TangentNormal1.Y, Face.TangentNormal1.Z, 1);
+
+                        VertexPositionNormalTangent TempPos2 = new VertexPositionNormalTangent();
+                        TempPos2.Position = Face.V2;
+                        TempPos2.Normal = Face.Normal2;
+                        TempPos2.Tangent = new Vector4(Face.TangentNormal2.X, Face.TangentNormal2.Y, Face.TangentNormal2.Z, 1);
+
+                        VertexPositionNormalTangent TempPos3 = new VertexPositionNormalTangent();
+                        TempPos3.Position = Face.V3;
+                        TempPos3.Normal = Face.Normal3;
+                        TempPos2.Tangent = new Vector4(Face.TangentNormal3.X, Face.TangentNormal3.Y, Face.TangentNormal3.Z, 1);
+
+                        VertexTexture1 TempTexture1 = new VertexTexture1();
+                        TempTexture1.TexCoord.X = (float)Face.UV1.X;
+                        TempTexture1.TexCoord.Y = (float)Face.UV1.Y;
+
+                        VertexTexture1 TempTexture2 = new VertexTexture1();
+                        TempTexture2.TexCoord.X = (float)Face.UV2.X;
+                        TempTexture2.TexCoord.Y = (float)Face.UV2.Y;
+
+                        VertexTexture1 TempTexture3 = new VertexTexture1();
+                        TempTexture3.TexCoord.X = (float)Face.UV3.X;
+                        TempTexture3.TexCoord.Y = (float)Face.UV3.Y;
+
+                        (int Temp, float TempFloat)[] bindings1 = new (int Temp, float TempFloat)[1];
+
+                        VertexJoints4 TempBinding1 = new VertexJoints4();
+                        bindings1 = new (int Temp, float TempFloat)[Face.Weight1.boneWeights.Count];
+                        for (int ia = 0; ia < Face.Weight1.boneWeights.Count; ia++)
+                        {
+                            bindings1[ia] = (Face.Weight1.boneWeights[ia].BoneID, Face.Weight1.boneWeights[ia].Weight);
+                        }
+                        TempBinding1.SetBindings(bindings1);
+
+                        VertexJoints4 TempBinding2 = new VertexJoints4();
+                        bindings1 = new (int Temp, float TempFloat)[Face.Weight2.boneWeights.Count];
+                        for (int ia = 0; ia < Face.Weight2.boneWeights.Count; ia++)
+                        {
+                            bindings1[ia] = (Face.Weight2.boneWeights[ia].BoneID, Face.Weight2.boneWeights[ia].Weight);
+                        }
+                        TempBinding2.SetBindings(bindings1);
+
+                        VertexJoints4 TempBinding3 = new VertexJoints4();
+                        bindings1 = new (int Temp, float TempFloat)[Face.Weight3.boneWeights.Count];
+                        for (int ia = 0; ia < Face.Weight3.boneWeights.Count; ia++)
+                        {
+                            bindings1[ia] = (Face.Weight3.boneWeights[ia].BoneID, Face.Weight3.boneWeights[ia].Weight);
+                        }
+                        TempBinding3.SetBindings(bindings1);
+
+                        mesh.UsePrimitive(materialBuilders[TristripTemp.MaterialIndex0]).AddTriangle((TempPos1, TempTexture1, TempBinding1), (TempPos2, TempTexture2, TempBinding2), (TempPos3, TempTexture3, TempBinding3));
+                    }
+
+                }
+
+                scene.AddSkinnedMesh(mesh, Matrix4x4.CreateFromYawPitchRoll(0, 0/*-1.5708f*/, 0), bindings.ToArray());
+            }
+
 
             // save the model in different formats
             var model = scene.ToGltf2();

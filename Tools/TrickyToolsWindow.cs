@@ -108,7 +108,7 @@ namespace SSXMultiTool
                 {
                     trickyModel.StartReassignMesh(MpfList.SelectedIndex);
 
-                    glftHandler.SaveTrickyglTF(openFileDialog.FileName, trickyModel);
+                    glftHandler.SaveTrickyPS2glTF(openFileDialog.FileName, trickyModel);
                 }
             }
         }
@@ -555,6 +555,27 @@ namespace SSXMultiTool
                 xboxMXF.Load(openFileDialog.FileName);
             }
         }
+
+        private void MXFExport_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog openFileDialog = new SaveFileDialog
+            {
+                Filter = "GLFT Model File (*.glb)|*.glb|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                glftHandler.SaveTrickyXboxglTF(openFileDialog.FileName,xboxMXF.modelHeaders[0]);
+            }
+        }
+
+
+
+
+
+
+
 
         private bool CheckSX()
         {

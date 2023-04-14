@@ -126,6 +126,7 @@
             HDRTime = new Label();
             tabPage2 = new TabPage();
             ELFLdrSetup = new Button();
+            MXFExport = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -755,6 +756,7 @@
             // 
             // tabPage3
             // 
+            tabPage3.Controls.Add(MXFExport);
             tabPage3.Controls.Add(MXFLoad);
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
@@ -1155,6 +1157,16 @@
             ELFLdrSetup.UseVisualStyleBackColor = true;
             ELFLdrSetup.Click += ELFLdrSetup_Click;
             // 
+            // MXFExport
+            // 
+            MXFExport.Location = new Point(690, 372);
+            MXFExport.Name = "MXFExport";
+            MXFExport.Size = new Size(75, 23);
+            MXFExport.TabIndex = 1;
+            MXFExport.Text = "Export";
+            MXFExport.UseVisualStyleBackColor = true;
+            MXFExport.Click += MXFExport_Click;
+            // 
             // TrickyToolsWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1296,5 +1308,6 @@
         private Label label30;
         private NumericUpDown hdrEntryU3;
         private Label label32;
+        private Button MXFExport;
     }
 }
