@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
 using SSXMultiTool.Utilities;
 
@@ -346,34 +347,61 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     for (int a = 0; a < Model.tristripHeaders.Count; a++)
                     {
                         var TempHeader = Model.tristripHeaders[a];
-
+                        bool roatation = false;
+                        int Index = 2;
                         TempHeader.faces = new List<Face>();
-                        for (int b = 0; b < TempHeader.IndexList.Count / 3; b++)
+                        while(true)
                         {
                             var NewFace = new Face();
+                            int Index1 = 0;
+                            int Index2 = 0;
+                            int Index3 = 0;
+                            //Fixes the Rotation For Exporting
+                            //Swap When Exporting to other formats
+                            //1-Clockwise
+                            //0-Counter Clocwise
+                            if (roatation)
+                            {
+                                Index1 = Index;
+                                Index2 = Index - 1;
+                                Index3 = Index - 2;
+                            }
+                            if (!roatation)
+                            {
+                                Index1 = Index - 2;
+                                Index2 = Index - 1;
+                                Index3 = Index;
+                            }
 
-                            NewFace.V1 = Model.vertexDatas[TempHeader.IndexList[b * 3]].VertexPosition;
-                            NewFace.UV1 = Model.vertexDatas[TempHeader.IndexList[b * 3]].VertexUV;
-                            NewFace.Normal1 = Model.vertexDatas[TempHeader.IndexList[b * 3]].VertexNormal;
-                            NewFace.TangentNormal1 = Model.vertexDatas[TempHeader.IndexList[b * 3]].VertexTangentNormal;
-                            NewFace.Weight1 = Model.boneWeightHeaders[Model.vertexDatas[TempHeader.IndexList[b * 3]].WeightIndex];
-                            NewFace.MorphPoint1 = Model.vertexDatas[TempHeader.IndexList[b * 3]].MorphData;
+                            NewFace.V1 = Model.vertexDatas[TempHeader.IndexList[Index1]].VertexPosition;
+                            NewFace.UV1 = Model.vertexDatas[TempHeader.IndexList[Index1]].VertexUV;
+                            NewFace.Normal1 = Model.vertexDatas[TempHeader.IndexList[Index1]].VertexNormal;
+                            NewFace.TangentNormal1 = Model.vertexDatas[TempHeader.IndexList[Index1]].VertexTangentNormal;
+                            NewFace.Weight1 = Model.boneWeightHeaders[Model.vertexDatas[TempHeader.IndexList[Index1]].WeightIndex];
+                            NewFace.MorphPoint1 = Model.vertexDatas[TempHeader.IndexList[Index1]].MorphData;
 
-                            NewFace.V2 = Model.vertexDatas[TempHeader.IndexList[b * 3  + 1]].VertexPosition;
-                            NewFace.UV2 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 1]].VertexUV;
-                            NewFace.Normal2 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 1]].VertexNormal;
-                            NewFace.TangentNormal2 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 1]].VertexTangentNormal;
-                            NewFace.Weight2 = Model.boneWeightHeaders[Model.vertexDatas[TempHeader.IndexList[b * 3 + 1]].WeightIndex];
-                            NewFace.MorphPoint2 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 1]].MorphData;
+                            NewFace.V2 = Model.vertexDatas[TempHeader.IndexList[Index2]].VertexPosition;
+                            NewFace.UV2 = Model.vertexDatas[TempHeader.IndexList[Index2]].VertexUV;
+                            NewFace.Normal2 = Model.vertexDatas[TempHeader.IndexList[Index2]].VertexNormal;
+                            NewFace.TangentNormal2 = Model.vertexDatas[TempHeader.IndexList[Index2]].VertexTangentNormal;
+                            NewFace.Weight2 = Model.boneWeightHeaders[Model.vertexDatas[TempHeader.IndexList[Index2]].WeightIndex];
+                            NewFace.MorphPoint2 = Model.vertexDatas[TempHeader.IndexList[Index2]].MorphData;
 
-                            NewFace.V3 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 2]].VertexPosition;
-                            NewFace.UV3 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 2]].VertexUV;
-                            NewFace.Normal3 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 2]].VertexNormal;
-                            NewFace.TangentNormal3 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 2]].VertexTangentNormal;
-                            NewFace.Weight3 = Model.boneWeightHeaders[Model.vertexDatas[TempHeader.IndexList[b * 3 + 2]].WeightIndex];
-                            NewFace.MorphPoint3 = Model.vertexDatas[TempHeader.IndexList[b * 3 + 2]].MorphData;
+                            NewFace.V3 = Model.vertexDatas[TempHeader.IndexList[Index3]].VertexPosition;
+                            NewFace.UV3 = Model.vertexDatas[TempHeader.IndexList[Index3]].VertexUV;
+                            NewFace.Normal3 = Model.vertexDatas[TempHeader.IndexList[Index3]].VertexNormal;
+                            NewFace.TangentNormal3 = Model.vertexDatas[TempHeader.IndexList[Index3]].VertexTangentNormal;
+                            NewFace.Weight3 = Model.boneWeightHeaders[Model.vertexDatas[TempHeader.IndexList[Index3]].WeightIndex];
+                            NewFace.MorphPoint3 = Model.vertexDatas[TempHeader.IndexList[Index3]].MorphData;
+
 
                             TempHeader.faces.Add(NewFace);
+                            roatation = !roatation;
+                            Index++;
+                            if(Index>= TempHeader.IndexList.Count)
+                            {
+                                break;
+                            }
                         }
 
                         Model.tristripHeaders[a] = TempHeader;
