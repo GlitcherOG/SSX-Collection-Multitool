@@ -391,16 +391,30 @@ namespace SSXMultiTool.FileHandlers
                         VertexPositionNormalTangent TempPos1 = new VertexPositionNormalTangent();
                         TempPos1.Position = Face.V1;
                         TempPos1.Normal = Face.Normal1;
+
+                        if(Face.TangentNormal1 == Vector3.Zero)
+                        {
+                            Face.TangentNormal1 = new Vector3(1f / 3f, 1f / 3f, 1f / 3f);
+                        }
                         TempPos1.Tangent = new Vector4(Face.TangentNormal1.X, Face.TangentNormal1.Y, Face.TangentNormal1.Z, 1);
 
                         VertexPositionNormalTangent TempPos2 = new VertexPositionNormalTangent();
                         TempPos2.Position = Face.V2;
                         TempPos2.Normal = Face.Normal2;
+
+                        if (Face.TangentNormal2 == Vector3.Zero)
+                        {
+                            Face.TangentNormal2 = new Vector3(1f / 3f, 1f / 3f, 1f / 3f);
+                        }
                         TempPos2.Tangent = new Vector4(Face.TangentNormal2.X, Face.TangentNormal2.Y, Face.TangentNormal2.Z, 1);
 
                         VertexPositionNormalTangent TempPos3 = new VertexPositionNormalTangent();
                         TempPos3.Position = Face.V3;
                         TempPos3.Normal = Face.Normal3;
+                        if (Face.TangentNormal3 == Vector3.Zero)
+                        {
+                            Face.TangentNormal3 = new Vector3(1f / 3f, 1f / 3f, 1f / 3f);
+                        }
                         TempPos3.Tangent = new Vector4(Face.TangentNormal3.X, Face.TangentNormal3.Y, Face.TangentNormal3.Z, 1);
 
                         VertexTexture1 TempTexture1 = new VertexTexture1();

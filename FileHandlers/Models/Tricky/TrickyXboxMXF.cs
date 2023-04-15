@@ -193,6 +193,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         TempMorph.OffsetMorphDataList = StreamUtil.ReadUInt32(streamMatrix);
 
                         TempMorph.MorphDataList = new List<MorphData>();
+                        int TempPos = (int)streamMatrix.Position;
                         streamMatrix.Position = TempMorph.OffsetMorphDataList;
                         for (int b = 0; b < TempMorph.NumMorphData; b++)
                         {
@@ -204,6 +205,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                             TempMorphData.U2 = StreamUtil.ReadUInt8(streamMatrix);
                             TempMorph.MorphDataList.Add(TempMorphData);
                         }
+                        streamMatrix.Position = TempPos;
                         Model.morphHeader.Add(TempMorph);
 
                     }
@@ -249,6 +251,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                         TempTristrip.IndexList = new List<int>();
                         int TempPos = (int)streamMatrix.Position;
+                        streamMatrix.Position = TempTristrip.IndexListOffset;
                         for (int b = 0; b < TempTristrip.NumIndices; b++)
                         {
                             TempTristrip.IndexList.Add(StreamUtil.ReadUInt16(streamMatrix));
@@ -273,6 +276,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         TempVertexData.VertexUV = StreamUtil.ReadVector2(streamMatrix);
                         TempVertexData.Unknown4 = StreamUtil.ReadUInt32(streamMatrix);
                         TempVertexData.WeightIndex = StreamUtil.ReadUInt32(streamMatrix);
+
+                        TempVertexData.MorphData = new List<Vector3>();
 
                         Model.vertexDatas.Add(TempVertexData);
                     }
