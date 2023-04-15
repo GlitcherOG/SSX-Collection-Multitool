@@ -25,7 +25,6 @@ As such, I chose to redo the entire project and improve it as I did so.
 
 ### SSX Tricky
 - [ ] Normal Average Proper
-- [ ] Check its 2002 Version
 
 ### SSX 3
 - [ ] Normal Average Proper

@@ -88,6 +88,8 @@
             MPFExtract = new Button();
             MPFLoad = new Button();
             tabPage3 = new TabPage();
+            button3 = new Button();
+            button1 = new Button();
             label33 = new Label();
             label34 = new Label();
             groupBox9 = new GroupBox();
@@ -180,8 +182,6 @@
             HDRTime = new Label();
             tabPage2 = new TabPage();
             ELFLdrSetup = new Button();
-            button1 = new Button();
-            button3 = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -249,7 +249,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(6, 197);
+            label5.Location = new Point(6, 191);
             label5.Name = "label5";
             label5.Size = new Size(65, 15);
             label5.TabIndex = 28;
@@ -258,7 +258,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(6, 7);
+            label2.Location = new Point(6, 3);
             label2.Name = "label2";
             label2.Size = new Size(46, 15);
             label2.TabIndex = 27;
@@ -755,9 +755,9 @@
             // 
             CharacterParts.FormattingEnabled = true;
             CharacterParts.ItemHeight = 15;
-            CharacterParts.Location = new Point(6, 215);
+            CharacterParts.Location = new Point(6, 208);
             CharacterParts.Name = "CharacterParts";
-            CharacterParts.Size = new Size(192, 169);
+            CharacterParts.Size = new Size(192, 184);
             CharacterParts.TabIndex = 10;
             CharacterParts.SelectedIndexChanged += CharacterParts_SelectedIndexChanged;
             // 
@@ -788,7 +788,7 @@
             MpfList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             MpfList.FormattingEnabled = true;
             MpfList.ItemHeight = 15;
-            MpfList.Location = new Point(6, 25);
+            MpfList.Location = new Point(6, 19);
             MpfList.Name = "MpfList";
             MpfList.Size = new Size(192, 169);
             MpfList.TabIndex = 2;
@@ -836,6 +836,24 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Tricky MXF (Models)";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(285, 372);
+            button3.Name = "button3";
+            button3.Size = new Size(75, 23);
+            button3.TabIndex = 38;
+            button3.Text = "Import";
+            button3.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(690, 372);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 37;
+            button1.Text = "Save MXF";
+            button1.UseVisualStyleBackColor = true;
             // 
             // label33
             // 
@@ -1753,24 +1771,6 @@
             ELFLdrSetup.Text = "Setup For ELFLdr";
             ELFLdrSetup.UseVisualStyleBackColor = true;
             ELFLdrSetup.Click += ELFLdrSetup_Click;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(690, 372);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 37;
-            button1.Text = "Save MXF";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            button3.Location = new Point(285, 372);
-            button3.Name = "button3";
-            button3.Size = new Size(75, 23);
-            button3.TabIndex = 38;
-            button3.Text = "Import";
-            button3.UseVisualStyleBackColor = true;
             // 
             // TrickyToolsWindow
             // 
