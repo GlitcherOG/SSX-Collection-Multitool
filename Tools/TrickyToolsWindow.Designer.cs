@@ -34,16 +34,16 @@
             label2 = new Label();
             groupBox4 = new GroupBox();
             label25 = new Label();
-            MorphGroupCount = new Label();
+            MorphGroupCountPS2 = new Label();
             label23 = new Label();
-            WeightGroupCount = new Label();
+            WeightGroupCountPS2 = new Label();
             label21 = new Label();
-            MaterialGroupCount = new Label();
+            MaterialGroupCountPS2 = new Label();
             label1 = new Label();
-            TristripCountLabel = new Label();
+            TristripCountLabelPS2 = new Label();
             label4 = new Label();
-            VerticeCount = new Label();
-            MeshChunks = new Label();
+            VerticeCountPS2 = new Label();
+            MeshChunksPS2 = new Label();
             label3 = new Label();
             groupBox3 = new GroupBox();
             label9 = new Label();
@@ -65,20 +65,18 @@
             MaterialList = new ListBox();
             groupBox2 = new GroupBox();
             label13 = new Label();
-            MpfWeights = new Label();
+            WeightsPS2 = new Label();
             label14 = new Label();
-            FileID = new Label();
+            FileIDPS2 = new Label();
             label6 = new Label();
-            BoneCount = new Label();
+            BoneCountPS2 = new Label();
             label8 = new Label();
-            ShapeKeyCount = new Label();
-            MaterialCount = new Label();
+            ShapeKeyCountPS2 = new Label();
+            MaterialCountPS2 = new Label();
             label11 = new Label();
             label10 = new Label();
-            IkCount = new Label();
+            IkCountPS2 = new Label();
             groupBox1 = new GroupBox();
-            label12 = new Label();
-            TristripMethodList = new ComboBox();
             BoneUpdateCheck = new CheckBox();
             ImportAverageNormal = new CheckBox();
             CharacterParts = new ListBox();
@@ -93,18 +91,12 @@
             label33 = new Label();
             label34 = new Label();
             groupBox9 = new GroupBox();
-            label35 = new Label();
-            label36 = new Label();
-            label37 = new Label();
-            label38 = new Label();
             label39 = new Label();
             label40 = new Label();
             label41 = new Label();
             label42 = new Label();
             label43 = new Label();
             label44 = new Label();
-            label45 = new Label();
-            label46 = new Label();
             groupBox10 = new GroupBox();
             label47 = new Label();
             numericUpDown1 = new NumericUpDown();
@@ -125,24 +117,22 @@
             listBox1 = new ListBox();
             groupBox11 = new GroupBox();
             label55 = new Label();
-            label56 = new Label();
+            WeightsXbox = new Label();
             label57 = new Label();
-            label58 = new Label();
+            FileIDXbox = new Label();
             label59 = new Label();
-            label60 = new Label();
+            BoneCountXbox = new Label();
             label61 = new Label();
-            label62 = new Label();
-            label63 = new Label();
+            ShapeKeysXbox = new Label();
+            MaterialCountXbox = new Label();
             label64 = new Label();
             label65 = new Label();
-            label66 = new Label();
+            IKPointsXbox = new Label();
             groupBox12 = new GroupBox();
-            label67 = new Label();
-            comboBox1 = new ComboBox();
             checkBox1 = new CheckBox();
             checkBox2 = new CheckBox();
             listBox2 = new ListBox();
-            listBox3 = new ListBox();
+            MXFList = new ListBox();
             MXFExport = new Button();
             MXFLoad = new Button();
             tabPage4 = new TabPage();
@@ -267,16 +257,16 @@
             // groupBox4
             // 
             groupBox4.Controls.Add(label25);
-            groupBox4.Controls.Add(MorphGroupCount);
+            groupBox4.Controls.Add(MorphGroupCountPS2);
             groupBox4.Controls.Add(label23);
-            groupBox4.Controls.Add(WeightGroupCount);
+            groupBox4.Controls.Add(WeightGroupCountPS2);
             groupBox4.Controls.Add(label21);
-            groupBox4.Controls.Add(MaterialGroupCount);
+            groupBox4.Controls.Add(MaterialGroupCountPS2);
             groupBox4.Controls.Add(label1);
-            groupBox4.Controls.Add(TristripCountLabel);
+            groupBox4.Controls.Add(TristripCountLabelPS2);
             groupBox4.Controls.Add(label4);
-            groupBox4.Controls.Add(VerticeCount);
-            groupBox4.Controls.Add(MeshChunks);
+            groupBox4.Controls.Add(VerticeCountPS2);
+            groupBox4.Controls.Add(MeshChunksPS2);
             groupBox4.Controls.Add(label3);
             groupBox4.Location = new Point(210, 100);
             groupBox4.Name = "groupBox4";
@@ -294,14 +284,14 @@
             label25.TabIndex = 17;
             label25.Text = "Morph Groups";
             // 
-            // MorphGroupCount
+            // MorphGroupCountPS2
             // 
-            MorphGroupCount.AutoSize = true;
-            MorphGroupCount.Location = new Point(180, 64);
-            MorphGroupCount.Name = "MorphGroupCount";
-            MorphGroupCount.Size = new Size(13, 15);
-            MorphGroupCount.TabIndex = 18;
-            MorphGroupCount.Text = "0";
+            MorphGroupCountPS2.AutoSize = true;
+            MorphGroupCountPS2.Location = new Point(180, 64);
+            MorphGroupCountPS2.Name = "MorphGroupCountPS2";
+            MorphGroupCountPS2.Size = new Size(13, 15);
+            MorphGroupCountPS2.TabIndex = 18;
+            MorphGroupCountPS2.Text = "0";
             // 
             // label23
             // 
@@ -312,14 +302,14 @@
             label23.TabIndex = 15;
             label23.Text = "Weight Groups";
             // 
-            // WeightGroupCount
+            // WeightGroupCountPS2
             // 
-            WeightGroupCount.AutoSize = true;
-            WeightGroupCount.Location = new Point(96, 64);
-            WeightGroupCount.Name = "WeightGroupCount";
-            WeightGroupCount.Size = new Size(13, 15);
-            WeightGroupCount.TabIndex = 16;
-            WeightGroupCount.Text = "0";
+            WeightGroupCountPS2.AutoSize = true;
+            WeightGroupCountPS2.Location = new Point(96, 64);
+            WeightGroupCountPS2.Name = "WeightGroupCountPS2";
+            WeightGroupCountPS2.Size = new Size(13, 15);
+            WeightGroupCountPS2.TabIndex = 16;
+            WeightGroupCountPS2.Text = "0";
             // 
             // label21
             // 
@@ -330,14 +320,14 @@
             label21.TabIndex = 13;
             label21.Text = "Material Groups";
             // 
-            // MaterialGroupCount
+            // MaterialGroupCountPS2
             // 
-            MaterialGroupCount.AutoSize = true;
-            MaterialGroupCount.Location = new Point(6, 64);
-            MaterialGroupCount.Name = "MaterialGroupCount";
-            MaterialGroupCount.Size = new Size(13, 15);
-            MaterialGroupCount.TabIndex = 14;
-            MaterialGroupCount.Text = "0";
+            MaterialGroupCountPS2.AutoSize = true;
+            MaterialGroupCountPS2.Location = new Point(6, 64);
+            MaterialGroupCountPS2.Name = "MaterialGroupCountPS2";
+            MaterialGroupCountPS2.Size = new Size(13, 15);
+            MaterialGroupCountPS2.TabIndex = 14;
+            MaterialGroupCountPS2.Text = "0";
             // 
             // label1
             // 
@@ -348,14 +338,14 @@
             label1.TabIndex = 6;
             label1.Text = "Tristrip Count";
             // 
-            // TristripCountLabel
+            // TristripCountLabelPS2
             // 
-            TristripCountLabel.AutoSize = true;
-            TristripCountLabel.Location = new Point(6, 34);
-            TristripCountLabel.Name = "TristripCountLabel";
-            TristripCountLabel.Size = new Size(13, 15);
-            TristripCountLabel.TabIndex = 7;
-            TristripCountLabel.Text = "0";
+            TristripCountLabelPS2.AutoSize = true;
+            TristripCountLabelPS2.Location = new Point(6, 34);
+            TristripCountLabelPS2.Name = "TristripCountLabelPS2";
+            TristripCountLabelPS2.Size = new Size(13, 15);
+            TristripCountLabelPS2.TabIndex = 7;
+            TristripCountLabelPS2.Text = "0";
             // 
             // label4
             // 
@@ -366,23 +356,23 @@
             label4.TabIndex = 8;
             label4.Text = "Vertice Count";
             // 
-            // VerticeCount
+            // VerticeCountPS2
             // 
-            VerticeCount.AutoSize = true;
-            VerticeCount.Location = new Point(96, 34);
-            VerticeCount.Name = "VerticeCount";
-            VerticeCount.Size = new Size(13, 15);
-            VerticeCount.TabIndex = 9;
-            VerticeCount.Text = "0";
+            VerticeCountPS2.AutoSize = true;
+            VerticeCountPS2.Location = new Point(96, 34);
+            VerticeCountPS2.Name = "VerticeCountPS2";
+            VerticeCountPS2.Size = new Size(13, 15);
+            VerticeCountPS2.TabIndex = 9;
+            VerticeCountPS2.Text = "0";
             // 
-            // MeshChunks
+            // MeshChunksPS2
             // 
-            MeshChunks.AutoSize = true;
-            MeshChunks.Location = new Point(180, 34);
-            MeshChunks.Name = "MeshChunks";
-            MeshChunks.Size = new Size(13, 15);
-            MeshChunks.TabIndex = 12;
-            MeshChunks.Text = "0";
+            MeshChunksPS2.AutoSize = true;
+            MeshChunksPS2.Location = new Point(180, 34);
+            MeshChunksPS2.Name = "MeshChunksPS2";
+            MeshChunksPS2.Size = new Size(13, 15);
+            MeshChunksPS2.TabIndex = 12;
+            MeshChunksPS2.Text = "0";
             // 
             // label3
             // 
@@ -574,17 +564,17 @@
             // groupBox2
             // 
             groupBox2.Controls.Add(label13);
-            groupBox2.Controls.Add(MpfWeights);
+            groupBox2.Controls.Add(WeightsPS2);
             groupBox2.Controls.Add(label14);
-            groupBox2.Controls.Add(FileID);
+            groupBox2.Controls.Add(FileIDPS2);
             groupBox2.Controls.Add(label6);
-            groupBox2.Controls.Add(BoneCount);
+            groupBox2.Controls.Add(BoneCountPS2);
             groupBox2.Controls.Add(label8);
-            groupBox2.Controls.Add(ShapeKeyCount);
-            groupBox2.Controls.Add(MaterialCount);
+            groupBox2.Controls.Add(ShapeKeyCountPS2);
+            groupBox2.Controls.Add(MaterialCountPS2);
             groupBox2.Controls.Add(label11);
             groupBox2.Controls.Add(label10);
-            groupBox2.Controls.Add(IkCount);
+            groupBox2.Controls.Add(IkCountPS2);
             groupBox2.Location = new Point(210, 6);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(292, 88);
@@ -601,14 +591,14 @@
             label13.TabIndex = 24;
             label13.Text = "Weights";
             // 
-            // MpfWeights
+            // WeightsPS2
             // 
-            MpfWeights.AutoSize = true;
-            MpfWeights.Location = new Point(6, 68);
-            MpfWeights.Name = "MpfWeights";
-            MpfWeights.Size = new Size(13, 15);
-            MpfWeights.TabIndex = 25;
-            MpfWeights.Text = "0";
+            WeightsPS2.AutoSize = true;
+            WeightsPS2.Location = new Point(6, 68);
+            WeightsPS2.Name = "WeightsPS2";
+            WeightsPS2.Size = new Size(13, 15);
+            WeightsPS2.TabIndex = 25;
+            WeightsPS2.Text = "0";
             // 
             // label14
             // 
@@ -619,14 +609,14 @@
             label14.TabIndex = 22;
             label14.Text = "File ID";
             // 
-            // FileID
+            // FileIDPS2
             // 
-            FileID.AutoSize = true;
-            FileID.Location = new Point(6, 34);
-            FileID.Name = "FileID";
-            FileID.Size = new Size(13, 15);
-            FileID.TabIndex = 23;
-            FileID.Text = "0";
+            FileIDPS2.AutoSize = true;
+            FileIDPS2.Location = new Point(6, 34);
+            FileIDPS2.Name = "FileIDPS2";
+            FileIDPS2.Size = new Size(13, 15);
+            FileIDPS2.TabIndex = 23;
+            FileIDPS2.Text = "0";
             // 
             // label6
             // 
@@ -637,14 +627,14 @@
             label6.TabIndex = 13;
             label6.Text = "Bones";
             // 
-            // BoneCount
+            // BoneCountPS2
             // 
-            BoneCount.AutoSize = true;
-            BoneCount.Location = new Point(51, 34);
-            BoneCount.Name = "BoneCount";
-            BoneCount.Size = new Size(13, 15);
-            BoneCount.TabIndex = 14;
-            BoneCount.Text = "0";
+            BoneCountPS2.AutoSize = true;
+            BoneCountPS2.Location = new Point(51, 34);
+            BoneCountPS2.Name = "BoneCountPS2";
+            BoneCountPS2.Size = new Size(13, 15);
+            BoneCountPS2.TabIndex = 14;
+            BoneCountPS2.Text = "0";
             // 
             // label8
             // 
@@ -655,23 +645,23 @@
             label8.TabIndex = 15;
             label8.Text = "Materials";
             // 
-            // ShapeKeyCount
+            // ShapeKeyCountPS2
             // 
-            ShapeKeyCount.AutoSize = true;
-            ShapeKeyCount.Location = new Point(216, 34);
-            ShapeKeyCount.Name = "ShapeKeyCount";
-            ShapeKeyCount.Size = new Size(13, 15);
-            ShapeKeyCount.TabIndex = 20;
-            ShapeKeyCount.Text = "0";
+            ShapeKeyCountPS2.AutoSize = true;
+            ShapeKeyCountPS2.Location = new Point(216, 34);
+            ShapeKeyCountPS2.Name = "ShapeKeyCountPS2";
+            ShapeKeyCountPS2.Size = new Size(13, 15);
+            ShapeKeyCountPS2.TabIndex = 20;
+            ShapeKeyCountPS2.Text = "0";
             // 
-            // MaterialCount
+            // MaterialCountPS2
             // 
-            MaterialCount.AutoSize = true;
-            MaterialCount.Location = new Point(96, 34);
-            MaterialCount.Name = "MaterialCount";
-            MaterialCount.Size = new Size(13, 15);
-            MaterialCount.TabIndex = 16;
-            MaterialCount.Text = "0";
+            MaterialCountPS2.AutoSize = true;
+            MaterialCountPS2.Location = new Point(96, 34);
+            MaterialCountPS2.Name = "MaterialCountPS2";
+            MaterialCountPS2.Size = new Size(13, 15);
+            MaterialCountPS2.TabIndex = 16;
+            MaterialCountPS2.Text = "0";
             // 
             // label11
             // 
@@ -691,45 +681,25 @@
             label10.TabIndex = 17;
             label10.Text = "IK Points";
             // 
-            // IkCount
+            // IkCountPS2
             // 
-            IkCount.AutoSize = true;
-            IkCount.Location = new Point(157, 34);
-            IkCount.Name = "IkCount";
-            IkCount.Size = new Size(13, 15);
-            IkCount.TabIndex = 18;
-            IkCount.Text = "0";
+            IkCountPS2.AutoSize = true;
+            IkCountPS2.Location = new Point(157, 34);
+            IkCountPS2.Name = "IkCountPS2";
+            IkCountPS2.Size = new Size(13, 15);
+            IkCountPS2.TabIndex = 18;
+            IkCountPS2.Text = "0";
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(label12);
-            groupBox1.Controls.Add(TristripMethodList);
             groupBox1.Controls.Add(BoneUpdateCheck);
             groupBox1.Controls.Add(ImportAverageNormal);
             groupBox1.Location = new Point(204, 282);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(292, 78);
+            groupBox1.Size = new Size(156, 78);
             groupBox1.TabIndex = 21;
             groupBox1.TabStop = false;
             groupBox1.Text = "Import Settings";
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Location = new Point(149, 23);
-            label12.Name = "label12";
-            label12.Size = new Size(87, 15);
-            label12.TabIndex = 3;
-            label12.Text = "Tristrip Method";
-            // 
-            // TristripMethodList
-            // 
-            TristripMethodList.FormattingEnabled = true;
-            TristripMethodList.Items.AddRange(new object[] { "Nvida Tristrip" });
-            TristripMethodList.Location = new Point(149, 41);
-            TristripMethodList.Name = "TristripMethodList";
-            TristripMethodList.Size = new Size(121, 23);
-            TristripMethodList.TabIndex = 2;
             // 
             // BoneUpdateCheck
             // 
@@ -827,7 +797,7 @@
             tabPage3.Controls.Add(groupBox11);
             tabPage3.Controls.Add(groupBox12);
             tabPage3.Controls.Add(listBox2);
-            tabPage3.Controls.Add(listBox3);
+            tabPage3.Controls.Add(MXFList);
             tabPage3.Controls.Add(MXFExport);
             tabPage3.Controls.Add(MXFLoad);
             tabPage3.Location = new Point(4, 24);
@@ -875,65 +845,23 @@
             // 
             // groupBox9
             // 
-            groupBox9.Controls.Add(label35);
-            groupBox9.Controls.Add(label36);
-            groupBox9.Controls.Add(label37);
-            groupBox9.Controls.Add(label38);
             groupBox9.Controls.Add(label39);
             groupBox9.Controls.Add(label40);
             groupBox9.Controls.Add(label41);
             groupBox9.Controls.Add(label42);
             groupBox9.Controls.Add(label43);
             groupBox9.Controls.Add(label44);
-            groupBox9.Controls.Add(label45);
-            groupBox9.Controls.Add(label46);
             groupBox9.Location = new Point(211, 100);
             groupBox9.Name = "groupBox9";
-            groupBox9.Size = new Size(292, 109);
+            groupBox9.Size = new Size(292, 65);
             groupBox9.TabIndex = 34;
             groupBox9.TabStop = false;
             groupBox9.Text = "Model Data";
             // 
-            // label35
-            // 
-            label35.AutoSize = true;
-            label35.Location = new Point(180, 49);
-            label35.Name = "label35";
-            label35.Size = new Size(84, 15);
-            label35.TabIndex = 17;
-            label35.Text = "Morph Groups";
-            // 
-            // label36
-            // 
-            label36.AutoSize = true;
-            label36.Location = new Point(180, 64);
-            label36.Name = "label36";
-            label36.Size = new Size(13, 15);
-            label36.TabIndex = 18;
-            label36.Text = "0";
-            // 
-            // label37
-            // 
-            label37.AutoSize = true;
-            label37.Location = new Point(96, 49);
-            label37.Name = "label37";
-            label37.Size = new Size(86, 15);
-            label37.TabIndex = 15;
-            label37.Text = "Weight Groups";
-            // 
-            // label38
-            // 
-            label38.AutoSize = true;
-            label38.Location = new Point(96, 64);
-            label38.Name = "label38";
-            label38.Size = new Size(13, 15);
-            label38.TabIndex = 16;
-            label38.Text = "0";
-            // 
             // label39
             // 
             label39.AutoSize = true;
-            label39.Location = new Point(6, 49);
+            label39.Location = new Point(6, 19);
             label39.Name = "label39";
             label39.Size = new Size(91, 15);
             label39.TabIndex = 13;
@@ -942,7 +870,7 @@
             // label40
             // 
             label40.AutoSize = true;
-            label40.Location = new Point(6, 64);
+            label40.Location = new Point(6, 34);
             label40.Name = "label40";
             label40.Size = new Size(13, 15);
             label40.TabIndex = 14;
@@ -951,7 +879,7 @@
             // label41
             // 
             label41.AutoSize = true;
-            label41.Location = new Point(6, 19);
+            label41.Location = new Point(103, 19);
             label41.Name = "label41";
             label41.Size = new Size(78, 15);
             label41.TabIndex = 6;
@@ -960,7 +888,7 @@
             // label42
             // 
             label42.AutoSize = true;
-            label42.Location = new Point(6, 34);
+            label42.Location = new Point(103, 34);
             label42.Name = "label42";
             label42.Size = new Size(13, 15);
             label42.TabIndex = 7;
@@ -969,7 +897,7 @@
             // label43
             // 
             label43.AutoSize = true;
-            label43.Location = new Point(96, 19);
+            label43.Location = new Point(187, 19);
             label43.Name = "label43";
             label43.Size = new Size(78, 15);
             label43.TabIndex = 8;
@@ -978,29 +906,11 @@
             // label44
             // 
             label44.AutoSize = true;
-            label44.Location = new Point(96, 34);
+            label44.Location = new Point(187, 34);
             label44.Name = "label44";
             label44.Size = new Size(13, 15);
             label44.TabIndex = 9;
             label44.Text = "0";
-            // 
-            // label45
-            // 
-            label45.AutoSize = true;
-            label45.Location = new Point(180, 34);
-            label45.Name = "label45";
-            label45.Size = new Size(13, 15);
-            label45.TabIndex = 12;
-            label45.Text = "0";
-            // 
-            // label46
-            // 
-            label46.AutoSize = true;
-            label46.Location = new Point(180, 19);
-            label46.Name = "label46";
-            label46.Size = new Size(79, 15);
-            label46.TabIndex = 11;
-            label46.Text = "Mesh Chunks";
             // 
             // groupBox10
             // 
@@ -1174,17 +1084,17 @@
             // groupBox11
             // 
             groupBox11.Controls.Add(label55);
-            groupBox11.Controls.Add(label56);
+            groupBox11.Controls.Add(WeightsXbox);
             groupBox11.Controls.Add(label57);
-            groupBox11.Controls.Add(label58);
+            groupBox11.Controls.Add(FileIDXbox);
             groupBox11.Controls.Add(label59);
-            groupBox11.Controls.Add(label60);
+            groupBox11.Controls.Add(BoneCountXbox);
             groupBox11.Controls.Add(label61);
-            groupBox11.Controls.Add(label62);
-            groupBox11.Controls.Add(label63);
+            groupBox11.Controls.Add(ShapeKeysXbox);
+            groupBox11.Controls.Add(MaterialCountXbox);
             groupBox11.Controls.Add(label64);
             groupBox11.Controls.Add(label65);
-            groupBox11.Controls.Add(label66);
+            groupBox11.Controls.Add(IKPointsXbox);
             groupBox11.Location = new Point(211, 6);
             groupBox11.Name = "groupBox11";
             groupBox11.Size = new Size(292, 88);
@@ -1201,14 +1111,14 @@
             label55.TabIndex = 24;
             label55.Text = "Weights";
             // 
-            // label56
+            // WeightsXbox
             // 
-            label56.AutoSize = true;
-            label56.Location = new Point(6, 68);
-            label56.Name = "label56";
-            label56.Size = new Size(13, 15);
-            label56.TabIndex = 25;
-            label56.Text = "0";
+            WeightsXbox.AutoSize = true;
+            WeightsXbox.Location = new Point(6, 68);
+            WeightsXbox.Name = "WeightsXbox";
+            WeightsXbox.Size = new Size(13, 15);
+            WeightsXbox.TabIndex = 25;
+            WeightsXbox.Text = "0";
             // 
             // label57
             // 
@@ -1219,14 +1129,14 @@
             label57.TabIndex = 22;
             label57.Text = "File ID";
             // 
-            // label58
+            // FileIDXbox
             // 
-            label58.AutoSize = true;
-            label58.Location = new Point(6, 34);
-            label58.Name = "label58";
-            label58.Size = new Size(13, 15);
-            label58.TabIndex = 23;
-            label58.Text = "0";
+            FileIDXbox.AutoSize = true;
+            FileIDXbox.Location = new Point(6, 34);
+            FileIDXbox.Name = "FileIDXbox";
+            FileIDXbox.Size = new Size(13, 15);
+            FileIDXbox.TabIndex = 23;
+            FileIDXbox.Text = "0";
             // 
             // label59
             // 
@@ -1237,14 +1147,14 @@
             label59.TabIndex = 13;
             label59.Text = "Bones";
             // 
-            // label60
+            // BoneCountXbox
             // 
-            label60.AutoSize = true;
-            label60.Location = new Point(51, 34);
-            label60.Name = "label60";
-            label60.Size = new Size(13, 15);
-            label60.TabIndex = 14;
-            label60.Text = "0";
+            BoneCountXbox.AutoSize = true;
+            BoneCountXbox.Location = new Point(51, 34);
+            BoneCountXbox.Name = "BoneCountXbox";
+            BoneCountXbox.Size = new Size(13, 15);
+            BoneCountXbox.TabIndex = 14;
+            BoneCountXbox.Text = "0";
             // 
             // label61
             // 
@@ -1255,23 +1165,23 @@
             label61.TabIndex = 15;
             label61.Text = "Materials";
             // 
-            // label62
+            // ShapeKeysXbox
             // 
-            label62.AutoSize = true;
-            label62.Location = new Point(216, 34);
-            label62.Name = "label62";
-            label62.Size = new Size(13, 15);
-            label62.TabIndex = 20;
-            label62.Text = "0";
+            ShapeKeysXbox.AutoSize = true;
+            ShapeKeysXbox.Location = new Point(216, 34);
+            ShapeKeysXbox.Name = "ShapeKeysXbox";
+            ShapeKeysXbox.Size = new Size(13, 15);
+            ShapeKeysXbox.TabIndex = 20;
+            ShapeKeysXbox.Text = "0";
             // 
-            // label63
+            // MaterialCountXbox
             // 
-            label63.AutoSize = true;
-            label63.Location = new Point(96, 34);
-            label63.Name = "label63";
-            label63.Size = new Size(13, 15);
-            label63.TabIndex = 16;
-            label63.Text = "0";
+            MaterialCountXbox.AutoSize = true;
+            MaterialCountXbox.Location = new Point(96, 34);
+            MaterialCountXbox.Name = "MaterialCountXbox";
+            MaterialCountXbox.Size = new Size(13, 15);
+            MaterialCountXbox.TabIndex = 16;
+            MaterialCountXbox.Text = "0";
             // 
             // label64
             // 
@@ -1291,45 +1201,25 @@
             label65.TabIndex = 17;
             label65.Text = "IK Points";
             // 
-            // label66
+            // IKPointsXbox
             // 
-            label66.AutoSize = true;
-            label66.Location = new Point(157, 34);
-            label66.Name = "label66";
-            label66.Size = new Size(13, 15);
-            label66.TabIndex = 18;
-            label66.Text = "0";
+            IKPointsXbox.AutoSize = true;
+            IKPointsXbox.Location = new Point(157, 34);
+            IKPointsXbox.Name = "IKPointsXbox";
+            IKPointsXbox.Size = new Size(13, 15);
+            IKPointsXbox.TabIndex = 18;
+            IKPointsXbox.Text = "0";
             // 
             // groupBox12
             // 
-            groupBox12.Controls.Add(label67);
-            groupBox12.Controls.Add(comboBox1);
             groupBox12.Controls.Add(checkBox1);
             groupBox12.Controls.Add(checkBox2);
             groupBox12.Location = new Point(204, 288);
             groupBox12.Name = "groupBox12";
-            groupBox12.Size = new Size(292, 78);
+            groupBox12.Size = new Size(156, 78);
             groupBox12.TabIndex = 31;
             groupBox12.TabStop = false;
             groupBox12.Text = "Import Settings";
-            // 
-            // label67
-            // 
-            label67.AutoSize = true;
-            label67.Location = new Point(149, 23);
-            label67.Name = "label67";
-            label67.Size = new Size(87, 15);
-            label67.TabIndex = 3;
-            label67.Text = "Tristrip Method";
-            // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Nvida Tristrip" });
-            comboBox1.Location = new Point(149, 41);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(121, 23);
-            comboBox1.TabIndex = 2;
             // 
             // checkBox1
             // 
@@ -1360,15 +1250,16 @@
             listBox2.Size = new Size(192, 184);
             listBox2.TabIndex = 30;
             // 
-            // listBox3
+            // MXFList
             // 
-            listBox3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            listBox3.FormattingEnabled = true;
-            listBox3.ItemHeight = 15;
-            listBox3.Location = new Point(7, 24);
-            listBox3.Name = "listBox3";
-            listBox3.Size = new Size(192, 169);
-            listBox3.TabIndex = 29;
+            MXFList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            MXFList.FormattingEnabled = true;
+            MXFList.ItemHeight = 15;
+            MXFList.Location = new Point(7, 24);
+            MXFList.Name = "MXFList";
+            MXFList.Size = new Size(192, 169);
+            MXFList.TabIndex = 29;
+            MXFList.SelectedIndexChanged += MXFList_SelectedIndexChanged;
             // 
             // MXFExport
             // 
@@ -1836,27 +1727,25 @@
         private Button ELFLdrSetup;
         private Button button2;
         private Button MPFImport;
-        private Label VerticeCount;
+        private Label VerticeCountPS2;
         private Label label4;
-        private Label TristripCountLabel;
+        private Label TristripCountLabelPS2;
         private Label label1;
-        private Label IkCount;
+        private Label IkCountPS2;
         private Label label10;
-        private Label MaterialCount;
+        private Label MaterialCountPS2;
         private Label label8;
-        private Label BoneCount;
+        private Label BoneCountPS2;
         private Label label6;
-        private Label MeshChunks;
+        private Label MeshChunksPS2;
         private Label label3;
         private ListBox CharacterParts;
         private GroupBox groupBox1;
-        private Label label12;
-        private ComboBox TristripMethodList;
         private CheckBox BoneUpdateCheck;
         private CheckBox ImportAverageNormal;
-        private Label ShapeKeyCount;
+        private Label ShapeKeyCountPS2;
         private Label label11;
-        private Label FileID;
+        private Label FileIDPS2;
         private Label label14;
         private GroupBox groupBox4;
         private GroupBox groupBox3;
@@ -1874,11 +1763,11 @@
         private ListBox MaterialList;
         private GroupBox groupBox2;
         private Label label25;
-        private Label MorphGroupCount;
+        private Label MorphGroupCountPS2;
         private Label label23;
-        private Label WeightGroupCount;
+        private Label WeightGroupCountPS2;
         private Label label21;
-        private Label MaterialGroupCount;
+        private Label MaterialGroupCountPS2;
         private Label label20;
         private Label label5;
         private Label label2;
@@ -1887,7 +1776,7 @@
         private Label label7;
         private NumericUpDown MatUnknown1;
         private Label label13;
-        private Label MpfWeights;
+        private Label WeightsPS2;
         private TabPage tabPage3;
         private Button MXFLoad;
         private TabPage tabPage4;
@@ -1929,18 +1818,12 @@
         private Label label33;
         private Label label34;
         private GroupBox groupBox9;
-        private Label label35;
-        private Label label36;
-        private Label label37;
-        private Label label38;
         private Label label39;
         private Label label40;
         private Label label41;
         private Label label42;
         private Label label43;
         private Label label44;
-        private Label label45;
-        private Label label46;
         private GroupBox groupBox10;
         private Label label47;
         private NumericUpDown numericUpDown1;
@@ -1961,24 +1844,22 @@
         private ListBox listBox1;
         private GroupBox groupBox11;
         private Label label55;
-        private Label label56;
+        private Label WeightsXbox;
         private Label label57;
-        private Label label58;
+        private Label FileIDXbox;
         private Label label59;
-        private Label label60;
+        private Label BoneCountXbox;
         private Label label61;
-        private Label label62;
-        private Label label63;
+        private Label ShapeKeysXbox;
+        private Label MaterialCountXbox;
         private Label label64;
         private Label label65;
-        private Label label66;
+        private Label IKPointsXbox;
         private GroupBox groupBox12;
-        private Label label67;
-        private ComboBox comboBox1;
         private CheckBox checkBox1;
         private CheckBox checkBox2;
         private ListBox listBox2;
-        private ListBox listBox3;
+        private ListBox MXFList;
         private Button button3;
         private Button button1;
     }
