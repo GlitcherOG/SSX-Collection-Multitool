@@ -566,7 +566,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                glftHandler.SaveTrickyXboxglTF(openFileDialog.FileName,xboxMXF.modelHeaders[0]);
+                glftHandler.SaveTrickyXboxglTF(openFileDialog.FileName, xboxMXF.modelHeaders[0]);
             }
         }
 
