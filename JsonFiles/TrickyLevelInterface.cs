@@ -912,7 +912,21 @@ namespace SSXMultiTool
                 {
                     patch.PatchVisablity = 32768;
                 }
+
+                //if(ImportPatch.PatchStyle==0)
+                //{
+                //    patch.TextureAssigment = 129;
+                //}
+                //else if (ImportPatch.PatchStyle == 6 || ImportPatch.PatchStyle == 10)
+                //{
+                //    patch.TextureAssigment = 130;
+                //}
+                //else
+                //{
+                //    patch.TextureAssigment = ImportPatch.TextureAssigment;
+                //}
                 patch.TextureAssigment = ImportPatch.TextureAssigment;
+
                 if (lightingFixObjects.Count - 1 >= patch.TextureAssigment)
                 {
                     lightingFixObjects[patch.TextureAssigment].Patch.Add(i);

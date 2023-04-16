@@ -2117,22 +2117,22 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         //0 - Reset
         //1 - Standard Snow
-        //2 - Standard Off Track?
+        //2 - Standard Off Track
         //3 - Powered Snow
         //4 - Slow Powered Snow
         //5 - Ice Standard
-        //6 - Bounce/Unskiiable //
+        //6 - Bounce/Unskiiable
         //7 - Ice/Water No Trail
-        //8 - Glidy(Lots Of snow particels) //
+        //8 - Glidy(Lots Of snow particels)
         //9 - Rock 
         //10 - Wall
-        //11 - No Trail, Ice Crunch Sound Effect//
-        //12 - No Sound, No Trail, Small particle Wake//
+        //11 - No Trail, Ice Crunch Sound Effect
+        //12 - No Sound, No Trail, Small particle Wake
         //13 - Off Track Metal (Slidly Slow, Metal Grinding sounds, Sparks)
-        //14 - Speed, Grinding Sound//
+        //14 - Speed, Grinding Sound
         //15 - Standard?//
         //16 - Standard Sand
-        //17 - ?//
+        //17 - No Collidion/Door
         //18 - Show Off Ramp/Metal
         public int PatchStyle; //Type
 

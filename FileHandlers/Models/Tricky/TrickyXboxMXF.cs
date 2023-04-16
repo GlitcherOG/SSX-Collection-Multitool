@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
 using SSXMultiTool.Utilities;
 
@@ -418,6 +419,95 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             }
         }
 
+        public void Save(string Path)
+        {
+            MemoryStream stream = new MemoryStream();
+
+            StreamUtil.WriteBytes(stream, Version);
+            StreamUtil.WriteInt16(stream, modelHeaders.Count);
+            StreamUtil.WriteInt16(stream, 12);
+            OffsetModelData = 12 + 396* modelHeaders.Count;
+            StreamUtil.WriteInt32(stream, OffsetModelData);
+            stream.Position = OffsetModelData;
+
+            for (int i = 0; i < modelHeaders.Count; i++)
+            {
+                var Model = modelHeaders[i];
+                MemoryStream ModelStream = new MemoryStream();
+
+
+
+
+
+
+
+
+                ModelStream.Position = 0;
+                Model.ModelSize = (int)ModelStream.Length;
+                Model.ModelOffset = (int)(stream.Position - OffsetModelData);
+                StreamUtil.WriteStreamIntoStream(stream, ModelStream);
+                ModelStream.Dispose();
+                ModelStream.Close();
+                modelHeaders[i] = Model;
+            }
+
+            //Write Headers
+            stream.Position = 12;
+            for (int i = 0; i < modelHeaders.Count; i++)
+            {
+                var Model = modelHeaders[i];
+
+                StreamUtil.WriteString(stream, Model.ModelName, 16);
+                StreamUtil.WriteInt32(stream, Model.ModelOffset);
+                StreamUtil.WriteInt32(stream, Model.ModelSize);
+                StreamUtil.WriteInt32(stream, Model.OffsetBoneData);
+                StreamUtil.WriteInt32(stream, Model.OffsetBoneData2);
+
+                StreamUtil.WriteInt32(stream, Model.OffsetMateralList);
+                StreamUtil.WriteInt32(stream, Model.OffsetBoneData3);
+                StreamUtil.WriteInt32(stream, Model.OffsetIKPointList);
+                StreamUtil.WriteInt32(stream, Model.OffsetMorphList);
+
+                StreamUtil.WriteInt32(stream, Model.OffsetWeight);
+                StreamUtil.WriteInt32(stream, Model.OffsetTristripSection);
+                StreamUtil.WriteInt32(stream, Model.Unknown0);
+                StreamUtil.WriteInt32(stream, Model.OffsetVertexSection);
+
+                StreamUtil.WriteInt32(stream, Model.OffsetLastData);
+                StreamUtil.WriteInt32(stream, Model.OffsetUnknownData);
+
+                stream.Position += 28;
+                StreamUtil.WriteInt32(stream, -1);
+                stream.Position += 266;
+
+                StreamUtil.WriteInt16(stream, Model.Unknown1);
+                StreamUtil.WriteInt16(stream, Model.Unknown2);
+                StreamUtil.WriteInt16(stream, Model.boneDatas.Count);
+                StreamUtil.WriteInt16(stream, Model.morphHeader.Count);
+                StreamUtil.WriteInt16(stream, Model.materialDatas.Count);
+                StreamUtil.WriteInt16(stream, Model.iKPoints.Count);
+                StreamUtil.WriteInt16(stream, Model.boneWeightHeaders.Count);
+                StreamUtil.WriteInt16(stream, Model.tristripHeaders.Count);
+                StreamUtil.WriteInt16(stream, Model.Unknown3);
+                StreamUtil.WriteInt16(stream, Model.vertexDatas.Count);
+                StreamUtil.WriteInt16(stream, Model.FileID);
+                StreamUtil.WriteInt16(stream, Model.lastDatas.Count);
+                StreamUtil.WriteInt16(stream, Model.unknownDatas.Count);
+
+                modelHeaders[i] = Model;
+            }
+
+
+            if (File.Exists(Path))
+            {
+                File.Delete(Path);
+            }
+            var file = File.Create(Path);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            stream.Dispose();
+            file.Close();
+        }
         public struct ModelHeader
         {
             public string ModelName;
