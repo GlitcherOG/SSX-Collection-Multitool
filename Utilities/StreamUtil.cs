@@ -310,6 +310,12 @@ namespace SSXMultiTool.Utilities
             stream.Write(tempByte, 0, tempByte.Length);
         }
 
+        public static void WriteVector2(Stream stream, Vector2 vertex3, bool BigEndian = false)
+        {
+            StreamUtil.WriteFloat32(stream, vertex3.X, BigEndian);
+            StreamUtil.WriteFloat32(stream, vertex3.Y, BigEndian);
+        }
+
         public static void WriteVector3(Stream stream, Vector3 vertex3, bool BigEndian = false)
         {
             StreamUtil.WriteFloat32(stream, vertex3.X, BigEndian);

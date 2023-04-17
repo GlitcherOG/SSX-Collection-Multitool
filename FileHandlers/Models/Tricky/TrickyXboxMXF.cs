@@ -434,12 +434,129 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             {
                 var Model = modelHeaders[i];
                 MemoryStream ModelStream = new MemoryStream();
+                Model.OffsetMateralList = (int)ModelStream.Position;
+                for (int a = 0; a < Model.materialDatas.Count; a++)
+                {
+                    StreamUtil.WriteString(ModelStream, Model.materialDatas[a].MainTexture, 4);
+
+                    if (Model.materialDatas[a].Texture1 != "")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture1, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
+                    if (Model.materialDatas[a].Texture2 != "")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture2, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
+                    if (Model.materialDatas[a].Texture3 != "")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture3, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
+                    if (Model.materialDatas[a].Texture4 != "")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture4, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
+
+                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].FactorFloat);
+                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].Unused1Float);
+                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].Unused2Float);
+                }
+
+                Model.OffsetBoneData = (int)ModelStream.Position;
+                Model.OffsetBoneData2 = (int)ModelStream.Position;
+                Model.OffsetBoneData3 = (int)ModelStream.Position;
+                for (int a = 0; a < Model.boneDatas.Count; a++)
+                {
+                    StreamUtil.WriteString(ModelStream, Model.boneDatas[a].BoneName, 16);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].ParentFileID);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].ParentBone);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].Unknown2);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].BoneID);
+
+                    StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Position);
+
+                    StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Radians);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].XRadian2);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].YRadian2);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].ZRadian2);
+
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat1);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat2);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat3);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat4);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat5);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat6);
+                }
+
+                Model.OffsetIKPointList = (int)ModelStream.Position;
+                for (int a = 0; a < Model.iKPoints.Count; a++)
+                {
+                    StreamUtil.WriteVector3(ModelStream, Model.iKPoints[a]);
+                    ModelStream.Position += 4;
+                }
+
+                WritePadding(ModelStream, 2);
 
 
 
+                WritePadding(ModelStream, 0);
 
+                Model.OffsetVertexSection = (int)ModelStream.Position;
+                for (int a = 0; a < Model.vertexDatas.Count; a++)
+                {
+                    StreamUtil.WriteVector3(ModelStream, Model.vertexDatas[a].VertexPosition);
+                    StreamUtil.WriteFloat32(ModelStream, Model.vertexDatas[a].Unknown1);
+                    StreamUtil.WriteVector3(ModelStream, Model.vertexDatas[a].VertexNormal);
+                    StreamUtil.WriteFloat32(ModelStream, Model.vertexDatas[a].Unknown2);
+                    StreamUtil.WriteVector3(ModelStream, Model.vertexDatas[a].VertexTangentNormal);
+                    StreamUtil.WriteFloat32(ModelStream, Model.vertexDatas[a].Unknown3);
+                    StreamUtil.WriteVector2(ModelStream, Model.vertexDatas[a].VertexUV);
+                    StreamUtil.WriteInt32(ModelStream, Model.vertexDatas[a].Unknown4);
+                    StreamUtil.WriteInt32(ModelStream, Model.vertexDatas[a].WeightIndex);
+                }
 
+                Model.OffsetUnknownData = (int)ModelStream.Position;
+                for (int a = 0; a < Model.unknownDatas.Count; a++)
+                {
+                    StreamUtil.WriteInt16(ModelStream, Model.unknownDatas[i].U1);
+                    StreamUtil.WriteInt16(ModelStream, Model.unknownDatas[i].U2);
+                    StreamUtil.WriteInt16(ModelStream, Model.unknownDatas[i].U3);
+                    StreamUtil.WriteInt16(ModelStream, Model.unknownDatas[i].U4);
+                }
 
+                Model.OffsetLastData = (int)ModelStream.Position;
+                for (int a = 0; a < Model.lastDatas.Count; a++)
+                {
+                    StreamUtil.WriteInt16(ModelStream, Model.lastDatas[i].U1);
+                    StreamUtil.WriteInt16(ModelStream, Model.lastDatas[i].U2);
+                    StreamUtil.WriteInt16(ModelStream, Model.lastDatas[i].U3);
+                    StreamUtil.WriteInt16(ModelStream, Model.lastDatas[i].U4);
+                    StreamUtil.WriteInt16(ModelStream, Model.lastDatas[i].U5);
+                    StreamUtil.WriteInt16(ModelStream, Model.lastDatas[i].U6);
+                    StreamUtil.WriteInt16(ModelStream, Model.lastDatas[i].U7);
+                    StreamUtil.WriteInt16(ModelStream, Model.lastDatas[i].U8);
+                    StreamUtil.WriteInt16(ModelStream, Model.lastDatas[i].U9);
+                    StreamUtil.WriteInt16(ModelStream, Model.lastDatas[i].U10);
+                }
 
 
                 ModelStream.Position = 0;
@@ -458,19 +575,19 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 var Model = modelHeaders[i];
 
                 StreamUtil.WriteString(stream, Model.ModelName, 16);
-                StreamUtil.WriteInt32(stream, Model.ModelOffset);
-                StreamUtil.WriteInt32(stream, Model.ModelSize);
-                StreamUtil.WriteInt32(stream, Model.OffsetBoneData);
-                StreamUtil.WriteInt32(stream, Model.OffsetBoneData2);
+                StreamUtil.WriteInt32(stream, Model.ModelOffset); //done
+                StreamUtil.WriteInt32(stream, Model.ModelSize); //done
+                StreamUtil.WriteInt32(stream, Model.OffsetBoneData); //done
+                StreamUtil.WriteInt32(stream, Model.OffsetBoneData2); //done
 
-                StreamUtil.WriteInt32(stream, Model.OffsetMateralList);
-                StreamUtil.WriteInt32(stream, Model.OffsetBoneData3);
-                StreamUtil.WriteInt32(stream, Model.OffsetIKPointList);
+                StreamUtil.WriteInt32(stream, Model.OffsetMateralList); //done
+                StreamUtil.WriteInt32(stream, Model.OffsetBoneData3); //done
+                StreamUtil.WriteInt32(stream, Model.OffsetIKPointList); //done
                 StreamUtil.WriteInt32(stream, Model.OffsetMorphList);
 
                 StreamUtil.WriteInt32(stream, Model.OffsetWeight);
                 StreamUtil.WriteInt32(stream, Model.OffsetTristripSection);
-                StreamUtil.WriteInt32(stream, Model.Unknown0);
+                StreamUtil.WriteInt32(stream, Model.Unknown0); //done
                 StreamUtil.WriteInt32(stream, Model.OffsetVertexSection);
 
                 StreamUtil.WriteInt32(stream, Model.OffsetLastData);
@@ -507,6 +624,25 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             stream.CopyTo(file);
             stream.Dispose();
             file.Close();
+        }
+
+
+        public void WritePadding(Stream stream, int Rows)
+        {
+            int Num = 16 - ((int)stream.Position % 16);
+            if (Num != 16)
+            {
+                for (int i = 0; i < Num; i++)
+                {
+                    StreamUtil.WriteUInt8(stream, 0xFF);
+                }
+            }
+
+            for (int i = 0; i < Rows * 16; i++)
+            {
+                StreamUtil.WriteUInt8(stream, 0xFF);
+            }
+
         }
         public struct ModelHeader
         {
