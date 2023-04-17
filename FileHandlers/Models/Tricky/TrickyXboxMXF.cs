@@ -67,7 +67,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     TempModelHeader.NumVertices = StreamUtil.ReadInt16(stream);
                     TempModelHeader.FileID = StreamUtil.ReadInt16(stream);
                     TempModelHeader.NumLastData = StreamUtil.ReadInt16(stream);
-                    TempModelHeader.NumUnknownData = StreamUtil.ReadInt16(stream);
+                    TempModelHeader.NumEdgeData = StreamUtil.ReadInt16(stream);
 
                     modelHeaders.Add(TempModelHeader);
                 }
@@ -304,17 +304,17 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     }
 
                     stream.Position = Model.OffsetUnknownData;
-                    Model.unknownDatas = new List<UnknownData>();
-                    for (int a = 0; a < Model.NumUnknownData; a++)
+                    Model.edgeDatas = new List<EdgeData>();
+                    for (int a = 0; a < Model.NumEdgeData; a++)
                     {
-                        var TempUnknownData= new UnknownData();
+                        var TempUnknownData= new EdgeData();
 
                         TempUnknownData.U1 = StreamUtil.ReadUInt16(streamMatrix);
-                        TempUnknownData.U2 = StreamUtil.ReadUInt16(streamMatrix);
-                        TempUnknownData.U3 = StreamUtil.ReadUInt16(streamMatrix);
-                        TempUnknownData.U4 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempUnknownData.VerticeIndex1 = StreamUtil.ReadUInt16(streamMatrix)/16;
+                        TempUnknownData.VerticeIndex2 = StreamUtil.ReadUInt16(streamMatrix)/16;
+                        TempUnknownData.VerticeIndex3 = StreamUtil.ReadUInt16(streamMatrix)/16;
 
-                        Model.unknownDatas.Add(TempUnknownData);
+                        Model.edgeDatas.Add(TempUnknownData);
                     }
 
                     stream.Position = Model.OffsetLastData;
@@ -322,9 +322,9 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     for (int a = 0; a < Model.NumLastData; a++)
                     {
                         var TempLastData = new LastData();
-                        TempLastData.U1 = StreamUtil.ReadUInt16(streamMatrix);
-                        TempLastData.U2 = StreamUtil.ReadUInt16(streamMatrix);
-                        TempLastData.U3 = StreamUtil.ReadUInt16(streamMatrix);
+                        TempLastData.U1 = StreamUtil.ReadUInt16(streamMatrix)/16;
+                        TempLastData.U2 = StreamUtil.ReadUInt16(streamMatrix)/16;
+                        TempLastData.U3 = StreamUtil.ReadUInt16(streamMatrix)/16;
                         TempLastData.U4 = StreamUtil.ReadUInt16(streamMatrix);
                         TempLastData.U5 = StreamUtil.ReadUInt16(streamMatrix);
                         TempLastData.U6 = StreamUtil.ReadUInt16(streamMatrix);
@@ -650,12 +650,12 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         }
 
                         Model.OffsetUnknownData = (int)ModelStream.Position;
-                        for (int a = 0; a < Model.unknownDatas.Count; a++)
+                        for (int a = 0; a < Model.edgeDatas.Count; a++)
                         {
-                            StreamUtil.WriteInt16(ModelStream, Model.unknownDatas[a].U1);
-                            StreamUtil.WriteInt16(ModelStream, Model.unknownDatas[a].U2);
-                            StreamUtil.WriteInt16(ModelStream, Model.unknownDatas[a].U3);
-                            StreamUtil.WriteInt16(ModelStream, Model.unknownDatas[a].U4);
+                            StreamUtil.WriteInt16(ModelStream, Model.edgeDatas[a].U1);
+                            StreamUtil.WriteInt16(ModelStream, Model.edgeDatas[a].VerticeIndex1 * 16);
+                            StreamUtil.WriteInt16(ModelStream, Model.edgeDatas[a].VerticeIndex2 * 16);
+                            StreamUtil.WriteInt16(ModelStream, Model.edgeDatas[a].VerticeIndex3 * 16);
                         }
 
                         Model.OffsetLastData = (int)ModelStream.Position;
@@ -726,7 +726,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 StreamUtil.WriteInt16(stream, Model.vertexDatas.Count);
                 StreamUtil.WriteInt16(stream, Model.FileID);
                 StreamUtil.WriteInt16(stream, Model.lastDatas.Count);
-                StreamUtil.WriteInt16(stream, Model.unknownDatas.Count);
+                StreamUtil.WriteInt16(stream, Model.edgeDatas.Count);
 
                 modelHeaders[i] = Model;
             }
@@ -795,7 +795,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
             public int FileID;
             public int NumLastData;
-            public int NumUnknownData;
+            public int NumEdgeData;
 
             public byte[] Matrix;
 
@@ -807,7 +807,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public List<TristripHeader> tristripHeaders;
             public List<VertexData> vertexDatas;
             public List<VertexData> unknownVertexData;
-            public List<UnknownData> unknownDatas;
+            public List<EdgeData> edgeDatas;
             public List<LastData> lastDatas;
         }
 
@@ -872,8 +872,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         {
             public int WeightCount;
             public int WeightListOffset;
-            public int Unknown1;
-            public int Unknown2;
+            public int Unknown1; //0
+            public int Unknown2; //19
 
             public List<BoneWeight> boneWeights;
         }
@@ -915,12 +915,12 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public List<Vector3> MorphData;
         }
 
-        public struct UnknownData
+        public struct EdgeData
         {
-            public int U1; //Weight
-            public int U2; //Index
-            public int U3; //Index
-            public int U4; //Index
+            public int U1; //0
+            public int VerticeIndex1; //Index
+            public int VerticeIndex2; //Index
+            public int VerticeIndex3; //Index
         }
 
         public struct LastData

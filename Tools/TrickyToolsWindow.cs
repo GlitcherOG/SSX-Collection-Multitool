@@ -685,11 +685,11 @@ namespace SSXMultiTool
 
                     xboxMXF = trickyXboxModel.Body;
 
-                    xboxMXF.Save(Path + "body.mpf");
+                    xboxMXF.Save(Path + "body.mxf");
 
                     xboxMXF = trickyXboxModel.Head;
 
-                    xboxMXF.Save(Path + "head.mpf");
+                    xboxMXF.Save(Path + "head.mxf");
                 }
             }
         }
