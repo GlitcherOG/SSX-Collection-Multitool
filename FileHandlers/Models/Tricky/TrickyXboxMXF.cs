@@ -516,11 +516,94 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                 WritePadding(ModelStream, 2);
 
+                //Morph
+
+                Model.OffsetMorphList = (int)ModelStream.Position;
+                ModelStream.Position += 8 * Model.morphHeader.Count;
+                StreamUtil.AlignBy16(ModelStream);
+                for (int a = 0; a < Model.morphHeader.Count; a++)
+                {
+                    var TempMorph = Model.morphHeader[a];
+                    TempMorph.OffsetMorphDataList = (int)ModelStream.Position;
+                    for (int b = 0; b < TempMorph.MorphDataList.Count; b++)
+                    {
+                        StreamUtil.WriteVector3(ModelStream, TempMorph.MorphDataList[a].Morph);
+                        StreamUtil.WriteInt16(ModelStream, TempMorph.MorphDataList[a].VertexIndex);
+                        StreamUtil.WriteUInt8(ModelStream, TempMorph.MorphDataList[a].U1);
+                        StreamUtil.WriteUInt8(ModelStream, TempMorph.MorphDataList[a].U2);
+                    }
+                    Model.morphHeader[a] = TempMorph;
+                }
+
+                Model.OffsetWeight = (int)ModelStream.Position;
+                ModelStream.Position = Model.OffsetMorphList;
+
+                for (int a = 0; a < Model.morphHeader.Count; a++)
+                {
+                    StreamUtil.WriteInt32(ModelStream, Model.morphHeader[a].MorphDataList.Count);
+                    StreamUtil.WriteInt32(ModelStream, Model.morphHeader[a].OffsetMorphDataList);
+                }
 
 
-                WritePadding(ModelStream, 0);
+                //Weight
+                ModelStream.Position = Model.OffsetWeight;
+                ModelStream.Position += 10 * Model.morphHeader.Count;
+                for (int a = 0; a < Model.boneWeightHeaders.Count; a++)
+                {
+                    var TempMorph = Model.boneWeightHeaders[a];
+                    TempMorph.WeightListOffset = (int)ModelStream.Position;
+                    for (int b = 0; b < TempMorph.boneWeights.Count; b++)
+                    {
+                        StreamUtil.WriteInt16(ModelStream, TempMorph.boneWeights[a].Weight);
+                        StreamUtil.WriteUInt8(ModelStream, TempMorph.boneWeights[a].BoneID);
+                        StreamUtil.WriteUInt8(ModelStream, TempMorph.boneWeights[a].FileID);
+                    }
+                    Model.boneWeightHeaders[a] = TempMorph;
+                }
 
+                Model.OffsetTristripSection = (int)ModelStream.Position;
+                ModelStream.Position = Model.OffsetWeight;
+
+                for (int a = 0; a < Model.boneWeightHeaders.Count; a++)
+                {
+                    StreamUtil.WriteInt32(ModelStream, Model.boneWeightHeaders[a].boneWeights.Count);
+                    StreamUtil.WriteInt32(ModelStream, Model.boneWeightHeaders[a].WeightListOffset);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneWeightHeaders[a].Unknown1);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneWeightHeaders[a].Unknown2);
+                }
+
+                //Tristrip
+                ModelStream.Position = Model.OffsetTristripSection;
+                ModelStream.Position += 16 * Model.tristripHeaders.Count;
+
+                for (int a = 0; a < Model.tristripHeaders.Count; a++)
+                {
+                    var TempTristrip = Model.tristripHeaders[a];
+                    TempTristrip.IndexListOffset = (int)ModelStream.Position;
+                    for (int b = 0; b < TempTristrip.IndexList.Count; b++)
+                    {
+                        StreamUtil.WriteInt16(ModelStream, TempTristrip.IndexList[b]);
+                    }
+                    Model.tristripHeaders[a] = TempTristrip;
+                }
+
+                WritePadding(ModelStream, 1);
                 Model.OffsetVertexSection = (int)ModelStream.Position;
+                ModelStream.Position = Model.OffsetTristripSection;
+
+                for (int a = 0; a < Model.tristripHeaders.Count; a++)
+                {
+                    StreamUtil.WriteInt32(ModelStream, Model.tristripHeaders[a].IndexListOffset);
+                    StreamUtil.WriteInt16(ModelStream, Model.tristripHeaders[a].IndexList.Count);
+                    StreamUtil.WriteInt16(ModelStream, Model.tristripHeaders[a].MaterialIndex0);
+                    StreamUtil.WriteInt16(ModelStream, Model.tristripHeaders[a].MaterialIndex1);
+                    StreamUtil.WriteInt16(ModelStream, Model.tristripHeaders[a].MaterialIndex2);
+                    StreamUtil.WriteInt16(ModelStream, Model.tristripHeaders[a].MaterialIndex3);
+                    StreamUtil.WriteInt16(ModelStream, Model.tristripHeaders[a].MaterialIndex4);
+                }
+
+                //VertexData
+                ModelStream.Position = Model.OffsetVertexSection;
                 for (int a = 0; a < Model.vertexDatas.Count; a++)
                 {
                     StreamUtil.WriteVector3(ModelStream, Model.vertexDatas[a].VertexPosition);
