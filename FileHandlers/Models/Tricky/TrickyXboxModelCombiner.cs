@@ -61,7 +61,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 {
                     if (Head != null && Body != null)
                     {
-                        //StartReassignMeshCharacter(MeshID);
+                        StartReassignMeshCharacter(MeshID);
                     }
                 }
                 else
@@ -104,108 +104,214 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             return NewFaceList;
         }
 
-        //public void StartReassignMeshCharacter(int MeshID)
-        //{
-        //    reassignedMesh = new List<ReassignedMesh>();
-        //    materials = new List<TrickyPS2MPF.MaterialData>();
-        //    bones = new List<TrickyPS2MPF.BoneData>();
-        //    int ListSize = 0;
+        public void StartReassignMeshCharacter(int MeshID)
+        {
+            reassignedMesh = new List<ReassignedMesh>();
+            materials = new List<TrickyXboxMXF.MaterialData>();
+            bones = new List<TrickyXboxMXF.BoneData>();
 
-        //    var TempMaterial = new TrickyPS2MPF.MaterialData();
-        //    TempMaterial.MainTexture = "helm";
-        //    materials.Add(TempMaterial);
+            var TempMaterial = new TrickyXboxMXF.MaterialData();
+            TempMaterial.MainTexture = "helm";
+            materials.Add(TempMaterial);
 
-        //    TempMaterial = new TrickyPS2MPF.MaterialData();
-        //    TempMaterial.MainTexture = "helm gloss";
-        //    materials.Add(TempMaterial);
+            TempMaterial = new TrickyXboxMXF.MaterialData();
+            TempMaterial.MainTexture = "helm gloss";
+            materials.Add(TempMaterial);
 
-        //    TempMaterial = new TrickyPS2MPF.MaterialData();
-        //    TempMaterial.MainTexture = "helm envr";
-        //    materials.Add(TempMaterial);
+            TempMaterial = new TrickyXboxMXF.MaterialData();
+            TempMaterial.MainTexture = "helm envr";
+            materials.Add(TempMaterial);
 
-        //    TempMaterial = new TrickyPS2MPF.MaterialData();
-        //    TempMaterial.MainTexture = "boot";
-        //    materials.Add(TempMaterial);
+            TempMaterial = new TrickyXboxMXF.MaterialData();
+            TempMaterial.MainTexture = "boot";
+            materials.Add(TempMaterial);
 
-        //    TempMaterial = new TrickyPS2MPF.MaterialData();
-        //    TempMaterial.MainTexture = "boot gloss";
-        //    materials.Add(TempMaterial);
+            TempMaterial = new TrickyXboxMXF.MaterialData();
+            TempMaterial.MainTexture = "boot gloss";
+            materials.Add(TempMaterial);
 
-        //    TempMaterial = new TrickyPS2MPF.MaterialData();
-        //    TempMaterial.MainTexture = "boot envr";
-        //    materials.Add(TempMaterial);
+            TempMaterial = new TrickyXboxMXF.MaterialData();
+            TempMaterial.MainTexture = "boot envr";
+            materials.Add(TempMaterial);
 
-        //    TempMaterial = new TrickyPS2MPF.MaterialData();
-        //    TempMaterial.MainTexture = "head";
-        //    materials.Add(TempMaterial);
+            TempMaterial = new TrickyXboxMXF.MaterialData();
+            TempMaterial.MainTexture = "head";
+            materials.Add(TempMaterial);
 
-        //    TempMaterial = new TrickyPS2MPF.MaterialData();
-        //    TempMaterial.MainTexture = "head gloss";
-        //    materials.Add(TempMaterial);
+            TempMaterial = new TrickyXboxMXF.MaterialData();
+            TempMaterial.MainTexture = "head gloss";
+            materials.Add(TempMaterial);
 
-        //    TempMaterial = new TrickyPS2MPF.MaterialData();
-        //    TempMaterial.MainTexture = "head envr";
-        //    materials.Add(TempMaterial);
+            TempMaterial = new TrickyXboxMXF.MaterialData();
+            TempMaterial.MainTexture = "head envr";
+            materials.Add(TempMaterial);
 
-        //    TempMaterial = new TrickyPS2MPF.MaterialData();
-        //    TempMaterial.MainTexture = "suit";
-        //    materials.Add(TempMaterial);
+            TempMaterial = new TrickyXboxMXF.MaterialData();
+            TempMaterial.MainTexture = "suit";
+            materials.Add(TempMaterial);
 
-        //    TempMaterial = new TrickyPS2MPF.MaterialData();
-        //    TempMaterial.MainTexture = "suit gloss";
-        //    materials.Add(TempMaterial);
+            TempMaterial = new TrickyXboxMXF.MaterialData();
+            TempMaterial.MainTexture = "suit gloss";
+            materials.Add(TempMaterial);
 
-        //    TempMaterial = new TrickyPS2MPF.MaterialData();
-        //    TempMaterial.MainTexture = "suit envr";
-        //    materials.Add(TempMaterial);
+            TempMaterial = new TrickyXboxMXF.MaterialData();
+            TempMaterial.MainTexture = "suit envr";
+            materials.Add(TempMaterial);
 
 
-        //    //Body
-        //    for (int i = 0; i < Body.ModelList.Count; i++)
-        //    {
-        //        if ((MeshID == 0 && Body.ModelList[i].FileName.Contains("3000")) ||
-        //            (MeshID == 1 && Body.ModelList[i].FileName.Contains("1500")) ||
-        //            (MeshID == 2 && Body.ModelList[i].FileName.Contains("750") && !Body.ModelList[i].FileName.ToLower().Contains("shdw")) ||
-        //            (MeshID == 3 && Body.ModelList[i].FileName.ToLower().Contains("shdw")))
-        //        {
-        //            var TempMesh = new ReassignedMesh();
-        //            bones.AddRange(Body.ModelList[i].boneDatas);
-        //            TempMesh.faces = ReturnFixedFaces(Body.ModelList[i], bones);
-        //            ListSize++;
-        //            TempMesh.MeshName = Body.ModelList[i].FileName;
-        //            if (MeshID == 3)
-        //            {
-        //                TempMesh.ShadowModel = true;
-        //            }
+            //Body
+            for (int i = 0; i < Body.modelHeaders.Count; i++)
+            {
+                if ((MeshID == 0 && Body.modelHeaders[i].ModelName.Contains("3000")) ||
+                    (MeshID == 1 && Body.modelHeaders[i].ModelName.Contains("1500")) ||
+                    (MeshID == 2 && Body.modelHeaders[i].ModelName.Contains("750") && !Body.modelHeaders[i].ModelName.ToLower().Contains("shdw")) ||
+                    (MeshID == 3 && Body.modelHeaders[i].ModelName.ToLower().Contains("shdw")))
+                {
+                    var TempMesh = new ReassignedMesh();
+                    bones.AddRange(Body.modelHeaders[i].boneDatas);
+                    TempMesh.faces = ReturnFixedFaces(Body.modelHeaders[i], bones);
+                    TempMesh.MeshName = Body.modelHeaders[i].ModelName;
+                    if (MeshID == 3)
+                    {
+                        TempMesh.ShadowModel = true;
+                    }
 
-        //            reassignedMesh.Add(TempMesh);
-        //        }
-        //    }
+                    reassignedMesh.Add(TempMesh);
+                }
+            }
 
-        //    //Head
-        //    for (int i = 0; i < Head.ModelList.Count; i++)
-        //    {
-        //        if ((MeshID == 0 && Head.ModelList[i].FileName.Contains("3000")) ||
-        //            (MeshID == 1 && Head.ModelList[i].FileName.Contains("1500")) ||
-        //            (MeshID == 2 && Head.ModelList[i].FileName.Contains("750") && !Head.ModelList[i].FileName.ToLower().Contains("shdw")) ||
-        //            (MeshID == 3 && Head.ModelList[i].FileName.ToLower().Contains("shdw")))
-        //        {
-        //            var TempMesh = new ReassignedMesh();
-        //            bones.AddRange(Head.ModelList[i].boneDatas);
-        //            TempMesh.MeshName = Head.ModelList[i].FileName;
-        //            TempMesh.faces = ReturnFixedFaces(Head.ModelList[i], bones);
-        //            ListSize++;
-        //            if (MeshID == 3)
-        //            {
-        //                TempMesh.ShadowModel = true;
-        //            }
+            //Head
+            for (int i = 0; i < Head.modelHeaders.Count; i++)
+            {
+                if ((MeshID == 0 && Head.modelHeaders[i].ModelName.Contains("3000")) ||
+                    (MeshID == 1 && Head.modelHeaders[i].ModelName.Contains("1500")) ||
+                    (MeshID == 2 && Head.modelHeaders[i].ModelName.Contains("750") && !Head.modelHeaders[i].ModelName.ToLower().Contains("shdw")) ||
+                    (MeshID == 3 && Head.modelHeaders[i].ModelName.ToLower().Contains("shdw")))
+                {
+                    var TempMesh = new ReassignedMesh();
+                    bones.AddRange(Head.modelHeaders[i].boneDatas);
+                    TempMesh.MeshName = Head.modelHeaders[i].ModelName;
+                    TempMesh.faces = ReturnFixedFaces(Head.modelHeaders[i], bones);
+                    if (MeshID == 3)
+                    {
+                        TempMesh.ShadowModel = true;
+                    }
 
-        //            TempMesh.MorphTargetCount = Head.ModelList[i].MorphKeyCount;
-        //            reassignedMesh.Add(TempMesh);
-        //        }
-        //    }
-        //    FixBoneParents();
-        //}
+                    TempMesh.MorphTargetCount = Head.modelHeaders[i].NumMorphs;
+                    reassignedMesh.Add(TempMesh);
+                }
+            }
+            FixBoneParents();
+        }
+
+        public List<TrickyXboxMXF.Face> ReturnFixedFaces(TrickyXboxMXF.ModelHeader modelHeader, List<TrickyXboxMXF.BoneData> BoneData)
+        {
+            List<TrickyXboxMXF.Face> NewFaces = new List<TrickyXboxMXF.Face>();
+
+            for (int i = 0; i < modelHeader.boneWeightHeaders.Count; i++)
+            {
+                modelHeader.boneWeightHeaders[i] = FixBoneIDs(modelHeader.boneWeightHeaders[i], BoneData);
+            }
+
+            for (int a = 0; a < modelHeader.tristripHeaders.Count; a++)
+            {
+                var Data = modelHeader.tristripHeaders[a];
+                for (int b = 0; b < Data.faces.Count; b++)
+                {
+                    var Face = Data.faces[b];
+
+                    Face.Weight1 = modelHeader.boneWeightHeaders[Face.Weight1Pos];
+                    Face.Weight2 = modelHeader.boneWeightHeaders[Face.Weight2Pos];
+                    Face.Weight3 = modelHeader.boneWeightHeaders[Face.Weight3Pos];
+
+                    var TempMat = modelHeader.materialDatas[modelHeader.tristripHeaders[a].MaterialIndex0];
+                    int matID = 0;
+                    int focusID = 0;
+                    if (TempMat.MainTexture != "bord")
+                    {
+                        if (TempMat.MainTexture == "helm")
+                        {
+                            matID = 0;
+                        }
+                        else if (TempMat.MainTexture == "boot")
+                        {
+                            matID = 1;
+                        }
+                        else if (TempMat.MainTexture == "head")
+                        {
+                            matID = 2;
+                        }
+                        else if (TempMat.MainTexture == "suit")
+                        {
+                            matID = 3;
+                        }
+
+                        if (TempMat.Texture3.EndsWith("_g"))
+                        {
+                            focusID = 1;
+                        }
+                        else if (TempMat.Texture4 == "envr")
+                        {
+                            focusID = 2;
+                        }
+                    }
+
+                    matID = (3 * matID) + focusID;
+                    Face.MaterialID = matID;
+
+                    if ((Face.V1 != Face.V2) && (Face.V2 != Face.V3) && (Face.V3 != Face.V1))
+                    {
+                        NewFaces.Add(Face);
+                    }
+
+                    Data.faces[b] = Face;
+                }
+                modelHeader.tristripHeaders[a] = Data;
+            }
+
+            return NewFaces;
+        }
+
+        public void FixBoneParents()
+        {
+            for (int i = 0; i < bones.Count; i++)
+            {
+                if (bones[i].ParentFileID != -1 && bones[i].ParentBone != -1)
+                {
+                    for (int a = 0; a < bones.Count; a++)
+                    {
+                        if (bones[i].ParentFileID == bones[a].FileID && bones[i].ParentBone == bones[a].BonePos)
+                        {
+                            var TempBone = bones[i];
+                            TempBone.ParentBone = a;
+                            bones[i] = TempBone;
+                        }
+                    }
+                }
+            }
+        }
+
+        public TrickyXboxMXF.BoneWeightHeader FixBoneIDs(TrickyXboxMXF.BoneWeightHeader weightHeader, List<TrickyXboxMXF.BoneData> BoneData)
+        {
+            var NewHeader = weightHeader;
+            for (int i = 0; i < NewHeader.boneWeights.Count; i++)
+            {
+                var Temp = NewHeader.boneWeights[i];
+                for (int a = 0; a < BoneData.Count; a++)
+                {
+                    if (BoneData[a].FileID == Temp.FileID)
+                    {
+                        if (BoneData[a].BonePos == Temp.BoneID)
+                        {
+                            Temp.BoneID = a;
+                            break;
+                        }
+                    }
+                }
+                NewHeader.boneWeights[i] = Temp;
+            }
+            return NewHeader;
+        }
     }
 
     public struct ReassignedMesh

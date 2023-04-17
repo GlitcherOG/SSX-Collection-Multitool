@@ -557,6 +557,28 @@ namespace SSXMultiTool
 
                 int Type = trickyXboxModel.DectectModelType(xboxMXF);
 
+                if ((Type == 0 && trickyXboxModel.Head != null) || (Type == 1 && trickyXboxModel.Body != null))
+                {
+                    MXFList.Items.Clear();
+                    MXFList.Items.Add("Character 3000");
+                    MXFList.Items.Add("Character 1500");
+                    MXFList.Items.Add("Character 750");
+                }
+                else
+                {
+                    if (trickyXboxModel.Body == null)
+                    {
+                        MXFList.Items.Clear();
+                        MXFList.Items.Add("Please Load Matching Body File");
+                    }
+                    else if (trickyXboxModel.Head == null)
+                    {
+                        MXFList.Items.Clear();
+                        MXFList.Items.Add("Please Load Matching Head File");
+                    }
+                    UpdateDataXbox();
+                }
+
                 if (Type == 2)
                 {
                     MXFList.Items.Clear();
@@ -619,7 +641,9 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    glftHandler.SaveTrickyXboxglTF(openFileDialog.FileName, xboxMXF.modelHeaders[MXFList.SelectedIndex]);
+                    trickyXboxModel.StartReassignMesh(MXFList.SelectedIndex);
+
+                    glftHandler.SaveTrickyXboxglTF(openFileDialog.FileName, trickyXboxModel);
                 }
             }
         }

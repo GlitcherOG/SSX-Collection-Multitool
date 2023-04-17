@@ -335,6 +335,17 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         Model.lastDatas.Add(TempLastData);
                     }
 
+                    //Add Morph Lists To VertexData
+                    for (int a = 0; a < Model.vertexDatas.Count; a++)
+                    {
+                        var VertexData = Model.vertexDatas[a];
+                        for (int b = 0; b < Model.NumMorphs; b++)
+                        {
+                            VertexData.MorphData.Add(new Vector3());
+                        }
+                        Model.vertexDatas[a] = VertexData;
+                    }
+
                     //Add Morph to VertexData
                     for (int a = 0; a < Model.morphHeader.Count; a++)
                     {
@@ -343,8 +354,9 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         for (int b = 0; b < MorphHeader.MorphDataList.Count; b++)
                         {
                             var MorphData = MorphHeader.MorphDataList[b];
-
-                            Model.vertexDatas[MorphData.VertexIndex].MorphData.Add(MorphData.Morph);
+                            var VertexData = Model.vertexDatas[MorphData.VertexIndex];
+                            VertexData.MorphData[a] = MorphData.Morph;
+                            Model.vertexDatas[MorphData.VertexIndex] = VertexData;
                         }
                     }
 
@@ -384,6 +396,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                             NewFace.Normal1 = Model.vertexDatas[TempHeader.IndexList[Index1]].VertexNormal;
                             NewFace.TangentNormal1 = Model.vertexDatas[TempHeader.IndexList[Index1]].VertexTangentNormal;
                             NewFace.Weight1 = Model.boneWeightHeaders[Model.vertexDatas[TempHeader.IndexList[Index1]].WeightIndex];
+                            NewFace.Weight1Pos = Model.vertexDatas[TempHeader.IndexList[Index1]].WeightIndex;
                             NewFace.MorphPoint1 = Model.vertexDatas[TempHeader.IndexList[Index1]].MorphData;
 
                             NewFace.V2 = Model.vertexDatas[TempHeader.IndexList[Index2]].VertexPosition;
@@ -391,6 +404,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                             NewFace.Normal2 = Model.vertexDatas[TempHeader.IndexList[Index2]].VertexNormal;
                             NewFace.TangentNormal2 = Model.vertexDatas[TempHeader.IndexList[Index2]].VertexTangentNormal;
                             NewFace.Weight2 = Model.boneWeightHeaders[Model.vertexDatas[TempHeader.IndexList[Index2]].WeightIndex];
+                            NewFace.Weight2Pos = Model.vertexDatas[TempHeader.IndexList[Index2]].WeightIndex;
                             NewFace.MorphPoint2 = Model.vertexDatas[TempHeader.IndexList[Index2]].MorphData;
 
                             NewFace.V3 = Model.vertexDatas[TempHeader.IndexList[Index3]].VertexPosition;
@@ -398,6 +412,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                             NewFace.Normal3 = Model.vertexDatas[TempHeader.IndexList[Index3]].VertexNormal;
                             NewFace.TangentNormal3 = Model.vertexDatas[TempHeader.IndexList[Index3]].VertexTangentNormal;
                             NewFace.Weight3 = Model.boneWeightHeaders[Model.vertexDatas[TempHeader.IndexList[Index3]].WeightIndex];
+                            NewFace.Weight3Pos = Model.vertexDatas[TempHeader.IndexList[Index3]].WeightIndex;
                             NewFace.MorphPoint3 = Model.vertexDatas[TempHeader.IndexList[Index3]].MorphData;
 
 
@@ -967,6 +982,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public List<Vector3> MorphPoint1;
             public List<Vector3> MorphPoint2;
             public List<Vector3> MorphPoint3;
+
+            public int MaterialID;
         }
     }
 }

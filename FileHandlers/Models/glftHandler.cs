@@ -341,49 +341,47 @@ namespace SSXMultiTool.FileHandlers
             model.SaveGLB(Output);
         }
 
-        public static void SaveTrickyXboxglTF(string Output, TrickyXboxMXF.ModelHeader Handler)
+        public static void SaveTrickyXboxglTF(string Output, TrickyXboxModelCombiner Handler)
         {
             var scene = new SharpGLTF.Scenes.SceneBuilder();
 
             List<MaterialBuilder> materialBuilders = new List<MaterialBuilder>();
-            for (int i = 0; i < Handler.materialDatas.Count; i++)
+            for (int i = 0; i < Handler.materials.Count; i++)
             {
-                var TempVar = Handler.materialDatas[i];
+                var TempVar = Handler.materials[i];
                 var material1 = new MaterialBuilder(TempVar.MainTexture)
                 .WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
                 materialBuilders.Add(material1);
             }
             var bindings = new List<SharpGLTF.Scenes.NodeBuilder>();
             SharpGLTF.Scenes.NodeBuilder Binding = new SharpGLTF.Scenes.NodeBuilder();
-            for (int i = 0; i < Handler.boneDatas.Count; i++)
+            for (int i = 0; i < Handler.bones.Count; i++)
             {
-                if (Handler.boneDatas[i].ParentBone == -1)
+                if (Handler.bones[i].ParentBone == -1)
                 {
                     Binding = new SharpGLTF.Scenes.NodeBuilder();
                 }
                 else
                 {
-                    Binding = bindings[Handler.boneDatas[i].ParentBone];
+                    Binding = bindings[Handler.bones[i].ParentBone];
                 }
-                Binding = Binding.CreateNode(Handler.boneDatas[i].BoneName);
-                float tempX = Handler.boneDatas[i].Radians.X;
-                float tempY = Handler.boneDatas[i].Radians.Y;
-                float tempZ = Handler.boneDatas[i].Radians.Z;
+                Binding = Binding.CreateNode(Handler.bones[i].BoneName);
+                float tempX = Handler.bones[i].Radians.X;
+                float tempY = Handler.bones[i].Radians.Y;
+                float tempZ = Handler.bones[i].Radians.Z;
 
                 Binding.WithLocalRotation(MathUtil.ToQuaternion(new Vector3(-tempX, -tempY, -tempZ)));
-                Binding.WithLocalTranslation(Handler.boneDatas[i].Position);
+                Binding.WithLocalTranslation(Handler.bones[i].Position);
 
                 bindings.Add(Binding);
             }
 
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < Handler.reassignedMesh.Count; i++)
             {
                 List<PointMorph> pointMorphs = new List<PointMorph>();
-                var mesh = new MeshBuilder<VertexPositionNormalTangent, VertexTexture1, VertexJoints4>(Handler.ModelName);
+                var mesh = new MeshBuilder<VertexPositionNormalTangent, VertexTexture1, VertexJoints4>(Handler.reassignedMesh[i].MeshName);
 
-                for (int a = 0; a < Handler.tristripHeaders.Count; a++)
-                {
-                    var TristripTemp = Handler.tristripHeaders[a];
+                    var TristripTemp = Handler.reassignedMesh[i];
                     for (int b = 0; b < TristripTemp.faces.Count; b++)
                     {
                         var Face = TristripTemp.faces[b];
@@ -455,9 +453,9 @@ namespace SSXMultiTool.FileHandlers
                         }
                         TempBinding3.SetBindings(bindings1);
 
-                        mesh.UsePrimitive(materialBuilders[TristripTemp.MaterialIndex0]).AddTriangle((TempPos1, TempTexture1, TempBinding1), (TempPos2, TempTexture2, TempBinding2), (TempPos3, TempTexture3, TempBinding3));
+                        mesh.UsePrimitive(materialBuilders[Face.MaterialID]).AddTriangle((TempPos1, TempTexture1, TempBinding1), (TempPos2, TempTexture2, TempBinding2), (TempPos3, TempTexture3, TempBinding3));
 
-                        if (Handler.NumMorphs != 0)
+                        if (Handler.reassignedMesh[i].MorphTargetCount != 0)
                         {
                             if (!pointMorphs.Contains(GeneratePointMorph(TempPos1.Position, Face.MorphPoint1)))
                             {
@@ -473,9 +471,9 @@ namespace SSXMultiTool.FileHandlers
                             }
                         }
                     }
-                }
+                
 
-                for (int c = 0; c < Handler.NumMorphs; c++)
+                for (int c = 0; c < Handler.reassignedMesh[i].MorphTargetCount; c++)
                 {
                     var morphTargetBuilder = mesh.UseMorphTarget(c);
                     foreach (var vertexPosition in morphTargetBuilder.Vertices)
@@ -494,12 +492,12 @@ namespace SSXMultiTool.FileHandlers
 
                 scene.AddSkinnedMesh(mesh, Matrix4x4.CreateFromYawPitchRoll(0, 0/*-1.5708f*/, 0), bindings.ToArray());
             }
-            if (Handler.iKPoints != null)
+            if (Handler.reassignedMesh[0].IKPoints != null)
             {
-                for (int i = 0; i < Handler.iKPoints.Count; i++)
+                for (int i = 0; i < Handler.reassignedMesh[0].IKPoints.Count; i++)
                 {
                     var Temp = new SharpGLTF.Scenes.NodeBuilder("IKPoint " + i.ToString());
-                    Temp.WithLocalTranslation(Handler.iKPoints[i]);
+                    Temp.WithLocalTranslation(Handler.reassignedMesh[0].IKPoints[i]);
                     scene.AddNode(Temp);
                 }
             }
