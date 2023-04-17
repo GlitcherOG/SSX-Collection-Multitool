@@ -87,7 +87,7 @@
             MPFLoad = new Button();
             tabPage3 = new TabPage();
             button3 = new Button();
-            button1 = new Button();
+            MXFSave = new Button();
             label33 = new Label();
             label34 = new Label();
             groupBox9 = new GroupBox();
@@ -789,7 +789,7 @@
             // tabPage3
             // 
             tabPage3.Controls.Add(button3);
-            tabPage3.Controls.Add(button1);
+            tabPage3.Controls.Add(MXFSave);
             tabPage3.Controls.Add(label33);
             tabPage3.Controls.Add(label34);
             tabPage3.Controls.Add(groupBox9);
@@ -816,14 +816,15 @@
             button3.Text = "Import";
             button3.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // MXFSave
             // 
-            button1.Location = new Point(690, 372);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 37;
-            button1.Text = "Save MXF";
-            button1.UseVisualStyleBackColor = true;
+            MXFSave.Location = new Point(690, 372);
+            MXFSave.Name = "MXFSave";
+            MXFSave.Size = new Size(75, 23);
+            MXFSave.TabIndex = 37;
+            MXFSave.Text = "Save MXF";
+            MXFSave.UseVisualStyleBackColor = true;
+            MXFSave.Click += MXFSave_Click;
             // 
             // label33
             // 
@@ -1861,6 +1862,6 @@
         private ListBox listBox2;
         private ListBox MXFList;
         private Button button3;
-        private Button button1;
+        private Button MXFSave;
     }
 }

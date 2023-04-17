@@ -639,7 +639,36 @@ namespace SSXMultiTool
             }
         }
 
+        private void MXFSave_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog openFileDialog = new SaveFileDialog
+            {
+                Filter = "Model File (*.mxf)|*.mxf|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (trickyXboxModel.Board != null)
+                {
+                    xboxMXF = trickyXboxModel.Board;
 
+                    xboxMXF.Save(openFileDialog.FileName);
+                }
+                else if (trickyXboxModel.Body != null && trickyXboxModel.Head != null)
+                {
+                    string Path = openFileDialog.FileName.Remove(openFileDialog.FileName.Length - 8, 8);
+
+                    xboxMXF = trickyXboxModel.Body;
+
+                    xboxMXF.Save(Path + "body.mpf");
+
+                    xboxMXF = trickyXboxModel.Head;
+
+                    xboxMXF.Save(Path + "head.mpf");
+                }
+            }
+        }
         #endregion
 
         private bool CheckSX()
