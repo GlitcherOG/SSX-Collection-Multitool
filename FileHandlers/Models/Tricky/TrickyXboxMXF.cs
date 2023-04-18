@@ -50,8 +50,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     TempModelHeader.Unknown0 = StreamUtil.ReadUInt32(stream);
                     TempModelHeader.OffsetVertexSection = StreamUtil.ReadUInt32(stream);
 
-                    TempModelHeader.OffsetLastData = StreamUtil.ReadUInt32(stream);
-                    TempModelHeader.OffsetUnknownData = StreamUtil.ReadUInt32(stream);
+                    TempModelHeader.OffsetShadowData = StreamUtil.ReadUInt32(stream);
+                    TempModelHeader.OffsetEdgeData = StreamUtil.ReadUInt32(stream);
 
                     stream.Position += 0x12A/*298*/;
 
@@ -66,7 +66,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     TempModelHeader.Unknown3 = StreamUtil.ReadInt16(stream);
                     TempModelHeader.NumVertices = StreamUtil.ReadInt16(stream);
                     TempModelHeader.FileID = StreamUtil.ReadInt16(stream);
-                    TempModelHeader.NumLastData = StreamUtil.ReadInt16(stream);
+                    TempModelHeader.NumShadowData = StreamUtil.ReadInt16(stream);
                     TempModelHeader.NumEdgeData = StreamUtil.ReadInt16(stream);
 
                     modelHeaders.Add(TempModelHeader);
@@ -303,7 +303,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         Model.unknownVertexData.Add(TempVertexData);
                     }
 
-                    stream.Position = Model.OffsetUnknownData;
+                    stream.Position = Model.OffsetEdgeData;
                     Model.edgeDatas = new List<EdgeData>();
                     for (int a = 0; a < Model.NumEdgeData; a++)
                     {
@@ -317,22 +317,29 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         Model.edgeDatas.Add(TempUnknownData);
                     }
 
-                    stream.Position = Model.OffsetLastData;
-                    Model.lastDatas = new List<LastData>();
-                    for (int a = 0; a < Model.NumLastData; a++)
+                    stream.Position = Model.OffsetShadowData;
+                    Model.shadowDatas = new List<ShadowData>();
+                    for (int a = 0; a < Model.NumShadowData; a++)
                     {
-                        var TempLastData = new LastData();
-                        TempLastData.U1 = StreamUtil.ReadUInt16(streamMatrix)/16;
-                        TempLastData.U2 = StreamUtil.ReadUInt16(streamMatrix)/16;
-                        TempLastData.U3 = StreamUtil.ReadUInt16(streamMatrix)/16;
-                        TempLastData.U4 = StreamUtil.ReadUInt16(streamMatrix);
-                        TempLastData.U5 = StreamUtil.ReadUInt16(streamMatrix);
-                        TempLastData.U6 = StreamUtil.ReadUInt16(streamMatrix);
-                        TempLastData.U7 = StreamUtil.ReadUInt16(streamMatrix);
-                        TempLastData.U8 = StreamUtil.ReadUInt16(streamMatrix);
-                        TempLastData.U9 = StreamUtil.ReadUInt16(streamMatrix);
-                        TempLastData.U10 = StreamUtil.ReadUInt16(streamMatrix);
-                        Model.lastDatas.Add(TempLastData);
+                        var TempLastData = new ShadowData();
+                        TempLastData.VIndex1 = StreamUtil.ReadUInt16(streamMatrix) / 16;
+                        TempLastData.VIndex2 = StreamUtil.ReadUInt16(streamMatrix) / 16;
+                        TempLastData.VIndex3 = StreamUtil.ReadUInt16(streamMatrix) / 16;
+                        TempLastData.VIndex4 = StreamUtil.ReadUInt16(streamMatrix) / 16;
+
+                        int TempData = StreamUtil.ReadUInt32(streamMatrix);
+                        TempLastData.ReadModeEdge1 = TempData % 2;
+                        TempLastData.EdgeIndex1 = TempData >> 1;
+
+                        TempData = StreamUtil.ReadUInt32(streamMatrix);
+                        TempLastData.ReadModeEdge2 = TempData % 2;
+                        TempLastData.EdgeIndex2 = TempData >> 1;
+
+                        TempData = StreamUtil.ReadUInt32(streamMatrix);
+                        TempLastData.ReadModeEdge3 = TempData % 2;
+                        TempLastData.EdgeIndex3 = TempData >> 1;
+
+                        Model.shadowDatas.Add(TempLastData);
                     }
 
                     //Add Morph Lists To VertexData
@@ -649,7 +656,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                             StreamUtil.WriteInt32(ModelStream, Model.unknownVertexData[a].WeightIndex);
                         }
 
-                        Model.OffsetUnknownData = (int)ModelStream.Position;
+                        Model.OffsetEdgeData = (int)ModelStream.Position;
                         for (int a = 0; a < Model.edgeDatas.Count; a++)
                         {
                             StreamUtil.WriteInt16(ModelStream, Model.edgeDatas[a].U1);
@@ -658,19 +665,18 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                             StreamUtil.WriteInt16(ModelStream, Model.edgeDatas[a].VerticeIndex3 * 16);
                         }
 
-                        Model.OffsetLastData = (int)ModelStream.Position;
-                        for (int a = 0; a < Model.lastDatas.Count; a++)
+                        Model.OffsetShadowData = (int)ModelStream.Position;
+
+                        for (int a = 0; a < Model.shadowDatas.Count; a++)
                         {
-                            StreamUtil.WriteInt16(ModelStream, Model.lastDatas[a].U1);
-                            StreamUtil.WriteInt16(ModelStream, Model.lastDatas[a].U2);
-                            StreamUtil.WriteInt16(ModelStream, Model.lastDatas[a].U3);
-                            StreamUtil.WriteInt16(ModelStream, Model.lastDatas[a].U4);
-                            StreamUtil.WriteInt16(ModelStream, Model.lastDatas[a].U5);
-                            StreamUtil.WriteInt16(ModelStream, Model.lastDatas[a].U6);
-                            StreamUtil.WriteInt16(ModelStream, Model.lastDatas[a].U7);
-                            StreamUtil.WriteInt16(ModelStream, Model.lastDatas[a].U8);
-                            StreamUtil.WriteInt16(ModelStream, Model.lastDatas[a].U9);
-                            StreamUtil.WriteInt16(ModelStream, Model.lastDatas[a].U10);
+                            StreamUtil.WriteInt16(ModelStream, Model.shadowDatas[a].VIndex1 * 16);
+                            StreamUtil.WriteInt16(ModelStream, Model.shadowDatas[a].VIndex2 * 16);
+                            StreamUtil.WriteInt16(ModelStream, Model.shadowDatas[a].VIndex3 * 16);
+                            StreamUtil.WriteInt16(ModelStream, Model.shadowDatas[a].VIndex4 * 16);
+
+                            StreamUtil.WriteInt32(ModelStream, (Model.shadowDatas[a].EdgeIndex1 << 1) + Model.shadowDatas[a].ReadModeEdge1);
+                            StreamUtil.WriteInt32(ModelStream, (Model.shadowDatas[a].EdgeIndex2 << 1) + Model.shadowDatas[a].ReadModeEdge2);
+                            StreamUtil.WriteInt32(ModelStream, (Model.shadowDatas[a].EdgeIndex3 << 1) + Model.shadowDatas[a].ReadModeEdge3);
                         }
 
 
@@ -702,13 +708,13 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 StreamUtil.WriteInt32(stream, Model.OffsetIKPointList); //done
                 StreamUtil.WriteInt32(stream, Model.OffsetMorphList);
 
-                StreamUtil.WriteInt32(stream, Model.OffsetWeight);
-                StreamUtil.WriteInt32(stream, Model.OffsetTristripSection);
+                StreamUtil.WriteInt32(stream, Model.OffsetWeight); //done
+                StreamUtil.WriteInt32(stream, Model.OffsetTristripSection); //done
                 StreamUtil.WriteInt32(stream, Model.Unknown0); //done
-                StreamUtil.WriteInt32(stream, Model.OffsetVertexSection);
+                StreamUtil.WriteInt32(stream, Model.OffsetVertexSection); //done
 
-                StreamUtil.WriteInt32(stream, Model.OffsetLastData);
-                StreamUtil.WriteInt32(stream, Model.OffsetUnknownData);
+                StreamUtil.WriteInt32(stream, Model.OffsetShadowData); 
+                StreamUtil.WriteInt32(stream, Model.OffsetEdgeData);
 
                 stream.Position += 28;
                 StreamUtil.WriteInt32(stream, -1);
@@ -725,7 +731,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 StreamUtil.WriteInt16(stream, Model.Unknown3);
                 StreamUtil.WriteInt16(stream, Model.vertexDatas.Count);
                 StreamUtil.WriteInt16(stream, Model.FileID);
-                StreamUtil.WriteInt16(stream, Model.lastDatas.Count);
+                StreamUtil.WriteInt16(stream, Model.shadowDatas.Count);
                 StreamUtil.WriteInt16(stream, Model.edgeDatas.Count);
 
                 modelHeaders[i] = Model;
@@ -779,8 +785,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public int Unknown0;
             public int OffsetVertexSection;
 
-            public int OffsetLastData;
-            public int OffsetUnknownData;
+            public int OffsetShadowData;
+            public int OffsetEdgeData;
 
             public int Unknown1;
             public int Unknown2;
@@ -794,7 +800,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public int NumVertices;
 
             public int FileID;
-            public int NumLastData;
+            public int NumShadowData;
             public int NumEdgeData;
 
             public byte[] Matrix;
@@ -808,7 +814,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public List<VertexData> vertexDatas;
             public List<VertexData> unknownVertexData;
             public List<EdgeData> edgeDatas;
-            public List<LastData> lastDatas;
+            public List<ShadowData> shadowDatas;
         }
 
         public struct MaterialData
@@ -923,18 +929,18 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public int VerticeIndex3; //Index
         }
 
-        public struct LastData
+        public struct ShadowData
         {
-            public int U1;
-            public int U2;
-            public int U3;
-            public int U4;
-            public int U5;
-            public int U6;
-            public int U7;
-            public int U8;
-            public int U9;
-            public int U10;
+            public int VIndex1;
+            public int VIndex2;
+            public int VIndex3;
+            public int VIndex4;
+            public int ReadModeEdge1;
+            public int EdgeIndex1;
+            public int ReadModeEdge2;
+            public int EdgeIndex2;
+            public int ReadModeEdge3;
+            public int EdgeIndex3;
         }
 
         public struct Face
