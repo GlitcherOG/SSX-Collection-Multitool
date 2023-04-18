@@ -262,11 +262,11 @@ namespace SSXMultiTool
                 WeightGroupCountPS2.Text = trickyPS2Model.WeigthRefCount(modelHeader.Value).ToString();
                 MorphGroupCountPS2.Text = trickyPS2Model.MorphGroupCount(modelHeader.Value).ToString();
 
-                MaterialList.Items.Clear();
-                MpfUpdateMaterial();
+                MaterialListMPF.Items.Clear();
+                MpfUpdateMaterialPS2();
                 for (int i = 0; i < modelHeader.Value.materialDatas.Count; i++)
                 {
-                    MaterialList.Items.Add(modelHeader.Value.materialDatas[i].MainTexture);
+                    MaterialListMPF.Items.Add(modelHeader.Value.materialDatas[i].MainTexture);
                 }
             }
             else
@@ -288,37 +288,37 @@ namespace SSXMultiTool
                 MorphGroupCountPS2.Text = "0";
 
                 //Material Items
-                MaterialList.Items.Clear();
-                MpfUpdateMaterial();
+                MaterialListMPF.Items.Clear();
+                MpfUpdateMaterialPS2();
             }
         }
         bool MatDisableUpdate;
-        void MpfUpdateMaterial(TrickyPS2MPF.MPFModelHeader? modelHeader = null)
+        void MpfUpdateMaterialPS2(TrickyPS2MPF.MPFModelHeader? modelHeader = null)
         {
-            if (MaterialList.SelectedIndex != -1 && modelHeader != null)
+            if (MaterialListMPF.SelectedIndex != -1 && modelHeader != null)
             {
                 MatDisableUpdate = true;
-                MatMainTexture.Text = modelHeader.Value.materialDatas[MaterialList.SelectedIndex].MainTexture;
-                MatTextureFlag1.Text = modelHeader.Value.materialDatas[MaterialList.SelectedIndex].Texture1;
-                MatTextureFlag2.Text = modelHeader.Value.materialDatas[MaterialList.SelectedIndex].Texture2;
-                MatTextureFlag3.Text = modelHeader.Value.materialDatas[MaterialList.SelectedIndex].Texture3;
-                MatTextureFlag4.Text = modelHeader.Value.materialDatas[MaterialList.SelectedIndex].Texture4;
-                MatFlagFactor.Value = (decimal)modelHeader.Value.materialDatas[MaterialList.SelectedIndex].FactorFloat;
-                MatUnknown1.Value = (decimal)modelHeader.Value.materialDatas[MaterialList.SelectedIndex].Unused1Float;
-                MatUnknown2.Value = (decimal)modelHeader.Value.materialDatas[MaterialList.SelectedIndex].Unused2Float;
+                MatMainTextureMPF.Text = modelHeader.Value.materialDatas[MaterialListMPF.SelectedIndex].MainTexture;
+                MatTextureFlag1MPF.Text = modelHeader.Value.materialDatas[MaterialListMPF.SelectedIndex].Texture1;
+                MatTextureFlag2MPF.Text = modelHeader.Value.materialDatas[MaterialListMPF.SelectedIndex].Texture2;
+                MatTextureFlag3MPF.Text = modelHeader.Value.materialDatas[MaterialListMPF.SelectedIndex].Texture3;
+                MatTextureFlag4MPF.Text = modelHeader.Value.materialDatas[MaterialListMPF.SelectedIndex].Texture4;
+                MatFlagFactorMPF.Value = (decimal)modelHeader.Value.materialDatas[MaterialListMPF.SelectedIndex].FactorFloat;
+                MatUnknown1MPF.Value = (decimal)modelHeader.Value.materialDatas[MaterialListMPF.SelectedIndex].Unused1Float;
+                MatUnknown2MPF.Value = (decimal)modelHeader.Value.materialDatas[MaterialListMPF.SelectedIndex].Unused2Float;
                 MatDisableUpdate = false;
             }
             else
             {
                 MatDisableUpdate = true;
-                MatMainTexture.Text = "";
-                MatTextureFlag1.Text = "";
-                MatTextureFlag2.Text = "";
-                MatTextureFlag3.Text = "";
-                MatTextureFlag4.Text = "";
-                MatFlagFactor.Value = 0;
-                MatUnknown1.Value = 0;
-                MatUnknown2.Value = 0;
+                MatMainTextureMPF.Text = "";
+                MatTextureFlag1MPF.Text = "";
+                MatTextureFlag2MPF.Text = "";
+                MatTextureFlag3MPF.Text = "";
+                MatTextureFlag4MPF.Text = "";
+                MatFlagFactorMPF.Value = 0;
+                MatUnknown1MPF.Value = 0;
+                MatUnknown2MPF.Value = 0;
                 MatDisableUpdate = false;
             }
         }
@@ -335,13 +335,13 @@ namespace SSXMultiTool
                 {
                     UpdateDataPS2();
                 }
-                RegeneratePartList();
+                RegeneratePartListPS2();
             }
         }
 
-        void RegeneratePartList()
+        void RegeneratePartListPS2()
         {
-            CharacterParts.Items.Clear();
+            CharacterPartsMpf.Items.Clear();
             int MeshID = MpfList.SelectedIndex;
             if (trickyPS2Model.Body != null && trickyPS2Model.Head != null)
             {
@@ -352,7 +352,7 @@ namespace SSXMultiTool
                         (MeshID == 2 && trickyPS2Model.Body.ModelList[i].FileName.Contains("750") && !trickyPS2Model.Body.ModelList[i].FileName.ToLower().Contains("shdw")) ||
                         (MeshID == 3 && trickyPS2Model.Body.ModelList[i].FileName.ToLower().Contains("shdw")))
                     {
-                        CharacterParts.Items.Add(trickyPS2Model.Body.ModelList[i].FileName);
+                        CharacterPartsMpf.Items.Add(trickyPS2Model.Body.ModelList[i].FileName);
                     }
                 }
 
@@ -365,7 +365,7 @@ namespace SSXMultiTool
                         (MeshID == 3 && trickyPS2Model.Head.ModelList[i].FileName.ToLower().Contains("shdw")))
                     {
 
-                        CharacterParts.Items.Add(trickyPS2Model.Head.ModelList[i].FileName);
+                        CharacterPartsMpf.Items.Add(trickyPS2Model.Head.ModelList[i].FileName);
                     }
                 }
             }
@@ -373,9 +373,9 @@ namespace SSXMultiTool
 
         private void CharacterParts_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (CharacterParts.SelectedIndex != -1)
+            if (CharacterPartsMpf.SelectedIndex != -1)
             {
-                string LookingFor = CharacterParts.Items[CharacterParts.SelectedIndex].ToString();
+                string LookingFor = CharacterPartsMpf.Items[CharacterPartsMpf.SelectedIndex].ToString();
                 int MeshID = -1;
 
                 for (int i = 0; i < trickyPS2Model.Body.ModelList.Count; i++)
@@ -406,22 +406,22 @@ namespace SSXMultiTool
 
         private void MaterialList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (MaterialList.SelectedIndex != -1)
+            if (MaterialListMPF.SelectedIndex != -1)
             {
                 if (trickyPS2Model.Board != null)
                 {
-                    MpfUpdateMaterial(trickyPS2Model.Board.ModelList[MpfList.SelectedIndex]);
+                    MpfUpdateMaterialPS2(trickyPS2Model.Board.ModelList[MpfList.SelectedIndex]);
                 }
                 else if (trickyPS2Model.Body != null && trickyPS2Model.Head != null)
                 {
-                    string LookingFor = CharacterParts.Items[CharacterParts.SelectedIndex].ToString();
+                    string LookingFor = CharacterPartsMpf.Items[CharacterPartsMpf.SelectedIndex].ToString();
                     int MeshID = -1;
                     for (int i = 0; i < trickyPS2Model.Body.ModelList.Count; i++)
                     {
                         if (LookingFor == trickyPS2Model.Body.ModelList[i].FileName)
                         {
                             MeshID = i;
-                            MpfUpdateMaterial(trickyPS2Model.Body.ModelList[i]);
+                            MpfUpdateMaterialPS2(trickyPS2Model.Body.ModelList[i]);
                             break;
                         }
                     }
@@ -434,7 +434,7 @@ namespace SSXMultiTool
                             if (LookingFor == trickyPS2Model.Head.ModelList[i].FileName)
                             {
                                 MeshID = i;
-                                MpfUpdateMaterial(trickyPS2Model.Head.ModelList[i]);
+                                MpfUpdateMaterialPS2(trickyPS2Model.Head.ModelList[i]);
                                 break;
                             }
                         }
@@ -442,14 +442,14 @@ namespace SSXMultiTool
                 }
                 else
                 {
-                    MpfUpdateMaterial();
+                    MpfUpdateMaterialPS2();
                 }
             }
         }
 
         private void MPFUpdateMat(object sender, EventArgs e)
         {
-            if (MaterialList.SelectedIndex != -1 && !MatDisableUpdate)
+            if (MaterialListMPF.SelectedIndex != -1 && !MatDisableUpdate)
             {
                 MatDisableUpdate = true;
 
@@ -457,18 +457,18 @@ namespace SSXMultiTool
                 //Load Material
                 if (trickyPS2Model.Board != null)
                 {
-                    TempMat = trickyPS2Model.Board.ModelList[MpfList.SelectedIndex].materialDatas[MaterialList.SelectedIndex];
+                    TempMat = trickyPS2Model.Board.ModelList[MpfList.SelectedIndex].materialDatas[MaterialListMPF.SelectedIndex];
                 }
                 else if (trickyPS2Model.Head != null && trickyPS2Model.Body != null)
                 {
-                    string LookingFor = CharacterParts.Items[CharacterParts.SelectedIndex].ToString();
+                    string LookingFor = CharacterPartsMpf.Items[CharacterPartsMpf.SelectedIndex].ToString();
                     int MeshID = -1;
                     for (int i = 0; i < trickyPS2Model.Body.ModelList.Count; i++)
                     {
                         if (LookingFor == trickyPS2Model.Body.ModelList[i].FileName)
                         {
                             MeshID = i;
-                            TempMat = trickyPS2Model.Body.ModelList[i].materialDatas[MaterialList.SelectedIndex];
+                            TempMat = trickyPS2Model.Body.ModelList[i].materialDatas[MaterialListMPF.SelectedIndex];
                             break;
                         }
                     }
@@ -481,36 +481,36 @@ namespace SSXMultiTool
                             if (LookingFor == trickyPS2Model.Head.ModelList[i].FileName)
                             {
                                 MeshID = i;
-                                TempMat = trickyPS2Model.Head.ModelList[i].materialDatas[MaterialList.SelectedIndex];
+                                TempMat = trickyPS2Model.Head.ModelList[i].materialDatas[MaterialListMPF.SelectedIndex];
                                 break;
                             }
                         }
                     }
                 }
 
-                TempMat.MainTexture = MatMainTexture.Text;
-                TempMat.Texture1 = MatTextureFlag1.Text;
-                TempMat.Texture2 = MatTextureFlag2.Text;
-                TempMat.Texture3 = MatTextureFlag3.Text;
-                TempMat.Texture4 = MatTextureFlag4.Text;
-                TempMat.FactorFloat = (float)MatFlagFactor.Value;
-                TempMat.Unused1Float = (float)MatUnknown1.Value;
-                TempMat.Unused2Float = (float)MatUnknown2.Value;
+                TempMat.MainTexture = MatMainTextureMPF.Text;
+                TempMat.Texture1 = MatTextureFlag1MPF.Text;
+                TempMat.Texture2 = MatTextureFlag2MPF.Text;
+                TempMat.Texture3 = MatTextureFlag3MPF.Text;
+                TempMat.Texture4 = MatTextureFlag4MPF.Text;
+                TempMat.FactorFloat = (float)MatFlagFactorMPF.Value;
+                TempMat.Unused1Float = (float)MatUnknown1MPF.Value;
+                TempMat.Unused2Float = (float)MatUnknown2MPF.Value;
 
                 if (trickyPS2Model.Board != null)
                 {
-                    trickyPS2Model.Board.ModelList[MpfList.SelectedIndex].materialDatas[MaterialList.SelectedIndex] = TempMat;
+                    trickyPS2Model.Board.ModelList[MpfList.SelectedIndex].materialDatas[MaterialListMPF.SelectedIndex] = TempMat;
                 }
                 else if (trickyPS2Model.Head != null && trickyPS2Model.Body != null)
                 {
-                    string LookingFor = CharacterParts.Items[CharacterParts.SelectedIndex].ToString();
+                    string LookingFor = CharacterPartsMpf.Items[CharacterPartsMpf.SelectedIndex].ToString();
                     int MeshID = -1;
                     for (int i = 0; i < trickyPS2Model.Body.ModelList.Count; i++)
                     {
                         if (LookingFor == trickyPS2Model.Body.ModelList[i].FileName)
                         {
                             MeshID = i;
-                            trickyPS2Model.Body.ModelList[i].materialDatas[MaterialList.SelectedIndex] = TempMat;
+                            trickyPS2Model.Body.ModelList[i].materialDatas[MaterialListMPF.SelectedIndex] = TempMat;
                             break;
                         }
                     }
@@ -522,7 +522,7 @@ namespace SSXMultiTool
                         {
                             if (LookingFor == trickyPS2Model.Head.ModelList[i].FileName)
                             {
-                                trickyPS2Model.Head.ModelList[i].materialDatas[MaterialList.SelectedIndex] = TempMat;
+                                trickyPS2Model.Head.ModelList[i].materialDatas[MaterialListMPF.SelectedIndex] = TempMat;
                                 break;
                             }
                         }
@@ -605,12 +605,15 @@ namespace SSXMultiTool
                 ShapeKeysXbox.Text = modelHeader.Value.NumMorphs.ToString();
                 WeightsXbox.Text = modelHeader.Value.boneWeightHeaders.Count.ToString();
 
+                MatGroupMXF.Text = modelHeader.Value.tristripHeaders.Count.ToString();
+                TristripCountMXF.Text = trickyXboxModel.TristripCount(modelHeader.Value).ToString();
+                VerticeCountMXF.Text = modelHeader.Value.vertexDatas.Count.ToString();
 
-                MaterialList.Items.Clear();
-                //MpfUpdateMaterial();
+                MaterialListMXF.Items.Clear();
+                MXfUpdateMaterialXbox();
                 for (int i = 0; i < modelHeader.Value.materialDatas.Count; i++)
                 {
-                    MaterialList.Items.Add(modelHeader.Value.materialDatas[i].MainTexture);
+                    MaterialListMXF.Items.Add(modelHeader.Value.materialDatas[i].MainTexture);
                 }
             }
             else
@@ -623,9 +626,13 @@ namespace SSXMultiTool
                 ShapeKeysXbox.Text = "0";
                 WeightsXbox.Text = "0";
 
+                MatGroupMXF.Text = "0";
+                TristripCountMXF.Text = "0";
+                VerticeCountMXF.Text = "0";
+
                 ////Material Items
-                MaterialList.Items.Clear();
-                //MpfUpdateMaterial();
+                MaterialListMPF.Items.Clear();
+                MXfUpdateMaterialXbox();
             }
         }
 
@@ -660,6 +667,7 @@ namespace SSXMultiTool
                 {
                     UpdateDataXbox();
                 }
+                RegeneratePartListXbox();
             }
         }
 
@@ -690,6 +698,233 @@ namespace SSXMultiTool
                     xboxMXF = trickyXboxModel.Head;
 
                     xboxMXF.Save(Path + "head.mxf");
+                }
+            }
+        }
+
+        private void CharacterPartsMXF_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (CharacterPartsMXF.SelectedIndex != -1)
+            {
+                string LookingFor = CharacterPartsMXF.Items[CharacterPartsMXF.SelectedIndex].ToString();
+                int MeshID = -1;
+
+                for (int i = 0; i < trickyXboxModel.Body.modelHeaders.Count; i++)
+                {
+                    if (LookingFor == trickyXboxModel.Body.modelHeaders[i].ModelName)
+                    {
+                        MeshID = i;
+                        UpdateDataXbox(trickyXboxModel.Body.modelHeaders[i]);
+                        break;
+                    }
+                }
+
+                if (MeshID == -1)
+                {
+                    //Head
+                    for (int i = 0; i < trickyXboxModel.Head.modelHeaders.Count; i++)
+                    {
+                        if (LookingFor == trickyXboxModel.Head.modelHeaders[i].ModelName)
+                        {
+                            MeshID = i;
+                            UpdateDataXbox(trickyXboxModel.Head.modelHeaders[i]);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        void RegeneratePartListXbox()
+        {
+            CharacterPartsMXF.Items.Clear();
+            int MeshID = MXFList.SelectedIndex;
+            if (trickyXboxModel.Body != null && trickyXboxModel.Head != null)
+            {
+                for (int i = 0; i < trickyXboxModel.Body.modelHeaders.Count; i++)
+                {
+                    if ((MeshID == 0 && trickyXboxModel.Body.modelHeaders[i].ModelName.Contains("3000")) ||
+                        (MeshID == 1 && trickyXboxModel.Body.modelHeaders[i].ModelName.Contains("1500")) ||
+                        (MeshID == 2 && trickyXboxModel.Body.modelHeaders[i].ModelName.Contains("750") && !trickyXboxModel.Body.modelHeaders[i].ModelName.ToLower().Contains("shdw")) ||
+                        (MeshID == 3 && trickyXboxModel.Body.modelHeaders[i].ModelName.ToLower().Contains("shdw")))
+                    {
+                        CharacterPartsMXF.Items.Add(trickyXboxModel.Body.modelHeaders[i].ModelName);
+                    }
+                }
+
+                //Head
+                for (int i = 0; i < trickyXboxModel.Head.modelHeaders.Count; i++)
+                {
+                    if ((MeshID == 0 && trickyXboxModel.Head.modelHeaders[i].ModelName.Contains("3000")) ||
+                        (MeshID == 1 && trickyXboxModel.Head.modelHeaders[i].ModelName.Contains("1500")) ||
+                        (MeshID == 2 && trickyXboxModel.Head.modelHeaders[i].ModelName.Contains("750") && !trickyXboxModel.Head.modelHeaders[i].ModelName.ToLower().Contains("shdw")) ||
+                        (MeshID == 3 && trickyXboxModel.Head.modelHeaders[i].ModelName.ToLower().Contains("shdw")))
+                    {
+
+                        CharacterPartsMXF.Items.Add(trickyXboxModel.Head.modelHeaders[i].ModelName);
+                    }
+                }
+            }
+        }
+
+        private void MXFUpdateMat(object sender, EventArgs e)
+        {
+            if (MaterialListMXF.SelectedIndex != -1 && !MatDisableUpdate)
+            {
+                MatDisableUpdate = true;
+
+                TrickyXboxMXF.MaterialData TempMat = new TrickyXboxMXF.MaterialData();
+                //Load Material
+                if (trickyXboxModel.Board != null)
+                {
+                    TempMat = trickyXboxModel.Board.modelHeaders[MXFList.SelectedIndex].materialDatas[MaterialListMXF.SelectedIndex];
+                }
+                else if (trickyXboxModel.Head != null && trickyXboxModel.Body != null)
+                {
+                    string LookingFor = CharacterPartsMXF.Items[CharacterPartsMXF.SelectedIndex].ToString();
+                    int MeshID = -1;
+                    for (int i = 0; i < trickyXboxModel.Body.modelHeaders.Count; i++)
+                    {
+                        if (LookingFor == trickyXboxModel.Body.modelHeaders[i].ModelName)
+                        {
+                            MeshID = i;
+                            TempMat = trickyXboxModel.Body.modelHeaders[i].materialDatas[MaterialListMXF.SelectedIndex];
+                            break;
+                        }
+                    }
+
+                    if (MeshID == -1)
+                    {
+                        //Head
+                        for (int i = 0; i < trickyXboxModel.Head.modelHeaders.Count; i++)
+                        {
+                            if (LookingFor == trickyXboxModel.Head.modelHeaders[i].ModelName)
+                            {
+                                MeshID = i;
+                                TempMat = trickyXboxModel.Head.modelHeaders[i].materialDatas[MaterialListMXF.SelectedIndex];
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                TempMat.MainTexture = MatMainTextureMXF.Text;
+                TempMat.Texture1 = MatTextureFlag1MXF.Text;
+                TempMat.Texture2 = MatTextureFlag2MXF.Text;
+                TempMat.Texture3 = MatTextureFlag3MXF.Text;
+                TempMat.Texture4 = MatTextureFlag4MXF.Text;
+                TempMat.FactorFloat = (float)MatFlagFactorMXF.Value;
+                TempMat.Unused1Float = (float)MatUnknown1MXF.Value;
+                TempMat.Unused2Float = (float)MatUnknown2MXF.Value;
+
+                if (trickyXboxModel.Board != null)
+                {
+                    trickyXboxModel.Board.modelHeaders[MXFList.SelectedIndex].materialDatas[MaterialListMXF.SelectedIndex] = TempMat;
+                }
+                else if (trickyXboxModel.Head != null && trickyXboxModel.Body != null)
+                {
+                    string LookingFor = CharacterPartsMXF.Items[CharacterPartsMXF.SelectedIndex].ToString();
+                    int MeshID = -1;
+                    for (int i = 0; i < trickyXboxModel.Body.modelHeaders.Count; i++)
+                    {
+                        if (LookingFor == trickyXboxModel.Body.modelHeaders[i].ModelName)
+                        {
+                            MeshID = i;
+                            trickyXboxModel.Body.modelHeaders[i].materialDatas[MaterialListMXF.SelectedIndex] = TempMat;
+                            break;
+                        }
+                    }
+
+                    if (MeshID == -1)
+                    {
+                        //Head
+                        for (int i = 0; i < trickyXboxModel.Head.modelHeaders.Count; i++)
+                        {
+                            if (LookingFor == trickyXboxModel.Head.modelHeaders[i].ModelName)
+                            {
+                                trickyXboxModel.Head.modelHeaders[i].materialDatas[MaterialListMXF.SelectedIndex] = TempMat;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+
+                //Save Material
+
+                MatDisableUpdate = false;
+            }
+        }
+
+        void MXfUpdateMaterialXbox(TrickyXboxMXF.ModelHeader? modelHeader = null)
+        {
+            if (MaterialListMXF.SelectedIndex != -1 && modelHeader != null)
+            {
+                MatDisableUpdate = true;
+                MatMainTextureMXF.Text = modelHeader.Value.materialDatas[MaterialListMXF.SelectedIndex].MainTexture;
+                MatTextureFlag1MXF.Text = modelHeader.Value.materialDatas[MaterialListMXF.SelectedIndex].Texture1;
+                MatTextureFlag2MXF.Text = modelHeader.Value.materialDatas[MaterialListMXF.SelectedIndex].Texture2;
+                MatTextureFlag3MXF.Text = modelHeader.Value.materialDatas[MaterialListMXF.SelectedIndex].Texture3;
+                MatTextureFlag4MXF.Text = modelHeader.Value.materialDatas[MaterialListMXF.SelectedIndex].Texture4;
+                MatFlagFactorMXF.Value = (decimal)modelHeader.Value.materialDatas[MaterialListMXF.SelectedIndex].FactorFloat;
+                MatUnknown1MXF.Value = (decimal)modelHeader.Value.materialDatas[MaterialListMXF.SelectedIndex].Unused1Float;
+                MatUnknown2MXF.Value = (decimal)modelHeader.Value.materialDatas[MaterialListMXF.SelectedIndex].Unused2Float;
+                MatDisableUpdate = false;
+            }
+            else
+            {
+                MatDisableUpdate = true;
+                MatMainTextureMXF.Text = "";
+                MatTextureFlag1MXF.Text = "";
+                MatTextureFlag2MXF.Text = "";
+                MatTextureFlag3MXF.Text = "";
+                MatTextureFlag4MXF.Text = "";
+                MatFlagFactorMXF.Value = 0;
+                MatUnknown1MXF.Value = 0;
+                MatUnknown2MXF.Value = 0;
+                MatDisableUpdate = false;
+            }
+        }
+
+        private void MaterialListMXF_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (MaterialListMXF.SelectedIndex != -1)
+            {
+                if (trickyXboxModel.Board != null)
+                {
+                    MXfUpdateMaterialXbox(trickyXboxModel.Board.modelHeaders[MXFList.SelectedIndex]);
+                }
+                else if (trickyXboxModel.Body != null && trickyXboxModel.Head != null)
+                {
+                    string LookingFor = CharacterPartsMXF.Items[CharacterPartsMXF.SelectedIndex].ToString();
+                    int MeshID = -1;
+                    for (int i = 0; i < trickyXboxModel.Body.modelHeaders.Count; i++)
+                    {
+                        if (LookingFor == trickyXboxModel.Body.modelHeaders[i].ModelName)
+                        {
+                            MeshID = i;
+                            MXfUpdateMaterialXbox(trickyXboxModel.Body.modelHeaders[i]);
+                            break;
+                        }
+                    }
+
+                    if (MeshID == -1)
+                    {
+                        //Head
+                        for (int i = 0; i < trickyXboxModel.Head.modelHeaders.Count; i++)
+                        {
+                            if (LookingFor == trickyXboxModel.Head.modelHeaders[i].ModelName)
+                            {
+                                MeshID = i;
+                                MXfUpdateMaterialXbox(trickyXboxModel.Head.modelHeaders[i]);
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    MXfUpdateMaterialXbox();
                 }
             }
         }

@@ -47,22 +47,22 @@
             label3 = new Label();
             groupBox3 = new GroupBox();
             label9 = new Label();
-            MatUnknown2 = new NumericUpDown();
+            MatUnknown2MPF = new NumericUpDown();
             label7 = new Label();
-            MatUnknown1 = new NumericUpDown();
+            MatUnknown1MPF = new NumericUpDown();
             label20 = new Label();
-            MatFlagFactor = new NumericUpDown();
-            MatTextureFlag4 = new TextBox();
+            MatFlagFactorMPF = new NumericUpDown();
+            MatTextureFlag4MPF = new TextBox();
             label19 = new Label();
-            MatTextureFlag3 = new TextBox();
+            MatTextureFlag3MPF = new TextBox();
             label18 = new Label();
-            MatTextureFlag2 = new TextBox();
+            MatTextureFlag2MPF = new TextBox();
             label17 = new Label();
-            MatTextureFlag1 = new TextBox();
+            MatTextureFlag1MPF = new TextBox();
             label16 = new Label();
-            MatMainTexture = new TextBox();
+            MatMainTextureMPF = new TextBox();
             label15 = new Label();
-            MaterialList = new ListBox();
+            MaterialListMPF = new ListBox();
             groupBox2 = new GroupBox();
             label13 = new Label();
             WeightsPS2 = new Label();
@@ -79,9 +79,9 @@
             groupBox1 = new GroupBox();
             BoneUpdateCheck = new CheckBox();
             ImportAverageNormal = new CheckBox();
-            CharacterParts = new ListBox();
+            CharacterPartsMpf = new ListBox();
             MPFImport = new Button();
-            button2 = new Button();
+            MPFSave = new Button();
             MpfList = new ListBox();
             MPFExtract = new Button();
             MPFLoad = new Button();
@@ -92,29 +92,29 @@
             label34 = new Label();
             groupBox9 = new GroupBox();
             label39 = new Label();
-            label40 = new Label();
+            MatGroupMXF = new Label();
             label41 = new Label();
-            label42 = new Label();
+            TristripCountMXF = new Label();
             label43 = new Label();
-            label44 = new Label();
+            VerticeCountMXF = new Label();
             groupBox10 = new GroupBox();
             label47 = new Label();
-            numericUpDown1 = new NumericUpDown();
+            MatUnknown2MXF = new NumericUpDown();
             label48 = new Label();
-            numericUpDown2 = new NumericUpDown();
+            MatUnknown1MXF = new NumericUpDown();
             label49 = new Label();
-            numericUpDown3 = new NumericUpDown();
-            textBox1 = new TextBox();
+            MatFlagFactorMXF = new NumericUpDown();
+            MatTextureFlag4MXF = new TextBox();
             label50 = new Label();
-            textBox2 = new TextBox();
+            MatTextureFlag3MXF = new TextBox();
             label51 = new Label();
-            textBox3 = new TextBox();
+            MatTextureFlag2MXF = new TextBox();
             label52 = new Label();
-            textBox4 = new TextBox();
+            MatTextureFlag1MXF = new TextBox();
             label53 = new Label();
-            textBox5 = new TextBox();
+            MatMainTextureMXF = new TextBox();
             label54 = new Label();
-            listBox1 = new ListBox();
+            MaterialListMXF = new ListBox();
             groupBox11 = new GroupBox();
             label55 = new Label();
             WeightsXbox = new Label();
@@ -131,7 +131,7 @@
             groupBox12 = new GroupBox();
             checkBox1 = new CheckBox();
             checkBox2 = new CheckBox();
-            listBox2 = new ListBox();
+            CharacterPartsMXF = new ListBox();
             MXFList = new ListBox();
             MXFExport = new Button();
             MXFLoad = new Button();
@@ -176,17 +176,17 @@
             tabPage1.SuspendLayout();
             groupBox4.SuspendLayout();
             groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)MatUnknown2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MatUnknown1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MatFlagFactor).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)MatUnknown2MPF).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)MatUnknown1MPF).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)MatFlagFactorMPF).BeginInit();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
             tabPage3.SuspendLayout();
             groupBox9.SuspendLayout();
             groupBox10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)MatUnknown2MXF).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)MatUnknown1MXF).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)MatFlagFactorMXF).BeginInit();
             groupBox11.SuspendLayout();
             groupBox12.SuspendLayout();
             tabPage4.SuspendLayout();
@@ -222,9 +222,9 @@
             tabPage1.Controls.Add(groupBox3);
             tabPage1.Controls.Add(groupBox2);
             tabPage1.Controls.Add(groupBox1);
-            tabPage1.Controls.Add(CharacterParts);
+            tabPage1.Controls.Add(CharacterPartsMpf);
             tabPage1.Controls.Add(MPFImport);
-            tabPage1.Controls.Add(button2);
+            tabPage1.Controls.Add(MPFSave);
             tabPage1.Controls.Add(MpfList);
             tabPage1.Controls.Add(MPFExtract);
             tabPage1.Controls.Add(MPFLoad);
@@ -386,22 +386,22 @@
             // groupBox3
             // 
             groupBox3.Controls.Add(label9);
-            groupBox3.Controls.Add(MatUnknown2);
+            groupBox3.Controls.Add(MatUnknown2MPF);
             groupBox3.Controls.Add(label7);
-            groupBox3.Controls.Add(MatUnknown1);
+            groupBox3.Controls.Add(MatUnknown1MPF);
             groupBox3.Controls.Add(label20);
-            groupBox3.Controls.Add(MatFlagFactor);
-            groupBox3.Controls.Add(MatTextureFlag4);
+            groupBox3.Controls.Add(MatFlagFactorMPF);
+            groupBox3.Controls.Add(MatTextureFlag4MPF);
             groupBox3.Controls.Add(label19);
-            groupBox3.Controls.Add(MatTextureFlag3);
+            groupBox3.Controls.Add(MatTextureFlag3MPF);
             groupBox3.Controls.Add(label18);
-            groupBox3.Controls.Add(MatTextureFlag2);
+            groupBox3.Controls.Add(MatTextureFlag2MPF);
             groupBox3.Controls.Add(label17);
-            groupBox3.Controls.Add(MatTextureFlag1);
+            groupBox3.Controls.Add(MatTextureFlag1MPF);
             groupBox3.Controls.Add(label16);
-            groupBox3.Controls.Add(MatMainTexture);
+            groupBox3.Controls.Add(MatMainTextureMPF);
             groupBox3.Controls.Add(label15);
-            groupBox3.Controls.Add(MaterialList);
+            groupBox3.Controls.Add(MaterialListMPF);
             groupBox3.Location = new Point(508, 6);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(254, 218);
@@ -418,15 +418,15 @@
             label9.TabIndex = 43;
             label9.Text = "Unknown 2";
             // 
-            // MatUnknown2
+            // MatUnknown2MPF
             // 
-            MatUnknown2.DecimalPlaces = 6;
-            MatUnknown2.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            MatUnknown2.Location = new Point(167, 183);
-            MatUnknown2.Name = "MatUnknown2";
-            MatUnknown2.Size = new Size(81, 23);
-            MatUnknown2.TabIndex = 42;
-            MatUnknown2.ValueChanged += MPFUpdateMat;
+            MatUnknown2MPF.DecimalPlaces = 6;
+            MatUnknown2MPF.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            MatUnknown2MPF.Location = new Point(167, 183);
+            MatUnknown2MPF.Name = "MatUnknown2MPF";
+            MatUnknown2MPF.Size = new Size(81, 23);
+            MatUnknown2MPF.TabIndex = 42;
+            MatUnknown2MPF.ValueChanged += MPFUpdateMat;
             // 
             // label7
             // 
@@ -437,15 +437,15 @@
             label7.TabIndex = 41;
             label7.Text = "Unknown 1";
             // 
-            // MatUnknown1
+            // MatUnknown1MPF
             // 
-            MatUnknown1.DecimalPlaces = 6;
-            MatUnknown1.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            MatUnknown1.Location = new Point(82, 183);
-            MatUnknown1.Name = "MatUnknown1";
-            MatUnknown1.Size = new Size(81, 23);
-            MatUnknown1.TabIndex = 40;
-            MatUnknown1.ValueChanged += MPFUpdateMat;
+            MatUnknown1MPF.DecimalPlaces = 6;
+            MatUnknown1MPF.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            MatUnknown1MPF.Location = new Point(82, 183);
+            MatUnknown1MPF.Name = "MatUnknown1MPF";
+            MatUnknown1MPF.Size = new Size(81, 23);
+            MatUnknown1MPF.TabIndex = 40;
+            MatUnknown1MPF.ValueChanged += MPFUpdateMat;
             // 
             // label20
             // 
@@ -456,23 +456,23 @@
             label20.TabIndex = 39;
             label20.Text = "Flag Factor";
             // 
-            // MatFlagFactor
+            // MatFlagFactorMPF
             // 
-            MatFlagFactor.DecimalPlaces = 6;
-            MatFlagFactor.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            MatFlagFactor.Location = new Point(167, 136);
-            MatFlagFactor.Name = "MatFlagFactor";
-            MatFlagFactor.Size = new Size(81, 23);
-            MatFlagFactor.TabIndex = 38;
-            MatFlagFactor.ValueChanged += MPFUpdateMat;
+            MatFlagFactorMPF.DecimalPlaces = 6;
+            MatFlagFactorMPF.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            MatFlagFactorMPF.Location = new Point(167, 136);
+            MatFlagFactorMPF.Name = "MatFlagFactorMPF";
+            MatFlagFactorMPF.Size = new Size(81, 23);
+            MatFlagFactorMPF.TabIndex = 38;
+            MatFlagFactorMPF.ValueChanged += MPFUpdateMat;
             // 
-            // MatTextureFlag4
+            // MatTextureFlag4MPF
             // 
-            MatTextureFlag4.Location = new Point(82, 135);
-            MatTextureFlag4.Name = "MatTextureFlag4";
-            MatTextureFlag4.Size = new Size(79, 23);
-            MatTextureFlag4.TabIndex = 37;
-            MatTextureFlag4.TextChanged += MPFUpdateMat;
+            MatTextureFlag4MPF.Location = new Point(82, 135);
+            MatTextureFlag4MPF.Name = "MatTextureFlag4MPF";
+            MatTextureFlag4MPF.Size = new Size(79, 23);
+            MatTextureFlag4MPF.TabIndex = 37;
+            MatTextureFlag4MPF.TextChanged += MPFUpdateMat;
             // 
             // label19
             // 
@@ -483,13 +483,13 @@
             label19.TabIndex = 36;
             label19.Text = "Texture Flag 4";
             // 
-            // MatTextureFlag3
+            // MatTextureFlag3MPF
             // 
-            MatTextureFlag3.Location = new Point(169, 86);
-            MatTextureFlag3.Name = "MatTextureFlag3";
-            MatTextureFlag3.Size = new Size(79, 23);
-            MatTextureFlag3.TabIndex = 35;
-            MatTextureFlag3.TextChanged += MPFUpdateMat;
+            MatTextureFlag3MPF.Location = new Point(169, 86);
+            MatTextureFlag3MPF.Name = "MatTextureFlag3MPF";
+            MatTextureFlag3MPF.Size = new Size(79, 23);
+            MatTextureFlag3MPF.TabIndex = 35;
+            MatTextureFlag3MPF.TextChanged += MPFUpdateMat;
             // 
             // label18
             // 
@@ -500,13 +500,13 @@
             label18.TabIndex = 34;
             label18.Text = "Texture Flag 3";
             // 
-            // MatTextureFlag2
+            // MatTextureFlag2MPF
             // 
-            MatTextureFlag2.Location = new Point(82, 86);
-            MatTextureFlag2.Name = "MatTextureFlag2";
-            MatTextureFlag2.Size = new Size(79, 23);
-            MatTextureFlag2.TabIndex = 33;
-            MatTextureFlag2.TextChanged += MPFUpdateMat;
+            MatTextureFlag2MPF.Location = new Point(82, 86);
+            MatTextureFlag2MPF.Name = "MatTextureFlag2MPF";
+            MatTextureFlag2MPF.Size = new Size(79, 23);
+            MatTextureFlag2MPF.TabIndex = 33;
+            MatTextureFlag2MPF.TextChanged += MPFUpdateMat;
             // 
             // label17
             // 
@@ -517,13 +517,13 @@
             label17.TabIndex = 32;
             label17.Text = "Texture Flag 2";
             // 
-            // MatTextureFlag1
+            // MatTextureFlag1MPF
             // 
-            MatTextureFlag1.Location = new Point(169, 40);
-            MatTextureFlag1.Name = "MatTextureFlag1";
-            MatTextureFlag1.Size = new Size(79, 23);
-            MatTextureFlag1.TabIndex = 31;
-            MatTextureFlag1.TextChanged += MPFUpdateMat;
+            MatTextureFlag1MPF.Location = new Point(169, 40);
+            MatTextureFlag1MPF.Name = "MatTextureFlag1MPF";
+            MatTextureFlag1MPF.Size = new Size(79, 23);
+            MatTextureFlag1MPF.TabIndex = 31;
+            MatTextureFlag1MPF.TextChanged += MPFUpdateMat;
             // 
             // label16
             // 
@@ -534,13 +534,13 @@
             label16.TabIndex = 30;
             label16.Text = "Texture Flag 1";
             // 
-            // MatMainTexture
+            // MatMainTextureMPF
             // 
-            MatMainTexture.Location = new Point(82, 40);
-            MatMainTexture.Name = "MatMainTexture";
-            MatMainTexture.Size = new Size(79, 23);
-            MatMainTexture.TabIndex = 29;
-            MatMainTexture.TextChanged += MPFUpdateMat;
+            MatMainTextureMPF.Location = new Point(82, 40);
+            MatMainTextureMPF.Name = "MatMainTextureMPF";
+            MatMainTextureMPF.Size = new Size(79, 23);
+            MatMainTextureMPF.TabIndex = 29;
+            MatMainTextureMPF.TextChanged += MPFUpdateMat;
             // 
             // label15
             // 
@@ -551,15 +551,15 @@
             label15.TabIndex = 28;
             label15.Text = "Main Texture";
             // 
-            // MaterialList
+            // MaterialListMPF
             // 
-            MaterialList.FormattingEnabled = true;
-            MaterialList.ItemHeight = 15;
-            MaterialList.Location = new Point(6, 22);
-            MaterialList.Name = "MaterialList";
-            MaterialList.Size = new Size(70, 184);
-            MaterialList.TabIndex = 27;
-            MaterialList.SelectedIndexChanged += MaterialList_SelectedIndexChanged;
+            MaterialListMPF.FormattingEnabled = true;
+            MaterialListMPF.ItemHeight = 15;
+            MaterialListMPF.Location = new Point(6, 22);
+            MaterialListMPF.Name = "MaterialListMPF";
+            MaterialListMPF.Size = new Size(70, 184);
+            MaterialListMPF.TabIndex = 27;
+            MaterialListMPF.SelectedIndexChanged += MaterialList_SelectedIndexChanged;
             // 
             // groupBox2
             // 
@@ -721,15 +721,15 @@
             ImportAverageNormal.Text = "Average Normals";
             ImportAverageNormal.UseVisualStyleBackColor = true;
             // 
-            // CharacterParts
+            // CharacterPartsMpf
             // 
-            CharacterParts.FormattingEnabled = true;
-            CharacterParts.ItemHeight = 15;
-            CharacterParts.Location = new Point(6, 208);
-            CharacterParts.Name = "CharacterParts";
-            CharacterParts.Size = new Size(192, 184);
-            CharacterParts.TabIndex = 10;
-            CharacterParts.SelectedIndexChanged += CharacterParts_SelectedIndexChanged;
+            CharacterPartsMpf.FormattingEnabled = true;
+            CharacterPartsMpf.ItemHeight = 15;
+            CharacterPartsMpf.Location = new Point(6, 208);
+            CharacterPartsMpf.Name = "CharacterPartsMpf";
+            CharacterPartsMpf.Size = new Size(192, 184);
+            CharacterPartsMpf.TabIndex = 10;
+            CharacterPartsMpf.SelectedIndexChanged += CharacterParts_SelectedIndexChanged;
             // 
             // MPFImport
             // 
@@ -742,16 +742,16 @@
             MPFImport.UseVisualStyleBackColor = true;
             MPFImport.Click += MPFImport_Click;
             // 
-            // button2
+            // MPFSave
             // 
-            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            button2.Location = new Point(687, 366);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 4;
-            button2.Text = "Save MPF";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            MPFSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            MPFSave.Location = new Point(687, 366);
+            MPFSave.Name = "MPFSave";
+            MPFSave.Size = new Size(75, 23);
+            MPFSave.TabIndex = 4;
+            MPFSave.Text = "Save MPF";
+            MPFSave.UseVisualStyleBackColor = true;
+            MPFSave.Click += button2_Click;
             // 
             // MpfList
             // 
@@ -796,7 +796,7 @@
             tabPage3.Controls.Add(groupBox10);
             tabPage3.Controls.Add(groupBox11);
             tabPage3.Controls.Add(groupBox12);
-            tabPage3.Controls.Add(listBox2);
+            tabPage3.Controls.Add(CharacterPartsMXF);
             tabPage3.Controls.Add(MXFList);
             tabPage3.Controls.Add(MXFExport);
             tabPage3.Controls.Add(MXFLoad);
@@ -847,11 +847,11 @@
             // groupBox9
             // 
             groupBox9.Controls.Add(label39);
-            groupBox9.Controls.Add(label40);
+            groupBox9.Controls.Add(MatGroupMXF);
             groupBox9.Controls.Add(label41);
-            groupBox9.Controls.Add(label42);
+            groupBox9.Controls.Add(TristripCountMXF);
             groupBox9.Controls.Add(label43);
-            groupBox9.Controls.Add(label44);
+            groupBox9.Controls.Add(VerticeCountMXF);
             groupBox9.Location = new Point(211, 100);
             groupBox9.Name = "groupBox9";
             groupBox9.Size = new Size(292, 65);
@@ -868,14 +868,14 @@
             label39.TabIndex = 13;
             label39.Text = "Material Groups";
             // 
-            // label40
+            // MatGroupMXF
             // 
-            label40.AutoSize = true;
-            label40.Location = new Point(6, 34);
-            label40.Name = "label40";
-            label40.Size = new Size(13, 15);
-            label40.TabIndex = 14;
-            label40.Text = "0";
+            MatGroupMXF.AutoSize = true;
+            MatGroupMXF.Location = new Point(6, 34);
+            MatGroupMXF.Name = "MatGroupMXF";
+            MatGroupMXF.Size = new Size(13, 15);
+            MatGroupMXF.TabIndex = 14;
+            MatGroupMXF.Text = "0";
             // 
             // label41
             // 
@@ -886,14 +886,14 @@
             label41.TabIndex = 6;
             label41.Text = "Tristrip Count";
             // 
-            // label42
+            // TristripCountMXF
             // 
-            label42.AutoSize = true;
-            label42.Location = new Point(103, 34);
-            label42.Name = "label42";
-            label42.Size = new Size(13, 15);
-            label42.TabIndex = 7;
-            label42.Text = "0";
+            TristripCountMXF.AutoSize = true;
+            TristripCountMXF.Location = new Point(103, 34);
+            TristripCountMXF.Name = "TristripCountMXF";
+            TristripCountMXF.Size = new Size(13, 15);
+            TristripCountMXF.TabIndex = 7;
+            TristripCountMXF.Text = "0";
             // 
             // label43
             // 
@@ -904,34 +904,34 @@
             label43.TabIndex = 8;
             label43.Text = "Vertice Count";
             // 
-            // label44
+            // VerticeCountMXF
             // 
-            label44.AutoSize = true;
-            label44.Location = new Point(187, 34);
-            label44.Name = "label44";
-            label44.Size = new Size(13, 15);
-            label44.TabIndex = 9;
-            label44.Text = "0";
+            VerticeCountMXF.AutoSize = true;
+            VerticeCountMXF.Location = new Point(187, 34);
+            VerticeCountMXF.Name = "VerticeCountMXF";
+            VerticeCountMXF.Size = new Size(13, 15);
+            VerticeCountMXF.TabIndex = 9;
+            VerticeCountMXF.Text = "0";
             // 
             // groupBox10
             // 
             groupBox10.Controls.Add(label47);
-            groupBox10.Controls.Add(numericUpDown1);
+            groupBox10.Controls.Add(MatUnknown2MXF);
             groupBox10.Controls.Add(label48);
-            groupBox10.Controls.Add(numericUpDown2);
+            groupBox10.Controls.Add(MatUnknown1MXF);
             groupBox10.Controls.Add(label49);
-            groupBox10.Controls.Add(numericUpDown3);
-            groupBox10.Controls.Add(textBox1);
+            groupBox10.Controls.Add(MatFlagFactorMXF);
+            groupBox10.Controls.Add(MatTextureFlag4MXF);
             groupBox10.Controls.Add(label50);
-            groupBox10.Controls.Add(textBox2);
+            groupBox10.Controls.Add(MatTextureFlag3MXF);
             groupBox10.Controls.Add(label51);
-            groupBox10.Controls.Add(textBox3);
+            groupBox10.Controls.Add(MatTextureFlag2MXF);
             groupBox10.Controls.Add(label52);
-            groupBox10.Controls.Add(textBox4);
+            groupBox10.Controls.Add(MatTextureFlag1MXF);
             groupBox10.Controls.Add(label53);
-            groupBox10.Controls.Add(textBox5);
+            groupBox10.Controls.Add(MatMainTextureMXF);
             groupBox10.Controls.Add(label54);
-            groupBox10.Controls.Add(listBox1);
+            groupBox10.Controls.Add(MaterialListMXF);
             groupBox10.Location = new Point(509, 6);
             groupBox10.Name = "groupBox10";
             groupBox10.Size = new Size(254, 218);
@@ -948,14 +948,15 @@
             label47.TabIndex = 43;
             label47.Text = "Unknown 2";
             // 
-            // numericUpDown1
+            // MatUnknown2MXF
             // 
-            numericUpDown1.DecimalPlaces = 6;
-            numericUpDown1.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            numericUpDown1.Location = new Point(167, 183);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(81, 23);
-            numericUpDown1.TabIndex = 42;
+            MatUnknown2MXF.DecimalPlaces = 6;
+            MatUnknown2MXF.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            MatUnknown2MXF.Location = new Point(167, 183);
+            MatUnknown2MXF.Name = "MatUnknown2MXF";
+            MatUnknown2MXF.Size = new Size(81, 23);
+            MatUnknown2MXF.TabIndex = 42;
+            MatUnknown2MXF.ValueChanged += MXFUpdateMat;
             // 
             // label48
             // 
@@ -966,14 +967,15 @@
             label48.TabIndex = 41;
             label48.Text = "Unknown 1";
             // 
-            // numericUpDown2
+            // MatUnknown1MXF
             // 
-            numericUpDown2.DecimalPlaces = 6;
-            numericUpDown2.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            numericUpDown2.Location = new Point(82, 183);
-            numericUpDown2.Name = "numericUpDown2";
-            numericUpDown2.Size = new Size(81, 23);
-            numericUpDown2.TabIndex = 40;
+            MatUnknown1MXF.DecimalPlaces = 6;
+            MatUnknown1MXF.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            MatUnknown1MXF.Location = new Point(82, 183);
+            MatUnknown1MXF.Name = "MatUnknown1MXF";
+            MatUnknown1MXF.Size = new Size(81, 23);
+            MatUnknown1MXF.TabIndex = 40;
+            MatUnknown1MXF.ValueChanged += MXFUpdateMat;
             // 
             // label49
             // 
@@ -984,21 +986,23 @@
             label49.TabIndex = 39;
             label49.Text = "Flag Factor";
             // 
-            // numericUpDown3
+            // MatFlagFactorMXF
             // 
-            numericUpDown3.DecimalPlaces = 6;
-            numericUpDown3.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            numericUpDown3.Location = new Point(167, 136);
-            numericUpDown3.Name = "numericUpDown3";
-            numericUpDown3.Size = new Size(81, 23);
-            numericUpDown3.TabIndex = 38;
+            MatFlagFactorMXF.DecimalPlaces = 6;
+            MatFlagFactorMXF.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            MatFlagFactorMXF.Location = new Point(167, 136);
+            MatFlagFactorMXF.Name = "MatFlagFactorMXF";
+            MatFlagFactorMXF.Size = new Size(81, 23);
+            MatFlagFactorMXF.TabIndex = 38;
+            MatFlagFactorMXF.ValueChanged += MXFUpdateMat;
             // 
-            // textBox1
+            // MatTextureFlag4MXF
             // 
-            textBox1.Location = new Point(82, 135);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(79, 23);
-            textBox1.TabIndex = 37;
+            MatTextureFlag4MXF.Location = new Point(82, 135);
+            MatTextureFlag4MXF.Name = "MatTextureFlag4MXF";
+            MatTextureFlag4MXF.Size = new Size(79, 23);
+            MatTextureFlag4MXF.TabIndex = 37;
+            MatTextureFlag4MXF.TextChanged += MXFUpdateMat;
             // 
             // label50
             // 
@@ -1009,12 +1013,13 @@
             label50.TabIndex = 36;
             label50.Text = "Texture Flag 4";
             // 
-            // textBox2
+            // MatTextureFlag3MXF
             // 
-            textBox2.Location = new Point(169, 86);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(79, 23);
-            textBox2.TabIndex = 35;
+            MatTextureFlag3MXF.Location = new Point(169, 86);
+            MatTextureFlag3MXF.Name = "MatTextureFlag3MXF";
+            MatTextureFlag3MXF.Size = new Size(79, 23);
+            MatTextureFlag3MXF.TabIndex = 35;
+            MatTextureFlag3MXF.TextChanged += MXFUpdateMat;
             // 
             // label51
             // 
@@ -1025,12 +1030,13 @@
             label51.TabIndex = 34;
             label51.Text = "Texture Flag 3";
             // 
-            // textBox3
+            // MatTextureFlag2MXF
             // 
-            textBox3.Location = new Point(82, 86);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(79, 23);
-            textBox3.TabIndex = 33;
+            MatTextureFlag2MXF.Location = new Point(82, 86);
+            MatTextureFlag2MXF.Name = "MatTextureFlag2MXF";
+            MatTextureFlag2MXF.Size = new Size(79, 23);
+            MatTextureFlag2MXF.TabIndex = 33;
+            MatTextureFlag2MXF.TextChanged += MXFUpdateMat;
             // 
             // label52
             // 
@@ -1041,12 +1047,13 @@
             label52.TabIndex = 32;
             label52.Text = "Texture Flag 2";
             // 
-            // textBox4
+            // MatTextureFlag1MXF
             // 
-            textBox4.Location = new Point(169, 40);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(79, 23);
-            textBox4.TabIndex = 31;
+            MatTextureFlag1MXF.Location = new Point(169, 40);
+            MatTextureFlag1MXF.Name = "MatTextureFlag1MXF";
+            MatTextureFlag1MXF.Size = new Size(79, 23);
+            MatTextureFlag1MXF.TabIndex = 31;
+            MatTextureFlag1MXF.TextChanged += MXFUpdateMat;
             // 
             // label53
             // 
@@ -1057,12 +1064,13 @@
             label53.TabIndex = 30;
             label53.Text = "Texture Flag 1";
             // 
-            // textBox5
+            // MatMainTextureMXF
             // 
-            textBox5.Location = new Point(82, 40);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(79, 23);
-            textBox5.TabIndex = 29;
+            MatMainTextureMXF.Location = new Point(82, 40);
+            MatMainTextureMXF.Name = "MatMainTextureMXF";
+            MatMainTextureMXF.Size = new Size(79, 23);
+            MatMainTextureMXF.TabIndex = 29;
+            MatMainTextureMXF.TextChanged += MXFUpdateMat;
             // 
             // label54
             // 
@@ -1073,14 +1081,15 @@
             label54.TabIndex = 28;
             label54.Text = "Main Texture";
             // 
-            // listBox1
+            // MaterialListMXF
             // 
-            listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 15;
-            listBox1.Location = new Point(6, 22);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(70, 184);
-            listBox1.TabIndex = 27;
+            MaterialListMXF.FormattingEnabled = true;
+            MaterialListMXF.ItemHeight = 15;
+            MaterialListMXF.Location = new Point(6, 22);
+            MaterialListMXF.Name = "MaterialListMXF";
+            MaterialListMXF.Size = new Size(70, 184);
+            MaterialListMXF.TabIndex = 27;
+            MaterialListMXF.SelectedIndexChanged += MaterialListMXF_SelectedIndexChanged;
             // 
             // groupBox11
             // 
@@ -1242,14 +1251,15 @@
             checkBox2.Text = "Average Normals";
             checkBox2.UseVisualStyleBackColor = true;
             // 
-            // listBox2
+            // CharacterPartsMXF
             // 
-            listBox2.FormattingEnabled = true;
-            listBox2.ItemHeight = 15;
-            listBox2.Location = new Point(6, 211);
-            listBox2.Name = "listBox2";
-            listBox2.Size = new Size(192, 184);
-            listBox2.TabIndex = 30;
+            CharacterPartsMXF.FormattingEnabled = true;
+            CharacterPartsMXF.ItemHeight = 15;
+            CharacterPartsMXF.Location = new Point(6, 211);
+            CharacterPartsMXF.Name = "CharacterPartsMXF";
+            CharacterPartsMXF.Size = new Size(192, 184);
+            CharacterPartsMXF.TabIndex = 30;
+            CharacterPartsMXF.SelectedIndexChanged += CharacterPartsMXF_SelectedIndexChanged;
             // 
             // MXFList
             // 
@@ -1680,9 +1690,9 @@
             groupBox4.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)MatUnknown2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MatUnknown1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MatFlagFactor).EndInit();
+            ((System.ComponentModel.ISupportInitialize)MatUnknown2MPF).EndInit();
+            ((System.ComponentModel.ISupportInitialize)MatUnknown1MPF).EndInit();
+            ((System.ComponentModel.ISupportInitialize)MatFlagFactorMPF).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             groupBox1.ResumeLayout(false);
@@ -1693,9 +1703,9 @@
             groupBox9.PerformLayout();
             groupBox10.ResumeLayout(false);
             groupBox10.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)MatUnknown2MXF).EndInit();
+            ((System.ComponentModel.ISupportInitialize)MatUnknown1MXF).EndInit();
+            ((System.ComponentModel.ISupportInitialize)MatFlagFactorMXF).EndInit();
             groupBox11.ResumeLayout(false);
             groupBox11.PerformLayout();
             groupBox12.ResumeLayout(false);
@@ -1726,7 +1736,7 @@
         private ListBox MpfList;
         private TabPage tabPage2;
         private Button ELFLdrSetup;
-        private Button button2;
+        private Button MPFSave;
         private Button MPFImport;
         private Label VerticeCountPS2;
         private Label label4;
@@ -1740,7 +1750,7 @@
         private Label label6;
         private Label MeshChunksPS2;
         private Label label3;
-        private ListBox CharacterParts;
+        private ListBox CharacterPartsMpf;
         private GroupBox groupBox1;
         private CheckBox BoneUpdateCheck;
         private CheckBox ImportAverageNormal;
@@ -1750,18 +1760,18 @@
         private Label label14;
         private GroupBox groupBox4;
         private GroupBox groupBox3;
-        private NumericUpDown MatFlagFactor;
-        private TextBox MatTextureFlag4;
+        private NumericUpDown MatFlagFactorMPF;
+        private TextBox MatTextureFlag4MPF;
         private Label label19;
-        private TextBox MatTextureFlag3;
+        private TextBox MatTextureFlag3MPF;
         private Label label18;
-        private TextBox MatTextureFlag2;
+        private TextBox MatTextureFlag2MPF;
         private Label label17;
-        private TextBox MatTextureFlag1;
+        private TextBox MatTextureFlag1MPF;
         private Label label16;
-        private TextBox MatMainTexture;
+        private TextBox MatMainTextureMPF;
         private Label label15;
-        private ListBox MaterialList;
+        private ListBox MaterialListMPF;
         private GroupBox groupBox2;
         private Label label25;
         private Label MorphGroupCountPS2;
@@ -1773,9 +1783,9 @@
         private Label label5;
         private Label label2;
         private Label label9;
-        private NumericUpDown MatUnknown2;
+        private NumericUpDown MatUnknown2MPF;
         private Label label7;
-        private NumericUpDown MatUnknown1;
+        private NumericUpDown MatUnknown1MPF;
         private Label label13;
         private Label WeightsPS2;
         private TabPage tabPage3;
@@ -1820,29 +1830,29 @@
         private Label label34;
         private GroupBox groupBox9;
         private Label label39;
-        private Label label40;
+        private Label MatGroupMXF;
         private Label label41;
-        private Label label42;
+        private Label TristripCountMXF;
         private Label label43;
-        private Label label44;
+        private Label VerticeCountMXF;
         private GroupBox groupBox10;
         private Label label47;
-        private NumericUpDown numericUpDown1;
+        private NumericUpDown MatUnknown2MXF;
         private Label label48;
-        private NumericUpDown numericUpDown2;
+        private NumericUpDown MatUnknown1MXF;
         private Label label49;
-        private NumericUpDown numericUpDown3;
-        private TextBox textBox1;
+        private NumericUpDown MatFlagFactorMXF;
+        private TextBox MatTextureFlag4MXF;
         private Label label50;
-        private TextBox textBox2;
+        private TextBox MatTextureFlag3MXF;
         private Label label51;
-        private TextBox textBox3;
+        private TextBox MatTextureFlag2MXF;
         private Label label52;
-        private TextBox textBox4;
+        private TextBox MatTextureFlag1MXF;
         private Label label53;
-        private TextBox textBox5;
+        private TextBox MatMainTextureMXF;
         private Label label54;
-        private ListBox listBox1;
+        private ListBox MaterialListMXF;
         private GroupBox groupBox11;
         private Label label55;
         private Label WeightsXbox;
@@ -1859,7 +1869,7 @@
         private GroupBox groupBox12;
         private CheckBox checkBox1;
         private CheckBox checkBox2;
-        private ListBox listBox2;
+        private ListBox CharacterPartsMXF;
         private ListBox MXFList;
         private Button button3;
         private Button MXFSave;

@@ -53,6 +53,20 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             return -1;
         }
 
+        public int TristripCount(TrickyXboxMXF.ModelHeader modelHeader)
+        {
+            int Count = 0;
+
+            var TempMesh = modelHeader.tristripHeaders;
+
+            for (int i = 0; i < TempMesh.Count; i++)
+            {
+                Count += TempMesh[i].IndexList.Count;
+            }
+
+            return Count;
+        }
+
         public void StartReassignMesh(int MeshID)
         {
             if (MeshID != -1)
