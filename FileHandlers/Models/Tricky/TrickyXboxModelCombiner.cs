@@ -312,16 +312,16 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             }
             return NewHeader;
         }
-    }
 
-    public struct ReassignedMesh
-    {
-        public string MeshName;
-        public int MeshId;
-        public bool BodyHead;
-        public bool ShadowModel;
-        public int MorphTargetCount;
-        public List<Vector3> IKPoints;
-        public List<TrickyXboxMXF.Face> faces;
+        public struct ReassignedMesh
+        {
+            public string MeshName;
+            public int MeshId;
+            public bool BodyHead;
+            public bool ShadowModel;
+            public int MorphTargetCount;
+            public List<Vector3> IKPoints;
+            public List<TrickyXboxMXF.Face> faces;
+        }
     }
 }

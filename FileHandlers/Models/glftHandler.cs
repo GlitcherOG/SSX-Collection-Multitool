@@ -889,7 +889,7 @@ namespace SSXMultiTool.FileHandlers
             model.SaveGLB(Output);
         }
 
-        public static TrickyPS2ModelCombiner LoadTrickyGlft(string Path)
+        public static TrickyPS2ModelCombiner LoadTrickyPS2Glft(string Path)
         {
             TrickyPS2ModelCombiner trickyModelCombiner = new TrickyPS2ModelCombiner();
             trickyModelCombiner.materials = new List<TrickyPS2MPF.MaterialData>();
@@ -935,12 +935,12 @@ namespace SSXMultiTool.FileHandlers
                 if (Ampatures[0].VisualChildren[a].Name.ToLower() == "hips")
                 {
                     var StartBone = Ampatures[0].VisualChildren[a];
-                    boneDatas = ReturnBoneAndChildren(StartBone, true);
+                    boneDatas = ReturnBoneAndChildrenTrickyPS2(StartBone, true);
                 }
                 else if (Ampatures[0].VisualChildren[a].Name.ToLower() == "board")
                 {
                     var StartBone = Ampatures[0].VisualChildren[a];
-                    boneDatas = ReturnBoneAndChildren(StartBone, true);
+                    boneDatas = ReturnBoneAndChildrenTrickyPS2(StartBone, true);
                 }
             }
 
@@ -962,18 +962,18 @@ namespace SSXMultiTool.FileHandlers
                     for (int a = 0; a < MaterialArray.Length; a++)
                     {
                         //Build New Material With Primitive Name
-                        trickyModelCombiner.materials = MakeNewMaterial(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
+                        trickyModelCombiner.materials = MakeNewMaterialTrickyPS2(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
 
-                        int MatID = FindMaterialID(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
+                        int MatID = FindMaterialIDTrickyPS2(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
 
                         //Build Vertex List
-                        List<VertexData> VertexList = new List<VertexData>();
+                        List<VertexDataTrickyPS2> VertexList = new List<VertexDataTrickyPS2>();
                         var OldVertexList = MaterialArray[a].Vertices.ToArray();
                         int MorphTargetsCount = MaterialArray[a].MorphTargets.Count;
 
                         for (int b = 0; b < OldVertexList.Length; b++)
                         {
-                            var NewVertex = new VertexData();
+                            var NewVertex = new VertexDataTrickyPS2();
 
                             var TempGeo = OldVertexList[b].GetGeometry();
                             var TempSkinning = OldVertexList[b].GetSkinning();
@@ -1075,6 +1075,226 @@ namespace SSXMultiTool.FileHandlers
                             TempFace.UV3 = new Vector4(TempPoint.UV, 0, 0);
                             TempFace.Weight3 = TempPoint.weightHeader;
                             TempFace.MorphPoint3 = TempPoint.MorphPoints;
+
+                            TempFace.MaterialID = MatID;
+
+                            reassignedMesh.faces.Add(TempFace);
+                        }
+                    }
+
+                    trickyModelCombiner.reassignedMesh.Add(reassignedMesh);
+                }
+            }
+
+            return trickyModelCombiner;
+        }
+
+        public static TrickyXboxModelCombiner LoadTrickyXboxGlft(string Path)
+        {
+            TrickyXboxModelCombiner trickyModelCombiner = new TrickyXboxModelCombiner();
+            trickyModelCombiner.materials = new List<TrickyXboxMXF.MaterialData>();
+            trickyModelCombiner.reassignedMesh = new List<TrickyXboxModelCombiner.ReassignedMesh>();
+            var Scene = SharpGLTF.Scenes.SceneBuilder.LoadDefaultScene(Path);
+            var Instances = Scene.Instances.ToArray();
+
+            //Read All Instances Looking for IK Point
+            List<Vector3> IKPoints = new List<Vector3>();
+            int IkCount = 0;
+            for (int i = 0; i < Instances.Length; i++)
+            {
+                if (Instances[i].Name != null)
+                {
+                    if (Instances[i].Name.ToLower().Contains("ikpoint"))
+                    {
+                        IkCount += 1;
+                    }
+                }
+            }
+
+            for (int a = 0; a < IkCount; a++)
+            {
+                for (int i = 0; i < Instances.Length; i++)
+                {
+                    if (Instances[i].Name != null)
+                    {
+                        if (Instances[i].Name.ToLower() == ("ikpoint " + a))
+                        {
+                            IKPoints.Add(Instances[i].Content.GetPoseWorldMatrix().Translation);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //Read Bones Building List
+            List<TrickyXboxMXF.BoneData> boneDatas = new List<TrickyXboxMXF.BoneData>();
+            var Ampatures = Scene.FindArmatures();
+
+            for (int a = 0; a < Ampatures[0].VisualChildren.Count; a++)
+            {
+                if (Ampatures[0].VisualChildren[a].Name.ToLower() == "hips")
+                {
+                    var StartBone = Ampatures[0].VisualChildren[a];
+                    boneDatas = ReturnBoneAndChildrenTrickyXbox(StartBone, true);
+                }
+                else if (Ampatures[0].VisualChildren[a].Name.ToLower() == "board")
+                {
+                    var StartBone = Ampatures[0].VisualChildren[a];
+                    boneDatas = ReturnBoneAndChildrenTrickyXbox(StartBone, true);
+                }
+            }
+
+            trickyModelCombiner.bones = boneDatas;
+
+            for (int i = 0; i < Instances.Length; i++)
+            {
+                if (Instances[i].Content.GetType().Name == "SkinnedTransformer")
+                {
+                    var GLFTMesh = Instances[i].Content.GetGeometryAsset();
+                    var SkinnedMesh = (SharpGLTF.Scenes.SkinnedTransformer)Instances[i].Content;
+                    TrickyXboxModelCombiner.ReassignedMesh reassignedMesh = new TrickyXboxModelCombiner.ReassignedMesh();
+                    reassignedMesh.IKPoints = IKPoints;
+                    reassignedMesh.MeshName = GLFTMesh.Name;
+                    reassignedMesh.faces = new List<TrickyXboxMXF.Face>();
+
+                    var JointBindings = SkinnedMesh.GetJointBindings();
+                    var MaterialArray = GLFTMesh.Primitives.ToArray();
+                    for (int a = 0; a < MaterialArray.Length; a++)
+                    {
+                        //Build New Material With Primitive Name
+                        trickyModelCombiner.materials = MakeNewMaterialTrickyXbox(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
+
+                        int MatID = FindMaterialIDTrickyXbox(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
+
+                        //Build Vertex List
+                        List<VertexDataTrickyXbox> VertexList = new List<VertexDataTrickyXbox>();
+                        var OldVertexList = MaterialArray[a].Vertices.ToArray();
+                        int MorphTargetsCount = MaterialArray[a].MorphTargets.Count;
+
+                        for (int b = 0; b < OldVertexList.Length; b++)
+                        {
+                            var NewVertex = new VertexDataTrickyXbox();
+
+                            var TempGeo = OldVertexList[b].GetGeometry();
+                            var TempSkinning = OldVertexList[b].GetSkinning();
+                            var TempMaterial = OldVertexList[b].GetMaterial();
+
+                            //Get Postion Normal and UV
+                            NewVertex.Position = TempGeo.GetPosition();
+
+                            Vector3 TempNormal;
+                            if (TempGeo.TryGetNormal(out TempNormal))
+                            {
+                                NewVertex.Normal = TempNormal;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Must Contain Normals");
+                                return null;
+                            }
+
+                            Vector4 TempTangent;
+                            if (TempGeo.TryGetTangent(out TempTangent))
+                            {
+                                NewVertex.Tangent = TempTangent;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Must Contain Tangents");
+                                return null;
+                            }
+
+                            try
+                            {
+                                NewVertex.UV = TempMaterial.GetTexCoord(0);
+                            }
+                            catch
+                            {
+                                NewVertex.UV = new Vector2();
+                            }
+
+                            //Get Weights
+                            NewVertex.weightHeader = new TrickyXboxMXF.BoneWeightHeader();
+                            NewVertex.weightHeader.Unknown2 = 19;
+                            NewVertex.weightHeader.boneWeights = new List<TrickyXboxMXF.BoneWeight>();
+
+                            for (int d = 0; d < TempSkinning.MaxBindings; d++)
+                            {
+                                var BindingList = TempSkinning.GetBinding(d);
+                                if (BindingList.Weight != 0)
+                                {
+                                    TrickyXboxMXF.BoneWeight TempWeight = new TrickyXboxMXF.BoneWeight();
+                                    TempWeight.BoneID = BindingList.Index;
+                                    TempWeight.Weight = (int)(BindingList.Weight * 100f);
+                                    TempWeight.BoneName = JointBindings[BindingList.Index].Joint.Name;
+                                    NewVertex.weightHeader.boneWeights.Add(TempWeight);
+                                }
+                            }
+
+                            //Correct Weights
+                            int Count = 0;
+                            for (int d = 0; d < NewVertex.weightHeader.boneWeights.Count; d++)
+                            {
+                                Count += NewVertex.weightHeader.boneWeights[d].Weight;
+                            }
+
+                            if (Count != 100)
+                            {
+                                var TempWeight = NewVertex.weightHeader.boneWeights[0];
+                                if (Count > 100)
+                                {
+                                    TempWeight.Weight -= Count - 100;
+                                }
+                                else if (Count < 100)
+                                {
+                                    TempWeight.Weight += 100 - Count;
+                                }
+                                NewVertex.weightHeader.boneWeights[0] = TempWeight;
+                            }
+
+                            //Add Morph Data
+                            NewVertex.MorphPoints = new List<Vector3>();
+                            for (int d = 0; d < MorphTargetsCount; d++)
+                            {
+                                NewVertex.MorphPoints.Add(MaterialArray[a].MorphTargets[d].GetVertex(b).GetGeometry().GetPosition() - NewVertex.Position);
+                            }
+
+                            VertexList.Add(NewVertex);
+                        }
+
+                        //Build Faces
+                        var TriangleList = MaterialArray[a].Triangles;
+                        for (int b = 0; b < TriangleList.Count; b++)
+                        {
+                            TrickyXboxMXF.Face TempFace = new TrickyXboxMXF.Face();
+                            var FaceTri = TriangleList[b];
+
+                            var TempPoint = VertexList[FaceTri.A];
+
+                            TempFace.V1 = TempPoint.Position;
+                            TempFace.Normal1 = TempPoint.Normal;
+                            TempFace.UV1 = TempPoint.UV;
+                            TempFace.Weight1 = TempPoint.weightHeader;
+                            TempFace.MorphPoint1 = TempPoint.MorphPoints;
+                            //TempFace.TangentNormal1 = TempPoint.Tangent;
+
+                            TempPoint = VertexList[FaceTri.B];
+
+                            TempFace.V2 = TempPoint.Position;
+                            TempFace.Normal2 = TempPoint.Normal;
+                            TempFace.UV2 = TempPoint.UV;
+                            TempFace.Weight2 = TempPoint.weightHeader;
+                            TempFace.MorphPoint2 = TempPoint.MorphPoints;
+                            //TempFace.TangentNormal2 = TempPoint.Tangent;
+
+                            TempPoint = VertexList[FaceTri.C];
+
+                            TempFace.V3 = TempPoint.Position;
+                            TempFace.Normal3 = TempPoint.Normal;
+                            TempFace.UV3 = TempPoint.UV;
+                            TempFace.Weight3 = TempPoint.weightHeader;
+                            TempFace.MorphPoint3 = TempPoint.MorphPoints;
+                            //TempFace.TangentNormal3 = TempPoint.Tangent;
 
                             TempFace.MaterialID = MatID;
 
@@ -1450,7 +1670,7 @@ namespace SSXMultiTool.FileHandlers
             return trickyModelCombiner;
         }
 
-        static List<TrickyPS2MPF.MaterialData> MakeNewMaterial(List<TrickyPS2MPF.MaterialData> materials, string name)
+        static List<TrickyPS2MPF.MaterialData> MakeNewMaterialTrickyPS2(List<TrickyPS2MPF.MaterialData> materials, string name)
         {
             bool test = false;
             for (int i = 0; i < materials.Count; i++)
@@ -1464,6 +1684,27 @@ namespace SSXMultiTool.FileHandlers
             if(!test)
             {
                 TrickyPS2MPF.MaterialData newmat = new TrickyPS2MPF.MaterialData();
+                newmat.MainTexture = name;
+                materials.Add(newmat);
+            }
+
+            return materials;
+        }
+
+        static List<TrickyXboxMXF.MaterialData> MakeNewMaterialTrickyXbox(List<TrickyXboxMXF.MaterialData> materials, string name)
+        {
+            bool test = false;
+            for (int i = 0; i < materials.Count; i++)
+            {
+                if (materials[i].MainTexture == name)
+                {
+                    test = true;
+                    break;
+                }
+            }
+            if (!test)
+            {
+                TrickyXboxMXF.MaterialData newmat = new TrickyXboxMXF.MaterialData();
                 newmat.MainTexture = name;
                 materials.Add(newmat);
             }
@@ -1513,7 +1754,19 @@ namespace SSXMultiTool.FileHandlers
             return materials;
         }
 
-        static int FindMaterialID(List<TrickyPS2MPF.MaterialData> materials, string name)
+        static int FindMaterialIDTrickyPS2(List<TrickyPS2MPF.MaterialData> materials, string name)
+        {
+            for (int i = 0; i < materials.Count; i++)
+            {
+                if (materials[i].MainTexture == name)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        static int FindMaterialIDTrickyXbox(List<TrickyXboxMXF.MaterialData> materials, string name)
         {
             for (int i = 0; i < materials.Count; i++)
             {
@@ -1549,13 +1802,24 @@ namespace SSXMultiTool.FileHandlers
             return -1;
         }
 
-        struct VertexData
+        struct VertexDataTrickyPS2
         {
             public Vector3 Position;
             public Vector3 Normal;
             public Vector2 UV;
 
             public TrickyPS2MPF.BoneWeightHeader weightHeader;
+            public List<Vector3> MorphPoints;
+        }
+
+        struct VertexDataTrickyXbox
+        {
+            public Vector3 Position;
+            public Vector3 Normal;
+            public Vector2 UV;
+            public Vector4 Tangent;
+
+            public TrickyXboxMXF.BoneWeightHeader weightHeader;
             public List<Vector3> MorphPoints;
         }
 
@@ -1580,7 +1844,7 @@ namespace SSXMultiTool.FileHandlers
             public List<Vector3> NormalPoints;
         }
 
-        public static List<TrickyPS2MPF.BoneData> ReturnBoneAndChildren(SharpGLTF.Scenes.NodeBuilder nodeBuilder, bool startBone)
+        public static List<TrickyPS2MPF.BoneData> ReturnBoneAndChildrenTrickyPS2(SharpGLTF.Scenes.NodeBuilder nodeBuilder, bool startBone)
         {
             List<TrickyPS2MPF.BoneData> boneDatas = new List<TrickyPS2MPF.BoneData>();
             var TempBoneData = new TrickyPS2MPF.BoneData();
@@ -1599,7 +1863,32 @@ namespace SSXMultiTool.FileHandlers
 
             for (int i = 0; i < nodeBuilder.VisualChildren.Count; i++)
             {
-                boneDatas.AddRange(ReturnBoneAndChildren(nodeBuilder.VisualChildren[i], false));
+                boneDatas.AddRange(ReturnBoneAndChildrenTrickyPS2(nodeBuilder.VisualChildren[i], false));
+            }
+
+            return boneDatas;
+        }
+
+        public static List<TrickyXboxMXF.BoneData> ReturnBoneAndChildrenTrickyXbox(SharpGLTF.Scenes.NodeBuilder nodeBuilder, bool startBone)
+        {
+            List<TrickyXboxMXF.BoneData> boneDatas = new List<TrickyXboxMXF.BoneData>();
+            var TempBoneData = new TrickyXboxMXF.BoneData();
+
+            TempBoneData.BoneName = nodeBuilder.Name;
+            TempBoneData.Position = nodeBuilder.LocalTransform.Translation;
+            if (nodeBuilder.Parent != null)
+            {
+                TempBoneData.parentName = nodeBuilder.Parent.Name;
+            }
+            Quaternion quaternion = nodeBuilder.LocalTransform.GetDecomposed().Rotation;
+            Vector3 radians = MathUtil.ToEulerAngles(quaternion);
+            TempBoneData.Radians = radians;
+
+            boneDatas.Add(TempBoneData);
+
+            for (int i = 0; i < nodeBuilder.VisualChildren.Count; i++)
+            {
+                boneDatas.AddRange(ReturnBoneAndChildrenTrickyXbox(nodeBuilder.VisualChildren[i], false));
             }
 
             return boneDatas;

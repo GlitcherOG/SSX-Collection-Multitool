@@ -889,6 +889,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public int Weight;
             public int BoneID;
             public int FileID;
+
+            public string BoneName;
         }
 
         public struct TristripHeader
