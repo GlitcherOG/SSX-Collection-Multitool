@@ -708,8 +708,104 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             TempTrickyMesh.morphHeader = NewMorphHeader;
 
             //Generate Shadow and Edge Lists
-            //TempTrickyMesh.shadowDatas
-            //TempTrickyMesh.edgeDatas
+            List<TrickyXboxMXF.ShadowData> NewShadowData = new List<TrickyXboxMXF.ShadowData>();
+            List<TrickyXboxMXF.EdgeData> NewEdgeData = new List<TrickyXboxMXF.EdgeData>();
+
+            for (int i = 0; i < indiceFaces.Count; i++)
+            {
+                TrickyXboxMXF.ShadowData NewShadow = new TrickyXboxMXF.ShadowData();
+                NewShadow.VIndex1 = indiceFaces[i].Id1;
+                NewShadow.VIndex2 = indiceFaces[i].Id2;
+                NewShadow.VIndex3 = indiceFaces[i].Id3;
+                NewShadow.VIndex4 = indiceFaces[i].Id1;
+
+                bool TestEdgeOne = false;
+                bool TestEdgeTwo = false;
+                bool TestEdgeThree = false;
+
+                for (int a = 0; a < NewEdgeData.Count; a++)
+                {
+                    if (NewEdgeData[a].VerticeIndex1 == NewShadow.VIndex1 && NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex2)
+                    {
+                        TestEdgeOne = true;
+                        NewShadow.EdgeIndex1 = a;
+                        NewShadow.ReadModeEdge1 = 0;
+                    }
+
+                    if (NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex1 && NewEdgeData[a].VerticeIndex3 == NewShadow.VIndex2)
+                    {
+                        TestEdgeOne = true;
+                        NewShadow.EdgeIndex1 = a;
+                        NewShadow.ReadModeEdge1 = 1;
+                    }
+                }
+
+                if(!TestEdgeOne)
+                {
+                    TrickyXboxMXF.EdgeData NewEdge = new TrickyXboxMXF.EdgeData();
+                    NewEdge.VerticeIndex1 = NewShadow.VIndex1;
+                    NewEdge.VerticeIndex2 = NewShadow.VIndex2;
+                    NewEdge.VerticeIndex3 = NewShadow.VIndex1;
+                    NewEdgeData.Add(NewEdge);
+                }
+
+                for (int a = 0; a < NewEdgeData.Count; a++)
+                {
+                    if (NewEdgeData[a].VerticeIndex1 == NewShadow.VIndex2 && NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex3)
+                    {
+                        TestEdgeTwo = true;
+                        NewShadow.EdgeIndex1 = a;
+                        NewShadow.ReadModeEdge1 = 0;
+                    }
+
+                    if (NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex2 && NewEdgeData[a].VerticeIndex3 == NewShadow.VIndex3)
+                    {
+                        TestEdgeTwo = true;
+                        NewShadow.EdgeIndex1 = a;
+                        NewShadow.ReadModeEdge1 = 1;
+                    }
+                }
+
+                if (!TestEdgeTwo)
+                {
+                    TrickyXboxMXF.EdgeData NewEdge = new TrickyXboxMXF.EdgeData();
+                    NewEdge.VerticeIndex1 = NewShadow.VIndex2;
+                    NewEdge.VerticeIndex2 = NewShadow.VIndex3;
+                    NewEdge.VerticeIndex3 = NewShadow.VIndex2;
+                    NewEdgeData.Add(NewEdge);
+                }
+
+                for (int a = 0; a < NewEdgeData.Count; a++)
+                {
+                    if (NewEdgeData[a].VerticeIndex1 == NewShadow.VIndex3 && NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex4)
+                    {
+                        TestEdgeThree = true;
+                        NewShadow.EdgeIndex1 = a;
+                        NewShadow.ReadModeEdge1 = 0;
+                    }
+
+                    if (NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex3 && NewEdgeData[a].VerticeIndex3 == NewShadow.VIndex4)
+                    {
+                        TestEdgeThree = true;
+                        NewShadow.EdgeIndex1 = a;
+                        NewShadow.ReadModeEdge1 = 1;
+                    }
+                }
+
+                if (!TestEdgeThree)
+                {
+                    TrickyXboxMXF.EdgeData NewEdge = new TrickyXboxMXF.EdgeData();
+                    NewEdge.VerticeIndex1 = NewShadow.VIndex3;
+                    NewEdge.VerticeIndex2 = NewShadow.VIndex4;
+                    NewEdge.VerticeIndex3 = NewShadow.VIndex3;
+                    NewEdgeData.Add(NewEdge);
+                }
+
+                NewShadowData.Add(NewShadow);
+            }
+
+            TempTrickyMesh.shadowDatas = NewShadowData;
+            TempTrickyMesh.edgeDatas = NewEdgeData;
 
             indiceFaces = TristripGenerator.NeighbourPriority(indiceFaces);
 
@@ -726,7 +822,6 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             //set data to mxf
             TempTrickyMesh.vertexDatas = VectorPoint;
             TempTrickyMesh.unknownVertexData = VectorPoint;
-            //TempTrickyMesh.morphHeader = 0;
 
             Board.modelHeaders[Selected] = TempTrickyMesh;
         }
