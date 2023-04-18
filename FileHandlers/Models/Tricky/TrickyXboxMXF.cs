@@ -920,6 +920,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public int Unknown4;
             public int WeightIndex;
 
+            public int MaterialID;
+
             public List<Vector3> MorphData;
         }
 

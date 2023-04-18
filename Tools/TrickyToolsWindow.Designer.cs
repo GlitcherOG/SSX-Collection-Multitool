@@ -86,7 +86,7 @@
             MPFExtract = new Button();
             MPFLoad = new Button();
             tabPage3 = new TabPage();
-            button3 = new Button();
+            MXFImport = new Button();
             MXFSave = new Button();
             label33 = new Label();
             label34 = new Label();
@@ -788,7 +788,7 @@
             // 
             // tabPage3
             // 
-            tabPage3.Controls.Add(button3);
+            tabPage3.Controls.Add(MXFImport);
             tabPage3.Controls.Add(MXFSave);
             tabPage3.Controls.Add(label33);
             tabPage3.Controls.Add(label34);
@@ -807,14 +807,15 @@
             tabPage3.Text = "Tricky MXF (Models)";
             tabPage3.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // MXFImport
             // 
-            button3.Location = new Point(285, 372);
-            button3.Name = "button3";
-            button3.Size = new Size(75, 23);
-            button3.TabIndex = 38;
-            button3.Text = "Import";
-            button3.UseVisualStyleBackColor = true;
+            MXFImport.Location = new Point(285, 372);
+            MXFImport.Name = "MXFImport";
+            MXFImport.Size = new Size(75, 23);
+            MXFImport.TabIndex = 38;
+            MXFImport.Text = "Import";
+            MXFImport.UseVisualStyleBackColor = true;
+            MXFImport.Click += MXFImport_Click;
             // 
             // MXFSave
             // 
@@ -1871,7 +1872,7 @@
         private CheckBox checkBox2;
         private ListBox CharacterPartsMXF;
         private ListBox MXFList;
-        private Button button3;
+        private Button MXFImport;
         private Button MXFSave;
     }
 }

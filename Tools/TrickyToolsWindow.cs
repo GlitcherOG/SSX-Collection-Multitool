@@ -1220,5 +1220,49 @@ namespace SSXMultiTool
                 DisableUpdate = false;
             }
         }
+
+        private void MXFImport_Click(object sender, EventArgs e)
+        {
+            if (MXFList.SelectedIndex != -1)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "gltf File (*.glb)|*.glb|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if ((trickyXboxModel.Board != null) || (trickyXboxModel.Head != null && trickyXboxModel.Body != null))
+                    {
+                        TrickyXboxModelCombiner TempCombiner = null;
+
+                        try
+                        {
+                            TempCombiner = glftHandler.LoadTrickyXboxGlft(openFileDialog.FileName);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Failed to Load File");
+                        }
+                        if (TempCombiner != null)
+                        {
+                            try
+                            {
+                                //trickyXboxModel.NormalAverage = ImportAverageNormal.Checked;
+                                //trickyXboxModel.BoneUpdate = BoneUpdateCheck.Checked;
+                                trickyXboxModel.StartRegenMesh(TempCombiner, MpfList.SelectedIndex);
+
+                                UpdateDataXbox();
+                            }
+                            catch
+                            {
+                                MessageBox.Show("Failed to Convert File");
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
