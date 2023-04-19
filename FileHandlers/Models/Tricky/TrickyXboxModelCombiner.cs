@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -747,6 +748,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     NewEdge.VerticeIndex2 = NewShadow.VIndex2;
                     NewEdge.VerticeIndex3 = NewShadow.VIndex1;
                     NewEdgeData.Add(NewEdge);
+
+                    NewShadow.EdgeIndex1 = NewEdgeData.Count - 1;
                 }
 
                 for (int a = 0; a < NewEdgeData.Count; a++)
@@ -773,6 +776,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     NewEdge.VerticeIndex2 = NewShadow.VIndex3;
                     NewEdge.VerticeIndex3 = NewShadow.VIndex2;
                     NewEdgeData.Add(NewEdge);
+
+                    NewShadow.EdgeIndex2 = NewEdgeData.Count - 1;
                 }
 
                 for (int a = 0; a < NewEdgeData.Count; a++)
@@ -799,18 +804,17 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     NewEdge.VerticeIndex2 = NewShadow.VIndex4;
                     NewEdge.VerticeIndex3 = NewShadow.VIndex3;
                     NewEdgeData.Add(NewEdge);
+
+                    NewShadow.EdgeIndex3 = NewEdgeData.Count - 1;
                 }
 
                 NewShadowData.Add(NewShadow);
             }
 
-            TempTrickyMesh.shadowDatas = NewShadowData;
-            TempTrickyMesh.edgeDatas = NewEdgeData;
-
             indiceFaces = TristripGenerator.NeighbourPriority(indiceFaces);
 
             //Send to Tristrip Generator
-            List<TristripGenerator.IndiceTristrip> indiceTristrips = TristripGenerator.GenerateTristripNivda(indiceFaces);
+            List<TristripGenerator.IndiceTristrip> indiceTristrips = TristripGenerator.GenerateTristripNivda(indiceFaces,100);
             if (indiceTristrips == null)
             {
                 MessageBox.Show("Tristrip Failed to Generate");
@@ -818,10 +822,49 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             }
 
             //Correct to one gaint tristrip for each material
+            List<TrickyXboxMXF.TristripHeader> NewTristripsHeaders = new List<TrickyXboxMXF.TristripHeader>();
+            for (int i = 0; i < indiceTristrips.Count; i++)
+            {
+                bool TestTristrip = false;
+                for (int a = 0; a < NewTristripsHeaders.Count; a++)
+                {
+                    if (NewTristripsHeaders[a].MaterialIndex0 == VectorPoint[indiceTristrips[i].Indices[0]].MaterialID)
+                    {
+                        TestTristrip = true;
+                        //Add 1 or 2 of previous face and 1 of next face
+
+                        if (NewTristripsHeaders[a].IndexList.Count%2==1)
+                        {
+                            NewTristripsHeaders[a].IndexList.Add(NewTristripsHeaders[a].IndexList[NewTristripsHeaders[a].IndexList.Count - 1]);
+                        }
+
+                        NewTristripsHeaders[a].IndexList.Add(NewTristripsHeaders[a].IndexList[NewTristripsHeaders[a].IndexList.Count - 1]);
+                        NewTristripsHeaders[a].IndexList.Add(indiceTristrips[i].Indices[0]);
+                        NewTristripsHeaders[a].IndexList.AddRange(indiceTristrips[i].Indices);
+                    }
+                }
+
+                if(!TestTristrip)
+                {
+                    TrickyXboxMXF.TristripHeader NewTristrip = new TrickyXboxMXF.TristripHeader();
+                    NewTristrip.IndexList = new List<int>();
+                    NewTristrip.IndexList.AddRange(indiceTristrips[i].Indices);
+                    NewTristrip.MaterialIndex0 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
+                    NewTristrip.MaterialIndex1 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
+                    NewTristrip.MaterialIndex2 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
+                    NewTristrip.MaterialIndex3 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
+                    NewTristrip.MaterialIndex4 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
+                    NewTristripsHeaders.Add(NewTristrip);
+                }
+
+            }
 
             //set data to mxf
             TempTrickyMesh.vertexDatas = VectorPoint;
             TempTrickyMesh.unknownVertexData = VectorPoint;
+            TempTrickyMesh.tristripHeaders = NewTristripsHeaders;
+            TempTrickyMesh.shadowDatas = NewShadowData;
+            TempTrickyMesh.edgeDatas = NewEdgeData;
 
             Board.modelHeaders[Selected] = TempTrickyMesh;
         }
