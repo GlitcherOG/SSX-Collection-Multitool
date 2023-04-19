@@ -888,7 +888,7 @@ namespace SSXMultiTool
 
         private void MaterialListMXF_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (MaterialListMXF.SelectedIndex != -1)
+            if (MaterialListMXF.SelectedIndex != -1 && CharacterPartsMXF.SelectedIndex != -1)
             {
                 if (trickyXboxModel.Board != null)
                 {
@@ -1237,28 +1237,28 @@ namespace SSXMultiTool
                     {
                         TrickyXboxModelCombiner TempCombiner = null;
 
-                        try
-                        {
+                        //try
+                        //{
                             TempCombiner = glftHandler.LoadTrickyXboxGlft(openFileDialog.FileName);
-                        }
-                        catch
-                        {
-                            MessageBox.Show("Failed to Load File");
-                        }
+                        //}
+                        //catch
+                        //{
+                            //MessageBox.Show("Failed to Load File");
+                        //}
                         if (TempCombiner != null)
                         {
-                            try
-                            {
+                            //try
+                            //{
                                 //trickyXboxModel.NormalAverage = ImportAverageNormal.Checked;
                                 //trickyXboxModel.BoneUpdate = BoneUpdateCheck.Checked;
-                                trickyXboxModel.StartRegenMesh(TempCombiner, MpfList.SelectedIndex);
+                                trickyXboxModel.StartRegenMesh(TempCombiner, MXFList.SelectedIndex);
 
                                 UpdateDataXbox();
-                            }
-                            catch
-                            {
-                                MessageBox.Show("Failed to Convert File");
-                            }
+                            //}
+                            //catch
+                            //{
+                                //MessageBox.Show("Failed to Convert File");
+                            //}
                         }
                     }
                 }
