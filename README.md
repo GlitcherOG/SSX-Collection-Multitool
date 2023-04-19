@@ -25,6 +25,9 @@ As such, I chose to redo the entire project and improve it as I did so.
 
 ### SSX Tricky
 - [ ] Normal Average Proper
+- [ ] Fix Tricky Shadow Xbox
+- [ ] Fix Materials so all unused are added by default
+- [ ] Figure out why materials are transparent by default
 
 ### SSX 3
 - [ ] Normal Average Proper
