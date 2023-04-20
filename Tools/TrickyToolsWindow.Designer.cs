@@ -172,6 +172,7 @@
             HDRTime = new Label();
             tabPage2 = new TabPage();
             ELFLdrSetup = new Button();
+            MXFShadow = new CheckBox();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -1223,11 +1224,12 @@
             // 
             // groupBox12
             // 
+            groupBox12.Controls.Add(MXFShadow);
             groupBox12.Controls.Add(checkBox1);
             groupBox12.Controls.Add(checkBox2);
             groupBox12.Location = new Point(204, 288);
             groupBox12.Name = "groupBox12";
-            groupBox12.Size = new Size(156, 78);
+            groupBox12.Size = new Size(272, 78);
             groupBox12.TabIndex = 31;
             groupBox12.TabStop = false;
             groupBox12.Text = "Import Settings";
@@ -1675,6 +1677,16 @@
             ELFLdrSetup.UseVisualStyleBackColor = true;
             ELFLdrSetup.Click += ELFLdrSetup_Click;
             // 
+            // MXFShadow
+            // 
+            MXFShadow.AutoSize = true;
+            MXFShadow.Location = new Point(149, 22);
+            MXFShadow.Name = "MXFShadow";
+            MXFShadow.Size = new Size(118, 19);
+            MXFShadow.TabIndex = 2;
+            MXFShadow.Text = "Shadow Generate";
+            MXFShadow.UseVisualStyleBackColor = true;
+            // 
             // TrickyToolsWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1874,5 +1886,6 @@
         private ListBox MXFList;
         private Button MXFImport;
         private Button MXFSave;
+        private CheckBox MXFShadow;
     }
 }

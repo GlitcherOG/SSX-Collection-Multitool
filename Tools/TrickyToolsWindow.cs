@@ -1239,25 +1239,25 @@ namespace SSXMultiTool
 
                         //try
                         //{
-                            TempCombiner = glftHandler.LoadTrickyXboxGlft(openFileDialog.FileName);
+                        TempCombiner = glftHandler.LoadTrickyXboxGlft(openFileDialog.FileName);
                         //}
                         //catch
                         //{
-                            //MessageBox.Show("Failed to Load File");
+                        //MessageBox.Show("Failed to Load File");
                         //}
                         if (TempCombiner != null)
                         {
                             //try
                             //{
-                                //trickyXboxModel.NormalAverage = ImportAverageNormal.Checked;
-                                //trickyXboxModel.BoneUpdate = BoneUpdateCheck.Checked;
-                                trickyXboxModel.StartRegenMesh(TempCombiner, MXFList.SelectedIndex);
+                            //trickyXboxModel.NormalAverage = ImportAverageNormal.Checked;
+                            //trickyXboxModel.BoneUpdate = BoneUpdateCheck.Checked;
+                            trickyXboxModel.StartRegenMesh(TempCombiner, MXFList.SelectedIndex);
 
-                                UpdateDataXbox();
+                            UpdateDataXbox();
                             //}
                             //catch
                             //{
-                                //MessageBox.Show("Failed to Convert File");
+                            //MessageBox.Show("Failed to Convert File");
                             //}
                         }
                     }

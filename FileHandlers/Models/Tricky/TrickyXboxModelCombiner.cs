@@ -21,7 +21,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public bool BodyBool;
 
         public bool BoneUpdate;
-        public int TristripMode;
+        public bool ShadowAdd;
         public bool NormalAverage;
 
         public int DectectModelType(TrickyXboxMXF modelHandler)
@@ -1377,107 +1377,109 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 List<TrickyXboxMXF.ShadowData> NewShadowData = new List<TrickyXboxMXF.ShadowData>();
                 List<TrickyXboxMXF.EdgeData> NewEdgeData = new List<TrickyXboxMXF.EdgeData>();
 
-                for (int b = 0; b < indiceFaces.Count; b++)
+                if (ShadowAdd)
                 {
-                    TrickyXboxMXF.ShadowData NewShadow = new TrickyXboxMXF.ShadowData();
-                    NewShadow.VIndex1 = indiceFaces[b].Id1;
-                    NewShadow.VIndex2 = indiceFaces[b].Id2;
-                    NewShadow.VIndex3 = indiceFaces[b].Id3;
-                    NewShadow.VIndex4 = indiceFaces[b].Id1;
-
-                    bool TestEdgeOne = false;
-                    bool TestEdgeTwo = false;
-                    bool TestEdgeThree = false;
-
-                    for (int a = 0; a < NewEdgeData.Count; a++)
+                    for (int b = 0; b < indiceFaces.Count; b++)
                     {
-                        if (NewEdgeData[a].VerticeIndex1 == NewShadow.VIndex1 && NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex2)
+                        TrickyXboxMXF.ShadowData NewShadow = new TrickyXboxMXF.ShadowData();
+                        NewShadow.VIndex1 = indiceFaces[b].Id1;
+                        NewShadow.VIndex2 = indiceFaces[b].Id2;
+                        NewShadow.VIndex3 = indiceFaces[b].Id3;
+                        NewShadow.VIndex4 = indiceFaces[b].Id1;
+
+                        bool TestEdgeOne = false;
+                        bool TestEdgeTwo = false;
+                        bool TestEdgeThree = false;
+
+                        for (int a = 0; a < NewEdgeData.Count; a++)
                         {
-                            TestEdgeOne = true;
-                            NewShadow.EdgeIndex1 = a;
-                            NewShadow.ReadModeEdge1 = 0;
+                            if (NewEdgeData[a].VerticeIndex1 == NewShadow.VIndex1 && NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex2)
+                            {
+                                TestEdgeOne = true;
+                                NewShadow.EdgeIndex1 = a;
+                                NewShadow.ReadModeEdge1 = 0;
+                            }
+
+                            if (NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex1 && NewEdgeData[a].VerticeIndex3 == NewShadow.VIndex2)
+                            {
+                                TestEdgeOne = true;
+                                NewShadow.EdgeIndex1 = a;
+                                NewShadow.ReadModeEdge1 = 1;
+                            }
                         }
 
-                        if (NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex1 && NewEdgeData[a].VerticeIndex3 == NewShadow.VIndex2)
+                        if (!TestEdgeOne)
                         {
-                            TestEdgeOne = true;
-                            NewShadow.EdgeIndex1 = a;
-                            NewShadow.ReadModeEdge1 = 1;
-                        }
-                    }
+                            TrickyXboxMXF.EdgeData NewEdge = new TrickyXboxMXF.EdgeData();
+                            NewEdge.VerticeIndex1 = NewShadow.VIndex1;
+                            NewEdge.VerticeIndex2 = NewShadow.VIndex2;
+                            NewEdge.VerticeIndex3 = NewShadow.VIndex1;
+                            NewEdgeData.Add(NewEdge);
 
-                    if (!TestEdgeOne)
-                    {
-                        TrickyXboxMXF.EdgeData NewEdge = new TrickyXboxMXF.EdgeData();
-                        NewEdge.VerticeIndex1 = NewShadow.VIndex1;
-                        NewEdge.VerticeIndex2 = NewShadow.VIndex2;
-                        NewEdge.VerticeIndex3 = NewShadow.VIndex1;
-                        NewEdgeData.Add(NewEdge);
-
-                        NewShadow.EdgeIndex1 = NewEdgeData.Count - 1;
-                    }
-
-                    for (int a = 0; a < NewEdgeData.Count; a++)
-                    {
-                        if (NewEdgeData[a].VerticeIndex1 == NewShadow.VIndex2 && NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex3)
-                        {
-                            TestEdgeTwo = true;
-                            NewShadow.EdgeIndex1 = a;
-                            NewShadow.ReadModeEdge1 = 0;
+                            NewShadow.EdgeIndex1 = NewEdgeData.Count - 1;
                         }
 
-                        if (NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex2 && NewEdgeData[a].VerticeIndex3 == NewShadow.VIndex3)
+                        for (int a = 0; a < NewEdgeData.Count; a++)
                         {
-                            TestEdgeTwo = true;
-                            NewShadow.EdgeIndex1 = a;
-                            NewShadow.ReadModeEdge1 = 1;
-                        }
-                    }
+                            if (NewEdgeData[a].VerticeIndex1 == NewShadow.VIndex2 && NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex3)
+                            {
+                                TestEdgeTwo = true;
+                                NewShadow.EdgeIndex1 = a;
+                                NewShadow.ReadModeEdge1 = 0;
+                            }
 
-                    if (!TestEdgeTwo)
-                    {
-                        TrickyXboxMXF.EdgeData NewEdge = new TrickyXboxMXF.EdgeData();
-                        NewEdge.VerticeIndex1 = NewShadow.VIndex2;
-                        NewEdge.VerticeIndex2 = NewShadow.VIndex3;
-                        NewEdge.VerticeIndex3 = NewShadow.VIndex2;
-                        NewEdgeData.Add(NewEdge);
-
-                        NewShadow.EdgeIndex2 = NewEdgeData.Count - 1;
-                    }
-
-                    for (int a = 0; a < NewEdgeData.Count; a++)
-                    {
-                        if (NewEdgeData[a].VerticeIndex1 == NewShadow.VIndex3 && NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex4)
-                        {
-                            TestEdgeThree = true;
-                            NewShadow.EdgeIndex1 = a;
-                            NewShadow.ReadModeEdge1 = 0;
+                            if (NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex2 && NewEdgeData[a].VerticeIndex3 == NewShadow.VIndex3)
+                            {
+                                TestEdgeTwo = true;
+                                NewShadow.EdgeIndex1 = a;
+                                NewShadow.ReadModeEdge1 = 1;
+                            }
                         }
 
-                        if (NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex3 && NewEdgeData[a].VerticeIndex3 == NewShadow.VIndex4)
+                        if (!TestEdgeTwo)
                         {
-                            TestEdgeThree = true;
-                            NewShadow.EdgeIndex1 = a;
-                            NewShadow.ReadModeEdge1 = 1;
+                            TrickyXboxMXF.EdgeData NewEdge = new TrickyXboxMXF.EdgeData();
+                            NewEdge.VerticeIndex1 = NewShadow.VIndex2;
+                            NewEdge.VerticeIndex2 = NewShadow.VIndex3;
+                            NewEdge.VerticeIndex3 = NewShadow.VIndex2;
+                            NewEdgeData.Add(NewEdge);
+
+                            NewShadow.EdgeIndex2 = NewEdgeData.Count - 1;
                         }
+
+                        for (int a = 0; a < NewEdgeData.Count; a++)
+                        {
+                            if (NewEdgeData[a].VerticeIndex1 == NewShadow.VIndex3 && NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex4)
+                            {
+                                TestEdgeThree = true;
+                                NewShadow.EdgeIndex1 = a;
+                                NewShadow.ReadModeEdge1 = 0;
+                            }
+
+                            if (NewEdgeData[a].VerticeIndex2 == NewShadow.VIndex3 && NewEdgeData[a].VerticeIndex3 == NewShadow.VIndex4)
+                            {
+                                TestEdgeThree = true;
+                                NewShadow.EdgeIndex1 = a;
+                                NewShadow.ReadModeEdge1 = 1;
+                            }
+                        }
+
+                        if (!TestEdgeThree)
+                        {
+                            TrickyXboxMXF.EdgeData NewEdge = new TrickyXboxMXF.EdgeData();
+                            NewEdge.VerticeIndex1 = NewShadow.VIndex3;
+                            NewEdge.VerticeIndex2 = NewShadow.VIndex4;
+                            NewEdge.VerticeIndex3 = NewShadow.VIndex3;
+                            NewEdgeData.Add(NewEdge);
+
+                            NewShadow.EdgeIndex3 = NewEdgeData.Count - 1;
+                        }
+
+                        NewShadowData.Add(NewShadow);
                     }
-
-                    if (!TestEdgeThree)
-                    {
-                        TrickyXboxMXF.EdgeData NewEdge = new TrickyXboxMXF.EdgeData();
-                        NewEdge.VerticeIndex1 = NewShadow.VIndex3;
-                        NewEdge.VerticeIndex2 = NewShadow.VIndex4;
-                        NewEdge.VerticeIndex3 = NewShadow.VIndex3;
-                        NewEdgeData.Add(NewEdge);
-
-                        NewShadow.EdgeIndex3 = NewEdgeData.Count - 1;
-                    }
-
-                    NewShadowData.Add(NewShadow);
                 }
 
-
-                indiceFaces = TristripGenerator.NeighbourPriority(indiceFaces);
+                //indiceFaces = TristripGenerator.NeighbourPriority(indiceFaces);
 
                 //Send to Tristrip Generator
                 List<TristripGenerator.IndiceTristrip> indiceTristrips = TristripGenerator.GenerateTristripNivda(indiceFaces);
@@ -1581,7 +1583,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 vectorPoint.VertexUV = face.UV2;
                 vectorPoint.WeightIndex = face.Weight2Pos;
                 vectorPoint.MorphData = face.MorphPoint2;
-                vectorPoint.VertexTangentNormal = face.TangentNormal1;
+                vectorPoint.VertexTangentNormal = face.TangentNormal2;
             }
 
             if (Vertice == 3)
@@ -1591,7 +1593,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 vectorPoint.VertexUV = face.UV3;
                 vectorPoint.WeightIndex = face.Weight3Pos;
                 vectorPoint.MorphData = face.MorphPoint3;
-                vectorPoint.VertexTangentNormal = face.TangentNormal1;
+                vectorPoint.VertexTangentNormal = face.TangentNormal3;
             }
 
             vectorPoint.Unknown1 = 1;
