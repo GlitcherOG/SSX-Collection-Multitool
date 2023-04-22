@@ -228,8 +228,8 @@ namespace SSXMultiTool
                         {
                             try
                             {
-                                trickyPS2Model.NormalAverage = ImportAverageNormal.Checked;
-                                trickyPS2Model.BoneUpdate = BoneUpdateCheck.Checked;
+                                trickyPS2Model.NormalAverage = ImportAverageNormalMPF.Checked;
+                                trickyPS2Model.BoneUpdate = BoneUpdateCheckMPF.Checked;
                                 trickyPS2Model.StartRegenMesh(TempCombiner, MpfList.SelectedIndex);
 
                                 UpdateDataPS2();
@@ -1237,28 +1237,29 @@ namespace SSXMultiTool
                     {
                         TrickyXboxModelCombiner TempCombiner = null;
 
-                        //try
-                        //{
-                        TempCombiner = glftHandler.LoadTrickyXboxGlft(openFileDialog.FileName);
-                        //}
-                        //catch
-                        //{
-                        //MessageBox.Show("Failed to Load File");
-                        //}
+                        try
+                        {
+                            TempCombiner = glftHandler.LoadTrickyXboxGlft(openFileDialog.FileName);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Failed to Load File");
+                        }
                         if (TempCombiner != null)
                         {
-                            //try
-                            //{
-                            //trickyXboxModel.NormalAverage = ImportAverageNormal.Checked;
-                            //trickyXboxModel.BoneUpdate = BoneUpdateCheck.Checked;
-                            trickyXboxModel.StartRegenMesh(TempCombiner, MXFList.SelectedIndex);
+                            try
+                            {
+                                trickyXboxModel.NormalAverage = ImportAverageNormalMXF.Checked;
+                                trickyXboxModel.BoneUpdate = BoneUpdateCheckMXF.Checked;
+                                trickyXboxModel.ShadowAdd = MXFShadow.Checked;
+                                trickyXboxModel.StartRegenMesh(TempCombiner, MXFList.SelectedIndex);
 
-                            UpdateDataXbox();
-                            //}
-                            //catch
-                            //{
-                            //MessageBox.Show("Failed to Convert File");
-                            //}
+                                UpdateDataXbox();
+                            }
+                            catch
+                            {
+                                MessageBox.Show("Failed to Convert File");
+                            }
                         }
                     }
                 }

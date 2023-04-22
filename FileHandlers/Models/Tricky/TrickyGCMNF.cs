@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SSXMultiTool.Utilities;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -13,9 +15,30 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public int NumModels;
         public int OffsetModelHeader;
         public int OffsetModelData;
+        public List<ModelHeader> modelHeaders = new List<ModelHeader>();
+        void Load(string Path)
+        {
+            using (Stream stream = File.Open(Path, FileMode.Open))
+            {
+                Version = StreamUtil.ReadBytes(stream, 4);
+                NumModels = StreamUtil.ReadInt16(stream, true);
+                OffsetModelHeader = StreamUtil.ReadInt16(stream, true);
+                OffsetModelData = StreamUtil.ReadUInt32(stream, true);
 
-        
+                modelHeaders = new List<ModelHeader>();
+                for (int i = 0; i < NumModels; i++)
+                {
+                    var NewModelHeader = new ModelHeader();
 
+                    NewModelHeader.ModelName = StreamUtil.ReadString(stream, 16);
+
+
+
+
+                    modelHeaders.Add(NewModelHeader);
+                }
+            }
+        }
 
         public struct ModelHeader
         {

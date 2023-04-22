@@ -77,8 +77,8 @@
             label10 = new Label();
             IkCountPS2 = new Label();
             groupBox1 = new GroupBox();
-            BoneUpdateCheck = new CheckBox();
-            ImportAverageNormal = new CheckBox();
+            BoneUpdateCheckMPF = new CheckBox();
+            ImportAverageNormalMPF = new CheckBox();
             CharacterPartsMpf = new ListBox();
             MPFImport = new Button();
             MPFSave = new Button();
@@ -129,8 +129,9 @@
             label65 = new Label();
             IKPointsXbox = new Label();
             groupBox12 = new GroupBox();
-            checkBox1 = new CheckBox();
-            checkBox2 = new CheckBox();
+            MXFShadow = new CheckBox();
+            BoneUpdateCheckMXF = new CheckBox();
+            ImportAverageNormalMXF = new CheckBox();
             CharacterPartsMXF = new ListBox();
             MXFList = new ListBox();
             MXFExport = new Button();
@@ -172,7 +173,6 @@
             HDRTime = new Label();
             tabPage2 = new TabPage();
             ELFLdrSetup = new Button();
-            MXFShadow = new CheckBox();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -693,8 +693,8 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(BoneUpdateCheck);
-            groupBox1.Controls.Add(ImportAverageNormal);
+            groupBox1.Controls.Add(BoneUpdateCheckMPF);
+            groupBox1.Controls.Add(ImportAverageNormalMPF);
             groupBox1.Location = new Point(204, 282);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(156, 78);
@@ -702,25 +702,25 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Import Settings";
             // 
-            // BoneUpdateCheck
+            // BoneUpdateCheckMPF
             // 
-            BoneUpdateCheck.AutoSize = true;
-            BoneUpdateCheck.Location = new Point(6, 47);
-            BoneUpdateCheck.Name = "BoneUpdateCheck";
-            BoneUpdateCheck.Size = new Size(131, 19);
-            BoneUpdateCheck.TabIndex = 1;
-            BoneUpdateCheck.Text = "Update Bones (WIP)";
-            BoneUpdateCheck.UseVisualStyleBackColor = true;
+            BoneUpdateCheckMPF.AutoSize = true;
+            BoneUpdateCheckMPF.Location = new Point(6, 47);
+            BoneUpdateCheckMPF.Name = "BoneUpdateCheckMPF";
+            BoneUpdateCheckMPF.Size = new Size(131, 19);
+            BoneUpdateCheckMPF.TabIndex = 1;
+            BoneUpdateCheckMPF.Text = "Update Bones (WIP)";
+            BoneUpdateCheckMPF.UseVisualStyleBackColor = true;
             // 
-            // ImportAverageNormal
+            // ImportAverageNormalMPF
             // 
-            ImportAverageNormal.AutoSize = true;
-            ImportAverageNormal.Location = new Point(6, 22);
-            ImportAverageNormal.Name = "ImportAverageNormal";
-            ImportAverageNormal.Size = new Size(117, 19);
-            ImportAverageNormal.TabIndex = 0;
-            ImportAverageNormal.Text = "Average Normals";
-            ImportAverageNormal.UseVisualStyleBackColor = true;
+            ImportAverageNormalMPF.AutoSize = true;
+            ImportAverageNormalMPF.Location = new Point(6, 22);
+            ImportAverageNormalMPF.Name = "ImportAverageNormalMPF";
+            ImportAverageNormalMPF.Size = new Size(117, 19);
+            ImportAverageNormalMPF.TabIndex = 0;
+            ImportAverageNormalMPF.Text = "Average Normals";
+            ImportAverageNormalMPF.UseVisualStyleBackColor = true;
             // 
             // CharacterPartsMpf
             // 
@@ -1225,8 +1225,8 @@
             // groupBox12
             // 
             groupBox12.Controls.Add(MXFShadow);
-            groupBox12.Controls.Add(checkBox1);
-            groupBox12.Controls.Add(checkBox2);
+            groupBox12.Controls.Add(BoneUpdateCheckMXF);
+            groupBox12.Controls.Add(ImportAverageNormalMXF);
             groupBox12.Location = new Point(204, 288);
             groupBox12.Name = "groupBox12";
             groupBox12.Size = new Size(272, 78);
@@ -1234,25 +1234,35 @@
             groupBox12.TabStop = false;
             groupBox12.Text = "Import Settings";
             // 
-            // checkBox1
+            // MXFShadow
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(6, 47);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(131, 19);
-            checkBox1.TabIndex = 1;
-            checkBox1.Text = "Update Bones (WIP)";
-            checkBox1.UseVisualStyleBackColor = true;
+            MXFShadow.AutoSize = true;
+            MXFShadow.Location = new Point(149, 22);
+            MXFShadow.Name = "MXFShadow";
+            MXFShadow.Size = new Size(118, 19);
+            MXFShadow.TabIndex = 2;
+            MXFShadow.Text = "Shadow Generate";
+            MXFShadow.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // BoneUpdateCheckMXF
             // 
-            checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(6, 22);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(117, 19);
-            checkBox2.TabIndex = 0;
-            checkBox2.Text = "Average Normals";
-            checkBox2.UseVisualStyleBackColor = true;
+            BoneUpdateCheckMXF.AutoSize = true;
+            BoneUpdateCheckMXF.Location = new Point(6, 47);
+            BoneUpdateCheckMXF.Name = "BoneUpdateCheckMXF";
+            BoneUpdateCheckMXF.Size = new Size(131, 19);
+            BoneUpdateCheckMXF.TabIndex = 1;
+            BoneUpdateCheckMXF.Text = "Update Bones (WIP)";
+            BoneUpdateCheckMXF.UseVisualStyleBackColor = true;
+            // 
+            // ImportAverageNormalMXF
+            // 
+            ImportAverageNormalMXF.AutoSize = true;
+            ImportAverageNormalMXF.Location = new Point(6, 22);
+            ImportAverageNormalMXF.Name = "ImportAverageNormalMXF";
+            ImportAverageNormalMXF.Size = new Size(117, 19);
+            ImportAverageNormalMXF.TabIndex = 0;
+            ImportAverageNormalMXF.Text = "Average Normals";
+            ImportAverageNormalMXF.UseVisualStyleBackColor = true;
             // 
             // CharacterPartsMXF
             // 
@@ -1677,16 +1687,6 @@
             ELFLdrSetup.UseVisualStyleBackColor = true;
             ELFLdrSetup.Click += ELFLdrSetup_Click;
             // 
-            // MXFShadow
-            // 
-            MXFShadow.AutoSize = true;
-            MXFShadow.Location = new Point(149, 22);
-            MXFShadow.Name = "MXFShadow";
-            MXFShadow.Size = new Size(118, 19);
-            MXFShadow.TabIndex = 2;
-            MXFShadow.Text = "Shadow Generate";
-            MXFShadow.UseVisualStyleBackColor = true;
-            // 
             // TrickyToolsWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1765,8 +1765,8 @@
         private Label label3;
         private ListBox CharacterPartsMpf;
         private GroupBox groupBox1;
-        private CheckBox BoneUpdateCheck;
-        private CheckBox ImportAverageNormal;
+        private CheckBox BoneUpdateCheckMPF;
+        private CheckBox ImportAverageNormalMPF;
         private Label ShapeKeyCountPS2;
         private Label label11;
         private Label FileIDPS2;
@@ -1880,8 +1880,8 @@
         private Label label65;
         private Label IKPointsXbox;
         private GroupBox groupBox12;
-        private CheckBox checkBox1;
-        private CheckBox checkBox2;
+        private CheckBox BoneUpdateCheckMXF;
+        private CheckBox ImportAverageNormalMXF;
         private ListBox CharacterPartsMXF;
         private ListBox MXFList;
         private Button MXFImport;
