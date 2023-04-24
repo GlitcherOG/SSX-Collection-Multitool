@@ -1482,7 +1482,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 //indiceFaces = TristripGenerator.NeighbourPriority(indiceFaces);
 
                 //Send to Tristrip Generator
-                List<TristripGenerator.IndiceTristrip> indiceTristrips = TristripGenerator.GenerateTristripNivda(indiceFaces);
+                List<TristripGenerator.IndiceTristrip> indiceTristrips = TristripGenerator.GenerateTristripNivda(indiceFaces, 10000 ,true);
 
                 if (indiceTristrips == null)
                 {

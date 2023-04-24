@@ -655,7 +655,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
         //Making a note for future me Max Tristrip of 25 works best for many reasons you probably dont remember mainly todo with weights. SO DONT TOUCH IT
         //Validating strips will cause it to return a null list 9/10 times since the tristrips we are asking to generate are so complex
-        public static List<IndiceTristrip> GenerateTristripNivda(List<IndiceFace> indiceFaces, int TristripMax = 25)
+        public static List<IndiceTristrip> GenerateTristripNivda(List<IndiceFace> indiceFaces, int TristripMax = 25, bool StichStrips = false)
         {
             List<IndiceTristrip> tristripList = new List<IndiceTristrip>();
 
@@ -668,7 +668,7 @@ namespace SSXMultiTool.FileHandlers.Models
                 Index[i * 3 + 2] = (ushort)indiceFaces[i].Id3;
             }
 
-            var TempPrimativeGroup = ToTriangleStrips(Index, false, TristripMax);
+            var TempPrimativeGroup = ToTriangleStrips(Index, false, TristripMax, StichStrips);
 
             if(TempPrimativeGroup==null)
             {
@@ -690,7 +690,7 @@ namespace SSXMultiTool.FileHandlers.Models
             return tristripList;
         }
 
-        public static TriStrip.PrimitiveGroup[] ToTriangleStrips(ushort[] indexBuffer, bool validateStrips, int MaxTristrips)
+        public static TriStrip.PrimitiveGroup[] ToTriangleStrips(ushort[] indexBuffer, bool validateStrips, int MaxTristrips, bool StichStrip)
         {
             var triStrip = new TriStrip(); // create new class instance
 
@@ -698,7 +698,7 @@ namespace SSXMultiTool.FileHandlers.Models
             triStrip.SetCacheSize(MaxTristrips); // GeForce1/2 vertex cache size is 16
             triStrip.SetListsOnly(false); // we want separate strips, not optimized list
             triStrip.SetMinStripSize(0); // minimum triangle count in a strip is 0
-            triStrip.SetStitchStrips(false); // don't stitch strips into one huge strip
+            triStrip.SetStitchStrips(StichStrip); // don't stitch strips into one huge strip
 
             if (triStrip.GenerateStrips(indexBuffer, out var result, validateStrips))
             {
