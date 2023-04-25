@@ -1265,5 +1265,21 @@ namespace SSXMultiTool
                 }
             }
         }
+
+        TrickyGCMNF trickyGCMNF = new TrickyGCMNF();
+        private void MNFLoad_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "MXF Model File (*.mxf)|*.mxf|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                trickyGCMNF = new TrickyGCMNF();
+                trickyGCMNF.Load(openFileDialog.FileName);
+            }
+        }
     }
 }

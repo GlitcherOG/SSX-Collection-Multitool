@@ -344,6 +344,7 @@ namespace SSXMultiTool
                 TempModel.PrefabName = mapHandler.Models[i].Name;
                 TempModel.Unknown3 = pbdHandler.PrefabData[i].Unknown3;
                 TempModel.AnimTime = pbdHandler.PrefabData[i].AnimTime;
+                TempModel.Scale = JsonUtil.Vector3ToArray(pbdHandler.PrefabData[i].Scale);
                 TempModel.PrefabObjects = new();
 
                 for (int a = 0; a < pbdHandler.PrefabData[i].PrefabObjects.Count; a++)
@@ -1087,12 +1088,49 @@ namespace SSXMultiTool
             }
 
             //Rebuild Material Blocks
+            prefabJsonHandler = new PrefabJsonHandler();
+            prefabJsonHandler = PrefabJsonHandler.Load(LoadPath + "/Material.json");
 
+            pbdHandler.materialBlocks = new List<MaterialBlock>();
+            for (int i = 0; i < prefabJsonHandler.PrefabJsons.Count; i++)
+            {
+                var TempPrefab = prefabJsonHandler.PrefabJsons[i];
+                var NewMaterialBlock = new MaterialBlock();
+
+                NewMaterialBlock.ints = new List<int>();
+
+                for (int a = 0; a < prefabJsonHandler.PrefabJsons[i].PrefabObjects.Count; a++)
+                {
+                    var TempObject = TempPrefab.PrefabObjects[a];
+                    for (int b = 0; b < prefabJsonHandler.PrefabJsons[i].PrefabObjects[a].MeshData.Count; b++)
+                    {
+                        var TempMesh = TempObject.MeshData[b];
+                        NewMaterialBlock.ints.Add(prefabJsonHandler.PrefabJsons[i].PrefabObjects[a].MeshData[b].MaterialID);
+
+                        TempMesh.MaterialID = NewMaterialBlock.ints.Count - 1;
+
+                        TempObject.MeshData[b] = TempMesh;
+                    }
+                    TempPrefab.PrefabObjects[a] = TempObject;
+                }
+                prefabJsonHandler.PrefabJsons[i] = TempPrefab;
+                pbdHandler.materialBlocks.Add(NewMaterialBlock);
+            }
 
 
 
             //Rebuild Prefabs
+            pbdHandler.PrefabData = new List<Prefabs>();
+            for (int i = 0; i < prefabJsonHandler.PrefabJsons.Count; i++)
+            {
+                var NewPrefab = new Prefabs();
 
+                NewPrefab.MaterialBlockID = i;
+
+                NewPrefab.Unknown3 = prefabJsonHandler.PrefabJsons[i].Unknown3;
+                NewPrefab.AnimTime = prefabJsonHandler.PrefabJsons[i].AnimTime;
+                NewPrefab.Scale = JsonUtil.ArrayToVector3(prefabJsonHandler.PrefabJsons[i].Scale);
+            }
 
 
 

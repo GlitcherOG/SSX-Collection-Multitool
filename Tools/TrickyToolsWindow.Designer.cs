@@ -1709,6 +1709,7 @@
             MNFLoad.TabIndex = 1;
             MNFLoad.Text = "Load MNF";
             MNFLoad.UseVisualStyleBackColor = true;
+            MNFLoad.Click += MNFLoad_Click;
             // 
             // TrickyToolsWindow
             // 

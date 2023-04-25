@@ -16,7 +16,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public int OffsetModelHeader;
         public int OffsetModelData;
         public List<ModelHeader> modelHeaders = new List<ModelHeader>();
-        void Load(string Path)
+        public void Load(string Path)
         {
             using (Stream stream = File.Open(Path, FileMode.Open))
             {
@@ -342,6 +342,41 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public int FileID;
 
             public string BoneName;
+        }
+
+        public struct MeshHeader
+        {
+            public int NumWeightIndices;
+            public int NumIndexGroups;
+            public int OffsetSkinIndexList;
+            public int OffsetIndexGroupList;
+            public int unk0;
+            public int unk1;
+            public int unk2;
+
+            public List<int> SkinIndex;
+            public List<IndexGroupHeader> indexGroupHeaders;
+        }
+
+        public struct IndexGroupHeader
+        {
+            public int Offset;
+            public int ByteLength;
+            public int MatIndex0;
+            public int MatIndex1;
+            public int MatIndex2;
+            public int MatIndex3;
+            public int MatIndex4;
+
+            public List<IndexGroup> indexGroups;
+        }
+
+        public struct IndexGroup
+        {
+            public int OffsetStrip;
+            public int IndexUnk0;
+            public int NumIndex;
+            public int IndexUnk1;
         }
     }
 }
