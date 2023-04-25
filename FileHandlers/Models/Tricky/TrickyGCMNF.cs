@@ -31,11 +31,202 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     var NewModelHeader = new ModelHeader();
 
                     NewModelHeader.ModelName = StreamUtil.ReadString(stream, 16);
+                    NewModelHeader.ModelOffset = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.ModelSize = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.Unused0 = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.Unused1 = StreamUtil.ReadUInt32(stream, true);
 
+                    NewModelHeader.OffsetMateralList = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetBoneData = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetIKPointList = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetMorphList = StreamUtil.ReadUInt32(stream, true);
 
+                    NewModelHeader.OffsetSkinningSection = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetTristripSection = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.Unused2 = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetVertexSection = StreamUtil.ReadUInt32(stream, true);
 
+                    stream.Position += 290;
+
+                    NewModelHeader.NumBones = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumMorphs = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumMaterials = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumIKPoints = StreamUtil.ReadUInt16(stream, true);
+
+                    NewModelHeader.NumSkinningHeaders = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumMeshPerSkin = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.Unknown3 = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumVertices = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.FileID = StreamUtil.ReadUInt16(stream, true);
 
                     modelHeaders.Add(NewModelHeader);
+                }
+
+                //Read Data Into Matrix
+                int StartPos = OffsetModelData;
+                for (int i = 0; i < modelHeaders.Count; i++)
+                {
+                    stream.Position = StartPos + modelHeaders[i].ModelOffset;
+                    ModelHeader modelHandler = modelHeaders[i];
+                    modelHandler.Matrix = StreamUtil.ReadBytes(stream, modelHeaders[i].ModelSize);
+                    modelHeaders[i] = modelHandler;
+                }
+
+                //Read Matrix
+                for (int i = 0; i < modelHeaders.Count; i++)
+                {
+                    Stream streamMatrix = new MemoryStream();
+                    var Model = modelHeaders[i];
+                    streamMatrix.Write(modelHeaders[i].Matrix, 0, modelHeaders[i].Matrix.Length);
+                    streamMatrix.Position = 0;
+
+                    Model.materialDatas = new List<MaterialData>();
+                    for (int a = 0; a < Model.NumMaterials; a++)
+                    {
+                        var TempMat = new MaterialData();
+                        TempMat.MainTexture = StreamUtil.ReadString(streamMatrix, 4);
+                        if (streamMatrix.ReadByte() != 0x00)
+                        {
+                            streamMatrix.Position -= 1;
+                            TempMat.Texture1 = StreamUtil.ReadString(streamMatrix, 4);
+                        }
+                        else
+                        {
+                            streamMatrix.Position += 3;
+                            TempMat.Texture1 = "";
+                        }
+
+                        if (streamMatrix.ReadByte() != 0x00)
+                        {
+                            streamMatrix.Position -= 1;
+                            TempMat.Texture2 = StreamUtil.ReadString(streamMatrix, 4);
+                        }
+                        else
+                        {
+                            streamMatrix.Position += 3;
+                            TempMat.Texture2 = "";
+                        }
+
+                        if (streamMatrix.ReadByte() != 0x00)
+                        {
+                            streamMatrix.Position -= 1;
+                            TempMat.Texture3 = StreamUtil.ReadString(streamMatrix, 4);
+                        }
+                        else
+                        {
+                            streamMatrix.Position += 3;
+                            TempMat.Texture3 = "";
+                        }
+
+                        if (streamMatrix.ReadByte() != 0x00)
+                        {
+                            streamMatrix.Position -= 1;
+                            TempMat.Texture4 = StreamUtil.ReadString(streamMatrix, 4);
+                        }
+                        else
+                        {
+                            streamMatrix.Position += 3;
+                            TempMat.Texture4 = "";
+                        }
+
+                        TempMat.FactorFloat = StreamUtil.ReadFloat(streamMatrix);
+                        TempMat.Unused1Float = StreamUtil.ReadFloat(streamMatrix);
+                        TempMat.Unused2Float = StreamUtil.ReadFloat(streamMatrix);
+                        Model.materialDatas.Add(TempMat);
+                    }
+
+                    streamMatrix.Position = Model.OffsetBoneData;
+                    Model.boneDatas = new List<BoneData>();
+                    for (int a = 0; a < Model.NumBones; a++)
+                    {
+                        var TempBoneData = new BoneData();
+                        TempBoneData.BoneName = StreamUtil.ReadString(streamMatrix, 16);
+                        TempBoneData.ParentFileID = StreamUtil.ReadInt16(streamMatrix,true);
+                        TempBoneData.ParentBone = StreamUtil.ReadInt16(streamMatrix, true);
+                        TempBoneData.Unknown2 = StreamUtil.ReadInt16(streamMatrix, true);
+                        TempBoneData.BoneID = StreamUtil.ReadInt16(streamMatrix, true);
+                        TempBoneData.Position = StreamUtil.ReadVector3(streamMatrix, true);
+                        TempBoneData.Radians = StreamUtil.ReadVector3(streamMatrix, true);
+                        TempBoneData.XRadian2 = StreamUtil.ReadFloat(streamMatrix, true);
+                        TempBoneData.YRadian2 = StreamUtil.ReadFloat(streamMatrix, true);
+                        TempBoneData.ZRadian2 = StreamUtil.ReadFloat(streamMatrix, true);
+
+                        TempBoneData.UnknownFloat1 = StreamUtil.ReadFloat(streamMatrix, true);
+                        TempBoneData.UnknownFloat2 = StreamUtil.ReadFloat(streamMatrix, true);
+                        TempBoneData.UnknownFloat3 = StreamUtil.ReadFloat(streamMatrix, true);
+                        TempBoneData.UnknownFloat4 = StreamUtil.ReadFloat(streamMatrix, true);
+                        TempBoneData.UnknownFloat5 = StreamUtil.ReadFloat(streamMatrix, true);
+                        TempBoneData.UnknownFloat6 = StreamUtil.ReadFloat(streamMatrix, true);
+
+                        TempBoneData.FileID = Model.FileID;
+                        TempBoneData.BonePos = a;
+
+                        Model.boneDatas.Add(TempBoneData);
+                    }
+
+                    streamMatrix.Position = Model.OffsetIKPointList;
+                    Model.iKPoints = new List<Vector3>();
+                    for (int a = 0; a < Model.NumIKPoints; a++)
+                    {
+                        var TempIKPoint = new Vector3();
+                        TempIKPoint = StreamUtil.ReadVector3(streamMatrix, true);
+                        streamMatrix.Position += 4;
+                        Model.iKPoints.Add(TempIKPoint);
+                    }
+
+                    streamMatrix.Position = Model.OffsetMorphList;
+                    Model.morphHeader = new List<MorphHeader>();
+                    for (int a = 0; a < Model.NumMorphs; a++)
+                    {
+                        var TempMorph = new MorphHeader();
+
+                        TempMorph.NumMorphData = StreamUtil.ReadUInt32(streamMatrix, true);
+                        TempMorph.OffsetMorphDataList = StreamUtil.ReadUInt32(streamMatrix, true);
+
+                        TempMorph.MorphDataList = new List<MorphData>();
+                        int TempPos = (int)streamMatrix.Position;
+                        streamMatrix.Position = TempMorph.OffsetMorphDataList;
+                        for (int b = 0; b < TempMorph.NumMorphData; b++)
+                        {
+                            var TempMorphData = new MorphData();
+
+                            TempMorphData.Morph = StreamUtil.ReadVector3(streamMatrix, true);
+                            TempMorphData.VertexIndex = StreamUtil.ReadUInt16(streamMatrix, true);
+                            TempMorphData.U1 = StreamUtil.ReadUInt8(streamMatrix);
+                            TempMorphData.U2 = StreamUtil.ReadUInt8(streamMatrix);
+                            TempMorph.MorphDataList.Add(TempMorphData);
+                        }
+                        streamMatrix.Position = TempPos;
+                        Model.morphHeader.Add(TempMorph);
+
+                    }
+
+                    streamMatrix.Position = Model.OffsetSkinningSection;
+                    Model.boneWeightHeaders = new List<BoneWeightHeader>();
+                    for (int b = 0; b < Model.NumSkinningHeaders; b++)
+                    {
+                        var BoneWeight = new BoneWeightHeader();
+
+                        BoneWeight.WeightCount = StreamUtil.ReadUInt32(streamMatrix, true);
+                        BoneWeight.WeightListOffset = StreamUtil.ReadUInt32(streamMatrix, true);
+                        BoneWeight.Unknown1 = StreamUtil.ReadUInt16(streamMatrix, true);
+                        BoneWeight.Unknown2 = StreamUtil.ReadUInt16(streamMatrix, true);
+                        BoneWeight.boneWeights = new List<BoneWeight>();
+                        int TempPos = (int)streamMatrix.Position;
+                        streamMatrix.Position = BoneWeight.WeightListOffset;
+                        for (int a = 0; a < BoneWeight.WeightCount; a++)
+                        {
+                            var boneWeight = new BoneWeight();
+                            boneWeight.Weight = StreamUtil.ReadInt16(streamMatrix, true);
+                            boneWeight.BoneID = StreamUtil.ReadUInt8(streamMatrix);
+                            boneWeight.FileID = StreamUtil.ReadUInt8(streamMatrix);
+                            BoneWeight.boneWeights.Add(boneWeight);
+                        }
+                        streamMatrix.Position = TempPos;
+                        Model.boneWeightHeaders.Add(BoneWeight);
+                    }
+
+                    modelHeaders[i] = Model;
                 }
             }
         }

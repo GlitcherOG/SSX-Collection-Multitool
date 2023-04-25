@@ -8,7 +8,7 @@ using BCnEncoder.Encoder;
 
 namespace SSXMultiTool.FileHandlers
 {
-    internal class OldXSFHandler
+    internal class OldXSHHandler
     {
 
         void Test()
@@ -17,7 +17,7 @@ namespace SSXMultiTool.FileHandlers
             //bcDecoder.DecodeRaw();
 
             BcEncoder bcEncoder = new BcEncoder();
-            //bcEncoder.EncodeToDds()
+            //bcEncoder.EncodeToDds(PixelFormat.)
 
         }
 
