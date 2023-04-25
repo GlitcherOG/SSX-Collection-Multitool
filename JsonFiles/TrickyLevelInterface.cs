@@ -1124,12 +1124,90 @@ namespace SSXMultiTool
             for (int i = 0; i < prefabJsonHandler.PrefabJsons.Count; i++)
             {
                 var NewPrefab = new Prefabs();
-
+                var TempPrefab = prefabJsonHandler.PrefabJsons[i];
                 NewPrefab.MaterialBlockID = i;
 
                 NewPrefab.Unknown3 = prefabJsonHandler.PrefabJsons[i].Unknown3;
                 NewPrefab.AnimTime = prefabJsonHandler.PrefabJsons[i].AnimTime;
                 NewPrefab.Scale = JsonUtil.ArrayToVector3(prefabJsonHandler.PrefabJsons[i].Scale);
+
+                //MeshCount
+                //VertexCount
+                //TristirpCount
+                //Unknown4
+                //NonTriCunt
+
+                NewPrefab.PrefabObjects = new List<ObjectHeader>();
+                for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
+                {
+                    var TempObject = TempPrefab.PrefabObjects[a];
+                    var NewObject = new ObjectHeader();
+                    NewObject.ParentID = TempObject.ParentID;
+
+                    Matrix4x4 scale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(TempObject.Scale));
+                    Matrix4x4 Rotation = Matrix4x4.CreateFromQuaternion(JsonUtil.ArrayToQuaternion(TempObject.Rotation));
+                    Matrix4x4 matrix4X4 = Matrix4x4.Multiply(scale, Rotation);
+
+                    matrix4X4.Translation = JsonUtil.ArrayToVector3(TempObject.Position);
+                    NewObject.matrix4X4 = matrix4X4;
+
+                    ObjectData NewObjectData = new ObjectData();
+
+                    NewObjectData.Flags = TempObject.Flags;
+                    //MeshCount
+                    //FaceCount
+
+                    NewObjectData.MeshOffsets = new List<MeshOffsets>();
+
+                    for (int b = 0; b < TempObject.MeshData.Count; b++)
+                    {
+                        var NewMeshOffset = new MeshOffsets();
+                        NewMeshOffset.MeshID = TempObject.MeshData[b].MeshID;
+                        NewMeshOffset.MaterialBlockPos = TempObject.MeshData[b].MaterialID;
+                        NewMeshOffset.MeshPath = TempObject.MeshData[b].MeshPath;
+
+                        NewObjectData.MeshOffsets.Add(NewMeshOffset);
+                    }
+
+                    NewObject.objectAnimation = new ObjectAnimation();
+                    NewObject.objectAnimation.U1 = TempObject.Animation.U1;
+                    NewObject.objectAnimation.U2 = TempObject.Animation.U2;
+                    NewObject.objectAnimation.U3 = TempObject.Animation.U3;
+                    NewObject.objectAnimation.U4 = TempObject.Animation.U4;
+                    NewObject.objectAnimation.U5 = TempObject.Animation.U5;
+                    NewObject.objectAnimation.U6 = TempObject.Animation.U6;
+
+                    NewObject.objectAnimation.AnimationAction = TempObject.Animation.AnimationAction;
+                    NewObject.objectAnimation.animationEntries = new List<AnimationEntry>();
+                    for (int b = 0; b < TempObject.Animation.AnimationEntries.Count; b++)
+                    {
+                        var TempAnimationEntry = TempObject.Animation.AnimationEntries[b];
+                        var NewAnimationEntry = new AnimationEntry();
+                        NewAnimationEntry.animationMaths = new List<AnimationMath>();
+                        for (int c = 0; c < TempAnimationEntry.AnimationMaths.Count; c++)
+                        {
+                            var TempAnimationMaths = TempAnimationEntry.AnimationMaths[c];
+                            var NewAnimationMath = new AnimationMath();
+
+                            NewAnimationMath.Value1 = TempAnimationMaths.Value1;
+                            NewAnimationMath.Value2 = TempAnimationMaths.Value2;
+                            NewAnimationMath.Value3 = TempAnimationMaths.Value3;
+                            NewAnimationMath.Value4 = TempAnimationMaths.Value4;
+                            NewAnimationMath.Value5 = TempAnimationMaths.Value5;
+                            NewAnimationMath.Value6 = TempAnimationMaths.Value6;
+
+
+                            NewAnimationEntry.animationMaths.Add(NewAnimationMath);
+                        }
+
+                        NewObject.objectAnimation.animationEntries.Add(NewAnimationEntry);
+                    }
+
+
+                    NewObject.objectData = NewObjectData;
+
+                    NewPrefab.PrefabObjects.Add(NewObject);
+                }
             }
 
 
