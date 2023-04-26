@@ -536,11 +536,59 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     Cameras.Add(TempCamera);
                 }
-
+                
+                //Hash Data
                 stream.Position = HashOffset;
                 hashData = new HashData();
                 hashData.TotalLength = StreamUtil.ReadUInt32(stream);
                 hashData.bytes = StreamUtil.ReadBytes(stream, hashData.TotalLength - 4);
+
+                stream.Position = HashOffset;
+
+
+                hashData.CountU1 = StreamUtil.ReadUInt32(stream);
+                hashData.OffsetU1 = StreamUtil.ReadUInt32(stream);
+                hashData.CountInstances = StreamUtil.ReadUInt32(stream);
+                hashData.OffsetInstances = StreamUtil.ReadUInt32(stream);
+                hashData.CountU2 = StreamUtil.ReadUInt32(stream);
+                hashData.OffsetU2 = StreamUtil.ReadUInt32(stream);
+                hashData.CountLights = StreamUtil.ReadUInt32(stream);
+                hashData.OffsetLights = StreamUtil.ReadUInt32(stream);
+                hashData.CountU4 = StreamUtil.ReadUInt32(stream);
+                hashData.OffsetU4 = StreamUtil.ReadUInt32(stream);
+                hashData.CountCamera = StreamUtil.ReadUInt32(stream);
+                hashData.OffsetCamera = StreamUtil.ReadUInt32(stream);
+
+                hashData.InstanceHash = new List<HashDataUnknown>();
+                hashData.LightsHash = new List<HashDataUnknown>();
+                hashData.CameraHash = new List<HashDataUnknown>();
+
+                stream.Position = hashData.OffsetInstances + HashOffset;
+                for (int i = 0; i < hashData.CountInstances; i++)
+                {
+                    HashDataUnknown NewHash = new HashDataUnknown();
+                    NewHash.U0 = StreamUtil.ReadUInt32(stream);
+                    NewHash.U1 = StreamUtil.ReadUInt32(stream);
+                    hashData.InstanceHash.Add(NewHash);
+                }
+
+                stream.Position = hashData.OffsetLights + HashOffset;
+                for (int i = 0; i < hashData.CountLights; i++)
+                {
+                    HashDataUnknown NewHash = new HashDataUnknown();
+                    NewHash.U0 = StreamUtil.ReadUInt32(stream);
+                    NewHash.U1 = StreamUtil.ReadUInt32(stream);
+                    hashData.LightsHash.Add(NewHash);
+                }
+
+                stream.Position = hashData.OffsetCamera + HashOffset;
+                for (int i = 0; i < hashData.CountCamera; i++)
+                {
+                    HashDataUnknown NewHash = new HashDataUnknown();
+                    NewHash.U0 = StreamUtil.ReadUInt32(stream);
+                    NewHash.U1 = StreamUtil.ReadUInt32(stream);
+                    hashData.CameraHash.Add(NewHash);
+                }
 
                 //New Model Reading Method
                 //Make a way to combine models
