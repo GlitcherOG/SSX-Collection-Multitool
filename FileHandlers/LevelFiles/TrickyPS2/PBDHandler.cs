@@ -543,8 +543,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 hashData.TotalLength = StreamUtil.ReadUInt32(stream);
                 hashData.bytes = StreamUtil.ReadBytes(stream, hashData.TotalLength - 4);
 
-                stream.Position = HashOffset;
-
+                stream.Position = HashOffset + 4;
 
                 hashData.CountU1 = StreamUtil.ReadUInt32(stream);
                 hashData.OffsetU1 = StreamUtil.ReadUInt32(stream);
@@ -567,8 +566,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 for (int i = 0; i < hashData.CountInstances; i++)
                 {
                     HashDataUnknown NewHash = new HashDataUnknown();
-                    NewHash.U0 = StreamUtil.ReadUInt32(stream);
-                    NewHash.U1 = StreamUtil.ReadUInt32(stream);
+                    NewHash.Hash = StreamUtil.ReadUInt32(stream);
+                    NewHash.ObjectUID = StreamUtil.ReadUInt32(stream);
                     hashData.InstanceHash.Add(NewHash);
                 }
 
@@ -576,8 +575,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 for (int i = 0; i < hashData.CountLights; i++)
                 {
                     HashDataUnknown NewHash = new HashDataUnknown();
-                    NewHash.U0 = StreamUtil.ReadUInt32(stream);
-                    NewHash.U1 = StreamUtil.ReadUInt32(stream);
+                    NewHash.Hash = StreamUtil.ReadUInt32(stream);
+                    NewHash.ObjectUID = StreamUtil.ReadUInt32(stream);
                     hashData.LightsHash.Add(NewHash);
                 }
 
@@ -585,8 +584,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 for (int i = 0; i < hashData.CountCamera; i++)
                 {
                     HashDataUnknown NewHash = new HashDataUnknown();
-                    NewHash.U0 = StreamUtil.ReadUInt32(stream);
-                    NewHash.U1 = StreamUtil.ReadUInt32(stream);
+                    NewHash.Hash = StreamUtil.ReadUInt32(stream);
+                    NewHash.ObjectUID = StreamUtil.ReadUInt32(stream);
                     hashData.CameraHash.Add(NewHash);
                 }
 
@@ -2273,7 +2272,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
     public struct HashDataUnknown
     {
-        public int U0;
-        public int U1;
+        public int Hash;
+        public int ObjectUID;
     }
 }
