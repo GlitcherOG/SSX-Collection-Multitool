@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Numerics;
 using SSXMultiTool.Utilities;
 using System.Globalization;
+using System.Reflection;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
@@ -16,14 +17,17 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int NumPlayerStarts;
         public int NumPatches;
         public int NumInstances;
+
         public int NumParticleInstances;
         public int NumMaterials;
         public int NumMaterialBlocks;
         public int NumLights;
+
         public int NumSplines;
         public int NumSplineSegments;
         public int NumTextureFlipbooks;
         public int NumModels;
+
         public int NumParticleModel;
         public int NumTextures;
         public int NumCameras;
@@ -33,18 +37,22 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int PatchOffset;
         public int InstanceOffset;
         public int ParticleInstancesOffset;
+
         public int MaterialOffset;
         public int MaterialBlocksOffset;
         public int LightsOffset;
         public int SplineOffset;
+
         public int SplineSegmentOffset;
         public int TextureFlipbookOffset;
         public int ModelPointerOffset;
         public int ModelsOffset;
+
         public int ParticleModelPointerOffset;
         public int ParticleModelsOffset;
         public int CameraPointerOffset;
         public int CamerasOffset;
+
         public int HashOffset;
         public int MeshDataOffset;
 
@@ -60,7 +68,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<int> PrefabPointers;
         public List<Prefabs> PrefabData;
         public List<int> ParticleModelPointers;
-        public List<ParticleModel> particleModels;
+        public List<ParticlePrefab> particleModels;
         public List<int> CameraPointers;
         public List<Camera> Cameras = new List<Camera>();
         public HashData hashData = new HashData();
@@ -499,11 +507,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
 
                 //Particle Models
-                particleModels = new List<ParticleModel>();
+                particleModels = new List<ParticlePrefab>();
                 for (int i = 0; i < NumParticleModel; i++)
                 {
                     stream.Position = ParticleModelsOffset + ParticleModelPointers[i];
-                    ParticleModel TempParticleModel = new ParticleModel();
+                    ParticlePrefab TempParticleModel = new ParticlePrefab();
                     TempParticleModel.TotalLength = StreamUtil.ReadUInt32(stream);
                     TempParticleModel.bytes = StreamUtil.ReadBytes(stream, TempParticleModel.TotalLength - 4);
                     particleModels.Add(TempParticleModel);
@@ -1816,6 +1824,201 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
     }
 
+
+    public struct Patch
+    {
+        public Vector4 LightMapPoint;
+
+        public Vector4 UVPoint1;
+        public Vector4 UVPoint2;
+        public Vector4 UVPoint3;
+        public Vector4 UVPoint4;
+
+        //public List<Vector4> Points;
+
+        public Vector4 R4C4;
+        public Vector4 R4C3;
+        public Vector4 R4C2;
+        public Vector4 R4C1;
+        public Vector4 R3C4;
+        public Vector4 R3C3;
+        public Vector4 R3C2;
+        public Vector4 R3C1;
+        public Vector4 R2C4;
+        public Vector4 R2C3;
+        public Vector4 R2C2;
+        public Vector4 R2C1;
+        public Vector4 R1C4;
+        public Vector4 R1C3;
+        public Vector4 R1C2;
+        public Vector4 R1C1;
+
+        public Vector3 LowestXYZ;
+        public Vector3 HighestXYZ;
+
+        public Vector4 Point1;
+        public Vector4 Point2;
+        public Vector4 Point3;
+        public Vector4 Point4;
+
+        //0 - Reset
+        //1 - Standard Snow
+        //2 - Standard Off Track
+        //3 - Powered Snow
+        //4 - Slow Powered Snow
+        //5 - Ice Standard
+        //6 - Bounce/Unskiiable
+        //7 - Ice/Water No Trail
+        //8 - Glidy(Lots Of snow particels)
+        //9 - Rock 
+        //10 - Wall
+        //11 - No Trail, Ice Crunch Sound Effect
+        //12 - No Sound, No Trail, Small particle Wake
+        //13 - Off Track Metal (Slidly Slow, Metal Grinding sounds, Sparks)
+        //14 - Speed, Grinding Sound
+        //15 - Standard?//
+        //16 - Standard Sand
+        //17 - No Collidion/Door
+        //18 - Show Off Ramp/Metal
+        public int PatchStyle; //Type
+
+        public int Unknown2;
+        public int PatchVisablity;
+        public int TextureAssigment; // Texture Assigment 
+        public int LightmapID;
+        public int Unknown4; //Negative one
+        public int Unknown5; //Same
+        public int Unknown6; //Same
+    }
+
+    public struct Instance
+    {
+        public Matrix4x4 matrix4X4;
+        public Vector4 Unknown5;
+        public Vector4 Unknown6;
+        public Vector4 Unknown7;
+        public Vector4 Unknown8;
+        public Vector4 Unknown9;
+        public Vector4 Unknown10;
+        public Vector4 Unknown11;
+        public Vector4 RGBA;
+        public int ModelID;
+        public int PrevInstance;
+        public int NextInstance;
+
+        public Vector3 LowestXYZ;
+        public Vector3 HighestXYZ;
+
+        public int UnknownInt26;
+        public int UnknownInt27;
+        public int UnknownInt28;
+        public int ModelID2;
+        public int UnknownInt30;
+        public int UnknownInt31;
+        public int UnknownInt32;
+
+        public int LTGState;
+    }
+
+    public struct ParticleInstance
+    {
+        public Matrix4x4 matrix4X4;
+        public int UnknownInt1;
+        public Vector3 LowestXYZ;
+        public Vector3 HighestXYZ;
+        public int UnknownInt8;
+        public int UnknownInt9;
+        public int UnknownInt10;
+        public int UnknownInt11;
+        public int UnknownInt12;
+    }
+
+    public struct TrickyMaterial
+    {
+        public int TextureID;
+        public int UnknownInt2;
+        public int UnknownInt3;
+
+        public float UnknownFloat1;
+        public float UnknownFloat2;
+        public float UnknownFloat3;
+        public float UnknownFloat4;
+
+        public int UnknownInt8;
+
+        public float UnknownFloat5;
+        public float UnknownFloat6;
+        public float UnknownFloat7;
+        public float UnknownFloat8;
+
+        public int UnknownInt13;
+        public int UnknownInt14;
+        public int UnknownInt15;
+        public int UnknownInt16;
+        public int UnknownInt17;
+        public int UnknownInt18;
+
+        public int TextureFlipbookID;
+        public int UnknownInt20;
+
+    }
+
+    public struct MaterialBlock
+    {
+        public int BlockCount;
+        public List<int> ints;
+    }
+
+    public struct Light
+    {
+        public int Type;
+        public int spriteRes;
+        public float UnknownFloat1;
+        public int UnknownInt1;
+        public Vector3 Colour;
+        public Vector3 Direction;
+        public Vector3 Postion;
+        public Vector3 LowestXYZ;
+        public Vector3 HighestXYZ;
+        public float UnknownFloat2;
+        public int UnknownInt2;
+        public float UnknownFloat3;
+        public int UnknownInt3;
+    }
+
+    public struct Spline
+    {
+        public Vector3 LowestXYZ;
+        public Vector3 HighestXYZ;
+        public int Unknown1;
+        public int SplineSegmentCount;
+        public int SplineSegmentPosition;
+        public int Unknown2;
+    }
+
+    public struct SplinesSegments
+    {
+        public Vector4 Point4;
+        public Vector4 Point3;
+        public Vector4 Point2;
+        public Vector4 ControlPoint;
+        public Vector4 ScalingPoint; //Not really sure about that
+        public int PreviousSegment;
+        public int NextSegment;
+        public int SplineParent;
+        public Vector3 LowestXYZ;
+        public Vector3 HighestXYZ;
+        public float SegmentDisatnce;
+        public float PreviousSegmentsDistance;
+        public int Unknown32;
+    }
+
+    public struct TextureFlipbook
+    {
+        public int ImageCount;
+        public List<int> ImagePositions;
+    }
+
     public struct Prefabs
     {
         public int TotalLength;
@@ -1921,139 +2124,42 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public float Value6;
     }
 
-    public struct ParticleModel
+    public struct ParticlePrefab
     {
         public int TotalLength;
         public byte[] bytes;
-    }
 
-    public struct TextureFlipbook
-    {
-        public int ImageCount;
-        public List<int> ImagePositions;
-    }
+        public int OffsetCount;
+        public int Offset;
 
-    public struct Spline
-    {
+        public int U1;
+        public int U2;
+        public int U3;
+        public int U4;
+        public int U5;
+        public int U6;
+        public int U7;
+        public int U8;
+        public int U9;
+
+        public int ByteSize;
         public Vector3 LowestXYZ;
         public Vector3 HighestXYZ;
-        public int Unknown1;
-        public int SplineSegmentCount;
-        public int SplineSegmentPosition;
-        public int Unknown2;
+        public int U10;
+
+        public int AnimationCount;
+        public int AnimationOffset;
+
+        public List<AnimationFrames> animationFrames;
     }
 
-    public struct SplinesSegments
+    public struct AnimationFrames
     {
-        public Vector4 Point4;
-        public Vector4 Point3;
-        public Vector4 Point2;
-        public Vector4 ControlPoint;
-        public Vector4 ScalingPoint; //Not really sure about that
-        public int PreviousSegment;
-        public int NextSegment;
-        public int SplineParent;
-        public Vector3 LowestXYZ;
-        public Vector3 HighestXYZ;
-        public float SegmentDisatnce;
-        public float PreviousSegmentsDistance;
-        public int Unknown32;
+        public Vector3 Position;
+        public Vector3 Rotation;
+        public float Unknown;
     }
 
-    public struct Instance
-    {
-        public Matrix4x4 matrix4X4;
-        public Vector4 Unknown5;
-        public Vector4 Unknown6;
-        public Vector4 Unknown7;
-        public Vector4 Unknown8;
-        public Vector4 Unknown9;
-        public Vector4 Unknown10;
-        public Vector4 Unknown11;
-        public Vector4 RGBA;
-        public int ModelID;
-        public int PrevInstance;
-        public int NextInstance;
-
-        public Vector3 LowestXYZ;
-        public Vector3 HighestXYZ;
-
-        public int UnknownInt26;
-        public int UnknownInt27;
-        public int UnknownInt28;
-        public int ModelID2;
-        public int UnknownInt30;
-        public int UnknownInt31;
-        public int UnknownInt32;
-
-        public int LTGState;
-    }
-
-    public struct ParticleInstance
-    {
-        public Matrix4x4 matrix4X4;
-        public int UnknownInt1;
-        public Vector3 LowestXYZ;
-        public Vector3 HighestXYZ;
-        public int UnknownInt8;
-        public int UnknownInt9;
-        public int UnknownInt10;
-        public int UnknownInt11;
-        public int UnknownInt12;
-    }
-
-    public struct TrickyMaterial
-    {
-        public int TextureID;
-        public int UnknownInt2;
-        public int UnknownInt3;
-
-        public float UnknownFloat1;
-        public float UnknownFloat2;
-        public float UnknownFloat3;
-        public float UnknownFloat4;
-
-        public int UnknownInt8;
-
-        public float UnknownFloat5;
-        public float UnknownFloat6;
-        public float UnknownFloat7;
-        public float UnknownFloat8;
-
-        public int UnknownInt13;
-        public int UnknownInt14;
-        public int UnknownInt15;
-        public int UnknownInt16;
-        public int UnknownInt17;
-        public int UnknownInt18;
-
-        public int TextureFlipbookID;
-        public int UnknownInt20; 
-
-    }
-
-    public struct Light
-    {
-        public int Type;
-        public int spriteRes;
-        public float UnknownFloat1;
-        public int UnknownInt1;
-        public Vector3 Colour;
-        public Vector3 Direction;
-        public Vector3 Postion;
-        public Vector3 LowestXYZ;
-        public Vector3 HighestXYZ;
-        public float UnknownFloat2;
-        public int UnknownInt2;
-        public float UnknownFloat3;
-        public int UnknownInt3;
-    }
-
-    public struct MaterialBlock
-    {
-        public int BlockCount;
-        public List<int> ints;
-    }
 
     public struct Camera
     {
@@ -2071,77 +2177,55 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public Vector3 IntrestPoint;
         public Vector3 UpVector;
 
+        public float Unknown0;
+        public int Unknown1;
+        public Vector3 Translation1;
+        public Vector3 Rotation1;
+        public int UnknownCount;
+        public int UnknownOffset;
+        public List<int> UnknownOffsetList;
+        public List<CameraAnimationHeader> cameraAnimationHeaders;
+    }
+
+    public struct CameraAnimationHeader
+    {
+        public int Count;
+        public int Action; //Probably Just an Offset?
+        public List<CameraAnimationData> animationDatas;
+    }
+
+    public struct CameraAnimationData
+    {
+        public Vector3 Translation;
+        public Vector3 Rotation;
     }
 
     public struct HashData
     {
         public int TotalLength;
         public byte[] bytes;
+
+        public int CountU1; //Probably Patches
+        public int OffsetU1;
+        public int CountInstances;
+        public int OffsetInstances;
+        public int CountU2; //Probably Particle Instance
+        public int OffsetU2;
+        public int CountLights;
+        public int OffsetLights;
+        public int CountU4; //Probably Splines
+        public int OffsetU4;
+        public int CountCamera;
+        public int OffsetCamera;
+
+        public List<HashDataUnknown> InstanceHash;
+        public List<HashDataUnknown> LightsHash;
+        public List<HashDataUnknown> CameraHash;
     }
 
-    public struct Patch
+    public struct HashDataUnknown
     {
-        public Vector4 LightMapPoint;
-
-        public Vector4 UVPoint1;
-        public Vector4 UVPoint2;
-        public Vector4 UVPoint3;
-        public Vector4 UVPoint4;
-
-        //public List<Vector4> Points;
-
-        public Vector4 R4C4;
-        public Vector4 R4C3;
-        public Vector4 R4C2;
-        public Vector4 R4C1;
-        public Vector4 R3C4;
-        public Vector4 R3C3;
-        public Vector4 R3C2;
-        public Vector4 R3C1;
-        public Vector4 R2C4;
-        public Vector4 R2C3;
-        public Vector4 R2C2;
-        public Vector4 R2C1;
-        public Vector4 R1C4;
-        public Vector4 R1C3;
-        public Vector4 R1C2;
-        public Vector4 R1C1;
-
-        public Vector3 LowestXYZ;
-        public Vector3 HighestXYZ;
-
-        public Vector4 Point1;
-        public Vector4 Point2;
-        public Vector4 Point3;
-        public Vector4 Point4;
-
-        //0 - Reset
-        //1 - Standard Snow
-        //2 - Standard Off Track
-        //3 - Powered Snow
-        //4 - Slow Powered Snow
-        //5 - Ice Standard
-        //6 - Bounce/Unskiiable
-        //7 - Ice/Water No Trail
-        //8 - Glidy(Lots Of snow particels)
-        //9 - Rock 
-        //10 - Wall
-        //11 - No Trail, Ice Crunch Sound Effect
-        //12 - No Sound, No Trail, Small particle Wake
-        //13 - Off Track Metal (Slidly Slow, Metal Grinding sounds, Sparks)
-        //14 - Speed, Grinding Sound
-        //15 - Standard?//
-        //16 - Standard Sand
-        //17 - No Collidion/Door
-        //18 - Show Off Ramp/Metal
-        public int PatchStyle; //Type
-
-        public int Unknown2;
-        public int PatchVisablity;
-        public int TextureAssigment; // Texture Assigment 
-        public int LightmapID;
-        public int Unknown4; //Negative one
-        public int Unknown5; //Same
-        public int Unknown6; //Same
+        public int U0;
+        public int U1;
     }
 }
