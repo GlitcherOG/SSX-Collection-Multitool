@@ -541,10 +541,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 stream.Position = HashOffset;
                 hashData = new HashData();
                 hashData.TotalLength = StreamUtil.ReadUInt32(stream);
-                hashData.bytes = StreamUtil.ReadBytes(stream, hashData.TotalLength - 4);
-
-                stream.Position = HashOffset + 4;
-
                 hashData.CountU1 = StreamUtil.ReadUInt32(stream);
                 hashData.OffsetU1 = StreamUtil.ReadUInt32(stream);
                 hashData.CountInstances = StreamUtil.ReadUInt32(stream);
@@ -1160,9 +1156,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
 
 
-
-
-
             int TempPosition = (int)stream.Position;
             stream.Position = ModelPointerOffset;
             for (int i = 0; i < PrefabPointers.Count; i++)
@@ -1184,7 +1177,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, 4 + particleModels[i].bytes.Length);
                 StreamUtil.WriteBytes(stream, particleModels[i].bytes);
             }
-
 
             //Write ParticlePointer
             TempPosition = (int)stream.Position;
@@ -1222,13 +1214,50 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             //Write Hash Data
             HashOffset = (int)stream.Position;
 
-            StreamUtil.WriteInt32(stream, hashData.bytes.Length + 4);
-            StreamUtil.WriteBytes(stream, hashData.bytes);
+            stream.Position += 4 + 6*2*4;
+
+            hashData.OffsetU1 = HashOffset - (int)stream.Position;
+            hashData.OffsetInstances = HashOffset - (int)stream.Position;
+            for (int i = 0; i < hashData.InstanceHash.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, hashData.InstanceHash[i].Hash);
+                StreamUtil.WriteInt32(stream, hashData.InstanceHash[i].ObjectUID);
+            }
+            hashData.OffsetInstances = HashOffset - (int)stream.Position;
+            for (int i = 0; i < hashData.LightsHash.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, hashData.LightsHash[i].Hash);
+                StreamUtil.WriteInt32(stream, hashData.LightsHash[i].ObjectUID);
+            }
+            hashData.OffsetU4 = HashOffset - (int)stream.Position;
+            hashData.OffsetCamera = HashOffset - (int)stream.Position;
+            for (int i = 0; i < hashData.CameraHash.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, hashData.CameraHash[i].Hash);
+                StreamUtil.WriteInt32(stream, hashData.CameraHash[i].ObjectUID);
+            }
+
             StreamUtil.AlignBy16(stream);
 
+            MeshDataOffset = (int)stream.Position;
+            int TempData = HashOffset - (int)stream.Position;
+            stream.Position = HashOffset;
+            StreamUtil.WriteInt32(stream, TempData);
+            StreamUtil.WriteInt32(stream, hashData.CountU1);
+            StreamUtil.WriteInt32(stream, hashData.OffsetU1);
+            StreamUtil.WriteInt32(stream, hashData.InstanceHash.Count);
+            StreamUtil.WriteInt32(stream, hashData.OffsetInstances);
+            StreamUtil.WriteInt32(stream, hashData.CountU2);
+            StreamUtil.WriteInt32(stream, hashData.OffsetU2);
+            StreamUtil.WriteInt32(stream, hashData.LightsHash.Count);
+            StreamUtil.WriteInt32(stream, hashData.OffsetLights);
+            StreamUtil.WriteInt32(stream, hashData.CountU4);
+            StreamUtil.WriteInt32(stream, hashData.OffsetU4);
+            StreamUtil.WriteInt32(stream, hashData.CameraHash.Count);
+            StreamUtil.WriteInt32(stream, hashData.OffsetCamera);
 
             //Write MeshData
-            MeshDataOffset = (int)stream.Position;
+            stream.Position = MeshDataOffset;
             StreamUtil.WriteBytes(stream, MeshData);
 
 
@@ -2250,7 +2279,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     public struct HashData
     {
         public int TotalLength;
-        public byte[] bytes;
 
         public int CountU1; //Probably Patches
         public int OffsetU1;
