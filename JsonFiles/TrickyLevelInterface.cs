@@ -45,6 +45,10 @@ namespace SSXMultiTool
 
         public void ExtractTrickyLevelFiles(string LoadPath, string ExportPath)
         {
+            ADLHandler adlHandler = new ADLHandler();
+            adlHandler.Load(LoadPath + ".adl");
+
+
             SSFHandler ssfHandler = new SSFHandler();
             ssfHandler.Load(LoadPath + ".ssf");
             //ssfHandler.SaveTest(LoadPath + ".ssf");
