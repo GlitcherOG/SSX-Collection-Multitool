@@ -1213,7 +1213,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             //Write Hash Data
             HashOffset = (int)stream.Position;
-
             stream.Position += 4 + 6*2*4;
 
             hashData.OffsetU1 = HashOffset - (int)stream.Position;
@@ -1223,7 +1222,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, hashData.InstanceHash[i].Hash);
                 StreamUtil.WriteInt32(stream, hashData.InstanceHash[i].ObjectUID);
             }
-            hashData.OffsetInstances = HashOffset - (int)stream.Position;
+            hashData.OffsetU2 = HashOffset - (int)stream.Position;
+            hashData.OffsetLights = HashOffset - (int)stream.Position;
             for (int i = 0; i < hashData.LightsHash.Count; i++)
             {
                 StreamUtil.WriteInt32(stream, hashData.LightsHash[i].Hash);

@@ -57,12 +57,50 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempTypeA.bboxMin = StreamUtil.ReadVector3(stream);
                     TempTypeA.bboxMax = StreamUtil.ReadVector3(stream);
 
+                    //Original Points
                     TempTypeA.vectorPoints = new List<Vector4>();
                     for (int a = 0; a < TempTypeA.pathPointsCount; a++)
                     {
                         Vector4 Direction = StreamUtil.ReadVector4(stream);
                         TempTypeA.vectorPoints.Add(Direction);
                     }
+
+                    ////Converted to proper Vectors
+                    //List<Vector3> Points = new List<Vector3>();
+                    //for (int a = 0; a < TempTypeA.vectorPoints.Count; a++)
+                    //{
+                    //    Points.Add(new Vector3(TempTypeA.vectorPoints[a].X * TempTypeA.vectorPoints[a].W, TempTypeA.vectorPoints[a].Y * TempTypeA.vectorPoints[a].W, TempTypeA.vectorPoints[a].Z * TempTypeA.vectorPoints[a].W));
+                    //}
+
+                    ////Generate other two values based on which value is higher
+                    //List<Vector4> NewVectorPoints = new List<Vector4>();
+                    //for (int a = 0; a < Points.Count; a++)
+                    //{
+                    //    if (TempTypeA.vectorPoints[a].X > TempTypeA.vectorPoints[a].Y && TempTypeA.vectorPoints[a].X > TempTypeA.vectorPoints[a].Z)
+                    //    {
+                    //        Vector4 NewVector = new Vector4(TempTypeA.vectorPoints[a].X, 0,0, TempTypeA.vectorPoints[a].W);
+                    //        NewVector.Y = (Points[a].Y / Points[a].X) * NewVector.X;
+                    //        NewVector.Z = (Points[a].Z / Points[a].X) * NewVector.X;
+                    //        NewVectorPoints.Add(NewVector);
+                    //    }
+
+                    //    if (TempTypeA.vectorPoints[a].Y > TempTypeA.vectorPoints[a].Z && TempTypeA.vectorPoints[a].Y > TempTypeA.vectorPoints[a].X)
+                    //    {
+                    //        Vector4 NewVector = new Vector4(0, TempTypeA.vectorPoints[a].Y, 0, TempTypeA.vectorPoints[a].W);
+                    //        NewVector.X = (Points[a].X / Points[a].Y) * NewVector.Y;
+                    //        NewVector.Z = (Points[a].Z / Points[a].Y) * NewVector.Y;
+                    //        NewVectorPoints.Add(NewVector);
+                    //    }
+
+                    //    if (TempTypeA.vectorPoints[a].Z > TempTypeA.vectorPoints[a].Y && TempTypeA.vectorPoints[a].Z > TempTypeA.vectorPoints[a].X)
+                    //    {
+                    //        Vector4 NewVector = new Vector4(0, 0, TempTypeA.vectorPoints[a].Z, TempTypeA.vectorPoints[a].W);
+                    //        NewVector.X = (Points[a].X / Points[a].Z) * NewVector.Z;
+                    //        NewVector.Y = (Points[a].Y / Points[a].Z) * NewVector.Z;
+                    //        NewVectorPoints.Add(NewVector);
+                    //    }
+                    //}
+
 
                     TempTypeA.unkownListTypeAs = new List<UnkownListTypeA>();
                     for (int a = 0; a < TempTypeA.UnknownCount; a++)

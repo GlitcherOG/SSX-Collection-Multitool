@@ -1089,7 +1089,7 @@ namespace SSXMultiTool
 
             //Rebuild Material Blocks
             prefabJsonHandler = new PrefabJsonHandler();
-            prefabJsonHandler = PrefabJsonHandler.Load(LoadPath + "/Material.json");
+            prefabJsonHandler = PrefabJsonHandler.Load(LoadPath + "/Prefabs.json");
 
             pbdHandler.materialBlocks = new List<MaterialBlock>();
             for (int i = 0; i < prefabJsonHandler.PrefabJsons.Count; i++)
@@ -1165,7 +1165,6 @@ namespace SSXMultiTool
                         NewMeshOffset.MeshID = TempObject.MeshData[b].MeshID;
                         NewMeshOffset.MaterialBlockPos = TempObject.MeshData[b].MaterialID;
                         NewMeshOffset.MeshPath = TempObject.MeshData[b].MeshPath;
-
                         NewObjectData.MeshOffsets.Add(NewMeshOffset);
                     }
 
@@ -1179,28 +1178,31 @@ namespace SSXMultiTool
 
                     NewObject.objectAnimation.AnimationAction = TempObject.Animation.AnimationAction;
                     NewObject.objectAnimation.animationEntries = new List<AnimationEntry>();
-                    for (int b = 0; b < TempObject.Animation.AnimationEntries.Count; b++)
+                    if (TempObject.Animation.AnimationEntries != null)
                     {
-                        var TempAnimationEntry = TempObject.Animation.AnimationEntries[b];
-                        var NewAnimationEntry = new AnimationEntry();
-                        NewAnimationEntry.animationMaths = new List<AnimationMath>();
-                        for (int c = 0; c < TempAnimationEntry.AnimationMaths.Count; c++)
+                        for (int b = 0; b < TempObject.Animation.AnimationEntries.Count; b++)
                         {
-                            var TempAnimationMaths = TempAnimationEntry.AnimationMaths[c];
-                            var NewAnimationMath = new AnimationMath();
+                            var TempAnimationEntry = TempObject.Animation.AnimationEntries[b];
+                            var NewAnimationEntry = new AnimationEntry();
+                            NewAnimationEntry.animationMaths = new List<AnimationMath>();
+                            for (int c = 0; c < TempAnimationEntry.AnimationMaths.Count; c++)
+                            {
+                                var TempAnimationMaths = TempAnimationEntry.AnimationMaths[c];
+                                var NewAnimationMath = new AnimationMath();
 
-                            NewAnimationMath.Value1 = TempAnimationMaths.Value1;
-                            NewAnimationMath.Value2 = TempAnimationMaths.Value2;
-                            NewAnimationMath.Value3 = TempAnimationMaths.Value3;
-                            NewAnimationMath.Value4 = TempAnimationMaths.Value4;
-                            NewAnimationMath.Value5 = TempAnimationMaths.Value5;
-                            NewAnimationMath.Value6 = TempAnimationMaths.Value6;
+                                NewAnimationMath.Value1 = TempAnimationMaths.Value1;
+                                NewAnimationMath.Value2 = TempAnimationMaths.Value2;
+                                NewAnimationMath.Value3 = TempAnimationMaths.Value3;
+                                NewAnimationMath.Value4 = TempAnimationMaths.Value4;
+                                NewAnimationMath.Value5 = TempAnimationMaths.Value5;
+                                NewAnimationMath.Value6 = TempAnimationMaths.Value6;
 
 
-                            NewAnimationEntry.animationMaths.Add(NewAnimationMath);
+                                NewAnimationEntry.animationMaths.Add(NewAnimationMath);
+                            }
+
+                            NewObject.objectAnimation.animationEntries.Add(NewAnimationEntry);
                         }
-
-                        NewObject.objectAnimation.animationEntries.Add(NewAnimationEntry);
                     }
 
 
@@ -1208,6 +1210,7 @@ namespace SSXMultiTool
 
                     NewPrefab.PrefabObjects.Add(NewObject);
                 }
+                pbdHandler.PrefabData.Add(NewPrefab);
             }
 
 
