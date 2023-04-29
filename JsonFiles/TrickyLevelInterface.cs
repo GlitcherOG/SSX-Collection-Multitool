@@ -47,7 +47,7 @@ namespace SSXMultiTool
         {
             ADLHandler adlHandler = new ADLHandler();
             adlHandler.Load(LoadPath + ".adl");
-
+            adlHandler.Save(LoadPath + ".adl");
 
             SSFHandler ssfHandler = new SSFHandler();
             ssfHandler.Load(LoadPath + ".ssf");

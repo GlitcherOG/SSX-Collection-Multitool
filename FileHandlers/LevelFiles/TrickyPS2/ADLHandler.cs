@@ -12,7 +12,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     public class ADLHandler
     {
         public byte[] Magic;
-        public float U0;
+        public float U0; //Anything Other than 1 breaks sound
         public int UCount;
         public List<UStruct0> UStruct = new List<UStruct0>();
 
@@ -75,10 +75,41 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 for (int a = 0; a < uStruct1s.Count; a++)
                 {
-                    if (TempUStruct.uStruct1.Equals(uStruct1s[a]))
+                    var first = uStruct1s[a];
+                    var second = TempUStruct.uStruct1;
+
+                    if (first.U0 == second.U0 && first.U2.Count == second.U2.Count)
                     {
-                        Exists = true;
-                        TempUStruct.UStruct1Index = a;
+                        if(first.U2.Count==0)
+                        {
+                            Exists = true;
+                            TempUStruct.UStruct1Index = a;
+                            break;
+                        }
+                        bool TestFail = false;
+                        for (int b = 0; b < first.U2.Count; b++)
+                        {
+                            if (first.U2[b].U0 != second.U2[b].U0
+                                || first.U2[b].U1 != second.U2[b].U1
+                                || first.U2[b].U2 != second.U2[b].U2
+                                || first.U2[b].U3 != second.U2[b].U3
+                                || first.U2[b].U4 != second.U2[b].U4
+                                || first.U2[b].U5 != second.U2[b].U5
+                                || first.U2[b].U6 != second.U2[b].U6)
+                            {
+                                TestFail = true;
+                                break;
+                            }
+                        }
+                        if (!TestFail)
+                        {
+                            Exists = true;
+                            TempUStruct.UStruct1Index = a;
+                        }
+                        else
+                        {
+                            Exists = false;
+                        }
                         break;
                     }
                 }
@@ -89,6 +120,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempUStruct.UStruct1Index = uStruct1s.Count - 1;
                 }
 
+                UStruct[i] = TempUStruct;
             }
 
 
@@ -123,6 +155,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 uStruct1s[i] = TempUstruct1;
             }
+
+            StreamUtil.WriteUInt8(stream, 0xff);
 
             //Go back and write 0
             stream.Position = 4 * 3;
