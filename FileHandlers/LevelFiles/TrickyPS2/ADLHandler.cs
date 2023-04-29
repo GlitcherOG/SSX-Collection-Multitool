@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
@@ -63,9 +64,84 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
         }
 
-        public void Save(string Path)
+        public void Save(string path)
         {
+            //Generate UStruct1 List
+            uStruct1s = new List<UStruct1>();
+            for (int i = 0; i < UStruct.Count; i++)
+            {
+                var TempUStruct = UStruct[i];
+                bool Exists = false;
 
+                for (int a = 0; a < uStruct1s.Count; a++)
+                {
+                    if (TempUStruct.uStruct1.Equals(uStruct1s[a]))
+                    {
+                        Exists = true;
+                        TempUStruct.UStruct1Index = a;
+                        break;
+                    }
+                }
+
+                if(!Exists)
+                {
+                    uStruct1s.Add(TempUStruct.uStruct1);
+                    TempUStruct.UStruct1Index = uStruct1s.Count - 1;
+                }
+
+            }
+
+
+            MemoryStream stream = new MemoryStream();
+
+            //Write Header
+            StreamUtil.WriteBytes(stream, Magic);
+            StreamUtil.WriteFloat32(stream, U0);
+            StreamUtil.WriteInt32(stream, UStruct.Count);
+
+            //Skip UStruct 0 and write UStruct 1 Data Making sure to have offset in u1
+            stream.Position += UStruct.Count * 4 * 2;
+
+            for (int i = 0; i < uStruct1s.Count; i++)
+            {
+                var TempUstruct1 = uStruct1s[i];
+                TempUstruct1.Offset = (int)stream.Position;
+
+                StreamUtil.WriteInt32(stream, TempUstruct1.U0);
+                StreamUtil.WriteInt32(stream, TempUstruct1.U2.Count);
+
+                for (int a = 0; a < TempUstruct1.U2.Count; a++)
+                {
+                    StreamUtil.WriteInt32(stream, TempUstruct1.U2[a].U0);
+                    StreamUtil.WriteInt32(stream, TempUstruct1.U2[a].U1);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U2);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U3);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U4);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U5);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U6);
+                }
+
+                uStruct1s[i] = TempUstruct1;
+            }
+
+            //Go back and write 0
+            stream.Position = 4 * 3;
+            for (int i = 0; i < UStruct.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, UStruct[i].Hash);
+                StreamUtil.WriteInt32(stream, uStruct1s[UStruct[i].UStruct1Index].Offset);
+            }
+
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            var file = File.Create(path);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            stream.Dispose();
+            file.Close();
         }
 
         public struct UStruct0
@@ -73,6 +149,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int Hash;
             public int UOffset;
             public UStruct1 uStruct1;
+
+            public int UStruct1Index;
         }
 
 
@@ -81,6 +159,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int U0;
             public int UCount;
             public List<UStruct2> U2;
+
+            public int Offset;
         }
 
         public struct UStruct2
