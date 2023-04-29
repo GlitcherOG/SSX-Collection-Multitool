@@ -1041,8 +1041,6 @@ namespace SSXMultiTool
                 pbdHandler.splines.Add(spline);
             }
 
-            pbdHandler.ImportMeshes(LoadPath + "\\Models");
-
             instancesJson = new InstanceJsonHandler();
             instancesJson = InstanceJsonHandler.Load(LoadPath + "/Instances.json");
             pbdHandler.Instances = new List<Instance>();
@@ -1121,8 +1119,6 @@ namespace SSXMultiTool
                 pbdHandler.materialBlocks.Add(NewMaterialBlock);
             }
 
-
-
             //Rebuild Prefabs
             pbdHandler.PrefabData = new List<Prefabs>();
             for (int i = 0; i < prefabJsonHandler.PrefabJsons.Count; i++)
@@ -1161,15 +1157,18 @@ namespace SSXMultiTool
                     //MeshCount
                     //FaceCount
 
-                    NewObjectData.MeshOffsets = new List<MeshOffsets>();
-
-                    for (int b = 0; b < TempObject.MeshData.Count; b++)
+                    if (TempObject.MeshData.Count != 0)
                     {
-                        var NewMeshOffset = new MeshOffsets();
-                        NewMeshOffset.MeshID = TempObject.MeshData[b].MeshID;
-                        NewMeshOffset.MaterialBlockPos = TempObject.MeshData[b].MaterialID;
-                        NewMeshOffset.MeshPath = TempObject.MeshData[b].MeshPath;
-                        NewObjectData.MeshOffsets.Add(NewMeshOffset);
+                        NewObjectData.MeshOffsets = new List<MeshOffsets>();
+
+                        for (int b = 0; b < TempObject.MeshData.Count; b++)
+                        {
+                            var NewMeshOffset = new MeshOffsets();
+                            NewMeshOffset.MeshID = TempObject.MeshData[b].MeshID;
+                            NewMeshOffset.MaterialBlockPos = TempObject.MeshData[b].MaterialID;
+                            NewMeshOffset.MeshPath = TempObject.MeshData[b].MeshPath;
+                            NewObjectData.MeshOffsets.Add(NewMeshOffset);
+                        }
                     }
 
                     NewObject.objectAnimation = new ObjectAnimation();
@@ -1216,10 +1215,6 @@ namespace SSXMultiTool
                 }
                 pbdHandler.PrefabData.Add(NewPrefab);
             }
-
-
-
-
 
             materialJson = new MaterialJsonHandler();
             materialJson = MaterialJsonHandler.Load(LoadPath + "/Material.json");
@@ -1270,6 +1265,8 @@ namespace SSXMultiTool
             }
             mapHandler.Save(ExportPath + ".map");
 
+
+            pbdHandler.ImportMeshes(LoadPath + "\\Models");
             //Regenerate Instance Lowest Highest
             pbdHandler.RegenerateLowestAndHighest();
 

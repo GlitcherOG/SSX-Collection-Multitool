@@ -1867,8 +1867,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     if (TempPrefabData.PrefabObjects[a].objectData.MeshOffsets != null)
                     {
-                        LowestXYZ = Vector3.Transform(TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0], TempInstance.matrix4X4);
-                        HighestXYZ = Vector3.Transform(TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0], TempInstance.matrix4X4);
+                            LowestXYZ = Vector3.Transform(TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0], TempInstance.matrix4X4);
+                            HighestXYZ = Vector3.Transform(TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0], TempInstance.matrix4X4);
                     }
                 }
                 for (int a = 0; a < TempPrefabData.PrefabObjects.Count; a++)
