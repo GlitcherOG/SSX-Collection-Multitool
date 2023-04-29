@@ -19,6 +19,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         //Put into a seperate list just so its easier to find out wtf is going on
         public List<UStruct1> uStruct1s = new List<UStruct1>();
 
+        //Double check saving has been done correctly, Im not to sure my ustruct1 system be working
+
+
+
         public void Load(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
@@ -149,7 +153,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U2);
                     StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U3);
                     StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U4);
-                    StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U5);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U5); //Radius?
                     StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U6);
                 }
 
@@ -200,11 +204,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public struct UStruct2
         {
             public int U0;
-            public int U1;
+            public int U1; //Channel ID? So that sounds dont overlap in someway
             public float U2;
             public float U3;
             public float U4;
-            public float U5;
+            public float U5; //Radius?
             public float U6;
         }
     }
