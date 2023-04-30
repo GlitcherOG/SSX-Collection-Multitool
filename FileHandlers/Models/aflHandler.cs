@@ -39,7 +39,7 @@ namespace SSXMultiTool.FileHandlers.Models
                     AnimHeader.U0 = StreamUtil.ReadUInt32(stream);
                     AnimHeader.PointerIndexStart = StreamUtil.ReadUInt32(stream);
                     AnimHeader.HeaderType = StreamUtil.ReadUInt8(stream);
-                    AnimHeader.U2 = StreamUtil.ReadUInt8(stream);
+                    AnimHeader.RelatedHeaders = StreamUtil.ReadUInt8(stream);
                     AnimHeader.U3 = StreamUtil.ReadUInt16(stream);
                     AnimHeader.U4 = StreamUtil.ReadUInt16(stream);
                     AnimHeader.U5 = StreamUtil.ReadUInt16(stream);
@@ -55,7 +55,70 @@ namespace SSXMultiTool.FileHandlers.Models
                     animationHeaders.Add(AnimHeader);
                 }
 
+                int TempAnimDataOffset = (int)stream.Position;
 
+                for (int i = 0; i < animationHeaders.Count; i++)
+                {
+                    var TempHeader = animationHeaders[i];
+
+                    TempHeader.animationPointerDataOffsets = new List<int>();
+
+                    stream.Position = TempAnimDataOffset + 4 * TempHeader.PointerIndexStart;
+
+                    //0
+                    //1
+                    //5
+                    //6
+                    //7
+                    //8
+                    //10
+                    //11
+                    //12
+                    //13
+                    //14
+
+                    if (TempHeader.HeaderType==0)
+                    {
+                        for (int a = 0; a < 60; a++)
+                        {
+                            TempHeader.animationPointerDataOffsets.Add(StreamUtil.ReadUInt32(stream));
+                        }
+                    }
+                    else if (TempHeader.HeaderType == 1 || TempHeader.HeaderType == 5 || TempHeader.HeaderType == 6 || TempHeader.HeaderType == 7|| TempHeader.HeaderType == 11 || TempHeader.HeaderType == 14)
+                    {
+                        for (int a = 0; a < 6; a++)
+                        {
+                            TempHeader.animationPointerDataOffsets.Add(StreamUtil.ReadUInt32(stream));
+                        }
+                    }
+                    else if (TempHeader.HeaderType == 10)
+                    {
+                        for (int a = 0; a < 23; a++)
+                        {
+                            TempHeader.animationPointerDataOffsets.Add(StreamUtil.ReadUInt32(stream));
+                        }
+                    }
+                    else if (TempHeader.HeaderType == 13 || TempHeader.HeaderType == 8)
+                    {
+                        for (int a = 0; a < 12; a++)
+                        {
+                            TempHeader.animationPointerDataOffsets.Add(StreamUtil.ReadUInt32(stream));
+                        }
+                    }
+                    else if (TempHeader.HeaderType == 12)
+                    {
+                        for (int a = 0; a < 3; a++)
+                        {
+                            TempHeader.animationPointerDataOffsets.Add(StreamUtil.ReadUInt32(stream));
+                        }
+                    }
+
+
+
+
+
+                    animationHeaders[i] = TempHeader;
+                }
 
             }
         }
@@ -70,7 +133,7 @@ namespace SSXMultiTool.FileHandlers.Models
             //0 = 60 Anim
             //1 - 6
 
-            public int U2; //int8
+            public int RelatedHeaders; //int8
             public int U3;
             public int U4;
             public int U5;
