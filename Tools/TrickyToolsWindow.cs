@@ -1281,5 +1281,21 @@ namespace SSXMultiTool
                 trickyGCMNF.Load(openFileDialog.FileName);
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Anim File (*.afl)|*.afl|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                aflHandler aflHandler = new aflHandler();
+
+                aflHandler.Load(openFileDialog.FileName);
+            }
+        }
     }
 }

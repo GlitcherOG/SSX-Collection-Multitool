@@ -136,6 +136,8 @@
             MXFList = new ListBox();
             MXFExport = new Button();
             MXFLoad = new Button();
+            tabPage5 = new TabPage();
+            MNFLoad = new Button();
             tabPage4 = new TabPage();
             groupBox6 = new GroupBox();
             groupBox8 = new GroupBox();
@@ -173,8 +175,7 @@
             HDRTime = new Label();
             tabPage2 = new TabPage();
             ELFLdrSetup = new Button();
-            tabPage5 = new TabPage();
-            MNFLoad = new Button();
+            button1 = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -192,6 +193,7 @@
             ((System.ComponentModel.ISupportInitialize)MatFlagFactorMXF).BeginInit();
             groupBox11.SuspendLayout();
             groupBox12.SuspendLayout();
+            tabPage5.SuspendLayout();
             tabPage4.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox8.SuspendLayout();
@@ -203,7 +205,6 @@
             ((System.ComponentModel.ISupportInitialize)hdrU1).BeginInit();
             groupBox5.SuspendLayout();
             tabPage2.SuspendLayout();
-            tabPage5.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -1309,6 +1310,26 @@
             MXFLoad.UseVisualStyleBackColor = true;
             MXFLoad.Click += MXFLoad_Click;
             // 
+            // tabPage5
+            // 
+            tabPage5.Controls.Add(MNFLoad);
+            tabPage5.Location = new Point(4, 24);
+            tabPage5.Name = "tabPage5";
+            tabPage5.Size = new Size(768, 398);
+            tabPage5.TabIndex = 4;
+            tabPage5.Text = "Tricky MNF (Models)";
+            tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // MNFLoad
+            // 
+            MNFLoad.Location = new Point(3, 372);
+            MNFLoad.Name = "MNFLoad";
+            MNFLoad.Size = new Size(75, 23);
+            MNFLoad.TabIndex = 1;
+            MNFLoad.Text = "Load MNF";
+            MNFLoad.UseVisualStyleBackColor = true;
+            MNFLoad.Click += MNFLoad_Click;
+            // 
             // tabPage4
             // 
             tabPage4.Controls.Add(groupBox6);
@@ -1673,6 +1694,7 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(button1);
             tabPage2.Controls.Add(ELFLdrSetup);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
@@ -1691,25 +1713,15 @@
             ELFLdrSetup.UseVisualStyleBackColor = true;
             ELFLdrSetup.Click += ELFLdrSetup_Click;
             // 
-            // tabPage5
+            // button1
             // 
-            tabPage5.Controls.Add(MNFLoad);
-            tabPage5.Location = new Point(4, 24);
-            tabPage5.Name = "tabPage5";
-            tabPage5.Size = new Size(768, 398);
-            tabPage5.TabIndex = 4;
-            tabPage5.Text = "Tricky MNF (Models)";
-            tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // MNFLoad
-            // 
-            MNFLoad.Location = new Point(3, 372);
-            MNFLoad.Name = "MNFLoad";
-            MNFLoad.Size = new Size(75, 23);
-            MNFLoad.TabIndex = 1;
-            MNFLoad.Text = "Load MNF";
-            MNFLoad.UseVisualStyleBackColor = true;
-            MNFLoad.Click += MNFLoad_Click;
+            button1.Location = new Point(174, 282);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 1;
+            button1.Text = "Test";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // TrickyToolsWindow
             // 
@@ -1747,6 +1759,7 @@
             groupBox11.PerformLayout();
             groupBox12.ResumeLayout(false);
             groupBox12.PerformLayout();
+            tabPage5.ResumeLayout(false);
             tabPage4.ResumeLayout(false);
             groupBox6.ResumeLayout(false);
             groupBox8.ResumeLayout(false);
@@ -1761,7 +1774,6 @@
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
             tabPage2.ResumeLayout(false);
-            tabPage5.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -1914,5 +1926,6 @@
         private CheckBox MXFShadow;
         private TabPage tabPage5;
         private Button MNFLoad;
+        private Button button1;
     }
 }
