@@ -14,6 +14,7 @@ using SSXMultiTool.FileHandlers.Models.SSX3;
 using SSXMultiTool.Utilities;
 using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
 using static SSXMultiTool.FileHandlers.glftHandler;
+using SSXMultiTool.FileHandlers.Models.SSXOG;
 
 //https://github.com/vpenades/SharpGLTF/blob/master/src/SharpGLTF.Toolkit/Geometry/readme.md
 namespace SSXMultiTool.FileHandlers
@@ -38,6 +39,7 @@ namespace SSXMultiTool.FileHandlers
 
             var bindings = new List<SharpGLTF.Scenes.NodeBuilder>();
             SharpGLTF.Scenes.NodeBuilder Binding = new SharpGLTF.Scenes.NodeBuilder();
+
             for (int i = 0; i < modelHeader.bone.Count; i++)
             {
                 if (modelHeader.bone[i].BoneParentID == -1)
@@ -71,17 +73,19 @@ namespace SSXMultiTool.FileHandlers
 
                     for (int b = 0; b < Data.faces.Count; b++)
                     {
+                        Matrix4x4 matrix4X4 = bindings[Data.faces[b].BoneAssigment].WorldMatrix;
+
                         var Face = Data.faces[b];
                         VertexPositionNormal TempPos1 = new VertexPositionNormal();
-                        TempPos1.Position = Face.V1;
+                        TempPos1.Position = Vector3.Transform(Face.V1, matrix4X4);
                         TempPos1.Normal = Face.Normal1;
 
                         VertexPositionNormal TempPos2 = new VertexPositionNormal();
-                        TempPos2.Position = Face.V2;
+                        TempPos2.Position = Vector3.Transform(Face.V2, matrix4X4);
                         TempPos2.Normal = Face.Normal2;
 
                         VertexPositionNormal TempPos3 = new VertexPositionNormal();
-                        TempPos3.Position = Face.V3;
+                        TempPos3.Position = Vector3.Transform(Face.V3, matrix4X4);
                         TempPos3.Normal = Face.Normal3;
 
                         VertexTexture1 TempTexture1 = new VertexTexture1();
@@ -92,6 +96,66 @@ namespace SSXMultiTool.FileHandlers
 
                         VertexTexture1 TempTexture3 = new VertexTexture1();
                         TempTexture3.TexCoord = Face.UV3;
+
+                        (int Temp, float TempFloat)[] bindings1 = new (int Temp, float TempFloat)[1];
+                        VertexJoints4 TempBinding1 = new VertexJoints4();
+                        bindings1 = new (int Temp, float TempFloat)[1];
+                        for (int ia = 0; ia < 1; ia++)
+                        {
+                            bindings1[ia] = (Data.BoneAssigment, 1);
+                        }
+                        TempBinding1.SetBindings(bindings1);
+
+                        VertexJoints4 TempBinding2 = new VertexJoints4();
+                        bindings1 = new (int Temp, float TempFloat)[1];
+                        for (int ia = 0; ia < 1; ia++)
+                        {
+                            bindings1[ia] = (Data.BoneAssigment, 1);
+                        }
+                        TempBinding2.SetBindings(bindings1);
+
+                        VertexJoints4 TempBinding3 = new VertexJoints4();
+                        bindings1 = new (int Temp, float TempFloat)[1];
+                        for (int ia = 0; ia < 1; ia++)
+                        {
+                            bindings1[ia] = (Data.BoneAssigment, 1);
+                        }
+                        TempBinding3.SetBindings(bindings1);
+
+                        mesh.UsePrimitive(materialBuilders[MatId]).AddTriangle((TempPos1, TempTexture1, TempBinding1), (TempPos2, TempTexture2, TempBinding2), (TempPos3, TempTexture3, TempBinding3));
+                    }
+                }
+
+                for (int a = 0; a < modelHeader.MaterialGroups[i].flexableMesh.Count; a++)
+                {
+                    var Data = modelHeader.MaterialGroups[i].flexableMesh[a];
+                    int MatId = modelHeader.MaterialGroups[i].MaterialID;
+
+                    for (int b = 0; b < Data.faces.Count; b++)
+                    {
+                        var Face = Data.faces[b];
+                        Matrix4x4 matrix4X4 = Matrix4x4.CreateScale(1.0f, 1.0f, 1.0f);
+
+                        VertexPositionNormal TempPos1 = new VertexPositionNormal();
+                        TempPos1.Position = Vector3.Transform(Face.V1, matrix4X4);
+                        TempPos1.Normal = new Vector3(0,0,0);
+
+                        VertexPositionNormal TempPos2 = new VertexPositionNormal();
+                        TempPos2.Position = Vector3.Transform(Face.V2, matrix4X4);
+                        TempPos2.Normal = new Vector3(0, 0, 0);
+
+                        VertexPositionNormal TempPos3 = new VertexPositionNormal();
+                        TempPos3.Position = Vector3.Transform(Face.V3, matrix4X4);
+                        TempPos3.Normal = new Vector3(0, 0, 0);
+
+                        VertexTexture1 TempTexture1 = new VertexTexture1();
+                        TempTexture1.TexCoord = new Vector2(0,0);
+
+                        VertexTexture1 TempTexture2 = new VertexTexture1();
+                        TempTexture2.TexCoord = new Vector2(0, 0);
+
+                        VertexTexture1 TempTexture3 = new VertexTexture1();
+                        TempTexture3.TexCoord = new Vector2(0, 0);
 
                         (int Temp, float TempFloat)[] bindings1 = new (int Temp, float TempFloat)[1];
                         VertexJoints4 TempBinding1 = new VertexJoints4();

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using SSXMultiTool.Utilities;
 using System.Numerics;
 
-namespace SSXMultiTool.FileHandlers
+namespace SSXMultiTool.FileHandlers.Models.SSXOG
 {
     public class SSXMPFModelHandler
     {
@@ -21,7 +21,7 @@ namespace SSXMultiTool.FileHandlers
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
-                U1= StreamUtil.ReadUInt32(stream);
+                U1 = StreamUtil.ReadUInt32(stream);
                 HeaderCount = StreamUtil.ReadInt16(stream);
                 HeaderSize = StreamUtil.ReadInt16(stream);
                 FileStart = StreamUtil.ReadUInt32(stream);
@@ -90,7 +90,7 @@ namespace SSXMultiTool.FileHandlers
                     boneData.BoneParentFileID = StreamUtil.ReadInt16(streamMatrix);
                     boneData.BoneParentID = StreamUtil.ReadInt16(streamMatrix);
                     boneData.Position = StreamUtil.ReadVector3(streamMatrix);
-                    //boneData.Position.X = StreamUtil.ReadInt16(streamMatrix)/4096f;
+                    //boneData.Position.X = StreamUtil.ReadInt16(streamMatrix) / 4096f;
                     //boneData.Position.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
                     //boneData.Position.Z = StreamUtil.ReadInt16(streamMatrix) / 4096f;
                     //boneData.Radians.X = StreamUtil.ReadInt16(streamMatrix) / 4096f;
@@ -148,7 +148,7 @@ namespace SSXMultiTool.FileHandlers
                                 break;
                             }
                             ModelData.StripCount = StreamUtil.ReadUInt32(streamMatrix);
-                            ModelData.Unknown1 = StreamUtil.ReadUInt32(streamMatrix);
+                            ModelData.BoneAssigment = (StreamUtil.ReadUInt32(streamMatrix) - 14) / 4;
                             ModelData.Unknown2 = StreamUtil.ReadUInt32(streamMatrix);
                             ModelData.VertexCount = StreamUtil.ReadUInt32(streamMatrix);
 
@@ -163,8 +163,10 @@ namespace SSXMultiTool.FileHandlers
                             ModelData.Strips = TempStrips;
 
                             List<Vector2> UVs = new List<Vector2>();
+                            List<Vector3> Normals = new List<Vector3>();
+
                             //Read UV Texture Points
-                            if (ModelData.Unknown2 != 0)
+                            if (TempMaterialGroup.ID != 19)
                             {
                                 streamMatrix.Position += 48;
                                 for (int a = 0; a < ModelData.VertexCount; a++)
@@ -175,13 +177,8 @@ namespace SSXMultiTool.FileHandlers
                                     UVs.Add(uv);
                                 }
                                 StreamUtil.AlignBy16(streamMatrix);
-                            }
-                            ModelData.uv = UVs;
+                               
 
-                            List<Vector3> Normals = new List<Vector3>();
-                            //Read Normals
-                            if (ModelData.Unknown2 != 0)
-                            {
                                 streamMatrix.Position += 48;
                                 for (int a = 0; a < ModelData.VertexCount; a++)
                                 {
@@ -193,6 +190,7 @@ namespace SSXMultiTool.FileHandlers
                                 }
                                 StreamUtil.AlignBy16(streamMatrix);
                             }
+                            ModelData.uv = UVs;
                             ModelData.uvNormals = Normals;
 
                             List<Vector3> vertices = new List<Vector3>();
@@ -211,7 +209,7 @@ namespace SSXMultiTool.FileHandlers
                             ModelData.vertices = vertices;
 
                             streamMatrix.Position += 16;
-                            ModelData=GenerateFaces(ModelData);
+                            ModelData = GenerateFacesStatic(ModelData);
                             TempMaterialGroup.staticMesh.Add(ModelData);
                         }
                     }
@@ -231,11 +229,11 @@ namespace SSXMultiTool.FileHandlers
                             }
 
                             modelSplitData.StripCount = StreamUtil.ReadUInt32(streamMatrix);
-                            modelSplitData.Unkown1 = StreamUtil.ReadUInt32(streamMatrix);
-                            modelSplitData.Unkown2 = StreamUtil.ReadUInt32(streamMatrix);
-                            modelSplitData.Unkown3 = StreamUtil.ReadUInt32(streamMatrix);
+                            modelSplitData.StripAddCount = StreamUtil.ReadUInt32(streamMatrix);
+                            modelSplitData.StripLeftTotal = StreamUtil.ReadUInt32(streamMatrix);
+                            modelSplitData.StripRightTotal = StreamUtil.ReadUInt32(streamMatrix);
 
-                            //No Tristrip
+                            //Not Tristrip possily weights
                             var TempStrips = new List<NewSplit>();
                             for (int a = 0; a < modelSplitData.StripCount; a++)
                             {
@@ -267,7 +265,7 @@ namespace SSXMultiTool.FileHandlers
                             //Unknown
 
 
-                            //Unknown and Normal 
+                            //Unknown
                             streamMatrix.Position += 46;
                             TempCount = StreamUtil.ReadUInt8(streamMatrix);
                             streamMatrix.Position += 1;
@@ -281,11 +279,11 @@ namespace SSXMultiTool.FileHandlers
                                 Normals.Add(normal);
                             }
                             modelSplitData.uvNormals = Normals;
-                            StreamUtil.AlignBy16(streamMatrix);
+
 
                             //Tristrip
                             streamMatrix.Position += 14;
-                            TempCount = StreamUtil.ReadUInt8(streamMatrix); 
+                            TempCount = StreamUtil.ReadUInt8(streamMatrix);
                             streamMatrix.Position += 1;
                             List<int> ints = new List<int>();
                             for (int a = 0; a < TempCount; a++)
@@ -295,21 +293,24 @@ namespace SSXMultiTool.FileHandlers
                             modelSplitData.Strips = ints;
                             StreamUtil.AlignBy16(streamMatrix);
 
-                            //Weight Data and UV
+                            //VerticeIndex
                             streamMatrix.Position += 46;
                             TempCount = StreamUtil.ReadUInt8(streamMatrix);
                             streamMatrix.Position += 1;
-                            List<Vector2> uvs = new List<Vector2>();
+                            List<Vector2> TempUV = new List<Vector2>();
                             for (int a = 0; a < TempCount; a++)
                             {
                                 Vector2 uv = new Vector2();
-                                uv.X = StreamUtil.ReadInt16(streamMatrix);
-                                uv.Y = StreamUtil.ReadInt16(streamMatrix);
-                                uvs.Add(uv);
+                                uv.X = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                                uv.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                                TempUV.Add(uv);
                             }
-                            modelSplitData.uv = uvs;
+                            modelSplitData.uv = TempUV;
                             StreamUtil.AlignBy16(streamMatrix);
                             streamMatrix.Position += 16;
+
+
+                            modelSplitData = GenerateFacesFlex(modelSplitData);
 
                             TempMaterialGroup.flexableMesh.Add(modelSplitData);
                         }
@@ -329,7 +330,7 @@ namespace SSXMultiTool.FileHandlers
             glftHandler.SaveOGglTF(path, ModelList[ModelID]);
         }
 
-        public StaticMesh GenerateFaces(StaticMesh models)
+        public StaticMesh GenerateFacesStatic(StaticMesh models)
         {
             var ModelData = models;
             //Increment Strips
@@ -359,9 +360,9 @@ namespace SSXMultiTool.FileHandlers
                     continue;
                 }
 
-                ModelData.faces.Add(CreateFaces(b, ModelData, Rotation));
+                ModelData.faces.Add(CreateFacesStatic(b, ModelData, Rotation));
                 Rotation++;
-                if(Rotation==2)
+                if (Rotation == 2)
                 {
                     Rotation = 0;
                 }
@@ -375,30 +376,33 @@ namespace SSXMultiTool.FileHandlers
         {
             foreach (var item in splits)
             {
-                if(item==Number)
+                if (item == Number)
                 {
                     return true;
                 }
             }
             return false;
         }
-        public Face CreateFaces(int Index, StaticMesh ModelData,int roatation)
+        public Face CreateFacesStatic(int Index, StaticMesh ModelData, int roatation)
         {
             Face face = new Face();
             int Index1 = 0;
             int Index2 = 0;
             int Index3 = 0;
+
+            face.BoneAssigment = ModelData.BoneAssigment;
+
             //Fixes the Rotation For Exporting
             //Swap When Exporting to other formats
             //1-Clockwise
             //0-Counter Clocwise
-            if(roatation==1)
+            if (roatation == 1)
             {
                 Index1 = Index;
                 Index2 = Index - 1;
                 Index3 = Index - 2;
             }
-            if(roatation==0)
+            if (roatation == 0)
             {
                 Index1 = Index;
                 Index2 = Index - 2;
@@ -434,6 +438,83 @@ namespace SSXMultiTool.FileHandlers
             return face;
         }
 
+        public FlexableMesh GenerateFacesFlex(FlexableMesh models)
+        {
+            var ModelData = models;
+            //Increment Strips
+            List<int> strip2 = new List<int>();
+            strip2.Add(0);
+            foreach (var item in ModelData.newSplits)
+            {
+                strip2.Add(strip2[strip2.Count - 1] + item.Unknown1);
+            }
+            ModelData.Strips = strip2;
+
+            //Make Faces
+            ModelData.faces = new List<FlexableFace>();
+            int localIndex = 0;
+            int Rotation = 0;
+            for (int b = 0; b < ModelData.vertices.Count; b++)
+            {
+                if (InsideSplits(b, ModelData.Strips))
+                {
+                    Rotation = 0;
+                    localIndex = 1;
+                    continue;
+                }
+                if (localIndex < 2)
+                {
+                    localIndex++;
+                    continue;
+                }
+
+                ModelData.faces.Add(CreateFacesFlex(b, ModelData, Rotation));
+                Rotation++;
+                if (Rotation == 2)
+                {
+                    Rotation = 0;
+                }
+                localIndex++;
+            }
+
+            return ModelData;
+        }
+
+        public FlexableFace CreateFacesFlex(int Index, FlexableMesh ModelData, int roatation)
+        {
+            FlexableFace face = new FlexableFace();
+            int Index1 = 0;
+            int Index2 = 0;
+            int Index3 = 0;
+
+            //Fixes the Rotation For Exporting
+            //Swap When Exporting to other formats
+            //1-Clockwise
+            //0-Counter Clocwise
+            if (roatation == 1)
+            {
+                Index1 = Index;
+                Index2 = Index - 1;
+                Index3 = Index - 2;
+            }
+            if (roatation == 0)
+            {
+                Index1 = Index - 2;
+                Index2 = Index - 1;
+                Index3 = Index;
+            }
+
+            face.V1 = ModelData.vertices[Index1];
+            face.V2 = ModelData.vertices[Index2];
+            face.V3 = ModelData.vertices[Index3];
+
+            face.V1Pos = Index1;
+            face.V2Pos = Index2;
+            face.V3Pos = Index3;
+
+            return face;
+        }
+
 
         public struct MPFModelHeader
         {
@@ -441,13 +522,13 @@ namespace SSXMultiTool.FileHandlers
             public string FileName;
             public int DataOffset;
             public int EntrySize;
-            public int BoneOffset; 
-            public int IKPointOffset; 
+            public int BoneOffset;
+            public int IKPointOffset;
             public int ChunkOffsets;
             public int DataStart;
             //Counts
             public int ChunksCount;
-            public int BoneCount; 
+            public int BoneCount;
             public int Unknown1;
             public int Unknown2;
             public int MaterialCount;
@@ -465,15 +546,19 @@ namespace SSXMultiTool.FileHandlers
         public struct FlexableMesh
         {
             public int StripCount;
-            public int Unkown1;
-            public int Unkown2;
-            public int Unkown3;
+            public int StripAddCount;
+            public int StripLeftTotal;
+            public int StripRightTotal;
 
-            public List<Vector3> vertices;
             public List<NewSplit> newSplits;
             public List<Vector3> uvNormals;
-            public List<int> Strips;
             public List<Vector2> uv;
+
+            public List<Vector3> vertices;
+            public List<int> Strips;
+            public List<int> VertexIndex;
+
+
             public List<FlexableFace> faces;
 
         }
@@ -488,7 +573,7 @@ namespace SSXMultiTool.FileHandlers
         public struct StaticMesh
         {
             public int StripCount;
-            public int Unknown1;
+            public int BoneAssigment;
             public int Unknown2;
             public int VertexCount;
 
@@ -546,6 +631,8 @@ namespace SSXMultiTool.FileHandlers
             public int Normal1Pos;
             public int Normal2Pos;
             public int Normal3Pos;
+
+            public int BoneAssigment;
         }
 
         public struct FlexableFace

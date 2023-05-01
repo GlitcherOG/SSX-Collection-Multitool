@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using SSXMultiTool.FileHandlers.Models;
+using SSXMultiTool.FileHandlers.Models.SSXOG;
 
 namespace SSXMultiTool
 {
