@@ -73,7 +73,7 @@ namespace SSXMultiTool.FileHandlers.Models
             public int BoneID;
 
             public Vector3 Position;
-            public Vector3 Radians;
+            public Quaternion Rotation;
 
             //Non Saving Data
             public int FileID;
