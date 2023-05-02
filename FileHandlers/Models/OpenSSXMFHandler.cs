@@ -9,16 +9,19 @@ namespace SSXMultiTool.FileHandlers.Models
 {
     public class OpenSSXMFHandler
     {
-        string MagicName = "OSMF";
-        int FormatVersion;
-        int ModelHeaderCount;
-        int ModelDataOffset;
+        public string MagicName = "OSMF";
+        public int FormatVersion;
+        public int ModelHeaderOffset;
+        public int ModelHeaderCount;
+        public int BoneOffset;
+        public int BoneCount;
+        public int MaterialOffset;
+        public int MaterialCount;
+        public int ModelDataOffset;
 
         public List<ModelHeader> modelHeaders = new List<ModelHeader>();
-
-
-
-
+        public List<MaterialData> materialDatas = new List<MaterialData>();
+        public List<BoneData> boneDatas = new List<BoneData>();
 
         public struct ModelHeader
         {
@@ -26,16 +29,16 @@ namespace SSXMultiTool.FileHandlers.Models
 
             public int ModelOffset;
             public int ModelSize;
-            public int MaterialOffset;
-            public int BoneOffset;
+            //public int MaterialOffset;
+            //public int BoneOffset;
             public int IKOffset;
             public int WeightOffset;
             public int VertexOffset;
             public int MorphOffset;
             public int FaceOffset;
 
-            public int MaterialCount;
-            public int BoneCount;
+            //public int MaterialCount;
+            //public int BoneCount;
             public int IKCount;
             public int WeightCount;
             public int VertexCount;
@@ -44,8 +47,8 @@ namespace SSXMultiTool.FileHandlers.Models
 
             public int FileID;
 
-            public List<MaterialData> materialDatas;
-            public List<BoneData> boneDatas;
+            //public List<MaterialData> materialDatas;
+            //public List<BoneData> boneDatas;
             public List<Vector3> ikPoints;
             public List<MorphHeader> morphDatas;
             public List<BoneWeightHeader> boneWeightHeaders;
@@ -72,14 +75,12 @@ namespace SSXMultiTool.FileHandlers.Models
             public int ParentFileID;
             public int ParentBone;
             public int BoneID;
+            public int FileID;
 
             public Vector3 Position;
             public Quaternion Rotation;
 
             //Non Saving Data
-            public int FileID;
-            public int BonePos;
-
             public string parentName;
         }
 
