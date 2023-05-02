@@ -46,6 +46,7 @@ namespace SSXMultiTool.FileHandlers.Models
 
             public List<MaterialData> materialDatas;
             public List<BoneData> boneDatas;
+            public List<Vector3> ikPoints;
             public List<MorphHeader> morphDatas;
             public List<BoneWeightHeader> boneWeightHeaders;
             public List<VertexData> vertexDatas;
