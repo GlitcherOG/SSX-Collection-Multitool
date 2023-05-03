@@ -238,10 +238,10 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
                             for (int a = 0; a < modelSplitData.StripCount; a++)
                             {
                                 NewSplit newSplit = new NewSplit();
-                                newSplit.Unknown = StreamUtil.ReadUInt32(streamMatrix);
-                                newSplit.Unknown1 = StreamUtil.ReadUInt32(streamMatrix);
-                                newSplit.Unknown2 = StreamUtil.ReadUInt32(streamMatrix);
-                                newSplit.Unknown3 = StreamUtil.ReadUInt32(streamMatrix);
+                                newSplit.BoneAssignment = (StreamUtil.ReadUInt32(streamMatrix)-14)/4;
+                                newSplit.VerticeCount = StreamUtil.ReadUInt32(streamMatrix);
+                                newSplit.VerticeCount2 = StreamUtil.ReadUInt32(streamMatrix);
+                                newSplit.BoneAssignment2 = (StreamUtil.ReadUInt32(streamMatrix)-114)/4;
                                 TempStrips.Add(newSplit);
                             }
                             modelSplitData.newSplits = TempStrips;
@@ -279,7 +279,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
                                 Normals.Add(normal);
                             }
                             modelSplitData.uvNormals = Normals;
-
+                            StreamUtil.AlignBy16(streamMatrix);
 
                             //Tristrip
                             streamMatrix.Position += 14;
@@ -301,8 +301,8 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
                             for (int a = 0; a < TempCount; a++)
                             {
                                 Vector2 uv = new Vector2();
-                                uv.X = StreamUtil.ReadInt16(streamMatrix) / 4096f;
-                                uv.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
+                                uv.X = StreamUtil.ReadInt16(streamMatrix);
+                                uv.Y = StreamUtil.ReadInt16(streamMatrix);
                                 TempUV.Add(uv);
                             }
                             modelSplitData.uv = TempUV;
@@ -446,7 +446,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
             strip2.Add(0);
             foreach (var item in ModelData.newSplits)
             {
-                strip2.Add(strip2[strip2.Count - 1] + item.Unknown1);
+                strip2.Add(strip2[strip2.Count - 1] + item.VerticeCount);
             }
             ModelData.Strips = strip2;
 
@@ -565,10 +565,10 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
 
         public struct NewSplit
         {
-            public int Unknown;
-            public int Unknown1;
-            public int Unknown2;
-            public int Unknown3;
+            public int BoneAssignment;
+            public int VerticeCount;
+            public int VerticeCount2;
+            public int BoneAssignment2;
         }
         public struct StaticMesh
         {
