@@ -41,10 +41,14 @@ namespace SSXMultiTool.Utilities
             return Encoding.ASCII.GetString(tempByte).Replace("\0","");
         }
 
-        public static byte[] ReadBytes(Stream stream, int Length)
+        public static byte[] ReadBytes(Stream stream, int Length, bool BigEndian = false)
         {
             byte[] tempByte = new byte[Length];
             stream.Read(tempByte, 0, tempByte.Length);
+
+            if (BigEndian)
+                Array.Reverse(tempByte);
+
             return tempByte;
         }
 

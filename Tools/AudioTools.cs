@@ -15,6 +15,7 @@ using NAudio;
 using NAudio.Wave;
 using SSXMultiTool.FileHandlers;
 using SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2;
+using SSXMultiTool.FileHandlers.Audio;
 
 namespace SSXMultiTool.Tools
 {
@@ -78,7 +79,7 @@ namespace SSXMultiTool.Tools
                         for (int i = 0; i < FileNumbers.Length; i++)
                         {
                             var temp = Files[i].Split(".");
-                            FileNumbers[i] = int.Parse(temp[temp.Length-1]);
+                            FileNumbers[i] = int.Parse(temp[temp.Length - 1]);
                         }
                         Array.Sort(FileNumbers);
 
@@ -286,5 +287,21 @@ namespace SSXMultiTool.Tools
                 waveOut.Play();
             }
         }
+
+        private void NewLoadTest_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog openFileDialog = new SaveFileDialog
+            {
+                Filter = "PS2 Audio File (*.mus)|*.mus|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                EAAudioHandler audioHandler = new EAAudioHandler();
+
+                audioHandler.Load(openFileDialog.FileName);
+            }
+         }
     }
 }
