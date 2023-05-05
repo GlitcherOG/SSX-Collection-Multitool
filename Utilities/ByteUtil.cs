@@ -515,6 +515,12 @@ namespace SSXMultiTool.Utilities
 
             return Matrix;
         }
+
+        public static float UintByteToFloat(int Int)
+        {
+            byte[] bytes = BitConverter.GetBytes(Int);
+            return BitConverter.ToSingle(bytes, 0);
+        }
     }
 }
 //public struct Point
