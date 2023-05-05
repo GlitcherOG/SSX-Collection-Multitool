@@ -216,7 +216,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
 
                     TempMaterialGroup.flexableMesh = new List<FlexableMesh>();
                     //Load Flex Mesh
-                    if (TempMaterialGroup.MorphMeshOffset != -1)
+                    if (TempMaterialGroup.MorphMeshOffset != -1 && TempMaterialGroup.ID == 19)
                     {
                         streamMatrix.Position = Model.MaterialGroups[n].MorphMeshOffset;
                         while (true)
@@ -228,14 +228,14 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
                                 break;
                             }
 
+                            modelSplitData.BoneAssigmentCount = StreamUtil.ReadUInt32(streamMatrix);
                             modelSplitData.StripCount = StreamUtil.ReadUInt32(streamMatrix);
-                            modelSplitData.StripAddCount = StreamUtil.ReadUInt32(streamMatrix);
                             modelSplitData.StripLeftTotal = StreamUtil.ReadUInt32(streamMatrix);
                             modelSplitData.StripRightTotal = StreamUtil.ReadUInt32(streamMatrix);
 
                             //Not Tristrip possily weights
                             var TempStrips = new List<NewSplit>();
-                            for (int a = 0; a < modelSplitData.StripCount; a++)
+                            for (int a = 0; a < modelSplitData.BoneAssigmentCount; a++)
                             {
                                 NewSplit newSplit = new NewSplit();
                                 newSplit.BoneAssignment = (StreamUtil.ReadUInt32(streamMatrix)-14)/4;
@@ -444,9 +444,9 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
             //Increment Strips
             List<int> strip2 = new List<int>();
             strip2.Add(0);
-            foreach (var item in ModelData.newSplits)
+            foreach (var item in ModelData.Strips)
             {
-                strip2.Add(strip2[strip2.Count - 1] + item.VerticeCount);
+                strip2.Add(strip2[strip2.Count - 1] + item);
             }
             ModelData.Strips = strip2;
 
@@ -504,13 +504,13 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
                 Index3 = Index;
             }
 
-            face.V1 = ModelData.vertices[Index1];
-            face.V2 = ModelData.vertices[Index2];
-            face.V3 = ModelData.vertices[Index3];
+            face.V1Pos = (int)ModelData.uv[Index1].X;
+            face.V2Pos = (int)ModelData.uv[Index2].X;
+            face.V3Pos = (int)ModelData.uv[Index3].X;
 
-            face.V1Pos = Index1;
-            face.V2Pos = Index2;
-            face.V3Pos = Index3;
+            face.V1 = ModelData.vertices[face.V1Pos];
+            face.V2 = ModelData.vertices[face.V2Pos];
+            face.V3 = ModelData.vertices[face.V3Pos];
 
             return face;
         }
@@ -545,8 +545,8 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
 
         public struct FlexableMesh
         {
+            public int BoneAssigmentCount;
             public int StripCount;
-            public int StripAddCount;
             public int StripLeftTotal;
             public int StripRightTotal;
 
