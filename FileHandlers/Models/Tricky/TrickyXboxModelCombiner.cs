@@ -409,6 +409,10 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 MaterialData.Texture3 = "";
                 MaterialData.Texture4 = "";
 
+                MaterialData.FactorFloat = 0.00392156885936856f;
+                MaterialData.Unused1Float = 0.00392156885936856f;
+                MaterialData.Unused2Float = 0.00392156885936856f;
+
                 string[] Split = trickyModelCombiner.materials[MaterialsID[a]].MainTexture.Split(' ');
 
                 if (Split.Length > 1)
@@ -429,6 +433,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                 TempTrickyMesh.materialDatas.Add(MaterialData);
             }
+
 
             for (int a = 0; a < ReassignedMesh.faces.Count; a++)
             {
@@ -1057,6 +1062,10 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     MaterialData.Texture3 = "";
                     MaterialData.Texture4 = "";
 
+                    MaterialData.FactorFloat = 0.00392156885936856f;
+                    MaterialData.Unused1Float = 0.00392156885936856f;
+                    MaterialData.Unused2Float = 0.00392156885936856f;
+
                     string[] Split = trickyModelCombiner.materials[MaterialsID[a]].MainTexture.Split(' ');
 
                     if (Split.Length > 1)
@@ -1089,6 +1098,22 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                     TempTrickyMesh.materialDatas.Add(MaterialData);
                 }
+
+                TrickyXboxMXF.MaterialData TempMaterialData = new TrickyXboxMXF.MaterialData();
+                TempMaterialData.MainTexture = "head";
+                TempTrickyMesh.materialDatas.Add(TempMaterialData);
+
+                TempMaterialData = new TrickyXboxMXF.MaterialData();
+                TempMaterialData.MainTexture = "helm";
+                TempTrickyMesh.materialDatas.Add(TempMaterialData);
+
+                TempMaterialData = new TrickyXboxMXF.MaterialData();
+                TempMaterialData.MainTexture = "suit";
+                TempTrickyMesh.materialDatas.Add(TempMaterialData);
+
+                TempMaterialData = new TrickyXboxMXF.MaterialData();
+                TempMaterialData.MainTexture = "boot";
+                TempTrickyMesh.materialDatas.Add(TempMaterialData);
 
                 for (int a = 0; a < TempReMesh.faces.Count; a++)
                 {
