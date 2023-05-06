@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace SSXMultiTool.FileHandlers.Models
 {
-    public class OpenSSXMFHandler
+    public class OpenBXMFHandler
     {
         public string MagicName = "OSMF";
         public int FormatVersion;
