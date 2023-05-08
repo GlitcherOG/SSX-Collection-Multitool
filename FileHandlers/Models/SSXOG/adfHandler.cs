@@ -36,7 +36,11 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
 
                     NewHeader.UCount0 = StreamUtil.ReadUInt8(stream);
                     NewHeader.UCount1 = StreamUtil.ReadUInt8(stream);
-                    NewHeader.U5 = StreamUtil.ReadUInt8(stream);
+
+                    byte Temp = StreamUtil.ReadUInt8(stream);
+                    NewHeader.HeaderType = ((byte)(Temp << 5)) >> 5;
+                    NewHeader.BoneCount = Temp >> 3;
+
                     NewHeader.U6 = StreamUtil.ReadUInt8(stream);
 
                     NewHeader.U7 = StreamUtil.ReadUInt8(stream);
@@ -77,7 +81,8 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
 
             public int UCount0;
             public int UCount1;
-            public int U5;
+            public int HeaderType;
+            public int BoneCount;
             public int U6;
 
             public int U7;
