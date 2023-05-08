@@ -12,7 +12,7 @@ namespace SSXMultiTool.FileHandlers.Models
 {
     public class OpenBXMFHandler
     {
-        public string MagicName = "OSMF";
+        public string MagicName = "OBMF";
         public int FormatVersion;
         public int ModelHeaderOffset;
         public int ModelHeaderCount;

@@ -113,5 +113,25 @@ namespace SSXMultiTool
                 }
             }
         }
+
+        private void LoadADF_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+                Title = "Select Alf Folder",
+            };
+            if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string[] NewFiles = Directory.GetFiles(openFileDialog1.FileName, "*.adf", SearchOption.AllDirectories);
+
+                for (int i = 0; i < NewFiles.Length; i++)
+                {
+                    adfHandler aflHandler = new adfHandler();
+
+                    aflHandler.Load(NewFiles[i]);
+                }
+            }
+        }
     }
 }

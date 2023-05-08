@@ -210,6 +210,11 @@ namespace SSXMultiTool.FileHandlers
             model.SaveGLB(Output);
         }
 
+        public static Vector3 SwapYZ(Vector3 vector3)
+        {
+            return new Vector3(vector3.X, vector3.Z, vector3.Z);
+        }
+
         public static void SaveTrickyPS2glTF(string Output, TrickyPS2ModelCombiner Handler)
         {
             var scene = new SharpGLTF.Scenes.SceneBuilder();
@@ -400,8 +405,14 @@ namespace SSXMultiTool.FileHandlers
                 }
             }
 
+
+            Matrix4x4 matrix4X4 = Matrix4x4.CreateRotationX(-1.5708f);
+
+            scene.ApplyBasisTransform(matrix4X4);
+
             // save the model in different formats
             var model = scene.ToGltf2();
+            //model.ApplyBasisTransform(matrix4X4);
             model.SaveGLB(Output);
         }
 
