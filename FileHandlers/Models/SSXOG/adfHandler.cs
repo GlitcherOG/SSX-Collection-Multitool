@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,10 +33,11 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
 
                     NewHeader.AnimName = StreamUtil.ReadString(stream, 4);
                     NewHeader.AnimOffset = StreamUtil.ReadUInt32(stream);
-                    NewHeader.ByteSize = StreamUtil.ReadUInt32(stream);
+                    NewHeader.FrameByteSize = StreamUtil.ReadUInt32(stream);
 
                     NewHeader.UCount0 = StreamUtil.ReadUInt8(stream);
-                    NewHeader.UCount1 = StreamUtil.ReadUInt8(stream);
+
+                    NewHeader.FrameCount = StreamUtil.ReadUInt8(stream)*2;
 
                     byte Temp = StreamUtil.ReadUInt8(stream);
                     NewHeader.HeaderType = ((byte)(Temp << 5)) >> 5;
@@ -63,24 +65,53 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
                 for (int i = 0; i < AnimHeaders.Count; i++)
                 {
                     stream.Position = AnimDataOffset + AnimHeaders[i].AnimOffset;
+                    var TempHeader = AnimHeaders[i];
+                    TempHeader.FrameData = new List<FrameData>();
 
 
+                    for (int a = 0; a < TempHeader.FrameCount; a++)
+                    {
+                        int TempPos = (int)stream.Position;
 
+                        var NewHeader = new FrameData();
+                        NewHeader.BoneRotations = new List<Vector3>();
+
+                        NewHeader.Position = StreamUtil.ReadVector3(stream);
+
+                        for (int b = 0; b < TempHeader.BoneCount; b++)
+                        {
+                            NewHeader.BoneRotations.Add(ReadInt16Rotations(stream));
+                        }
+                        ////Probably an allign byte 4
+                        //stream.Position += 2;
+                        stream.Position = TempPos + TempHeader.FrameByteSize;
+
+                        TempHeader.FrameData.Add(NewHeader);
+                    }
+
+                    AnimHeaders[i] = TempHeader;
                 }
             }
         }
 
-
+        public Vector3 ReadInt16Rotations(Stream stream)
+        {
+            Vector3 vector3;
+            vector3.X = StreamUtil.ReadInt16(stream) / 16384f * 6.283185307179586f;
+            vector3.Y = StreamUtil.ReadInt16(stream) / 16384f * 6.283185307179586f;
+            vector3.Z = StreamUtil.ReadInt16(stream) / 16384f * 6.283185307179586f;
+            return vector3;
+        }
 
 
         public struct AnimHeader
         {
             public string AnimName;
             public int AnimOffset;
-            public int ByteSize;
+            public int FrameByteSize;
 
             public int UCount0;
-            public int UCount1;
+            public int FrameCount;
             public int HeaderType;
             public int BoneCount;
             public int U6;
@@ -97,6 +128,15 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
             public int U14;
             public int U15;
             public int U16;
+
+            public List<FrameData> FrameData;
+        }
+
+
+        public struct FrameData
+        {
+            public Vector3 Position;
+            public List<Vector3> BoneRotations;
         }
 
 
