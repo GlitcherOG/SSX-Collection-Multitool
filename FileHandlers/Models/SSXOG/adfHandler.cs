@@ -35,6 +35,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
                     NewHeader.AnimOffset = StreamUtil.ReadUInt32(stream);
                     NewHeader.FrameByteSize = StreamUtil.ReadUInt32(stream);
 
+                    //StreamUtil.WriteUInt8(stream, 0);
                     NewHeader.UCount0 = StreamUtil.ReadUInt8(stream);
 
                     NewHeader.FrameCount = StreamUtil.ReadUInt8(stream)*2;
@@ -43,12 +44,24 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
                     NewHeader.HeaderType = ((byte)(Temp << 5)) >> 5;
                     NewHeader.BoneCount = Temp >> 3;
 
-                    NewHeader.U6 = StreamUtil.ReadUInt8(stream);
+                    if (NewHeader.HeaderType == 0)
+                    {
+                        NewHeader.ModelID = StreamUtil.ReadUInt8(stream);
+                    }
+                    else
+                    {
+                        NewHeader.U6 = StreamUtil.ReadUInt8(stream);
+                    }
 
                     NewHeader.U7 = StreamUtil.ReadUInt8(stream);
                     NewHeader.U8 = StreamUtil.ReadUInt8(stream);
                     NewHeader.U9 = StreamUtil.ReadUInt8(stream);
                     NewHeader.U10 = StreamUtil.ReadUInt8(stream);
+
+                    if(NewHeader.U7!=0)
+                    {
+                        Console.WriteLine();
+                    }
 
                     NewHeader.U11 = StreamUtil.ReadUInt16(stream);
                     NewHeader.U11b = StreamUtil.ReadUInt16(stream);
@@ -114,8 +127,9 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
             public int FrameCount;
             public int HeaderType;
             public int BoneCount;
-            public int U6;
+            public int ModelID;
 
+            public int U6;
             public int U7;
             public int U8;
             public int U9;
