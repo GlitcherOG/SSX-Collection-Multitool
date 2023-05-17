@@ -372,20 +372,24 @@ namespace SSXMultiTool
                         }
                     }
 
-                    Vector3 Scale;
-                    Quaternion Rotation;
-                    Vector3 Location;
+                    if (pbdHandler.PrefabData[i].PrefabObjects[a].IncludeMatrix)
+                    {
+                        TempPrefabObject.IncludeMatrix = true;
+                        Vector3 Scale;
+                        Quaternion Rotation;
+                        Vector3 Location;
 
-                    Matrix4x4.Decompose(pbdHandler.PrefabData[i].PrefabObjects[a].matrix4X4, out Scale, out Rotation, out Location);
+                        Matrix4x4.Decompose(pbdHandler.PrefabData[i].PrefabObjects[a].matrix4X4, out Scale, out Rotation, out Location);
 
-                    TempPrefabObject.Position = JsonUtil.Vector3ToArray(Location);
-                    TempPrefabObject.Rotation = JsonUtil.QuaternionToArray(Rotation);
-                    TempPrefabObject.Scale = JsonUtil.Vector3ToArray(Scale);
+                        TempPrefabObject.Position = JsonUtil.Vector3ToArray(Location);
+                        TempPrefabObject.Rotation = JsonUtil.QuaternionToArray(Rotation);
+                        TempPrefabObject.Scale = JsonUtil.Vector3ToArray(Scale);
+                    }
 
-                    if(pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries !=null)
+                    if(pbdHandler.PrefabData[i].PrefabObjects[a].IncludeAnimation)
                     {
                         var TempAnimation = new PrefabJsonHandler.ObjectAnimation();
-
+                        TempPrefabObject.IncludeAnimation = true;
                         TempAnimation.U1 = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.U1;
                         TempAnimation.U2 = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.U2;
                         TempAnimation.U3 = pbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.U3;
@@ -1144,12 +1148,16 @@ namespace SSXMultiTool
                     var NewObject = new ObjectHeader();
                     NewObject.ParentID = TempObject.ParentID;
 
-                    Matrix4x4 scale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(TempObject.Scale));
-                    Matrix4x4 Rotation = Matrix4x4.CreateFromQuaternion(JsonUtil.ArrayToQuaternion(TempObject.Rotation));
-                    Matrix4x4 matrix4X4 = Matrix4x4.Multiply(scale, Rotation);
+                    if (TempObject.IncludeMatrix)
+                    {
+                        NewObject.IncludeMatrix = true;
+                        Matrix4x4 scale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(TempObject.Scale));
+                        Matrix4x4 Rotation = Matrix4x4.CreateFromQuaternion(JsonUtil.ArrayToQuaternion(TempObject.Rotation));
+                        Matrix4x4 matrix4X4 = Matrix4x4.Multiply(scale, Rotation);
 
-                    matrix4X4.Translation = JsonUtil.ArrayToVector3(TempObject.Position);
-                    NewObject.matrix4X4 = matrix4X4;
+                        matrix4X4.Translation = JsonUtil.ArrayToVector3(TempObject.Position);
+                        NewObject.matrix4X4 = matrix4X4;
+                    }
 
                     ObjectData NewObjectData = new ObjectData();
 
@@ -1171,43 +1179,46 @@ namespace SSXMultiTool
                         }
                     }
 
-                    NewObject.objectAnimation = new ObjectAnimation();
-                    NewObject.objectAnimation.U1 = TempObject.Animation.U1;
-                    NewObject.objectAnimation.U2 = TempObject.Animation.U2;
-                    NewObject.objectAnimation.U3 = TempObject.Animation.U3;
-                    NewObject.objectAnimation.U4 = TempObject.Animation.U4;
-                    NewObject.objectAnimation.U5 = TempObject.Animation.U5;
-                    NewObject.objectAnimation.U6 = TempObject.Animation.U6;
-
-                    NewObject.objectAnimation.AnimationAction = TempObject.Animation.AnimationAction;
-                    NewObject.objectAnimation.animationEntries = new List<AnimationEntry>();
-                    if (TempObject.Animation.AnimationEntries != null)
+                    if (TempObject.IncludeAnimation)
                     {
-                        for (int b = 0; b < TempObject.Animation.AnimationEntries.Count; b++)
+                        NewObject.IncludeAnimation = true;
+                        NewObject.objectAnimation = new ObjectAnimation();
+                        NewObject.objectAnimation.U1 = TempObject.Animation.U1;
+                        NewObject.objectAnimation.U2 = TempObject.Animation.U2;
+                        NewObject.objectAnimation.U3 = TempObject.Animation.U3;
+                        NewObject.objectAnimation.U4 = TempObject.Animation.U4;
+                        NewObject.objectAnimation.U5 = TempObject.Animation.U5;
+                        NewObject.objectAnimation.U6 = TempObject.Animation.U6;
+
+                        NewObject.objectAnimation.AnimationAction = TempObject.Animation.AnimationAction;
+                        NewObject.objectAnimation.animationEntries = new List<AnimationEntry>();
+                        if (TempObject.Animation.AnimationEntries != null)
                         {
-                            var TempAnimationEntry = TempObject.Animation.AnimationEntries[b];
-                            var NewAnimationEntry = new AnimationEntry();
-                            NewAnimationEntry.animationMaths = new List<AnimationMath>();
-                            for (int c = 0; c < TempAnimationEntry.AnimationMaths.Count; c++)
+                            for (int b = 0; b < TempObject.Animation.AnimationEntries.Count; b++)
                             {
-                                var TempAnimationMaths = TempAnimationEntry.AnimationMaths[c];
-                                var NewAnimationMath = new AnimationMath();
+                                var TempAnimationEntry = TempObject.Animation.AnimationEntries[b];
+                                var NewAnimationEntry = new AnimationEntry();
+                                NewAnimationEntry.animationMaths = new List<AnimationMath>();
+                                for (int c = 0; c < TempAnimationEntry.AnimationMaths.Count; c++)
+                                {
+                                    var TempAnimationMaths = TempAnimationEntry.AnimationMaths[c];
+                                    var NewAnimationMath = new AnimationMath();
 
-                                NewAnimationMath.Value1 = TempAnimationMaths.Value1;
-                                NewAnimationMath.Value2 = TempAnimationMaths.Value2;
-                                NewAnimationMath.Value3 = TempAnimationMaths.Value3;
-                                NewAnimationMath.Value4 = TempAnimationMaths.Value4;
-                                NewAnimationMath.Value5 = TempAnimationMaths.Value5;
-                                NewAnimationMath.Value6 = TempAnimationMaths.Value6;
+                                    NewAnimationMath.Value1 = TempAnimationMaths.Value1;
+                                    NewAnimationMath.Value2 = TempAnimationMaths.Value2;
+                                    NewAnimationMath.Value3 = TempAnimationMaths.Value3;
+                                    NewAnimationMath.Value4 = TempAnimationMaths.Value4;
+                                    NewAnimationMath.Value5 = TempAnimationMaths.Value5;
+                                    NewAnimationMath.Value6 = TempAnimationMaths.Value6;
 
 
-                                NewAnimationEntry.animationMaths.Add(NewAnimationMath);
+                                    NewAnimationEntry.animationMaths.Add(NewAnimationMath);
+                                }
+
+                                NewObject.objectAnimation.animationEntries.Add(NewAnimationEntry);
                             }
-
-                            NewObject.objectAnimation.animationEntries.Add(NewAnimationEntry);
                         }
                     }
-
 
                     NewObject.objectData = NewObjectData;
 

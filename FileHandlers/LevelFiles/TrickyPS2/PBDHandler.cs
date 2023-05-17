@@ -389,6 +389,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         if (TempPrefab.Matrix4x4Offset != -1)
                         {
                             stream.Position = StartPos + TempPrefab.Matrix4x4Offset;
+                            TempPrefab.IncludeMatrix = true;
                             TempPrefab.matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
                         }
 
@@ -432,7 +433,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         if (TempPrefab.AnimOffset != 0)
                         {
                             stream.Position = StartPos + TempPrefab.AnimOffset;
-
+                            TempPrefab.IncludeAnimation = true;
                             //Load Stuff
                             var TempAnimation = new ObjectAnimation();
 
@@ -979,7 +980,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     var TempObject = TempPrefab.PrefabObjects[a];
                     TempObject.Matrix4x4Offset = -1;
-                    if (!TempObject.matrix4X4.Equals(new Matrix4x4()) && TempObject.matrix4X4 != null)
+                    if (TempObject.IncludeMatrix)
                     {
                         StreamUtil.AlignBy16(stream);
                         TempObject.Matrix4x4Offset = (int)stream.Position;
@@ -1052,7 +1053,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     var TempObject = TempPrefab.PrefabObjects[a];
                     TempObject.AnimOffset = 0;
-                    if (TempObject.objectAnimation.animationEntries != null)
+                    if (TempObject.IncludeAnimation)
                     {
                         TempObject.AnimOffset = (int)stream.Position;
 
@@ -2124,6 +2125,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public Matrix4x4 matrix4X4;
         public ObjectData objectData;
         public ObjectAnimation objectAnimation;
+
+        public bool IncludeAnimation;
+        public bool IncludeMatrix;
     }
 
     public struct ObjectData
