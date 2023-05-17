@@ -12,6 +12,7 @@ using SSXMultiTool.FileHandlers.Models;
 using static SSXMultiTool.JsonFiles.Tricky.InstanceJsonHandler;
 using System.Windows.Documents;
 using SSXMultiTool.FileHandlers.Textures;
+using Microsoft.Toolkit.HighPerformance;
 
 namespace SSXMultiTool
 {
@@ -45,16 +46,16 @@ namespace SSXMultiTool
 
         public void ExtractTrickyLevelFiles(string LoadPath, string ExportPath)
         {
-            ADLHandler adlHandler = new ADLHandler();
-            adlHandler.Load(LoadPath + ".adl");
-            adlHandler.Save(LoadPath + ".adl");
+            //ADLHandler adlHandler = new ADLHandler();
+            //adlHandler.Load(LoadPath + ".adl");
+            //adlHandler.Save(LoadPath + ".adl");
 
             SSFHandler ssfHandler = new SSFHandler();
-            ssfHandler.Load(LoadPath + ".ssf");
-            //ssfHandler.SaveTest(LoadPath + ".ssf");
+            //ssfHandler.Load(LoadPath + ".ssf");
+            ////ssfHandler.SaveTest(LoadPath + ".ssf");
 
-            Directory.CreateDirectory(ExportPath + "\\Collision");
-            ssfHandler.SaveModels(ExportPath + "\\Collision");
+            //Directory.CreateDirectory(ExportPath + "\\Collision");
+            //ssfHandler.SaveModels(ExportPath + "\\Collision");
 
             //Load Map
             MapHandler mapHandler = new MapHandler();
@@ -63,6 +64,7 @@ namespace SSXMultiTool
             //Load PBD
             PBDHandler pbdHandler = new PBDHandler();
             pbdHandler.LoadPBD(LoadPath + ".pbd");
+            pbdHandler.SaveNew(LoadPath + ".pbd1");
 
             LTGHandler ltgHandler = new LTGHandler();
             ltgHandler.LoadLTG(LoadPath + ".ltg");
@@ -135,22 +137,14 @@ namespace SSXMultiTool
 
                 bezierUtil.GenerateRawPoints();
 
-                patch.R1C1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[0]);
-                patch.R1C2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[1]);
-                patch.R1C3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[2]);
-                patch.R1C4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[3]);
-                patch.R2C1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[4]);
-                patch.R2C2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[5]);
-                patch.R2C3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[6]);
-                patch.R2C4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[7]);
-                patch.R3C1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[8]);
-                patch.R3C2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[9]);
-                patch.R3C3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[10]);
-                patch.R3C4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[11]);
-                patch.R4C1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[12]);
-                patch.R4C2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[13]);
-                patch.R4C3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[14]);
-                patch.R4C4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[15]);
+                patch.Points = new float[16, 3];
+
+                for (int a= 0; a < 16; a++)
+                {
+                    patch.Points[a, 0] = bezierUtil.RawPoints[a].X;
+                    patch.Points[a, 1] = bezierUtil.RawPoints[a].Y;
+                    patch.Points[a, 2] = bezierUtil.RawPoints[a].Z;
+                }
 
                 patch.PatchStyle = pbdHandler.Patches[i].PatchStyle;
 
@@ -546,15 +540,19 @@ namespace SSXMultiTool
                             TempPrefabObject.MeshData.Add(TempMeshHeader);
                         }
 
-                        Vector3 Scale;
-                        Quaternion Rotation;
-                        Vector3 Location;
+                        if (skypbdHandler.PrefabData[i].PrefabObjects[a].IncludeMatrix)
+                        {
+                            TempPrefabObject.IncludeMatrix = true;
+                            Vector3 Scale;
+                            Quaternion Rotation;
+                            Vector3 Location;
 
-                        Matrix4x4.Decompose(skypbdHandler.PrefabData[i].PrefabObjects[a].matrix4X4, out Scale, out Rotation, out Location);
+                            Matrix4x4.Decompose(skypbdHandler.PrefabData[i].PrefabObjects[a].matrix4X4, out Scale, out Rotation, out Location);
 
-                        TempPrefabObject.Position = JsonUtil.Vector3ToArray(Location);
-                        TempPrefabObject.Rotation = JsonUtil.QuaternionToArray(Rotation);
-                        TempPrefabObject.Scale = JsonUtil.Vector3ToArray(Scale);
+                            TempPrefabObject.Position = JsonUtil.Vector3ToArray(Location);
+                            TempPrefabObject.Rotation = JsonUtil.QuaternionToArray(Rotation);
+                            TempPrefabObject.Scale = JsonUtil.Vector3ToArray(Scale);
+                        }
 
                         TempModel.PrefabObjects.Add(TempPrefabObject);
                     }
@@ -837,22 +835,12 @@ namespace SSXMultiTool
 
                 BezierUtil bezierUtil = new BezierUtil();
 
-                bezierUtil.RawPoints[0] = JsonUtil.ArrayToVector3(ImportPatch.R1C1);
-                bezierUtil.RawPoints[1] = JsonUtil.ArrayToVector3(ImportPatch.R1C2);
-                bezierUtil.RawPoints[2] = JsonUtil.ArrayToVector3(ImportPatch.R1C3);
-                bezierUtil.RawPoints[3] = JsonUtil.ArrayToVector3(ImportPatch.R1C4);
-                bezierUtil.RawPoints[4] = JsonUtil.ArrayToVector3(ImportPatch.R2C1);
-                bezierUtil.RawPoints[5] = JsonUtil.ArrayToVector3(ImportPatch.R2C2);
-                bezierUtil.RawPoints[6] = JsonUtil.ArrayToVector3(ImportPatch.R2C3);
-                bezierUtil.RawPoints[7] = JsonUtil.ArrayToVector3(ImportPatch.R2C4);
-                bezierUtil.RawPoints[8] = JsonUtil.ArrayToVector3(ImportPatch.R3C1);
-                bezierUtil.RawPoints[9] = JsonUtil.ArrayToVector3(ImportPatch.R3C2);
-                bezierUtil.RawPoints[10] = JsonUtil.ArrayToVector3(ImportPatch.R3C3);
-                bezierUtil.RawPoints[11] = JsonUtil.ArrayToVector3(ImportPatch.R3C4);
-                bezierUtil.RawPoints[12] = JsonUtil.ArrayToVector3(ImportPatch.R4C1);
-                bezierUtil.RawPoints[13] = JsonUtil.ArrayToVector3(ImportPatch.R4C2);
-                bezierUtil.RawPoints[14] = JsonUtil.ArrayToVector3(ImportPatch.R4C3);
-                bezierUtil.RawPoints[15] = JsonUtil.ArrayToVector3(ImportPatch.R4C4);
+                for (int a = 0; a < 16; a++)
+                {
+                    bezierUtil.RawPoints[a].X = ImportPatch.Points[a, 0];
+                    bezierUtil.RawPoints[a].Y = ImportPatch.Points[a, 1];
+                    bezierUtil.RawPoints[a].Z = ImportPatch.Points[a, 2];
+                }
 
                 bezierUtil.GenerateProcessedPoints();
 
@@ -917,23 +905,10 @@ namespace SSXMultiTool
 
                 patch.PatchStyle = ImportPatch.PatchStyle;
                 patch.Unknown2 = 41;
-                if(ImportPatch.TrickOnlyPatch)
+                if (ImportPatch.TrickOnlyPatch)
                 {
                     patch.PatchVisablity = 32768;
                 }
-
-                //if(ImportPatch.PatchStyle==0)
-                //{
-                //    patch.TextureAssigment = 129;
-                //}
-                //else if (ImportPatch.PatchStyle == 6 || ImportPatch.PatchStyle == 10)
-                //{
-                //    patch.TextureAssigment = 130;
-                //}
-                //else
-                //{
-                //    patch.TextureAssigment = ImportPatch.TextureAssigment;
-                //}
                 patch.TextureAssigment = ImportPatch.TextureAssigment;
 
                 if (lightingFixObjects.Count - 1 >= patch.TextureAssigment)

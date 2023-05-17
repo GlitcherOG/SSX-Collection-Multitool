@@ -280,9 +280,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempLights.Postion = StreamUtil.ReadVector3(stream);
                     TempLights.LowestXYZ = StreamUtil.ReadVector3(stream);
                     TempLights.HighestXYZ = StreamUtil.ReadVector3(stream);
-                    TempLights.UnknownFloat2 = StreamUtil.ReadUInt32(stream);
+                    TempLights.UnknownFloat2 = StreamUtil.ReadFloat(stream);
                     TempLights.UnknownInt2 = StreamUtil.ReadUInt32(stream);
-                    TempLights.UnknownFloat3 = StreamUtil.ReadUInt32(stream);
+                    TempLights.UnknownFloat3 = StreamUtil.ReadFloat(stream);
                     TempLights.UnknownInt3 = StreamUtil.ReadUInt32(stream);
                     lights.Add(TempLights);
                 }

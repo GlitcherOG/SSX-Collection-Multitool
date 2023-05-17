@@ -16,7 +16,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
 
         public void CreateJson(string path)
         {
-            var serializer = JsonConvert.SerializeObject(this, Formatting.None);
+            var serializer = JsonConvert.SerializeObject(this, Formatting.Indented);
             File.WriteAllText(path, serializer);
         }
 
@@ -48,22 +48,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public float[] UVPoint3;
             public float[] UVPoint4;
 
-            public float[] R4C4;
-            public float[] R4C3;
-            public float[] R4C2;
-            public float[] R4C1;
-            public float[] R3C4;
-            public float[] R3C3;
-            public float[] R3C2;
-            public float[] R3C1;
-            public float[] R2C4;
-            public float[] R2C3;
-            public float[] R2C2;
-            public float[] R2C1;
-            public float[] R1C4;
-            public float[] R1C3;
-            public float[] R1C2;
-            public float[] R1C1;
+            public float[,] Points;
 
             public int PatchStyle;
             public bool TrickOnlyPatch;
