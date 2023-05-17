@@ -22,15 +22,28 @@ As such, I chose to redo the entire project and improve it as I did so.
 - [ ] Redo Folder Loading SSH
 - [ ] Fix Model Orientation
 - [ ] Replace Loc Newline with ### or something similar
+- [ ] Matrix Type 3 SSH
+- [ ] Audio Exporting/Importing 
 
 ### SSX Tricky
 - [ ] Normal Average Proper
 - [ ] Fix Tricky Shadow Xbox (Fix Tristrip)
 - [ ] Fix Materials so all unused are added by default
 - [ ] Figure out why materials are transparent by default
+- [ ] Fix Prefab Regeneration 
+- [ ] Music Tools
+- [ ] Fix Speech Tools 
 
 ### SSX 3
 - [ ] Normal Average Proper
+- [ ] Music Tools
+- [ ] Speech Tools 
+
+### On Tour
+- [ ] New SSH Fomrat
+- [ ] SMP Image Format 
+- [ ] Music Tools
+- [ ] Fix Speech Tools 
 
 ## Todo
 - [ ] Setup ISO Handler

@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SSXMultiTool.FileHandlers
+namespace SSXMultiTool.FileHandlers.Textures
 {
     public class SMPHandler
     {
         byte[] magic; // 'smp!' 4
-        int unk; // shape start addr
-        int unk2;
-        int unk3;
-        int unk4; // table count
-        int unk5;
+        int HeaderSize; // shape start addr
+        int unk2; //Shps Size
+        int unk3; //Appears to be some kind of mode
+        int unk4; //total table count
+        int unk5; //
         int unk6;
         int unk7;
         int unk8;

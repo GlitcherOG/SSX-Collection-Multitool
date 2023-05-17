@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using BCnEncoder.Decoder;
 using BCnEncoder.Encoder;
 
-namespace SSXMultiTool.FileHandlers
+namespace SSXMultiTool.FileHandlers.Textures
 {
     internal class OldXSHHandler
     {

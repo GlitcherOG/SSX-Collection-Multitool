@@ -7,7 +7,7 @@ using System.IO;
 using System.Windows.Forms;
 using SSXMultiTool.Utilities;
 
-namespace SSXMultiTool.FileHandlers
+namespace SSXMultiTool.FileHandlers.Textures
 {
     public class OldSSHHandler
     {
@@ -62,44 +62,6 @@ namespace SSXMultiTool.FileHandlers
                 {
                     sshImages = new List<SSHImage>();
                     MessageBox.Show("Error Reading File new SSH Detected");
-
-                    //fileSize = StreamUtil.ReadInt32(stream);
-
-                    //imageCount = StreamUtil.ReadInt32Big(stream);
-
-                    //stream.Position += 4; //Find Out
-
-                    //for (int i = 0; i < imageCount; i++)
-                    //{
-                    //    SSHImage tempImage = new SSHImage();
-
-                    //    tempImage.offset = StreamUtil.ReadInt32Big(stream);
-
-                    //    stream.Position += 4; //Size
-
-                    //    tempImage.shortname = StreamUtil.ReadNullEndString(stream);
-
-                    //    sshImages.Add(tempImage);
-                    //}
-
-                    //format = StreamUtil.ReadString(stream,4);
-
-                    //stream.Position += 4; //Blank
-
-                    //group = StreamUtil.ReadString(stream, 4);
-
-                    //endingstring = StreamUtil.ReadString(stream, 4);
-
-                    ////try
-                    //{
-                    //    //StandardToBitmap(stream, (int)stream.Position);
-                    //}
-                    ////catch
-                    //{
-                    //    sshImages = new List<SSHImage>();
-                    //    MessageBox.Show("Error reading File " + MagicWord + " " + format);
-                    //}
-
                 }
                 else
                 {
@@ -160,7 +122,7 @@ namespace SSXMultiTool.FileHandlers
 
                 //Decompress
                 if (tempImageHeader.MatrixFormat == 130)
-                { 
+                {
                     tempImage.Matrix = RefpackHandler.Decompress(tempImage.Matrix);
                 }
 
@@ -206,13 +168,13 @@ namespace SSXMultiTool.FileHandlers
 
                     sshTable.colorTable = new List<Color>();
 
-                    int tempSize = (sshTable.Size / 4) - 4;
+                    int tempSize = sshTable.Size / 4 - 4;
                     if (sshTable.Size == 0)
                     {
                         tempSize = sshTable.Total;
                     }
 
-                    stream.Position = Spos +15;
+                    stream.Position = Spos + 15;
 
                     for (int a = 0; a < tempSize; a++)
                     {
@@ -223,24 +185,24 @@ namespace SSXMultiTool.FileHandlers
                     //Alpha Fix
                     for (int a = 0; a < sshTable.colorTable.Count; a++)
                     {
-                        if(Max < sshTable.colorTable[a].A)
+                        if (Max < sshTable.colorTable[a].A)
                         {
                             Max = sshTable.colorTable[a].A;
                         }
                     }
-                    if(Max<=128)
+                    if (Max <= 128)
                     {
                         tempImage.AlphaFix = true;
 
                         for (int a = 0; a < sshTable.colorTable.Count; a++)
                         {
                             var TempColour = sshTable.colorTable[a];
-                            int A = (TempColour.A * 2) - 1;
-                            if(A>255)
+                            int A = TempColour.A * 2 - 1;
+                            if (A > 255)
                             {
                                 A = 255;
                             }
-                            else if(A < 0)
+                            else if (A < 0)
                             {
                                 A = 0;
                             }
@@ -266,9 +228,9 @@ namespace SSXMultiTool.FileHandlers
                 List<Color> MetalColours = new List<Color>();
                 //Colour Correction
                 int tempRead = stream.ReadByte();
-                if(tempRead==105)
+                if (tempRead == 105)
                 {
-                    tempImage.MetalBin = true;
+                    //tempImage.MetalBin = true;
                     SSHColourTable sshTable = tempImage.sshTable;
                     for (int c = 0; c < sshTable.colorTable.Count; c++)
                     {
@@ -747,7 +709,7 @@ namespace SSXMultiTool.FileHandlers
                 if (Test)
                 {
                     SSHColorCalculate(i);
-                    if (sshImages[i].sshTable.Total > 256 && (sshImages[i].sshHeader.MatrixFormat == 2|| sshImages[i].sshHeader.MatrixFormat == 130))
+                    if (sshImages[i].sshTable.Total > 256 && (sshImages[i].sshHeader.MatrixFormat == 2 || sshImages[i].sshHeader.MatrixFormat == 130))
                     {
                         MessageBox.Show(sshImages[i].shortname + " " + i.ToString() + " Exceeds 256 Colours");
                         check = true;
@@ -764,7 +726,7 @@ namespace SSXMultiTool.FileHandlers
                     check = true;
                 }
             }
-            if(check==true)
+            if (check == true)
             {
                 return;
             }
@@ -809,7 +771,7 @@ namespace SSXMultiTool.FileHandlers
                 //Set SSH Header Info
                 if (sshImages[i].sshHeader.MatrixFormat == 1)
                 {
-                    StreamUtil.WriteInt24(stream, (sshImages[i].bitmap.Width * sshImages[i].bitmap.Height / 2) + 16);
+                    StreamUtil.WriteInt24(stream, sshImages[i].bitmap.Width * sshImages[i].bitmap.Height / 2 + 16);
                 }
                 else
                 if (sshImages[i].sshHeader.MatrixFormat == 2 || sshImages[i].sshHeader.MatrixFormat == 130)
@@ -818,7 +780,7 @@ namespace SSXMultiTool.FileHandlers
                 }
                 else if (sshImages[i].sshHeader.MatrixFormat == 5)
                 {
-                    StreamUtil.WriteInt24(stream, (sshImages[i].bitmap.Width * sshImages[i].bitmap.Height * 4) + 16);
+                    StreamUtil.WriteInt24(stream, sshImages[i].bitmap.Width * sshImages[i].bitmap.Height * 4 + 16);
                 }
 
                 StreamUtil.WriteInt16(stream, sshImages[i].bitmap.Width);
@@ -829,9 +791,9 @@ namespace SSXMultiTool.FileHandlers
 
                 StreamUtil.WriteInt16(stream, sshImages[i].sshHeader.Yaxis);
 
-                if (sshImages[i].sshHeader.LXPos==2)
+                if (sshImages[i].sshHeader.LXPos == 2)
                 {
-                    tempByte = new byte[4] {0x00,0x20,0x00,0x00};
+                    tempByte = new byte[4] { 0x00, 0x20, 0x00, 0x00 };
                 }
                 else
                 {
@@ -851,18 +813,18 @@ namespace SSXMultiTool.FileHandlers
                 {
                     Maxtrix5Write(stream, i);
                 }
-                else if (sshImages[i].sshHeader.MatrixFormat==130)
+                else if (sshImages[i].sshHeader.MatrixFormat == 130)
                 {
                     MessageBox.Show("Error Can't Compress file (Compresson method doesn't exist)");
                 }
 
                 if (sshImages[i].MetalBin)
                 {
-                    tempByte = new byte[16] { 0x69 , 0x10, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+                    tempByte = new byte[16] { 0x69, 0x10, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
                     stream.Write(tempByte, 0, tempByte.Length);
                 }
 
-                if (sshImages[i].longname != "" && sshImages[i].longname !=null)
+                if (sshImages[i].longname != "" && sshImages[i].longname != null)
                 {
                     //ending
                     tempByte = new byte[4] { 0x70, 0x00, 0x00, 0x00 };
@@ -907,7 +869,7 @@ namespace SSXMultiTool.FileHandlers
                     if (sshImages[i].AlphaFix)
                     {
                         int A = (color.A + 1) / 2;
-                        color = Color.FromArgb(A, color.R, color.G, color.B); 
+                        color = Color.FromArgb(A, color.R, color.G, color.B);
                     }
 
 
@@ -945,7 +907,7 @@ namespace SSXMultiTool.FileHandlers
             stream.Write(tempByte, 0, 1);
 
             tempByte = new byte[4];
-            BitConverter.GetBytes((colourTable.colorTable.Count * 4) + 16).CopyTo(tempByte, 0);
+            BitConverter.GetBytes(colourTable.colorTable.Count * 4 + 16).CopyTo(tempByte, 0);
             stream.Write(tempByte, 0, 3);
 
             tempByte = new byte[4];
@@ -1054,7 +1016,7 @@ namespace SSXMultiTool.FileHandlers
             stream.Write(tempByte, 0, 1);
 
             tempByte = new byte[4];
-            BitConverter.GetBytes((colourTable.colorTable.Count * 4) + 16).CopyTo(tempByte, 0);
+            BitConverter.GetBytes(colourTable.colorTable.Count * 4 + 16).CopyTo(tempByte, 0);
             stream.Write(tempByte, 0, 3);
 
             tempByte = new byte[4];

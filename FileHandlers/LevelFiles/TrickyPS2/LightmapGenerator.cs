@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Numerics;
 using Color = System.Drawing.Color;
 using Color2 = System.Windows.Media.Color;
+using SSXMultiTool.FileHandlers.Textures;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {

@@ -1,5 +1,4 @@
-﻿using SSXMultiTool.FileHandlers;
-using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
+﻿using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
 using SSXMultiTool.JsonFiles.Tricky;
 using System;
 using System.Collections.Generic;
@@ -12,6 +11,7 @@ using System.IO;
 using SSXMultiTool.FileHandlers.Models;
 using static SSXMultiTool.JsonFiles.Tricky.InstanceJsonHandler;
 using System.Windows.Documents;
+using SSXMultiTool.FileHandlers.Textures;
 
 namespace SSXMultiTool
 {

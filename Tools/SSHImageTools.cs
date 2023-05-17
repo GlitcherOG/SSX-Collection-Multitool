@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using SSXMultiTool.FileHandlers;
+using SSXMultiTool.FileHandlers.Textures;
 
 namespace SSXMultiTool
 {
