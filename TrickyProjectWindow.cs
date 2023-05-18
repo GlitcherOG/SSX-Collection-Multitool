@@ -83,7 +83,7 @@ namespace SSXMultiTool
 
         void UpdateText()
         {
-            PatchesLabel.Text = trickyLevelInterface.patchPoints.patches.Count.ToString();
+            PatchesLabel.Text = trickyLevelInterface.patchPoints.Patches.Count.ToString();
             InstancesLabel.Text = trickyLevelInterface.instancesJson.instances.Count.ToString();
             ParticleInstancesLabel.Text = trickyLevelInterface.particleInstanceJson.particleJsons.Count.ToString();
             MaterialLabel.Text = trickyLevelInterface.materialJson.MaterialsJsons.Count.ToString();

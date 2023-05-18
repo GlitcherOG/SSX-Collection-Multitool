@@ -64,7 +64,6 @@ namespace SSXMultiTool
             //Load PBD
             PBDHandler pbdHandler = new PBDHandler();
             pbdHandler.LoadPBD(LoadPath + ".pbd");
-            pbdHandler.SaveNew(LoadPath + ".pbd1");
 
             LTGHandler ltgHandler = new LTGHandler();
             ltgHandler.LoadLTG(LoadPath + ".ltg");
@@ -109,10 +108,19 @@ namespace SSXMultiTool
 
                 patch.LightMapPoint = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].LightMapPoint);
 
-                patch.UVPoint1 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].UVPoint1);
-                patch.UVPoint2 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].UVPoint2);
-                patch.UVPoint3 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].UVPoint3);
-                patch.UVPoint4 = JsonUtil.Vector4ToArray(pbdHandler.Patches[i].UVPoint4);
+                patch.UVPoints = new float[4, 2];
+
+                patch.UVPoints[0, 0] = pbdHandler.Patches[i].UVPoint1.X;
+                patch.UVPoints[0, 1] = pbdHandler.Patches[i].UVPoint1.Y;
+
+                patch.UVPoints[1, 0] = pbdHandler.Patches[i].UVPoint2.X;
+                patch.UVPoints[1, 1] = pbdHandler.Patches[i].UVPoint2.Y;
+
+                patch.UVPoints[2, 0] = pbdHandler.Patches[i].UVPoint3.X;
+                patch.UVPoints[2, 1] = pbdHandler.Patches[i].UVPoint3.Y;
+
+                patch.UVPoints[3, 0] = pbdHandler.Patches[i].UVPoint4.X;
+                patch.UVPoints[3, 1] = pbdHandler.Patches[i].UVPoint4.Y;
 
                 BezierUtil bezierUtil = new BezierUtil();
                 bezierUtil.ProcessedPoints[0] = JsonUtil.Vector4ToVector3(pbdHandler.Patches[i].R1C1);
@@ -151,7 +159,7 @@ namespace SSXMultiTool
                 }
                 patch.TextureAssigment = pbdHandler.Patches[i].TextureAssigment;
                 patch.LightmapID = pbdHandler.Patches[i].LightmapID;
-                patchPoints.patches.Add(patch);
+                patchPoints.Patches.Add(patch);
             }
             patchPoints.CreateJson(ExportPath + "/Patches.json");
 
@@ -559,10 +567,6 @@ namespace SSXMultiTool
                 prefabJsonHandler.CreateJson(ExportPath + "/Skybox/Prefabs.json");
 
 
-
-
-
-
                 skypbdHandler.ExportModels(ExportPath + "/Skybox/Models/");
 
                 SkyboxHandler.LoadSSH(LoadPath + "_sky.ssh");
@@ -819,16 +823,16 @@ namespace SSXMultiTool
             patchPoints = PatchesJsonHandler.Load(LoadPath + "/Patches.json");
             pbdHandler.Patches = new List<Patch>();
             mapHandler.Patchs = new List<LinkerItem>();
-            for (int i = 0; i < patchPoints.patches.Count; i++)
+            for (int i = 0; i < patchPoints.Patches.Count; i++)
             {
                 Patch patch = new Patch();
-                var ImportPatch = patchPoints.patches[i];
+                var ImportPatch = patchPoints.Patches[i];
                 patch.LightMapPoint = JsonUtil.ArrayToVector4(ImportPatch.LightMapPoint);
 
-                patch.UVPoint1 = JsonUtil.ArrayToVector4(ImportPatch.UVPoint1);
-                patch.UVPoint2 = JsonUtil.ArrayToVector4(ImportPatch.UVPoint2);
-                patch.UVPoint3 = JsonUtil.ArrayToVector4(ImportPatch.UVPoint3);
-                patch.UVPoint4 = JsonUtil.ArrayToVector4(ImportPatch.UVPoint4);
+                patch.UVPoint1 = new Vector4(ImportPatch.UVPoints[0, 0], ImportPatch.UVPoints[0, 1], 0, 0);
+                patch.UVPoint2 = new Vector4(ImportPatch.UVPoints[1, 0], ImportPatch.UVPoints[0, 1], 0, 0);
+                patch.UVPoint3 = new Vector4(ImportPatch.UVPoints[2, 0], ImportPatch.UVPoints[0, 1], 0, 0);
+                patch.UVPoint4 = new Vector4(ImportPatch.UVPoints[3, 0], ImportPatch.UVPoints[0, 1], 0, 0);
 
                 BezierUtil bezierUtil = new BezierUtil();
 

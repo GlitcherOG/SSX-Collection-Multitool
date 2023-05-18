@@ -12,11 +12,11 @@ namespace SSXMultiTool.JsonFiles.Tricky
     [Serializable]
     public class PatchesJsonHandler
     {
-        public List<PatchJson> patches = new List<PatchJson>();
+        public List<PatchJson> Patches = new List<PatchJson>();
 
         public void CreateJson(string path)
         {
-            var serializer = JsonConvert.SerializeObject(this, Formatting.Indented);
+            var serializer = JsonConvert.SerializeObject(this, Formatting.None);
             File.WriteAllText(path, serializer);
         }
 
@@ -42,12 +42,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public string PatchName;
 
             public float[] LightMapPoint;
-
-            public float[] UVPoint1;
-            public float[] UVPoint2;
-            public float[] UVPoint3;
-            public float[] UVPoint4;
-
+            public float[,] UVPoints;
             public float[,] Points;
 
             public int PatchStyle;
