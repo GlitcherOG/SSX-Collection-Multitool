@@ -355,7 +355,6 @@ namespace SSXMultiTool
                     var TempPrefabObject = new PrefabJsonHandler.ObjectHeader();
                     TempPrefabObject.ParentID = pbdHandler.PrefabData[i].PrefabObjects[a].ParentID;
                     TempPrefabObject.Flags = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.Flags;
-                    //TempPrefabObject.AnimOffset = pbdHandler.PrefabData[i].PrefabObjects[a].AnimOffset;
 
                     TempPrefabObject.MeshData = new List<PrefabJsonHandler.MeshHeader>();
                     if (pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets != null)
@@ -829,10 +828,10 @@ namespace SSXMultiTool
                 var ImportPatch = patchPoints.Patches[i];
                 patch.LightMapPoint = JsonUtil.ArrayToVector4(ImportPatch.LightMapPoint);
 
-                patch.UVPoint1 = new Vector4(ImportPatch.UVPoints[0, 0], ImportPatch.UVPoints[0, 1], 0, 0);
-                patch.UVPoint2 = new Vector4(ImportPatch.UVPoints[1, 0], ImportPatch.UVPoints[0, 1], 0, 0);
-                patch.UVPoint3 = new Vector4(ImportPatch.UVPoints[2, 0], ImportPatch.UVPoints[0, 1], 0, 0);
-                patch.UVPoint4 = new Vector4(ImportPatch.UVPoints[3, 0], ImportPatch.UVPoints[0, 1], 0, 0);
+                patch.UVPoint1 = new Vector4(ImportPatch.UVPoints[0, 0], ImportPatch.UVPoints[0, 1], 1, 1);
+                patch.UVPoint2 = new Vector4(ImportPatch.UVPoints[1, 0], ImportPatch.UVPoints[0, 1], 1, 1);
+                patch.UVPoint3 = new Vector4(ImportPatch.UVPoints[2, 0], ImportPatch.UVPoints[0, 1], 1, 1);
+                patch.UVPoint4 = new Vector4(ImportPatch.UVPoints[3, 0], ImportPatch.UVPoints[0, 1], 1, 1);
 
                 BezierUtil bezierUtil = new BezierUtil();
 
