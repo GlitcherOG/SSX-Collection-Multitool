@@ -1250,7 +1250,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             StreamUtil.AlignBy16(stream);
 
             MeshDataOffset = (int)stream.Position;
-            int TempData = HashOffset - (int)stream.Position;
+            int TempData = (int)stream.Position - HashOffset;
             stream.Position = HashOffset;
             StreamUtil.WriteInt32(stream, TempData);
             StreamUtil.WriteInt32(stream, hashData.CountU1);
