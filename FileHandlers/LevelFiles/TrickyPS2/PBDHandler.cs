@@ -2113,7 +2113,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int MaterialBlockID;
         public int Unknown3;
         public float AnimTime;
-        public Vector3 Scale;
+        public Vector3 Scale; // Not Scale
         public int TotalMeshCount;
         public int VertexCount;
         public int TriStripCount;

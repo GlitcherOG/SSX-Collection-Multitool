@@ -40,7 +40,6 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public string PrefabName;
             public int Unknown3;
             public float AnimTime;
-            public float[] Scale;
             public List<ObjectHeader> PrefabObjects;
         }
         [Serializable]

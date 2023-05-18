@@ -347,7 +347,6 @@ namespace SSXMultiTool
                 TempModel.PrefabName = mapHandler.Models[i].Name;
                 TempModel.Unknown3 = pbdHandler.PrefabData[i].Unknown3;
                 TempModel.AnimTime = pbdHandler.PrefabData[i].AnimTime;
-                TempModel.Scale = JsonUtil.Vector3ToArray(pbdHandler.PrefabData[i].Scale);
                 TempModel.PrefabObjects = new();
 
                 for (int a = 0; a < pbdHandler.PrefabData[i].PrefabObjects.Count; a++)
@@ -424,9 +423,6 @@ namespace SSXMultiTool
 
                         TempPrefabObject.Animation = TempAnimation;
                     }
-
-
-
 
                     TempModel.PrefabObjects.Add(TempPrefabObject);
                 }
@@ -521,6 +517,7 @@ namespace SSXMultiTool
                 for (int i = 0; i < skypbdHandler.PrefabData.Count; i++)
                 {
                     PrefabJsonHandler.PrefabJson TempModel = new PrefabJsonHandler.PrefabJson();
+ 
                     TempModel.Unknown3 = skypbdHandler.PrefabData[i].Unknown3;
                     TempModel.AnimTime = skypbdHandler.PrefabData[i].AnimTime;
                     TempModel.PrefabObjects = new();
@@ -530,18 +527,19 @@ namespace SSXMultiTool
                         var TempPrefabObject = new PrefabJsonHandler.ObjectHeader();
                         TempPrefabObject.ParentID = skypbdHandler.PrefabData[i].PrefabObjects[a].ParentID;
                         TempPrefabObject.Flags = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.Flags;
-                        //TempPrefabObject.AnimOffset = skypbdHandler.PrefabData[i].PrefabObjects[a].AnimOffset;
 
                         TempPrefabObject.MeshData = new List<PrefabJsonHandler.MeshHeader>();
-
-                        for (int b = 0; b < skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets.Count; b++)
+                        if (skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets != null)
                         {
-                            var TempMeshHeader = new PrefabJsonHandler.MeshHeader();
-                            TempMeshHeader.MeshID = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID;
-                            TempMeshHeader.MeshPath = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshPath;
-                            TempMeshHeader.MaterialID = skypbdHandler.materialBlocks[skypbdHandler.PrefabData[i].MaterialBlockID].ints[skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MaterialBlockPos];
+                            for (int b = 0; b < skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets.Count; b++)
+                            {
+                                var TempMeshHeader = new PrefabJsonHandler.MeshHeader();
+                                TempMeshHeader.MeshID = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID;
+                                TempMeshHeader.MeshPath = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID + ".obj";
+                                TempMeshHeader.MaterialID = skypbdHandler.materialBlocks[skypbdHandler.PrefabData[i].MaterialBlockID].ints[skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MaterialBlockPos];
 
-                            TempPrefabObject.MeshData.Add(TempMeshHeader);
+                                TempPrefabObject.MeshData.Add(TempMeshHeader);
+                            }
                         }
 
                         if (skypbdHandler.PrefabData[i].PrefabObjects[a].IncludeMatrix)
@@ -556,6 +554,47 @@ namespace SSXMultiTool
                             TempPrefabObject.Position = JsonUtil.Vector3ToArray(Location);
                             TempPrefabObject.Rotation = JsonUtil.QuaternionToArray(Rotation);
                             TempPrefabObject.Scale = JsonUtil.Vector3ToArray(Scale);
+                        }
+
+                        if (skypbdHandler.PrefabData[i].PrefabObjects[a].IncludeAnimation)
+                        {
+                            var TempAnimation = new PrefabJsonHandler.ObjectAnimation();
+                            TempPrefabObject.IncludeAnimation = true;
+                            TempAnimation.U1 = skypbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.U1;
+                            TempAnimation.U2 = skypbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.U2;
+                            TempAnimation.U3 = skypbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.U3;
+                            TempAnimation.U4 = skypbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.U4;
+                            TempAnimation.U5 = skypbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.U5;
+                            TempAnimation.U6 = skypbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.U6;
+
+                            TempAnimation.AnimationAction = skypbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.AnimationAction;
+
+                            TempAnimation.AnimationEntries = new List<PrefabJsonHandler.AnimationEntry>();
+
+                            for (int b = 0; b < skypbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries.Count; b++)
+                            {
+                                var TempEntry = new PrefabJsonHandler.AnimationEntry();
+                                TempEntry.AnimationMaths = new List<PrefabJsonHandler.AnimationMath>();
+                                for (int c = 0; c < skypbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries[b].animationMaths.Count; c++)
+                                {
+                                    var TempMaths = new PrefabJsonHandler.AnimationMath();
+
+                                    TempMaths.Value1 = skypbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries[b].animationMaths[c].Value1;
+                                    TempMaths.Value2 = skypbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries[b].animationMaths[c].Value2;
+                                    TempMaths.Value3 = skypbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries[b].animationMaths[c].Value3;
+                                    TempMaths.Value4 = skypbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries[b].animationMaths[c].Value4;
+                                    TempMaths.Value5 = skypbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries[b].animationMaths[c].Value5;
+                                    TempMaths.Value6 = skypbdHandler.PrefabData[i].PrefabObjects[a].objectAnimation.animationEntries[b].animationMaths[c].Value6;
+
+                                    TempEntry.AnimationMaths.Add(TempMaths);
+                                }
+
+
+                                TempAnimation.AnimationEntries.Add(TempEntry);
+                            }
+
+
+                            TempPrefabObject.Animation = TempAnimation;
                         }
 
                         TempModel.PrefabObjects.Add(TempPrefabObject);
@@ -581,6 +620,8 @@ namespace SSXMultiTool
             if (File.Exists(LoadPath + "_L.ssh"))
             {
                 LightmapHandler.LoadSSH(LoadPath + "_L.ssh");
+                LightmapHandler = LightmapGenerator.ConvertToStandardLightmap(pbdHandler, TextureHandler, LightmapHandler);
+
                 for (int i = 0; i < LightmapHandler.sshImages.Count; i++)
                 {
                     LightmapHandler.BrightenBitmap(i);
@@ -829,9 +870,9 @@ namespace SSXMultiTool
                 patch.LightMapPoint = JsonUtil.ArrayToVector4(ImportPatch.LightMapPoint);
 
                 patch.UVPoint1 = new Vector4(ImportPatch.UVPoints[0, 0], ImportPatch.UVPoints[0, 1], 1, 1);
-                patch.UVPoint2 = new Vector4(ImportPatch.UVPoints[1, 0], ImportPatch.UVPoints[0, 1], 1, 1);
-                patch.UVPoint3 = new Vector4(ImportPatch.UVPoints[2, 0], ImportPatch.UVPoints[0, 1], 1, 1);
-                patch.UVPoint4 = new Vector4(ImportPatch.UVPoints[3, 0], ImportPatch.UVPoints[0, 1], 1, 1);
+                patch.UVPoint2 = new Vector4(ImportPatch.UVPoints[1, 0], ImportPatch.UVPoints[1, 1], 1, 1);
+                patch.UVPoint3 = new Vector4(ImportPatch.UVPoints[2, 0], ImportPatch.UVPoints[2, 1], 1, 1);
+                patch.UVPoint4 = new Vector4(ImportPatch.UVPoints[3, 0], ImportPatch.UVPoints[3, 1], 1, 1);
 
                 BezierUtil bezierUtil = new BezierUtil();
 
@@ -1108,7 +1149,6 @@ namespace SSXMultiTool
 
                 NewPrefab.Unknown3 = prefabJsonHandler.PrefabJsons[i].Unknown3;
                 NewPrefab.AnimTime = prefabJsonHandler.PrefabJsons[i].AnimTime;
-                NewPrefab.Scale = JsonUtil.ArrayToVector3(prefabJsonHandler.PrefabJsons[i].Scale);
 
                 //MeshCount
                 //VertexCount
