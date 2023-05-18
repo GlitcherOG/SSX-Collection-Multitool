@@ -100,9 +100,6 @@ namespace SSXMultiTool
                 instanceExports.Add(TempInstance);
             }
 
-
-
-
             //Create Patches JSON
             patchPoints = new PatchesJsonHandler();
             for (int i = 0; i < pbdHandler.Patches.Count; i++)
