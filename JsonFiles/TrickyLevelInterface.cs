@@ -46,16 +46,16 @@ namespace SSXMultiTool
 
         public void ExtractTrickyLevelFiles(string LoadPath, string ExportPath)
         {
-            //ADLHandler adlHandler = new ADLHandler();
-            //adlHandler.Load(LoadPath + ".adl");
+            ADLHandler adlHandler = new ADLHandler();
+            adlHandler.Load(LoadPath + ".adl");
             //adlHandler.Save(LoadPath + ".adl");
 
             SSFHandler ssfHandler = new SSFHandler();
-            //ssfHandler.Load(LoadPath + ".ssf");
+            ssfHandler.Load(LoadPath + ".ssf");
             ////ssfHandler.SaveTest(LoadPath + ".ssf");
 
-            //Directory.CreateDirectory(ExportPath + "\\Collision");
-            //ssfHandler.SaveModels(ExportPath + "\\Collision");
+            Directory.CreateDirectory(ExportPath + "\\Collision");
+            ssfHandler.SaveModels(ExportPath + "\\Collision");
 
             //Load Map
             MapHandler mapHandler = new MapHandler();
