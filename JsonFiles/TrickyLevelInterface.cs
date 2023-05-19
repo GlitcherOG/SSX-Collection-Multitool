@@ -333,7 +333,6 @@ namespace SSXMultiTool
             for (int i = 0; i < pbdHandler.textureFlipbooks.Count; i++)
             {
                 TextureFlipbookJsonHandler.FlipbookJson TempFlipbook = new TextureFlipbookJsonHandler.FlipbookJson();
-                TempFlipbook.ImageCount = pbdHandler.textureFlipbooks[i].ImagePositions.Count;
                 TempFlipbook.Images = pbdHandler.textureFlipbooks[i].ImagePositions;
                 textureFlipbookJsonHandler.FlipbookJsons.Add(TempFlipbook);
             }
@@ -1289,8 +1288,24 @@ namespace SSXMultiTool
                 linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
                 mapHandler.Materials.Add(linkerItem);
             }
-            mapHandler.Save(ExportPath + ".map");
 
+
+            textureFlipbookJsonHandler = new TextureFlipbookJsonHandler();
+            textureFlipbookJsonHandler = TextureFlipbookJsonHandler.Load(LoadPath + "/TextureFlipbook.json");
+            pbdHandler.textureFlipbooks = new List<TextureFlipbook>();
+
+            for (int i = 0; i < pbdHandler.textureFlipbooks.Count; i++)
+            {
+                TextureFlipbook textureFlipbook = new TextureFlipbook();
+
+                textureFlipbook.ImagePositions = pbdHandler.textureFlipbooks[i].ImagePositions;
+
+                pbdHandler.textureFlipbooks.Add(textureFlipbook);
+            }
+
+
+
+            mapHandler.Save(ExportPath + ".map");
 
             pbdHandler.ImportMeshes(LoadPath + "\\Models");
             //Regenerate Instance Lowest Highest
