@@ -515,9 +515,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     stream.Position = ParticleModelsOffset + ParticleModelPointers[i];
                     ParticlePrefab TempParticleModel = new ParticlePrefab();
                     TempParticleModel.ByteSize = StreamUtil.ReadUInt32(stream);
-                    TempParticleModel.bytes = StreamUtil.ReadBytes(stream, TempParticleModel.ByteSize - 4);
-
-                    stream.Position = ParticleModelsOffset + ParticleModelPointers[i];
                     TempParticleModel.ParticleHeaderCount = StreamUtil.ReadUInt32(stream);
                     TempParticleModel.ParticleHeadersOffset = StreamUtil.ReadUInt32(stream);
 
@@ -540,11 +537,26 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                         NewHeader.ParticleObject = new ParticleObject();
                         int TempPos = (int)stream.Position;
-
                         stream.Position = ParticleModelsOffset + ParticleModelPointers[i] + TempParticleModel.ParticleHeadersOffset + NewHeader.ObjectOffset;
 
+                        NewHeader.ParticleObject.ByteSize = StreamUtil.ReadUInt32(stream);
+                        NewHeader.ParticleObject.LowestXYZ = StreamUtil.ReadVector3(stream);
+                        NewHeader.ParticleObject.HighestXYZ = StreamUtil.ReadVector3(stream);
+                        NewHeader.ParticleObject.U1 = StreamUtil.ReadUInt32(stream);
 
+                        NewHeader.ParticleObject.AnimationCount = StreamUtil.ReadUInt32(stream);
+                        NewHeader.ParticleObject.AnimationOffset = StreamUtil.ReadUInt32(stream);
+                        NewHeader.ParticleObject.animationFrames = new List<AnimationFrames>();
+                        stream.Position = ParticleModelsOffset + ParticleModelPointers[i] + TempParticleModel.ParticleHeadersOffset + NewHeader.ObjectOffset + NewHeader.ParticleObject.AnimationOffset;
+                        for (int b = 0; b < NewHeader.ParticleObject.AnimationCount; b++)
+                        {
+                            var NewAnimationFrame = new AnimationFrames();
+                            NewAnimationFrame.Position = StreamUtil.ReadVector3(stream);
+                            NewAnimationFrame.Rotation = StreamUtil.ReadVector3(stream);
+                            NewAnimationFrame.Unknown = StreamUtil.ReadFloat(stream);
 
+                            NewHeader.ParticleObject.animationFrames.Add(NewAnimationFrame);
+                        }
 
                         stream.Position = TempPos;
                         TempParticleModel.ParticleObjectHeaders.Add(NewHeader);
@@ -981,10 +993,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             ModelPointerOffset = (int)stream.Position;
             PrefabPointers = new List<int>();
             stream.Position += 4 * PrefabData.Count;
-
             StreamUtil.AlignBy16(stream);
 
-            //FIX Saving
             int Size;
             int TempPos;
             ModelsOffset = (int)stream.Position;
@@ -1206,14 +1216,68 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             stream.Position += 4 * particleModels.Count;
             ParticleModelPointers = new List<int>();
             StreamUtil.AlignBy16(stream);
-
+            long EndingPos = 0;
             //Write Particle Data
             ParticleModelsOffset = (int)stream.Position;
             for (int i = 0; i < particleModels.Count; i++)
             {
                 ParticleModelPointers.Add((int)stream.Position - ParticleModelsOffset);
-                StreamUtil.WriteInt32(stream, 4 + particleModels[i].bytes.Length);
-                StreamUtil.WriteBytes(stream, particleModels[i].bytes);
+
+                long StartBytePos = stream.Position;
+                stream.Position += 4;
+                StreamUtil.WriteInt32(stream, 4 + particleModels[i].ParticleObjectHeaders.Count);
+                StreamUtil.WriteInt32(stream, 32); //Particle HeaderOFfset
+
+                StreamUtil.WriteInt32(stream, particleModels[i].U1);
+                StreamUtil.WriteInt32(stream, particleModels[i].U2);
+                StreamUtil.WriteInt32(stream, particleModels[i].U3);
+                StreamUtil.WriteInt32(stream, particleModels[i].U4);
+                StreamUtil.WriteInt32(stream, particleModels[i].U5);
+                long ParticleHeaderOffsetStart = stream.Position;
+                stream.Position += 4 * 4 * particleModels[i].ParticleObjectHeaders.Count;
+
+
+                //Write Objects + Animation
+                for (int a = 0; a < particleModels[i].ParticleObjectHeaders.Count; a++)
+                {
+                    long ObjectByteStart = stream.Position;
+                    stream.Position += 4;
+
+                    StreamUtil.WriteVector3(stream, particleModels[i].ParticleObjectHeaders[a].ParticleObject.LowestXYZ);
+                    StreamUtil.WriteVector3(stream, particleModels[i].ParticleObjectHeaders[a].ParticleObject.HighestXYZ);
+                    StreamUtil.WriteInt32(stream, particleModels[i].ParticleObjectHeaders[a].ParticleObject.U1);
+                    StreamUtil.WriteInt32(stream, particleModels[i].ParticleObjectHeaders[a].ParticleObject.animationFrames.Count);
+                    StreamUtil.WriteInt32(stream, 40); //Animation Frame Offset
+
+                    for (int b = 0; b < particleModels[i].ParticleObjectHeaders[a].ParticleObject.animationFrames.Count; b++)
+                    {
+                        StreamUtil.WriteVector3(stream, particleModels[i].ParticleObjectHeaders[a].ParticleObject.animationFrames[b].Position);
+                        StreamUtil.WriteVector3(stream, particleModels[i].ParticleObjectHeaders[a].ParticleObject.animationFrames[b].Rotation);
+                        StreamUtil.WriteFloat32(stream, particleModels[i].ParticleObjectHeaders[a].ParticleObject.animationFrames[b].Unknown);
+                    }
+                    EndingPos = stream.Position;
+
+                    stream.Position = StartBytePos;
+                    StreamUtil.WriteInt32(stream, (int)(ObjectByteStart - EndingPos));
+                    stream.Position = EndingPos;
+                }
+                StreamUtil.AlignBy16(stream);
+                EndingPos = stream.Position;
+
+                stream.Position = StartBytePos;
+                StreamUtil.WriteInt32(stream, (int)(StartBytePos - EndingPos));
+                stream.Position = EndingPos;
+
+                //Write ObjectHeaders
+                stream.Position = ParticleHeaderOffsetStart;
+                for (int a = 0; a < particleModels[i].ParticleObjectHeaders.Count; a++)
+                {
+                    StreamUtil.WriteInt32(stream, particleModels[i].ParticleObjectHeaders[a].U1);
+                    StreamUtil.WriteInt32(stream, particleModels[i].ParticleObjectHeaders[a].ObjectOffset);
+                    StreamUtil.WriteInt32(stream, particleModels[i].ParticleObjectHeaders[a].U3);
+                    StreamUtil.WriteInt32(stream, particleModels[i].ParticleObjectHeaders[a].U4);
+                }
+                stream.Position = EndingPos;
             }
 
             //Write ParticlePointer
@@ -2252,8 +2316,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     public struct ParticlePrefab
     {
         public int ByteSize;
-        public byte[] bytes;
-
         public int ParticleHeaderCount;
         public int ParticleHeadersOffset;
 

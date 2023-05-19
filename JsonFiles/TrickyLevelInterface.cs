@@ -54,8 +54,8 @@ namespace SSXMultiTool
             ssfHandler.Load(LoadPath + ".ssf");
             ////ssfHandler.SaveTest(LoadPath + ".ssf");
 
-            Directory.CreateDirectory(ExportPath + "\\Collision");
-            ssfHandler.SaveModels(ExportPath + "\\Collision");
+            //Directory.CreateDirectory(ExportPath + "\\Collision");
+            //ssfHandler.SaveModels(ExportPath + "\\Collision");
 
             //Load Map
             MapHandler mapHandler = new MapHandler();
@@ -64,6 +64,7 @@ namespace SSXMultiTool
             //Load PBD
             PBDHandler pbdHandler = new PBDHandler();
             pbdHandler.LoadPBD(LoadPath + ".pbd");
+            pbdHandler.SaveNew(LoadPath + ".pbd1");
 
             LTGHandler ltgHandler = new LTGHandler();
             ltgHandler.LoadLTG(LoadPath + ".ltg");
