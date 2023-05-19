@@ -84,14 +84,14 @@ namespace SSXMultiTool
         void UpdateText()
         {
             PatchesLabel.Text = trickyLevelInterface.patchPoints.Patches.Count.ToString();
-            InstancesLabel.Text = trickyLevelInterface.instancesJson.instances.Count.ToString();
-            ParticleInstancesLabel.Text = trickyLevelInterface.particleInstanceJson.particleJsons.Count.ToString();
-            MaterialLabel.Text = trickyLevelInterface.materialJson.MaterialsJsons.Count.ToString();
-            SplinesLabel.Text = trickyLevelInterface.splineJsonHandler.SplineJsons.Count.ToString();
-            LightLabel.Text = trickyLevelInterface.lightJsonHandler.LightJsons.Count.ToString();
-            TextureFlipLabel.Text = trickyLevelInterface.textureFlipbookJsonHandler.FlipbookJsons.Count.ToString();
-            ModelsLabel.Text = trickyLevelInterface.prefabJsonHandler.PrefabJsons.Count.ToString();
-            ParticleModelLabels.Text = trickyLevelInterface.particleModelJsonHandler.ParticleModelJsons.Count.ToString();
+            InstancesLabel.Text = trickyLevelInterface.instancesJson.Instances.Count.ToString();
+            ParticleInstancesLabel.Text = trickyLevelInterface.particleInstanceJson.Particles.Count.ToString();
+            MaterialLabel.Text = trickyLevelInterface.materialJson.Materials.Count.ToString();
+            SplinesLabel.Text = trickyLevelInterface.splineJsonHandler.Splines.Count.ToString();
+            LightLabel.Text = trickyLevelInterface.lightJsonHandler.Lights.Count.ToString();
+            TextureFlipLabel.Text = trickyLevelInterface.textureFlipbookJsonHandler.Flipbooks.Count.ToString();
+            ModelsLabel.Text = trickyLevelInterface.prefabJsonHandler.Prefabs.Count.ToString();
+            ParticleModelLabels.Text = trickyLevelInterface.particleModelJsonHandler.ParticleModels.Count.ToString();
             if (ProjectPath != null && ProjectPath != "")
             {
                 TextureLabel.Text = Directory.GetFiles(ProjectPath + "/Textures", "*.png").Length.ToString();

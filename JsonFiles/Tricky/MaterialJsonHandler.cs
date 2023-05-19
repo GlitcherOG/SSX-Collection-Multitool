@@ -11,7 +11,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
     [Serializable]
     public class MaterialJsonHandler
     {
-        public List<MaterialsJson> MaterialsJsons = new List<MaterialsJson>();
+        public List<MaterialsJson> Materials = new List<MaterialsJson>();
 
         public void CreateJson(string path)
         {

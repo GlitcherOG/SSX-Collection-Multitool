@@ -10,7 +10,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
 {
     public class ParticleModelJsonHandler
     {
-        public List<ParticleModelJson> ParticleModelJsons = new List<ParticleModelJson>();
+        public List<ParticleModelJson> ParticleModels = new List<ParticleModelJson>();
 
         public void CreateJson(string path)
         {

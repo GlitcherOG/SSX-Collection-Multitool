@@ -11,7 +11,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
 {
     public class PrefabJsonHandler
     {
-        public List<PrefabJson> PrefabJsons = new List<PrefabJson>();
+        public List<PrefabJson> Prefabs = new List<PrefabJson>();
 
         public void CreateJson(string path)
         {

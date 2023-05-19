@@ -10,7 +10,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
 {
     public class TextureFlipbookJsonHandler
     {
-        public List<FlipbookJson> FlipbookJsons = new List<FlipbookJson>();
+        public List<FlipbookJson> Flipbooks = new List<FlipbookJson>();
 
         public void CreateJson(string path)
         {

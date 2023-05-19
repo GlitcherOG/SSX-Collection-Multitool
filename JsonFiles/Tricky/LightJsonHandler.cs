@@ -11,7 +11,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
     [Serializable]
     public class LightJsonHandler
     {
-        public List<LightJson> LightJsons = new List<LightJson>();
+        public List<LightJson> Lights = new List<LightJson>();
 
         public void CreateJson(string path)
         {
