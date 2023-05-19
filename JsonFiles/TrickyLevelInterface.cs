@@ -64,7 +64,10 @@ namespace SSXMultiTool
             //Load PBD
             PBDHandler pbdHandler = new PBDHandler();
             pbdHandler.LoadPBD(LoadPath + ".pbd");
-            pbdHandler.SaveNew(LoadPath + ".pbd1");
+            //pbdHandler.SaveNew(LoadPath + ".pbd1");
+
+            OldSSHHandler TextureHandler = new OldSSHHandler();
+            TextureHandler.LoadSSH(LoadPath + ".ssh");
 
             LTGHandler ltgHandler = new LTGHandler();
             ltgHandler.LoadLTG(LoadPath + ".ltg");
@@ -127,7 +130,7 @@ namespace SSXMultiTool
                 {
                     patch.TrickOnlyPatch =true;
                 }
-                patch.TextureAssigment = pbdHandler.Patches[i].TextureAssigment;
+                patch.TexturePath = TextureHandler.sshImages[pbdHandler.Patches[i].TextureAssigment].shortname + ".png";
                 patch.LightmapID = pbdHandler.Patches[i].LightmapID;
                 patchPoints.Patches.Add(patch);
             }
@@ -211,7 +214,7 @@ namespace SSXMultiTool
                 MaterialJsonHandler.MaterialsJson TempMaterial = new MaterialJsonHandler.MaterialsJson();
                 TempMaterial.MaterialName = mapHandler.Materials[i].Name;
 
-                TempMaterial.TextureID = pbdHandler.materials[i].TextureID;
+                TempMaterial.TexturePath = TextureHandler.sshImages[pbdHandler.materials[i].TextureID].shortname + ".png";
                 TempMaterial.UnknownInt2 = pbdHandler.materials[i].UnknownInt2;
                 TempMaterial.UnknownInt3 = pbdHandler.materials[i].UnknownInt3;
                 TempMaterial.UnknownFloat1 = pbdHandler.materials[i].UnknownFloat1;
@@ -303,7 +306,11 @@ namespace SSXMultiTool
             for (int i = 0; i < pbdHandler.textureFlipbooks.Count; i++)
             {
                 TextureFlipbookJsonHandler.FlipbookJson TempFlipbook = new TextureFlipbookJsonHandler.FlipbookJson();
-                TempFlipbook.Images = pbdHandler.textureFlipbooks[i].ImagePositions;
+                TempFlipbook.TexturePaths = new List<string>();
+                for (int a = 0; a < pbdHandler.textureFlipbooks[i].ImagePositions.Count; a++)
+                {
+                    TempFlipbook.TexturePaths.Add(TextureHandler.sshImages[pbdHandler.textureFlipbooks[i].ImagePositions[a]].shortname + ".png");
+                }
                 textureFlipbookJsonHandler.Flipbooks.Add(TempFlipbook);
             }
             textureFlipbookJsonHandler.CreateJson(ExportPath + "/TextureFlipbook.json");
@@ -408,7 +415,7 @@ namespace SSXMultiTool
                 TempParticleModel.ParticleModelName = mapHandler.particelModels[i].Name;
                 TempParticleModel.ParticleObjectHeaders = new List<ParticleModelJsonHandler.ParticleObjectHeader>();
 
-                for (int a = 0; a < pbdHandler.particleModels.Count; a++)
+                for (int a = 0; a < pbdHandler.particleModels[i].ParticleObjectHeaders.Count; a++)
                 {
                     var NewObjectHeader = new ParticleModelJsonHandler.ParticleObjectHeader();
                     NewObjectHeader.ParticleObject = new ParticleModelJsonHandler.ParticleObject();
@@ -444,8 +451,6 @@ namespace SSXMultiTool
             pbdHandler.ExportModels(ExportPath + "/Models/");
 
             //Load and Export Textures
-            OldSSHHandler TextureHandler = new OldSSHHandler();
-            OldSSHHandler SkyboxHandler = new OldSSHHandler();
             OldSSHHandler LightmapHandler = new OldSSHHandler();
             Directory.CreateDirectory(ExportPath + "/Textures");
             Directory.CreateDirectory(ExportPath + "/Skybox");
@@ -453,7 +458,7 @@ namespace SSXMultiTool
             Directory.CreateDirectory(ExportPath + "/Skybox/Models");
             Directory.CreateDirectory(ExportPath + "/Lightmaps");
 
-            TextureHandler.LoadSSH(LoadPath + ".ssh");
+
             for (int i = 0; i < TextureHandler.sshImages.Count; i++)
             {
                 TextureHandler.BrightenBitmap(i);
@@ -461,6 +466,10 @@ namespace SSXMultiTool
             }
             if (File.Exists(LoadPath + "_sky.ssh"))
             {
+                OldSSHHandler SkyboxHandler = new OldSSHHandler();
+                SkyboxHandler.LoadSSH(LoadPath + "_sky.ssh");
+
+
                 //Load PBD Sky
                 PBDHandler skypbdHandler = new PBDHandler();
                 skypbdHandler.LoadPBD(LoadPath + "_sky.pbd");
@@ -471,7 +480,7 @@ namespace SSXMultiTool
                 {
                     MaterialJsonHandler.MaterialsJson TempMaterial = new MaterialJsonHandler.MaterialsJson();
 
-                    TempMaterial.TextureID = skypbdHandler.materials[i].TextureID;
+                    TempMaterial.TexturePath = SkyboxHandler.sshImages[skypbdHandler.materials[i].TextureID].shortname + ".png";
                     TempMaterial.UnknownInt2 = skypbdHandler.materials[i].UnknownInt2;
                     TempMaterial.UnknownInt3 = skypbdHandler.materials[i].UnknownInt3;
                     TempMaterial.UnknownFloat1 = skypbdHandler.materials[i].UnknownFloat1;
@@ -589,7 +598,6 @@ namespace SSXMultiTool
 
                 skypbdHandler.ExportModels(ExportPath + "/Skybox/Models/");
 
-                SkyboxHandler.LoadSSH(LoadPath + "_sky.ssh");
                 for (int i = 0; i < SkyboxHandler.sshImages.Count; i++)
                 {
                     SkyboxHandler.BrightenBitmap(i);
@@ -925,7 +933,7 @@ namespace SSXMultiTool
                 {
                     patch.PatchVisablity = 32768;
                 }
-                patch.TextureAssigment = ImportPatch.TextureAssigment;
+                //patch.TextureAssigment = ImportPatch.TextureAssigment;
 
                 if (lightingFixObjects.Count - 1 >= patch.TextureAssigment)
                 {
@@ -1269,7 +1277,7 @@ namespace SSXMultiTool
             {
                 var NewMaterial = new TrickyMaterial();
 
-                NewMaterial.TextureID = materialJson.Materials[i].TextureID;
+                //NewMaterial.TextureID = materialJson.Materials[i].TextureID;
                 if (AttemptLightingFix && NewMaterial.TextureID != -1)
                 {
                     if (lightingFixObjects.Count - 1 >= NewMaterial.TextureID)
@@ -1277,6 +1285,9 @@ namespace SSXMultiTool
                         lightingFixObjects[NewMaterial.TextureID].Object.Add(i);
                     }
                 }
+
+                //NewMaterial.TextureID = materialJson.Materials[i].TextureID;
+
                 NewMaterial.UnknownInt2 = materialJson.Materials[i].UnknownInt2;
                 NewMaterial.UnknownInt3 = materialJson.Materials[i].UnknownInt3;
                 NewMaterial.UnknownFloat1 = materialJson.Materials[i].UnknownFloat1;
@@ -1317,7 +1328,7 @@ namespace SSXMultiTool
             {
                 TextureFlipbook textureFlipbook = new TextureFlipbook();
 
-                textureFlipbook.ImagePositions = pbdHandler.textureFlipbooks[i].ImagePositions;
+                //textureFlipbook.ImagePositions = pbdHandler.textureFlipbooks[i].ImagePositions;
 
                 pbdHandler.textureFlipbooks.Add(textureFlipbook);
             }

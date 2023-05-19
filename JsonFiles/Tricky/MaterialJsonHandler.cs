@@ -39,7 +39,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
         {
             public string MaterialName;
 
-            public int TextureID;
+            public string TexturePath;
             public int UnknownInt2;
             public int UnknownInt3;
 
