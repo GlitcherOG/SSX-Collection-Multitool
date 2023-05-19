@@ -47,7 +47,7 @@ namespace SSXMultiTool
         public void ExtractTrickyLevelFiles(string LoadPath, string ExportPath)
         {
             ADLHandler adlHandler = new ADLHandler();
-            adlHandler.Load(LoadPath + ".adl");
+            //adlHandler.Load(LoadPath + ".adl");
             //adlHandler.Save(LoadPath + ".adl");
 
             SSFHandler ssfHandler = new SSFHandler();
@@ -401,27 +401,41 @@ namespace SSXMultiTool
             prefabJsonHandler.CreateJson(ExportPath + "/Prefabs.json");
 
             //Create Particle Model Json
-            //particleModelJsonHandler = new ParticleModelJsonHandler();
-            //for (int i = 0; i < pbdHandler.particleModels.Count; i++)
-            //{
-            //    ParticleModelJsonHandler.ParticleModelJson TempParticleModel = new ParticleModelJsonHandler.ParticleModelJson();
-            //    TempParticleModel.ParticleModelName = mapHandler.particelModels[i].Name;
-            //    TempParticleModel.Unknown0 = pbdHandler.particleModels[i].Unknown0;
-            //    TempParticleModel.Unknown1 = pbdHandler.particleModels[i].Unknown0;
-            //    TempParticleModel.Unknown2 = pbdHandler.particleModels[i].Unknown0;
-            //    TempParticleModel.Unknown3 = pbdHandler.particleModels[i].Unknown0;
-            //    TempParticleModel.Unknown4 = pbdHandler.particleModels[i].Unknown0;
-            //    TempParticleModel.Unknown5 = pbdHandler.particleModels[i].Unknown0;
-            //    TempParticleModel.Unknown6 = pbdHandler.particleModels[i].Unknown0;
-            //    TempParticleModel.Unknown7 = pbdHandler.particleModels[i].Unknown0;
-            //    TempParticleModel.Unknown8 = pbdHandler.particleModels[i].Unknown0;
-            //    TempParticleModel.Unknown9 = pbdHandler.particleModels[i].Unknown0;
-            //    TempParticleModel.Unknown10 = pbdHandler.particleModels[i].Unknown0;
-            //    TempParticleModel.UnknownLenght = pbdHandler.particleModels[i].UnknownLenght;
-            //    TempParticleModel.bytes = pbdHandler.particleModels[i].bytes;
-            //    particleModelJsonHandler.ParticleModelJsons.Add(TempParticleModel);
-            //}
-            //particleModelJsonHandler.CreateJson(ExportPath + "/ParticleModelHeaders.json");
+            particleModelJsonHandler = new ParticleModelJsonHandler();
+            for (int i = 0; i < pbdHandler.particleModels.Count; i++)
+            {
+                ParticleModelJsonHandler.ParticleModelJson TempParticleModel = new ParticleModelJsonHandler.ParticleModelJson();
+                TempParticleModel.ParticleModelName = mapHandler.particelModels[i].Name;
+                TempParticleModel.ParticleObjectHeaders = new List<ParticleModelJsonHandler.ParticleObjectHeader>();
+
+                for (int a = 0; a < pbdHandler.particleModels.Count; a++)
+                {
+                    var NewObjectHeader = new ParticleModelJsonHandler.ParticleObjectHeader();
+                    NewObjectHeader.ParticleObject = new ParticleModelJsonHandler.ParticleObject();
+
+                    NewObjectHeader.ParticleObject.LowestXYZ = pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.LowestXYZ;
+                    NewObjectHeader.ParticleObject.HighestXYZ = pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.HighestXYZ;
+                    NewObjectHeader.ParticleObject.U1 = pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.U1;
+
+                    NewObjectHeader.ParticleObject.AnimationFrames = new List<ParticleModelJsonHandler.AnimationFrames>();
+
+                    for (int b = 0; b < pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.animationFrames.Count; b++)
+                    {
+                        var NewAnimationFrame = new ParticleModelJsonHandler.AnimationFrames();
+
+                        NewAnimationFrame.Position = pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.animationFrames[b].Position;
+                        NewAnimationFrame.Rotation = pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.animationFrames[b].Rotation;
+                        NewAnimationFrame.Unknown = pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.animationFrames[b].Unknown;
+
+                        NewObjectHeader.ParticleObject.AnimationFrames.Add(NewAnimationFrame);
+                    }
+
+                    TempParticleModel.ParticleObjectHeaders.Add(NewObjectHeader);
+                }
+
+                particleModelJsonHandler.ParticleModels.Add(TempParticleModel);
+            }
+            particleModelJsonHandler.CreateJson(ExportPath + "/ParticleModelHeaders.json");
 
             //Create Camera Json
 

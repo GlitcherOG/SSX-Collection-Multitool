@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Numerics;
 
 namespace SSXMultiTool.JsonFiles.Tricky
 {
@@ -37,21 +38,28 @@ namespace SSXMultiTool.JsonFiles.Tricky
         public struct ParticleModelJson
         {
             public string ParticleModelName;
+            public List<ParticleObjectHeader> ParticleObjectHeaders;
+        }
+        [Serializable]
+        public struct ParticleObjectHeader
+        {
+            public ParticleObject ParticleObject;
+        }
+        [Serializable]
+        public struct ParticleObject
+        {
+            public Vector3 LowestXYZ;
+            public Vector3 HighestXYZ;
+            public int U1;
 
-            public int TotalLength;
-            public int Unknown0;
-            public int Unknown1;
-            public int Unknown2;
-            public int Unknown3;
-            public int Unknown4;
-            public int Unknown5;
-            public int Unknown6;
-            public int Unknown7;
-            public int Unknown8;
-            public int Unknown9;
-            public int Unknown10;
-            public int UnknownLenght;
-            public byte[] bytes;
+            public List<AnimationFrames> AnimationFrames;
+        }
+        [Serializable]
+        public struct AnimationFrames
+        {
+            public Vector3 Position;
+            public Vector3 Rotation;
+            public float Unknown;
         }
     }
 }
