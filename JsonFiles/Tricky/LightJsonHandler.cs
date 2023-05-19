@@ -40,7 +40,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public string LightName;
 
             public int Type;
-            public int spriteRes;
+            public int SpriteRes;
             public float UnknownFloat1;
             public int UnknownInt1;
             public float[] Colour;

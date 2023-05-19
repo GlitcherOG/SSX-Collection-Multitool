@@ -60,3 +60,18 @@ https://github.com/gibbed/Gibbed.RefPack <br>
 
 ## Donate
 [![Donate](https://www.paypalobjects.com/en_AU/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?business=VT6TG8KKZM98E&no_recurring=0&currency_code=AUD)
+
+Regeneration Needed
+Skybox
+Lights
+ParticleInstances
+ParticlePrefabs
+Cameras
+Hash Data
+
+Clean Up Needed
+Splines
+SplineSegments
+Instances
+Lights
+

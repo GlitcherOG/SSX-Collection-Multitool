@@ -68,37 +68,6 @@ namespace SSXMultiTool
             LTGHandler ltgHandler = new LTGHandler();
             ltgHandler.LoadLTG(LoadPath + ".ltg");
 
-            List<InstanceExport> instanceExports = new List<InstanceExport>();
-
-            for (int i = 0; i < pbdHandler.Instances.Count; i++)
-            {
-                var TempInstance = new InstanceExport();
-
-                TempInstance.InstanceIndex = i;
-                TempInstance.InstanceName = mapHandler.InternalInstances[i].Name;
-
-                int MaterialBlock = pbdHandler.PrefabData[pbdHandler.Instances[i].ModelID].MaterialBlockID;
-
-
-                TempInstance.TextureID = "";
-
-                for (int a = 0; a < pbdHandler.PrefabData[pbdHandler.Instances[i].ModelID].PrefabObjects.Count; a++)
-                {
-                    var Temp = pbdHandler.PrefabData[pbdHandler.Instances[i].ModelID].PrefabObjects[a];
-                    if (Temp.objectData.MeshOffsets != null)
-                    {
-                        for (int b = 0; b < Temp.objectData.MeshOffsets.Count; b++)
-                        {
-                            var TempMesh = Temp.objectData.MeshOffsets[b];
-                            TempInstance.TextureID = TempInstance.TextureID + pbdHandler.materialBlocks[MaterialBlock].ints[TempMesh.MaterialBlockPos] + ", ";
-                        }
-                    }
-                }
-
-
-                instanceExports.Add(TempInstance);
-            }
-
             //Create Patches JSON
             patchPoints = new PatchesJsonHandler();
             for (int i = 0; i < pbdHandler.Patches.Count; i++)
@@ -202,7 +171,7 @@ namespace SSXMultiTool
                 instanceJson.LTGState = ltgHandler.FindIfInstaneState(i);
                 instanceJson.SSFState = ssfHandler.InstanceState[i];
 
-                instancesJson.instances.Add(instanceJson);
+                instancesJson.Instances.Add(instanceJson);
             }
             instancesJson.CreateJson(ExportPath + "/Instances.json");
 
@@ -273,7 +242,7 @@ namespace SSXMultiTool
                 TempLight.LightName = mapHandler.Lights[i].Name;
 
                 TempLight.Type = pbdHandler.lights[i].Type;
-                TempLight.spriteRes = pbdHandler.lights[i].spriteRes;
+                TempLight.SpriteRes = pbdHandler.lights[i].spriteRes;
                 TempLight.UnknownFloat1 = pbdHandler.lights[i].UnknownFloat1;
                 TempLight.UnknownInt1 = pbdHandler.lights[i].UnknownInt1;
                 TempLight.Colour = JsonUtil.Vector3ToArray(pbdHandler.lights[i].Colour);
@@ -735,9 +704,6 @@ namespace SSXMultiTool
                 }
                 aipJsonHandler.CreateJson(ExportPath + "/AIP.json");
 
-
-
-
                 AIPSOPHandler sopHandler = new AIPSOPHandler();
                 sopHandler.LoadAIPSOP(LoadPath + ".sop");
                 AIPSOPJsonHandler sopJsonHandler = new AIPSOPJsonHandler();
@@ -857,7 +823,7 @@ namespace SSXMultiTool
             PBDHandler pbdHandler = new PBDHandler();
             pbdHandler.LoadPBD(ExportPath + ".pbd");
 
-            //Export Patches
+            //Rebuild Patches
             patchPoints = new PatchesJsonHandler();
             patchPoints = PatchesJsonHandler.Load(LoadPath + "/Patches.json");
             pbdHandler.Patches = new List<Patch>();
@@ -967,6 +933,7 @@ namespace SSXMultiTool
                 mapHandler.Patchs.Add(linkerItem);
             }
 
+            //Rebuild Splines
             splineJsonHandler = new SplineJsonHandler();
             splineJsonHandler = SplineJsonHandler.Load(LoadPath + "/Splines.json");
             pbdHandler.splines = new List<Spline>();
@@ -1060,13 +1027,14 @@ namespace SSXMultiTool
                 pbdHandler.splines.Add(spline);
             }
 
+            //Rebuild Instances
             instancesJson = new InstanceJsonHandler();
             instancesJson = InstanceJsonHandler.Load(LoadPath + "/Instances.json");
             pbdHandler.Instances = new List<Instance>();
             mapHandler.InternalInstances = new List<LinkerItem>();
-            for (int i = 0; i < instancesJson.instances.Count; i++)
+            for (int i = 0; i < instancesJson.Instances.Count; i++)
             {
-                var Oldinstance = instancesJson.instances[i];
+                var Oldinstance = instancesJson.Instances[i];
                 Instance NewInstance = new Instance();
 
                 Matrix4x4 scale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(Oldinstance.Scale));
@@ -1111,7 +1079,6 @@ namespace SSXMultiTool
             //Rebuild Material Blocks
             prefabJsonHandler = new PrefabJsonHandler();
             prefabJsonHandler = PrefabJsonHandler.Load(LoadPath + "/Prefabs.json");
-
             pbdHandler.materialBlocks = new List<MaterialBlock>();
             for (int i = 0; i < prefabJsonHandler.PrefabJsons.Count; i++)
             {
@@ -1241,6 +1208,7 @@ namespace SSXMultiTool
                 pbdHandler.PrefabData.Add(NewPrefab);
             }
 
+            //Rebuild Materials
             materialJson = new MaterialJsonHandler();
             materialJson = MaterialJsonHandler.Load(LoadPath + "/Material.json");
             pbdHandler.materials = new List<TrickyMaterial>();
@@ -1289,12 +1257,11 @@ namespace SSXMultiTool
                 mapHandler.Materials.Add(linkerItem);
             }
 
-
+            //Rebuild TextureFlipbook
             textureFlipbookJsonHandler = new TextureFlipbookJsonHandler();
             textureFlipbookJsonHandler = TextureFlipbookJsonHandler.Load(LoadPath + "/TextureFlipbook.json");
             pbdHandler.textureFlipbooks = new List<TextureFlipbook>();
-
-            for (int i = 0; i < pbdHandler.textureFlipbooks.Count; i++)
+            for (int i = 0; i < textureFlipbookJsonHandler.FlipbookJsons.Count; i++)
             {
                 TextureFlipbook textureFlipbook = new TextureFlipbook();
 
@@ -1303,7 +1270,29 @@ namespace SSXMultiTool
                 pbdHandler.textureFlipbooks.Add(textureFlipbook);
             }
 
+            //Rebuild Lights
+            lightJsonHandler = new LightJsonHandler();
+            lightJsonHandler = LightJsonHandler.Load(LoadPath + "/Lights.json");
+            pbdHandler.lights = new List<Light>();
+            for (int i = 0; i < lightJsonHandler.LightJsons.Count; i++)
+            {
+                Light TempLight = new Light();
+                TempLight.Type = lightJsonHandler.LightJsons[i].Type;
+                TempLight.spriteRes = lightJsonHandler.LightJsons[i].SpriteRes;
+                TempLight.UnknownFloat1 = lightJsonHandler.LightJsons[i].UnknownFloat1;
+                TempLight.UnknownInt1 = lightJsonHandler.LightJsons[i].UnknownInt1;
+                TempLight.Colour = JsonUtil.ArrayToVector3(lightJsonHandler.LightJsons[i].Colour);
+                TempLight.Direction = JsonUtil.ArrayToVector3(lightJsonHandler.LightJsons[i].Direction);
+                TempLight.Postion = JsonUtil.ArrayToVector3(lightJsonHandler.LightJsons[i].Postion);
+                TempLight.LowestXYZ = JsonUtil.ArrayToVector3(lightJsonHandler.LightJsons[i].LowestXYZ);
+                TempLight.HighestXYZ = JsonUtil.ArrayToVector3(lightJsonHandler.LightJsons[i].HighestXYZ);
+                TempLight.UnknownFloat2 = lightJsonHandler.LightJsons[i].UnknownFloat2;
+                TempLight.UnknownInt2 = lightJsonHandler.LightJsons[i].UnknownInt2;
+                TempLight.UnknownFloat3 = lightJsonHandler.LightJsons[i].UnknownFloat3;
+                TempLight.UnknownInt3 = lightJsonHandler.LightJsons[i].UnknownInt3;
 
+                pbdHandler.lights.Add(TempLight);
+            }
 
             mapHandler.Save(ExportPath + ".map");
 
