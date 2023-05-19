@@ -620,7 +620,7 @@ namespace SSXMultiTool
             if (File.Exists(LoadPath + "_L.ssh"))
             {
                 LightmapHandler.LoadSSH(LoadPath + "_L.ssh");
-                LightmapHandler = LightmapGenerator.ConvertToStandardLightmap(pbdHandler, TextureHandler, LightmapHandler);
+                //LightmapHandler = LightmapGenerator.ConvertToStandardLightmap(pbdHandler, TextureHandler, LightmapHandler);
 
                 for (int i = 0; i < LightmapHandler.sshImages.Count; i++)
                 {
