@@ -193,8 +193,8 @@ namespace SSXMultiTool
                 TempParticle.Scale = JsonUtil.Vector3ToArray(Scale);
 
                 TempParticle.UnknownInt1 = pbdHandler.particleInstances[i].UnknownInt1;
-                TempParticle.LowestXYZ = pbdHandler.particleInstances[i].LowestXYZ;
-                TempParticle.HighestXYZ = pbdHandler.particleInstances[i].HighestXYZ;
+                TempParticle.LowestXYZ = JsonUtil.Vector3ToArray(pbdHandler.particleInstances[i].LowestXYZ);
+                TempParticle.HighestXYZ = JsonUtil.Vector3ToArray(pbdHandler.particleInstances[i].HighestXYZ);
                 TempParticle.UnknownInt8 = pbdHandler.particleInstances[i].UnknownInt8;
                 TempParticle.UnknownInt9 = pbdHandler.particleInstances[i].UnknownInt9;
                 TempParticle.UnknownInt10 = pbdHandler.particleInstances[i].UnknownInt10;
@@ -413,8 +413,8 @@ namespace SSXMultiTool
                     var NewObjectHeader = new ParticleModelJsonHandler.ParticleObjectHeader();
                     NewObjectHeader.ParticleObject = new ParticleModelJsonHandler.ParticleObject();
 
-                    NewObjectHeader.ParticleObject.LowestXYZ = pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.LowestXYZ;
-                    NewObjectHeader.ParticleObject.HighestXYZ = pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.HighestXYZ;
+                    NewObjectHeader.ParticleObject.LowestXYZ = JsonUtil.Vector3ToArray(pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.LowestXYZ);
+                    NewObjectHeader.ParticleObject.HighestXYZ = JsonUtil.Vector3ToArray(pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.HighestXYZ);
                     NewObjectHeader.ParticleObject.U1 = pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.U1;
 
                     NewObjectHeader.ParticleObject.AnimationFrames = new List<ParticleModelJsonHandler.AnimationFrames>();
@@ -423,8 +423,8 @@ namespace SSXMultiTool
                     {
                         var NewAnimationFrame = new ParticleModelJsonHandler.AnimationFrames();
 
-                        NewAnimationFrame.Position = pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.animationFrames[b].Position;
-                        NewAnimationFrame.Rotation = pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.animationFrames[b].Rotation;
+                        NewAnimationFrame.Position = JsonUtil.Vector3ToArray(pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.animationFrames[b].Position);
+                        NewAnimationFrame.Rotation = JsonUtil.Vector3ToArray(pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.animationFrames[b].Rotation);
                         NewAnimationFrame.Unknown = pbdHandler.particleModels[i].ParticleObjectHeaders[a].ParticleObject.animationFrames[b].Unknown;
 
                         NewObjectHeader.ParticleObject.AnimationFrames.Add(NewAnimationFrame);
@@ -1103,8 +1103,8 @@ namespace SSXMultiTool
                 TempParticle.matrix4X4 = matrix4X4;
 
                 TempParticle.UnknownInt1 = particleInstanceJson.Particles[i].UnknownInt1;
-                TempParticle.LowestXYZ = particleInstanceJson.Particles[i].LowestXYZ;
-                TempParticle.HighestXYZ = particleInstanceJson.Particles[i].HighestXYZ;
+                TempParticle.LowestXYZ = JsonUtil.ArrayToVector3(particleInstanceJson.Particles[i].LowestXYZ);
+                TempParticle.HighestXYZ = JsonUtil.ArrayToVector3(particleInstanceJson.Particles[i].HighestXYZ);
                 TempParticle.UnknownInt8 = particleInstanceJson.Particles[i].UnknownInt8;
                 TempParticle.UnknownInt9 = particleInstanceJson.Particles[i].UnknownInt9;
                 TempParticle.UnknownInt10 = particleInstanceJson.Particles[i].UnknownInt10;
@@ -1117,7 +1117,7 @@ namespace SSXMultiTool
                 linkerItem.UID = i;
                 linkerItem.Name = particleInstanceJson.Particles[i].ParticleName;
                 linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
-                mapHandler.particelModels.Add(linkerItem);
+                mapHandler.ParticleInstances.Add(linkerItem);
             }
 
             //Rebuild Material Blocks
@@ -1356,7 +1356,51 @@ namespace SSXMultiTool
             }
 
             //Rebuild Particle Model
+            particleModelJsonHandler = new ParticleModelJsonHandler();
+            particleModelJsonHandler = ParticleModelJsonHandler.Load(LoadPath + "/ParticleModelHeaders.json");
+            pbdHandler.particleModels = new List<ParticlePrefab>();
+            mapHandler.particelModels = new List<LinkerItem>();
+            for (int i = 0; i < particleModelJsonHandler.ParticleModels.Count; i++)
+            {
+                var ParticleModel = new ParticlePrefab();
 
+                ParticleModel.ParticleObjectHeaders = new List<ParticleObjectHeader>();
+
+                for (int a = 0; a < particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders.Count; a++)
+                {
+                    var NewParticleHeader= new ParticleObjectHeader();
+
+                    NewParticleHeader.U1 = -1;
+                    NewParticleHeader.U4 = -1;
+
+                    NewParticleHeader.ParticleObject = new ParticleObject();
+                    NewParticleHeader.ParticleObject.LowestXYZ = JsonUtil.ArrayToVector3(particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.LowestXYZ);
+                    NewParticleHeader.ParticleObject.HighestXYZ = JsonUtil.ArrayToVector3(particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.HighestXYZ);
+                    NewParticleHeader.ParticleObject.U1 = particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.U1;
+                    NewParticleHeader.ParticleObject.animationFrames = new List<AnimationFrames>();
+
+                    for (int b = 0; b < particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.AnimationFrames.Count; b++)
+                    {
+                        var NewAnimation = new AnimationFrames();
+                        NewAnimation.Position = JsonUtil.ArrayToVector3(particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.AnimationFrames[b].Position);
+                        NewAnimation.Rotation = JsonUtil.ArrayToVector3(particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.AnimationFrames[b].Rotation);
+                        NewAnimation.Unknown = particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.AnimationFrames[b].Unknown;
+                        NewParticleHeader.ParticleObject.animationFrames.Add(NewAnimation);
+                    }
+
+                    ParticleModel.ParticleObjectHeaders.Add(NewParticleHeader);
+                }
+
+
+                pbdHandler.particleModels.Add(ParticleModel);
+
+                LinkerItem linkerItem = new LinkerItem();
+                linkerItem.Ref = 1;
+                linkerItem.UID = i;
+                linkerItem.Name = particleModelJsonHandler.ParticleModels[i].ParticleModelName;
+                linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
+                mapHandler.particelModels.Add(linkerItem);
+            }
 
             mapHandler.Save(ExportPath + ".map");
 

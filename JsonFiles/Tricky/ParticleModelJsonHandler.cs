@@ -48,8 +48,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
         [Serializable]
         public struct ParticleObject
         {
-            public Vector3 LowestXYZ;
-            public Vector3 HighestXYZ;
+            public float[] LowestXYZ;
+            public float[] HighestXYZ;
             public int U1;
 
             public List<AnimationFrames> AnimationFrames;
@@ -57,8 +57,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
         [Serializable]
         public struct AnimationFrames
         {
-            public Vector3 Position;
-            public Vector3 Rotation;
+            public float[] Position;
+            public float[] Rotation;
             public float Unknown;
         }
     }
