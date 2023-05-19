@@ -480,7 +480,7 @@ namespace SSXMultiTool
                 }
                 materialJson.CreateJson(ExportPath + "/Skybox/Material.json");
 
-                ////Create Model Json
+                //Create Model Json
                 prefabJsonHandler = new PrefabJsonHandler();
                 for (int i = 0; i < skypbdHandler.PrefabData.Count; i++)
                 {
@@ -571,7 +571,6 @@ namespace SSXMultiTool
                     prefabJsonHandler.Prefabs.Add(TempModel);
                 }
                 prefabJsonHandler.CreateJson(ExportPath + "/Skybox/Prefabs.json");
-
 
                 skypbdHandler.ExportModels(ExportPath + "/Skybox/Models/");
 

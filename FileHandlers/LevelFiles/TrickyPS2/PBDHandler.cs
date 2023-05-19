@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Numerics;
 using SSXMultiTool.Utilities;
 using System.Globalization;
-using System.Reflection;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
@@ -170,6 +166,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     Patches.Add(patch);
                 }
 
+                //Instances Loading
                 stream.Position = InstanceOffset;
                 Instances = new List<Instance>();
                 for (int i = 0; i < NumInstances; i++)
@@ -201,6 +198,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     Instances.Add(TempInstance);
                 }
 
+                //Particle Instances Loading
                 stream.Position = ParticleInstancesOffset;
                 particleInstances = new List<ParticleInstance>();
                 for (int i = 0; i < NumParticleInstances; i++)
@@ -218,6 +216,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     particleInstances.Add(TempParticle);
                 }
 
+                //Material Loading
                 stream.Position = MaterialOffset;
                 materials = new List<TrickyMaterial>();
                 for (int i = 0; i < NumMaterials; i++)
@@ -252,6 +251,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     materials.Add(TempMaterial);
                 }
 
+                //Material Blocks Loading
                 stream.Position = MaterialBlocksOffset;
                 materialBlocks = new List<MaterialBlock>();
                 for (int i = 0; i < NumMaterialBlocks; i++)
@@ -266,6 +266,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     materialBlocks.Add(TempMaterialBlock);
                 }
 
+                //Lights Loading
                 stream.Position = LightsOffset;
                 lights = new List<Light>();
                 for (int i = 0; i < NumLights; i++)
@@ -513,8 +514,43 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     stream.Position = ParticleModelsOffset + ParticleModelPointers[i];
                     ParticlePrefab TempParticleModel = new ParticlePrefab();
-                    TempParticleModel.TotalLength = StreamUtil.ReadUInt32(stream);
-                    TempParticleModel.bytes = StreamUtil.ReadBytes(stream, TempParticleModel.TotalLength - 4);
+                    TempParticleModel.ByteSize = StreamUtil.ReadUInt32(stream);
+                    TempParticleModel.bytes = StreamUtil.ReadBytes(stream, TempParticleModel.ByteSize - 4);
+
+                    stream.Position = ParticleModelsOffset + ParticleModelPointers[i];
+                    TempParticleModel.ParticleHeaderCount = StreamUtil.ReadUInt32(stream);
+                    TempParticleModel.ParticleHeadersOffset = StreamUtil.ReadUInt32(stream);
+
+                    TempParticleModel.U1 = StreamUtil.ReadUInt32(stream);
+                    TempParticleModel.U2 = StreamUtil.ReadUInt32(stream);
+                    TempParticleModel.U3 = StreamUtil.ReadUInt32(stream);
+                    TempParticleModel.U4 = StreamUtil.ReadUInt32(stream);
+                    TempParticleModel.U5 = StreamUtil.ReadUInt32(stream);
+
+                    TempParticleModel.ParticleObjectHeaders = new List<ParticleObjectHeader>();
+                    stream.Position = ParticleModelsOffset + ParticleModelPointers[i] + TempParticleModel.ParticleHeadersOffset;
+                    for (int a = 0; a < TempParticleModel.ParticleHeaderCount; a++)
+                    {
+                        ParticleObjectHeader NewHeader = new ParticleObjectHeader();
+
+                        NewHeader.U1 = StreamUtil.ReadUInt32(stream);
+                        NewHeader.ObjectOffset = StreamUtil.ReadUInt32(stream);
+                        NewHeader.U3 = StreamUtil.ReadUInt32(stream);
+                        NewHeader.U4 = StreamUtil.ReadUInt32(stream);
+
+                        NewHeader.ParticleObject = new ParticleObject();
+                        int TempPos = (int)stream.Position;
+
+                        stream.Position = ParticleModelsOffset + ParticleModelPointers[i] + TempParticleModel.ParticleHeadersOffset + NewHeader.ObjectOffset;
+
+
+
+
+                        stream.Position = TempPos;
+                        TempParticleModel.ParticleObjectHeaders.Add(NewHeader);
+                    }
+
+
                     particleModels.Add(TempParticleModel);
                 }
 
@@ -2215,26 +2251,37 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
     public struct ParticlePrefab
     {
-        public int TotalLength;
+        public int ByteSize;
         public byte[] bytes;
 
-        public int OffsetCount;
-        public int Offset;
+        public int ParticleHeaderCount;
+        public int ParticleHeadersOffset;
 
         public int U1;
         public int U2;
         public int U3;
         public int U4;
         public int U5;
-        public int U6;
-        public int U7;
-        public int U8;
-        public int U9;
 
+        public List<ParticleObjectHeader> ParticleObjectHeaders;
+    }
+
+    public struct ParticleObjectHeader
+    {
+        public int U1;
+        public int ObjectOffset;
+        public int U3;
+        public int U4;
+
+        public ParticleObject ParticleObject;
+    }
+
+    public struct ParticleObject
+    {
         public int ByteSize;
         public Vector3 LowestXYZ;
         public Vector3 HighestXYZ;
-        public int U10;
+        public int U1;
 
         public int AnimationCount;
         public int AnimationOffset;
