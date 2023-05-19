@@ -36,7 +36,6 @@ namespace SSXMultiTool.JsonFiles.Tricky
         [Serializable]
         public struct FlipbookJson
         {
-            public int ImageCount;
             public List<int> Images;
         }
     }

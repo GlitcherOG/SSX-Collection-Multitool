@@ -595,14 +595,11 @@ namespace SSXMultiTool
                     SkyboxHandler.BrightenBitmap(i);
                     SkyboxHandler.BMPOneExtract(ExportPath + "\\Skybox\\Textures\\" + SkyboxHandler.sshImages[i].shortname + ".png", i);
                 }
-
-
             }
 
             if (File.Exists(LoadPath + "_L.ssh"))
             {
                 LightmapHandler.LoadSSH(LoadPath + "_L.ssh");
-                //LightmapHandler = LightmapGenerator.ConvertToStandardLightmap(pbdHandler, TextureHandler, LightmapHandler);
 
                 for (int i = 0; i < LightmapHandler.sshImages.Count; i++)
                 {
@@ -1357,6 +1354,9 @@ namespace SSXMultiTool
                 mapHandler.Lights.Add(linkerItem);
 
             }
+
+            //Rebuild Particle Model
+
 
             mapHandler.Save(ExportPath + ".map");
 

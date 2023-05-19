@@ -44,7 +44,6 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public float[] Rotation;
             public float[] Scale;
 
-
             public int UnknownInt1;
             public Vector3 LowestXYZ;
             public Vector3 HighestXYZ;
