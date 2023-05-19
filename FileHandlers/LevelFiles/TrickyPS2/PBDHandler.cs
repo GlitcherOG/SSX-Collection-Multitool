@@ -1225,7 +1225,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 long StartBytePos = stream.Position;
                 stream.Position += 4;
-                StreamUtil.WriteInt32(stream, 4 + particleModels[i].ParticleObjectHeaders.Count);
+                StreamUtil.WriteInt32(stream, particleModels[i].ParticleObjectHeaders.Count);
                 StreamUtil.WriteInt32(stream, 32); //Particle HeaderOFfset
 
                 StreamUtil.WriteInt32(stream, particleModels[i].U1);
@@ -1257,15 +1257,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     }
                     EndingPos = stream.Position;
 
-                    stream.Position = StartBytePos;
-                    StreamUtil.WriteInt32(stream, (int)(ObjectByteStart - EndingPos));
+                    stream.Position = ObjectByteStart;
+                    StreamUtil.WriteInt32(stream, (int)(EndingPos-ObjectByteStart));
                     stream.Position = EndingPos;
                 }
                 StreamUtil.AlignBy16(stream);
                 EndingPos = stream.Position;
 
                 stream.Position = StartBytePos;
-                StreamUtil.WriteInt32(stream, (int)(StartBytePos - EndingPos));
+                StreamUtil.WriteInt32(stream, (int)(EndingPos - StartBytePos));
                 stream.Position = EndingPos;
 
                 //Write ObjectHeaders
@@ -1346,12 +1346,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, hashData.CameraHash[i].Hash);
                 StreamUtil.WriteInt32(stream, hashData.CameraHash[i].ObjectUID);
             }
-
-            StreamUtil.AlignBy16(stream);
-
-            MeshDataOffset = (int)stream.Position;
-            int TempData = (int)stream.Position - HashOffset;
+            long TempPos1 = stream.Position;
             stream.Position = HashOffset;
+            int TempData = (int)(TempPos1-stream.Position);
             StreamUtil.WriteInt32(stream, TempData);
             StreamUtil.WriteInt32(stream, hashData.CountU1);
             StreamUtil.WriteInt32(stream, hashData.OffsetU1);
@@ -1366,8 +1363,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             StreamUtil.WriteInt32(stream, hashData.CameraHash.Count);
             StreamUtil.WriteInt32(stream, hashData.OffsetCamera);
 
+            stream.Position = TempPos1;
+            StreamUtil.AlignBy16(stream);
+
             //Write MeshData
-            stream.Position = MeshDataOffset;
+            MeshDataOffset = (int)stream.Position;
             StreamUtil.WriteBytes(stream, MeshData);
 
 
