@@ -812,15 +812,17 @@ namespace SSXMultiTool
 
         public void BuildTrickyLevelFiles(string LoadPath, string ExportPath)
         {
-            List<LightingFixObject> lightingFixObjects = new List<LightingFixObject>();
-            int Length = Directory.GetFiles(LoadPath + "/Textures", "*.png").Length;
-            for (int i = 0; i < Length; i++)
-            {
-                LightingFixObject temp = new LightingFixObject();
-                temp.Object = new List<int>();
-                temp.Patch = new List<int>();
-                lightingFixObjects.Add(temp);
-            }
+            //List<LightingFixObject> lightingFixObjects = new List<LightingFixObject>();
+            //int Length = Directory.GetFiles(LoadPath + "/Textures", "*.png").Length;
+            //for (int i = 0; i < Length; i++)
+            //{
+            //    LightingFixObject temp = new LightingFixObject();
+            //    temp.Object = new List<int>();
+            //    temp.Patch = new List<int>();
+            //    lightingFixObjects.Add(temp);
+            //}
+            List<string> ImageFiles = new List<string>();
+
 
             ExportPath = ExportPath.Substring(0, ExportPath.Length - 4);
 
@@ -933,12 +935,21 @@ namespace SSXMultiTool
                 {
                     patch.PatchVisablity = 32768;
                 }
-                //patch.TextureAssigment = ImportPatch.TextureAssigment;
 
-                if (lightingFixObjects.Count - 1 >= patch.TextureAssigment)
+                if(ImageFiles.Contains(ImportPatch.TexturePath))
                 {
-                    lightingFixObjects[patch.TextureAssigment].Patch.Add(i);
+                    patch.TextureAssigment = ImageFiles.IndexOf(ImportPatch.TexturePath);
                 }
+                else
+                {
+                    ImageFiles.Add(ImportPatch.TexturePath);
+                    patch.TextureAssigment = ImageFiles.Count-1;
+                }
+
+                //if (lightingFixObjects.Count - 1 >= patch.TextureAssigment)
+                //{
+                //    lightingFixObjects[patch.TextureAssigment].Patch.Add(i);
+                //}
                 patch.LightmapID = ImportPatch.LightmapID;
 
                 pbdHandler.Patches.Add(patch);
@@ -1278,12 +1289,24 @@ namespace SSXMultiTool
                 var NewMaterial = new TrickyMaterial();
 
                 //NewMaterial.TextureID = materialJson.Materials[i].TextureID;
-                if (AttemptLightingFix && NewMaterial.TextureID != -1)
+                //if (AttemptLightingFix && NewMaterial.TextureID != -1)
+                //{
+                //    if (lightingFixObjects.Count - 1 >= NewMaterial.TextureID)
+                //    {
+                //        lightingFixObjects[NewMaterial.TextureID].Object.Add(i);
+                //    }
+                //}
+
+
+
+                if (ImageFiles.Contains(materialJson.Materials[i].TexturePath))
                 {
-                    if (lightingFixObjects.Count - 1 >= NewMaterial.TextureID)
-                    {
-                        lightingFixObjects[NewMaterial.TextureID].Object.Add(i);
-                    }
+                    NewMaterial.TextureID = ImageFiles.IndexOf(materialJson.Materials[i].TexturePath);
+                }
+                else
+                {
+                    ImageFiles.Add(materialJson.Materials[i].TexturePath);
+                    NewMaterial.TextureID = ImageFiles.Count - 1;
                 }
 
                 //NewMaterial.TextureID = materialJson.Materials[i].TextureID;
@@ -1327,8 +1350,20 @@ namespace SSXMultiTool
             for (int i = 0; i < textureFlipbookJsonHandler.Flipbooks.Count; i++)
             {
                 TextureFlipbook textureFlipbook = new TextureFlipbook();
+                textureFlipbook.ImagePositions = new List<int>();
 
-                //textureFlipbook.ImagePositions = pbdHandler.textureFlipbooks[i].ImagePositions;
+                for (int a = 0; a < textureFlipbookJsonHandler.Flipbooks[i].TexturePaths.Count; a++)
+                {
+                    if (ImageFiles.Contains(textureFlipbookJsonHandler.Flipbooks[i].TexturePaths[a]))
+                    {
+                        textureFlipbook.ImagePositions.Add(ImageFiles.IndexOf(textureFlipbookJsonHandler.Flipbooks[i].TexturePaths[a]));
+                    }
+                    else
+                    {
+                        ImageFiles.Add(textureFlipbookJsonHandler.Flipbooks[i].TexturePaths[a]);
+                        textureFlipbook.ImagePositions.Add(ImageFiles.Count - 1);
+                    }
+                }
 
                 pbdHandler.textureFlipbooks.Add(textureFlipbook);
             }
@@ -1429,11 +1464,10 @@ namespace SSXMultiTool
             OldSSHHandler TextureHandler = new OldSSHHandler();
             TextureHandler.format = "G278";
 
-            string[] ImageFiles = Directory.GetFiles(LoadPath + "/Textures", "*.png");
-            for (int i = 0; i < ImageFiles.Length; i++)
+            for (int i = 0; i < ImageFiles.Count; i++)
             {
                 TextureHandler.AddImage();
-                TextureHandler.LoadSingle(ImageFiles[i], i);
+                TextureHandler.LoadSingle(LoadPath + "/Textures" + ImageFiles[i], i);
                 if (!AttemptLightingFix)
                 {
                     TextureHandler.DarkenImage(i);
@@ -1444,34 +1478,34 @@ namespace SSXMultiTool
                 TextureHandler.sshImages[i] = temp;
             }
 
-            if (AttemptLightingFix)
-            {
-                int OldCount = TextureHandler.sshImages.Count;
-                for (int i = 0; i < OldCount; i++)
-                {
-                    if (lightingFixObjects[i].Object.Count != 0 && lightingFixObjects[i].Patch.Count != 0)
-                    {
-                        var TempImage = TextureHandler.sshImages[i];
-                        TempImage.shortname = (TextureHandler.sshImages.Count).ToString().PadLeft(4, '0');
-                        for (int a = 0; a < lightingFixObjects[i].Object.Count; a++)
-                        {
-                            var TempMatieral = pbdHandler.materials[lightingFixObjects[i].Object[a]];
-                            TempMatieral.TextureID = TextureHandler.sshImages.Count;
-                            pbdHandler.materials[lightingFixObjects[i].Object[a]] = TempMatieral;
-                        }
-                        TextureHandler.sshImages.Add(TempImage);
-                    }
-                    else if (lightingFixObjects[i].Patch.Count == 0)
-                    {
-                        TextureHandler.DarkenImage(i);
-                    }
-                }
+            //if (AttemptLightingFix)
+            //{
+            //    int OldCount = TextureHandler.sshImages.Count;
+            //    for (int i = 0; i < OldCount; i++)
+            //    {
+            //        if (lightingFixObjects[i].Object.Count != 0 && lightingFixObjects[i].Patch.Count != 0)
+            //        {
+            //            var TempImage = TextureHandler.sshImages[i];
+            //            TempImage.shortname = (TextureHandler.sshImages.Count).ToString().PadLeft(4, '0');
+            //            for (int a = 0; a < lightingFixObjects[i].Object.Count; a++)
+            //            {
+            //                var TempMatieral = pbdHandler.materials[lightingFixObjects[i].Object[a]];
+            //                TempMatieral.TextureID = TextureHandler.sshImages.Count;
+            //                pbdHandler.materials[lightingFixObjects[i].Object[a]] = TempMatieral;
+            //            }
+            //            TextureHandler.sshImages.Add(TempImage);
+            //        }
+            //        else if (lightingFixObjects[i].Patch.Count == 0)
+            //        {
+            //            TextureHandler.DarkenImage(i);
+            //        }
+            //    }
 
-                for (int i = OldCount; i < TextureHandler.sshImages.Count; i++)
-                {
-                    TextureHandler.DarkenImage(i);
-                }
-            }
+            //    for (int i = OldCount; i < TextureHandler.sshImages.Count; i++)
+            //    {
+            //        TextureHandler.DarkenImage(i);
+            //    }
+            //}
 
             pbdHandler.SaveNew(ExportPath + ".pbd");
             TextureHandler.SaveSSH(ExportPath + ".ssh", true);
