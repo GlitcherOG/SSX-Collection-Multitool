@@ -1309,8 +1309,6 @@ namespace SSXMultiTool
                     NewMaterial.TextureID = ImageFiles.Count - 1;
                 }
 
-                //NewMaterial.TextureID = materialJson.Materials[i].TextureID;
-
                 NewMaterial.UnknownInt2 = materialJson.Materials[i].UnknownInt2;
                 NewMaterial.UnknownInt3 = materialJson.Materials[i].UnknownInt3;
                 NewMaterial.UnknownFloat1 = materialJson.Materials[i].UnknownFloat1;
@@ -1467,7 +1465,7 @@ namespace SSXMultiTool
             for (int i = 0; i < ImageFiles.Count; i++)
             {
                 TextureHandler.AddImage();
-                TextureHandler.LoadSingle(LoadPath + "/Textures" + ImageFiles[i], i);
+                TextureHandler.LoadSingle(LoadPath + "/Textures/" + ImageFiles[i], i);
                 if (!AttemptLightingFix)
                 {
                     TextureHandler.DarkenImage(i);
