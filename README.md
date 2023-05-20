@@ -9,6 +9,11 @@ As such, I chose to redo the entire project and improve it as I did so.
 - Big Decompressor and Compressor (BigF, Big4 And C0FB)
 - Loc (Language) Files Editor
 - SSX MPF Model Extractor/Importer (Tricky, 3, On Tour)
+- SSX MXF Model Extractor/Exporter (Tricky)
+
+### Tricky
+- (WIP) Speech Extractor/Importer
+- (WIP) Level Project System
 
 ### SSX 3
 - Character DB Editor
@@ -62,16 +67,7 @@ https://github.com/gibbed/Gibbed.RefPack <br>
 [![Donate](https://www.paypalobjects.com/en_AU/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?business=VT6TG8KKZM98E&no_recurring=0&currency_code=AUD)
 
 Regeneration Needed
-Skybox
-Lights
-ParticleInstances
-ParticlePrefabs
 Cameras
 Hash Data
 
-Clean Up Needed
-Splines
-SplineSegments
-Instances
-Lights
-
+Skybox Regeneration Needed

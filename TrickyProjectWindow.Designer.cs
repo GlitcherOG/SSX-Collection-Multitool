@@ -81,9 +81,11 @@
             label5 = new Label();
             label11 = new Label();
             UnlitCheckbox = new CheckBox();
+            groupBox4 = new GroupBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
+            groupBox4.SuspendLayout();
             SuspendLayout();
             // 
             // ExtractLevel
@@ -243,7 +245,7 @@
             // ParticleModelLabels
             // 
             ParticleModelLabels.AutoSize = true;
-            ParticleModelLabels.Location = new Point(11, 79);
+            ParticleModelLabels.Location = new Point(11, 64);
             ParticleModelLabels.Name = "ParticleModelLabels";
             ParticleModelLabels.Size = new Size(13, 15);
             ParticleModelLabels.TabIndex = 20;
@@ -252,7 +254,7 @@
             // label20
             // 
             label20.AutoSize = true;
-            label20.Location = new Point(11, 64);
+            label20.Location = new Point(11, 49);
             label20.Name = "label20";
             label20.Size = new Size(88, 15);
             label20.TabIndex = 19;
@@ -518,7 +520,7 @@
             // EmulatorLigthFix
             // 
             EmulatorLigthFix.AutoSize = true;
-            EmulatorLigthFix.Location = new Point(617, 390);
+            EmulatorLigthFix.Location = new Point(11, 47);
             EmulatorLigthFix.Name = "EmulatorLigthFix";
             EmulatorLigthFix.Size = new Size(171, 19);
             EmulatorLigthFix.TabIndex = 48;
@@ -577,21 +579,31 @@
             // UnlitCheckbox
             // 
             UnlitCheckbox.AutoSize = true;
-            UnlitCheckbox.Location = new Point(617, 365);
+            UnlitCheckbox.Location = new Point(11, 22);
             UnlitCheckbox.Name = "UnlitCheckbox";
             UnlitCheckbox.Size = new Size(155, 19);
             UnlitCheckbox.TabIndex = 50;
             UnlitCheckbox.Text = "Generate Unlit Lightmap";
             UnlitCheckbox.UseVisualStyleBackColor = true;
             // 
+            // groupBox4
+            // 
+            groupBox4.Controls.Add(UnlitCheckbox);
+            groupBox4.Controls.Add(EmulatorLigthFix);
+            groupBox4.Location = new Point(219, 251);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Size = new Size(569, 158);
+            groupBox4.TabIndex = 51;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Build Settings";
+            // 
             // TrickyProjectWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(UnlitCheckbox);
+            Controls.Add(groupBox4);
             Controls.Add(groupBox3);
-            Controls.Add(EmulatorLigthFix);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(SaveConfig);
@@ -622,6 +634,8 @@
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -681,5 +695,6 @@
         private Label label5;
         private Label label11;
         private CheckBox UnlitCheckbox;
+        private GroupBox groupBox4;
     }
 }

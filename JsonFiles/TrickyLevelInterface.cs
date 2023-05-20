@@ -72,6 +72,7 @@ namespace SSXMultiTool
             LTGHandler ltgHandler = new LTGHandler();
             ltgHandler.LoadLTG(LoadPath + ".ltg");
 
+            #region PBD JSON DATA
             //Create Patches JSON
             patchPoints = new PatchesJsonHandler();
             for (int i = 0; i < pbdHandler.Patches.Count; i++)
@@ -446,6 +447,10 @@ namespace SSXMultiTool
 
             //Create Camera Json
 
+
+
+            #endregion
+
             //Create Mesh data
             Directory.CreateDirectory(ExportPath + "/Models");
             pbdHandler.ExportModels(ExportPath + "/Models/");
@@ -464,6 +469,10 @@ namespace SSXMultiTool
                 TextureHandler.BrightenBitmap(i);
                 TextureHandler.BMPOneExtract(ExportPath + "\\Textures\\" + TextureHandler.sshImages[i].shortname + ".png", i);
             }
+
+
+            //NOTE CHANGE TO CHECK EACH PATH BEFORE RUNNING
+
             if (File.Exists(LoadPath + "_sky.ssh"))
             {
                 OldSSHHandler SkyboxHandler = new OldSSHHandler();
@@ -637,176 +646,176 @@ namespace SSXMultiTool
                 File.Copy(LoadPath + ".aip", ExportPath + "/Original" + "/aip.aip"); //Not in Menu
                 File.Copy(LoadPath + ".sop", ExportPath + "/Original" + "/sop.sop"); //Not in menu
 
-                //Load and Convert AIP to JSON
-                AIPSOPHandler aipHandler = new AIPSOPHandler();
-                aipHandler.LoadAIPSOP(LoadPath + ".aip");
-                AIPSOPJsonHandler aipJsonHandler = new AIPSOPJsonHandler();
-                aipJsonHandler.PathTypeA = new List<AIPSOPJsonHandler.PathTypeAJson>();
-                for (int i = 0; i < aipHandler.typeAs.Count; i++)
-                {
-                    AIPSOPJsonHandler.PathTypeAJson pathTypeAJson = new AIPSOPJsonHandler.PathTypeAJson();
-                    var TempPath = aipHandler.typeAs[i];
-                    pathTypeAJson.Unknown1 = TempPath.Unknown1;
-                    pathTypeAJson.Unknown2 = TempPath.Unknown2;
-                    pathTypeAJson.Unknown3 = TempPath.Unknown3;
-                    pathTypeAJson.Unknown4 = TempPath.Unknown4;
-                    pathTypeAJson.Unknown5 = TempPath.Unknown5;
-                    pathTypeAJson.Unknown6 = TempPath.Unknown6;
-                    pathTypeAJson.Unknown7 = TempPath.Unknown7;
+                //    //Load and Convert AIP to JSON
+                //    AIPSOPHandler aipHandler = new AIPSOPHandler();
+                //    aipHandler.LoadAIPSOP(LoadPath + ".aip");
+                //    AIPSOPJsonHandler aipJsonHandler = new AIPSOPJsonHandler();
+                //    aipJsonHandler.PathTypeA = new List<AIPSOPJsonHandler.PathTypeAJson>();
+                //    for (int i = 0; i < aipHandler.typeAs.Count; i++)
+                //    {
+                //        AIPSOPJsonHandler.PathTypeAJson pathTypeAJson = new AIPSOPJsonHandler.PathTypeAJson();
+                //        var TempPath = aipHandler.typeAs[i];
+                //        pathTypeAJson.Unknown1 = TempPath.Unknown1;
+                //        pathTypeAJson.Unknown2 = TempPath.Unknown2;
+                //        pathTypeAJson.Unknown3 = TempPath.Unknown3;
+                //        pathTypeAJson.Unknown4 = TempPath.Unknown4;
+                //        pathTypeAJson.Unknown5 = TempPath.Unknown5;
+                //        pathTypeAJson.Unknown6 = TempPath.Unknown6;
+                //        pathTypeAJson.Unknown7 = TempPath.Unknown7;
 
-                    pathTypeAJson.pathPos = JsonUtil.Vector3ToArray(TempPath.pathPos);
+                //        pathTypeAJson.pathPos = JsonUtil.Vector3ToArray(TempPath.pathPos);
 
-                    Vector3 CurrentPoint = TempPath.pathPos;
-                    pathTypeAJson.vectorPoints = new List<float[]>();
-                    for (int a = 0; a < TempPath.vectorPoints.Count; a++)
-                    {
-                        Vector3 Direction = JsonUtil.Vector4ToVector3(TempPath.vectorPoints[a]);
-                        float Distance = TempPath.vectorPoints[a].W;
-                        CurrentPoint = (Direction * Distance) + CurrentPoint;
-                        pathTypeAJson.vectorPoints.Add(JsonUtil.Vector3ToArray(CurrentPoint));
-                    }
+                //        Vector3 CurrentPoint = TempPath.pathPos;
+                //        pathTypeAJson.vectorPoints = new List<float[]>();
+                //        for (int a = 0; a < TempPath.vectorPoints.Count; a++)
+                //        {
+                //            Vector3 Direction = JsonUtil.Vector4ToVector3(TempPath.vectorPoints[a]);
+                //            float Distance = TempPath.vectorPoints[a].W;
+                //            CurrentPoint = (Direction * Distance) + CurrentPoint;
+                //            pathTypeAJson.vectorPoints.Add(JsonUtil.Vector3ToArray(CurrentPoint));
+                //        }
 
-                    pathTypeAJson.unkownListTypeAs = new List<AIPSOPJsonHandler.UnkownListTypeAJson>();
-                    for (int a = 0; a < TempPath.unkownListTypeAs.Count; a++)
-                    {
-                        var unknownTypeA = new AIPSOPJsonHandler.UnkownListTypeAJson();
-                        var TempTypeAList = TempPath.unkownListTypeAs[a];
+                //        pathTypeAJson.unkownListTypeAs = new List<AIPSOPJsonHandler.UnkownListTypeAJson>();
+                //        for (int a = 0; a < TempPath.unkownListTypeAs.Count; a++)
+                //        {
+                //            var unknownTypeA = new AIPSOPJsonHandler.UnkownListTypeAJson();
+                //            var TempTypeAList = TempPath.unkownListTypeAs[a];
 
-                        unknownTypeA.Unknown1 = TempTypeAList.Unknown1;
-                        unknownTypeA.Unknown2 = TempTypeAList.Unknown2;
-                        unknownTypeA.Unknown3 = TempTypeAList.Unknown3;
-                        unknownTypeA.Unknown4 = TempTypeAList.Unknown4;
+                //            unknownTypeA.Unknown1 = TempTypeAList.Unknown1;
+                //            unknownTypeA.Unknown2 = TempTypeAList.Unknown2;
+                //            unknownTypeA.Unknown3 = TempTypeAList.Unknown3;
+                //            unknownTypeA.Unknown4 = TempTypeAList.Unknown4;
 
-                        pathTypeAJson.unkownListTypeAs.Add(unknownTypeA);
-                    }
+                //            pathTypeAJson.unkownListTypeAs.Add(unknownTypeA);
+                //        }
 
-                    aipJsonHandler.PathTypeA.Add(pathTypeAJson);
-                }
+                //        aipJsonHandler.PathTypeA.Add(pathTypeAJson);
+                //    }
 
-                aipJsonHandler.PathTypeB = new List<AIPSOPJsonHandler.PathTypeBJson>();
-                for (int i = 0; i < aipHandler.typeBs.Count; i++)
-                {
-                    AIPSOPJsonHandler.PathTypeBJson pathTypeBJson = new AIPSOPJsonHandler.PathTypeBJson();
-                    var TempPath = aipHandler.typeBs[i];
-                    pathTypeBJson.Unknown1 = TempPath.Unknown1;
-                    pathTypeBJson.Unknown2 = TempPath.Unknown2;
-                    pathTypeBJson.Unknown3 = TempPath.Unknown3;
-                    pathTypeBJson.Unknown4 = TempPath.Unknown4;
+                //    aipJsonHandler.PathTypeB = new List<AIPSOPJsonHandler.PathTypeBJson>();
+                //    for (int i = 0; i < aipHandler.typeBs.Count; i++)
+                //    {
+                //        AIPSOPJsonHandler.PathTypeBJson pathTypeBJson = new AIPSOPJsonHandler.PathTypeBJson();
+                //        var TempPath = aipHandler.typeBs[i];
+                //        pathTypeBJson.Unknown1 = TempPath.Unknown1;
+                //        pathTypeBJson.Unknown2 = TempPath.Unknown2;
+                //        pathTypeBJson.Unknown3 = TempPath.Unknown3;
+                //        pathTypeBJson.Unknown4 = TempPath.Unknown4;
 
-                    pathTypeBJson.pathPos = JsonUtil.Vector3ToArray(TempPath.pathPos);
+                //        pathTypeBJson.pathPos = JsonUtil.Vector3ToArray(TempPath.pathPos);
 
-                    Vector3 CurrentPoint = TempPath.pathPos;
-                    pathTypeBJson.vectorPoints = new List<float[]>();
-                    for (int a = 0; a < TempPath.vectorPoints.Count; a++)
-                    {
-                        Vector3 Direction = JsonUtil.Vector4ToVector3(TempPath.vectorPoints[a]);
-                        float Distance = TempPath.vectorPoints[a].W;
-                        CurrentPoint = (Direction * Distance) + CurrentPoint;
-                        pathTypeBJson.vectorPoints.Add(JsonUtil.Vector3ToArray(CurrentPoint));
-                    }
+                //        Vector3 CurrentPoint = TempPath.pathPos;
+                //        pathTypeBJson.vectorPoints = new List<float[]>();
+                //        for (int a = 0; a < TempPath.vectorPoints.Count; a++)
+                //        {
+                //            Vector3 Direction = JsonUtil.Vector4ToVector3(TempPath.vectorPoints[a]);
+                //            float Distance = TempPath.vectorPoints[a].W;
+                //            CurrentPoint = (Direction * Distance) + CurrentPoint;
+                //            pathTypeBJson.vectorPoints.Add(JsonUtil.Vector3ToArray(CurrentPoint));
+                //        }
 
-                    pathTypeBJson.unkownListTypeAs = new List<AIPSOPJsonHandler.UnkownListTypeAJson>();
-                    for (int a = 0; a < TempPath.unkownListTypeAs.Count; a++)
-                    {
-                        var unknownTypeA = new AIPSOPJsonHandler.UnkownListTypeAJson();
-                        var TempTypeAList = TempPath.unkownListTypeAs[a];
+                //        pathTypeBJson.unkownListTypeAs = new List<AIPSOPJsonHandler.UnkownListTypeAJson>();
+                //        for (int a = 0; a < TempPath.unkownListTypeAs.Count; a++)
+                //        {
+                //            var unknownTypeA = new AIPSOPJsonHandler.UnkownListTypeAJson();
+                //            var TempTypeAList = TempPath.unkownListTypeAs[a];
 
-                        unknownTypeA.Unknown1 = TempTypeAList.Unknown1;
-                        unknownTypeA.Unknown2 = TempTypeAList.Unknown2;
-                        unknownTypeA.Unknown3 = TempTypeAList.Unknown3;
-                        unknownTypeA.Unknown4 = TempTypeAList.Unknown4;
+                //            unknownTypeA.Unknown1 = TempTypeAList.Unknown1;
+                //            unknownTypeA.Unknown2 = TempTypeAList.Unknown2;
+                //            unknownTypeA.Unknown3 = TempTypeAList.Unknown3;
+                //            unknownTypeA.Unknown4 = TempTypeAList.Unknown4;
 
-                        pathTypeBJson.unkownListTypeAs.Add(unknownTypeA);
-                    }
+                //            pathTypeBJson.unkownListTypeAs.Add(unknownTypeA);
+                //        }
 
-                    aipJsonHandler.PathTypeB.Add(pathTypeBJson);
-                }
-                aipJsonHandler.CreateJson(ExportPath + "/AIP.json");
+                //        aipJsonHandler.PathTypeB.Add(pathTypeBJson);
+                //    }
+                //    aipJsonHandler.CreateJson(ExportPath + "/AIP.json");
 
-                AIPSOPHandler sopHandler = new AIPSOPHandler();
-                sopHandler.LoadAIPSOP(LoadPath + ".sop");
-                AIPSOPJsonHandler sopJsonHandler = new AIPSOPJsonHandler();
-                sopJsonHandler.PathTypeA = new List<AIPSOPJsonHandler.PathTypeAJson>();
-                for (int i = 0; i < aipHandler.typeAs.Count; i++)
-                {
-                    AIPSOPJsonHandler.PathTypeAJson pathTypeAJson = new AIPSOPJsonHandler.PathTypeAJson();
-                    var TempPath = aipHandler.typeAs[i];
-                    pathTypeAJson.Unknown1 = TempPath.Unknown1;
-                    pathTypeAJson.Unknown2 = TempPath.Unknown2;
-                    pathTypeAJson.Unknown3 = TempPath.Unknown3;
-                    pathTypeAJson.Unknown4 = TempPath.Unknown4;
-                    pathTypeAJson.Unknown5 = TempPath.Unknown5;
-                    pathTypeAJson.Unknown6 = TempPath.Unknown6;
-                    pathTypeAJson.Unknown7 = TempPath.Unknown7;
+                //    AIPSOPHandler sopHandler = new AIPSOPHandler();
+                //    sopHandler.LoadAIPSOP(LoadPath + ".sop");
+                //    AIPSOPJsonHandler sopJsonHandler = new AIPSOPJsonHandler();
+                //    sopJsonHandler.PathTypeA = new List<AIPSOPJsonHandler.PathTypeAJson>();
+                //    for (int i = 0; i < aipHandler.typeAs.Count; i++)
+                //    {
+                //        AIPSOPJsonHandler.PathTypeAJson pathTypeAJson = new AIPSOPJsonHandler.PathTypeAJson();
+                //        var TempPath = aipHandler.typeAs[i];
+                //        pathTypeAJson.Unknown1 = TempPath.Unknown1;
+                //        pathTypeAJson.Unknown2 = TempPath.Unknown2;
+                //        pathTypeAJson.Unknown3 = TempPath.Unknown3;
+                //        pathTypeAJson.Unknown4 = TempPath.Unknown4;
+                //        pathTypeAJson.Unknown5 = TempPath.Unknown5;
+                //        pathTypeAJson.Unknown6 = TempPath.Unknown6;
+                //        pathTypeAJson.Unknown7 = TempPath.Unknown7;
 
-                    pathTypeAJson.pathPos = JsonUtil.Vector3ToArray(TempPath.pathPos);
+                //        pathTypeAJson.pathPos = JsonUtil.Vector3ToArray(TempPath.pathPos);
 
-                    Vector3 CurrentPoint = TempPath.pathPos;
-                    pathTypeAJson.vectorPoints = new List<float[]>();
-                    for (int a = 0; a < TempPath.vectorPoints.Count; a++)
-                    {
-                        Vector3 Direction = JsonUtil.Vector4ToVector3(TempPath.vectorPoints[a]);
-                        float Distance = TempPath.vectorPoints[a].W;
-                        CurrentPoint = (Direction * Distance) + CurrentPoint;
-                        pathTypeAJson.vectorPoints.Add(JsonUtil.Vector3ToArray(CurrentPoint));
-                    }
+                //        Vector3 CurrentPoint = TempPath.pathPos;
+                //        pathTypeAJson.vectorPoints = new List<float[]>();
+                //        for (int a = 0; a < TempPath.vectorPoints.Count; a++)
+                //        {
+                //            Vector3 Direction = JsonUtil.Vector4ToVector3(TempPath.vectorPoints[a]);
+                //            float Distance = TempPath.vectorPoints[a].W;
+                //            CurrentPoint = (Direction * Distance) + CurrentPoint;
+                //            pathTypeAJson.vectorPoints.Add(JsonUtil.Vector3ToArray(CurrentPoint));
+                //        }
 
-                    pathTypeAJson.unkownListTypeAs = new List<AIPSOPJsonHandler.UnkownListTypeAJson>();
-                    for (int a = 0; a < TempPath.unkownListTypeAs.Count; a++)
-                    {
-                        var unknownTypeA = new AIPSOPJsonHandler.UnkownListTypeAJson();
-                        var TempTypeAList = TempPath.unkownListTypeAs[a];
+                //        pathTypeAJson.unkownListTypeAs = new List<AIPSOPJsonHandler.UnkownListTypeAJson>();
+                //        for (int a = 0; a < TempPath.unkownListTypeAs.Count; a++)
+                //        {
+                //            var unknownTypeA = new AIPSOPJsonHandler.UnkownListTypeAJson();
+                //            var TempTypeAList = TempPath.unkownListTypeAs[a];
 
-                        unknownTypeA.Unknown1 = TempTypeAList.Unknown1;
-                        unknownTypeA.Unknown2 = TempTypeAList.Unknown2;
-                        unknownTypeA.Unknown3 = TempTypeAList.Unknown3;
-                        unknownTypeA.Unknown4 = TempTypeAList.Unknown4;
+                //            unknownTypeA.Unknown1 = TempTypeAList.Unknown1;
+                //            unknownTypeA.Unknown2 = TempTypeAList.Unknown2;
+                //            unknownTypeA.Unknown3 = TempTypeAList.Unknown3;
+                //            unknownTypeA.Unknown4 = TempTypeAList.Unknown4;
 
-                        pathTypeAJson.unkownListTypeAs.Add(unknownTypeA);
-                    }
+                //            pathTypeAJson.unkownListTypeAs.Add(unknownTypeA);
+                //        }
 
-                    sopJsonHandler.PathTypeA.Add(pathTypeAJson);
-                }
+                //        sopJsonHandler.PathTypeA.Add(pathTypeAJson);
+                //    }
 
-                sopJsonHandler.PathTypeB = new List<AIPSOPJsonHandler.PathTypeBJson>();
-                for (int i = 0; i < aipHandler.typeBs.Count; i++)
-                {
-                    AIPSOPJsonHandler.PathTypeBJson pathTypeBJson = new AIPSOPJsonHandler.PathTypeBJson();
-                    var TempPath = aipHandler.typeBs[i];
-                    pathTypeBJson.Unknown1 = TempPath.Unknown1;
-                    pathTypeBJson.Unknown2 = TempPath.Unknown2;
-                    pathTypeBJson.Unknown3 = TempPath.Unknown3;
-                    pathTypeBJson.Unknown4 = TempPath.Unknown4;
+                //    sopJsonHandler.PathTypeB = new List<AIPSOPJsonHandler.PathTypeBJson>();
+                //    for (int i = 0; i < aipHandler.typeBs.Count; i++)
+                //    {
+                //        AIPSOPJsonHandler.PathTypeBJson pathTypeBJson = new AIPSOPJsonHandler.PathTypeBJson();
+                //        var TempPath = aipHandler.typeBs[i];
+                //        pathTypeBJson.Unknown1 = TempPath.Unknown1;
+                //        pathTypeBJson.Unknown2 = TempPath.Unknown2;
+                //        pathTypeBJson.Unknown3 = TempPath.Unknown3;
+                //        pathTypeBJson.Unknown4 = TempPath.Unknown4;
 
-                    pathTypeBJson.pathPos = JsonUtil.Vector3ToArray(TempPath.pathPos);
+                //        pathTypeBJson.pathPos = JsonUtil.Vector3ToArray(TempPath.pathPos);
 
-                    Vector3 CurrentPoint = TempPath.pathPos;
-                    pathTypeBJson.vectorPoints = new List<float[]>();
-                    for (int a = 0; a < TempPath.vectorPoints.Count; a++)
-                    {
-                        Vector3 Direction = JsonUtil.Vector4ToVector3(TempPath.vectorPoints[a]);
-                        float Distance = TempPath.vectorPoints[a].W;
-                        CurrentPoint = (Direction * Distance) + CurrentPoint;
-                        pathTypeBJson.vectorPoints.Add(JsonUtil.Vector3ToArray(CurrentPoint));
-                    }
+                //        Vector3 CurrentPoint = TempPath.pathPos;
+                //        pathTypeBJson.vectorPoints = new List<float[]>();
+                //        for (int a = 0; a < TempPath.vectorPoints.Count; a++)
+                //        {
+                //            Vector3 Direction = JsonUtil.Vector4ToVector3(TempPath.vectorPoints[a]);
+                //            float Distance = TempPath.vectorPoints[a].W;
+                //            CurrentPoint = (Direction * Distance) + CurrentPoint;
+                //            pathTypeBJson.vectorPoints.Add(JsonUtil.Vector3ToArray(CurrentPoint));
+                //        }
 
-                    pathTypeBJson.unkownListTypeAs = new List<AIPSOPJsonHandler.UnkownListTypeAJson>();
-                    for (int a = 0; a < TempPath.unkownListTypeAs.Count; a++)
-                    {
-                        var unknownTypeA = new AIPSOPJsonHandler.UnkownListTypeAJson();
-                        var TempTypeAList = TempPath.unkownListTypeAs[a];
+                //        pathTypeBJson.unkownListTypeAs = new List<AIPSOPJsonHandler.UnkownListTypeAJson>();
+                //        for (int a = 0; a < TempPath.unkownListTypeAs.Count; a++)
+                //        {
+                //            var unknownTypeA = new AIPSOPJsonHandler.UnkownListTypeAJson();
+                //            var TempTypeAList = TempPath.unkownListTypeAs[a];
 
-                        unknownTypeA.Unknown1 = TempTypeAList.Unknown1;
-                        unknownTypeA.Unknown2 = TempTypeAList.Unknown2;
-                        unknownTypeA.Unknown3 = TempTypeAList.Unknown3;
-                        unknownTypeA.Unknown4 = TempTypeAList.Unknown4;
+                //            unknownTypeA.Unknown1 = TempTypeAList.Unknown1;
+                //            unknownTypeA.Unknown2 = TempTypeAList.Unknown2;
+                //            unknownTypeA.Unknown3 = TempTypeAList.Unknown3;
+                //            unknownTypeA.Unknown4 = TempTypeAList.Unknown4;
 
-                        pathTypeBJson.unkownListTypeAs.Add(unknownTypeA);
-                    }
+                //            pathTypeBJson.unkownListTypeAs.Add(unknownTypeA);
+                //        }
 
-                    sopJsonHandler.PathTypeB.Add(pathTypeBJson);
-                }
-                sopJsonHandler.CreateJson(ExportPath + "/SOP.json");
+                //        sopJsonHandler.PathTypeB.Add(pathTypeBJson);
+                //    }
+                //    sopJsonHandler.CreateJson(ExportPath + "/SOP.json");
             }
         }
 
