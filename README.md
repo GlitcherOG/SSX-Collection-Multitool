@@ -71,3 +71,5 @@ Cameras
 Hash Data
 
 Skybox Regeneration Needed
+
+Negitive one Linkz lightmap Fix

@@ -20,6 +20,7 @@ namespace SSXMultiTool
     {
         public bool AttemptLightingFix;
         public bool Unilightmap;
+        public bool InlineExporting;
 
         public PatchesJsonHandler patchPoints = new PatchesJsonHandler();
         public InstanceJsonHandler instancesJson = new InstanceJsonHandler();
@@ -135,7 +136,7 @@ namespace SSXMultiTool
                 patch.LightmapID = pbdHandler.Patches[i].LightmapID;
                 patchPoints.Patches.Add(patch);
             }
-            patchPoints.CreateJson(ExportPath + "/Patches.json");
+            patchPoints.CreateJson(ExportPath + "/Patches.json", InlineExporting);
 
             //Create Instance JSON
             instancesJson = new InstanceJsonHandler();
@@ -178,7 +179,7 @@ namespace SSXMultiTool
 
                 instancesJson.Instances.Add(instanceJson);
             }
-            instancesJson.CreateJson(ExportPath + "/Instances.json");
+            instancesJson.CreateJson(ExportPath + "/Instances.json", InlineExporting);
 
             //Create Particle Instances JSON
             particleInstanceJson = new ParticleInstanceJsonHandler();
@@ -206,7 +207,7 @@ namespace SSXMultiTool
                 TempParticle.UnknownInt12 = pbdHandler.particleInstances[i].UnknownInt12;
                 particleInstanceJson.Particles.Add(TempParticle);
             }
-            particleInstanceJson.CreateJson(ExportPath + "/ParticleInstances.json");
+            particleInstanceJson.CreateJson(ExportPath + "/ParticleInstances.json", InlineExporting);
 
             //Create Material Json
             materialJson = new MaterialJsonHandler();
@@ -237,7 +238,7 @@ namespace SSXMultiTool
                 TempMaterial.UnknownInt20 = pbdHandler.materials[i].UnknownInt20;
                 materialJson.Materials.Add(TempMaterial);
             }
-            materialJson.CreateJson(ExportPath + "/Material.json");
+            materialJson.CreateJson(ExportPath + "/Material.json", InlineExporting);
 
             //Create Lights Json
             lightJsonHandler = new LightJsonHandler();
@@ -263,7 +264,7 @@ namespace SSXMultiTool
                 lightJsonHandler.Lights.Add(TempLight);
 
             }
-            lightJsonHandler.CreateJson(ExportPath + "/Lights.json");
+            lightJsonHandler.CreateJson(ExportPath + "/Lights.json", InlineExporting);
 
             //Create Spline Json
             splineJsonHandler = new SplineJsonHandler();
@@ -300,7 +301,7 @@ namespace SSXMultiTool
                 }
                 splineJsonHandler.Splines.Add(TempSpline);
             }
-            splineJsonHandler.CreateJson(ExportPath + "/Splines.json");
+            splineJsonHandler.CreateJson(ExportPath + "/Splines.json", InlineExporting);
 
             //Create Texture FLipbook Json
             textureFlipbookJsonHandler = new TextureFlipbookJsonHandler();
@@ -314,7 +315,7 @@ namespace SSXMultiTool
                 }
                 textureFlipbookJsonHandler.Flipbooks.Add(TempFlipbook);
             }
-            textureFlipbookJsonHandler.CreateJson(ExportPath + "/TextureFlipbook.json");
+            textureFlipbookJsonHandler.CreateJson(ExportPath + "/TextureFlipbook.json", InlineExporting);
 
             //Create Model Json
             prefabJsonHandler = new PrefabJsonHandler();
@@ -406,7 +407,7 @@ namespace SSXMultiTool
 
                 prefabJsonHandler.Prefabs.Add(TempModel);
             }
-            prefabJsonHandler.CreateJson(ExportPath + "/Prefabs.json");
+            prefabJsonHandler.CreateJson(ExportPath + "/Prefabs.json", InlineExporting);
 
             //Create Particle Model Json
             particleModelJsonHandler = new ParticleModelJsonHandler();
@@ -443,7 +444,7 @@ namespace SSXMultiTool
 
                 particleModelJsonHandler.ParticleModels.Add(TempParticleModel);
             }
-            particleModelJsonHandler.CreateJson(ExportPath + "/ParticleModelHeaders.json");
+            particleModelJsonHandler.CreateJson(ExportPath + "/ParticleModelHeaders.json", InlineExporting);
 
             //Create Camera Json
 

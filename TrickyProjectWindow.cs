@@ -72,6 +72,7 @@ namespace SSXMultiTool
         {
             string LoadPath = StartPath.Substring(0, StartPath.Length - 4);
             trickyLevelInterface = new TrickyLevelInterface();
+            trickyLevelInterface.InlineExporting = JSONInlineCheck.Checked;
             trickyLevelInterface.ExtractTrickyLevelFiles(LoadPath, ExportPath);
             ProjectPath = ExportPath;
             SaveConfig.Enabled = true;
@@ -194,5 +195,9 @@ namespace SSXMultiTool
             trickyConfig.CreateJson(ProjectPath + "/Config.ssx");
         }
 
+        private void PatchesTitleLabel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

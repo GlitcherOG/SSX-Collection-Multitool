@@ -12,9 +12,15 @@ namespace SSXMultiTool.JsonFiles.Tricky
     {
         public List<FlipbookJson> Flipbooks = new List<FlipbookJson>();
 
-        public void CreateJson(string path)
+        public void CreateJson(string path, bool Inline = false)
         {
-            var serializer = JsonConvert.SerializeObject(this, Formatting.None);
+            var TempFormating = Formatting.None;
+            if(Inline)
+            {
+                TempFormating = Formatting.Indented;
+            }
+
+            var serializer = JsonConvert.SerializeObject(this, TempFormating);
             File.WriteAllText(path, serializer);
         }
 

@@ -36,7 +36,7 @@
             SykboxLabel = new Label();
             label6 = new Label();
             PatchesLabel = new Label();
-            label8 = new Label();
+            PatchesTitleLabel = new Label();
             InstancesLabel = new Label();
             label10 = new Label();
             ParticleInstancesLabel = new Label();
@@ -82,10 +82,13 @@
             label11 = new Label();
             UnlitCheckbox = new CheckBox();
             groupBox4 = new GroupBox();
+            groupBox5 = new GroupBox();
+            JSONInlineCheck = new CheckBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox4.SuspendLayout();
+            groupBox5.SuspendLayout();
             SuspendLayout();
             // 
             // ExtractLevel
@@ -161,14 +164,15 @@
             PatchesLabel.TabIndex = 8;
             PatchesLabel.Text = "0";
             // 
-            // label8
+            // PatchesTitleLabel
             // 
-            label8.AutoSize = true;
-            label8.Location = new Point(11, 19);
-            label8.Name = "label8";
-            label8.Size = new Size(48, 15);
-            label8.TabIndex = 7;
-            label8.Text = "Patches";
+            PatchesTitleLabel.AutoSize = true;
+            PatchesTitleLabel.Location = new Point(11, 19);
+            PatchesTitleLabel.Name = "PatchesTitleLabel";
+            PatchesTitleLabel.Size = new Size(48, 15);
+            PatchesTitleLabel.TabIndex = 7;
+            PatchesTitleLabel.Text = "Patches";
+            PatchesTitleLabel.Click += PatchesTitleLabel_Click;
             // 
             // InstancesLabel
             // 
@@ -492,7 +496,7 @@
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(label8);
+            groupBox2.Controls.Add(PatchesTitleLabel);
             groupBox2.Controls.Add(PatchesLabel);
             groupBox2.Controls.Add(label10);
             groupBox2.Controls.Add(InstancesLabel);
@@ -597,11 +601,32 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "Build Settings";
             // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(JSONInlineCheck);
+            groupBox5.Location = new Point(12, 365);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(199, 44);
+            groupBox5.TabIndex = 52;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "Extract Settings";
+            // 
+            // JSONInlineCheck
+            // 
+            JSONInlineCheck.AutoSize = true;
+            JSONInlineCheck.Location = new Point(11, 22);
+            JSONInlineCheck.Name = "JSONInlineCheck";
+            JSONInlineCheck.Size = new Size(86, 19);
+            JSONInlineCheck.TabIndex = 50;
+            JSONInlineCheck.Text = "JSON Inline";
+            JSONInlineCheck.UseVisualStyleBackColor = true;
+            // 
             // TrickyProjectWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
@@ -636,6 +661,8 @@
             groupBox3.PerformLayout();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
+            groupBox5.ResumeLayout(false);
+            groupBox5.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -650,7 +677,7 @@
         private Label SykboxLabel;
         private Label label6;
         private Label PatchesLabel;
-        private Label label8;
+        private Label PatchesTitleLabel;
         private Label InstancesLabel;
         private Label label10;
         private Label ParticleInstancesLabel;
@@ -696,5 +723,7 @@
         private Label label11;
         private CheckBox UnlitCheckbox;
         private GroupBox groupBox4;
+        private GroupBox groupBox5;
+        private CheckBox JSONInlineCheck;
     }
 }
