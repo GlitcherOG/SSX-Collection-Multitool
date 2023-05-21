@@ -4,6 +4,7 @@ using System.IO;
 using System.Numerics;
 using SSXMultiTool.Utilities;
 using System.Globalization;
+using System.Windows.Documents;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
@@ -66,7 +67,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<int> ParticleModelPointers;
         public List<ParticlePrefab> particleModels;
         public List<int> CameraPointers;
-        public List<Camera> Cameras = new List<Camera>();
+        public List<CameraInstance> Cameras = new List<CameraInstance>();
         public HashData hashData = new HashData();
 
         public byte[] MeshData;
@@ -575,13 +576,71 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
 
                 //Camera Data
-                Cameras = new List<Camera>();
+                Cameras = new List<CameraInstance>();
                 for (int i = 0; i < NumCameras; i++)
                 {
                     stream.Position = CamerasOffset + CameraPointers[i];
-                    Camera TempCamera = new Camera();
-                    TempCamera.TotalLength = StreamUtil.ReadUInt32(stream);
-                    TempCamera.bytes = StreamUtil.ReadBytes(stream, TempCamera.TotalLength - 4);
+                    CameraInstance TempCamera = new CameraInstance();
+
+                    TempCamera.ByteSize = StreamUtil.ReadUInt32(stream);
+                    TempCamera.Translation = StreamUtil.ReadVector3(stream);
+                    TempCamera.Rotation = StreamUtil.ReadVector3(stream);
+                    TempCamera.Type = StreamUtil.ReadUInt32(stream);
+                    TempCamera.FocalLength = StreamUtil.ReadFloat(stream);
+                    TempCamera.AspectRatio = StreamUtil.ReadFloat(stream);
+                    TempCamera.Aperture = StreamUtil.ReadVector2(stream);
+                    TempCamera.ClipPlane = StreamUtil.ReadVector2(stream);
+                    TempCamera.IntrestPoint = StreamUtil.ReadVector3(stream);
+                    TempCamera.UpVector = StreamUtil.ReadVector3(stream);
+                    TempCamera.AnimTime = StreamUtil.ReadFloat(stream);
+                    TempCamera.AnimationOffset = StreamUtil.ReadUInt32(stream);
+
+                    TempCamera.AnimationInitial = new CameraAnimationInitial();
+
+                    stream.Position = CamerasOffset + CameraPointers[i] + TempCamera.AnimationOffset; // Dont Really need to do this but i will
+
+                    TempCamera.AnimationInitial.InitialPosition = StreamUtil.ReadVector3(stream);
+                    TempCamera.AnimationInitial.InitalRotation = StreamUtil.ReadVector3(stream);
+
+                    TempCamera.AnimationInitial.U0 = StreamUtil.ReadFloat(stream, true);
+
+                    TempCamera.AnimationInitial.AnimationHeaderCount = StreamUtil.ReadUInt32(stream);
+                    TempCamera.AnimationInitial.AnimationHeaderOffset = StreamUtil.ReadUInt32(stream);
+
+                    stream.Position = CamerasOffset + CameraPointers[i] + TempCamera.AnimationOffset + TempCamera.AnimationInitial.AnimationHeaderOffset; // Dont Really need to do this but i will
+
+                    TempCamera.AnimationInitial.AnimationHeaderPointers = new List<int>();
+
+                    for (int a = 0; a < TempCamera.AnimationInitial.AnimationHeaderCount; a++)
+                    {
+                        TempCamera.AnimationInitial.AnimationHeaderPointers.Add(StreamUtil.ReadUInt32(stream));
+                    }
+
+                    TempCamera.AnimationInitial.AnimationHeaders = new List<CameraAnimationHeader>();
+
+                    //Really dont need to do this but im gonna
+                    for (int a = 0; a < TempCamera.AnimationInitial.AnimationHeaderPointers.Count; a++)
+                    {
+                        stream.Position = CamerasOffset + CameraPointers[i] + TempCamera.AnimationOffset + TempCamera.AnimationInitial.AnimationHeaderPointers[a];
+                        var TempAnimationHeader= new CameraAnimationHeader();
+
+                        TempAnimationHeader.Count = StreamUtil.ReadUInt32(stream);
+                        TempAnimationHeader.Action = StreamUtil.ReadUInt32(stream);
+                        TempAnimationHeader.AnimationDatas = new List<CameraAnimationData>();
+
+                        for (int b = 0; b < TempAnimationHeader.Count; b++)
+                        {
+                            var NewAnimData = new CameraAnimationData();
+
+                            NewAnimData.Translation = StreamUtil.ReadVector3(stream);
+                            NewAnimData.Rotation = StreamUtil.ReadVector3(stream);
+
+                            TempAnimationHeader.AnimationDatas.Add(NewAnimData);
+                        }
+
+                        TempCamera.AnimationInitial.AnimationHeaders.Add(TempAnimationHeader);
+                    }
+
 
                     Cameras.Add(TempCamera);
                 }
@@ -951,7 +1010,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, spline.SplineSegmentPosition);
                 StreamUtil.WriteInt32(stream, spline.Unknown2);
             }
-            StreamUtil.AlignBy16(stream);
+            //StreamUtil.AlignBy16(stream);
 
             //Spline Segments
             SplineSegmentOffset = (int)stream.Position;
@@ -1294,16 +1353,103 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             {
                 CameraPointerOffset = (int)stream.Position;
                 stream.Position += 4 * Cameras.Count;
+                //StreamUtil.AlignBy16(stream);
                 CameraPointers = new List<int>();
 
                 //Write Camera
                 CamerasOffset = (int)stream.Position;
                 for (int i = 0; i < Cameras.Count; i++)
                 {
+                    var CameraTemp = Cameras[i];
                     CameraPointers.Add((int)stream.Position - CamerasOffset);
-                    StreamUtil.WriteInt32(stream, 4 + Cameras[i].bytes.Length);
-                    StreamUtil.WriteBytes(stream, Cameras[i].bytes);
+
+                    long StartBytePos = stream.Position;
+                    stream.Position += 4;
+
+                    StreamUtil.WriteVector3(stream, CameraTemp.Translation);
+                    StreamUtil.WriteVector3(stream, CameraTemp.Rotation);
+                    StreamUtil.WriteInt32(stream, CameraTemp.Type);
+                    StreamUtil.WriteFloat32(stream, CameraTemp.FocalLength);
+                    StreamUtil.WriteFloat32(stream, CameraTemp.AspectRatio);
+                    StreamUtil.WriteVector2(stream, CameraTemp.Aperture);
+                    StreamUtil.WriteVector2(stream, CameraTemp.ClipPlane);
+                    StreamUtil.WriteVector3(stream, CameraTemp.IntrestPoint);
+                    StreamUtil.WriteVector3(stream, CameraTemp.UpVector);
+                    StreamUtil.WriteFloat32(stream, CameraTemp.AnimTime);
+                    StreamUtil.WriteInt32(stream, 88);
+
+                    
+                    StreamUtil.WriteVector3(stream, CameraTemp.AnimationInitial.InitialPosition);
+                    StreamUtil.WriteVector3(stream, CameraTemp.AnimationInitial.InitalRotation);
+                    StreamUtil.WriteFloat32(stream, CameraTemp.AnimationInitial.U0, true);
+
+                    long PointerBytePos = stream.Position;
+
+                    stream.Position += 4 * (2 + CameraTemp.AnimationInitial.AnimationHeaders.Count);
+                    CameraTemp.AnimationInitial.AnimationHeaderPointers = new List<int>();
+
+                    for (int a = 0; a < CameraTemp.AnimationInitial.AnimationHeaders.Count; a++)
+                    {
+                        CameraTemp.AnimationInitial.AnimationHeaderPointers.Add((int)(stream.Position - StartBytePos - 88));
+                        StreamUtil.WriteInt32(stream, CameraTemp.AnimationInitial.AnimationHeaders[a].AnimationDatas.Count);
+                        StreamUtil.WriteInt32(stream, CameraTemp.AnimationInitial.AnimationHeaders[a].Action);
+
+                        for (int b = 0; b < CameraTemp.AnimationInitial.AnimationHeaders[a].AnimationDatas.Count; b++)
+                        {
+                            StreamUtil.WriteVector3(stream, CameraTemp.AnimationInitial.AnimationHeaders[a].AnimationDatas[b].Translation);
+                            StreamUtil.WriteVector3(stream, CameraTemp.AnimationInitial.AnimationHeaders[a].AnimationDatas[b].Rotation);
+                        }
+
+                    }
+
+                    long EndPos = stream.Position;
+
+
+                    stream.Position = PointerBytePos;
+                    StreamUtil.WriteInt32(stream, CameraTemp.AnimationInitial.AnimationHeaderPointers.Count);
+                    StreamUtil.WriteInt32(stream, 36);
+
+                    for (int a = 0; a < CameraTemp.AnimationInitial.AnimationHeaderPointers.Count; a++)
+                    {
+                        StreamUtil.WriteInt32(stream, CameraTemp.AnimationInitial.AnimationHeaderPointers[a]);
+                    }
+
+                    stream.Position = StartBytePos;
+
+                    StreamUtil.WriteInt32(stream, (int)(EndPos - StartBytePos));
+
+                    stream.Position = EndPos;
                 }
+
+                //Camera Data
+                //Cameras = new List<CameraInstance>();
+                //for (int i = 0; i < NumCameras; i++)
+                //    for (int a = 0; a < TempCamera.AnimationInitial.AnimationHeaderPointers.Count; a++)
+                //    {
+                //        stream.Position = CamerasOffset + CameraPointers[i] + TempCamera.AnimationOffset + TempCamera.AnimationInitial.AnimationHeaderPointers[a];
+                //        var TempAnimationHeader = new CameraAnimationHeader();
+
+                //        TempAnimationHeader.Count = StreamUtil.ReadUInt32(stream);
+                //        TempAnimationHeader.Action = StreamUtil.ReadUInt32(stream);
+                //        TempAnimationHeader.AnimationDatas = new List<CameraAnimationData>();
+
+                //        for (int b = 0; b < TempAnimationHeader.Count; b++)
+                //        {
+                //            var NewAnimData = new CameraAnimationData();
+
+                //            NewAnimData.Translation = StreamUtil.ReadVector3(stream);
+                //            NewAnimData.Rotation = StreamUtil.ReadVector3(stream);
+
+                //            TempAnimationHeader.AnimationDatas.Add(NewAnimData);
+                //        }
+
+                //        TempCamera.AnimationInitial.AnimationHeaders.Add(TempAnimationHeader);
+                //    }
+
+
+                //    Cameras.Add(TempCamera);
+                //}
+
 
                 //Write Camera Pointer
                 TempPosition = (int)stream.Position;
@@ -2359,41 +2505,58 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     }
 
 
-    public struct Camera
+    public struct CameraInstance
     {
-        public int TotalLength;
-        public byte[] bytes;
-
-        public int CameraLength;
+        public int ByteSize;
         public Vector3 Translation;
         public Vector3 Rotation;
         public int Type;
-        public int FocalLength;
+        public float FocalLength;
         public float AspectRatio;
         public Vector2 Aperture;
         public Vector2 ClipPlane;
         public Vector3 IntrestPoint;
         public Vector3 UpVector;
+        public float AnimTime;
 
-        public float Unknown0;
-        public int Unknown1;
-        public Vector3 Translation1;
-        public Vector3 Rotation1;
-        public int UnknownCount;
-        public int UnknownOffset;
-        public List<int> UnknownOffsetList;
-        public List<CameraAnimationHeader> cameraAnimationHeaders;
+        public int AnimationOffset;
+
+        public CameraAnimationInitial AnimationInitial;
+    }
+
+    public struct CameraAnimationInitial
+    {
+        public Vector3 InitialPosition;
+        public Vector3 InitalRotation;
+        public float U0; //Big ?
+        public int AnimationHeaderCount;
+        public int AnimationHeaderOffset;
+        public List<int> AnimationHeaderPointers;
+
+        public List<CameraAnimationHeader> AnimationHeaders;
+
     }
 
     public struct CameraAnimationHeader
     {
         public int Count;
-        public int Action; //Probably Just an Offset?
-        public List<CameraAnimationData> animationDatas;
+        public int Action; //Could also be offset
+
+        //Probably not right but
+        //Stored as Bit Flags
+        //1 - X Position
+        //2 - Y Position
+        //4 - Z Position
+        //8 - X Rotate
+        //16 - Y Rotate
+        //32 - Z Rotate
+
+        public List<CameraAnimationData> AnimationDatas;
     }
 
     public struct CameraAnimationData
     {
+        //Probably Wrong I'll figure it out
         public Vector3 Translation;
         public Vector3 Rotation;
     }

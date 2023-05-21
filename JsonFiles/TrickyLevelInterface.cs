@@ -65,7 +65,7 @@ namespace SSXMultiTool
             //Load PBD
             PBDHandler pbdHandler = new PBDHandler();
             pbdHandler.LoadPBD(LoadPath + ".pbd");
-            //pbdHandler.SaveNew(LoadPath + ".pbd1");
+            pbdHandler.SaveNew(LoadPath + ".pbd1");
 
             OldSSHHandler TextureHandler = new OldSSHHandler();
             TextureHandler.LoadSSH(LoadPath + ".ssh");
