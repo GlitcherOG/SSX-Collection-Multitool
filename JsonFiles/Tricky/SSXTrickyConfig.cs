@@ -10,7 +10,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
 {
     public class SSXTrickyConfig
     {
-        public int Version = 4;
+        public int Version = 1;
         public string LevelName = "";
         public string Author = "";
         public string LevelVersion = "";
@@ -19,6 +19,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
         public string Vertical = "";
         public string Length = "";
         public string Description = "";
+        public string BuildPath = "";
 
         public void CreateJson(string path, bool Inline = false)
         {
