@@ -1610,6 +1610,7 @@ namespace SSXMultiTool
             {
                 TextureHandler.AddImage();
                 TextureHandler.LoadSingle(LoadPath + "/Textures/" + ImageFiles[i], i);
+                TextureHandler.DarkenImage(i);
                 var temp = TextureHandler.sshImages[i];
                 temp.shortname = i.ToString().PadLeft(4, '0');
                 temp.AlphaFix = true;
