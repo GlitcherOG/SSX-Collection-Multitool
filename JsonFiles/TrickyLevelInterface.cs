@@ -483,7 +483,7 @@ namespace SSXMultiTool
                     {
                         var NewAnimationData = new CameraJSONHandler.CameraAnimationData();
                         NewAnimationData.Translation = JsonUtil.Vector3ToArray(TempCamera.AnimationInitial.AnimationHeaders[a].AnimationDatas[b].Translation);
-                        NewAnimationData.Rotation = JsonUtil.Vector3ToArray(TempCamera.AnimationInitial.AnimationHeaders[a].AnimationDatas[b].Translation);
+                        NewAnimationData.Rotation = JsonUtil.Vector3ToArray(TempCamera.AnimationInitial.AnimationHeaders[a].AnimationDatas[b].Rotation);
 
                         NewAnimationHeader.AnimationDatas.Add(NewAnimationData);
                     }
@@ -1527,6 +1527,8 @@ namespace SSXMultiTool
             //Rebuild Camera
             cameraJSONHandler = new CameraJSONHandler();
             cameraJSONHandler = CameraJSONHandler.Load(LoadPath + "/Cameras.json");
+            pbdHandler.Cameras = new List<CameraInstance>();
+
             mapHandler.Cameras = new List<LinkerItem>();
             for (int i = 0; i < cameraJSONHandler.Cameras.Count; i++)
             {
@@ -1567,7 +1569,10 @@ namespace SSXMultiTool
 
                         NewAnimHeader.AnimationDatas.Add(NewAnimationData);
                     }
+                    NewCameraInstance.AnimationInitial.AnimationHeaders.Add(NewAnimHeader);
                 }
+
+                pbdHandler.Cameras.Add(NewCameraInstance);
 
                 LinkerItem linkerItem = new LinkerItem();
                 linkerItem.Ref = 1;
