@@ -48,6 +48,19 @@ namespace SSXMultiTool.Utilities
             return new Vector3(floats[0], floats[1], floats[2]);
         }
 
+        public static float[] Vector2ToArray(Vector2 vector3)
+        {
+            float[] array = new float[2];
+            array[0] = vector3.X;
+            array[1] = vector3.Y;
+            return array;
+        }
+
+        public static Vector2 ArrayToVector2(float[] floats)
+        {
+            return new Vector2(floats[0], floats[1]);
+        }
+
         public static float[] QuaternionToArray(Quaternion quaternion)
         {
             float[] array = new float[4];

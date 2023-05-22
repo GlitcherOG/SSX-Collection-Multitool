@@ -31,6 +31,7 @@ namespace SSXMultiTool
         public TextureFlipbookJsonHandler textureFlipbookJsonHandler = new TextureFlipbookJsonHandler();
         public PrefabJsonHandler prefabJsonHandler = new PrefabJsonHandler();
         public ParticleModelJsonHandler particleModelJsonHandler = new ParticleModelJsonHandler();
+        public CameraJSONHandler cameraJSONHandler  = new CameraJSONHandler();
 
         public struct LightingFixObject
         {
@@ -447,8 +448,48 @@ namespace SSXMultiTool
             particleModelJsonHandler.CreateJson(ExportPath + "/ParticleModelHeaders.json", InlineExporting);
 
             //Create Camera Json
+            cameraJSONHandler = new CameraJSONHandler();
+            for (int i = 0; i < pbdHandler.Cameras.Count; i++)
+            {
+                var TempCamera = pbdHandler.Cameras[i];
+                var NewCamera = new CameraJSONHandler.CameraInstance();
 
+                NewCamera.Translation = JsonUtil.Vector3ToArray(TempCamera.Translation);
+                NewCamera.Rotation = JsonUtil.Vector3ToArray(TempCamera.Rotation);
+                NewCamera.Type = TempCamera.Type;
+                NewCamera.FocalLength = TempCamera.FocalLength;
+                NewCamera.AspectRatio = TempCamera.AspectRatio;
+                NewCamera.Aperture = JsonUtil.Vector2ToArray(TempCamera.Aperture);
+                NewCamera.ClipPlane = JsonUtil.Vector2ToArray(TempCamera.ClipPlane);
+                NewCamera.IntrestPoint = JsonUtil.Vector3ToArray(TempCamera.IntrestPoint);
+                NewCamera.UpVector = JsonUtil.Vector3ToArray(TempCamera.UpVector);
+                NewCamera.AnimTime = TempCamera.AnimTime;
+                NewCamera.InitialPosition = JsonUtil.Vector3ToArray(TempCamera.AnimationInitial.InitialPosition);
+                NewCamera.InitalRotation = JsonUtil.Vector3ToArray(TempCamera.AnimationInitial.InitalRotation);
+                NewCamera.U0 = TempCamera.AnimationInitial.U0;
 
+                NewCamera.AnimationHeaders = new List<CameraJSONHandler.CameraAnimationHeader>();
+
+                for (int a = 0; a < TempCamera.AnimationInitial.AnimationHeaders.Count; a++)
+                {
+                    var NewAnimationHeader  = new CameraJSONHandler.CameraAnimationHeader();
+                    NewAnimationHeader.Action = TempCamera.AnimationInitial.AnimationHeaders[a].Action;
+                    NewAnimationHeader.AnimationDatas = new List<CameraJSONHandler.CameraAnimationData>();
+
+                    for (int b = 0; b < TempCamera.AnimationInitial.AnimationHeaders[a].AnimationDatas.Count; b++)
+                    {
+                        var NewAnimationData = new CameraJSONHandler.CameraAnimationData();
+                        NewAnimationData.Translation = JsonUtil.Vector3ToArray(TempCamera.AnimationInitial.AnimationHeaders[a].AnimationDatas[b].Translation);
+                        NewAnimationData.Rotation = JsonUtil.Vector3ToArray(TempCamera.AnimationInitial.AnimationHeaders[a].AnimationDatas[b].Translation);
+
+                        NewAnimationHeader.AnimationDatas.Add(NewAnimationData);
+                    }
+
+                    NewCamera.AnimationHeaders.Add(NewAnimationHeader);
+                }
+                cameraJSONHandler.Cameras.Add(NewCamera);
+            }
+            cameraJSONHandler.CreateJson(ExportPath + "/Cameras.json", InlineExporting);
 
             #endregion
 
