@@ -524,17 +524,15 @@ namespace SSXMultiTool
 
             #endregion
 
-            //Create Mesh data
-            Directory.CreateDirectory(ExportPath + "/Models");
-            pbdHandler.ExportModels(ExportPath + "/Models/");
-
             //Load and Export Textures
             OldSSHHandler LightmapHandler = new OldSSHHandler();
+            Directory.CreateDirectory(ExportPath + "/Models");
             Directory.CreateDirectory(ExportPath + "/Textures");
             Directory.CreateDirectory(ExportPath + "/Skybox");
             Directory.CreateDirectory(ExportPath + "/Skybox/Textures");
             Directory.CreateDirectory(ExportPath + "/Skybox/Models");
             Directory.CreateDirectory(ExportPath + "/Lightmaps");
+            pbdHandler.ExportModels(ExportPath + "/Models/");
 
 
             for (int i = 0; i < TextureHandler.sshImages.Count; i++)
@@ -584,7 +582,7 @@ namespace SSXMultiTool
                     TempMaterial.UnknownInt20 = skypbdHandler.materials[i].UnknownInt20;
                     materialJson.Materials.Add(TempMaterial);
                 }
-                materialJson.CreateJson(ExportPath + "/Skybox/Material.json");
+                materialJson.CreateJson(ExportPath + "/Skybox/Materials.json", InlineExporting);
 
                 //Create Model Json
                 prefabJsonHandler = new PrefabJsonHandler();
@@ -667,7 +665,6 @@ namespace SSXMultiTool
                                 TempAnimation.AnimationEntries.Add(TempEntry);
                             }
 
-
                             TempPrefabObject.Animation = TempAnimation;
                         }
 
@@ -676,7 +673,7 @@ namespace SSXMultiTool
 
                     prefabJsonHandler.Prefabs.Add(TempModel);
                 }
-                prefabJsonHandler.CreateJson(ExportPath + "/Skybox/Prefabs.json");
+                prefabJsonHandler.CreateJson(ExportPath + "/Skybox/Prefabs.json", InlineExporting);
 
                 skypbdHandler.ExportModels(ExportPath + "/Skybox/Models/");
 
@@ -715,7 +712,7 @@ namespace SSXMultiTool
             if (File.Exists(LoadPath + "_sky.pbd"))
             {
                 File.Copy(LoadPath + ".adl", ExportPath + "/Original" + "/ald.ald"); //Not in Menu
-                File.Copy(LoadPath + "_sky.pbd", ExportPath + "/Original/sky.pbd");
+                File.Copy(LoadPath + "_sky.pbd", ExportPath + "/Original/sky.pbd"); //Not in Menu
                 File.Copy(LoadPath + ".aip", ExportPath + "/Original" + "/aip.aip"); //Not in Menu
                 File.Copy(LoadPath + ".sop", ExportPath + "/Original" + "/sop.sop"); //Not in menu
 
@@ -909,11 +906,10 @@ namespace SSXMultiTool
             ExportPath = ExportPath.Substring(0, ExportPath.Length - 4);
 
             File.Copy(LoadPath + "/Original/ssf.ssf", ExportPath + ".ssf", true);
-            if (File.Exists(LoadPath + "/Original/sky.pbd"))
+            if (File.Exists(LoadPath + "/Original/aip.aip"))
             {
                 File.Copy(LoadPath + "/Original/ald.ald", ExportPath + ".adl", true);
                 File.Copy(LoadPath + "/Original/aip.aip", ExportPath + ".aip", true);
-                File.Copy(LoadPath + "/Original/sky.pbd", ExportPath + "_sky.pbd", true);
                 File.Copy(LoadPath + "/Original/sop.sop", ExportPath + ".sop", true);
             }
 
@@ -1616,9 +1612,7 @@ namespace SSXMultiTool
             #endregion
 
             mapHandler.Save(ExportPath + ".map");
-
             pbdHandler.ImportMeshes(LoadPath + "\\Models");
-            //Regenerate Instance Lowest Highest
             pbdHandler.RegenerateLowestAndHighest();
 
             LTGHandler ltgHandler = new LTGHandler();
@@ -1677,18 +1671,210 @@ namespace SSXMultiTool
             pbdHandler.SaveNew(ExportPath + ".pbd");
             TextureHandler.SaveSSH(ExportPath + ".ssh", true);
 
-
-            string[] SkyboxFiles = Directory.GetFiles(LoadPath + "\\Skybox\\Textures", "*.png");
-            if (SkyboxFiles.Length != 0)
+            #region Skybox Rebuild
+            PBDHandler skyboxpbdHander = new PBDHandler();
+            if (File.Exists(LoadPath + "/Skybox/Prefabs.json"))
             {
+                //Rebuild Materials
+                materialJson = new MaterialJsonHandler();
+                materialJson = MaterialJsonHandler.Load(LoadPath + "/Skybox/Materials.json");
+                skyboxpbdHander.materials = new List<TrickyMaterial>();
+
+                List<string> SkyboxImageFiles = new List<string>();
+
+                for (int i = 0; i < materialJson.Materials.Count; i++)
+                {
+                    var NewMaterial = new TrickyMaterial();
+
+                    //NewMaterial.TextureID = materialJson.Materials[i].TextureID;
+                    //if (AttemptLightingFix && NewMaterial.TextureID != -1)
+                    //{
+                    //    if (lightingFixObjects.Count - 1 >= NewMaterial.TextureID)
+                    //    {
+                    //        lightingFixObjects[NewMaterial.TextureID].Object.Add(i);
+                    //    }
+                    //}
+
+
+
+                    if (SkyboxImageFiles.Contains(materialJson.Materials[i].TexturePath))
+                    {
+                        NewMaterial.TextureID = SkyboxImageFiles.IndexOf(materialJson.Materials[i].TexturePath);
+                    }
+                    else
+                    {
+                        SkyboxImageFiles.Add(materialJson.Materials[i].TexturePath);
+                        NewMaterial.TextureID = SkyboxImageFiles.Count - 1;
+                    }
+
+                    NewMaterial.UnknownInt2 = materialJson.Materials[i].UnknownInt2;
+                    NewMaterial.UnknownInt3 = materialJson.Materials[i].UnknownInt3;
+                    NewMaterial.UnknownFloat1 = materialJson.Materials[i].UnknownFloat1;
+                    NewMaterial.UnknownFloat2 = materialJson.Materials[i].UnknownFloat2;
+                    NewMaterial.UnknownFloat3 = materialJson.Materials[i].UnknownFloat3;
+                    NewMaterial.UnknownFloat4 = materialJson.Materials[i].UnknownFloat4;
+                    NewMaterial.UnknownInt8 = materialJson.Materials[i].UnknownInt8;
+                    NewMaterial.UnknownFloat5 = materialJson.Materials[i].UnknownFloat5;
+
+                    NewMaterial.UnknownFloat6 = materialJson.Materials[i].UnknownFloat6;
+                    NewMaterial.UnknownFloat7 = materialJson.Materials[i].UnknownFloat7;
+                    NewMaterial.UnknownFloat8 = materialJson.Materials[i].UnknownFloat8;
+
+                    NewMaterial.UnknownInt13 = materialJson.Materials[i].UnknownInt13;
+                    NewMaterial.UnknownInt14 = materialJson.Materials[i].UnknownInt14;
+                    NewMaterial.UnknownInt15 = materialJson.Materials[i].UnknownInt15;
+                    NewMaterial.UnknownInt16 = materialJson.Materials[i].UnknownInt16;
+                    NewMaterial.UnknownInt17 = materialJson.Materials[i].UnknownInt17;
+                    NewMaterial.UnknownInt18 = materialJson.Materials[i].UnknownInt18;
+                    NewMaterial.TextureFlipbookID = materialJson.Materials[i].TextureFlipbookID;
+                    NewMaterial.UnknownInt20 = materialJson.Materials[i].UnknownInt20;
+
+                    skyboxpbdHander.materials.Add(NewMaterial);
+                }
+
+                //Rebuild Material Blocks
+                prefabJsonHandler = new PrefabJsonHandler();
+                prefabJsonHandler = PrefabJsonHandler.Load(LoadPath + "/Skybox/Prefabs.json");
+                skyboxpbdHander.materialBlocks = new List<MaterialBlock>();
+                for (int i = 0; i < prefabJsonHandler.Prefabs.Count; i++)
+                {
+                    var TempPrefab = prefabJsonHandler.Prefabs[i];
+                    var NewMaterialBlock = new MaterialBlock();
+
+                    NewMaterialBlock.ints = new List<int>();
+
+                    for (int a = 0; a < prefabJsonHandler.Prefabs[i].PrefabObjects.Count; a++)
+                    {
+                        var TempObject = TempPrefab.PrefabObjects[a];
+                        for (int b = 0; b < prefabJsonHandler.Prefabs[i].PrefabObjects[a].MeshData.Count; b++)
+                        {
+                            var TempMesh = TempObject.MeshData[b];
+                            NewMaterialBlock.ints.Add(prefabJsonHandler.Prefabs[i].PrefabObjects[a].MeshData[b].MaterialID);
+
+                            TempMesh.MaterialID = NewMaterialBlock.ints.Count - 1;
+
+                            TempObject.MeshData[b] = TempMesh;
+                        }
+                        TempPrefab.PrefabObjects[a] = TempObject;
+                    }
+                    prefabJsonHandler.Prefabs[i] = TempPrefab;
+                    skyboxpbdHander.materialBlocks.Add(NewMaterialBlock);
+                }
+
+                //Rebuild Prefabs
+                skyboxpbdHander.PrefabData = new List<Prefabs>();
+                for (int i = 0; i < prefabJsonHandler.Prefabs.Count; i++)
+                {
+                    var NewPrefab = new Prefabs();
+                    var TempPrefab = prefabJsonHandler.Prefabs[i];
+                    NewPrefab.MaterialBlockID = i;
+                    NewPrefab.Unknown3 = prefabJsonHandler.Prefabs[i].Unknown3;
+                    NewPrefab.AnimTime = prefabJsonHandler.Prefabs[i].AnimTime;
+
+                    //MeshCount
+                    //VertexCount
+                    //TristirpCount
+                    //Unknown4
+                    //NonTriCunt
+
+                    NewPrefab.PrefabObjects = new List<ObjectHeader>();
+                    for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
+                    {
+                        var TempObject = TempPrefab.PrefabObjects[a];
+                        var NewObject = new ObjectHeader();
+                        NewObject.ParentID = TempObject.ParentID;
+
+                        if (TempObject.IncludeMatrix)
+                        {
+                            NewObject.IncludeMatrix = true;
+                            Matrix4x4 scale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(TempObject.Scale));
+                            Matrix4x4 Rotation = Matrix4x4.CreateFromQuaternion(JsonUtil.ArrayToQuaternion(TempObject.Rotation));
+                            Matrix4x4 matrix4X4 = Matrix4x4.Multiply(scale, Rotation);
+
+                            matrix4X4.Translation = JsonUtil.ArrayToVector3(TempObject.Position);
+                            NewObject.matrix4X4 = matrix4X4;
+                        }
+
+                        ObjectData NewObjectData = new ObjectData();
+
+                        NewObjectData.Flags = TempObject.Flags;
+                        //MeshCount
+                        //FaceCount
+
+                        if (TempObject.MeshData.Count != 0)
+                        {
+                            NewObjectData.MeshOffsets = new List<MeshOffsets>();
+
+                            for (int b = 0; b < TempObject.MeshData.Count; b++)
+                            {
+                                var NewMeshOffset = new MeshOffsets();
+                                NewMeshOffset.MeshID = TempObject.MeshData[b].MeshID;
+                                NewMeshOffset.MaterialBlockPos = TempObject.MeshData[b].MaterialID;
+                                NewMeshOffset.MeshPath = TempObject.MeshData[b].MeshPath;
+                                NewObjectData.MeshOffsets.Add(NewMeshOffset);
+                            }
+                        }
+
+                        if (TempObject.IncludeAnimation)
+                        {
+                            NewObject.IncludeAnimation = true;
+                            NewObject.objectAnimation = new ObjectAnimation();
+                            NewObject.objectAnimation.U1 = TempObject.Animation.U1;
+                            NewObject.objectAnimation.U2 = TempObject.Animation.U2;
+                            NewObject.objectAnimation.U3 = TempObject.Animation.U3;
+                            NewObject.objectAnimation.U4 = TempObject.Animation.U4;
+                            NewObject.objectAnimation.U5 = TempObject.Animation.U5;
+                            NewObject.objectAnimation.U6 = TempObject.Animation.U6;
+
+                            NewObject.objectAnimation.AnimationAction = TempObject.Animation.AnimationAction;
+                            NewObject.objectAnimation.animationEntries = new List<AnimationEntry>();
+                            if (TempObject.Animation.AnimationEntries != null)
+                            {
+                                for (int b = 0; b < TempObject.Animation.AnimationEntries.Count; b++)
+                                {
+                                    var TempAnimationEntry = TempObject.Animation.AnimationEntries[b];
+                                    var NewAnimationEntry = new AnimationEntry();
+                                    NewAnimationEntry.animationMaths = new List<AnimationMath>();
+                                    for (int c = 0; c < TempAnimationEntry.AnimationMaths.Count; c++)
+                                    {
+                                        var TempAnimationMaths = TempAnimationEntry.AnimationMaths[c];
+                                        var NewAnimationMath = new AnimationMath();
+
+                                        NewAnimationMath.Value1 = TempAnimationMaths.Value1;
+                                        NewAnimationMath.Value2 = TempAnimationMaths.Value2;
+                                        NewAnimationMath.Value3 = TempAnimationMaths.Value3;
+                                        NewAnimationMath.Value4 = TempAnimationMaths.Value4;
+                                        NewAnimationMath.Value5 = TempAnimationMaths.Value5;
+                                        NewAnimationMath.Value6 = TempAnimationMaths.Value6;
+
+
+                                        NewAnimationEntry.animationMaths.Add(NewAnimationMath);
+                                    }
+
+                                    NewObject.objectAnimation.animationEntries.Add(NewAnimationEntry);
+                                }
+                            }
+                        }
+
+                        NewObject.objectData = NewObjectData;
+
+                        NewPrefab.PrefabObjects.Add(NewObject);
+                    }
+                    skyboxpbdHander.PrefabData.Add(NewPrefab);
+
+                }
+
+                skyboxpbdHander.ImportMeshes(LoadPath + "/Skybox/Models");
+                skyboxpbdHander.SaveNew(ExportPath + "_sky.pbd");
+
                 //Build Skybox
                 OldSSHHandler SkyboxHandler = new OldSSHHandler();
                 SkyboxHandler.format = "G278";
 
-                for (int i = 0; i < SkyboxFiles.Length; i++)
+                for (int i = 0; i < SkyboxImageFiles.Count; i++)
                 {
                     SkyboxHandler.AddImage();
-                    SkyboxHandler.LoadSingle(SkyboxFiles[i], i);
+                    SkyboxHandler.LoadSingle(LoadPath + "/Skybox/Textures/" +SkyboxImageFiles[i], i);
                     SkyboxHandler.DarkenImage(i);
                     var temp = SkyboxHandler.sshImages[i];
                     temp.shortname = i.ToString().PadLeft(4, '0');
@@ -1698,6 +1884,7 @@ namespace SSXMultiTool
 
                 SkyboxHandler.SaveSSH(ExportPath + "_sky.ssh", true);
             }
+            #endregion
 
             OldSSHHandler LightmapHandler = new OldSSHHandler();
             //Build Lightmap

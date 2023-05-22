@@ -53,20 +53,20 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int HashOffset;
         public int MeshDataOffset;
 
-        public List<Patch> Patches;
-        public List<Spline> splines;
-        public List<SplinesSegments> splinesSegments;
-        public List<TextureFlipbook> textureFlipbooks;
-        public List<Instance> Instances;
-        public List<ParticleInstance> particleInstances;
-        public List<TrickyMaterial> materials;
-        public List<MaterialBlock> materialBlocks;
-        public List<Light> lights;
-        public List<int> PrefabPointers;
-        public List<Prefabs> PrefabData;
-        public List<int> ParticleModelPointers;
-        public List<ParticlePrefab> particleModels;
-        public List<int> CameraPointers;
+        public List<Patch> Patches = new List<Patch>();
+        public List<Spline> splines = new List<Spline>();
+        public List<SplinesSegments> splinesSegments = new List<SplinesSegments>();
+        public List<TextureFlipbook> textureFlipbooks = new List<TextureFlipbook>();
+        public List<Instance> Instances = new List<Instance>();
+        public List<ParticleInstance> particleInstances = new List<ParticleInstance>();
+        public List<TrickyMaterial> materials = new List<TrickyMaterial>();
+        public List<MaterialBlock> materialBlocks = new List<MaterialBlock>();
+        public List<Light> lights = new List<Light>();
+        public List<int> PrefabPointers = new List<int>();
+        public List<Prefabs> PrefabData = new List<Prefabs>();
+        public List<int> ParticleModelPointers = new List<int>();
+        public List<ParticlePrefab> particleModels = new List<ParticlePrefab>();
+        public List<int> CameraPointers = new List<int>();
         public List<CameraInstance> Cameras = new List<CameraInstance>();
         public HashData hashData = new HashData();
 
@@ -644,55 +644,57 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     Cameras.Add(TempCamera);
                 }
-                
+
                 //Hash Data
-                stream.Position = HashOffset;
-                hashData = new HashData();
-                hashData.TotalLength = StreamUtil.ReadUInt32(stream);
-                hashData.CountU1 = StreamUtil.ReadUInt32(stream);
-                hashData.OffsetU1 = StreamUtil.ReadUInt32(stream);
-                hashData.CountInstances = StreamUtil.ReadUInt32(stream);
-                hashData.OffsetInstances = StreamUtil.ReadUInt32(stream);
-                hashData.CountU2 = StreamUtil.ReadUInt32(stream);
-                hashData.OffsetU2 = StreamUtil.ReadUInt32(stream);
-                hashData.CountLights = StreamUtil.ReadUInt32(stream);
-                hashData.OffsetLights = StreamUtil.ReadUInt32(stream);
-                hashData.CountU4 = StreamUtil.ReadUInt32(stream);
-                hashData.OffsetU4 = StreamUtil.ReadUInt32(stream);
-                hashData.CountCamera = StreamUtil.ReadUInt32(stream);
-                hashData.OffsetCamera = StreamUtil.ReadUInt32(stream);
-
-                hashData.InstanceHash = new List<HashDataUnknown>();
-                hashData.LightsHash = new List<HashDataUnknown>();
-                hashData.CameraHash = new List<HashDataUnknown>();
-
-                stream.Position = hashData.OffsetInstances + HashOffset;
-                for (int i = 0; i < hashData.CountInstances; i++)
+                if (HashOffset != 0)
                 {
-                    HashDataUnknown NewHash = new HashDataUnknown();
-                    NewHash.Hash = StreamUtil.ReadUInt32(stream);
-                    NewHash.ObjectUID = StreamUtil.ReadUInt32(stream);
-                    hashData.InstanceHash.Add(NewHash);
-                }
+                    stream.Position = HashOffset;
+                    hashData = new HashData();
+                    hashData.TotalLength = StreamUtil.ReadUInt32(stream);
+                    hashData.CountU1 = StreamUtil.ReadUInt32(stream);
+                    hashData.OffsetU1 = StreamUtil.ReadUInt32(stream);
+                    hashData.CountInstances = StreamUtil.ReadUInt32(stream);
+                    hashData.OffsetInstances = StreamUtil.ReadUInt32(stream);
+                    hashData.CountU2 = StreamUtil.ReadUInt32(stream);
+                    hashData.OffsetU2 = StreamUtil.ReadUInt32(stream);
+                    hashData.CountLights = StreamUtil.ReadUInt32(stream);
+                    hashData.OffsetLights = StreamUtil.ReadUInt32(stream);
+                    hashData.CountU4 = StreamUtil.ReadUInt32(stream);
+                    hashData.OffsetU4 = StreamUtil.ReadUInt32(stream);
+                    hashData.CountCamera = StreamUtil.ReadUInt32(stream);
+                    hashData.OffsetCamera = StreamUtil.ReadUInt32(stream);
 
-                stream.Position = hashData.OffsetLights + HashOffset;
-                for (int i = 0; i < hashData.CountLights; i++)
-                {
-                    HashDataUnknown NewHash = new HashDataUnknown();
-                    NewHash.Hash = StreamUtil.ReadUInt32(stream);
-                    NewHash.ObjectUID = StreamUtil.ReadUInt32(stream);
-                    hashData.LightsHash.Add(NewHash);
-                }
+                    hashData.InstanceHash = new List<HashDataUnknown>();
+                    hashData.LightsHash = new List<HashDataUnknown>();
+                    hashData.CameraHash = new List<HashDataUnknown>();
 
-                stream.Position = hashData.OffsetCamera + HashOffset;
-                for (int i = 0; i < hashData.CountCamera; i++)
-                {
-                    HashDataUnknown NewHash = new HashDataUnknown();
-                    NewHash.Hash = StreamUtil.ReadUInt32(stream);
-                    NewHash.ObjectUID = StreamUtil.ReadUInt32(stream);
-                    hashData.CameraHash.Add(NewHash);
-                }
+                    stream.Position = hashData.OffsetInstances + HashOffset;
+                    for (int i = 0; i < hashData.CountInstances; i++)
+                    {
+                        HashDataUnknown NewHash = new HashDataUnknown();
+                        NewHash.Hash = StreamUtil.ReadUInt32(stream);
+                        NewHash.ObjectUID = StreamUtil.ReadUInt32(stream);
+                        hashData.InstanceHash.Add(NewHash);
+                    }
 
+                    stream.Position = hashData.OffsetLights + HashOffset;
+                    for (int i = 0; i < hashData.CountLights; i++)
+                    {
+                        HashDataUnknown NewHash = new HashDataUnknown();
+                        NewHash.Hash = StreamUtil.ReadUInt32(stream);
+                        NewHash.ObjectUID = StreamUtil.ReadUInt32(stream);
+                        hashData.LightsHash.Add(NewHash);
+                    }
+
+                    stream.Position = hashData.OffsetCamera + HashOffset;
+                    for (int i = 0; i < hashData.CountCamera; i++)
+                    {
+                        HashDataUnknown NewHash = new HashDataUnknown();
+                        NewHash.Hash = StreamUtil.ReadUInt32(stream);
+                        NewHash.ObjectUID = StreamUtil.ReadUInt32(stream);
+                        hashData.CameraHash.Add(NewHash);
+                    }
+                }
                 //New Model Reading Method
                 //Make a way to combine models
                 int MeshID = 0;
@@ -1444,48 +1446,51 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
 
             //Write Hash Data
-            HashOffset = (int)stream.Position;
-            stream.Position += 4 + 6*2*4;
+            if (hashData.CameraHash != null && hashData.InstanceHash != null && hashData.LightsHash != null)
+            {
+                HashOffset = (int)stream.Position;
+                stream.Position += 4 + 6 * 2 * 4;
 
-            hashData.OffsetU1 = (int)stream.Position - HashOffset;
-            hashData.OffsetInstances = (int)stream.Position - HashOffset;
-            for (int i = 0; i < hashData.InstanceHash.Count; i++)
-            {
-                StreamUtil.WriteInt32(stream, hashData.InstanceHash[i].Hash);
-                StreamUtil.WriteInt32(stream, hashData.InstanceHash[i].ObjectUID);
-            }
-            hashData.OffsetU2 = (int)stream.Position - HashOffset;
-            hashData.OffsetLights = (int)stream.Position - HashOffset;
-            for (int i = 0; i < hashData.LightsHash.Count; i++)
-            {
-                StreamUtil.WriteInt32(stream, hashData.LightsHash[i].Hash);
-                StreamUtil.WriteInt32(stream, hashData.LightsHash[i].ObjectUID);
-            }
-            hashData.OffsetU4 = (int)stream.Position - HashOffset;
-            hashData.OffsetCamera = (int)stream.Position - HashOffset;
-            for (int i = 0; i < hashData.CameraHash.Count; i++)
-            {
-                StreamUtil.WriteInt32(stream, hashData.CameraHash[i].Hash);
-                StreamUtil.WriteInt32(stream, hashData.CameraHash[i].ObjectUID);
-            }
-            long TempPos1 = stream.Position;
-            stream.Position = HashOffset;
-            int TempData = (int)(TempPos1-stream.Position);
-            StreamUtil.WriteInt32(stream, TempData);
-            StreamUtil.WriteInt32(stream, hashData.CountU1);
-            StreamUtil.WriteInt32(stream, hashData.OffsetU1);
-            StreamUtil.WriteInt32(stream, hashData.InstanceHash.Count);
-            StreamUtil.WriteInt32(stream, hashData.OffsetInstances);
-            StreamUtil.WriteInt32(stream, hashData.CountU2);
-            StreamUtil.WriteInt32(stream, hashData.OffsetU2);
-            StreamUtil.WriteInt32(stream, hashData.LightsHash.Count);
-            StreamUtil.WriteInt32(stream, hashData.OffsetLights);
-            StreamUtil.WriteInt32(stream, hashData.CountU4);
-            StreamUtil.WriteInt32(stream, hashData.OffsetU4);
-            StreamUtil.WriteInt32(stream, hashData.CameraHash.Count);
-            StreamUtil.WriteInt32(stream, hashData.OffsetCamera);
+                hashData.OffsetU1 = (int)stream.Position - HashOffset;
+                hashData.OffsetInstances = (int)stream.Position - HashOffset;
+                for (int i = 0; i < hashData.InstanceHash.Count; i++)
+                {
+                    StreamUtil.WriteInt32(stream, hashData.InstanceHash[i].Hash);
+                    StreamUtil.WriteInt32(stream, hashData.InstanceHash[i].ObjectUID);
+                }
+                hashData.OffsetU2 = (int)stream.Position - HashOffset;
+                hashData.OffsetLights = (int)stream.Position - HashOffset;
+                for (int i = 0; i < hashData.LightsHash.Count; i++)
+                {
+                    StreamUtil.WriteInt32(stream, hashData.LightsHash[i].Hash);
+                    StreamUtil.WriteInt32(stream, hashData.LightsHash[i].ObjectUID);
+                }
+                hashData.OffsetU4 = (int)stream.Position - HashOffset;
+                hashData.OffsetCamera = (int)stream.Position - HashOffset;
+                for (int i = 0; i < hashData.CameraHash.Count; i++)
+                {
+                    StreamUtil.WriteInt32(stream, hashData.CameraHash[i].Hash);
+                    StreamUtil.WriteInt32(stream, hashData.CameraHash[i].ObjectUID);
+                }
+                long TempPos1 = stream.Position;
+                stream.Position = HashOffset;
+                int TempData = (int)(TempPos1 - stream.Position);
+                StreamUtil.WriteInt32(stream, TempData);
+                StreamUtil.WriteInt32(stream, hashData.CountU1);
+                StreamUtil.WriteInt32(stream, hashData.OffsetU1);
+                StreamUtil.WriteInt32(stream, hashData.InstanceHash.Count);
+                StreamUtil.WriteInt32(stream, hashData.OffsetInstances);
+                StreamUtil.WriteInt32(stream, hashData.CountU2);
+                StreamUtil.WriteInt32(stream, hashData.OffsetU2);
+                StreamUtil.WriteInt32(stream, hashData.LightsHash.Count);
+                StreamUtil.WriteInt32(stream, hashData.OffsetLights);
+                StreamUtil.WriteInt32(stream, hashData.CountU4);
+                StreamUtil.WriteInt32(stream, hashData.OffsetU4);
+                StreamUtil.WriteInt32(stream, hashData.CameraHash.Count);
+                StreamUtil.WriteInt32(stream, hashData.OffsetCamera);
 
-            stream.Position = TempPos1;
+                stream.Position = TempPos1;
+            }
             StreamUtil.AlignBy16(stream);
 
             //Write MeshData
