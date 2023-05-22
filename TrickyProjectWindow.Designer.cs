@@ -84,6 +84,7 @@
             groupBox4 = new GroupBox();
             groupBox5 = new GroupBox();
             JSONInlineCheck = new CheckBox();
+            button1 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -621,11 +622,21 @@
             JSONInlineCheck.Text = "JSON Inline";
             JSONInlineCheck.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            button1.Location = new Point(218, 415);
+            button1.Name = "button1";
+            button1.Size = new Size(97, 23);
+            button1.TabIndex = 53;
+            button1.Text = "Extract Level";
+            button1.UseVisualStyleBackColor = true;
+            // 
             // TrickyProjectWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button1);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
@@ -725,5 +736,6 @@
         private GroupBox groupBox4;
         private GroupBox groupBox5;
         private CheckBox JSONInlineCheck;
+        private Button button1;
     }
 }

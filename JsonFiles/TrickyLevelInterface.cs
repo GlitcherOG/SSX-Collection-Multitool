@@ -32,6 +32,7 @@ namespace SSXMultiTool
         public PrefabJsonHandler prefabJsonHandler = new PrefabJsonHandler();
         public ParticleModelJsonHandler particleModelJsonHandler = new ParticleModelJsonHandler();
         public CameraJSONHandler cameraJSONHandler  = new CameraJSONHandler();
+        public HashJsonHandler hashJsonHandler = new HashJsonHandler();
 
         public struct LightingFixObject
         {
@@ -66,7 +67,7 @@ namespace SSXMultiTool
             //Load PBD
             PBDHandler pbdHandler = new PBDHandler();
             pbdHandler.LoadPBD(LoadPath + ".pbd");
-            pbdHandler.SaveNew(LoadPath + ".pbd1");
+            //pbdHandler.SaveNew(LoadPath + ".pbd1");
 
             OldSSHHandler TextureHandler = new OldSSHHandler();
             TextureHandler.LoadSSH(LoadPath + ".ssh");
@@ -493,6 +494,34 @@ namespace SSXMultiTool
             }
             cameraJSONHandler.CreateJson(ExportPath + "/Cameras.json", InlineExporting);
 
+            //Create Hash Json
+            hashJsonHandler = new HashJsonHandler();
+            for (int i = 0; i < pbdHandler.hashData.InstanceHash.Count; i++)
+            {
+                var NewHash = new HashJsonHandler.HashDataUnknown();
+                NewHash.Hash = pbdHandler.hashData.InstanceHash[i].Hash;
+                NewHash.ObjectUID = pbdHandler.hashData.InstanceHash[i].ObjectUID;
+                hashJsonHandler.InstanceHash.Add(NewHash);
+            }
+
+            for (int i = 0; i < pbdHandler.hashData.LightsHash.Count; i++)
+            {
+                var NewHash = new HashJsonHandler.HashDataUnknown();
+                NewHash.Hash = pbdHandler.hashData.LightsHash[i].Hash;
+                NewHash.ObjectUID = pbdHandler.hashData.LightsHash[i].ObjectUID;
+                hashJsonHandler.LightsHash.Add(NewHash);
+            }
+
+            for (int i = 0; i < pbdHandler.hashData.CameraHash.Count; i++)
+            {
+                var NewHash = new HashJsonHandler.HashDataUnknown();
+                NewHash.Hash = pbdHandler.hashData.CameraHash[i].Hash;
+                NewHash.ObjectUID = pbdHandler.hashData.CameraHash[i].ObjectUID;
+                hashJsonHandler.CameraHash.Add(NewHash);
+            }
+            hashJsonHandler.CreateJson(ExportPath + "/HashData.json", InlineExporting);
+
+
             #endregion
 
             //Create Mesh data
@@ -894,7 +923,7 @@ namespace SSXMultiTool
 
             //Load PBDHandler
             PBDHandler pbdHandler = new PBDHandler();
-            pbdHandler.LoadPBD(LoadPath + "/Original/level.pbd");
+            //pbdHandler.LoadPBD(LoadPath + "/Original/level.pbd");
 
             //Rebuild Patches
             patchPoints = new PatchesJsonHandler();
@@ -1550,6 +1579,38 @@ namespace SSXMultiTool
                 linkerItem.Name = cameraJSONHandler.Cameras[i].CameraName;
                 linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
                 mapHandler.Cameras.Add(linkerItem);
+            }
+
+            //Rebuild HashData
+            hashJsonHandler = new HashJsonHandler();
+            hashJsonHandler = HashJsonHandler.Load(LoadPath + "/HashData.json");
+
+            pbdHandler.hashData = new HashData();
+            pbdHandler.hashData.InstanceHash = new List<HashDataUnknown>();
+            for (int i = 0; i < hashJsonHandler.InstanceHash.Count; i++)
+            {
+                var NewHash = new HashDataUnknown();
+                NewHash.Hash = hashJsonHandler.InstanceHash[i].Hash;
+                NewHash.ObjectUID = hashJsonHandler.InstanceHash[i].ObjectUID;
+                pbdHandler.hashData.InstanceHash.Add(NewHash);
+            }
+
+            pbdHandler.hashData.LightsHash = new List<HashDataUnknown>();
+            for (int i = 0; i < hashJsonHandler.LightsHash.Count; i++)
+            {
+                var NewHash = new HashDataUnknown();
+                NewHash.Hash = hashJsonHandler.LightsHash[i].Hash;
+                NewHash.ObjectUID = hashJsonHandler.LightsHash[i].ObjectUID;
+                pbdHandler.hashData.LightsHash.Add(NewHash);
+            }
+
+            pbdHandler.hashData.CameraHash = new List<HashDataUnknown>();
+            for (int i = 0; i < hashJsonHandler.CameraHash.Count; i++)
+            {
+                var NewHash = new HashDataUnknown();
+                NewHash.Hash = hashJsonHandler.CameraHash[i].Hash;
+                NewHash.ObjectUID = hashJsonHandler.CameraHash[i].ObjectUID;
+                pbdHandler.hashData.CameraHash.Add(NewHash);
             }
 
             #endregion
