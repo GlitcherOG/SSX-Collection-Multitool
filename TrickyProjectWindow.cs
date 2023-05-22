@@ -79,6 +79,7 @@ namespace SSXMultiTool
             RebuildButton.Enabled = true;
             trickyConfig = new SSXTrickyConfig();
             trickyConfig.CreateJson(ExportPath + "/Config.ssx");
+            trickyLevelInterface.LoadAndVerifyFiles(ProjectPath);
             UpdateText();
         }
 
