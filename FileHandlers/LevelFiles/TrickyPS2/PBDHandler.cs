@@ -1299,6 +1299,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 //Write Objects + Animation
                 for (int a = 0; a < particleModels[i].ParticleObjectHeaders.Count; a++)
                 {
+                    var Temp = particleModels[i];
+                    var Temp2 = Temp.ParticleObjectHeaders[a];
+                    Temp2.ObjectOffset = (int)(stream.Position - ParticleHeaderOffsetStart);
+                    Temp.ParticleObjectHeaders[a] = Temp2;
+                    particleModels[i] = Temp;
+
                     long ObjectByteStart = stream.Position;
                     stream.Position += 4;
 
@@ -1420,36 +1426,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     stream.Position = EndPos;
                 }
-
-                //Camera Data
-                //Cameras = new List<CameraInstance>();
-                //for (int i = 0; i < NumCameras; i++)
-                //    for (int a = 0; a < TempCamera.AnimationInitial.AnimationHeaderPointers.Count; a++)
-                //    {
-                //        stream.Position = CamerasOffset + CameraPointers[i] + TempCamera.AnimationOffset + TempCamera.AnimationInitial.AnimationHeaderPointers[a];
-                //        var TempAnimationHeader = new CameraAnimationHeader();
-
-                //        TempAnimationHeader.Count = StreamUtil.ReadUInt32(stream);
-                //        TempAnimationHeader.Action = StreamUtil.ReadUInt32(stream);
-                //        TempAnimationHeader.AnimationDatas = new List<CameraAnimationData>();
-
-                //        for (int b = 0; b < TempAnimationHeader.Count; b++)
-                //        {
-                //            var NewAnimData = new CameraAnimationData();
-
-                //            NewAnimData.Translation = StreamUtil.ReadVector3(stream);
-                //            NewAnimData.Rotation = StreamUtil.ReadVector3(stream);
-
-                //            TempAnimationHeader.AnimationDatas.Add(NewAnimData);
-                //        }
-
-                //        TempCamera.AnimationInitial.AnimationHeaders.Add(TempAnimationHeader);
-                //    }
-
-
-                //    Cameras.Add(TempCamera);
-                //}
-
 
                 //Write Camera Pointer
                 TempPosition = (int)stream.Position;
