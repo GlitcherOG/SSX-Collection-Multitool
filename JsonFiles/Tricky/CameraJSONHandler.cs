@@ -24,18 +24,18 @@ namespace SSXMultiTool.JsonFiles.Tricky
             File.WriteAllText(path, serializer);
         }
 
-        public static InstanceJsonHandler Load(string path)
+        public static CameraJSONHandler Load(string path)
         {
             string paths = path;
             if (File.Exists(paths))
             {
                 var stream = File.ReadAllText(paths);
-                var container = JsonConvert.DeserializeObject<InstanceJsonHandler>(stream);
+                var container = JsonConvert.DeserializeObject<CameraJSONHandler>(stream);
                 return container;
             }
             else
             {
-                return new InstanceJsonHandler();
+                return new CameraJSONHandler();
             }
         }
 
@@ -43,6 +43,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
         [Serializable]
         public struct CameraInstance
         {
+            public string CameraName;
+
             public float[] Translation;
             public float[] Rotation;
             public int Type;
