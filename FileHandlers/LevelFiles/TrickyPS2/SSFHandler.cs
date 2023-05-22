@@ -98,7 +98,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     //Inset Stuff Here
 
-
                     stream.Position = TempPos;
 
                     PhysicsObjects.Add(TempUstruct2);

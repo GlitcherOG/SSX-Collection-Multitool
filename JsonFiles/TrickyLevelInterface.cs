@@ -18,7 +18,6 @@ namespace SSXMultiTool
 {
     public class TrickyLevelInterface
     {
-        public bool AttemptLightingFix;
         public bool Unilightmap;
         public bool InlineExporting;
 
@@ -33,19 +32,6 @@ namespace SSXMultiTool
         public ParticleModelJsonHandler particleModelJsonHandler = new ParticleModelJsonHandler();
         public CameraJSONHandler cameraJSONHandler  = new CameraJSONHandler();
         public HashJsonHandler hashJsonHandler = new HashJsonHandler();
-
-        public struct LightingFixObject
-        {
-            public List<int> Object;
-            public List<int> Patch;
-        }
-
-        struct InstanceExport
-        {
-            public int InstanceIndex;
-            public string InstanceName;
-            public string TextureID;
-        }
 
         public void ExtractTrickyLevelFiles(string LoadPath, string ExportPath)
         {
@@ -891,17 +877,7 @@ namespace SSXMultiTool
 
         public void BuildTrickyLevelFiles(string LoadPath, string ExportPath)
         {
-            //List<LightingFixObject> lightingFixObjects = new List<LightingFixObject>();
-            //int Length = Directory.GetFiles(LoadPath + "/Textures", "*.png").Length;
-            //for (int i = 0; i < Length; i++)
-            //{
-            //    LightingFixObject temp = new LightingFixObject();
-            //    temp.Object = new List<int>();
-            //    temp.Patch = new List<int>();
-            //    lightingFixObjects.Add(temp);
-            //}
             List<string> ImageFiles = new List<string>();
-
 
             ExportPath = ExportPath.Substring(0, ExportPath.Length - 4);
 
@@ -1634,44 +1610,11 @@ namespace SSXMultiTool
             {
                 TextureHandler.AddImage();
                 TextureHandler.LoadSingle(LoadPath + "/Textures/" + ImageFiles[i], i);
-                if (!AttemptLightingFix)
-                {
-                    TextureHandler.DarkenImage(i);
-                }
                 var temp = TextureHandler.sshImages[i];
                 temp.shortname = i.ToString().PadLeft(4, '0');
                 temp.AlphaFix = true;
                 TextureHandler.sshImages[i] = temp;
             }
-
-            //if (AttemptLightingFix)
-            //{
-            //    int OldCount = TextureHandler.sshImages.Count;
-            //    for (int i = 0; i < OldCount; i++)
-            //    {
-            //        if (lightingFixObjects[i].Object.Count != 0 && lightingFixObjects[i].Patch.Count != 0)
-            //        {
-            //            var TempImage = TextureHandler.sshImages[i];
-            //            TempImage.shortname = (TextureHandler.sshImages.Count).ToString().PadLeft(4, '0');
-            //            for (int a = 0; a < lightingFixObjects[i].Object.Count; a++)
-            //            {
-            //                var TempMatieral = pbdHandler.materials[lightingFixObjects[i].Object[a]];
-            //                TempMatieral.TextureID = TextureHandler.sshImages.Count;
-            //                pbdHandler.materials[lightingFixObjects[i].Object[a]] = TempMatieral;
-            //            }
-            //            TextureHandler.sshImages.Add(TempImage);
-            //        }
-            //        else if (lightingFixObjects[i].Patch.Count == 0)
-            //        {
-            //            TextureHandler.DarkenImage(i);
-            //        }
-            //    }
-
-            //    for (int i = OldCount; i < TextureHandler.sshImages.Count; i++)
-            //    {
-            //        TextureHandler.DarkenImage(i);
-            //    }
-            //}
 
             pbdHandler.SaveNew(ExportPath + ".pbd");
             TextureHandler.SaveSSH(ExportPath + ".ssh", true);
@@ -1905,10 +1848,6 @@ namespace SSXMultiTool
                     temp.sshHeader.MatrixFormat = 5;
                     LightmapHandler.sshImages[i] = temp;
                     LightmapHandler.LoadSingle(LightmapFiles[i], i);
-                    if (!AttemptLightingFix)
-                    {
-                        LightmapHandler.DarkenImage(i);
-                    }
                     temp = LightmapHandler.sshImages[i];
                     temp.shortname = i.ToString().PadLeft(4, '0');
                     //temp.AlphaFix = true;

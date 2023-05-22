@@ -74,7 +74,6 @@
             SaveConfig = new Button();
             groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
-            EmulatorLigthFix = new CheckBox();
             groupBox3 = new GroupBox();
             label2 = new Label();
             label3 = new Label();
@@ -522,16 +521,6 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "PBD Data";
             // 
-            // EmulatorLigthFix
-            // 
-            EmulatorLigthFix.AutoSize = true;
-            EmulatorLigthFix.Location = new Point(11, 47);
-            EmulatorLigthFix.Name = "EmulatorLigthFix";
-            EmulatorLigthFix.Size = new Size(171, 19);
-            EmulatorLigthFix.TabIndex = 48;
-            EmulatorLigthFix.Text = "Emulator Lighting Fix (WIP)";
-            EmulatorLigthFix.UseVisualStyleBackColor = true;
-            // 
             // groupBox3
             // 
             groupBox3.Controls.Add(label2);
@@ -594,7 +583,6 @@
             // groupBox4
             // 
             groupBox4.Controls.Add(UnlitCheckbox);
-            groupBox4.Controls.Add(EmulatorLigthFix);
             groupBox4.Location = new Point(219, 251);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(569, 158);
@@ -624,11 +612,12 @@
             // 
             // button1
             // 
+            button1.Enabled = false;
             button1.Location = new Point(218, 415);
             button1.Name = "button1";
             button1.Size = new Size(97, 23);
             button1.TabIndex = 53;
-            button1.Text = "Extract Level";
+            button1.Text = "New Project";
             button1.UseVisualStyleBackColor = true;
             // 
             // TrickyProjectWindow
@@ -726,7 +715,6 @@
         private Button SaveConfig;
         private GroupBox groupBox1;
         private GroupBox groupBox2;
-        private CheckBox EmulatorLigthFix;
         private GroupBox groupBox3;
         private Label label2;
         private Label label3;
