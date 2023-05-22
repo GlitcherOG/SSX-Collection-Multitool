@@ -161,7 +161,7 @@ namespace SSXMultiTool
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 trickyConfig = SSXTrickyConfig.Load(openFileDialog.FileName);
-                if (trickyConfig.Version == 4)
+                if (trickyConfig.Version == 1)
                 {
                     trickyLevelInterface = new TrickyLevelInterface();
                     SaveConfig.Enabled = true;
