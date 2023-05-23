@@ -1012,7 +1012,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, spline.SplineSegmentPosition);
                 StreamUtil.WriteInt32(stream, spline.Unknown2);
             }
-            //StreamUtil.AlignBy16(stream);
+            StreamUtil.AlignBy16(stream);
 
             //Spline Segments
             SplineSegmentOffset = (int)stream.Position;

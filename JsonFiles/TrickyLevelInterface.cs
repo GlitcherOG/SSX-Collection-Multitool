@@ -287,6 +287,7 @@ namespace SSXMultiTool
                     segmentJson.Unknown32 = pbdHandler.splinesSegments[a].Unknown32;
                     TempSpline.Segments.Add(segmentJson);
                 }
+
                 splineJsonHandler.Splines.Add(TempSpline);
             }
             splineJsonHandler.CreateJson(ExportPath + "/Splines.json", InlineExporting);
