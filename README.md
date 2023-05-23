@@ -70,6 +70,6 @@ Negitive one Linkz lightmap Fix
 
 Fix PBD Data display
 Fix Skybox Display
-Gari Sign Not Working, Works when using original pbd/rebuild, so double check json
-Possible issue with BBox regeneration not taking into account any matrix data attached to models within object header also would help if data was regenerated
+Gari Sign Not Working, Regenerate the bbox in prefab to fix,
+Splines not working Doesnt appear to be the splines struct but need to check
 

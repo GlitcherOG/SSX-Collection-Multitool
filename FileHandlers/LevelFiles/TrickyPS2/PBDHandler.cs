@@ -2092,6 +2092,35 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 Patches[i] = TempPatch;
             }
 
+            //Prefabs
+            for (int i = 0; i < PrefabData.Count; i++)
+            {
+                var TempPrefab = PrefabData[i];
+                for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
+                {
+                    var TempPrefabObjects = TempPrefab.PrefabObjects[a];
+                    if (TempPrefabObjects.objectData.MeshOffsets != null)
+                    {
+                        TempPrefabObjects.objectData.HighestXYZ = TempPrefabObjects.objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0];
+                        TempPrefabObjects.objectData.LowestXYZ = TempPrefabObjects.objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0];
+                        for (int b = 0; b < TempPrefabObjects.objectData.MeshOffsets.Count; b++)
+                        {
+                            for (int c = 0; c < TempPrefabObjects.objectData.MeshOffsets[b].FullMesh.meshChunk.Count; c++)
+                            {
+                                for (int d = 0; d < TempPrefabObjects.objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices.Count; d++)
+                                {
+                                    TempPrefabObjects.objectData.LowestXYZ = MathUtil.Lowest(TempPrefabObjects.objectData.LowestXYZ, TempPrefabObjects.objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices[d]);
+                                    TempPrefabObjects.objectData.HighestXYZ = MathUtil.Highest(TempPrefabObjects.objectData.HighestXYZ, TempPrefabObjects.objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices[d]);
+                                }
+                            }
+                        }
+
+                    }
+                    TempPrefab.PrefabObjects[a] = TempPrefabObjects;
+                }
+                PrefabData[i] = TempPrefab;
+            }
+
             //Instances
             for (int i = 0; i < Instances.Count; i++)
             {
@@ -2104,8 +2133,17 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     if (TempPrefabData.PrefabObjects[a].objectData.MeshOffsets != null)
                     {
-                            LowestXYZ = Vector3.Transform(TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0], TempInstance.matrix4X4);
-                            HighestXYZ = Vector3.Transform(TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0], TempInstance.matrix4X4);
+                        var Vertice = TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0];
+
+                        if (TempPrefabData.PrefabObjects[a].IncludeMatrix)
+                        {
+                            Vertice = Vector3.Transform(Vertice, TempPrefabData.PrefabObjects[a].matrix4X4);
+                        }
+
+                        Vertice = Vector3.Transform(TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0], TempInstance.matrix4X4);
+
+                        LowestXYZ = Vertice;
+                        HighestXYZ = Vertice;
                     }
                 }
                 for (int a = 0; a < TempPrefabData.PrefabObjects.Count; a++)
@@ -2118,7 +2156,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             {
                                 for (int d = 0; d < TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices.Count; d++)
                                 {
-                                    var Vertice = Vector3.Transform(TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices[d], TempInstance.matrix4X4);
+                                    var Vertice = TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices[d];
+
+                                    if (TempPrefabData.PrefabObjects[a].IncludeMatrix)
+                                    {
+                                        Vertice = Vector3.Transform(Vertice, TempPrefabData.PrefabObjects[a].matrix4X4);
+                                    }
+
+                                    Vertice = Vector3.Transform(Vertice, TempInstance.matrix4X4);
 
                                     LowestXYZ = MathUtil.Lowest(LowestXYZ, Vertice);
                                     HighestXYZ = MathUtil.Highest(HighestXYZ, Vertice);
