@@ -94,12 +94,17 @@ namespace SSXMultiTool
             TextureFlipLabel.Text = trickyLevelInterface.textureFlipbookJsonHandler.Flipbooks.Count.ToString();
             ModelsLabel.Text = trickyLevelInterface.prefabJsonHandler.Prefabs.Count.ToString();
             ParticleModelLabels.Text = trickyLevelInterface.particleModelJsonHandler.ParticleModels.Count.ToString();
+
+            SkyMat.Text = trickyLevelInterface.SkyMaterialJson.Materials.Count.ToString();
+            SkyModel.Text = trickyLevelInterface.SkyPrefabJsonHandler.Prefabs.Count.ToString();
+
             if (ProjectPath != null && ProjectPath != "")
             {
                 TextureLabel.Text = Directory.GetFiles(ProjectPath + "/Textures", "*.png").Length.ToString();
                 SykboxLabel.Text = Directory.GetFiles(ProjectPath + "/Skybox/Textures", "*.png").Length.ToString();
                 LightmapLabel.Text = Directory.GetFiles(ProjectPath + "/Lightmaps", "*.png").Length.ToString();
             }
+
             LevelNameTextbox.Text = trickyConfig.LevelName;
             AuthorTextbox.Text = trickyConfig.Author;
             VersionTextbox.Text = trickyConfig.LevelVersion;

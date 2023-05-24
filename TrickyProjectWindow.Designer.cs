@@ -77,8 +77,8 @@
             groupBox3 = new GroupBox();
             label2 = new Label();
             label3 = new Label();
-            label5 = new Label();
-            label11 = new Label();
+            SkyMat = new Label();
+            SkyModel = new Label();
             UnlitCheckbox = new CheckBox();
             groupBox4 = new GroupBox();
             GenSOP = new CheckBox();
@@ -536,8 +536,8 @@
             // 
             groupBox3.Controls.Add(label2);
             groupBox3.Controls.Add(label3);
-            groupBox3.Controls.Add(label5);
-            groupBox3.Controls.Add(label11);
+            groupBox3.Controls.Add(SkyMat);
+            groupBox3.Controls.Add(SkyModel);
             groupBox3.Location = new Point(13, 208);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(200, 62);
@@ -563,23 +563,23 @@
             label3.TabIndex = 1;
             label3.Text = "Materials";
             // 
-            // label5
+            // SkyMat
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(9, 34);
-            label5.Name = "label5";
-            label5.Size = new Size(13, 15);
-            label5.TabIndex = 2;
-            label5.Text = "0";
+            SkyMat.AutoSize = true;
+            SkyMat.Location = new Point(9, 34);
+            SkyMat.Name = "SkyMat";
+            SkyMat.Size = new Size(13, 15);
+            SkyMat.TabIndex = 2;
+            SkyMat.Text = "0";
             // 
-            // label11
+            // SkyModel
             // 
-            label11.AutoSize = true;
-            label11.Location = new Point(70, 34);
-            label11.Name = "label11";
-            label11.Size = new Size(13, 15);
-            label11.TabIndex = 6;
-            label11.Text = "0";
+            SkyModel.AutoSize = true;
+            SkyModel.Location = new Point(70, 34);
+            SkyModel.Name = "SkyModel";
+            SkyModel.Size = new Size(13, 15);
+            SkyModel.TabIndex = 6;
+            SkyModel.Text = "0";
             // 
             // UnlitCheckbox
             // 
@@ -868,8 +868,8 @@
         private GroupBox groupBox3;
         private Label label2;
         private Label label3;
-        private Label label5;
-        private Label label11;
+        private Label SkyMat;
+        private Label SkyModel;
         private CheckBox UnlitCheckbox;
         private GroupBox groupBox4;
         private GroupBox groupBox5;

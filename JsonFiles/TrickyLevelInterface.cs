@@ -23,20 +23,21 @@ namespace SSXMultiTool
 
 
         //Importing Options
-        public bool PBDGenerate;
-        public bool SSHGenerate;
-        public bool LSSHGenerate;
-        public bool LTGGenerate;
-        public bool MAPGenerate;
-        public bool SkyPBDGenerate;
-        public bool SkySSHGenerate;
-        public bool ADLGenerate;
-        public bool SSFGenerate;
-        public bool AIPGenerate;
-        public bool SOPGenerate;
+        public bool PBDGenerate = true;
+        public bool SSHGenerate = true;
+        public bool LSSHGenerate = true;
+        public bool LTGGenerate = true;
+        public bool MAPGenerate = true;
+        public bool SkyPBDGenerate = true;
+        public bool SkySSHGenerate = true;
+        public bool ADLGenerate = true;
+        public bool SSFGenerate = true;
+        public bool AIPGenerate = true;
+        public bool SOPGenerate = true;
 
         public bool Unilightmap;
 
+        //PBD JSONS
         public PatchesJsonHandler patchPoints = new PatchesJsonHandler();
         public InstanceJsonHandler instancesJson = new InstanceJsonHandler();
         public ParticleInstanceJsonHandler particleInstanceJson = new ParticleInstanceJsonHandler();
@@ -48,6 +49,13 @@ namespace SSXMultiTool
         public ParticleModelJsonHandler particleModelJsonHandler = new ParticleModelJsonHandler();
         public CameraJSONHandler cameraJSONHandler  = new CameraJSONHandler();
         public HashJsonHandler hashJsonHandler = new HashJsonHandler();
+
+        //Skybox JSON
+
+        public MaterialJsonHandler SkyMaterialJson = new MaterialJsonHandler();
+        public PrefabJsonHandler SkyPrefabJsonHandler = new PrefabJsonHandler();
+
+
 
         public void ExtractTrickyLevelFiles(string LoadPath, string ExportPath)
         {
@@ -558,7 +566,7 @@ namespace SSXMultiTool
                 skypbdHandler.LoadPBD(LoadPath + "_sky.pbd");
 
                 //Create Material Json
-                materialJson = new MaterialJsonHandler();
+                SkyMaterialJson = new MaterialJsonHandler();
                 for (int i = 0; i < skypbdHandler.materials.Count; i++)
                 {
                     MaterialJsonHandler.MaterialsJson TempMaterial = new MaterialJsonHandler.MaterialsJson();
@@ -583,12 +591,12 @@ namespace SSXMultiTool
                     TempMaterial.UnknownInt18 = skypbdHandler.materials[i].UnknownInt18;
                     TempMaterial.TextureFlipbookID = skypbdHandler.materials[i].TextureFlipbookID;
                     TempMaterial.UnknownInt20 = skypbdHandler.materials[i].UnknownInt20;
-                    materialJson.Materials.Add(TempMaterial);
+                    SkyMaterialJson.Materials.Add(TempMaterial);
                 }
-                materialJson.CreateJson(ExportPath + "/Skybox/Materials.json", InlineExporting);
+                SkyMaterialJson.CreateJson(ExportPath + "/Skybox/Materials.json", InlineExporting);
 
                 //Create Model Json
-                prefabJsonHandler = new PrefabJsonHandler();
+                SkyPrefabJsonHandler = new PrefabJsonHandler();
                 for (int i = 0; i < skypbdHandler.PrefabData.Count; i++)
                 {
                     PrefabJsonHandler.PrefabJson TempModel = new PrefabJsonHandler.PrefabJson();
@@ -674,9 +682,9 @@ namespace SSXMultiTool
                         TempModel.PrefabObjects.Add(TempPrefabObject);
                     }
 
-                    prefabJsonHandler.Prefabs.Add(TempModel);
+                    SkyPrefabJsonHandler.Prefabs.Add(TempModel);
                 }
-                prefabJsonHandler.CreateJson(ExportPath + "/Skybox/Prefabs.json", InlineExporting);
+                SkyPrefabJsonHandler.CreateJson(ExportPath + "/Skybox/Prefabs.json", InlineExporting);
 
                 skypbdHandler.ExportModels(ExportPath + "/Skybox/Models/");
 
@@ -1651,69 +1659,69 @@ namespace SSXMultiTool
             if (File.Exists(LoadPath + "/Skybox/Prefabs.json"))
             {
                 //Rebuild Materials
-                materialJson = new MaterialJsonHandler();
-                materialJson = MaterialJsonHandler.Load(LoadPath + "/Skybox/Materials.json");
+                SkyMaterialJson = new MaterialJsonHandler();
+                SkyMaterialJson = MaterialJsonHandler.Load(LoadPath + "/Skybox/Materials.json");
                 skyboxpbdHander.materials = new List<TrickyMaterial>();
 
                 List<string> SkyboxImageFiles = new List<string>();
 
-                for (int i = 0; i < materialJson.Materials.Count; i++)
+                for (int i = 0; i < SkyMaterialJson.Materials.Count; i++)
                 {
                     var NewMaterial = new TrickyMaterial();
 
-                    if (SkyboxImageFiles.Contains(materialJson.Materials[i].TexturePath))
+                    if (SkyboxImageFiles.Contains(SkyMaterialJson.Materials[i].TexturePath))
                     {
-                        NewMaterial.TextureID = SkyboxImageFiles.IndexOf(materialJson.Materials[i].TexturePath);
+                        NewMaterial.TextureID = SkyboxImageFiles.IndexOf(SkyMaterialJson.Materials[i].TexturePath);
                     }
                     else
                     {
-                        SkyboxImageFiles.Add(materialJson.Materials[i].TexturePath);
+                        SkyboxImageFiles.Add(SkyMaterialJson.Materials[i].TexturePath);
                         NewMaterial.TextureID = SkyboxImageFiles.Count - 1;
                     }
 
-                    NewMaterial.UnknownInt2 = materialJson.Materials[i].UnknownInt2;
-                    NewMaterial.UnknownInt3 = materialJson.Materials[i].UnknownInt3;
-                    NewMaterial.UnknownFloat1 = materialJson.Materials[i].UnknownFloat1;
-                    NewMaterial.UnknownFloat2 = materialJson.Materials[i].UnknownFloat2;
-                    NewMaterial.UnknownFloat3 = materialJson.Materials[i].UnknownFloat3;
-                    NewMaterial.UnknownFloat4 = materialJson.Materials[i].UnknownFloat4;
-                    NewMaterial.UnknownInt8 = materialJson.Materials[i].UnknownInt8;
-                    NewMaterial.UnknownFloat5 = materialJson.Materials[i].UnknownFloat5;
+                    NewMaterial.UnknownInt2 = SkyMaterialJson.Materials[i].UnknownInt2;
+                    NewMaterial.UnknownInt3 = SkyMaterialJson.Materials[i].UnknownInt3;
+                    NewMaterial.UnknownFloat1 = SkyMaterialJson.Materials[i].UnknownFloat1;
+                    NewMaterial.UnknownFloat2 = SkyMaterialJson.Materials[i].UnknownFloat2;
+                    NewMaterial.UnknownFloat3 = SkyMaterialJson.Materials[i].UnknownFloat3;
+                    NewMaterial.UnknownFloat4 = SkyMaterialJson.Materials[i].UnknownFloat4;
+                    NewMaterial.UnknownInt8 = SkyMaterialJson.Materials[i].UnknownInt8;
+                    NewMaterial.UnknownFloat5 = SkyMaterialJson.Materials[i].UnknownFloat5;
 
-                    NewMaterial.UnknownFloat6 = materialJson.Materials[i].UnknownFloat6;
-                    NewMaterial.UnknownFloat7 = materialJson.Materials[i].UnknownFloat7;
-                    NewMaterial.UnknownFloat8 = materialJson.Materials[i].UnknownFloat8;
+                    NewMaterial.UnknownFloat6 = SkyMaterialJson.Materials[i].UnknownFloat6;
+                    NewMaterial.UnknownFloat7 = SkyMaterialJson.Materials[i].UnknownFloat7;
+                    NewMaterial.UnknownFloat8 = SkyMaterialJson.Materials[i].UnknownFloat8;
 
-                    NewMaterial.UnknownInt13 = materialJson.Materials[i].UnknownInt13;
-                    NewMaterial.UnknownInt14 = materialJson.Materials[i].UnknownInt14;
-                    NewMaterial.UnknownInt15 = materialJson.Materials[i].UnknownInt15;
-                    NewMaterial.UnknownInt16 = materialJson.Materials[i].UnknownInt16;
-                    NewMaterial.UnknownInt17 = materialJson.Materials[i].UnknownInt17;
-                    NewMaterial.UnknownInt18 = materialJson.Materials[i].UnknownInt18;
-                    NewMaterial.TextureFlipbookID = materialJson.Materials[i].TextureFlipbookID;
-                    NewMaterial.UnknownInt20 = materialJson.Materials[i].UnknownInt20;
+                    NewMaterial.UnknownInt13 = SkyMaterialJson.Materials[i].UnknownInt13;
+                    NewMaterial.UnknownInt14 = SkyMaterialJson.Materials[i].UnknownInt14;
+                    NewMaterial.UnknownInt15 = SkyMaterialJson.Materials[i].UnknownInt15;
+                    NewMaterial.UnknownInt16 = SkyMaterialJson.Materials[i].UnknownInt16;
+                    NewMaterial.UnknownInt17 = SkyMaterialJson.Materials[i].UnknownInt17;
+                    NewMaterial.UnknownInt18 = SkyMaterialJson.Materials[i].UnknownInt18;
+                    NewMaterial.TextureFlipbookID = SkyMaterialJson.Materials[i].TextureFlipbookID;
+                    NewMaterial.UnknownInt20 = SkyMaterialJson.Materials[i].UnknownInt20;
 
                     skyboxpbdHander.materials.Add(NewMaterial);
                 }
 
                 //Rebuild Material Blocks
-                prefabJsonHandler = new PrefabJsonHandler();
-                prefabJsonHandler = PrefabJsonHandler.Load(LoadPath + "/Skybox/Prefabs.json");
+                SkyPrefabJsonHandler = new PrefabJsonHandler();
+                SkyPrefabJsonHandler = PrefabJsonHandler.Load(LoadPath + "/Skybox/Prefabs.json");
                 skyboxpbdHander.materialBlocks = new List<MaterialBlock>();
-                for (int i = 0; i < prefabJsonHandler.Prefabs.Count; i++)
+                for (int i = 0; i < SkyPrefabJsonHandler.Prefabs.Count; i++)
                 {
-                    var TempPrefab = prefabJsonHandler.Prefabs[i];
+                    var TempPrefab = SkyPrefabJsonHandler.Prefabs[i];
                     var NewMaterialBlock = new MaterialBlock();
 
                     NewMaterialBlock.ints = new List<int>();
 
-                    for (int a = 0; a < prefabJsonHandler.Prefabs[i].PrefabObjects.Count; a++)
+                    for (int a = 0; a < SkyPrefabJsonHandler.Prefabs[i].PrefabObjects.Count; a++)
                     {
                         var TempObject = TempPrefab.PrefabObjects[a];
-                        for (int b = 0; b < prefabJsonHandler.Prefabs[i].PrefabObjects[a].MeshData.Count; b++)
+                        for (int b = 0; b < SkyPrefabJsonHandler.Prefabs[i].PrefabObjects[a].MeshData.Count; b++)
                         {
                             var TempMesh = TempObject.MeshData[b];
-                            NewMaterialBlock.ints.Add(prefabJsonHandler.Prefabs[i].PrefabObjects[a].MeshData[b].MaterialID);
+                            NewMaterialBlock.ints.Add(SkyPrefabJsonHandler.Prefabs[i].PrefabObjects[a].MeshData[b].MaterialID);
 
                             TempMesh.MaterialID = NewMaterialBlock.ints.Count - 1;
 
@@ -1721,19 +1729,19 @@ namespace SSXMultiTool
                         }
                         TempPrefab.PrefabObjects[a] = TempObject;
                     }
-                    prefabJsonHandler.Prefabs[i] = TempPrefab;
+                    SkyPrefabJsonHandler.Prefabs[i] = TempPrefab;
                     skyboxpbdHander.materialBlocks.Add(NewMaterialBlock);
                 }
 
                 //Rebuild Prefabs
                 skyboxpbdHander.PrefabData = new List<Prefabs>();
-                for (int i = 0; i < prefabJsonHandler.Prefabs.Count; i++)
+                for (int i = 0; i < SkyPrefabJsonHandler.Prefabs.Count; i++)
                 {
                     var NewPrefab = new Prefabs();
-                    var TempPrefab = prefabJsonHandler.Prefabs[i];
+                    var TempPrefab = SkyPrefabJsonHandler.Prefabs[i];
                     NewPrefab.MaterialBlockID = i;
-                    NewPrefab.Unknown3 = prefabJsonHandler.Prefabs[i].Unknown3;
-                    NewPrefab.AnimTime = prefabJsonHandler.Prefabs[i].AnimTime;
+                    NewPrefab.Unknown3 = SkyPrefabJsonHandler.Prefabs[i].Unknown3;
+                    NewPrefab.AnimTime = SkyPrefabJsonHandler.Prefabs[i].AnimTime;
 
                     //MeshCount
                     //VertexCount
@@ -2001,7 +2009,7 @@ namespace SSXMultiTool
                     aipHandler.typeBs.Add(NewPath);
                 }
 
-                //aipHandler.SaveAIPSOP(ExportPath + ".aip");
+                aipHandler.SaveAIPSOP(ExportPath + ".aip");
             }
         }
 
@@ -2017,7 +2025,7 @@ namespace SSXMultiTool
             particleInstanceJson = ParticleInstanceJsonHandler.Load(LoadPath + "/ParticleInstances.json");
 
             //Create Material Json
-            materialJson = MaterialJsonHandler.Load(LoadPath + "/Material.json");
+            materialJson = MaterialJsonHandler.Load(LoadPath + "/Materials.json");
 
             //Create Lights Json
             lightJsonHandler = LightJsonHandler.Load(LoadPath + "/Lights.json");
@@ -2033,6 +2041,12 @@ namespace SSXMultiTool
 
             //Create Particle Model Json
             particleModelJsonHandler = ParticleModelJsonHandler.Load(LoadPath + "/ParticleModelHeaders.json");
+
+            SkyMaterialJson = MaterialJsonHandler.Load(LoadPath + "/Skybox/Materials.json");
+
+            SkyPrefabJsonHandler = PrefabJsonHandler.Load(LoadPath + "/Skybox/Prefabs.json");
+
+
         }
     }
 }
