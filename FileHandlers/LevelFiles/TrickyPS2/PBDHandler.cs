@@ -1024,7 +1024,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteVector4(stream, SplineSegment.Point2);
                 StreamUtil.WriteVector4(stream, SplineSegment.ControlPoint);
 
-                StreamUtil.WriteVector4(stream, SplineSegment.ScalingPoint);
+                StreamUtil.WriteVector4(stream, /*new Vector4(0,0,0,0)*/ SplineSegment.ScalingPoint);
 
                 StreamUtil.WriteInt32(stream, SplineSegment.PreviousSegment);
                 StreamUtil.WriteInt32(stream, SplineSegment.NextSegment);

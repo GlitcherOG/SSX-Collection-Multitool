@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using SSXMultiTool.Utilities;
+using System.Reflection;
 
 namespace SSXMultiTool.FileHandlers.Textures
 {
@@ -691,10 +692,10 @@ namespace SSXMultiTool.FileHandlers.Textures
             sshImages.RemoveAt(i);
         }
 
-        public void AddImage(int imageSize = 64)
+        public void AddImage(int imageSize = 64, int MatrixType = 2)
         {
             var NewSSHImage = new SSHImage();
-            NewSSHImage.sshHeader.MatrixFormat = 2;
+            NewSSHImage.sshHeader.MatrixFormat = (byte)MatrixType;
             NewSSHImage.shortname = "????";
             NewSSHImage.bitmap = new Bitmap(imageSize, imageSize, PixelFormat.Format32bppArgb);
             NewSSHImage.sshTable.colorTable = new List<Color>();

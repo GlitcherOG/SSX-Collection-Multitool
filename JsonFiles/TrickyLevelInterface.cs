@@ -228,7 +228,10 @@ namespace SSXMultiTool
                 MaterialJsonHandler.MaterialsJson TempMaterial = new MaterialJsonHandler.MaterialsJson();
                 TempMaterial.MaterialName = mapHandler.Materials[i].Name;
 
-                TempMaterial.TexturePath = TextureHandler.sshImages[pbdHandler.materials[i].TextureID].shortname + ".png";
+                if (pbdHandler.materials[i].TextureID != -1)
+                {
+                    TempMaterial.TexturePath = TextureHandler.sshImages[pbdHandler.materials[i].TextureID].shortname + ".png";
+                }
                 TempMaterial.UnknownInt2 = pbdHandler.materials[i].UnknownInt2;
                 TempMaterial.UnknownInt3 = pbdHandler.materials[i].UnknownInt3;
                 TempMaterial.UnknownFloat1 = pbdHandler.materials[i].UnknownFloat1;
@@ -913,700 +916,707 @@ namespace SSXMultiTool
             //Load PBDHandler
             PBDHandler pbdHandler = new PBDHandler();
             //pbdHandler.LoadPBD(LoadPath + "/Original/level.pbd");
-
-            //Rebuild Patches
-            patchPoints = new PatchesJsonHandler();
-            patchPoints = PatchesJsonHandler.Load(LoadPath + "/Patches.json");
-            pbdHandler.Patches = new List<Patch>();
-            mapHandler.Patchs = new List<LinkerItem>();
-            for (int i = 0; i < patchPoints.Patches.Count; i++)
+            if (MAPGenerate || PBDGenerate || LTGGenerate)
             {
-                Patch patch = new Patch();
-                var ImportPatch = patchPoints.Patches[i];
-                patch.LightMapPoint = JsonUtil.ArrayToVector4(ImportPatch.LightMapPoint);
-
-                patch.UVPoint1 = new Vector4(ImportPatch.UVPoints[0, 0], ImportPatch.UVPoints[0, 1], 1, 1);
-                patch.UVPoint2 = new Vector4(ImportPatch.UVPoints[1, 0], ImportPatch.UVPoints[1, 1], 1, 1);
-                patch.UVPoint3 = new Vector4(ImportPatch.UVPoints[2, 0], ImportPatch.UVPoints[2, 1], 1, 1);
-                patch.UVPoint4 = new Vector4(ImportPatch.UVPoints[3, 0], ImportPatch.UVPoints[3, 1], 1, 1);
-
-                BezierUtil bezierUtil = new BezierUtil();
-
-                for (int a = 0; a < 16; a++)
+                //Rebuild Patches
+                patchPoints = new PatchesJsonHandler();
+                patchPoints = PatchesJsonHandler.Load(LoadPath + "/Patches.json");
+                pbdHandler.Patches = new List<Patch>();
+                mapHandler.Patchs = new List<LinkerItem>();
+                for (int i = 0; i < patchPoints.Patches.Count; i++)
                 {
-                    bezierUtil.RawPoints[a].X = ImportPatch.Points[a, 0];
-                    bezierUtil.RawPoints[a].Y = ImportPatch.Points[a, 1];
-                    bezierUtil.RawPoints[a].Z = ImportPatch.Points[a, 2];
-                }
+                    Patch patch = new Patch();
+                    var ImportPatch = patchPoints.Patches[i];
+                    patch.LightMapPoint = JsonUtil.ArrayToVector4(ImportPatch.LightMapPoint);
 
-                bezierUtil.GenerateProcessedPoints();
+                    patch.UVPoint1 = new Vector4(ImportPatch.UVPoints[0, 0], ImportPatch.UVPoints[0, 1], 1, 1);
+                    patch.UVPoint2 = new Vector4(ImportPatch.UVPoints[1, 0], ImportPatch.UVPoints[1, 1], 1, 1);
+                    patch.UVPoint3 = new Vector4(ImportPatch.UVPoints[2, 0], ImportPatch.UVPoints[2, 1], 1, 1);
+                    patch.UVPoint4 = new Vector4(ImportPatch.UVPoints[3, 0], ImportPatch.UVPoints[3, 1], 1, 1);
 
-                patch.R1C1 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[0]);
-                patch.R1C2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[1]);
-                patch.R1C3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[2]);
-                patch.R1C4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[3]);
-                patch.R2C1 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[4]);
-                patch.R2C2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[5]);
-                patch.R2C3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[6]);
-                patch.R2C4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[7]);
-                patch.R3C1 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[8]);
-                patch.R3C2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[9]);
-                patch.R3C3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[10]);
-                patch.R3C4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[11]);
-                patch.R4C1 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[12]);
-                patch.R4C2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[13]);
-                patch.R4C3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[14]);
-                patch.R4C4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[15]);
-
-                Vector3 HighestXYZ = bezierUtil.RawPoints[0];
-                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[1]);
-                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[2]);
-                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[3]);
-                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[4]);
-                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[5]);
-                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[6]);
-                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[7]);
-                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[8]);
-                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[9]);
-                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[10]);
-                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[11]);
-                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[12]);
-                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[13]);
-                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[14]);
-                HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[15]);
-
-                Vector3 LowestXYZ = bezierUtil.RawPoints[0];
-                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[1]);
-                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[2]);
-                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[3]);
-                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[4]);
-                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[5]);
-                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[6]);
-                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[7]);
-                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[8]);
-                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[9]);
-                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[10]);
-                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[11]);
-                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[12]);
-                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[13]);
-                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[14]);
-                LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[15]);
-
-                patch.HighestXYZ = HighestXYZ;
-                patch.LowestXYZ = LowestXYZ;
-
-                patch.Point1 = JsonUtil.Vector3ToVector4(bezierUtil.RawPoints[0]);
-                patch.Point2 = JsonUtil.Vector3ToVector4(bezierUtil.RawPoints[12]);
-                patch.Point3 = JsonUtil.Vector3ToVector4(bezierUtil.RawPoints[3]);
-                patch.Point4 = JsonUtil.Vector3ToVector4(bezierUtil.RawPoints[15]);
-
-                patch.PatchStyle = ImportPatch.PatchStyle;
-                patch.Unknown2 = 41;
-                if (ImportPatch.TrickOnlyPatch)
-                {
-                    patch.PatchVisablity = 32768;
-                }
-
-                if(ImageFiles.Contains(ImportPatch.TexturePath))
-                {
-                    patch.TextureAssigment = ImageFiles.IndexOf(ImportPatch.TexturePath);
-                }
-                else
-                {
-                    ImageFiles.Add(ImportPatch.TexturePath);
-                    patch.TextureAssigment = ImageFiles.Count-1;
-                }
-
-                //if (lightingFixObjects.Count - 1 >= patch.TextureAssigment)
-                //{
-                //    lightingFixObjects[patch.TextureAssigment].Patch.Add(i);
-                //}
-                patch.LightmapID = ImportPatch.LightmapID;
-
-                pbdHandler.Patches.Add(patch);
-
-                LinkerItem linkerItem = new LinkerItem();
-                linkerItem.Name = ImportPatch.PatchName;
-                linkerItem.Ref = 1;
-                linkerItem.UID = i;
-                linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
-                mapHandler.Patchs.Add(linkerItem);
-            }
-
-            //Rebuild Splines
-            splineJsonHandler = new SplineJsonHandler();
-            splineJsonHandler = SplineJsonHandler.Load(LoadPath + "/Splines.json");
-            pbdHandler.splines = new List<Spline>();
-            pbdHandler.splinesSegments = new List<SplinesSegments>();
-            mapHandler.Splines = new List<LinkerItem>();
-            int SegmentPos = 0;
-            for (int i = 0; i < splineJsonHandler.Splines.Count; i++)
-            {
-                var TempSpline = splineJsonHandler.Splines[i];
-                Spline spline = new Spline();
-                spline.SplineSegmentPosition = SegmentPos;
-                spline.SplineSegmentCount = TempSpline.Segments.Count;
-                spline.Unknown1 = 0;
-                spline.Unknown2 = -1;
-
-                Vector3 HighestXYZSpline = JsonUtil.ArrayToVector3(TempSpline.Segments[0].Point1);
-                Vector3 LowestXYZSpline = JsonUtil.ArrayToVector3(TempSpline.Segments[0].Point1);
-                float PreviousSegmentDiffrence = 0f;
-                for (int a = 0; a < TempSpline.Segments.Count; a++)
-                {
-                    SplinesSegments segments = new SplinesSegments();
-                    var TempSegment = TempSpline.Segments[a];
                     BezierUtil bezierUtil = new BezierUtil();
 
-                    bezierUtil.RawPoints[0] = JsonUtil.ArrayToVector3(TempSegment.Point1);
-                    bezierUtil.RawPoints[1] = JsonUtil.ArrayToVector3(TempSegment.Point2);
-                    bezierUtil.RawPoints[2] = JsonUtil.ArrayToVector3(TempSegment.Point3);
-                    bezierUtil.RawPoints[3] = JsonUtil.ArrayToVector3(TempSegment.Point4);
+                    for (int a = 0; a < 16; a++)
+                    {
+                        bezierUtil.RawPoints[a].X = ImportPatch.Points[a, 0];
+                        bezierUtil.RawPoints[a].Y = ImportPatch.Points[a, 1];
+                        bezierUtil.RawPoints[a].Z = ImportPatch.Points[a, 2];
+                    }
 
                     bezierUtil.GenerateProcessedPoints();
 
-                    segments.ControlPoint = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[0]);
-                    segments.Point2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[1], 0);
-                    segments.Point3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[2], 0);
-                    segments.Point4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[3], 0);
-                    segments.ScalingPoint = JsonUtil.ArrayToVector4(TempSegment.Unknown);
+                    patch.R1C1 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[0]);
+                    patch.R1C2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[1]);
+                    patch.R1C3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[2]);
+                    patch.R1C4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[3]);
+                    patch.R2C1 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[4]);
+                    patch.R2C2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[5]);
+                    patch.R2C3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[6]);
+                    patch.R2C4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[7]);
+                    patch.R3C1 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[8]);
+                    patch.R3C2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[9]);
+                    patch.R3C3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[10]);
+                    patch.R3C4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[11]);
+                    patch.R4C1 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[12]);
+                    patch.R4C2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[13]);
+                    patch.R4C3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[14]);
+                    patch.R4C4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[15]);
 
+                    Vector3 HighestXYZ = bezierUtil.RawPoints[0];
+                    HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[1]);
+                    HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[2]);
+                    HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[3]);
+                    HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[4]);
+                    HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[5]);
+                    HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[6]);
+                    HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[7]);
+                    HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[8]);
+                    HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[9]);
+                    HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[10]);
+                    HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[11]);
+                    HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[12]);
+                    HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[13]);
+                    HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[14]);
+                    HighestXYZ = MathUtil.Highest(HighestXYZ, bezierUtil.RawPoints[15]);
 
-                    if (a == 0)
+                    Vector3 LowestXYZ = bezierUtil.RawPoints[0];
+                    LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[1]);
+                    LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[2]);
+                    LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[3]);
+                    LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[4]);
+                    LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[5]);
+                    LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[6]);
+                    LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[7]);
+                    LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[8]);
+                    LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[9]);
+                    LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[10]);
+                    LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[11]);
+                    LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[12]);
+                    LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[13]);
+                    LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[14]);
+                    LowestXYZ = MathUtil.Lowest(LowestXYZ, bezierUtil.RawPoints[15]);
+
+                    patch.HighestXYZ = HighestXYZ;
+                    patch.LowestXYZ = LowestXYZ;
+
+                    patch.Point1 = JsonUtil.Vector3ToVector4(bezierUtil.RawPoints[0]);
+                    patch.Point2 = JsonUtil.Vector3ToVector4(bezierUtil.RawPoints[12]);
+                    patch.Point3 = JsonUtil.Vector3ToVector4(bezierUtil.RawPoints[3]);
+                    patch.Point4 = JsonUtil.Vector3ToVector4(bezierUtil.RawPoints[15]);
+
+                    patch.PatchStyle = ImportPatch.PatchStyle;
+                    patch.Unknown2 = 41;
+                    if (ImportPatch.TrickOnlyPatch)
                     {
-                        segments.PreviousSegment = -1;
+                        patch.PatchVisablity = 32768;
+                    }
+
+                    if (ImageFiles.Contains(ImportPatch.TexturePath))
+                    {
+                        patch.TextureAssigment = ImageFiles.IndexOf(ImportPatch.TexturePath);
                     }
                     else
                     {
-                        segments.PreviousSegment = a - 1;
+                        ImageFiles.Add(ImportPatch.TexturePath);
+                        patch.TextureAssigment = ImageFiles.Count - 1;
                     }
-                    if (a == TempSpline.Segments.Count - 1)
-                    {
-                        segments.NextSegment = -1;
-                    }
-                    else
-                    {
-                        segments.NextSegment = a + 1;
-                    }
-                    segments.SplineParent = i;
 
-                    Vector3 HighestXYZSegment = bezierUtil.RawPoints[0];
-                    HighestXYZSegment = MathUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[1]);
-                    HighestXYZSegment = MathUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[2]);
-                    HighestXYZSegment = MathUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[3]);
+                    //if (lightingFixObjects.Count - 1 >= patch.TextureAssigment)
+                    //{
+                    //    lightingFixObjects[patch.TextureAssigment].Patch.Add(i);
+                    //}
+                    patch.LightmapID = ImportPatch.LightmapID;
 
-                    segments.HighestXYZ = HighestXYZSegment;
-                    HighestXYZSpline = MathUtil.Highest(HighestXYZSpline, HighestXYZSegment);
+                    pbdHandler.Patches.Add(patch);
 
-                    Vector3 LowestXYZSegment = bezierUtil.RawPoints[0];
-                    LowestXYZSegment = MathUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[1]);
-                    LowestXYZSegment = MathUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[2]);
-                    LowestXYZSegment = MathUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[3]);
-
-                    segments.LowestXYZ = LowestXYZSegment;
-                    LowestXYZSpline = MathUtil.Highest(LowestXYZSpline, LowestXYZSegment);
-
-                    segments.SegmentDisatnce = JsonUtil.GenerateDistance(bezierUtil.RawPoints[0], bezierUtil.RawPoints[1], bezierUtil.RawPoints[2], bezierUtil.RawPoints[3]);
-                    segments.PreviousSegmentsDistance = PreviousSegmentDiffrence;
-                    PreviousSegmentDiffrence += segments.SegmentDisatnce;
-                    segments.Unknown32 = 4311823;
-                    pbdHandler.splinesSegments.Add(segments);
-                    SegmentPos++;
+                    LinkerItem linkerItem = new LinkerItem();
+                    linkerItem.Name = ImportPatch.PatchName;
+                    linkerItem.Ref = 1;
+                    linkerItem.UID = i;
+                    linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
+                    mapHandler.Patchs.Add(linkerItem);
                 }
 
-                spline.LowestXYZ = LowestXYZSpline;
-                spline.HighestXYZ = HighestXYZSpline;
-
-
-                LinkerItem linkerItem = new LinkerItem();
-                linkerItem.Name = TempSpline.SplineName;
-                linkerItem.Ref = 1;
-                linkerItem.UID = i;
-                linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
-                mapHandler.Splines.Add(linkerItem);
-                pbdHandler.splines.Add(spline);
-            }
-
-            //Rebuild Instances
-            instancesJson = new InstanceJsonHandler();
-            instancesJson = InstanceJsonHandler.Load(LoadPath + "/Instances.json");
-            pbdHandler.Instances = new List<Instance>();
-            mapHandler.InternalInstances = new List<LinkerItem>();
-            for (int i = 0; i < instancesJson.Instances.Count; i++)
-            {
-                var Oldinstance = instancesJson.Instances[i];
-                Instance NewInstance = new Instance();
-
-                Matrix4x4 scale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(Oldinstance.Scale));
-                Matrix4x4 Rotation = Matrix4x4.CreateFromQuaternion(JsonUtil.ArrayToQuaternion(Oldinstance.Rotation));
-                Matrix4x4 matrix4X4 = Matrix4x4.Multiply(scale, Rotation);
-                matrix4X4.Translation = JsonUtil.ArrayToVector3(Oldinstance.Location);
-
-                NewInstance.matrix4X4 = matrix4X4;
-
-                NewInstance.Unknown5 = JsonUtil.ArrayToVector4(Oldinstance.Unknown5);
-                NewInstance.Unknown6 = JsonUtil.ArrayToVector4(Oldinstance.Unknown6);
-                NewInstance.Unknown7 = JsonUtil.ArrayToVector4(Oldinstance.Unknown7);
-                NewInstance.Unknown8 = JsonUtil.ArrayToVector4(Oldinstance.Unknown8);
-                NewInstance.Unknown9 = JsonUtil.ArrayToVector4(Oldinstance.Unknown9);
-                NewInstance.Unknown10 = JsonUtil.ArrayToVector4(Oldinstance.Unknown10);
-                NewInstance.Unknown11 = JsonUtil.ArrayToVector4(Oldinstance.Unknown11);
-                NewInstance.RGBA = JsonUtil.ArrayToVector4(Oldinstance.RGBA);
-
-                NewInstance.ModelID = Oldinstance.ModelID;
-                NewInstance.PrevInstance = Oldinstance.PrevInstance;
-                NewInstance.NextInstance = Oldinstance.NextInstance;
-
-                NewInstance.UnknownInt26 = Oldinstance.UnknownInt26;
-                NewInstance.UnknownInt27 = Oldinstance.UnknownInt27;
-                NewInstance.UnknownInt28 = Oldinstance.UnknownInt28;
-                NewInstance.ModelID2 = Oldinstance.ModelID2;
-                NewInstance.UnknownInt30 = Oldinstance.UnknownInt30;
-                NewInstance.UnknownInt31 = Oldinstance.UnknownInt31;
-                NewInstance.UnknownInt32 = Oldinstance.UnknownInt32;
-
-                NewInstance.LTGState = Oldinstance.LTGState;
-                pbdHandler.Instances.Add(NewInstance);
-
-                LinkerItem linkerItem = new LinkerItem();
-                linkerItem.Ref = 1;
-                linkerItem.UID = i;
-                linkerItem.Name = Oldinstance.InstanceName;
-                linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
-                mapHandler.InternalInstances.Add(linkerItem);
-            }
-
-            //Rebuild PraticleInstances
-            particleInstanceJson = new ParticleInstanceJsonHandler();
-            particleInstanceJson = ParticleInstanceJsonHandler.Load(LoadPath + "/ParticleInstances.json");
-            mapHandler.particelModels = new List<LinkerItem>();
-            pbdHandler.particleInstances = new List<ParticleInstance>();
-            for (int i = 0; i < particleInstanceJson.Particles.Count; i++)
-            {
-                ParticleInstance TempParticle = new ParticleInstance();
-
-                Matrix4x4 scale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(particleInstanceJson.Particles[i].Scale));
-                Matrix4x4 Rotation = Matrix4x4.CreateFromQuaternion(JsonUtil.ArrayToQuaternion(particleInstanceJson.Particles[i].Rotation));
-                Matrix4x4 matrix4X4 = Matrix4x4.Multiply(scale, Rotation);
-                matrix4X4.Translation = JsonUtil.ArrayToVector3(particleInstanceJson.Particles[i].Location);
-
-                TempParticle.matrix4X4 = matrix4X4;
-
-                TempParticle.UnknownInt1 = particleInstanceJson.Particles[i].UnknownInt1;
-                TempParticle.LowestXYZ = JsonUtil.ArrayToVector3(particleInstanceJson.Particles[i].LowestXYZ);
-                TempParticle.HighestXYZ = JsonUtil.ArrayToVector3(particleInstanceJson.Particles[i].HighestXYZ);
-                TempParticle.UnknownInt8 = particleInstanceJson.Particles[i].UnknownInt8;
-                TempParticle.UnknownInt9 = particleInstanceJson.Particles[i].UnknownInt9;
-                TempParticle.UnknownInt10 = particleInstanceJson.Particles[i].UnknownInt10;
-                TempParticle.UnknownInt11 = particleInstanceJson.Particles[i].UnknownInt11;
-                TempParticle.UnknownInt12 = particleInstanceJson.Particles[i].UnknownInt12;
-                pbdHandler.particleInstances.Add(TempParticle);
-
-                LinkerItem linkerItem = new LinkerItem();
-                linkerItem.Ref = 1;
-                linkerItem.UID = i;
-                linkerItem.Name = particleInstanceJson.Particles[i].ParticleName;
-                linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
-                mapHandler.ParticleInstances.Add(linkerItem);
-            }
-
-            //Rebuild Material Blocks
-            prefabJsonHandler = new PrefabJsonHandler();
-            prefabJsonHandler = PrefabJsonHandler.Load(LoadPath + "/Prefabs.json");
-            pbdHandler.materialBlocks = new List<MaterialBlock>();
-            for (int i = 0; i < prefabJsonHandler.Prefabs.Count; i++)
-            {
-                var TempPrefab = prefabJsonHandler.Prefabs[i];
-                var NewMaterialBlock = new MaterialBlock();
-
-                NewMaterialBlock.ints = new List<int>();
-
-                for (int a = 0; a < prefabJsonHandler.Prefabs[i].PrefabObjects.Count; a++)
+                //Rebuild Splines
+                splineJsonHandler = new SplineJsonHandler();
+                splineJsonHandler = SplineJsonHandler.Load(LoadPath + "/Splines.json");
+                pbdHandler.splines = new List<Spline>();
+                pbdHandler.splinesSegments = new List<SplinesSegments>();
+                mapHandler.Splines = new List<LinkerItem>();
+                int SegmentPos = 0;
+                for (int i = 0; i < splineJsonHandler.Splines.Count; i++)
                 {
-                    var TempObject = TempPrefab.PrefabObjects[a];
-                    for (int b = 0; b < prefabJsonHandler.Prefabs[i].PrefabObjects[a].MeshData.Count; b++)
+                    var TempSpline = splineJsonHandler.Splines[i];
+                    Spline spline = new Spline();
+                    spline.SplineSegmentPosition = SegmentPos;
+                    spline.SplineSegmentCount = TempSpline.Segments.Count;
+                    spline.Unknown1 = 0;
+                    spline.Unknown2 = -1;
+
+                    Vector3 HighestXYZSpline = JsonUtil.ArrayToVector3(TempSpline.Segments[0].Point1);
+                    Vector3 LowestXYZSpline = JsonUtil.ArrayToVector3(TempSpline.Segments[0].Point1);
+                    float PreviousSegmentDiffrence = 0f;
+                    for (int a = 0; a < TempSpline.Segments.Count; a++)
                     {
-                        var TempMesh = TempObject.MeshData[b];
-                        NewMaterialBlock.ints.Add(prefabJsonHandler.Prefabs[i].PrefabObjects[a].MeshData[b].MaterialID);
+                        SplinesSegments segments = new SplinesSegments();
+                        var TempSegment = TempSpline.Segments[a];
+                        BezierUtil bezierUtil = new BezierUtil();
 
-                        TempMesh.MaterialID = NewMaterialBlock.ints.Count - 1;
+                        bezierUtil.RawPoints[0] = JsonUtil.ArrayToVector3(TempSegment.Point1);
+                        bezierUtil.RawPoints[1] = JsonUtil.ArrayToVector3(TempSegment.Point2);
+                        bezierUtil.RawPoints[2] = JsonUtil.ArrayToVector3(TempSegment.Point3);
+                        bezierUtil.RawPoints[3] = JsonUtil.ArrayToVector3(TempSegment.Point4);
 
-                        TempObject.MeshData[b] = TempMesh;
-                    }
-                    TempPrefab.PrefabObjects[a] = TempObject;
-                }
-                prefabJsonHandler.Prefabs[i] = TempPrefab;
-                pbdHandler.materialBlocks.Add(NewMaterialBlock);
-            }
+                        bezierUtil.GenerateProcessedPoints();
 
-            //Rebuild Prefabs
-            pbdHandler.PrefabData = new List<Prefabs>();
-            mapHandler.Models = new List<LinkerItem>();
-            for (int i = 0; i < prefabJsonHandler.Prefabs.Count; i++)
-            {
-                var NewPrefab = new Prefabs();
-                var TempPrefab = prefabJsonHandler.Prefabs[i];
-                NewPrefab.MaterialBlockID = i;
-                NewPrefab.Unknown3 = prefabJsonHandler.Prefabs[i].Unknown3;
-                NewPrefab.AnimTime = prefabJsonHandler.Prefabs[i].AnimTime;
+                        segments.ControlPoint = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[0]);
+                        segments.Point2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[1], 0);
+                        segments.Point3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[2], 0);
+                        segments.Point4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[3], 0);
+                        segments.ScalingPoint = JsonUtil.ArrayToVector4(TempSegment.Unknown);
 
-                //MeshCount
-                //VertexCount
-                //TristirpCount
-                //Unknown4
-                //NonTriCunt
 
-                NewPrefab.PrefabObjects = new List<ObjectHeader>();
-                for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
-                {
-                    var TempObject = TempPrefab.PrefabObjects[a];
-                    var NewObject = new ObjectHeader();
-                    NewObject.ParentID = TempObject.ParentID;
-
-                    if (TempObject.IncludeMatrix)
-                    {
-                        NewObject.IncludeMatrix = true;
-                        Matrix4x4 scale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(TempObject.Scale));
-                        Matrix4x4 Rotation = Matrix4x4.CreateFromQuaternion(JsonUtil.ArrayToQuaternion(TempObject.Rotation));
-                        Matrix4x4 matrix4X4 = Matrix4x4.Multiply(scale, Rotation);
-
-                        matrix4X4.Translation = JsonUtil.ArrayToVector3(TempObject.Position);
-                        NewObject.matrix4X4 = matrix4X4;
-                    }
-
-                    ObjectData NewObjectData = new ObjectData();
-
-                    NewObjectData.Flags = TempObject.Flags;
-                    //MeshCount
-                    //FaceCount
-
-                    if (TempObject.MeshData.Count != 0)
-                    {
-                        NewObjectData.MeshOffsets = new List<MeshOffsets>();
-
-                        for (int b = 0; b < TempObject.MeshData.Count; b++)
+                        if (a == 0)
                         {
-                            var NewMeshOffset = new MeshOffsets();
-                            NewMeshOffset.MeshID = TempObject.MeshData[b].MeshID;
-                            NewMeshOffset.MaterialBlockPos = TempObject.MeshData[b].MaterialID;
-                            NewMeshOffset.MeshPath = TempObject.MeshData[b].MeshPath;
-                            NewObjectData.MeshOffsets.Add(NewMeshOffset);
+                            segments.PreviousSegment = -1;
                         }
+                        else
+                        {
+                            segments.PreviousSegment = a - 1;
+                        }
+                        if (a == TempSpline.Segments.Count - 1)
+                        {
+                            segments.NextSegment = -1;
+                        }
+                        else
+                        {
+                            segments.NextSegment = a + 1;
+                        }
+                        segments.SplineParent = i;
+
+                        Vector3 HighestXYZSegment = bezierUtil.RawPoints[0];
+                        HighestXYZSegment = MathUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[1]);
+                        HighestXYZSegment = MathUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[2]);
+                        HighestXYZSegment = MathUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[3]);
+
+                        segments.HighestXYZ = HighestXYZSegment;
+                        HighestXYZSpline = MathUtil.Highest(HighestXYZSpline, HighestXYZSegment);
+
+                        Vector3 LowestXYZSegment = bezierUtil.RawPoints[0];
+                        LowestXYZSegment = MathUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[1]);
+                        LowestXYZSegment = MathUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[2]);
+                        LowestXYZSegment = MathUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[3]);
+
+                        segments.LowestXYZ = LowestXYZSegment;
+                        LowestXYZSpline = MathUtil.Highest(LowestXYZSpline, LowestXYZSegment);
+
+                        segments.SegmentDisatnce = JsonUtil.GenerateDistance(bezierUtil.RawPoints[0], bezierUtil.RawPoints[1], bezierUtil.RawPoints[2], bezierUtil.RawPoints[3]);
+                        segments.PreviousSegmentsDistance = PreviousSegmentDiffrence;
+                        PreviousSegmentDiffrence += segments.SegmentDisatnce;
+                        segments.Unknown32 = 4311823;
+                        pbdHandler.splinesSegments.Add(segments);
+                        SegmentPos++;
                     }
 
-                    if (TempObject.IncludeAnimation)
+                    spline.LowestXYZ = LowestXYZSpline;
+                    spline.HighestXYZ = HighestXYZSpline;
+
+
+                    LinkerItem linkerItem = new LinkerItem();
+                    linkerItem.Name = TempSpline.SplineName;
+                    linkerItem.Ref = 1;
+                    linkerItem.UID = i;
+                    linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
+                    mapHandler.Splines.Add(linkerItem);
+                    pbdHandler.splines.Add(spline);
+                }
+
+                //Rebuild Instances
+                instancesJson = new InstanceJsonHandler();
+                instancesJson = InstanceJsonHandler.Load(LoadPath + "/Instances.json");
+                pbdHandler.Instances = new List<Instance>();
+                mapHandler.InternalInstances = new List<LinkerItem>();
+                for (int i = 0; i < instancesJson.Instances.Count; i++)
+                {
+                    var Oldinstance = instancesJson.Instances[i];
+                    Instance NewInstance = new Instance();
+
+                    Matrix4x4 scale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(Oldinstance.Scale));
+                    Matrix4x4 Rotation = Matrix4x4.CreateFromQuaternion(JsonUtil.ArrayToQuaternion(Oldinstance.Rotation));
+                    Matrix4x4 matrix4X4 = Matrix4x4.Multiply(scale, Rotation);
+                    matrix4X4.Translation = JsonUtil.ArrayToVector3(Oldinstance.Location);
+
+                    NewInstance.matrix4X4 = matrix4X4;
+
+                    NewInstance.Unknown5 = JsonUtil.ArrayToVector4(Oldinstance.Unknown5);
+                    NewInstance.Unknown6 = JsonUtil.ArrayToVector4(Oldinstance.Unknown6);
+                    NewInstance.Unknown7 = JsonUtil.ArrayToVector4(Oldinstance.Unknown7);
+                    NewInstance.Unknown8 = JsonUtil.ArrayToVector4(Oldinstance.Unknown8);
+                    NewInstance.Unknown9 = JsonUtil.ArrayToVector4(Oldinstance.Unknown9);
+                    NewInstance.Unknown10 = JsonUtil.ArrayToVector4(Oldinstance.Unknown10);
+                    NewInstance.Unknown11 = JsonUtil.ArrayToVector4(Oldinstance.Unknown11);
+                    NewInstance.RGBA = JsonUtil.ArrayToVector4(Oldinstance.RGBA);
+
+                    NewInstance.ModelID = Oldinstance.ModelID;
+                    NewInstance.PrevInstance = Oldinstance.PrevInstance;
+                    NewInstance.NextInstance = Oldinstance.NextInstance;
+
+                    NewInstance.UnknownInt26 = Oldinstance.UnknownInt26;
+                    NewInstance.UnknownInt27 = Oldinstance.UnknownInt27;
+                    NewInstance.UnknownInt28 = Oldinstance.UnknownInt28;
+                    NewInstance.ModelID2 = Oldinstance.ModelID2;
+                    NewInstance.UnknownInt30 = Oldinstance.UnknownInt30;
+                    NewInstance.UnknownInt31 = Oldinstance.UnknownInt31;
+                    NewInstance.UnknownInt32 = Oldinstance.UnknownInt32;
+
+                    NewInstance.LTGState = Oldinstance.LTGState;
+                    pbdHandler.Instances.Add(NewInstance);
+
+                    LinkerItem linkerItem = new LinkerItem();
+                    linkerItem.Ref = 1;
+                    linkerItem.UID = i;
+                    linkerItem.Name = Oldinstance.InstanceName;
+                    linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
+                    mapHandler.InternalInstances.Add(linkerItem);
+                }
+
+                //Rebuild PraticleInstances
+                particleInstanceJson = new ParticleInstanceJsonHandler();
+                particleInstanceJson = ParticleInstanceJsonHandler.Load(LoadPath + "/ParticleInstances.json");
+                mapHandler.particelModels = new List<LinkerItem>();
+                pbdHandler.particleInstances = new List<ParticleInstance>();
+                for (int i = 0; i < particleInstanceJson.Particles.Count; i++)
+                {
+                    ParticleInstance TempParticle = new ParticleInstance();
+
+                    Matrix4x4 scale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(particleInstanceJson.Particles[i].Scale));
+                    Matrix4x4 Rotation = Matrix4x4.CreateFromQuaternion(JsonUtil.ArrayToQuaternion(particleInstanceJson.Particles[i].Rotation));
+                    Matrix4x4 matrix4X4 = Matrix4x4.Multiply(scale, Rotation);
+                    matrix4X4.Translation = JsonUtil.ArrayToVector3(particleInstanceJson.Particles[i].Location);
+
+                    TempParticle.matrix4X4 = matrix4X4;
+
+                    TempParticle.UnknownInt1 = particleInstanceJson.Particles[i].UnknownInt1;
+                    TempParticle.LowestXYZ = JsonUtil.ArrayToVector3(particleInstanceJson.Particles[i].LowestXYZ);
+                    TempParticle.HighestXYZ = JsonUtil.ArrayToVector3(particleInstanceJson.Particles[i].HighestXYZ);
+                    TempParticle.UnknownInt8 = particleInstanceJson.Particles[i].UnknownInt8;
+                    TempParticle.UnknownInt9 = particleInstanceJson.Particles[i].UnknownInt9;
+                    TempParticle.UnknownInt10 = particleInstanceJson.Particles[i].UnknownInt10;
+                    TempParticle.UnknownInt11 = particleInstanceJson.Particles[i].UnknownInt11;
+                    TempParticle.UnknownInt12 = particleInstanceJson.Particles[i].UnknownInt12;
+                    pbdHandler.particleInstances.Add(TempParticle);
+
+                    LinkerItem linkerItem = new LinkerItem();
+                    linkerItem.Ref = 1;
+                    linkerItem.UID = i;
+                    linkerItem.Name = particleInstanceJson.Particles[i].ParticleName;
+                    linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
+                    mapHandler.ParticleInstances.Add(linkerItem);
+                }
+
+                //Rebuild Material Blocks
+                prefabJsonHandler = new PrefabJsonHandler();
+                prefabJsonHandler = PrefabJsonHandler.Load(LoadPath + "/Prefabs.json");
+                pbdHandler.materialBlocks = new List<MaterialBlock>();
+                for (int i = 0; i < prefabJsonHandler.Prefabs.Count; i++)
+                {
+                    var TempPrefab = prefabJsonHandler.Prefabs[i];
+                    var NewMaterialBlock = new MaterialBlock();
+
+                    NewMaterialBlock.ints = new List<int>();
+
+                    for (int a = 0; a < prefabJsonHandler.Prefabs[i].PrefabObjects.Count; a++)
                     {
-                        NewObject.IncludeAnimation = true;
-                        NewObject.objectAnimation = new ObjectAnimation();
-                        NewObject.objectAnimation.U1 = TempObject.Animation.U1;
-                        NewObject.objectAnimation.U2 = TempObject.Animation.U2;
-                        NewObject.objectAnimation.U3 = TempObject.Animation.U3;
-                        NewObject.objectAnimation.U4 = TempObject.Animation.U4;
-                        NewObject.objectAnimation.U5 = TempObject.Animation.U5;
-                        NewObject.objectAnimation.U6 = TempObject.Animation.U6;
-
-                        NewObject.objectAnimation.AnimationAction = TempObject.Animation.AnimationAction;
-                        NewObject.objectAnimation.animationEntries = new List<AnimationEntry>();
-                        if (TempObject.Animation.AnimationEntries != null)
+                        var TempObject = TempPrefab.PrefabObjects[a];
+                        for (int b = 0; b < prefabJsonHandler.Prefabs[i].PrefabObjects[a].MeshData.Count; b++)
                         {
-                            for (int b = 0; b < TempObject.Animation.AnimationEntries.Count; b++)
+                            var TempMesh = TempObject.MeshData[b];
+                            NewMaterialBlock.ints.Add(prefabJsonHandler.Prefabs[i].PrefabObjects[a].MeshData[b].MaterialID);
+
+                            TempMesh.MaterialID = NewMaterialBlock.ints.Count - 1;
+
+                            TempObject.MeshData[b] = TempMesh;
+                        }
+                        TempPrefab.PrefabObjects[a] = TempObject;
+                    }
+                    prefabJsonHandler.Prefabs[i] = TempPrefab;
+                    pbdHandler.materialBlocks.Add(NewMaterialBlock);
+                }
+
+                //Rebuild Prefabs
+                pbdHandler.PrefabData = new List<Prefabs>();
+                mapHandler.Models = new List<LinkerItem>();
+                for (int i = 0; i < prefabJsonHandler.Prefabs.Count; i++)
+                {
+                    var NewPrefab = new Prefabs();
+                    var TempPrefab = prefabJsonHandler.Prefabs[i];
+                    NewPrefab.MaterialBlockID = i;
+                    NewPrefab.Unknown3 = prefabJsonHandler.Prefabs[i].Unknown3;
+                    NewPrefab.AnimTime = prefabJsonHandler.Prefabs[i].AnimTime;
+
+                    //MeshCount
+                    //VertexCount
+                    //TristirpCount
+                    //Unknown4
+                    //NonTriCunt
+
+                    NewPrefab.PrefabObjects = new List<ObjectHeader>();
+                    for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
+                    {
+                        var TempObject = TempPrefab.PrefabObjects[a];
+                        var NewObject = new ObjectHeader();
+                        NewObject.ParentID = TempObject.ParentID;
+
+                        if (TempObject.IncludeMatrix)
+                        {
+                            NewObject.IncludeMatrix = true;
+                            Matrix4x4 scale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(TempObject.Scale));
+                            Matrix4x4 Rotation = Matrix4x4.CreateFromQuaternion(JsonUtil.ArrayToQuaternion(TempObject.Rotation));
+                            Matrix4x4 matrix4X4 = Matrix4x4.Multiply(scale, Rotation);
+
+                            matrix4X4.Translation = JsonUtil.ArrayToVector3(TempObject.Position);
+                            NewObject.matrix4X4 = matrix4X4;
+                        }
+
+                        ObjectData NewObjectData = new ObjectData();
+
+                        NewObjectData.Flags = TempObject.Flags;
+                        //MeshCount
+                        //FaceCount
+
+                        if (TempObject.MeshData.Count != 0)
+                        {
+                            NewObjectData.MeshOffsets = new List<MeshOffsets>();
+
+                            for (int b = 0; b < TempObject.MeshData.Count; b++)
                             {
-                                var TempAnimationEntry = TempObject.Animation.AnimationEntries[b];
-                                var NewAnimationEntry = new AnimationEntry();
-                                NewAnimationEntry.animationMaths = new List<AnimationMath>();
-                                for (int c = 0; c < TempAnimationEntry.AnimationMaths.Count; c++)
-                                {
-                                    var TempAnimationMaths = TempAnimationEntry.AnimationMaths[c];
-                                    var NewAnimationMath = new AnimationMath();
-
-                                    NewAnimationMath.Value1 = TempAnimationMaths.Value1;
-                                    NewAnimationMath.Value2 = TempAnimationMaths.Value2;
-                                    NewAnimationMath.Value3 = TempAnimationMaths.Value3;
-                                    NewAnimationMath.Value4 = TempAnimationMaths.Value4;
-                                    NewAnimationMath.Value5 = TempAnimationMaths.Value5;
-                                    NewAnimationMath.Value6 = TempAnimationMaths.Value6;
-
-
-                                    NewAnimationEntry.animationMaths.Add(NewAnimationMath);
-                                }
-
-                                NewObject.objectAnimation.animationEntries.Add(NewAnimationEntry);
+                                var NewMeshOffset = new MeshOffsets();
+                                NewMeshOffset.MeshID = TempObject.MeshData[b].MeshID;
+                                NewMeshOffset.MaterialBlockPos = TempObject.MeshData[b].MaterialID;
+                                NewMeshOffset.MeshPath = TempObject.MeshData[b].MeshPath;
+                                NewObjectData.MeshOffsets.Add(NewMeshOffset);
                             }
                         }
+
+                        if (TempObject.IncludeAnimation)
+                        {
+                            NewObject.IncludeAnimation = true;
+                            NewObject.objectAnimation = new ObjectAnimation();
+                            NewObject.objectAnimation.U1 = TempObject.Animation.U1;
+                            NewObject.objectAnimation.U2 = TempObject.Animation.U2;
+                            NewObject.objectAnimation.U3 = TempObject.Animation.U3;
+                            NewObject.objectAnimation.U4 = TempObject.Animation.U4;
+                            NewObject.objectAnimation.U5 = TempObject.Animation.U5;
+                            NewObject.objectAnimation.U6 = TempObject.Animation.U6;
+
+                            NewObject.objectAnimation.AnimationAction = TempObject.Animation.AnimationAction;
+                            NewObject.objectAnimation.animationEntries = new List<AnimationEntry>();
+                            if (TempObject.Animation.AnimationEntries != null)
+                            {
+                                for (int b = 0; b < TempObject.Animation.AnimationEntries.Count; b++)
+                                {
+                                    var TempAnimationEntry = TempObject.Animation.AnimationEntries[b];
+                                    var NewAnimationEntry = new AnimationEntry();
+                                    NewAnimationEntry.animationMaths = new List<AnimationMath>();
+                                    for (int c = 0; c < TempAnimationEntry.AnimationMaths.Count; c++)
+                                    {
+                                        var TempAnimationMaths = TempAnimationEntry.AnimationMaths[c];
+                                        var NewAnimationMath = new AnimationMath();
+
+                                        NewAnimationMath.Value1 = TempAnimationMaths.Value1;
+                                        NewAnimationMath.Value2 = TempAnimationMaths.Value2;
+                                        NewAnimationMath.Value3 = TempAnimationMaths.Value3;
+                                        NewAnimationMath.Value4 = TempAnimationMaths.Value4;
+                                        NewAnimationMath.Value5 = TempAnimationMaths.Value5;
+                                        NewAnimationMath.Value6 = TempAnimationMaths.Value6;
+
+
+                                        NewAnimationEntry.animationMaths.Add(NewAnimationMath);
+                                    }
+
+                                    NewObject.objectAnimation.animationEntries.Add(NewAnimationEntry);
+                                }
+                            }
+                        }
+
+                        NewObject.objectData = NewObjectData;
+
+                        NewPrefab.PrefabObjects.Add(NewObject);
                     }
+                    pbdHandler.PrefabData.Add(NewPrefab);
 
-                    NewObject.objectData = NewObjectData;
+                    LinkerItem linkerItem = new LinkerItem();
+                    linkerItem.Ref = 1;
+                    linkerItem.UID = i;
+                    linkerItem.Name = prefabJsonHandler.Prefabs[i].PrefabName;
+                    linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
+                    mapHandler.Models.Add(linkerItem);
 
-                    NewPrefab.PrefabObjects.Add(NewObject);
-                }
-                pbdHandler.PrefabData.Add(NewPrefab);
-
-                LinkerItem linkerItem = new LinkerItem();
-                linkerItem.Ref = 1;
-                linkerItem.UID = i;
-                linkerItem.Name = prefabJsonHandler.Prefabs[i].PrefabName;
-                linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
-                mapHandler.Models.Add(linkerItem);
-
-            }
-
-            //Rebuild Materials
-            materialJson = new MaterialJsonHandler();
-            materialJson = MaterialJsonHandler.Load(LoadPath + "/Materials.json");
-            pbdHandler.materials = new List<TrickyMaterial>();
-            mapHandler.Materials = new List<LinkerItem>();
-            for (int i = 0; i < materialJson.Materials.Count; i++)
-            {
-                var NewMaterial = new TrickyMaterial();
-
-                //NewMaterial.TextureID = materialJson.Materials[i].TextureID;
-                //if (AttemptLightingFix && NewMaterial.TextureID != -1)
-                //{
-                //    if (lightingFixObjects.Count - 1 >= NewMaterial.TextureID)
-                //    {
-                //        lightingFixObjects[NewMaterial.TextureID].Object.Add(i);
-                //    }
-                //}
-
-
-
-                if (ImageFiles.Contains(materialJson.Materials[i].TexturePath))
-                {
-                    NewMaterial.TextureID = ImageFiles.IndexOf(materialJson.Materials[i].TexturePath);
-                }
-                else
-                {
-                    ImageFiles.Add(materialJson.Materials[i].TexturePath);
-                    NewMaterial.TextureID = ImageFiles.Count - 1;
                 }
 
-                NewMaterial.UnknownInt2 = materialJson.Materials[i].UnknownInt2;
-                NewMaterial.UnknownInt3 = materialJson.Materials[i].UnknownInt3;
-                NewMaterial.UnknownFloat1 = materialJson.Materials[i].UnknownFloat1;
-                NewMaterial.UnknownFloat2 = materialJson.Materials[i].UnknownFloat2;
-                NewMaterial.UnknownFloat3 = materialJson.Materials[i].UnknownFloat3;
-                NewMaterial.UnknownFloat4 = materialJson.Materials[i].UnknownFloat4;
-                NewMaterial.UnknownInt8 = materialJson.Materials[i].UnknownInt8;
-                NewMaterial.UnknownFloat5 = materialJson.Materials[i].UnknownFloat5;
-
-                NewMaterial.UnknownFloat6 = materialJson.Materials[i].UnknownFloat6;
-                NewMaterial.UnknownFloat7 = materialJson.Materials[i].UnknownFloat7;
-                NewMaterial.UnknownFloat8 = materialJson.Materials[i].UnknownFloat8;
-
-                NewMaterial.UnknownInt13 = materialJson.Materials[i].UnknownInt13;
-                NewMaterial.UnknownInt14 = materialJson.Materials[i].UnknownInt14;
-                NewMaterial.UnknownInt15 = materialJson.Materials[i].UnknownInt15;
-                NewMaterial.UnknownInt16 = materialJson.Materials[i].UnknownInt16;
-                NewMaterial.UnknownInt17 = materialJson.Materials[i].UnknownInt17;
-                NewMaterial.UnknownInt18 = materialJson.Materials[i].UnknownInt18;
-                NewMaterial.TextureFlipbookID = materialJson.Materials[i].TextureFlipbookID;
-                NewMaterial.UnknownInt20 = materialJson.Materials[i].UnknownInt20;
-
-                pbdHandler.materials.Add(NewMaterial);
-
-                LinkerItem linkerItem = new LinkerItem();
-                linkerItem.Name = materialJson.Materials[i].MaterialName;
-                linkerItem.Ref = -1; //FIX Later
-                linkerItem.UID = i;
-                linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
-                mapHandler.Materials.Add(linkerItem);
-            }
-
-            //Rebuild TextureFlipbook
-            textureFlipbookJsonHandler = new TextureFlipbookJsonHandler();
-            textureFlipbookJsonHandler = TextureFlipbookJsonHandler.Load(LoadPath + "/TextureFlipbook.json");
-            pbdHandler.textureFlipbooks = new List<TextureFlipbook>();
-            for (int i = 0; i < textureFlipbookJsonHandler.Flipbooks.Count; i++)
-            {
-                TextureFlipbook textureFlipbook = new TextureFlipbook();
-                textureFlipbook.ImagePositions = new List<int>();
-
-                for (int a = 0; a < textureFlipbookJsonHandler.Flipbooks[i].TexturePaths.Count; a++)
+                //Rebuild Materials
+                materialJson = new MaterialJsonHandler();
+                materialJson = MaterialJsonHandler.Load(LoadPath + "/Materials.json");
+                pbdHandler.materials = new List<TrickyMaterial>();
+                mapHandler.Materials = new List<LinkerItem>();
+                for (int i = 0; i < materialJson.Materials.Count; i++)
                 {
-                    if (ImageFiles.Contains(textureFlipbookJsonHandler.Flipbooks[i].TexturePaths[a]))
+                    var NewMaterial = new TrickyMaterial();
+
+                    //NewMaterial.TextureID = materialJson.Materials[i].TextureID;
+                    //if (AttemptLightingFix && NewMaterial.TextureID != -1)
+                    //{
+                    //    if (lightingFixObjects.Count - 1 >= NewMaterial.TextureID)
+                    //    {
+                    //        lightingFixObjects[NewMaterial.TextureID].Object.Add(i);
+                    //    }
+                    //}
+
+
+                    if (materialJson.Materials[i].TexturePath != "" && materialJson.Materials[i].TexturePath != null)
                     {
-                        textureFlipbook.ImagePositions.Add(ImageFiles.IndexOf(textureFlipbookJsonHandler.Flipbooks[i].TexturePaths[a]));
+                        if (ImageFiles.Contains(materialJson.Materials[i].TexturePath))
+                        {
+                            NewMaterial.TextureID = ImageFiles.IndexOf(materialJson.Materials[i].TexturePath);
+                        }
+                        else
+                        {
+                            ImageFiles.Add(materialJson.Materials[i].TexturePath);
+                            NewMaterial.TextureID = ImageFiles.Count - 1;
+                        }
                     }
                     else
                     {
-                        ImageFiles.Add(textureFlipbookJsonHandler.Flipbooks[i].TexturePaths[a]);
-                        textureFlipbook.ImagePositions.Add(ImageFiles.Count - 1);
+                        NewMaterial.TextureID = -1;
                     }
+
+                    NewMaterial.UnknownInt2 = materialJson.Materials[i].UnknownInt2;
+                    NewMaterial.UnknownInt3 = materialJson.Materials[i].UnknownInt3;
+                    NewMaterial.UnknownFloat1 = materialJson.Materials[i].UnknownFloat1;
+                    NewMaterial.UnknownFloat2 = materialJson.Materials[i].UnknownFloat2;
+                    NewMaterial.UnknownFloat3 = materialJson.Materials[i].UnknownFloat3;
+                    NewMaterial.UnknownFloat4 = materialJson.Materials[i].UnknownFloat4;
+                    NewMaterial.UnknownInt8 = materialJson.Materials[i].UnknownInt8;
+                    NewMaterial.UnknownFloat5 = materialJson.Materials[i].UnknownFloat5;
+
+                    NewMaterial.UnknownFloat6 = materialJson.Materials[i].UnknownFloat6;
+                    NewMaterial.UnknownFloat7 = materialJson.Materials[i].UnknownFloat7;
+                    NewMaterial.UnknownFloat8 = materialJson.Materials[i].UnknownFloat8;
+
+                    NewMaterial.UnknownInt13 = materialJson.Materials[i].UnknownInt13;
+                    NewMaterial.UnknownInt14 = materialJson.Materials[i].UnknownInt14;
+                    NewMaterial.UnknownInt15 = materialJson.Materials[i].UnknownInt15;
+                    NewMaterial.UnknownInt16 = materialJson.Materials[i].UnknownInt16;
+                    NewMaterial.UnknownInt17 = materialJson.Materials[i].UnknownInt17;
+                    NewMaterial.UnknownInt18 = materialJson.Materials[i].UnknownInt18;
+                    NewMaterial.TextureFlipbookID = materialJson.Materials[i].TextureFlipbookID;
+                    NewMaterial.UnknownInt20 = materialJson.Materials[i].UnknownInt20;
+
+                    pbdHandler.materials.Add(NewMaterial);
+
+                    LinkerItem linkerItem = new LinkerItem();
+                    linkerItem.Name = materialJson.Materials[i].MaterialName;
+                    linkerItem.Ref = -1; //FIX Later
+                    linkerItem.UID = i;
+                    linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
+                    mapHandler.Materials.Add(linkerItem);
                 }
 
-                pbdHandler.textureFlipbooks.Add(textureFlipbook);
-            }
-
-            //Rebuild Lights
-            lightJsonHandler = new LightJsonHandler();
-            lightJsonHandler = LightJsonHandler.Load(LoadPath + "/Lights.json");
-            pbdHandler.lights = new List<Light>();
-            mapHandler.Lights = new List<LinkerItem>();
-            for (int i = 0; i < lightJsonHandler.Lights.Count; i++)
-            {
-                Light TempLight = new Light();
-                TempLight.Type = lightJsonHandler.Lights[i].Type;
-                TempLight.spriteRes = lightJsonHandler.Lights[i].SpriteRes;
-                TempLight.UnknownFloat1 = lightJsonHandler.Lights[i].UnknownFloat1;
-                TempLight.UnknownInt1 = lightJsonHandler.Lights[i].UnknownInt1;
-                TempLight.Colour = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].Colour);
-                TempLight.Direction = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].Direction);
-                TempLight.Postion = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].Postion);
-                TempLight.LowestXYZ = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].LowestXYZ);
-                TempLight.HighestXYZ = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].HighestXYZ);
-                TempLight.UnknownFloat2 = lightJsonHandler.Lights[i].UnknownFloat2;
-                TempLight.UnknownInt2 = lightJsonHandler.Lights[i].UnknownInt2;
-                TempLight.UnknownFloat3 = lightJsonHandler.Lights[i].UnknownFloat3;
-                TempLight.UnknownInt3 = lightJsonHandler.Lights[i].UnknownInt3;
-
-                pbdHandler.lights.Add(TempLight);
-
-                LinkerItem linkerItem = new LinkerItem();
-                linkerItem.Ref = 1;
-                linkerItem.UID = i;
-                linkerItem.Name = lightJsonHandler.Lights[i].LightName;
-                linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
-                mapHandler.Lights.Add(linkerItem);
-
-            }
-
-            //Rebuild Particle Model
-            particleModelJsonHandler = new ParticleModelJsonHandler();
-            particleModelJsonHandler = ParticleModelJsonHandler.Load(LoadPath + "/ParticleModelHeaders.json");
-            pbdHandler.particleModels = new List<ParticlePrefab>();
-            mapHandler.particelModels = new List<LinkerItem>();
-            for (int i = 0; i < particleModelJsonHandler.ParticleModels.Count; i++)
-            {
-                var ParticleModel = new ParticlePrefab();
-
-                ParticleModel.ParticleObjectHeaders = new List<ParticleObjectHeader>();
-
-                for (int a = 0; a < particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders.Count; a++)
+                //Rebuild TextureFlipbook
+                textureFlipbookJsonHandler = new TextureFlipbookJsonHandler();
+                textureFlipbookJsonHandler = TextureFlipbookJsonHandler.Load(LoadPath + "/TextureFlipbook.json");
+                pbdHandler.textureFlipbooks = new List<TextureFlipbook>();
+                for (int i = 0; i < textureFlipbookJsonHandler.Flipbooks.Count; i++)
                 {
-                    var NewParticleHeader= new ParticleObjectHeader();
+                    TextureFlipbook textureFlipbook = new TextureFlipbook();
+                    textureFlipbook.ImagePositions = new List<int>();
 
-                    NewParticleHeader.U1 = -1;
-                    NewParticleHeader.U4 = -1;
-
-                    NewParticleHeader.ParticleObject = new ParticleObject();
-                    NewParticleHeader.ParticleObject.LowestXYZ = JsonUtil.ArrayToVector3(particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.LowestXYZ);
-                    NewParticleHeader.ParticleObject.HighestXYZ = JsonUtil.ArrayToVector3(particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.HighestXYZ);
-                    NewParticleHeader.ParticleObject.U1 = particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.U1;
-                    NewParticleHeader.ParticleObject.animationFrames = new List<AnimationFrames>();
-
-                    for (int b = 0; b < particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.AnimationFrames.Count; b++)
+                    for (int a = 0; a < textureFlipbookJsonHandler.Flipbooks[i].TexturePaths.Count; a++)
                     {
-                        var NewAnimation = new AnimationFrames();
-                        NewAnimation.Position = JsonUtil.ArrayToVector3(particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.AnimationFrames[b].Position);
-                        NewAnimation.Rotation = JsonUtil.ArrayToVector3(particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.AnimationFrames[b].Rotation);
-                        NewAnimation.Unknown = particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.AnimationFrames[b].Unknown;
-                        NewParticleHeader.ParticleObject.animationFrames.Add(NewAnimation);
+                        if (ImageFiles.Contains(textureFlipbookJsonHandler.Flipbooks[i].TexturePaths[a]))
+                        {
+                            textureFlipbook.ImagePositions.Add(ImageFiles.IndexOf(textureFlipbookJsonHandler.Flipbooks[i].TexturePaths[a]));
+                        }
+                        else
+                        {
+                            ImageFiles.Add(textureFlipbookJsonHandler.Flipbooks[i].TexturePaths[a]);
+                            textureFlipbook.ImagePositions.Add(ImageFiles.Count - 1);
+                        }
                     }
 
-                    ParticleModel.ParticleObjectHeaders.Add(NewParticleHeader);
+                    pbdHandler.textureFlipbooks.Add(textureFlipbook);
                 }
 
-
-                pbdHandler.particleModels.Add(ParticleModel);
-
-                LinkerItem linkerItem = new LinkerItem();
-                linkerItem.Ref = 1;
-                linkerItem.UID = i;
-                linkerItem.Name = particleModelJsonHandler.ParticleModels[i].ParticleModelName;
-                linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
-                mapHandler.particelModels.Add(linkerItem);
-            }
-
-            //Rebuild Camera
-            cameraJSONHandler = new CameraJSONHandler();
-            cameraJSONHandler = CameraJSONHandler.Load(LoadPath + "/Cameras.json");
-            pbdHandler.Cameras = new List<CameraInstance>();
-
-            mapHandler.Cameras = new List<LinkerItem>();
-            for (int i = 0; i < cameraJSONHandler.Cameras.Count; i++)
-            {
-                var TempCamera = cameraJSONHandler.Cameras[i];
-                var NewCameraInstance=new CameraInstance();
-
-                NewCameraInstance.Translation = JsonUtil.ArrayToVector3(TempCamera.Translation);
-                NewCameraInstance.Rotation = JsonUtil.ArrayToVector3(TempCamera.Rotation);
-                NewCameraInstance.Type = TempCamera.Type;
-                NewCameraInstance.FocalLength = TempCamera.FocalLength;
-                NewCameraInstance.AspectRatio = TempCamera.AspectRatio;
-                NewCameraInstance.Aperture = JsonUtil.ArrayToVector2(TempCamera.Aperture);
-                NewCameraInstance.ClipPlane = JsonUtil.ArrayToVector2(TempCamera.ClipPlane);
-                NewCameraInstance.IntrestPoint = JsonUtil.ArrayToVector3(TempCamera.IntrestPoint);
-                NewCameraInstance.UpVector = JsonUtil.ArrayToVector3(TempCamera.UpVector);
-                NewCameraInstance.AnimTime = TempCamera.AnimTime;
-
-                NewCameraInstance.AnimationInitial = new CameraAnimationInitial();
-                NewCameraInstance.AnimationInitial.InitialPosition = JsonUtil.ArrayToVector3(TempCamera.InitialPosition);
-                NewCameraInstance.AnimationInitial.InitalRotation = JsonUtil.ArrayToVector3(TempCamera.InitalRotation);
-                NewCameraInstance.AnimationInitial.U0 = TempCamera.U0;
-
-                NewCameraInstance.AnimationInitial.AnimationHeaders = new List<CameraAnimationHeader>();
-
-                for (int a = 0; a < TempCamera.AnimationHeaders.Count; a++)
+                //Rebuild Lights
+                lightJsonHandler = new LightJsonHandler();
+                lightJsonHandler = LightJsonHandler.Load(LoadPath + "/Lights.json");
+                pbdHandler.lights = new List<Light>();
+                mapHandler.Lights = new List<LinkerItem>();
+                for (int i = 0; i < lightJsonHandler.Lights.Count; i++)
                 {
-                    var NewAnimHeader = new CameraAnimationHeader();
-                    NewAnimHeader.Action = TempCamera.AnimationHeaders[a].Action;
-                    NewAnimHeader.AnimationDatas = new List<CameraAnimationData>();
+                    Light TempLight = new Light();
+                    TempLight.Type = lightJsonHandler.Lights[i].Type;
+                    TempLight.spriteRes = lightJsonHandler.Lights[i].SpriteRes;
+                    TempLight.UnknownFloat1 = lightJsonHandler.Lights[i].UnknownFloat1;
+                    TempLight.UnknownInt1 = lightJsonHandler.Lights[i].UnknownInt1;
+                    TempLight.Colour = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].Colour);
+                    TempLight.Direction = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].Direction);
+                    TempLight.Postion = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].Postion);
+                    TempLight.LowestXYZ = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].LowestXYZ);
+                    TempLight.HighestXYZ = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].HighestXYZ);
+                    TempLight.UnknownFloat2 = lightJsonHandler.Lights[i].UnknownFloat2;
+                    TempLight.UnknownInt2 = lightJsonHandler.Lights[i].UnknownInt2;
+                    TempLight.UnknownFloat3 = lightJsonHandler.Lights[i].UnknownFloat3;
+                    TempLight.UnknownInt3 = lightJsonHandler.Lights[i].UnknownInt3;
 
-                    for (int b = 0; b < TempCamera.AnimationHeaders[a].AnimationDatas.Count; b++)
-                    {
-                        var TempAnimationData = TempCamera.AnimationHeaders[a].AnimationDatas[b];
-                        var NewAnimationData = new CameraAnimationData();
+                    pbdHandler.lights.Add(TempLight);
 
-                        NewAnimationData.Translation = JsonUtil.ArrayToVector3(TempAnimationData.Translation);
-                        NewAnimationData.Rotation = JsonUtil.ArrayToVector3(TempAnimationData.Rotation);
+                    LinkerItem linkerItem = new LinkerItem();
+                    linkerItem.Ref = 1;
+                    linkerItem.UID = i;
+                    linkerItem.Name = lightJsonHandler.Lights[i].LightName;
+                    linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
+                    mapHandler.Lights.Add(linkerItem);
 
-                        NewAnimHeader.AnimationDatas.Add(NewAnimationData);
-                    }
-                    NewCameraInstance.AnimationInitial.AnimationHeaders.Add(NewAnimHeader);
                 }
 
-                pbdHandler.Cameras.Add(NewCameraInstance);
+                //Rebuild Particle Model
+                particleModelJsonHandler = new ParticleModelJsonHandler();
+                particleModelJsonHandler = ParticleModelJsonHandler.Load(LoadPath + "/ParticleModelHeaders.json");
+                pbdHandler.particleModels = new List<ParticlePrefab>();
+                mapHandler.particelModels = new List<LinkerItem>();
+                for (int i = 0; i < particleModelJsonHandler.ParticleModels.Count; i++)
+                {
+                    var ParticleModel = new ParticlePrefab();
 
-                LinkerItem linkerItem = new LinkerItem();
-                linkerItem.Ref = 1;
-                linkerItem.UID = i;
-                linkerItem.Name = cameraJSONHandler.Cameras[i].CameraName;
-                linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
-                mapHandler.Cameras.Add(linkerItem);
+                    ParticleModel.ParticleObjectHeaders = new List<ParticleObjectHeader>();
+
+                    for (int a = 0; a < particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders.Count; a++)
+                    {
+                        var NewParticleHeader = new ParticleObjectHeader();
+
+                        NewParticleHeader.U1 = -1;
+                        NewParticleHeader.U4 = -1;
+
+                        NewParticleHeader.ParticleObject = new ParticleObject();
+                        NewParticleHeader.ParticleObject.LowestXYZ = JsonUtil.ArrayToVector3(particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.LowestXYZ);
+                        NewParticleHeader.ParticleObject.HighestXYZ = JsonUtil.ArrayToVector3(particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.HighestXYZ);
+                        NewParticleHeader.ParticleObject.U1 = particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.U1;
+                        NewParticleHeader.ParticleObject.animationFrames = new List<AnimationFrames>();
+
+                        for (int b = 0; b < particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.AnimationFrames.Count; b++)
+                        {
+                            var NewAnimation = new AnimationFrames();
+                            NewAnimation.Position = JsonUtil.ArrayToVector3(particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.AnimationFrames[b].Position);
+                            NewAnimation.Rotation = JsonUtil.ArrayToVector3(particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.AnimationFrames[b].Rotation);
+                            NewAnimation.Unknown = particleModelJsonHandler.ParticleModels[i].ParticleObjectHeaders[a].ParticleObject.AnimationFrames[b].Unknown;
+                            NewParticleHeader.ParticleObject.animationFrames.Add(NewAnimation);
+                        }
+
+                        ParticleModel.ParticleObjectHeaders.Add(NewParticleHeader);
+                    }
+
+
+                    pbdHandler.particleModels.Add(ParticleModel);
+
+                    LinkerItem linkerItem = new LinkerItem();
+                    linkerItem.Ref = 1;
+                    linkerItem.UID = i;
+                    linkerItem.Name = particleModelJsonHandler.ParticleModels[i].ParticleModelName;
+                    linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
+                    mapHandler.particelModels.Add(linkerItem);
+                }
+
+                //Rebuild Camera
+                cameraJSONHandler = new CameraJSONHandler();
+                cameraJSONHandler = CameraJSONHandler.Load(LoadPath + "/Cameras.json");
+                pbdHandler.Cameras = new List<CameraInstance>();
+
+                mapHandler.Cameras = new List<LinkerItem>();
+                for (int i = 0; i < cameraJSONHandler.Cameras.Count; i++)
+                {
+                    var TempCamera = cameraJSONHandler.Cameras[i];
+                    var NewCameraInstance = new CameraInstance();
+
+                    NewCameraInstance.Translation = JsonUtil.ArrayToVector3(TempCamera.Translation);
+                    NewCameraInstance.Rotation = JsonUtil.ArrayToVector3(TempCamera.Rotation);
+                    NewCameraInstance.Type = TempCamera.Type;
+                    NewCameraInstance.FocalLength = TempCamera.FocalLength;
+                    NewCameraInstance.AspectRatio = TempCamera.AspectRatio;
+                    NewCameraInstance.Aperture = JsonUtil.ArrayToVector2(TempCamera.Aperture);
+                    NewCameraInstance.ClipPlane = JsonUtil.ArrayToVector2(TempCamera.ClipPlane);
+                    NewCameraInstance.IntrestPoint = JsonUtil.ArrayToVector3(TempCamera.IntrestPoint);
+                    NewCameraInstance.UpVector = JsonUtil.ArrayToVector3(TempCamera.UpVector);
+                    NewCameraInstance.AnimTime = TempCamera.AnimTime;
+
+                    NewCameraInstance.AnimationInitial = new CameraAnimationInitial();
+                    NewCameraInstance.AnimationInitial.InitialPosition = JsonUtil.ArrayToVector3(TempCamera.InitialPosition);
+                    NewCameraInstance.AnimationInitial.InitalRotation = JsonUtil.ArrayToVector3(TempCamera.InitalRotation);
+                    NewCameraInstance.AnimationInitial.U0 = TempCamera.U0;
+
+                    NewCameraInstance.AnimationInitial.AnimationHeaders = new List<CameraAnimationHeader>();
+
+                    for (int a = 0; a < TempCamera.AnimationHeaders.Count; a++)
+                    {
+                        var NewAnimHeader = new CameraAnimationHeader();
+                        NewAnimHeader.Action = TempCamera.AnimationHeaders[a].Action;
+                        NewAnimHeader.AnimationDatas = new List<CameraAnimationData>();
+
+                        for (int b = 0; b < TempCamera.AnimationHeaders[a].AnimationDatas.Count; b++)
+                        {
+                            var TempAnimationData = TempCamera.AnimationHeaders[a].AnimationDatas[b];
+                            var NewAnimationData = new CameraAnimationData();
+
+                            NewAnimationData.Translation = JsonUtil.ArrayToVector3(TempAnimationData.Translation);
+                            NewAnimationData.Rotation = JsonUtil.ArrayToVector3(TempAnimationData.Rotation);
+
+                            NewAnimHeader.AnimationDatas.Add(NewAnimationData);
+                        }
+                        NewCameraInstance.AnimationInitial.AnimationHeaders.Add(NewAnimHeader);
+                    }
+
+                    pbdHandler.Cameras.Add(NewCameraInstance);
+
+                    LinkerItem linkerItem = new LinkerItem();
+                    linkerItem.Ref = 1;
+                    linkerItem.UID = i;
+                    linkerItem.Name = cameraJSONHandler.Cameras[i].CameraName;
+                    linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
+                    mapHandler.Cameras.Add(linkerItem);
+                }
+
+                //Rebuild HashData
+                hashJsonHandler = new HashJsonHandler();
+                hashJsonHandler = HashJsonHandler.Load(LoadPath + "/HashData.json");
+
+                pbdHandler.hashData = new HashData();
+                pbdHandler.hashData.InstanceHash = new List<HashDataUnknown>();
+                for (int i = 0; i < hashJsonHandler.InstanceHash.Count; i++)
+                {
+                    var NewHash = new HashDataUnknown();
+                    NewHash.Hash = hashJsonHandler.InstanceHash[i].Hash;
+                    NewHash.ObjectUID = hashJsonHandler.InstanceHash[i].ObjectUID;
+                    pbdHandler.hashData.InstanceHash.Add(NewHash);
+                }
+
+                pbdHandler.hashData.LightsHash = new List<HashDataUnknown>();
+                for (int i = 0; i < hashJsonHandler.LightsHash.Count; i++)
+                {
+                    var NewHash = new HashDataUnknown();
+                    NewHash.Hash = hashJsonHandler.LightsHash[i].Hash;
+                    NewHash.ObjectUID = hashJsonHandler.LightsHash[i].ObjectUID;
+                    pbdHandler.hashData.LightsHash.Add(NewHash);
+                }
+
+                pbdHandler.hashData.CameraHash = new List<HashDataUnknown>();
+                for (int i = 0; i < hashJsonHandler.CameraHash.Count; i++)
+                {
+                    var NewHash = new HashDataUnknown();
+                    NewHash.Hash = hashJsonHandler.CameraHash[i].Hash;
+                    NewHash.ObjectUID = hashJsonHandler.CameraHash[i].ObjectUID;
+                    pbdHandler.hashData.CameraHash.Add(NewHash);
+                }
             }
-
-            //Rebuild HashData
-            hashJsonHandler = new HashJsonHandler();
-            hashJsonHandler = HashJsonHandler.Load(LoadPath + "/HashData.json");
-
-            pbdHandler.hashData = new HashData();
-            pbdHandler.hashData.InstanceHash = new List<HashDataUnknown>();
-            for (int i = 0; i < hashJsonHandler.InstanceHash.Count; i++)
-            {
-                var NewHash = new HashDataUnknown();
-                NewHash.Hash = hashJsonHandler.InstanceHash[i].Hash;
-                NewHash.ObjectUID = hashJsonHandler.InstanceHash[i].ObjectUID;
-                pbdHandler.hashData.InstanceHash.Add(NewHash);
-            }
-
-            pbdHandler.hashData.LightsHash = new List<HashDataUnknown>();
-            for (int i = 0; i < hashJsonHandler.LightsHash.Count; i++)
-            {
-                var NewHash = new HashDataUnknown();
-                NewHash.Hash = hashJsonHandler.LightsHash[i].Hash;
-                NewHash.ObjectUID = hashJsonHandler.LightsHash[i].ObjectUID;
-                pbdHandler.hashData.LightsHash.Add(NewHash);
-            }
-
-            pbdHandler.hashData.CameraHash = new List<HashDataUnknown>();
-            for (int i = 0; i < hashJsonHandler.CameraHash.Count; i++)
-            {
-                var NewHash = new HashDataUnknown();
-                NewHash.Hash = hashJsonHandler.CameraHash[i].Hash;
-                NewHash.ObjectUID = hashJsonHandler.CameraHash[i].ObjectUID;
-                pbdHandler.hashData.CameraHash.Add(NewHash);
-            }
-
             #endregion
 
             if (MAPGenerate)
@@ -1871,12 +1881,10 @@ namespace SSXMultiTool
                     string[] LightmapFiles = Directory.GetFiles(LoadPath + "/Lightmaps", "*.png");
                     for (int i = 0; i < LightmapFiles.Length; i++)
                     {
-                        LightmapHandler.AddImage();
-                        var temp = LightmapHandler.sshImages[i];
-                        temp.sshHeader.MatrixFormat = 5;
-                        LightmapHandler.sshImages[i] = temp;
+                        LightmapHandler.AddImage(64, 5);
                         LightmapHandler.LoadSingle(LightmapFiles[i], i);
-                        temp = LightmapHandler.sshImages[i];
+                        LightmapHandler.DarkenImage(i);
+                        var temp = LightmapHandler.sshImages[i];
                         temp.shortname = i.ToString().PadLeft(4, '0');
                         //temp.AlphaFix = true;
                         LightmapHandler.sshImages[i] = temp;
