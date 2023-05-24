@@ -43,10 +43,6 @@ namespace SSXMultiTool.JsonFiles.Tricky
         public struct SplineJson
         {
             public string SplineName;
-            public int Unknown1;
-            public int Unknown2;
-
-            public int SegmentCount;
 
             public List<SegmentJson> Segments;
 
@@ -59,8 +55,6 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public float[] Point2;
             public float[] Point1;
             public float[] Unknown;
-
-            public int Unknown32;
         }
     }
 }

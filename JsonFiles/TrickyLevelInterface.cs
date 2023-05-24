@@ -284,12 +284,9 @@ namespace SSXMultiTool
             {
                 SplineJsonHandler.SplineJson TempSpline = new SplineJsonHandler.SplineJson();
                 TempSpline.SplineName = mapHandler.Splines[i].Name;
-                TempSpline.Unknown1 = pbdHandler.splines[i].Unknown1;
-                TempSpline.Unknown2 = pbdHandler.splines[i].Unknown2;
-                TempSpline.SegmentCount = pbdHandler.splines[i].SplineSegmentCount;
                 TempSpline.Segments = new List<SplineJsonHandler.SegmentJson>();
 
-                for (int a = pbdHandler.splines[i].SplineSegmentPosition; a < pbdHandler.splines[i].SplineSegmentPosition + TempSpline.SegmentCount; a++)
+                for (int a = pbdHandler.splines[i].SplineSegmentPosition; a < pbdHandler.splines[i].SplineSegmentPosition + pbdHandler.splines[i].SplineSegmentCount; a++)
                 {
                     SplineJsonHandler.SegmentJson segmentJson = new SplineJsonHandler.SegmentJson();
 
@@ -308,7 +305,6 @@ namespace SSXMultiTool
 
                     segmentJson.Unknown = JsonUtil.Vector4ToArray(pbdHandler.splinesSegments[a].ScalingPoint);
 
-                    segmentJson.Unknown32 = pbdHandler.splinesSegments[a].Unknown32;
                     TempSpline.Segments.Add(segmentJson);
                 }
 
@@ -1050,8 +1046,8 @@ namespace SSXMultiTool
                 Spline spline = new Spline();
                 spline.SplineSegmentPosition = SegmentPos;
                 spline.SplineSegmentCount = TempSpline.Segments.Count;
-                spline.Unknown1 = TempSpline.Unknown1;
-                spline.Unknown2 = TempSpline.Unknown2;
+                spline.Unknown1 = 0;
+                spline.Unknown2 = -1;
 
                 Vector3 HighestXYZSpline = JsonUtil.ArrayToVector3(TempSpline.Segments[0].Point1);
                 Vector3 LowestXYZSpline = JsonUtil.ArrayToVector3(TempSpline.Segments[0].Point1);
@@ -1113,7 +1109,7 @@ namespace SSXMultiTool
                     segments.SegmentDisatnce = JsonUtil.GenerateDistance(bezierUtil.RawPoints[0], bezierUtil.RawPoints[1], bezierUtil.RawPoints[2], bezierUtil.RawPoints[3]);
                     segments.PreviousSegmentsDistance = PreviousSegmentDiffrence;
                     PreviousSegmentDiffrence += segments.SegmentDisatnce;
-                    segments.Unknown32 = TempSegment.Unknown32;
+                    segments.Unknown32 = 4311823;
                     pbdHandler.splinesSegments.Add(segments);
                     SegmentPos++;
                 }
