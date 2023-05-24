@@ -316,7 +316,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     splinesSegment.Point2 = StreamUtil.ReadVector4(stream);
                     splinesSegment.ControlPoint = StreamUtil.ReadVector4(stream);
 
-                    splinesSegment.ScalingPoint = StreamUtil.ReadVector4(stream);
+                    splinesSegment.Unknown = StreamUtil.ReadVector4(stream);
 
                     splinesSegment.PreviousSegment = StreamUtil.ReadUInt32(stream);
                     splinesSegment.NextSegment = StreamUtil.ReadUInt32(stream);
@@ -1024,7 +1024,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteVector4(stream, SplineSegment.Point2);
                 StreamUtil.WriteVector4(stream, SplineSegment.ControlPoint);
 
-                StreamUtil.WriteVector4(stream, /*new Vector4(0,0,0,0)*/ SplineSegment.ScalingPoint);
+                StreamUtil.WriteVector4(stream, /*new Vector4(0,0,0,0)*/ SplineSegment.Unknown);
 
                 StreamUtil.WriteInt32(stream, SplineSegment.PreviousSegment);
                 StreamUtil.WriteInt32(stream, SplineSegment.NextSegment);
@@ -2360,7 +2360,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public Vector4 Point3;
         public Vector4 Point2;
         public Vector4 ControlPoint;
-        public Vector4 ScalingPoint; //Not really sure about that
+        public Vector4 Unknown; //Not really sure about that
         public int PreviousSegment;
         public int NextSegment;
         public int SplineParent;

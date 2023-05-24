@@ -306,7 +306,7 @@ namespace SSXMultiTool
                     segmentJson.Point2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[2]);
                     segmentJson.Point1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[3]);
 
-                    segmentJson.Unknown = JsonUtil.Vector4ToArray(pbdHandler.splinesSegments[a].ScalingPoint);
+                    segmentJson.Unknown = JsonUtil.Vector4ToArray(pbdHandler.splinesSegments[a].Unknown);
 
                     TempSpline.Segments.Add(segmentJson);
                 }
@@ -1073,7 +1073,7 @@ namespace SSXMultiTool
                         segments.Point2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[1], 0);
                         segments.Point3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[2], 0);
                         segments.Point4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[3], 0);
-                        segments.ScalingPoint = JsonUtil.ArrayToVector4(TempSegment.Unknown);
+                        segments.Unknown = JsonUtil.ArrayToVector4(TempSegment.Unknown);
 
 
                         if (a == 0)
