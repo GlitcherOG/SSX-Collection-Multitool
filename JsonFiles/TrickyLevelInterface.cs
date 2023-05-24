@@ -18,8 +18,24 @@ namespace SSXMultiTool
 {
     public class TrickyLevelInterface
     {
-        public bool Unilightmap;
+        //Exporting Options
         public bool InlineExporting;
+
+
+        //Importing Options
+        public bool PBDGenerate;
+        public bool SSHGenerate;
+        public bool LSSHGenerate;
+        public bool LTGGenerate;
+        public bool MAPGenerate;
+        public bool SkyPBDGenerate;
+        public bool SkySSHGenerate;
+        public bool ADLGenerate;
+        public bool SSFGenerate;
+        public bool AIPGenerate;
+        public bool SOPGenerate;
+
+        public bool Unilightmap;
 
         public PatchesJsonHandler patchPoints = new PatchesJsonHandler();
         public InstanceJsonHandler instancesJson = new InstanceJsonHandler();
@@ -692,14 +708,10 @@ namespace SSXMultiTool
             }
 
             Directory.CreateDirectory(ExportPath + "/Original");
-            File.Copy(LoadPath + ".ltg", ExportPath + "/Original" + "/ltg.ltg");
             File.Copy(LoadPath + ".ssf", ExportPath + "/Original" + "/ssf.ssf");
-            File.Copy(LoadPath + ".pbd", ExportPath + "/Original" + "/level.pbd");
-            File.Copy(LoadPath + ".map", ExportPath + "/Original" + "/level.map");
             if (File.Exists(LoadPath + "_sky.pbd"))
             {
                 File.Copy(LoadPath + ".adl", ExportPath + "/Original" + "/ald.ald"); //Not in Menu
-                File.Copy(LoadPath + "_sky.pbd", ExportPath + "/Original/sky.pbd"); //Not in Menu
                 File.Copy(LoadPath + ".aip", ExportPath + "/Original" + "/aip.aip"); //Not in Menu
                 File.Copy(LoadPath + ".sop", ExportPath + "/Original" + "/sop.sop"); //Not in menu
 
@@ -892,7 +904,7 @@ namespace SSXMultiTool
 
             #region Rebuild PBD
             MapHandler mapHandler = new MapHandler();
-            mapHandler.Load(LoadPath + "/Original/level.map");
+            //mapHandler.Load(LoadPath + "/Original/level.map");
 
             //Load PBDHandler
             PBDHandler pbdHandler = new PBDHandler();
@@ -1593,33 +1605,42 @@ namespace SSXMultiTool
 
             #endregion
 
-            mapHandler.Save(ExportPath + ".map");
+            if (MAPGenerate)
+            {
+                mapHandler.Save(ExportPath + ".map");
+            }
             pbdHandler.ImportMeshes(LoadPath + "\\Models");
             pbdHandler.RegenerateLowestAndHighest();
 
-            LTGHandler ltgHandler = new LTGHandler();
-            ltgHandler.LoadLTG(LoadPath + "/Original/ltg.ltg");
-            ltgHandler.RegenerateLTG(pbdHandler);
-            ltgHandler.SaveLTGFile(ExportPath + ".ltg");
-
-
-            //Build Textures
-            OldSSHHandler TextureHandler = new OldSSHHandler();
-            TextureHandler.format = "G278";
-
-            for (int i = 0; i < ImageFiles.Count; i++)
+            if (PBDGenerate)
             {
-                TextureHandler.AddImage();
-                TextureHandler.LoadSingle(LoadPath + "/Textures/" + ImageFiles[i], i);
-                TextureHandler.DarkenImage(i);
-                var temp = TextureHandler.sshImages[i];
-                temp.shortname = i.ToString().PadLeft(4, '0');
-                temp.AlphaFix = true;
-                TextureHandler.sshImages[i] = temp;
+                pbdHandler.SaveNew(ExportPath + ".pbd");
+            }
+            if (LTGGenerate)
+            {
+                LTGHandler ltgHandler = new LTGHandler();
+                ltgHandler.RegenerateLTG(pbdHandler);
+                ltgHandler.SaveLTGFile(ExportPath + ".ltg");
             }
 
-            pbdHandler.SaveNew(ExportPath + ".pbd");
-            TextureHandler.SaveSSH(ExportPath + ".ssh", true);
+            if (SSHGenerate)
+            {
+                //Build Textures
+                OldSSHHandler TextureHandler = new OldSSHHandler();
+                TextureHandler.format = "G278";
+
+                for (int i = 0; i < ImageFiles.Count; i++)
+                {
+                    TextureHandler.AddImage();
+                    TextureHandler.LoadSingle(LoadPath + "/Textures/" + ImageFiles[i], i);
+                    TextureHandler.DarkenImage(i);
+                    var temp = TextureHandler.sshImages[i];
+                    temp.shortname = i.ToString().PadLeft(4, '0');
+                    temp.AlphaFix = true;
+                    TextureHandler.sshImages[i] = temp;
+                }
+                TextureHandler.SaveSSH(ExportPath + ".ssh", true);
+            }
 
             #region Skybox Rebuild
             PBDHandler skyboxpbdHander = new PBDHandler();
@@ -1635,17 +1656,6 @@ namespace SSXMultiTool
                 for (int i = 0; i < materialJson.Materials.Count; i++)
                 {
                     var NewMaterial = new TrickyMaterial();
-
-                    //NewMaterial.TextureID = materialJson.Materials[i].TextureID;
-                    //if (AttemptLightingFix && NewMaterial.TextureID != -1)
-                    //{
-                    //    if (lightingFixObjects.Count - 1 >= NewMaterial.TextureID)
-                    //    {
-                    //        lightingFixObjects[NewMaterial.TextureID].Object.Add(i);
-                    //    }
-                    //}
-
-
 
                     if (SkyboxImageFiles.Contains(materialJson.Materials[i].TexturePath))
                     {
@@ -1814,170 +1824,181 @@ namespace SSXMultiTool
 
                 }
 
-                skyboxpbdHander.ImportMeshes(LoadPath + "/Skybox/Models");
-                skyboxpbdHander.SaveNew(ExportPath + "_sky.pbd");
-
-                //Build Skybox
-                OldSSHHandler SkyboxHandler = new OldSSHHandler();
-                SkyboxHandler.format = "G278";
-
-                for (int i = 0; i < SkyboxImageFiles.Count; i++)
+                if (SkyPBDGenerate)
                 {
-                    SkyboxHandler.AddImage();
-                    SkyboxHandler.LoadSingle(LoadPath + "/Skybox/Textures/" +SkyboxImageFiles[i], i);
-                    SkyboxHandler.DarkenImage(i);
-                    var temp = SkyboxHandler.sshImages[i];
-                    temp.shortname = i.ToString().PadLeft(4, '0');
-                    temp.AlphaFix = true;
-                    SkyboxHandler.sshImages[i] = temp;
+                    skyboxpbdHander.ImportMeshes(LoadPath + "/Skybox/Models");
+                    skyboxpbdHander.SaveNew(ExportPath + "_sky.pbd");
                 }
 
-                SkyboxHandler.SaveSSH(ExportPath + "_sky.ssh", true);
+                if (SkySSHGenerate)
+                {
+                    //Build Skybox
+                    OldSSHHandler SkyboxHandler = new OldSSHHandler();
+                    SkyboxHandler.format = "G278";
+
+                    for (int i = 0; i < SkyboxImageFiles.Count; i++)
+                    {
+                        SkyboxHandler.AddImage();
+                        SkyboxHandler.LoadSingle(LoadPath + "/Skybox/Textures/" + SkyboxImageFiles[i], i);
+                        SkyboxHandler.DarkenImage(i);
+                        var temp = SkyboxHandler.sshImages[i];
+                        temp.shortname = i.ToString().PadLeft(4, '0');
+                        temp.AlphaFix = true;
+                        SkyboxHandler.sshImages[i] = temp;
+                    }
+
+                    SkyboxHandler.SaveSSH(ExportPath + "_sky.ssh", true);
+                }
             }
             #endregion
 
-            OldSSHHandler LightmapHandler = new OldSSHHandler();
-            //Build Lightmap
-            if (!Unilightmap)
+            if (LSSHGenerate)
             {
-                LightmapHandler.format = "G278";
-
-                string[] LightmapFiles = Directory.GetFiles(LoadPath + "/Lightmaps", "*.png");
-                for (int i = 0; i < LightmapFiles.Length; i++)
+                OldSSHHandler LightmapHandler = new OldSSHHandler();
+                //Build Lightmap
+                if (!Unilightmap)
                 {
-                    LightmapHandler.AddImage();
-                    var temp = LightmapHandler.sshImages[i];
-                    temp.sshHeader.MatrixFormat = 5;
-                    LightmapHandler.sshImages[i] = temp;
-                    LightmapHandler.LoadSingle(LightmapFiles[i], i);
-                    temp = LightmapHandler.sshImages[i];
-                    temp.shortname = i.ToString().PadLeft(4, '0');
-                    //temp.AlphaFix = true;
-                    LightmapHandler.sshImages[i] = temp;
+                    LightmapHandler.format = "G278";
+
+                    string[] LightmapFiles = Directory.GetFiles(LoadPath + "/Lightmaps", "*.png");
+                    for (int i = 0; i < LightmapFiles.Length; i++)
+                    {
+                        LightmapHandler.AddImage();
+                        var temp = LightmapHandler.sshImages[i];
+                        temp.sshHeader.MatrixFormat = 5;
+                        LightmapHandler.sshImages[i] = temp;
+                        LightmapHandler.LoadSingle(LightmapFiles[i], i);
+                        temp = LightmapHandler.sshImages[i];
+                        temp.shortname = i.ToString().PadLeft(4, '0');
+                        //temp.AlphaFix = true;
+                        LightmapHandler.sshImages[i] = temp;
+                    }
                 }
-            }
-            else
-            {
-                pbdHandler = LightmapGenerator.GenerateNewLightmapPoints(pbdHandler);
-                LightmapHandler = LightmapGenerator.GenerateUnlitLightmap(pbdHandler);
-            }
-
-            LightmapHandler.SaveSSH(ExportPath + "_L.ssh", true);
-
-            //Edit AIP
-            AIPSOPJsonHandler aipJsonHandler = AIPSOPJsonHandler.Load(LoadPath + "/AIP.json");
-            AIPSOPHandler aipHandler = new AIPSOPHandler();
-            aipHandler.typeAs = new List<AIPSOPHandler.PathTypeA>();
-            for (int i = 0; i < aipJsonHandler.PathTypeA.Count; i++)
-            {
-                var TempPath = aipJsonHandler.PathTypeA[i];
-                var NewPath = new AIPSOPHandler.PathTypeA();
-
-                NewPath.Unknown1 = TempPath.Unknown1;
-                NewPath.Unknown2 = TempPath.Unknown2;
-                NewPath.Unknown3 = TempPath.Unknown3;
-                NewPath.Unknown4 = TempPath.Unknown4;
-                NewPath.Unknown5 = TempPath.Unknown5;
-                NewPath.Unknown6 = TempPath.Unknown6;
-                NewPath.Unknown7 = TempPath.Unknown7;
-
-                NewPath.pathPos = JsonUtil.ArrayToVector3(TempPath.pathPos);
-
-                Vector3 bboxMin = NewPath.pathPos;
-                Vector3 bboxMax = NewPath.pathPos;
-                for (int a = 0; a < TempPath.vectorPoints.Count; a++)
+                else
                 {
-                    bboxMin = MathUtil.Lowest(bboxMin, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
-                    bboxMax = MathUtil.Highest(bboxMax, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
-                }
-                NewPath.bboxMin = bboxMin;
-                NewPath.bboxMax = bboxMax;
-
-                Vector3 CurrentPosition = NewPath.pathPos;
-                NewPath.vectorPoints = new List<Vector4>();
-                for (int a = 0; a < TempPath.vectorPoints.Count; a++)
-                {
-                    Vector3 NewPosition = JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]);
-
-                    Vector3 Direction = Vector3.Normalize(NewPosition - CurrentPosition);
-                    float Distance = Vector3.Distance(NewPosition, CurrentPosition);
-
-                    Vector4 NewPointVector = JsonUtil.Vector3ToVector4(Direction, Distance);
-                    NewPath.vectorPoints.Add(NewPointVector);
-                    CurrentPosition = NewPosition;
+                    pbdHandler = LightmapGenerator.GenerateNewLightmapPoints(pbdHandler);
+                    LightmapHandler = LightmapGenerator.GenerateUnlitLightmap(pbdHandler);
                 }
 
-                NewPath.unkownListTypeAs = new List<AIPSOPHandler.UnkownListTypeA>();
-                for (int a = 0; a < TempPath.unkownListTypeAs.Count; a++)
-                {
-                    var NewListTypeA = new AIPSOPHandler.UnkownListTypeA();
-
-                    NewListTypeA.Unknown1 = TempPath.unkownListTypeAs[a].Unknown1;
-                    NewListTypeA.Unknown2 = TempPath.unkownListTypeAs[a].Unknown2;
-                    NewListTypeA.Unknown3 = TempPath.unkownListTypeAs[a].Unknown3;
-                    NewListTypeA.Unknown4 = TempPath.unkownListTypeAs[a].Unknown4;
-
-                    NewPath.unkownListTypeAs.Add(NewListTypeA);
-                }
-
-                aipHandler.typeAs.Add(NewPath);
+                LightmapHandler.SaveSSH(ExportPath + "_L.ssh", true);
             }
 
-            aipHandler.typeBs = new List<AIPSOPHandler.PathTypeB>();
-            for (int i = 0; i < aipJsonHandler.PathTypeB.Count; i++)
+            if (AIPGenerate)
             {
-                var TempPath = aipJsonHandler.PathTypeB[i];
-                var NewPath = new AIPSOPHandler.PathTypeB();
-
-                NewPath.Unknown1 = TempPath.Unknown1;
-                NewPath.Unknown2 = TempPath.Unknown2;
-                NewPath.Unknown3 = TempPath.Unknown3;
-                NewPath.Unknown4 = TempPath.Unknown4;
-
-                NewPath.pathPos = JsonUtil.ArrayToVector3(TempPath.pathPos);
-
-                Vector3 bboxMin = NewPath.pathPos;
-                Vector3 bboxMax = NewPath.pathPos;
-                for (int a = 0; a < TempPath.vectorPoints.Count; a++)
+                //Edit AIP
+                AIPSOPJsonHandler aipJsonHandler = AIPSOPJsonHandler.Load(LoadPath + "/AIP.json");
+                AIPSOPHandler aipHandler = new AIPSOPHandler();
+                aipHandler.typeAs = new List<AIPSOPHandler.PathTypeA>();
+                for (int i = 0; i < aipJsonHandler.PathTypeA.Count; i++)
                 {
-                    bboxMin = MathUtil.Lowest(bboxMin, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
-                    bboxMax = MathUtil.Highest(bboxMax, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
-                }
-                NewPath.bboxMin = bboxMin;
-                NewPath.bboxMax = bboxMax;
+                    var TempPath = aipJsonHandler.PathTypeA[i];
+                    var NewPath = new AIPSOPHandler.PathTypeA();
 
-                Vector3 CurrentPosition = NewPath.pathPos;
-                NewPath.vectorPoints = new List<Vector4>();
-                for (int a = 0; a < TempPath.vectorPoints.Count; a++)
+                    NewPath.Unknown1 = TempPath.Unknown1;
+                    NewPath.Unknown2 = TempPath.Unknown2;
+                    NewPath.Unknown3 = TempPath.Unknown3;
+                    NewPath.Unknown4 = TempPath.Unknown4;
+                    NewPath.Unknown5 = TempPath.Unknown5;
+                    NewPath.Unknown6 = TempPath.Unknown6;
+                    NewPath.Unknown7 = TempPath.Unknown7;
+
+                    NewPath.pathPos = JsonUtil.ArrayToVector3(TempPath.pathPos);
+
+                    Vector3 bboxMin = NewPath.pathPos;
+                    Vector3 bboxMax = NewPath.pathPos;
+                    for (int a = 0; a < TempPath.vectorPoints.Count; a++)
+                    {
+                        bboxMin = MathUtil.Lowest(bboxMin, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
+                        bboxMax = MathUtil.Highest(bboxMax, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
+                    }
+                    NewPath.bboxMin = bboxMin;
+                    NewPath.bboxMax = bboxMax;
+
+                    Vector3 CurrentPosition = NewPath.pathPos;
+                    NewPath.vectorPoints = new List<Vector4>();
+                    for (int a = 0; a < TempPath.vectorPoints.Count; a++)
+                    {
+                        Vector3 NewPosition = JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]);
+
+                        Vector3 Direction = Vector3.Normalize(NewPosition - CurrentPosition);
+                        float Distance = Vector3.Distance(NewPosition, CurrentPosition);
+
+                        Vector4 NewPointVector = JsonUtil.Vector3ToVector4(Direction, Distance);
+                        NewPath.vectorPoints.Add(NewPointVector);
+                        CurrentPosition = NewPosition;
+                    }
+
+                    NewPath.unkownListTypeAs = new List<AIPSOPHandler.UnkownListTypeA>();
+                    for (int a = 0; a < TempPath.unkownListTypeAs.Count; a++)
+                    {
+                        var NewListTypeA = new AIPSOPHandler.UnkownListTypeA();
+
+                        NewListTypeA.Unknown1 = TempPath.unkownListTypeAs[a].Unknown1;
+                        NewListTypeA.Unknown2 = TempPath.unkownListTypeAs[a].Unknown2;
+                        NewListTypeA.Unknown3 = TempPath.unkownListTypeAs[a].Unknown3;
+                        NewListTypeA.Unknown4 = TempPath.unkownListTypeAs[a].Unknown4;
+
+                        NewPath.unkownListTypeAs.Add(NewListTypeA);
+                    }
+
+                    aipHandler.typeAs.Add(NewPath);
+                }
+
+                aipHandler.typeBs = new List<AIPSOPHandler.PathTypeB>();
+                for (int i = 0; i < aipJsonHandler.PathTypeB.Count; i++)
                 {
-                    Vector3 NewPosition = JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]);
+                    var TempPath = aipJsonHandler.PathTypeB[i];
+                    var NewPath = new AIPSOPHandler.PathTypeB();
 
-                    Vector3 Direction = Vector3.Normalize(NewPosition - CurrentPosition);
-                    float Distance = Vector3.Distance(NewPosition, CurrentPosition);
+                    NewPath.Unknown1 = TempPath.Unknown1;
+                    NewPath.Unknown2 = TempPath.Unknown2;
+                    NewPath.Unknown3 = TempPath.Unknown3;
+                    NewPath.Unknown4 = TempPath.Unknown4;
 
-                    Vector4 NewPointVector = JsonUtil.Vector3ToVector4(Direction, Distance);
-                    NewPath.vectorPoints.Add(NewPointVector);
-                    CurrentPosition = NewPosition;
+                    NewPath.pathPos = JsonUtil.ArrayToVector3(TempPath.pathPos);
+
+                    Vector3 bboxMin = NewPath.pathPos;
+                    Vector3 bboxMax = NewPath.pathPos;
+                    for (int a = 0; a < TempPath.vectorPoints.Count; a++)
+                    {
+                        bboxMin = MathUtil.Lowest(bboxMin, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
+                        bboxMax = MathUtil.Highest(bboxMax, JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]));
+                    }
+                    NewPath.bboxMin = bboxMin;
+                    NewPath.bboxMax = bboxMax;
+
+                    Vector3 CurrentPosition = NewPath.pathPos;
+                    NewPath.vectorPoints = new List<Vector4>();
+                    for (int a = 0; a < TempPath.vectorPoints.Count; a++)
+                    {
+                        Vector3 NewPosition = JsonUtil.ArrayToVector3(TempPath.vectorPoints[a]);
+
+                        Vector3 Direction = Vector3.Normalize(NewPosition - CurrentPosition);
+                        float Distance = Vector3.Distance(NewPosition, CurrentPosition);
+
+                        Vector4 NewPointVector = JsonUtil.Vector3ToVector4(Direction, Distance);
+                        NewPath.vectorPoints.Add(NewPointVector);
+                        CurrentPosition = NewPosition;
+                    }
+
+                    NewPath.unkownListTypeAs = new List<AIPSOPHandler.UnkownListTypeA>();
+                    for (int a = 0; a < TempPath.unkownListTypeAs.Count; a++)
+                    {
+                        var NewListTypeA = new AIPSOPHandler.UnkownListTypeA();
+
+                        NewListTypeA.Unknown1 = TempPath.unkownListTypeAs[a].Unknown1;
+                        NewListTypeA.Unknown2 = TempPath.unkownListTypeAs[a].Unknown2;
+                        NewListTypeA.Unknown3 = TempPath.unkownListTypeAs[a].Unknown3;
+                        NewListTypeA.Unknown4 = TempPath.unkownListTypeAs[a].Unknown4;
+
+                        NewPath.unkownListTypeAs.Add(NewListTypeA);
+                    }
+
+                    aipHandler.typeBs.Add(NewPath);
                 }
 
-                NewPath.unkownListTypeAs = new List<AIPSOPHandler.UnkownListTypeA>();
-                for (int a = 0; a < TempPath.unkownListTypeAs.Count; a++)
-                {
-                    var NewListTypeA = new AIPSOPHandler.UnkownListTypeA();
-
-                    NewListTypeA.Unknown1 = TempPath.unkownListTypeAs[a].Unknown1;
-                    NewListTypeA.Unknown2 = TempPath.unkownListTypeAs[a].Unknown2;
-                    NewListTypeA.Unknown3 = TempPath.unkownListTypeAs[a].Unknown3;
-                    NewListTypeA.Unknown4 = TempPath.unkownListTypeAs[a].Unknown4;
-
-                    NewPath.unkownListTypeAs.Add(NewListTypeA);
-                }
-
-                aipHandler.typeBs.Add(NewPath);
+                //aipHandler.SaveAIPSOP(ExportPath + ".aip");
             }
-
-            //aipHandler.SaveAIPSOP(ExportPath + ".aip");
-
         }
 
         public void LoadAndVerifyFiles(string LoadPath)

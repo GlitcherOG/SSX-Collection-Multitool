@@ -81,6 +81,17 @@
             label11 = new Label();
             UnlitCheckbox = new CheckBox();
             groupBox4 = new GroupBox();
+            GenSOP = new CheckBox();
+            GenAIP = new CheckBox();
+            GenSSF = new CheckBox();
+            GenADL = new CheckBox();
+            GenLSSH = new CheckBox();
+            GenSkySSH = new CheckBox();
+            GenSkyPBD = new CheckBox();
+            GenMAP = new CheckBox();
+            GenSSH = new CheckBox();
+            GenLTG = new CheckBox();
+            GenPBD = new CheckBox();
             groupBox5 = new GroupBox();
             JSONInlineCheck = new CheckBox();
             button1 = new Button();
@@ -582,6 +593,17 @@
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(GenSOP);
+            groupBox4.Controls.Add(GenAIP);
+            groupBox4.Controls.Add(GenSSF);
+            groupBox4.Controls.Add(GenADL);
+            groupBox4.Controls.Add(GenLSSH);
+            groupBox4.Controls.Add(GenSkySSH);
+            groupBox4.Controls.Add(GenSkyPBD);
+            groupBox4.Controls.Add(GenMAP);
+            groupBox4.Controls.Add(GenSSH);
+            groupBox4.Controls.Add(GenLTG);
+            groupBox4.Controls.Add(GenPBD);
             groupBox4.Controls.Add(UnlitCheckbox);
             groupBox4.Location = new Point(219, 251);
             groupBox4.Name = "groupBox4";
@@ -589,6 +611,134 @@
             groupBox4.TabIndex = 51;
             groupBox4.TabStop = false;
             groupBox4.Text = "Build Settings";
+            // 
+            // GenSOP
+            // 
+            GenSOP.AutoSize = true;
+            GenSOP.Enabled = false;
+            GenSOP.Location = new Point(465, 47);
+            GenSOP.Name = "GenSOP";
+            GenSOP.Size = new Size(98, 19);
+            GenSOP.TabIndex = 61;
+            GenSOP.Text = "Generate SOP";
+            GenSOP.UseVisualStyleBackColor = true;
+            // 
+            // GenAIP
+            // 
+            GenAIP.AutoSize = true;
+            GenAIP.Enabled = false;
+            GenAIP.Location = new Point(465, 22);
+            GenAIP.Name = "GenAIP";
+            GenAIP.Size = new Size(94, 19);
+            GenAIP.TabIndex = 60;
+            GenAIP.Text = "Generate AIP";
+            GenAIP.UseVisualStyleBackColor = true;
+            // 
+            // GenSSF
+            // 
+            GenSSF.AutoSize = true;
+            GenSSF.Enabled = false;
+            GenSSF.Location = new Point(334, 97);
+            GenSSF.Name = "GenSSF";
+            GenSSF.Size = new Size(94, 19);
+            GenSSF.TabIndex = 59;
+            GenSSF.Text = "Generate SSF";
+            GenSSF.UseVisualStyleBackColor = true;
+            // 
+            // GenADL
+            // 
+            GenADL.AutoSize = true;
+            GenADL.Enabled = false;
+            GenADL.Location = new Point(334, 72);
+            GenADL.Name = "GenADL";
+            GenADL.Size = new Size(98, 19);
+            GenADL.TabIndex = 58;
+            GenADL.Text = "Generate ADL";
+            GenADL.UseVisualStyleBackColor = true;
+            // 
+            // GenLSSH
+            // 
+            GenLSSH.AutoSize = true;
+            GenLSSH.Checked = true;
+            GenLSSH.CheckState = CheckState.Checked;
+            GenLSSH.Location = new Point(213, 72);
+            GenLSSH.Name = "GenLSSH";
+            GenLSSH.Size = new Size(106, 19);
+            GenLSSH.TabIndex = 57;
+            GenLSSH.Text = "Generate L SSH";
+            GenLSSH.UseVisualStyleBackColor = true;
+            // 
+            // GenSkySSH
+            // 
+            GenSkySSH.AutoSize = true;
+            GenSkySSH.Checked = true;
+            GenSkySSH.CheckState = CheckState.Checked;
+            GenSkySSH.Location = new Point(334, 47);
+            GenSkySSH.Name = "GenSkySSH";
+            GenSkySSH.Size = new Size(118, 19);
+            GenSkySSH.TabIndex = 56;
+            GenSkySSH.Text = "Generate Sky SSH";
+            GenSkySSH.UseVisualStyleBackColor = true;
+            // 
+            // GenSkyPBD
+            // 
+            GenSkyPBD.AutoSize = true;
+            GenSkyPBD.Checked = true;
+            GenSkyPBD.CheckState = CheckState.Checked;
+            GenSkyPBD.Location = new Point(334, 22);
+            GenSkyPBD.Name = "GenSkyPBD";
+            GenSkyPBD.Size = new Size(119, 19);
+            GenSkyPBD.TabIndex = 55;
+            GenSkyPBD.Text = "Generate Sky PBD";
+            GenSkyPBD.UseVisualStyleBackColor = true;
+            // 
+            // GenMAP
+            // 
+            GenMAP.AutoSize = true;
+            GenMAP.Checked = true;
+            GenMAP.CheckState = CheckState.Checked;
+            GenMAP.Location = new Point(213, 122);
+            GenMAP.Name = "GenMAP";
+            GenMAP.Size = new Size(102, 19);
+            GenMAP.TabIndex = 54;
+            GenMAP.Text = "Generate MAP";
+            GenMAP.UseVisualStyleBackColor = true;
+            // 
+            // GenSSH
+            // 
+            GenSSH.AutoSize = true;
+            GenSSH.Checked = true;
+            GenSSH.CheckState = CheckState.Checked;
+            GenSSH.Location = new Point(213, 47);
+            GenSSH.Name = "GenSSH";
+            GenSSH.Size = new Size(97, 19);
+            GenSSH.TabIndex = 53;
+            GenSSH.Text = "Generate SSH";
+            GenSSH.UseVisualStyleBackColor = true;
+            // 
+            // GenLTG
+            // 
+            GenLTG.AutoSize = true;
+            GenLTG.Checked = true;
+            GenLTG.CheckState = CheckState.Checked;
+            GenLTG.Location = new Point(213, 97);
+            GenLTG.Name = "GenLTG";
+            GenLTG.Size = new Size(94, 19);
+            GenLTG.TabIndex = 52;
+            GenLTG.Text = "Generate LTG";
+            GenLTG.UseVisualStyleBackColor = true;
+            // 
+            // GenPBD
+            // 
+            GenPBD.AutoSize = true;
+            GenPBD.Checked = true;
+            GenPBD.CheckState = CheckState.Checked;
+            GenPBD.Location = new Point(213, 22);
+            GenPBD.Name = "GenPBD";
+            GenPBD.Size = new Size(98, 19);
+            GenPBD.TabIndex = 51;
+            GenPBD.Text = "Generate PBD";
+            GenPBD.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -725,5 +875,16 @@
         private GroupBox groupBox5;
         private CheckBox JSONInlineCheck;
         private Button button1;
+        private CheckBox GenSSH;
+        private CheckBox GenLTG;
+        private CheckBox GenPBD;
+        private CheckBox GenMAP;
+        private CheckBox GenSOP;
+        private CheckBox GenAIP;
+        private CheckBox GenSSF;
+        private CheckBox GenADL;
+        private CheckBox GenLSSH;
+        private CheckBox GenSkySSH;
+        private CheckBox GenSkyPBD;
     }
 }

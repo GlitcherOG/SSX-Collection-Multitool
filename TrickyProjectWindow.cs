@@ -124,6 +124,18 @@ namespace SSXMultiTool
                 {
                     trickyLevelInterface = new TrickyLevelInterface();
                     trickyLevelInterface.Unilightmap = UnlitCheckbox.Checked;
+                    trickyLevelInterface.PBDGenerate = GenPBD.Checked;
+                    trickyLevelInterface.SSHGenerate = GenSSH.Checked;
+                    trickyLevelInterface.LSSHGenerate = GenLSSH.Checked;
+                    trickyLevelInterface.LTGGenerate = GenLTG.Checked;
+                    trickyLevelInterface.MAPGenerate = GenMAP.Checked;
+                    trickyLevelInterface.SkyPBDGenerate = GenSkyPBD.Checked;
+                    trickyLevelInterface.SkySSHGenerate = GenSkySSH.Checked;
+                    trickyLevelInterface.ADLGenerate = GenADL.Checked;
+                    trickyLevelInterface.SSFGenerate = GenSSF.Checked;
+                    trickyLevelInterface.AIPGenerate = GenAIP.Checked;
+                    trickyLevelInterface.SOPGenerate = GenSOP.Checked;
+
 
                     if (openFileDialog.FileName.ToLower().Contains(".big"))
                     {
@@ -168,9 +180,6 @@ namespace SSXMultiTool
                     SaveConfig.Enabled = true;
                     RebuildButton.Enabled = true;
                     ProjectPath = Path.GetDirectoryName(openFileDialog.FileName);
-
-                    PBDHandler pBDHandler = new PBDHandler();
-                    pBDHandler.LoadPBD(ProjectPath + "/original/level.pbd");
 
                     trickyLevelInterface.LoadAndVerifyFiles(ProjectPath);
                     UpdateText();
