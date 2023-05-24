@@ -1609,8 +1609,12 @@ namespace SSXMultiTool
             {
                 mapHandler.Save(ExportPath + ".map");
             }
-            pbdHandler.ImportMeshes(LoadPath + "\\Models");
-            pbdHandler.RegenerateLowestAndHighest();
+
+            if (PBDGenerate || LTGGenerate)
+            {
+                pbdHandler.ImportMeshes(LoadPath + "\\Models");
+                pbdHandler.RegenerateLowestAndHighest();
+            }
 
             if (PBDGenerate)
             {
