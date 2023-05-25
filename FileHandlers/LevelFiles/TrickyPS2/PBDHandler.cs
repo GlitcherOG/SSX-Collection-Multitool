@@ -5,6 +5,7 @@ using System.Numerics;
 using SSXMultiTool.Utilities;
 using System.Globalization;
 using System.Windows.Documents;
+using System.Windows.Input;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
@@ -316,7 +317,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     splinesSegment.Point2 = StreamUtil.ReadVector4(stream);
                     splinesSegment.ControlPoint = StreamUtil.ReadVector4(stream);
 
-                    splinesSegment.Unknown = StreamUtil.ReadVector4(stream);
+                    splinesSegment.U0 = StreamUtil.ReadUInt32(stream);
+                    splinesSegment.U1 = StreamUtil.ReadUInt32(stream);
+                    splinesSegment.U2 = StreamUtil.ReadUInt32(stream);
+                    splinesSegment.U3 = StreamUtil.ReadUInt32(stream);
 
                     splinesSegment.PreviousSegment = StreamUtil.ReadUInt32(stream);
                     splinesSegment.NextSegment = StreamUtil.ReadUInt32(stream);
@@ -1024,7 +1028,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteVector4(stream, SplineSegment.Point2);
                 StreamUtil.WriteVector4(stream, SplineSegment.ControlPoint);
 
-                StreamUtil.WriteVector4(stream, /*new Vector4(0,0,0,0)*/ SplineSegment.Unknown);
+                StreamUtil.WriteInt32(stream, SplineSegment.U0);
+                StreamUtil.WriteInt32(stream, SplineSegment.U1);
+                StreamUtil.WriteInt32(stream, SplineSegment.U2);
+                StreamUtil.WriteInt32(stream, SplineSegment.U3);
 
                 StreamUtil.WriteInt32(stream, SplineSegment.PreviousSegment);
                 StreamUtil.WriteInt32(stream, SplineSegment.NextSegment);
@@ -2360,7 +2367,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public Vector4 Point3;
         public Vector4 Point2;
         public Vector4 ControlPoint;
-        public Vector4 Unknown; //Not really sure about that
+
+        public int U0;
+        public int U1;
+        public int U2;
+        public int U3;
+
         public int PreviousSegment;
         public int NextSegment;
         public int SplineParent;

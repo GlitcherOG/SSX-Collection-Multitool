@@ -54,7 +54,10 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public float[] Point3;
             public float[] Point2;
             public float[] Point1;
-            public float[] Unknown;
+            public int U0;
+            public int U1;
+            public int U2;
+            public int U3;
         }
     }
 }

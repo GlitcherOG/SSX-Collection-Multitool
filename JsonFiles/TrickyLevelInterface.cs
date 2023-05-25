@@ -61,7 +61,7 @@ namespace SSXMultiTool
         {
             ADLHandler adlHandler = new ADLHandler();
             adlHandler.Load(LoadPath + ".adl");
-            adlHandler.Save(LoadPath + ".adl1");
+            //adlHandler.Save(LoadPath + ".adl1");
 
             SSFHandler ssfHandler = new SSFHandler();
             ssfHandler.Load(LoadPath + ".ssf");
@@ -306,7 +306,10 @@ namespace SSXMultiTool
                     segmentJson.Point2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[2]);
                     segmentJson.Point1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[3]);
 
-                    segmentJson.Unknown = JsonUtil.Vector4ToArray(pbdHandler.splinesSegments[a].Unknown);
+                    segmentJson.U0 = pbdHandler.splinesSegments[a].U0;
+                    segmentJson.U1 = pbdHandler.splinesSegments[a].U1;
+                    segmentJson.U2 = pbdHandler.splinesSegments[a].U2;
+                    segmentJson.U3 = pbdHandler.splinesSegments[a].U3;
 
                     TempSpline.Segments.Add(segmentJson);
                 }
@@ -745,7 +748,7 @@ namespace SSXMultiTool
 
             //Load PBDHandler
             PBDHandler pbdHandler = new PBDHandler();
-            //pbdHandler.LoadPBD(LoadPath + "/Original/level.pbd");
+            //pbdHandler.LoadPBD(ExportPath + ".pbd");
             if (MAPGenerate || PBDGenerate || LTGGenerate)
             {
                 //Rebuild Patches
@@ -867,7 +870,7 @@ namespace SSXMultiTool
                     mapHandler.Patchs.Add(linkerItem);
                 }
 
-                //Rebuild Splines
+                ////Rebuild Splines
                 splineJsonHandler = new SplineJsonHandler();
                 splineJsonHandler = SplineJsonHandler.Load(LoadPath + "/Splines.json");
                 pbdHandler.splines = new List<Spline>();
@@ -903,8 +906,11 @@ namespace SSXMultiTool
                         segments.Point2 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[1], 0);
                         segments.Point3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[2], 0);
                         segments.Point4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[3], 0);
-                        segments.Unknown = JsonUtil.ArrayToVector4(TempSegment.Unknown);
 
+                        segments.U0 = TempSegment.U0;
+                        segments.U1 = TempSegment.U1;
+                        segments.U2 = TempSegment.U2;
+                        segments.U3 = TempSegment.U3;
 
                         if (a == 0)
                         {
@@ -912,7 +918,7 @@ namespace SSXMultiTool
                         }
                         else
                         {
-                            segments.PreviousSegment = a - 1;
+                            segments.PreviousSegment = SegmentPos - 1;
                         }
                         if (a == TempSpline.Segments.Count - 1)
                         {
@@ -920,7 +926,7 @@ namespace SSXMultiTool
                         }
                         else
                         {
-                            segments.NextSegment = a + 1;
+                            segments.NextSegment = SegmentPos + 1;
                         }
                         segments.SplineParent = i;
 
@@ -928,8 +934,8 @@ namespace SSXMultiTool
                         HighestXYZSegment = MathUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[1]);
                         HighestXYZSegment = MathUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[2]);
                         HighestXYZSegment = MathUtil.Highest(HighestXYZSegment, bezierUtil.RawPoints[3]);
-
                         segments.HighestXYZ = HighestXYZSegment;
+
                         HighestXYZSpline = MathUtil.Highest(HighestXYZSpline, HighestXYZSegment);
 
                         Vector3 LowestXYZSegment = bezierUtil.RawPoints[0];
@@ -938,7 +944,7 @@ namespace SSXMultiTool
                         LowestXYZSegment = MathUtil.Lowest(LowestXYZSegment, bezierUtil.RawPoints[3]);
 
                         segments.LowestXYZ = LowestXYZSegment;
-                        LowestXYZSpline = MathUtil.Highest(LowestXYZSpline, LowestXYZSegment);
+                        LowestXYZSpline = MathUtil.Lowest(LowestXYZSpline, LowestXYZSegment);
 
                         segments.SegmentDisatnce = JsonUtil.GenerateDistance(bezierUtil.RawPoints[0], bezierUtil.RawPoints[1], bezierUtil.RawPoints[2], bezierUtil.RawPoints[3]);
                         segments.PreviousSegmentsDistance = PreviousSegmentDiffrence;
@@ -950,7 +956,6 @@ namespace SSXMultiTool
 
                     spline.LowestXYZ = LowestXYZSpline;
                     spline.HighestXYZ = HighestXYZSpline;
-
 
                     LinkerItem linkerItem = new LinkerItem();
                     linkerItem.Name = TempSpline.SplineName;
