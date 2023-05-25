@@ -317,10 +317,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     splinesSegment.Point2 = StreamUtil.ReadVector4(stream);
                     splinesSegment.ControlPoint = StreamUtil.ReadVector4(stream);
 
-                    splinesSegment.U0 = StreamUtil.ReadUInt32(stream);
-                    splinesSegment.U1 = StreamUtil.ReadUInt32(stream);
-                    splinesSegment.U2 = StreamUtil.ReadUInt32(stream);
-                    splinesSegment.U3 = StreamUtil.ReadUInt32(stream);
+                    splinesSegment.U0 = StreamUtil.ReadFloat(stream);
+                    splinesSegment.U1 = StreamUtil.ReadFloat(stream);
+                    splinesSegment.U2 = StreamUtil.ReadFloat(stream);
+                    splinesSegment.U3 = StreamUtil.ReadFloat(stream);
 
                     splinesSegment.PreviousSegment = StreamUtil.ReadUInt32(stream);
                     splinesSegment.NextSegment = StreamUtil.ReadUInt32(stream);
@@ -1028,10 +1028,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteVector4(stream, SplineSegment.Point2);
                 StreamUtil.WriteVector4(stream, SplineSegment.ControlPoint);
 
-                StreamUtil.WriteInt32(stream, SplineSegment.U0);
-                StreamUtil.WriteInt32(stream, SplineSegment.U1);
-                StreamUtil.WriteInt32(stream, SplineSegment.U2);
-                StreamUtil.WriteInt32(stream, SplineSegment.U3);
+                StreamUtil.WriteFloat32(stream, SplineSegment.U0);
+                StreamUtil.WriteFloat32(stream, SplineSegment.U1);
+                StreamUtil.WriteFloat32(stream, SplineSegment.U2);
+                StreamUtil.WriteFloat32(stream, SplineSegment.U3);
 
                 StreamUtil.WriteInt32(stream, SplineSegment.PreviousSegment);
                 StreamUtil.WriteInt32(stream, SplineSegment.NextSegment);
@@ -2368,10 +2368,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public Vector4 Point2;
         public Vector4 ControlPoint;
 
-        public int U0;
-        public int U1;
-        public int U2;
-        public int U3;
+        public float U0;
+        public float U1;
+        public float U2;
+        public float U3;
 
         public int PreviousSegment;
         public int NextSegment;
