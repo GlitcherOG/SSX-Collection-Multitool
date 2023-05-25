@@ -19,10 +19,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         //Put into a seperate list just so its easier to find out wtf is going on
         public List<UStruct1> uStruct1s = new List<UStruct1>();
 
-        //Double check saving has been done correctly, Im not to sure my ustruct1 system be working
-
-
-
         public void Load(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
