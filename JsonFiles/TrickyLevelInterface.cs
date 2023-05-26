@@ -152,6 +152,8 @@ namespace SSXMultiTool
             }
             patchPoints.CreateJson(ExportPath + "/Patches.json", InlineExporting);
 
+            bool[] ADLTest = new bool[adlHandler.HashSounds.Count];
+
             //Create Instance JSON
             instancesJson = new InstanceJsonHandler();
             for (int i = 0; i < pbdHandler.Instances.Count; i++)
@@ -196,6 +198,7 @@ namespace SSXMultiTool
                 {
                     if(i== pbdHandler.hashData.InstanceHash[a].ObjectUID)
                     {
+                        instanceJson.Hash = FindHash;
                         FindHash = pbdHandler.hashData.InstanceHash[a].Hash;
                         break;
                     }
@@ -207,6 +210,8 @@ namespace SSXMultiTool
                     {
                         if (FindHash == adlHandler.HashSounds[a].Hash)
                         {
+                            ADLTest[a] = true;
+
                             instanceJson.IncludeSound = true;
                             var NewSound = new SoundData();
 
@@ -234,6 +239,11 @@ namespace SSXMultiTool
                 instancesJson.Instances.Add(instanceJson);
             }
             instancesJson.CreateJson(ExportPath + "/Instances.json", InlineExporting);
+
+            if(ADLTest.Contains(false))
+            {
+                MessageBox.Show("Report To Archy/Glitcher. Error 26");
+            }
 
             //Create Particle Instances JSON
             particleInstanceJson = new ParticleInstanceJsonHandler();
@@ -551,13 +561,6 @@ namespace SSXMultiTool
 
             //Create Hash Json
             hashJsonHandler = new HashJsonHandler();
-            for (int i = 0; i < pbdHandler.hashData.InstanceHash.Count; i++)
-            {
-                var NewHash = new HashJsonHandler.HashDataUnknown();
-                NewHash.Hash = pbdHandler.hashData.InstanceHash[i].Hash;
-                NewHash.ObjectUID = pbdHandler.hashData.InstanceHash[i].ObjectUID;
-                hashJsonHandler.InstanceHash.Add(NewHash);
-            }
 
             for (int i = 0; i < pbdHandler.hashData.LightsHash.Count; i++)
             {
@@ -1013,6 +1016,7 @@ namespace SSXMultiTool
                 instancesJson = InstanceJsonHandler.Load(LoadPath + "/Instances.json");
                 pbdHandler.Instances = new List<Instance>();
                 mapHandler.InternalInstances = new List<LinkerItem>();
+                pbdHandler.hashData.InstanceHash = new List<HashDataUnknown>();
                 for (int i = 0; i < instancesJson.Instances.Count; i++)
                 {
                     var Oldinstance = instancesJson.Instances[i];
@@ -1049,6 +1053,11 @@ namespace SSXMultiTool
                     NewInstance.LTGState = Oldinstance.LTGState;
                     pbdHandler.Instances.Add(NewInstance);
 
+                    var TempUnknownHash = new HashDataUnknown();
+                    TempUnknownHash.Hash = Oldinstance.Hash;
+                    TempUnknownHash.ObjectUID = i;
+                    pbdHandler.hashData.InstanceHash.Add(TempUnknownHash);
+
                     LinkerItem linkerItem = new LinkerItem();
                     linkerItem.Ref = 1;
                     linkerItem.UID = i;
@@ -1056,6 +1065,7 @@ namespace SSXMultiTool
                     linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
                     mapHandler.InternalInstances.Add(linkerItem);
                 }
+                pbdHandler.hashData.InstanceHash.Sort((s1, s2) => s1.Hash.CompareTo(s2.Hash));
 
                 //Rebuild PraticleInstances
                 particleInstanceJson = new ParticleInstanceJsonHandler();
@@ -1465,16 +1475,6 @@ namespace SSXMultiTool
                 //Rebuild HashData
                 hashJsonHandler = new HashJsonHandler();
                 hashJsonHandler = HashJsonHandler.Load(LoadPath + "/HashData.json");
-
-                pbdHandler.hashData = new HashData();
-                pbdHandler.hashData.InstanceHash = new List<HashDataUnknown>();
-                for (int i = 0; i < hashJsonHandler.InstanceHash.Count; i++)
-                {
-                    var NewHash = new HashDataUnknown();
-                    NewHash.Hash = hashJsonHandler.InstanceHash[i].Hash;
-                    NewHash.ObjectUID = hashJsonHandler.InstanceHash[i].ObjectUID;
-                    pbdHandler.hashData.InstanceHash.Add(NewHash);
-                }
 
                 pbdHandler.hashData.LightsHash = new List<HashDataUnknown>();
                 for (int i = 0; i < hashJsonHandler.LightsHash.Count; i++)

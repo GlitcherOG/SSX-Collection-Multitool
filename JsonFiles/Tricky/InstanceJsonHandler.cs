@@ -74,6 +74,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int LTGState;
             public int SSFState;
 
+            public int Hash;
             public bool IncludeSound;
             public SoundData? Sounds;
         }
