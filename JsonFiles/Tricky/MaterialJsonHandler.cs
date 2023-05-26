@@ -68,7 +68,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int UnknownInt17;
             public int UnknownInt18;
 
-            public int TextureFlipbookID;
+            public List<string> TextureFlipbook;
             public int UnknownInt20;
         }
     }

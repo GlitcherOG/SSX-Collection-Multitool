@@ -91,7 +91,6 @@ namespace SSXMultiTool
             MaterialLabel.Text = trickyLevelInterface.materialJson.Materials.Count.ToString();
             SplinesLabel.Text = trickyLevelInterface.splineJsonHandler.Splines.Count.ToString();
             LightLabel.Text = trickyLevelInterface.lightJsonHandler.Lights.Count.ToString();
-            TextureFlipLabel.Text = trickyLevelInterface.textureFlipbookJsonHandler.Flipbooks.Count.ToString();
             ModelsLabel.Text = trickyLevelInterface.prefabJsonHandler.Prefabs.Count.ToString();
             ParticleModelLabels.Text = trickyLevelInterface.particleModelJsonHandler.ParticleModels.Count.ToString();
 

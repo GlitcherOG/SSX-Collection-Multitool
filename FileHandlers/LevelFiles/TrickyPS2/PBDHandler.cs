@@ -2187,6 +2187,33 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
         }
 
+        public int GetFlipbookID(TextureFlipbook textureFlipbook)
+        {
+            bool Test = false;
+            for (int i = 0; i < textureFlipbooks.Count; i++)
+            {
+                for (int a = 0; a < textureFlipbooks[i].ImagePositions.Count; a++)
+                {
+                    if (textureFlipbooks[i].ImagePositions[a] == textureFlipbook.ImagePositions[a])
+                    {
+                        Test = true;
+                    }
+                    else
+                    {
+                        Test = false;
+                        break;
+                    }
+                }
+                if(Test)
+                {
+                    return i;
+                }
+            }
+
+            textureFlipbooks.Add(textureFlipbook);
+            return textureFlipbooks.Count - 1;
+        }
+
     }
 
 

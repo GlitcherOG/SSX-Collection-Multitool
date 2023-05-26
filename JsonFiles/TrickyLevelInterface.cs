@@ -44,7 +44,6 @@ namespace SSXMultiTool
         public MaterialJsonHandler materialJson = new MaterialJsonHandler();
         public LightJsonHandler lightJsonHandler = new LightJsonHandler();
         public SplineJsonHandler splineJsonHandler = new SplineJsonHandler();
-        public TextureFlipbookJsonHandler textureFlipbookJsonHandler = new TextureFlipbookJsonHandler();
         public PrefabJsonHandler prefabJsonHandler = new PrefabJsonHandler();
         public ParticleModelJsonHandler particleModelJsonHandler = new ParticleModelJsonHandler();
         public CameraJSONHandler cameraJSONHandler  = new CameraJSONHandler();
@@ -301,7 +300,15 @@ namespace SSXMultiTool
                 TempMaterial.UnknownInt16 = pbdHandler.materials[i].UnknownInt16;
                 TempMaterial.UnknownInt17 = pbdHandler.materials[i].UnknownInt17;
                 TempMaterial.UnknownInt18 = pbdHandler.materials[i].UnknownInt18;
-                TempMaterial.TextureFlipbookID = pbdHandler.materials[i].TextureFlipbookID;
+
+                TempMaterial.TextureFlipbook = new List<string>();
+                if (pbdHandler.materials[i].TextureFlipbookID != -1)
+                {
+                    for (int a = 0; a < pbdHandler.textureFlipbooks[pbdHandler.materials[i].TextureFlipbookID].ImagePositions.Count; a++)
+                    {
+                        TempMaterial.TextureFlipbook.Add(TextureHandler.sshImages[pbdHandler.textureFlipbooks[pbdHandler.materials[i].TextureFlipbookID].ImagePositions[a]].shortname + ".png");
+                    }
+                }
                 TempMaterial.UnknownInt20 = pbdHandler.materials[i].UnknownInt20;
                 materialJson.Materials.Add(TempMaterial);
             }
@@ -381,20 +388,6 @@ namespace SSXMultiTool
                 splineJsonHandler.Splines.Add(TempSpline);
             }
             splineJsonHandler.CreateJson(ExportPath + "/Splines.json", InlineExporting);
-
-            //Create Texture FLipbook Json
-            textureFlipbookJsonHandler = new TextureFlipbookJsonHandler();
-            for (int i = 0; i < pbdHandler.textureFlipbooks.Count; i++)
-            {
-                TextureFlipbookJsonHandler.FlipbookJson TempFlipbook = new TextureFlipbookJsonHandler.FlipbookJson();
-                TempFlipbook.TexturePaths = new List<string>();
-                for (int a = 0; a < pbdHandler.textureFlipbooks[i].ImagePositions.Count; a++)
-                {
-                    TempFlipbook.TexturePaths.Add(TextureHandler.sshImages[pbdHandler.textureFlipbooks[i].ImagePositions[a]].shortname + ".png");
-                }
-                textureFlipbookJsonHandler.Flipbooks.Add(TempFlipbook);
-            }
-            textureFlipbookJsonHandler.CreateJson(ExportPath + "/TextureFlipbook.json", InlineExporting);
 
             //Create Model Json
             prefabJsonHandler = new PrefabJsonHandler();
@@ -640,7 +633,7 @@ namespace SSXMultiTool
                     TempMaterial.UnknownInt16 = skypbdHandler.materials[i].UnknownInt16;
                     TempMaterial.UnknownInt17 = skypbdHandler.materials[i].UnknownInt17;
                     TempMaterial.UnknownInt18 = skypbdHandler.materials[i].UnknownInt18;
-                    TempMaterial.TextureFlipbookID = skypbdHandler.materials[i].TextureFlipbookID;
+                    //TempMaterial.TextureFlipbookID = skypbdHandler.materials[i].TextureFlipbookID;
                     TempMaterial.UnknownInt20 = skypbdHandler.materials[i].UnknownInt20;
                     SkyMaterialJson.Materials.Add(TempMaterial);
                 }
@@ -1283,20 +1276,11 @@ namespace SSXMultiTool
                 materialJson = new MaterialJsonHandler();
                 materialJson = MaterialJsonHandler.Load(LoadPath + "/Materials.json");
                 pbdHandler.materials = new List<TrickyMaterial>();
+                pbdHandler.textureFlipbooks = new List<TextureFlipbook>();
                 mapHandler.Materials = new List<LinkerItem>();
                 for (int i = 0; i < materialJson.Materials.Count; i++)
                 {
                     var NewMaterial = new TrickyMaterial();
-
-                    //NewMaterial.TextureID = materialJson.Materials[i].TextureID;
-                    //if (AttemptLightingFix && NewMaterial.TextureID != -1)
-                    //{
-                    //    if (lightingFixObjects.Count - 1 >= NewMaterial.TextureID)
-                    //    {
-                    //        lightingFixObjects[NewMaterial.TextureID].Object.Add(i);
-                    //    }
-                    //}
-
 
                     if (materialJson.Materials[i].TexturePath != "" && materialJson.Materials[i].TexturePath != null)
                     {
@@ -1334,7 +1318,32 @@ namespace SSXMultiTool
                     NewMaterial.UnknownInt16 = materialJson.Materials[i].UnknownInt16;
                     NewMaterial.UnknownInt17 = materialJson.Materials[i].UnknownInt17;
                     NewMaterial.UnknownInt18 = materialJson.Materials[i].UnknownInt18;
-                    NewMaterial.TextureFlipbookID = materialJson.Materials[i].TextureFlipbookID;
+
+                    if (materialJson.Materials[i].TextureFlipbook.Count != 0)
+                    {
+                        TextureFlipbook textureFlipbook = new TextureFlipbook();
+                        textureFlipbook.ImagePositions = new List<int>();
+
+                        for (int a = 0; a < materialJson.Materials[i].TextureFlipbook.Count; a++)
+                        {
+                            if (ImageFiles.Contains(materialJson.Materials[i].TextureFlipbook[a]))
+                            {
+                                textureFlipbook.ImagePositions.Add(ImageFiles.IndexOf(materialJson.Materials[i].TextureFlipbook[a]));
+                            }
+                            else
+                            {
+                                ImageFiles.Add(materialJson.Materials[i].TextureFlipbook[a]);
+                                textureFlipbook.ImagePositions.Add(ImageFiles.Count - 1);
+                            }
+                        }
+
+                        NewMaterial.TextureFlipbookID = pbdHandler.GetFlipbookID(textureFlipbook);
+                    }
+                    else
+                    {
+                        NewMaterial.TextureFlipbookID = -1;
+                    }
+
                     NewMaterial.UnknownInt20 = materialJson.Materials[i].UnknownInt20;
 
                     pbdHandler.materials.Add(NewMaterial);
@@ -1345,31 +1354,6 @@ namespace SSXMultiTool
                     linkerItem.UID = i;
                     linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
                     mapHandler.Materials.Add(linkerItem);
-                }
-
-                //Rebuild TextureFlipbook
-                textureFlipbookJsonHandler = new TextureFlipbookJsonHandler();
-                textureFlipbookJsonHandler = TextureFlipbookJsonHandler.Load(LoadPath + "/TextureFlipbook.json");
-                pbdHandler.textureFlipbooks = new List<TextureFlipbook>();
-                for (int i = 0; i < textureFlipbookJsonHandler.Flipbooks.Count; i++)
-                {
-                    TextureFlipbook textureFlipbook = new TextureFlipbook();
-                    textureFlipbook.ImagePositions = new List<int>();
-
-                    for (int a = 0; a < textureFlipbookJsonHandler.Flipbooks[i].TexturePaths.Count; a++)
-                    {
-                        if (ImageFiles.Contains(textureFlipbookJsonHandler.Flipbooks[i].TexturePaths[a]))
-                        {
-                            textureFlipbook.ImagePositions.Add(ImageFiles.IndexOf(textureFlipbookJsonHandler.Flipbooks[i].TexturePaths[a]));
-                        }
-                        else
-                        {
-                            ImageFiles.Add(textureFlipbookJsonHandler.Flipbooks[i].TexturePaths[a]);
-                            textureFlipbook.ImagePositions.Add(ImageFiles.Count - 1);
-                        }
-                    }
-
-                    pbdHandler.textureFlipbooks.Add(textureFlipbook);
                 }
 
                 //Rebuild Lights
@@ -1612,7 +1596,7 @@ namespace SSXMultiTool
                     NewMaterial.UnknownInt16 = SkyMaterialJson.Materials[i].UnknownInt16;
                     NewMaterial.UnknownInt17 = SkyMaterialJson.Materials[i].UnknownInt17;
                     NewMaterial.UnknownInt18 = SkyMaterialJson.Materials[i].UnknownInt18;
-                    NewMaterial.TextureFlipbookID = SkyMaterialJson.Materials[i].TextureFlipbookID;
+                    //NewMaterial.TextureFlipbookID = SkyMaterialJson.Materials[i].TextureFlipbookID;
                     NewMaterial.UnknownInt20 = SkyMaterialJson.Materials[i].UnknownInt20;
 
                     skyboxpbdHander.materials.Add(NewMaterial);
@@ -1835,9 +1819,6 @@ namespace SSXMultiTool
 
             //Create Spline Json
             splineJsonHandler = SplineJsonHandler.Load(LoadPath + "/Splines.json");
-
-            //Create Texture FLipbook Json
-            textureFlipbookJsonHandler = TextureFlipbookJsonHandler.Load(LoadPath + "/TextureFlipbook.json");
 
             //Create Model Json
             prefabJsonHandler = PrefabJsonHandler.Load(LoadPath + "/Prefabs.json");

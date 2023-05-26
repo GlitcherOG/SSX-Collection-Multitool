@@ -51,8 +51,6 @@
             label22 = new Label();
             LightLabel = new Label();
             label24 = new Label();
-            TextureFlipLabel = new Label();
-            label26 = new Label();
             label27 = new Label();
             LevelNameTextbox = new TextBox();
             AuthorTextbox = new TextBox();
@@ -242,7 +240,7 @@
             // ModelsLabel
             // 
             ModelsLabel.AutoSize = true;
-            ModelsLabel.Location = new Point(483, 34);
+            ModelsLabel.Location = new Point(472, 34);
             ModelsLabel.Name = "ModelsLabel";
             ModelsLabel.Size = new Size(13, 15);
             ModelsLabel.TabIndex = 18;
@@ -251,7 +249,7 @@
             // label18
             // 
             label18.AutoSize = true;
-            label18.Location = new Point(483, 19);
+            label18.Location = new Point(472, 19);
             label18.Name = "label18";
             label18.Size = new Size(46, 15);
             label18.TabIndex = 17;
@@ -260,7 +258,7 @@
             // ParticleModelLabels
             // 
             ParticleModelLabels.AutoSize = true;
-            ParticleModelLabels.Location = new Point(11, 64);
+            ParticleModelLabels.Location = new Point(378, 34);
             ParticleModelLabels.Name = "ParticleModelLabels";
             ParticleModelLabels.Size = new Size(13, 15);
             ParticleModelLabels.TabIndex = 20;
@@ -269,7 +267,7 @@
             // label20
             // 
             label20.AutoSize = true;
-            label20.Location = new Point(11, 49);
+            label20.Location = new Point(378, 19);
             label20.Name = "label20";
             label20.Size = new Size(88, 15);
             label20.TabIndex = 19;
@@ -310,24 +308,6 @@
             label24.Size = new Size(39, 15);
             label24.TabIndex = 23;
             label24.Text = "Lights";
-            // 
-            // TextureFlipLabel
-            // 
-            TextureFlipLabel.AutoSize = true;
-            TextureFlipLabel.Location = new Point(383, 34);
-            TextureFlipLabel.Name = "TextureFlipLabel";
-            TextureFlipLabel.Size = new Size(13, 15);
-            TextureFlipLabel.TabIndex = 26;
-            TextureFlipLabel.Text = "0";
-            // 
-            // label26
-            // 
-            label26.AutoSize = true;
-            label26.Location = new Point(383, 19);
-            label26.Name = "label26";
-            label26.Size = new Size(94, 15);
-            label26.TabIndex = 25;
-            label26.Text = "Texture Flipbook";
             // 
             // label27
             // 
@@ -523,8 +503,6 @@
             groupBox2.Controls.Add(SplinesLabel);
             groupBox2.Controls.Add(label24);
             groupBox2.Controls.Add(LightLabel);
-            groupBox2.Controls.Add(label26);
-            groupBox2.Controls.Add(TextureFlipLabel);
             groupBox2.Location = new Point(219, 144);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(569, 101);
@@ -843,8 +821,6 @@
         private Label label22;
         private Label LightLabel;
         private Label label24;
-        private Label TextureFlipLabel;
-        private Label label26;
         private Label label27;
         private TextBox LevelNameTextbox;
         private TextBox AuthorTextbox;
