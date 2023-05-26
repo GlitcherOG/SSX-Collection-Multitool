@@ -612,7 +612,6 @@ namespace SSXMultiTool
                 OldSSHHandler SkyboxHandler = new OldSSHHandler();
                 SkyboxHandler.LoadSSH(LoadPath + "_sky.ssh");
 
-
                 //Load PBD Sky
                 PBDHandler skypbdHandler = new PBDHandler();
                 skypbdHandler.LoadPBD(LoadPath + "_sky.pbd");
@@ -1097,6 +1096,7 @@ namespace SSXMultiTool
                     linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
                     mapHandler.InternalInstances.Add(linkerItem);
                 }
+                pbdHandler.hashData.InstanceHash.Sort((s1, s2) => s1.Hash.CompareTo(s2.Hash));
 
                 if (ADLGenerate && adlHandler.HashSounds.Count !=0)
                 {
