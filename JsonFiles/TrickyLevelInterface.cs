@@ -189,9 +189,44 @@ namespace SSXMultiTool
                 instanceJson.LTGState = ltgHandler.FindIfInstaneState(i);
                 instanceJson.SSFState = ssfHandler.InstanceState[i];
 
-                //Go Through Hash and find one with matching object UID
-                //Once found save hash and then search through adl for matching hash
-                //Once if hash is found save audio data
+                int FindHash = -1;
+                for (int a = 0; a < pbdHandler.hashData.InstanceHash.Count; a++)
+                {
+                    if(i== pbdHandler.hashData.InstanceHash[a].ObjectUID)
+                    {
+                        FindHash = pbdHandler.hashData.InstanceHash[a].Hash;
+                        break;
+                    }
+                }
+
+                if (FindHash != -1)
+                {
+                    for (int a = 0; a < adlHandler.HashSounds.Count; a++)
+                    {
+                        if (FindHash == adlHandler.HashSounds[a].Hash)
+                        {
+                            instanceJson.IncludeSound = true;
+                            var NewSound = new SoundData();
+
+                            NewSound.CollisonSound = adlHandler.HashSounds[a].Sound.CollisonSound;
+                            NewSound.ExternalSounds = new List<ExternalSound>();
+
+                            for (int b = 0; b < adlHandler.HashSounds[a].Sound.ExternalSounds.Count; b++)
+                            {
+                                var NewExternalSound = new ExternalSound();
+                                NewExternalSound.U0 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U0;
+                                NewExternalSound.SoundIndex = adlHandler.HashSounds[a].Sound.ExternalSounds[b].SoundIndex;
+                                NewExternalSound.U2 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U2;
+                                NewExternalSound.U3 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U3;
+                                NewExternalSound.U4 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U4;
+                                NewExternalSound.U5 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U5;
+                                NewSound.ExternalSounds.Add(NewExternalSound);
+                            }
+                            instanceJson.Sounds = NewSound;
+                            break;
+                        }
+                    }
+                }
 
 
                 instancesJson.Instances.Add(instanceJson);
