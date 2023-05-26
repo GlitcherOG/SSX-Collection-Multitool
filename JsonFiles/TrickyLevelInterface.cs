@@ -48,7 +48,6 @@ namespace SSXMultiTool
         public PrefabJsonHandler prefabJsonHandler = new PrefabJsonHandler();
         public ParticleModelJsonHandler particleModelJsonHandler = new ParticleModelJsonHandler();
         public CameraJSONHandler cameraJSONHandler  = new CameraJSONHandler();
-        public HashJsonHandler hashJsonHandler = new HashJsonHandler();
 
         //Skybox JSON
 
@@ -329,6 +328,18 @@ namespace SSXMultiTool
                 TempLight.UnknownFloat3 = pbdHandler.lights[i].UnknownFloat3;
                 TempLight.UnknownInt3 = pbdHandler.lights[i].UnknownInt3;
 
+                int FindHash = -1;
+                for (int a = 0; a < pbdHandler.hashData.LightsHash.Count; a++)
+                {
+                    if (i == pbdHandler.hashData.LightsHash[a].ObjectUID)
+                    {
+                        FindHash = pbdHandler.hashData.LightsHash[a].Hash;
+                        TempLight.Hash = FindHash;
+                        break;
+                    }
+                }
+
+
                 lightJsonHandler.Lights.Add(TempLight);
 
             }
@@ -556,29 +567,22 @@ namespace SSXMultiTool
 
                     NewCamera.AnimationHeaders.Add(NewAnimationHeader);
                 }
+
+                int FindHash = -1;
+                for (int a = 0; a < pbdHandler.hashData.CameraHash.Count; a++)
+                {
+                    if (i == pbdHandler.hashData.CameraHash[a].ObjectUID)
+                    {
+                        FindHash = pbdHandler.hashData.CameraHash[a].Hash;
+                        NewCamera.Hash = FindHash;
+                        break;
+                    }
+                }
+
+
                 cameraJSONHandler.Cameras.Add(NewCamera);
             }
             cameraJSONHandler.CreateJson(ExportPath + "/Cameras.json", InlineExporting);
-
-            //Create Hash Json
-            hashJsonHandler = new HashJsonHandler();
-
-            for (int i = 0; i < pbdHandler.hashData.LightsHash.Count; i++)
-            {
-                var NewHash = new HashJsonHandler.HashDataUnknown();
-                NewHash.Hash = pbdHandler.hashData.LightsHash[i].Hash;
-                NewHash.ObjectUID = pbdHandler.hashData.LightsHash[i].ObjectUID;
-                hashJsonHandler.LightsHash.Add(NewHash);
-            }
-
-            for (int i = 0; i < pbdHandler.hashData.CameraHash.Count; i++)
-            {
-                var NewHash = new HashJsonHandler.HashDataUnknown();
-                NewHash.Hash = pbdHandler.hashData.CameraHash[i].Hash;
-                NewHash.ObjectUID = pbdHandler.hashData.CameraHash[i].ObjectUID;
-                hashJsonHandler.CameraHash.Add(NewHash);
-            }
-            hashJsonHandler.CreateJson(ExportPath + "/HashData.json", InlineExporting);
 
 
             #endregion
@@ -1093,8 +1097,8 @@ namespace SSXMultiTool
                     linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
                     mapHandler.InternalInstances.Add(linkerItem);
                 }
-                pbdHandler.hashData.InstanceHash.Sort((s1, s2) => s1.Hash.CompareTo(s2.Hash));
-                if(ADLGenerate && adlHandler.HashSounds.Count !=0)
+
+                if (ADLGenerate && adlHandler.HashSounds.Count !=0)
                 {
                     adlHandler.HashSounds.Sort((s1, s2) => s1.Hash.CompareTo(s2.Hash));
 
@@ -1373,6 +1377,7 @@ namespace SSXMultiTool
                 lightJsonHandler = LightJsonHandler.Load(LoadPath + "/Lights.json");
                 pbdHandler.lights = new List<Light>();
                 mapHandler.Lights = new List<LinkerItem>();
+                pbdHandler.hashData.LightsHash = new List<HashDataUnknown>();
                 for (int i = 0; i < lightJsonHandler.Lights.Count; i++)
                 {
                     Light TempLight = new Light();
@@ -1392,6 +1397,11 @@ namespace SSXMultiTool
 
                     pbdHandler.lights.Add(TempLight);
 
+                    var TempUnknownHash = new HashDataUnknown();
+                    TempUnknownHash.Hash = lightJsonHandler.Lights[i].Hash;
+                    TempUnknownHash.ObjectUID = i;
+                    pbdHandler.hashData.LightsHash.Add(TempUnknownHash);
+
                     LinkerItem linkerItem = new LinkerItem();
                     linkerItem.Ref = 1;
                     linkerItem.UID = i;
@@ -1400,6 +1410,7 @@ namespace SSXMultiTool
                     mapHandler.Lights.Add(linkerItem);
 
                 }
+                pbdHandler.hashData.LightsHash.Sort((s1, s2) => s1.Hash.CompareTo(s2.Hash));
 
                 //Rebuild Particle Model
                 particleModelJsonHandler = new ParticleModelJsonHandler();
@@ -1452,7 +1463,7 @@ namespace SSXMultiTool
                 cameraJSONHandler = new CameraJSONHandler();
                 cameraJSONHandler = CameraJSONHandler.Load(LoadPath + "/Cameras.json");
                 pbdHandler.Cameras = new List<CameraInstance>();
-
+                pbdHandler.hashData.CameraHash = new List<HashDataUnknown>();
                 mapHandler.Cameras = new List<LinkerItem>();
                 for (int i = 0; i < cameraJSONHandler.Cameras.Count; i++)
                 {
@@ -1503,30 +1514,16 @@ namespace SSXMultiTool
                     linkerItem.UID = i;
                     linkerItem.Name = cameraJSONHandler.Cameras[i].CameraName;
                     linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
+
+                    var TempUnknownHash = new HashDataUnknown();
+                    TempUnknownHash.Hash = TempCamera.Hash;
+                    TempUnknownHash.ObjectUID = i;
+                    pbdHandler.hashData.CameraHash.Add(TempUnknownHash);
+
+
                     mapHandler.Cameras.Add(linkerItem);
                 }
-
-                //Rebuild HashData
-                hashJsonHandler = new HashJsonHandler();
-                hashJsonHandler = HashJsonHandler.Load(LoadPath + "/HashData.json");
-
-                pbdHandler.hashData.LightsHash = new List<HashDataUnknown>();
-                for (int i = 0; i < hashJsonHandler.LightsHash.Count; i++)
-                {
-                    var NewHash = new HashDataUnknown();
-                    NewHash.Hash = hashJsonHandler.LightsHash[i].Hash;
-                    NewHash.ObjectUID = hashJsonHandler.LightsHash[i].ObjectUID;
-                    pbdHandler.hashData.LightsHash.Add(NewHash);
-                }
-
-                pbdHandler.hashData.CameraHash = new List<HashDataUnknown>();
-                for (int i = 0; i < hashJsonHandler.CameraHash.Count; i++)
-                {
-                    var NewHash = new HashDataUnknown();
-                    NewHash.Hash = hashJsonHandler.CameraHash[i].Hash;
-                    NewHash.ObjectUID = hashJsonHandler.CameraHash[i].ObjectUID;
-                    pbdHandler.hashData.CameraHash.Add(NewHash);
-                }
+                pbdHandler.hashData.CameraHash.Sort((s1, s2) => s1.Hash.CompareTo(s2.Hash));
             }
             #endregion
 
