@@ -14,10 +14,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public byte[] Magic;
         public float U0; //Anything Other than 1 breaks sound
         public int UCount;
-        public List<UStruct0> UStruct = new List<UStruct0>();
+        public List<HashSound> HashSounds = new List<HashSound>();
 
         //Put into a seperate list just so its easier to find out wtf is going on
-        public List<UStruct1> uStruct1s = new List<UStruct1>();
+        public List<SoundData> ExternalSoundsList = new List<SoundData>();
 
         public void Load(string path)
         {
@@ -27,38 +27,38 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 U0 = StreamUtil.ReadFloat(stream);
                 UCount = StreamUtil.ReadUInt32(stream);
 
-                UStruct = new List<UStruct0>();
+                HashSounds = new List<HashSound>();
 
                 for (int i = 0; i < UCount; i++)
                 {
-                    var NewUStruct = new UStruct0();
+                    var NewUStruct = new HashSound();
 
                     NewUStruct.Hash = StreamUtil.ReadUInt32(stream);
-                    NewUStruct.UOffset = StreamUtil.ReadUInt32(stream);
+                    NewUStruct.SoundDataOffset = StreamUtil.ReadUInt32(stream);
 
-                    NewUStruct.uStruct1 = new UStruct1();
+                    NewUStruct.Sound = new SoundData();
                     int TempPos = (int)stream.Position;
-                    stream.Position = NewUStruct.UOffset;
+                    stream.Position = NewUStruct.SoundDataOffset;
 
                     //UStruct0
-                    NewUStruct.uStruct1.U0 = StreamUtil.ReadUInt32(stream);
-                    NewUStruct.uStruct1.UCount = StreamUtil.ReadUInt32(stream);
-                    NewUStruct.uStruct1.U2 = new List<UStruct2>();
+                    NewUStruct.Sound.CollisonSound = StreamUtil.ReadUInt32(stream);
+                    NewUStruct.Sound.ExternalSoundsCount = StreamUtil.ReadUInt32(stream);
+                    NewUStruct.Sound.ExternalSounds = new List<ExternalSound>();
 
-                    for (int a = 0; a < NewUStruct.uStruct1.UCount; a++)
+                    for (int a = 0; a < NewUStruct.Sound.ExternalSoundsCount; a++)
                     {
-                        var NewUStruct2 = new UStruct2();
+                        var NewUStruct2 = new ExternalSound();
                         NewUStruct2.U0 = StreamUtil.ReadUInt32(stream);
-                        NewUStruct2.U1 = StreamUtil.ReadUInt32(stream);
+                        NewUStruct2.SoundIndex = StreamUtil.ReadUInt32(stream);
                         NewUStruct2.U2 = StreamUtil.ReadFloat(stream);
                         NewUStruct2.U3 = StreamUtil.ReadFloat(stream);
                         NewUStruct2.U4 = StreamUtil.ReadFloat(stream);
                         NewUStruct2.U5 = StreamUtil.ReadFloat(stream);
                         NewUStruct2.U6 = StreamUtil.ReadFloat(stream);
-                        NewUStruct.uStruct1.U2.Add(NewUStruct2);
+                        NewUStruct.Sound.ExternalSounds.Add(NewUStruct2);
                     }
                     stream.Position = TempPos;
-                    UStruct.Add(NewUStruct);
+                    HashSounds.Add(NewUStruct);
                 }
 
             }
@@ -67,35 +67,35 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public void Save(string path)
         {
             //Generate UStruct1 List
-            uStruct1s = new List<UStruct1>();
-            for (int i = 0; i < UStruct.Count; i++)
+            ExternalSoundsList = new List<SoundData>();
+            for (int i = 0; i < HashSounds.Count; i++)
             {
-                var TempUStruct = UStruct[i];
+                var TempUStruct = HashSounds[i];
                 bool Exists = false;
 
-                for (int a = 0; a < uStruct1s.Count; a++)
+                for (int a = 0; a < ExternalSoundsList.Count; a++)
                 {
-                    var first = uStruct1s[a];
-                    var second = TempUStruct.uStruct1;
+                    var first = ExternalSoundsList[a];
+                    var second = TempUStruct.Sound;
 
-                    if (first.U0 == second.U0 && first.U2.Count == second.U2.Count)
+                    if (first.CollisonSound == second.CollisonSound && first.ExternalSounds.Count == second.ExternalSounds.Count)
                     {
-                        if(first.U2.Count==0)
+                        if(first.ExternalSounds.Count==0)
                         {
                             Exists = true;
-                            TempUStruct.UStruct1Index = a;
+                            TempUStruct.ExternalSoundIndex = a;
                             break;
                         }
                         bool TestFail = false;
-                        for (int b = 0; b < first.U2.Count; b++)
+                        for (int b = 0; b < first.ExternalSounds.Count; b++)
                         {
-                            if (first.U2[b].U0 != second.U2[b].U0
-                                || first.U2[b].U1 != second.U2[b].U1
-                                || first.U2[b].U2 != second.U2[b].U2
-                                || first.U2[b].U3 != second.U2[b].U3
-                                || first.U2[b].U4 != second.U2[b].U4
-                                || first.U2[b].U5 != second.U2[b].U5
-                                || first.U2[b].U6 != second.U2[b].U6)
+                            if (first.ExternalSounds[b].U0 != second.ExternalSounds[b].U0
+                                || first.ExternalSounds[b].SoundIndex != second.ExternalSounds[b].SoundIndex
+                                || first.ExternalSounds[b].U2 != second.ExternalSounds[b].U2
+                                || first.ExternalSounds[b].U3 != second.ExternalSounds[b].U3
+                                || first.ExternalSounds[b].U4 != second.ExternalSounds[b].U4
+                                || first.ExternalSounds[b].U5 != second.ExternalSounds[b].U5
+                                || first.ExternalSounds[b].U6 != second.ExternalSounds[b].U6)
                             {
                                 TestFail = true;
                                 break;
@@ -104,7 +104,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         if (!TestFail)
                         {
                             Exists = true;
-                            TempUStruct.UStruct1Index = a;
+                            TempUStruct.ExternalSoundIndex = a;
                         }
                         else
                         {
@@ -116,11 +116,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 if(!Exists)
                 {
-                    uStruct1s.Add(TempUStruct.uStruct1);
-                    TempUStruct.UStruct1Index = uStruct1s.Count - 1;
+                    ExternalSoundsList.Add(TempUStruct.Sound);
+                    TempUStruct.ExternalSoundIndex = ExternalSoundsList.Count - 1;
                 }
 
-                UStruct[i] = TempUStruct;
+                HashSounds[i] = TempUStruct;
             }
 
 
@@ -129,41 +129,42 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             //Write Header
             StreamUtil.WriteBytes(stream, Magic);
             StreamUtil.WriteFloat32(stream, U0);
-            StreamUtil.WriteInt32(stream, UStruct.Count);
+            StreamUtil.WriteInt32(stream, HashSounds.Count);
 
             //Skip UStruct 0 and write UStruct 1 Data Making sure to have offset in u1
-            stream.Position += UStruct.Count * 4 * 2;
+            stream.Position += HashSounds.Count * 4 * 2;
 
-            for (int i = 0; i < uStruct1s.Count; i++)
+            for (int i = 0; i < ExternalSoundsList.Count; i++)
             {
-                var TempUstruct1 = uStruct1s[i];
+                var TempUstruct1 = ExternalSoundsList[i];
                 TempUstruct1.Offset = (int)stream.Position;
 
-                StreamUtil.WriteInt32(stream, TempUstruct1.U0);
-                StreamUtil.WriteInt32(stream, TempUstruct1.U2.Count);
+                StreamUtil.WriteInt32(stream, TempUstruct1.CollisonSound);
+                StreamUtil.WriteInt32(stream, TempUstruct1.ExternalSounds.Count);
 
-                for (int a = 0; a < TempUstruct1.U2.Count; a++)
+                for (int a = 0; a < TempUstruct1.ExternalSounds.Count; a++)
                 {
-                    StreamUtil.WriteInt32(stream, TempUstruct1.U2[a].U0);
-                    StreamUtil.WriteInt32(stream, TempUstruct1.U2[a].U1);
-                    StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U2);
-                    StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U3);
-                    StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U4);
-                    StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U5); //Radius?
-                    StreamUtil.WriteFloat32(stream, TempUstruct1.U2[a].U6);
+                    //7
+                    StreamUtil.WriteInt32(stream, TempUstruct1.ExternalSounds[a].U0);
+                    StreamUtil.WriteInt32(stream, TempUstruct1.ExternalSounds[a].SoundIndex);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.ExternalSounds[a].U2);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.ExternalSounds[a].U3);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.ExternalSounds[a].U4);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.ExternalSounds[a].U5); //Radius?
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.ExternalSounds[a].U6);
                 }
 
-                uStruct1s[i] = TempUstruct1;
+                ExternalSoundsList[i] = TempUstruct1;
             }
 
             StreamUtil.WriteUInt8(stream, 0xff);
 
             //Go back and write 0
             stream.Position = 4 * 3;
-            for (int i = 0; i < UStruct.Count; i++)
+            for (int i = 0; i < HashSounds.Count; i++)
             {
-                StreamUtil.WriteInt32(stream, UStruct[i].Hash);
-                StreamUtil.WriteInt32(stream, uStruct1s[UStruct[i].UStruct1Index].Offset);
+                StreamUtil.WriteInt32(stream, HashSounds[i].Hash);
+                StreamUtil.WriteInt32(stream, ExternalSoundsList[HashSounds[i].ExternalSoundIndex].Offset);
             }
 
 
@@ -178,29 +179,29 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             file.Close();
         }
 
-        public struct UStruct0
+        public struct HashSound
         {
             public int Hash;
-            public int UOffset;
-            public UStruct1 uStruct1;
+            public int SoundDataOffset;
+            public SoundData Sound;
 
-            public int UStruct1Index;
+            public int ExternalSoundIndex;
         }
 
 
-        public struct UStruct1
+        public struct SoundData
         {
-            public int U0;
-            public int UCount;
-            public List<UStruct2> U2;
+            public int CollisonSound;
+            public int ExternalSoundsCount;
+            public List<ExternalSound> ExternalSounds;
 
             public int Offset;
         }
 
-        public struct UStruct2
+        public struct ExternalSound
         {
             public int U0;
-            public int U1; //Channel ID? So that sounds dont overlap in someway
+            public int SoundIndex;
             public float U2;
             public float U3;
             public float U4;

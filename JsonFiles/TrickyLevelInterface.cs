@@ -61,7 +61,7 @@ namespace SSXMultiTool
         {
             ADLHandler adlHandler = new ADLHandler();
             adlHandler.Load(LoadPath + ".adl");
-            //adlHandler.Save(LoadPath + ".adl1");
+            adlHandler.Save(LoadPath + ".adl1");
 
             SSFHandler ssfHandler = new SSFHandler();
             ssfHandler.Load(LoadPath + ".ssf");
@@ -188,6 +188,11 @@ namespace SSXMultiTool
 
                 instanceJson.LTGState = ltgHandler.FindIfInstaneState(i);
                 instanceJson.SSFState = ssfHandler.InstanceState[i];
+
+                //Go Through Hash and find one with matching object UID
+                //Once found save hash and then search through adl for matching hash
+                //Once if hash is found save audio data
+
 
                 instancesJson.Instances.Add(instanceJson);
             }
@@ -1133,24 +1138,24 @@ namespace SSXMultiTool
                             }
                         }
 
-                        if (TempObject.IncludeAnimation)
+                        if (TempObject.IncludeAnimation && TempObject.Animation !=null)
                         {
                             NewObject.IncludeAnimation = true;
                             NewObject.objectAnimation = new ObjectAnimation();
-                            NewObject.objectAnimation.U1 = TempObject.Animation.U1;
-                            NewObject.objectAnimation.U2 = TempObject.Animation.U2;
-                            NewObject.objectAnimation.U3 = TempObject.Animation.U3;
-                            NewObject.objectAnimation.U4 = TempObject.Animation.U4;
-                            NewObject.objectAnimation.U5 = TempObject.Animation.U5;
-                            NewObject.objectAnimation.U6 = TempObject.Animation.U6;
+                            NewObject.objectAnimation.U1 = TempObject.Animation.Value.U1;
+                            NewObject.objectAnimation.U2 = TempObject.Animation.Value.U2;
+                            NewObject.objectAnimation.U3 = TempObject.Animation.Value.U3;
+                            NewObject.objectAnimation.U4 = TempObject.Animation.Value.U4;
+                            NewObject.objectAnimation.U5 = TempObject.Animation.Value.U5;
+                            NewObject.objectAnimation.U6 = TempObject.Animation.Value.U6;
 
-                            NewObject.objectAnimation.AnimationAction = TempObject.Animation.AnimationAction;
+                            NewObject.objectAnimation.AnimationAction = TempObject.Animation.Value.AnimationAction;
                             NewObject.objectAnimation.animationEntries = new List<AnimationEntry>();
-                            if (TempObject.Animation.AnimationEntries != null)
+                            if (TempObject.Animation.Value.AnimationEntries != null)
                             {
-                                for (int b = 0; b < TempObject.Animation.AnimationEntries.Count; b++)
+                                for (int b = 0; b < TempObject.Animation.Value.AnimationEntries.Count; b++)
                                 {
-                                    var TempAnimationEntry = TempObject.Animation.AnimationEntries[b];
+                                    var TempAnimationEntry = TempObject.Animation.Value.AnimationEntries[b];
                                     var NewAnimationEntry = new AnimationEntry();
                                     NewAnimationEntry.animationMaths = new List<AnimationMath>();
                                     for (int c = 0; c < TempAnimationEntry.AnimationMaths.Count; c++)
@@ -1628,24 +1633,24 @@ namespace SSXMultiTool
                             }
                         }
 
-                        if (TempObject.IncludeAnimation)
+                        if (TempObject.IncludeAnimation && TempObject.Animation!=null)
                         {
                             NewObject.IncludeAnimation = true;
                             NewObject.objectAnimation = new ObjectAnimation();
-                            NewObject.objectAnimation.U1 = TempObject.Animation.U1;
-                            NewObject.objectAnimation.U2 = TempObject.Animation.U2;
-                            NewObject.objectAnimation.U3 = TempObject.Animation.U3;
-                            NewObject.objectAnimation.U4 = TempObject.Animation.U4;
-                            NewObject.objectAnimation.U5 = TempObject.Animation.U5;
-                            NewObject.objectAnimation.U6 = TempObject.Animation.U6;
+                            NewObject.objectAnimation.U1 = TempObject.Animation.Value.U1;
+                            NewObject.objectAnimation.U2 = TempObject.Animation.Value.U2;
+                            NewObject.objectAnimation.U3 = TempObject.Animation.Value.U3;
+                            NewObject.objectAnimation.U4 = TempObject.Animation.Value.U4;
+                            NewObject.objectAnimation.U5 = TempObject.Animation.Value.U5;
+                            NewObject.objectAnimation.U6 = TempObject.Animation.Value.U6;
 
-                            NewObject.objectAnimation.AnimationAction = TempObject.Animation.AnimationAction;
+                            NewObject.objectAnimation.AnimationAction = TempObject.Animation.Value.AnimationAction;
                             NewObject.objectAnimation.animationEntries = new List<AnimationEntry>();
-                            if (TempObject.Animation.AnimationEntries != null)
+                            if (TempObject.Animation.Value.AnimationEntries != null)
                             {
-                                for (int b = 0; b < TempObject.Animation.AnimationEntries.Count; b++)
+                                for (int b = 0; b < TempObject.Animation.Value.AnimationEntries.Count; b++)
                                 {
-                                    var TempAnimationEntry = TempObject.Animation.AnimationEntries[b];
+                                    var TempAnimationEntry = TempObject.Animation.Value.AnimationEntries[b];
                                     var NewAnimationEntry = new AnimationEntry();
                                     NewAnimationEntry.animationMaths = new List<AnimationMath>();
                                     for (int c = 0; c < TempAnimationEntry.AnimationMaths.Count; c++)

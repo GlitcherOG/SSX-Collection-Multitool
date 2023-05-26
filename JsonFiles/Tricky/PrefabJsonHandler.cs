@@ -54,7 +54,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int ParentID;
             public int Flags;
 
-            public ObjectAnimation Animation;
+            public ObjectAnimation? Animation;
             public List<MeshHeader> MeshData;
 
             public float[] Position;
