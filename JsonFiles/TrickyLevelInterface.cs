@@ -1336,8 +1336,8 @@ namespace SSXMultiTool
                                 textureFlipbook.ImagePositions.Add(ImageFiles.Count - 1);
                             }
                         }
-
-                        NewMaterial.TextureFlipbookID = pbdHandler.GetFlipbookID(textureFlipbook);
+                        pbdHandler.textureFlipbooks.Add(textureFlipbook);
+                        NewMaterial.TextureFlipbookID = pbdHandler.textureFlipbooks.Count-1;
                     }
                     else
                     {
