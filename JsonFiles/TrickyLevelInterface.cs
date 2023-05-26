@@ -198,8 +198,8 @@ namespace SSXMultiTool
                 {
                     if(i== pbdHandler.hashData.InstanceHash[a].ObjectUID)
                     {
-                        instanceJson.Hash = FindHash;
                         FindHash = pbdHandler.hashData.InstanceHash[a].Hash;
+                        instanceJson.Hash = FindHash;
                         break;
                     }
                 }
@@ -227,6 +227,7 @@ namespace SSXMultiTool
                                 NewExternalSound.U3 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U3;
                                 NewExternalSound.U4 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U4;
                                 NewExternalSound.U5 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U5;
+                                NewExternalSound.U6 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U6;
                                 NewSound.ExternalSounds.Add(NewExternalSound);
                             }
                             instanceJson.Sounds = NewSound;
@@ -766,7 +767,6 @@ namespace SSXMultiTool
             File.Copy(LoadPath + ".ssf", ExportPath + "/Original" + "/ssf.ssf");
             if (File.Exists(LoadPath + "_sky.pbd"))
             {
-                File.Copy(LoadPath + ".adl", ExportPath + "/Original" + "/ald.ald"); //Not in Menu
                 File.Copy(LoadPath + ".aip", ExportPath + "/Original" + "/aip.aip"); //Not in Menu
                 File.Copy(LoadPath + ".sop", ExportPath + "/Original" + "/sop.sop"); //Not in menu
 
@@ -782,7 +782,6 @@ namespace SSXMultiTool
             File.Copy(LoadPath + "/Original/ssf.ssf", ExportPath + ".ssf", true);
             if (File.Exists(LoadPath + "/Original/aip.aip"))
             {
-                File.Copy(LoadPath + "/Original/ald.ald", ExportPath + ".adl", true);
                 File.Copy(LoadPath + "/Original/aip.aip", ExportPath + ".aip", true);
                 File.Copy(LoadPath + "/Original/sop.sop", ExportPath + ".sop", true);
             }
@@ -794,7 +793,9 @@ namespace SSXMultiTool
             //Load PBDHandler
             PBDHandler pbdHandler = new PBDHandler();
             //pbdHandler.LoadPBD(ExportPath + ".pbd");
-            if (MAPGenerate || PBDGenerate || LTGGenerate)
+
+            ADLHandler adlHandler = new ADLHandler();
+            if (MAPGenerate || PBDGenerate || LTGGenerate || ADLGenerate)
             {
                 //Rebuild Patches
                 patchPoints = new PatchesJsonHandler();
@@ -1058,6 +1059,33 @@ namespace SSXMultiTool
                     TempUnknownHash.ObjectUID = i;
                     pbdHandler.hashData.InstanceHash.Add(TempUnknownHash);
 
+                    if(Oldinstance.IncludeSound && Oldinstance.Sounds!=null && ADLGenerate)
+                    {
+                        var NewSound = new ADLHandler.HashSound();
+                        NewSound.Hash = Oldinstance.Hash;
+                        NewSound.Sound = new ADLHandler.SoundData();
+                        NewSound.Sound.CollisonSound = Oldinstance.Sounds.Value.CollisonSound;
+                        NewSound.Sound.ExternalSounds = new List<ADLHandler.ExternalSound>();
+
+                        for (int a = 0; a < Oldinstance.Sounds.Value.ExternalSounds.Count; a++)
+                        {
+                            var NewExternalSound = new ADLHandler.ExternalSound();
+
+                            NewExternalSound.U0= Oldinstance.Sounds.Value.ExternalSounds[a].U0;
+                            NewExternalSound.SoundIndex = Oldinstance.Sounds.Value.ExternalSounds[a].SoundIndex;
+                            NewExternalSound.U2 = Oldinstance.Sounds.Value.ExternalSounds[a].U2;
+                            NewExternalSound.U3 = Oldinstance.Sounds.Value.ExternalSounds[a].U3;
+                            NewExternalSound.U4 = Oldinstance.Sounds.Value.ExternalSounds[a].U4;
+                            NewExternalSound.U5 = Oldinstance.Sounds.Value.ExternalSounds[a].U5;
+                            NewExternalSound.U6 = Oldinstance.Sounds.Value.ExternalSounds[a].U6;
+
+                            NewSound.Sound.ExternalSounds.Add(NewExternalSound);
+                             
+                        }
+
+                        adlHandler.HashSounds.Add(NewSound);
+                    }
+
                     LinkerItem linkerItem = new LinkerItem();
                     linkerItem.Ref = 1;
                     linkerItem.UID = i;
@@ -1066,6 +1094,12 @@ namespace SSXMultiTool
                     mapHandler.InternalInstances.Add(linkerItem);
                 }
                 pbdHandler.hashData.InstanceHash.Sort((s1, s2) => s1.Hash.CompareTo(s2.Hash));
+                if(ADLGenerate && adlHandler.HashSounds.Count !=0)
+                {
+                    adlHandler.HashSounds.Sort((s1, s2) => s1.Hash.CompareTo(s2.Hash));
+
+                    adlHandler.Save(ExportPath + ".adl");
+                }
 
                 //Rebuild PraticleInstances
                 particleInstanceJson = new ParticleInstanceJsonHandler();

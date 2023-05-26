@@ -58,6 +58,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int UnknownInt2;
             public float UnknownFloat3;
             public int UnknownInt3;
+
+            public int Hash;
         }
     }
 }

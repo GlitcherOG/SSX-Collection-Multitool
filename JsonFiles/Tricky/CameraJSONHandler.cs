@@ -60,6 +60,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public float[] InitalRotation;
             public float U0; //Big ?
             public List<CameraAnimationHeader> AnimationHeaders;
+
+            public int Hash;
         }
 
         public struct CameraAnimationHeader

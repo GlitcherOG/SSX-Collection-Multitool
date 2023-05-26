@@ -11,7 +11,6 @@ namespace SSXMultiTool.JsonFiles.Tricky
 {
     public class HashJsonHandler
     {
-        public List<HashDataUnknown> InstanceHash = new List<HashDataUnknown>();
         public List<HashDataUnknown> LightsHash = new List<HashDataUnknown>();
         public List<HashDataUnknown> CameraHash = new List<HashDataUnknown>();
 

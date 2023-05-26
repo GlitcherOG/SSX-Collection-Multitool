@@ -11,8 +11,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
     public class ADLHandler
     {
-        public byte[] Magic;
-        public float U0; //Anything Other than 1 breaks sound
+        public byte[] Magic = new byte[4] { 0x00, 0xCC, 0xCC, 0xCC };
+        public float U0 = 1f;
         public int UCount;
         public List<HashSound> HashSounds = new List<HashSound>();
 

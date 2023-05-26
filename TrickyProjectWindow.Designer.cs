@@ -648,7 +648,8 @@
             // GenADL
             // 
             GenADL.AutoSize = true;
-            GenADL.Enabled = false;
+            GenADL.Checked = true;
+            GenADL.CheckState = CheckState.Checked;
             GenADL.Location = new Point(334, 72);
             GenADL.Name = "GenADL";
             GenADL.Size = new Size(98, 19);
