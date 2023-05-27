@@ -17,8 +17,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int TypeAOffset;
         public int TypeBOffset;
 
-        public TypeA TypeAStruct;
-        public TypeB TypeBStruct;
+        public TypeA AIPath;
+        public TypeB RaceLine;
 
         public void LoadAIPSOP(string path)
         {
@@ -29,18 +29,18 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 TypeAOffset = StreamUtil.ReadUInt32(stream);
                 TypeBOffset = StreamUtil.ReadUInt32(stream);
 
-                TypeAStruct = new TypeA();
-                TypeAStruct.PathACount = StreamUtil.ReadUInt32(stream);
-                TypeAStruct.StartPosCount = StreamUtil.ReadUInt32(stream);
+                AIPath = new TypeA();
+                AIPath.PathACount = StreamUtil.ReadUInt32(stream);
+                AIPath.StartPosCount = StreamUtil.ReadUInt32(stream);
 
-                TypeAStruct.StartPosList = new List<int>();
-                for (int i = 0; i < TypeAStruct.StartPosCount; i++)
+                AIPath.StartPosList = new List<int>();
+                for (int i = 0; i < AIPath.StartPosCount; i++)
                 {
-                    TypeAStruct.StartPosList.Add(StreamUtil.ReadUInt32(stream));
+                    AIPath.StartPosList.Add(StreamUtil.ReadUInt32(stream));
                 }
 
-                TypeAStruct.PathAs = new List<PathA>();
-                for (int i = 0; i < TypeAStruct.PathACount; i++)
+                AIPath.PathAs = new List<PathA>();
+                for (int i = 0; i < AIPath.PathACount; i++)
                 {
                     var NewPath = new PathA();
                     NewPath.Type = StreamUtil.ReadUInt32(stream);
@@ -75,18 +75,18 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         NewPath.UnknownStructs.Add(NewUStrcut);
                     }
 
-                    TypeAStruct.PathAs.Add(NewPath);
+                    AIPath.PathAs.Add(NewPath);
                 }
 
                 stream.Position = TypeBOffset + 16;
-                TypeBStruct = new TypeB();
-                TypeBStruct.U0 = StreamUtil.ReadUInt32(stream);
-                TypeBStruct.ByteSize = StreamUtil.ReadUInt32(stream);
-                TypeBStruct.PathBCount = StreamUtil.ReadUInt32(stream);
-                TypeBStruct.PathBUnknown = StreamUtil.ReadUInt32(stream);
+                RaceLine = new TypeB();
+                RaceLine.U0 = StreamUtil.ReadUInt32(stream);
+                RaceLine.ByteSize = StreamUtil.ReadUInt32(stream);
+                RaceLine.PathBCount = StreamUtil.ReadUInt32(stream);
+                RaceLine.PathBUnknown = StreamUtil.ReadUInt32(stream);
 
-                TypeBStruct.PathBs = new List<PathB>();
-                for (int i = 0; i < TypeBStruct.PathBCount; i++)
+                RaceLine.PathBs = new List<PathB>();
+                for (int i = 0; i < RaceLine.PathBCount; i++)
                 {
                     var NewPath = new PathB();
                     NewPath.Type = StreamUtil.ReadUInt32(stream);
@@ -118,14 +118,106 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         NewPath.UnknownStructs.Add(NewUStrcut);
                     }
 
-                    TypeBStruct.PathBs.Add(NewPath);
+                    RaceLine.PathBs.Add(NewPath);
                 }
             }
-
         }
         public void SaveAIPSOP(string path)
         {
+            MemoryStream stream = new MemoryStream();
 
+            stream.Position = 16;
+            TypeAOffset = 0;
+            StreamUtil.WriteInt32(stream, AIPath.PathAs.Count);
+            StreamUtil.WriteInt32(stream, AIPath.StartPosList.Count);
+            for (int i = 0; i < AIPath.StartPosList.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, AIPath.StartPosList[i]);
+            }
+
+            for (int i = 0; i < AIPath.PathAs.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, AIPath.PathAs[i].Type);
+                StreamUtil.WriteInt32(stream, AIPath.PathAs[i].U1);
+                StreamUtil.WriteInt32(stream, AIPath.PathAs[i].U2);
+                StreamUtil.WriteInt32(stream, AIPath.PathAs[i].U3);
+                StreamUtil.WriteInt32(stream, AIPath.PathAs[i].U4);
+                StreamUtil.WriteInt32(stream, AIPath.PathAs[i].U5);
+                StreamUtil.WriteInt32(stream, AIPath.PathAs[i].U6);
+
+                StreamUtil.WriteInt32(stream, AIPath.PathAs[i].VectorPoints.Count);
+                StreamUtil.WriteInt32(stream, AIPath.PathAs[i].UnknownStructs.Count);
+
+                StreamUtil.WriteVector3(stream, AIPath.PathAs[i].PathPos);
+                StreamUtil.WriteVector3(stream, AIPath.PathAs[i].BBoxMin);
+                StreamUtil.WriteVector3(stream, AIPath.PathAs[i].BBoxMax);
+
+                for (int a = 0; a < AIPath.PathAs[i].VectorPoints.Count; a++)
+                {
+                    StreamUtil.WriteVector4(stream, AIPath.PathAs[i].VectorPoints[a]);
+                }
+
+                for (int a = 0; a < AIPath.PathAs[i].UnknownStructs.Count; a++)
+                {
+                    StreamUtil.WriteInt32(stream, AIPath.PathAs[i].UnknownStructs[a].U0);
+                    StreamUtil.WriteInt32(stream, AIPath.PathAs[i].UnknownStructs[a].U1);
+                    StreamUtil.WriteFloat32(stream, AIPath.PathAs[i].UnknownStructs[a].U2);
+                    StreamUtil.WriteFloat32(stream, AIPath.PathAs[i].UnknownStructs[a].U3);
+                }
+            }
+
+            TypeBOffset = (int)(stream.Position - 16);
+            StreamUtil.WriteInt32(stream, RaceLine.U0);
+            long Pos= stream.Position;
+            stream.Position += 4;
+            StreamUtil.WriteInt32(stream, RaceLine.PathBs.Count);
+            StreamUtil.WriteInt32(stream, RaceLine.PathBUnknown);
+            for (int i = 0; i < RaceLine.PathBs.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].Type);
+                StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].U0);
+                StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].U1);
+                StreamUtil.WriteFloat32(stream, RaceLine.PathBs[i].U2);
+
+                StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].VectorPoints.Count);
+                StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].UnknownStructs.Count);
+
+                StreamUtil.WriteVector3(stream, RaceLine.PathBs[i].PathPos);
+                StreamUtil.WriteVector3(stream, RaceLine.PathBs[i].BBoxMin);
+                StreamUtil.WriteVector3(stream, RaceLine.PathBs[i].BBoxMax);
+
+                for (int a = 0; a < RaceLine.PathBs[i].VectorPoints.Count; a++)
+                {
+                    StreamUtil.WriteVector4(stream, RaceLine.PathBs[i].VectorPoints[a]);
+                }
+
+                for (int a = 0; a < RaceLine.PathBs[i].UnknownStructs.Count; a++)
+                {
+                    StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].UnknownStructs[a].U0);
+                    StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].UnknownStructs[a].U1);
+                    StreamUtil.WriteFloat32(stream, RaceLine.PathBs[i].UnknownStructs[a].U2);
+                    StreamUtil.WriteFloat32(stream, RaceLine.PathBs[i].UnknownStructs[a].U3);
+                }
+            }
+            long TempPos = stream.Position;
+            stream.Position = Pos;
+            StreamUtil.WriteInt32(stream, (int)(TempPos - Pos - 4));
+
+            stream.Position = 0;
+            StreamUtil.WriteBytes(stream, MagicBytes);
+            StreamUtil.WriteInt32(stream, PathTypeCount);
+            StreamUtil.WriteInt32(stream, TypeAOffset);
+            StreamUtil.WriteInt32(stream, TypeBOffset);
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            var file = File.Create(path);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            stream.Dispose();
+            file.Close();
         }
 
         public struct TypeA

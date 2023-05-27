@@ -57,14 +57,19 @@ namespace SSXMultiTool
 
         public void ExtractTrickyLevelFiles(string LoadPath, string ExportPath)
         {
-            AIPSOPHandler aipsop = new AIPSOPHandler();
-            aipsop.LoadAIPSOP(LoadPath + ".aip");
-
-
             ADLHandler adlHandler = new ADLHandler();
             if (File.Exists(LoadPath + ".adl"))
             {
                 adlHandler.Load(LoadPath + ".adl");
+            }
+
+            if(File.Exists(LoadPath + ".aip"))
+            {
+                AIPSOPHandler aip = new AIPSOPHandler();
+                aip.LoadAIPSOP(LoadPath + ".aip");
+
+                AIPSOPHandler sop = new AIPSOPHandler();
+                sop.LoadAIPSOP(LoadPath + ".sop");
             }
 
             SSFHandler ssfHandler = new SSFHandler();
