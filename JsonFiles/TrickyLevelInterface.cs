@@ -644,8 +644,8 @@ namespace SSXMultiTool
                     for (int a = 0; a < aip.RaceLine.PathBs[i].VectorPoints.Count; a++)
                     {
                         NewAIPath.PathPoints[1 + a, 0] = aip.RaceLine.PathBs[i].VectorPoints[a].X * aip.RaceLine.PathBs[i].VectorPoints[a].W + NewAIPath.PathPoints[a, 0];
-                        NewAIPath.PathPoints[1 + a, 1] = aip.RaceLine.PathBs[i].VectorPoints[a].Y * aip.RaceLine.PathBs[i].VectorPoints[a].W + NewAIPath.PathPoints[a, 0];
-                        NewAIPath.PathPoints[1 + a, 2] = aip.RaceLine.PathBs[i].VectorPoints[a].Z * aip.RaceLine.PathBs[i].VectorPoints[a].W + NewAIPath.PathPoints[a, 0];
+                        NewAIPath.PathPoints[1 + a, 1] = aip.RaceLine.PathBs[i].VectorPoints[a].Y * aip.RaceLine.PathBs[i].VectorPoints[a].W + NewAIPath.PathPoints[a, 1];
+                        NewAIPath.PathPoints[1 + a, 2] = aip.RaceLine.PathBs[i].VectorPoints[a].Z * aip.RaceLine.PathBs[i].VectorPoints[a].W + NewAIPath.PathPoints[a, 2];
                     }
 
                     NewAIPath.UnknownStructs = new List<AIPSOPJsonHandler.UnknownStruct>();
