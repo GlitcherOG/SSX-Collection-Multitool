@@ -220,120 +220,97 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             file.Close();
         }
 
-        public void GenerateNewVectors()
+        public static List<Vector4> GenerateNewVectors(List<Vector3> PathPoints)
         {
-            for (int i = 0; i < RaceLine.PathBs.Count; i++)
+            //Turn Points Into Vectors
+            List<Vector4> Vectors = new List<Vector4>();
+            for (int a = 1; a < PathPoints.Count; a++)
             {
-                var TempPath = RaceLine.PathBs[i];
-
-                //Turn Vectors into Points
-                List<Vector3> PathPoints = new List<Vector3>();
-                PathPoints.Add(TempPath.PathPos);
-                for (int a = 0; a < TempPath.VectorPoints.Count; a++)
-                {
-                    Vector3 NewPoint = new Vector3(TempPath.VectorPoints[a].X * TempPath.VectorPoints[a].W, TempPath.VectorPoints[a].Y * TempPath.VectorPoints[a].W, TempPath.VectorPoints[a].Z * TempPath.VectorPoints[a].W);
-                    NewPoint = NewPoint + PathPoints[a];
-                    PathPoints.Add(NewPoint);
-                }
-                var OriginalList = TempPath.VectorPoints;
-
-                //Turn Points Into Vectors
-                List<Vector4> Vectors = new List<Vector4>();
-                TempPath.PathPos = PathPoints[0];
-                for (int a = 1; a < PathPoints.Count; a++)
-                {
-                    float Distance = Vector3.Distance(PathPoints[a - 1], PathPoints[a]);
-                    Vector3 Normal = PathPoints[a]- PathPoints[a - 1];
-                    Normal = Vector3.Normalize(Normal);
-                    Vectors.Add(new Vector4(Normal.X, Normal.Y, Normal.Z, Distance));
-                }
-
-                //Correct Vectors
-                TempPath.VectorPoints = new List<Vector4>();
-                for (int a = 0; a < Vectors.Count; a++)
-                {
-                    float Testfloat = Vectors[a].X + Vectors[a].Y /*+ Vectors[a].Z*/;
-
-                    if (Testfloat >= 0)
-                    {
-                        if (Vectors[a].X >= Vectors[a].Y /*&& Vectors[a].X >= Vectors[a].Z*/)
-                        {
-                            Vector4 NewVector = new Vector4();
-                            //Find X and W
-
-                            NewVector.X = 1f;
-                            NewVector.Y = (Vectors[a].Y / Vectors[a].X) * NewVector.X;
-                            NewVector.Z = (Vectors[a].Z / Vectors[a].X) * NewVector.X;
-
-                            NewVector.W = (Vectors[a].W * Vectors[a].X) * NewVector.X;
-
-                            TempPath.VectorPoints.Add(NewVector);
-                        }
-                        else if (Vectors[a].Y >= Vectors[a].X/* && Vectors[a].Y >= Vectors[a].Z*/)
-                        {
-                            Vector4 NewVector = new Vector4();
-                            NewVector.Y = 1f;
-                            NewVector.X = (Vectors[a].X / Vectors[a].Y) * NewVector.Y;
-                            NewVector.Z = (Vectors[a].Z / Vectors[a].Y) * NewVector.Y;
-
-                            NewVector.W = (Vectors[a].W * Vectors[a].Y) * NewVector.Y;
-
-                            TempPath.VectorPoints.Add(NewVector);
-                        }
-                        //else if (Vectors[a].Z >= Vectors[a].Y && Vectors[a].Z >= Vectors[a].X)
-                        //{
-                        //    Vector4 NewVector = new Vector4();
-                        //    NewVector.Z = 1f;
-                        //    NewVector.W = NewVector.Z * (Vectors[a].W/Vectors[a].Z);
-                        //    NewVector.X = (Vectors[a].X / Vectors[a].Z) * NewVector.Z;
-                        //    NewVector.Y = (Vectors[a].Y / Vectors[a].Z) * NewVector.Z;
-                        //    TempPath.VectorPoints.Add(NewVector);
-                        //}
-                    }
-                    else
-                    {
-                        if (Vectors[a].X <= Vectors[a].Y /*&& Vectors[a].X <= Vectors[a].Z*/)
-                        {
-                            Vector4 NewVector = new Vector4();
-                            //Find X and W
-                            NewVector.X = -1f;
-                            NewVector.Y = (Vectors[a].Y / Vectors[a].X) * NewVector.X;
-                            NewVector.Z = (Vectors[a].Z / Vectors[a].X) * NewVector.X;
-
-                            NewVector.W = (Vectors[a].W * Vectors[a].X) * NewVector.X;
-
-                            TempPath.VectorPoints.Add(NewVector);
-                        }
-                        else if (Vectors[a].Y <= Vectors[a].X /*&& Vectors[a].Y <= Vectors[a].Z*/)
-                        {
-                            Vector4 NewVector = new Vector4();
-                            NewVector.Y = -1f;
-                            NewVector.X = (Vectors[a].X / Vectors[a].Y) * NewVector.Y;
-                            NewVector.Z = (Vectors[a].Z / Vectors[a].Y) * NewVector.Y;
-
-                            NewVector.W = (Vectors[a].W * Vectors[a].Y) * NewVector.Y;
-
-                            TempPath.VectorPoints.Add(NewVector);
-                        }
-                        //else if (Vectors[a].Z <= Vectors[a].Y && Vectors[a].Z <= Vectors[a].X)
-                        //{
-                        //    Vector4 NewVector = new Vector4();
-                        //    NewVector.Z = -1f;
-                        //    NewVector.W = NewVector.Z * (Vectors[a].W/Vectors[a].Z);
-                        //    NewVector.X = (Vectors[a].X / Vectors[a].Z) * NewVector.Z;
-                        //    NewVector.Y = (Vectors[a].Y / Vectors[a].Z) * NewVector.Z;
-                        //    TempPath.VectorPoints.Add(NewVector);
-                        //}
-                    }
-                }
-
-
-
-
-                RaceLine.PathBs[i] = TempPath;
+                float Distance = Vector3.Distance(PathPoints[a - 1], PathPoints[a]);
+                Vector3 Normal = PathPoints[a] - PathPoints[a - 1];
+                Normal = Vector3.Normalize(Normal);
+                Vectors.Add(new Vector4(Normal.X, Normal.Y, Normal.Z, Distance));
             }
 
+            //Correct Vectors
+            List<Vector4> VectorPoints = new List<Vector4>();
+            for (int a = 0; a < Vectors.Count; a++)
+            {
+                float Testfloat = Vectors[a].X + Vectors[a].Y /*+ Vectors[a].Z*/;
 
+                if (Testfloat >= 0)
+                {
+                    if (Vectors[a].X >= Vectors[a].Y /*&& Vectors[a].X >= Vectors[a].Z*/)
+                    {
+                        Vector4 NewVector = new Vector4();
+                        //Find X and W
+
+                        NewVector.X = 1f;
+                        NewVector.Y = (Vectors[a].Y / Vectors[a].X) * NewVector.X;
+                        NewVector.Z = (Vectors[a].Z / Vectors[a].X) * NewVector.X;
+
+                        NewVector.W = (Vectors[a].W * Vectors[a].X) * NewVector.X;
+
+                        VectorPoints.Add(NewVector);
+                    }
+                    else if (Vectors[a].Y >= Vectors[a].X/* && Vectors[a].Y >= Vectors[a].Z*/)
+                    {
+                        Vector4 NewVector = new Vector4();
+                        NewVector.Y = 1f;
+                        NewVector.X = (Vectors[a].X / Vectors[a].Y) * NewVector.Y;
+                        NewVector.Z = (Vectors[a].Z / Vectors[a].Y) * NewVector.Y;
+
+                        NewVector.W = (Vectors[a].W * Vectors[a].Y) * NewVector.Y;
+
+                        VectorPoints.Add(NewVector);
+                    }
+                    //else if (Vectors[a].Z >= Vectors[a].Y && Vectors[a].Z >= Vectors[a].X)
+                    //{
+                    //    Vector4 NewVector = new Vector4();
+                    //    NewVector.Z = 1f;
+                    //    NewVector.W = NewVector.Z * (Vectors[a].W/Vectors[a].Z);
+                    //    NewVector.X = (Vectors[a].X / Vectors[a].Z) * NewVector.Z;
+                    //    NewVector.Y = (Vectors[a].Y / Vectors[a].Z) * NewVector.Z;
+                    //    TempPath.VectorPoints.Add(NewVector);
+                    //}
+                }
+                else
+                {
+                    if (Vectors[a].X <= Vectors[a].Y /*&& Vectors[a].X <= Vectors[a].Z*/)
+                    {
+                        Vector4 NewVector = new Vector4();
+                        //Find X and W
+                        NewVector.X = -1f;
+                        NewVector.Y = (Vectors[a].Y / Vectors[a].X) * NewVector.X;
+                        NewVector.Z = (Vectors[a].Z / Vectors[a].X) * NewVector.X;
+
+                        NewVector.W = (Vectors[a].W * Vectors[a].X) * NewVector.X;
+
+                        VectorPoints.Add(NewVector);
+                    }
+                    else if (Vectors[a].Y <= Vectors[a].X /*&& Vectors[a].Y <= Vectors[a].Z*/)
+                    {
+                        Vector4 NewVector = new Vector4();
+                        NewVector.Y = -1f;
+                        NewVector.X = (Vectors[a].X / Vectors[a].Y) * NewVector.Y;
+                        NewVector.Z = (Vectors[a].Z / Vectors[a].Y) * NewVector.Y;
+
+                        NewVector.W = (Vectors[a].W * Vectors[a].Y) * NewVector.Y;
+
+                        VectorPoints.Add(NewVector);
+                    }
+                    //else if (Vectors[a].Z <= Vectors[a].Y && Vectors[a].Z <= Vectors[a].X)
+                    //{
+                    //    Vector4 NewVector = new Vector4();
+                    //    NewVector.Z = -1f;
+                    //    NewVector.W = NewVector.Z * (Vectors[a].W/Vectors[a].Z);
+                    //    NewVector.X = (Vectors[a].X / Vectors[a].Z) * NewVector.Z;
+                    //    NewVector.Y = (Vectors[a].Y / Vectors[a].Z) * NewVector.Z;
+                    //    TempPath.VectorPoints.Add(NewVector);
+                    //}
+                }
+            }
+            return VectorPoints;
         }
 
         public struct TypeA

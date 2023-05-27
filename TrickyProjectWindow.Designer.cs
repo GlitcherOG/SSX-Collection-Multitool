@@ -593,7 +593,8 @@
             // GenSOP
             // 
             GenSOP.AutoSize = true;
-            GenSOP.Enabled = false;
+            GenSOP.Checked = true;
+            GenSOP.CheckState = CheckState.Checked;
             GenSOP.Location = new Point(465, 47);
             GenSOP.Name = "GenSOP";
             GenSOP.Size = new Size(98, 19);
@@ -604,7 +605,8 @@
             // GenAIP
             // 
             GenAIP.AutoSize = true;
-            GenAIP.Enabled = false;
+            GenAIP.Checked = true;
+            GenAIP.CheckState = CheckState.Checked;
             GenAIP.Location = new Point(465, 22);
             GenAIP.Name = "GenAIP";
             GenAIP.Size = new Size(94, 19);
