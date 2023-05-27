@@ -63,17 +63,6 @@ namespace SSXMultiTool
                 adlHandler.Load(LoadPath + ".adl");
             }
 
-            if(File.Exists(LoadPath + ".aip"))
-            {
-                AIPSOPHandler aip = new AIPSOPHandler();
-                aip.LoadAIPSOP(LoadPath + ".aip");
-                aip.GenerateNewVectors();
-                aip.SaveAIPSOP(LoadPath + ".aip1");
-
-                AIPSOPHandler sop = new AIPSOPHandler();
-                sop.LoadAIPSOP(LoadPath + ".sop");
-            }
-
             SSFHandler ssfHandler = new SSFHandler();
             ssfHandler.Load(LoadPath + ".ssf");
             ////ssfHandler.SaveTest(LoadPath + ".ssf");
@@ -88,7 +77,6 @@ namespace SSXMultiTool
             //Load PBD
             PBDHandler pbdHandler = new PBDHandler();
             pbdHandler.LoadPBD(LoadPath + ".pbd");
-            //pbdHandler.SaveNew(LoadPath + ".pbd1");
 
             OldSSHHandler TextureHandler = new OldSSHHandler();
             TextureHandler.LoadSSH(LoadPath + ".ssh");
@@ -589,6 +577,173 @@ namespace SSXMultiTool
             cameraJSONHandler.CreateJson(ExportPath + "/Cameras.json", InlineExporting);
 
 
+            #endregion
+
+            #region AIP & SOP
+            if (File.Exists(LoadPath + ".aip"))
+            {
+                AIPSOPHandler aip = new AIPSOPHandler();
+                aip.LoadAIPSOP(LoadPath + ".aip");
+
+                AIPSOPJsonHandler aipJson = new AIPSOPJsonHandler();
+                aipJson.StartPosList = aip.AIPath.StartPosList;
+
+                aipJson.AIPaths = new List<AIPSOPJsonHandler.PathA>();
+                for (int i = 0; i < aip.AIPath.PathAs.Count; i++)
+                {
+                    var NewAIPath = new AIPSOPJsonHandler.PathA();
+                    NewAIPath.Type = aip.AIPath.PathAs[i].Type;
+                    NewAIPath.U1 = aip.AIPath.PathAs[i].U1;
+                    NewAIPath.U2 = aip.AIPath.PathAs[i].U2;
+                    NewAIPath.U3 = aip.AIPath.PathAs[i].U3;
+                    NewAIPath.U4 = aip.AIPath.PathAs[i].U4;
+                    NewAIPath.U5 = aip.AIPath.PathAs[i].U5;
+                    NewAIPath.U6 = aip.AIPath.PathAs[i].U6;
+
+                    NewAIPath.PathPoints = new float[aip.AIPath.PathAs[i].VectorPoints.Count + 1, 3];
+
+                    NewAIPath.PathPoints[0, 0] = aip.AIPath.PathAs[i].PathPos.X;
+                    NewAIPath.PathPoints[0, 1] = aip.AIPath.PathAs[i].PathPos.Y;
+                    NewAIPath.PathPoints[0, 2] = aip.AIPath.PathAs[i].PathPos.Z;
+
+                    for (int a = 0; a < aip.AIPath.PathAs[i].VectorPoints.Count; a++)
+                    {
+                        NewAIPath.PathPoints[1 + a, 0] = aip.AIPath.PathAs[i].VectorPoints[a].X * aip.AIPath.PathAs[i].VectorPoints[a].W + NewAIPath.PathPoints[a, 0];
+                        NewAIPath.PathPoints[1 + a, 1] = aip.AIPath.PathAs[i].VectorPoints[a].Y * aip.AIPath.PathAs[i].VectorPoints[a].W + NewAIPath.PathPoints[a, 1];
+                        NewAIPath.PathPoints[1 + a, 2] = aip.AIPath.PathAs[i].VectorPoints[a].Z * aip.AIPath.PathAs[i].VectorPoints[a].W + NewAIPath.PathPoints[a, 2];
+                    }
+
+                    NewAIPath.UnknownStructs = new List<AIPSOPJsonHandler.UnknownStruct>();
+                    for (int a = 0; a < aip.AIPath.PathAs[i].UnknownStructs.Count; a++)
+                    {
+                        var NewStruct = new AIPSOPJsonHandler.UnknownStruct();
+                        NewStruct.U0 = aip.AIPath.PathAs[i].UnknownStructs[a].U0;
+                        NewStruct.U1 = aip.AIPath.PathAs[i].UnknownStructs[a].U1;
+                        NewStruct.U2 = aip.AIPath.PathAs[i].UnknownStructs[a].U2;
+                        NewStruct.U3 = aip.AIPath.PathAs[i].UnknownStructs[a].U3;
+                        NewAIPath.UnknownStructs.Add(NewStruct);
+                    }
+                    aipJson.AIPaths.Add(NewAIPath);
+                }
+
+                aipJson.RaceLines = new List<AIPSOPJsonHandler.PathB>();
+                for (int i = 0; i < aip.RaceLine.PathBs.Count; i++)
+                {
+                    var NewAIPath = new AIPSOPJsonHandler.PathB();
+                    NewAIPath.Type = aip.RaceLine.PathBs[i].Type;
+                    NewAIPath.U0 = aip.RaceLine.PathBs[i].U0;
+                    NewAIPath.U1 = aip.RaceLine.PathBs[i].U1;
+                    NewAIPath.U2 = aip.RaceLine.PathBs[i].U2;
+
+                    NewAIPath.PathPoints = new float[aip.RaceLine.PathBs[i].VectorPoints.Count + 1, 3];
+
+                    NewAIPath.PathPoints[0, 0] = aip.RaceLine.PathBs[i].PathPos.X;
+                    NewAIPath.PathPoints[0, 1] = aip.RaceLine.PathBs[i].PathPos.Y;
+                    NewAIPath.PathPoints[0, 2] = aip.RaceLine.PathBs[i].PathPos.Z;
+
+                    for (int a = 0; a < aip.RaceLine.PathBs[i].VectorPoints.Count; a++)
+                    {
+                        NewAIPath.PathPoints[1 + a, 0] = aip.RaceLine.PathBs[i].VectorPoints[a].X * aip.RaceLine.PathBs[i].VectorPoints[a].W + NewAIPath.PathPoints[a, 0];
+                        NewAIPath.PathPoints[1 + a, 1] = aip.RaceLine.PathBs[i].VectorPoints[a].Y * aip.RaceLine.PathBs[i].VectorPoints[a].W + NewAIPath.PathPoints[a, 0];
+                        NewAIPath.PathPoints[1 + a, 2] = aip.RaceLine.PathBs[i].VectorPoints[a].Z * aip.RaceLine.PathBs[i].VectorPoints[a].W + NewAIPath.PathPoints[a, 0];
+                    }
+
+                    NewAIPath.UnknownStructs = new List<AIPSOPJsonHandler.UnknownStruct>();
+                    for (int a = 0; a < aip.RaceLine.PathBs[i].UnknownStructs.Count; a++)
+                    {
+                        var NewStruct = new AIPSOPJsonHandler.UnknownStruct();
+                        NewStruct.U0 = aip.RaceLine.PathBs[i].UnknownStructs[a].U0;
+                        NewStruct.U1 = aip.RaceLine.PathBs[i].UnknownStructs[a].U1;
+                        NewStruct.U2 = aip.RaceLine.PathBs[i].UnknownStructs[a].U2;
+                        NewStruct.U3 = aip.RaceLine.PathBs[i].UnknownStructs[a].U3;
+                        NewAIPath.UnknownStructs.Add(NewStruct);
+                    }
+                    aipJson.RaceLines.Add(NewAIPath);
+                }
+
+                aipJson.CreateJson(ExportPath + "/AIP.json", InlineExporting);
+
+                AIPSOPHandler sop = new AIPSOPHandler();
+                sop.LoadAIPSOP(LoadPath + ".sop");
+
+                AIPSOPJsonHandler sopJson = new AIPSOPJsonHandler();
+                sopJson.StartPosList = sop.AIPath.StartPosList;
+
+                sopJson.AIPaths = new List<AIPSOPJsonHandler.PathA>();
+                for (int i = 0; i < sop.AIPath.PathAs.Count; i++)
+                {
+                    var NewAIPath = new AIPSOPJsonHandler.PathA();
+                    NewAIPath.Type = sop.AIPath.PathAs[i].Type;
+                    NewAIPath.U1 = sop.AIPath.PathAs[i].U1;
+                    NewAIPath.U2 = sop.AIPath.PathAs[i].U2;
+                    NewAIPath.U3 = sop.AIPath.PathAs[i].U3;
+                    NewAIPath.U4 = sop.AIPath.PathAs[i].U4;
+                    NewAIPath.U5 = sop.AIPath.PathAs[i].U5;
+                    NewAIPath.U6 = sop.AIPath.PathAs[i].U6;
+
+                    NewAIPath.PathPoints = new float[sop.AIPath.PathAs[i].VectorPoints.Count + 1, 3];
+
+                    NewAIPath.PathPoints[0, 0] = sop.AIPath.PathAs[i].PathPos.X;
+                    NewAIPath.PathPoints[0, 1] = sop.AIPath.PathAs[i].PathPos.Y;
+                    NewAIPath.PathPoints[0, 2] = sop.AIPath.PathAs[i].PathPos.Z;
+
+                    for (int a = 0; a < sop.AIPath.PathAs[i].VectorPoints.Count; a++)
+                    {
+                        NewAIPath.PathPoints[1 + a, 0] = sop.AIPath.PathAs[i].VectorPoints[a].X * sop.AIPath.PathAs[i].VectorPoints[a].W;
+                        NewAIPath.PathPoints[1 + a, 1] = sop.AIPath.PathAs[i].VectorPoints[a].Y * sop.AIPath.PathAs[i].VectorPoints[a].W;
+                        NewAIPath.PathPoints[1 + a, 2] = sop.AIPath.PathAs[i].VectorPoints[a].Z * sop.AIPath.PathAs[i].VectorPoints[a].W;
+                    }
+
+                    NewAIPath.UnknownStructs = new List<AIPSOPJsonHandler.UnknownStruct>();
+                    for (int a = 0; a < sop.AIPath.PathAs[i].UnknownStructs.Count; a++)
+                    {
+                        var NewStruct = new AIPSOPJsonHandler.UnknownStruct();
+                        NewStruct.U0 = sop.AIPath.PathAs[i].UnknownStructs[a].U0;
+                        NewStruct.U1 = sop.AIPath.PathAs[i].UnknownStructs[a].U1;
+                        NewStruct.U2 = sop.AIPath.PathAs[i].UnknownStructs[a].U2;
+                        NewStruct.U3 = sop.AIPath.PathAs[i].UnknownStructs[a].U3;
+                        NewAIPath.UnknownStructs.Add(NewStruct);
+                    }
+                    sopJson.AIPaths.Add(NewAIPath);
+                }
+
+                sopJson.RaceLines = new List<AIPSOPJsonHandler.PathB>();
+                for (int i = 0; i < sop.RaceLine.PathBs.Count; i++)
+                {
+                    var NewAIPath = new AIPSOPJsonHandler.PathB();
+                    NewAIPath.Type = sop.RaceLine.PathBs[i].Type;
+                    NewAIPath.U0 = sop.RaceLine.PathBs[i].U0;
+                    NewAIPath.U1 = sop.RaceLine.PathBs[i].U1;
+                    NewAIPath.U2 = sop.RaceLine.PathBs[i].U2;
+
+                    NewAIPath.PathPoints = new float[sop.RaceLine.PathBs[i].VectorPoints.Count + 1, 3];
+
+                    NewAIPath.PathPoints[0, 0] = sop.RaceLine.PathBs[i].PathPos.X;
+                    NewAIPath.PathPoints[0, 1] = sop.RaceLine.PathBs[i].PathPos.Y;
+                    NewAIPath.PathPoints[0, 2] = sop.RaceLine.PathBs[i].PathPos.Z;
+
+                    for (int a = 0; a < sop.RaceLine.PathBs[i].VectorPoints.Count; a++)
+                    {
+                        NewAIPath.PathPoints[1 + a, 0] = sop.RaceLine.PathBs[i].VectorPoints[a].X * sop.RaceLine.PathBs[i].VectorPoints[a].W;
+                        NewAIPath.PathPoints[1 + a, 1] = sop.RaceLine.PathBs[i].VectorPoints[a].Y * sop.RaceLine.PathBs[i].VectorPoints[a].W;
+                        NewAIPath.PathPoints[1 + a, 2] = sop.RaceLine.PathBs[i].VectorPoints[a].Z * sop.RaceLine.PathBs[i].VectorPoints[a].W;
+                    }
+
+                    NewAIPath.UnknownStructs = new List<AIPSOPJsonHandler.UnknownStruct>();
+                    for (int a = 0; a < sop.RaceLine.PathBs[i].UnknownStructs.Count; a++)
+                    {
+                        var NewStruct = new AIPSOPJsonHandler.UnknownStruct();
+                        NewStruct.U0 = sop.RaceLine.PathBs[i].UnknownStructs[a].U0;
+                        NewStruct.U1 = sop.RaceLine.PathBs[i].UnknownStructs[a].U1;
+                        NewStruct.U2 = sop.RaceLine.PathBs[i].UnknownStructs[a].U2;
+                        NewStruct.U3 = sop.RaceLine.PathBs[i].UnknownStructs[a].U3;
+                        NewAIPath.UnknownStructs.Add(NewStruct);
+                    }
+                    sopJson.RaceLines.Add(NewAIPath);
+                }
+
+                sopJson.CreateJson(ExportPath + "/SOP.json", InlineExporting);
+            }
             #endregion
 
             //Load and Export Textures

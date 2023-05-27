@@ -5,17 +5,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Numerics;
 
 namespace SSXMultiTool.JsonFiles.Tricky
 {
     [System.Serializable]
     public class AIPSOPJsonHandler
     {
-        public List<PathTypeAJson> PathTypeA = new List<PathTypeAJson>();
-        public List<PathTypeBJson> PathTypeB = new List<PathTypeBJson>();
-        public void CreateJson(string path)
+        public List<int> StartPosList = new List<int>();
+        public List<PathA> AIPaths = new List<PathA>();
+        public List<PathB> RaceLines = new List<PathB>();
+        public void CreateJson(string path, bool Inline = false)
         {
-            var serializer = JsonConvert.SerializeObject(this, Formatting.None);
+            var TempFormating = Formatting.None;
+            if (Inline)
+            {
+                TempFormating = Formatting.Indented;
+            }
+
+            var serializer = JsonConvert.SerializeObject(this, TempFormating);
             File.WriteAllText(path, serializer);
         }
 
@@ -33,43 +41,40 @@ namespace SSXMultiTool.JsonFiles.Tricky
                 return new AIPSOPJsonHandler();
             }
         }
+
         [System.Serializable]
-        public struct PathTypeAJson
+        public struct PathA
         {
-            public int Unknown1;
-            public int Unknown2;
-            public int Unknown3;
-            public int Unknown4;
-            public int Unknown5;
-            public int Unknown6;
-            public int Unknown7;
+            public int Type;
+            public int U1;
+            public int U2;
+            public int U3;
+            public int U4;
+            public int U5;
+            public int U6;
 
-            public float[] pathPos;
-
-            public List<float[]> vectorPoints;
-            public List<UnkownListTypeAJson> unkownListTypeAs;
-
+            public float[,] PathPoints;
+            public List<UnknownStruct> UnknownStructs;
         }
         [System.Serializable]
-        public struct PathTypeBJson
+        public struct UnknownStruct
         {
-            public int Unknown1;
-            public int Unknown2;
-            public int Unknown3;
-            public float Unknown4;
-
-            public float[] pathPos;
-
-            public List<float[]> vectorPoints;
-            public List<UnkownListTypeAJson> unkownListTypeAs;
+            public int U0;
+            public int U1;
+            public float U2;
+            public float U3;
         }
+
         [System.Serializable]
-        public struct UnkownListTypeAJson
+        public struct PathB
         {
-            public int Unknown1;
-            public int Unknown2;
-            public float Unknown3;
-            public float Unknown4;
+            public int Type;
+            public int U0;
+            public int U1;
+            public float U2;
+
+            public float[,] PathPoints;
+            public List<UnknownStruct> UnknownStructs;
         }
     }
 }
