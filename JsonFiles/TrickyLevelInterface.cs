@@ -730,7 +730,7 @@ namespace SSXMultiTool
                     NewAIPath.U2 = sop.RaceLine.PathBs[i].U2;
 
                     NewAIPath.PathPoints = new float[sop.RaceLine.PathBs[i].VectorPoints.Count, 3];
-                    NewAIPath.PathPos = JsonUtil.Vector3ToArray(sop.AIPath.PathAs[i].PathPos);
+                    NewAIPath.PathPos = JsonUtil.Vector3ToArray(sop.RaceLine.PathBs[i].PathPos);
                     for (int a = 0; a < sop.RaceLine.PathBs[i].VectorPoints.Count; a++)
                     {
                         NewAIPath.PathPoints[a, 0] = sop.RaceLine.PathBs[i].VectorPoints[a].X * sop.RaceLine.PathBs[i].VectorPoints[a].W;
