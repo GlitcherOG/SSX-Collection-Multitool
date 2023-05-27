@@ -65,11 +65,5 @@ https://github.com/gibbed/Gibbed.RefPack <br>
 
 ## Donate
 [![Donate](https://www.paypalobjects.com/en_AU/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?business=VT6TG8KKZM98E&no_recurring=0&currency_code=AUD)
-
 Negitive one Linkz lightmap Fix
-
-Fix PBD Data display
-Fix Skybox Display
-Gari Sign Not Working, Regenerate the bbox in prefab to fix,
-Splines not working Doesnt appear to be the splines struct but need to check
 

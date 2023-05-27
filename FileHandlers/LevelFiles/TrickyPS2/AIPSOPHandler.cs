@@ -222,9 +222,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public void GenerateNewVectors()
         {
-            for (int i = 0; i < AIPath.PathAs.Count; i++)
+            for (int i = 0; i < RaceLine.PathBs.Count; i++)
             {
-                var TempPath = AIPath.PathAs[i];
+                var TempPath = RaceLine.PathBs[i];
 
                 //Turn Vectors into Points
                 List<Vector3> PathPoints = new List<Vector3>();
@@ -235,6 +235,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     NewPoint = NewPoint + PathPoints[a];
                     PathPoints.Add(NewPoint);
                 }
+                var OriginalList = TempPath.VectorPoints;
 
                 //Turn Points Into Vectors
                 List<Vector4> Vectors = new List<Vector4>();
@@ -259,19 +260,24 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         {
                             Vector4 NewVector = new Vector4();
                             //Find X and W
+
                             NewVector.X = 1f;
-                            NewVector.W = NewVector.X * (Vectors[a].W / Vectors[a].X);
                             NewVector.Y = (Vectors[a].Y / Vectors[a].X) * NewVector.X;
                             NewVector.Z = (Vectors[a].Z / Vectors[a].X) * NewVector.X;
+
+                            NewVector.W = (Vectors[a].W * Vectors[a].X) * NewVector.X;
+
                             TempPath.VectorPoints.Add(NewVector);
                         }
                         else if (Vectors[a].Y >= Vectors[a].X/* && Vectors[a].Y >= Vectors[a].Z*/)
                         {
                             Vector4 NewVector = new Vector4();
                             NewVector.Y = 1f;
-                            NewVector.W = NewVector.Y * (Vectors[a].W/Vectors[a].Y);
                             NewVector.X = (Vectors[a].X / Vectors[a].Y) * NewVector.Y;
                             NewVector.Z = (Vectors[a].Z / Vectors[a].Y) * NewVector.Y;
+
+                            NewVector.W = (Vectors[a].W * Vectors[a].Y) * NewVector.Y;
+
                             TempPath.VectorPoints.Add(NewVector);
                         }
                         //else if (Vectors[a].Z >= Vectors[a].Y && Vectors[a].Z >= Vectors[a].X)
@@ -291,18 +297,22 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             Vector4 NewVector = new Vector4();
                             //Find X and W
                             NewVector.X = -1f;
-                            NewVector.W = NewVector.X * (Vectors[a].W/Vectors[a].X);
                             NewVector.Y = (Vectors[a].Y / Vectors[a].X) * NewVector.X;
                             NewVector.Z = (Vectors[a].Z / Vectors[a].X) * NewVector.X;
+
+                            NewVector.W = (Vectors[a].W * Vectors[a].X) * NewVector.X;
+
                             TempPath.VectorPoints.Add(NewVector);
                         }
                         else if (Vectors[a].Y <= Vectors[a].X /*&& Vectors[a].Y <= Vectors[a].Z*/)
                         {
                             Vector4 NewVector = new Vector4();
                             NewVector.Y = -1f;
-                            NewVector.W = NewVector.Y * (Vectors[a].W/Vectors[a].Y);
                             NewVector.X = (Vectors[a].X / Vectors[a].Y) * NewVector.Y;
                             NewVector.Z = (Vectors[a].Z / Vectors[a].Y) * NewVector.Y;
+
+                            NewVector.W = (Vectors[a].W * Vectors[a].Y) * NewVector.Y;
+
                             TempPath.VectorPoints.Add(NewVector);
                         }
                         //else if (Vectors[a].Z <= Vectors[a].Y && Vectors[a].Z <= Vectors[a].X)
@@ -320,7 +330,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
 
 
-                AIPath.PathAs[i] = TempPath;
+                RaceLine.PathBs[i] = TempPath;
             }
 
 
