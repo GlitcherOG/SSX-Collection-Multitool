@@ -67,6 +67,8 @@ namespace SSXMultiTool
             {
                 AIPSOPHandler aip = new AIPSOPHandler();
                 aip.LoadAIPSOP(LoadPath + ".aip");
+                aip.GenerateNewVectors();
+                aip.SaveAIPSOP(LoadPath + ".aip1");
 
                 AIPSOPHandler sop = new AIPSOPHandler();
                 sop.LoadAIPSOP(LoadPath + ".sop");
