@@ -53,6 +53,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int U5;
             public int U6;
 
+            public float[] PathPos;
+
             public float[,] PathPoints;
             public List<UnknownStruct> UnknownStructs;
         }
@@ -72,6 +74,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int U0;
             public int U1;
             public float U2;
+
+            public float[] PathPos;
 
             public float[,] PathPoints;
             public List<UnknownStruct> UnknownStructs;
