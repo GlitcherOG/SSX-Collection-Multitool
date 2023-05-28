@@ -216,6 +216,27 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 NewMainType.type0Sub5 = StreamUtil.ReadUInt32(stream);
                             }
                             else
+                            if (NewMainType.SubType == 6)
+                            {
+                                var NewSubType = new Type0Sub6();
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U1 = StreamUtil.ReadFloat(stream);
+                                NewMainType.type0Sub6 = NewSubType;
+                            }
+                            else
+                            if (NewMainType.SubType == 7)
+                            {
+                                var NewSubType = new Type0Sub7();
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U1 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U2 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U3 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U4 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U5 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U6 = StreamUtil.ReadFloat(stream);
+                                NewMainType.type0Sub7 = NewSubType;
+                            }
+                            else
                             if (NewMainType.SubType == 10)
                             {
                                 var NewSubType = new Type0Sub10();
@@ -247,6 +268,35 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 NewMainType.type0Sub12 = NewSubType;
                             }
                             else
+                            if (NewMainType.SubType == 13)
+                            {
+                                var NewSubType = new Type0Sub13();
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U1 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U2 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U3 = StreamUtil.ReadUInt32(stream);
+                                NewMainType.type0Sub13 = NewSubType;
+                            }
+                            else
+                            if (NewMainType.SubType == 14)
+                            {
+                                var NewSubType = new Type0Sub14();
+                                NewSubType.U0 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U1 = StreamUtil.ReadFloat(stream);
+                                NewMainType.type0Sub14 = NewSubType;
+                            }
+                            else
+                            if (NewMainType.SubType == 15)
+                            {
+                                var NewSubType = new Type0Sub15();
+                                NewSubType.U0 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U1 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U2 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U3 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U4 = StreamUtil.ReadFloat(stream);
+                                NewMainType.type0Sub15 = NewSubType;
+                            }
+                            else
                             if (NewMainType.SubType == 17)
                             {
                                 var NewSubType = new Type0Sub17();
@@ -254,6 +304,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 NewSubType.U1 = StreamUtil.ReadUInt32(stream); 
                                 NewSubType.U2 = StreamUtil.ReadUInt32(stream);
                                 NewMainType.type0Sub17 = NewSubType;
+                            }
+                            else
+                            if (NewMainType.SubType == 18)
+                            {
+                                var NewSubType = new Type0Sub18();
+                                NewSubType.U0 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U1 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U2 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U3 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U4 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U5 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U6 = StreamUtil.ReadFloat(stream);
+                                NewMainType.type0Sub18 = NewSubType;
                             }
                             else
                             if (NewMainType.SubType == 20)
@@ -277,6 +340,32 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             {
 
                             }
+                            else
+                            if (NewMainType.SubType == 24)
+                            {
+                                var NewSubType = new Type0Sub24();
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U1 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U2 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U3 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U4 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U5 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U6 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U7 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U8 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U9 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U10 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U11 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U12 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U13 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U14 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U15 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U16 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U17 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U18 = StreamUtil.ReadFloat(stream);
+
+                                NewMainType.type0Sub24 = NewSubType;
+                            }
                             else if (NewMainType.SubType == 256)
                             {
                                 var NewSubType = new Type0Sub256();
@@ -290,6 +379,38 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 NewSubType.U7 = StreamUtil.ReadUInt32(stream);
 
                                 NewMainType.type0Sub256 = NewSubType;
+                            }
+                            else if (NewMainType.SubType == 257)
+                            {
+                                var NewSubType = new Type0Sub257();
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U1 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U2 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U3 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U4 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U5 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U6 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U7 = StreamUtil.ReadUInt32(stream);
+
+                                NewMainType.type0Sub257 = NewSubType;
+                            }
+                            else if (NewMainType.SubType == 258)
+                            {
+                                var NewSubType = new Type0Sub258();
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U1 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U2 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U3 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U4 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U5 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U6 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U7 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U8 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U9 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U10 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U11 = StreamUtil.ReadUInt32(stream);
+
+                                NewMainType.type0Sub258 = NewSubType;
                             }
                             else
                             {
@@ -386,6 +507,29 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                             NewEffect.type2 = NewMainType;
                         }
+                        else if (NewEffect.MainType == 3)
+                        {
+                            var NewMainType = new Type3();
+
+                            NewMainType.U0 = StreamUtil.ReadUInt32(stream);
+                            NewMainType.U1 = StreamUtil.ReadUInt32(stream);
+
+                            NewEffect.type3 = NewMainType;
+                        }
+                        else if (NewEffect.MainType == 4)
+                        {
+                            NewEffect.type4 = StreamUtil.ReadFloat(stream);
+                        }
+                        else if (NewEffect.MainType == 5)
+                        {
+                            var NewMainType = new Type5();
+
+                            NewMainType.U0 = StreamUtil.ReadUInt32(stream);
+                            NewMainType.U1 = StreamUtil.ReadFloat(stream); //Not Actually Sure
+                            NewMainType.U2 = StreamUtil.ReadUInt32(stream);
+
+                            NewEffect.type5 = NewMainType;
+                        }
                         else if (NewEffect.MainType == 7)
                         {
                             var NewMainType = new Type7();
@@ -427,6 +571,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         else if (NewEffect.MainType == 21)
                         {
                             NewEffect.type21 = StreamUtil.ReadUInt32(stream);
+                        }
+                        else if (NewEffect.MainType == 24)
+                        {
+                            NewEffect.type24 = StreamUtil.ReadUInt32(stream);
                         }
                         else
                         {
@@ -783,6 +931,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             public Type0? type0;
             public Type2? type2;
+            public Type3? type3;
+            public float type4;
+            public Type5? type5;
             public Type7? type7;
             public int type8;
             public Type9? type9;
@@ -792,6 +943,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float type17;
             public float type18;
             public int type21;
+            public int type24;
         }
 
         #region Type0
@@ -802,12 +954,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public Type0Sub0? type0Sub0;
             public int type0Sub2; 
             public int type0Sub5;
+            public Type0Sub6? type0Sub6;
+            public Type0Sub7? type0Sub7;
             public Type0Sub10? type0Sub10;
             public Type0Sub11? type0Sub11;
             public Type0Sub12? type0Sub12;
+            public Type0Sub13? type0Sub13;
+            public Type0Sub14? type0Sub14;
+            public Type0Sub15? type0Sub15;
             public Type0Sub17? type0Sub17;
+            public Type0Sub18? type0Sub18;
             public Type0Sub20? type0Sub20;
+            public Type0Sub24? type0Sub24;
             public Type0Sub256? type0Sub256;
+            public Type0Sub257? type0Sub257;
+            public Type0Sub258? type0Sub258;
         }
 
         public struct Type0Sub0
@@ -818,6 +979,23 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float U3;
             public float U4;
             public float U5;
+        }
+
+        public struct Type0Sub6
+        {
+            public int U0;
+            public float U1;
+        }
+
+        public struct Type0Sub7
+        {
+            public int U0;
+            public int U1;
+            public float U2;
+            public float U3;
+            public float U4;
+            public int U5;
+            public float U6;
         }
 
         public struct Type0Sub10
@@ -845,11 +1023,45 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float U1;
         }
 
+        public struct Type0Sub13
+        {
+            public int U0;
+            public float U1;
+            public float U2;
+            public int U3;
+        }
+
+        public struct Type0Sub14
+        {
+            public float U0;
+            public float U1;
+        }
+
+        public struct Type0Sub15
+        {
+            public float U0;
+            public float U1;
+            public int U2;
+            public int U3;
+            public float U4;
+        }
+
         public struct Type0Sub17
         {
             public int U0;
             public int U1;
             public int U2;
+        }
+
+        public struct Type0Sub18
+        {
+            public float U0;
+            public float U1;
+            public int U2;
+            public int U3;
+            public float U4;
+            public float U5;
+            public float U6;
         }
 
         public struct Type0Sub20
@@ -866,6 +1078,29 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float U9;
         }
 
+        public struct Type0Sub24
+        {
+            public int U0;
+            public int U1;
+            public float U2;
+            public float U3;
+            public int U4;
+            public int U5;
+            public int U6;
+            public float U7;
+            public float U8;
+            public float U9;
+            public float U10;
+            public float U11;
+            public float U12;
+            public float U13;
+            public float U14;
+            public float U15;
+            public float U16;
+            public float U17;
+            public float U18;
+        }
+
         public struct Type0Sub256
         {
             public int U0;
@@ -877,7 +1112,48 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int U6;
             public int U7;
         }
+
+        public struct Type0Sub257
+        {
+            public int U0;
+            public int U1;
+            public float U2;
+            public float U3;
+            public int U4;
+            public float U5;
+            public int U6;
+            public int U7;
+        }
+
+        public struct Type0Sub258
+        {
+            public int U0;
+            public int U1;
+            public float U2;
+            public float U3;
+            public int U4;
+            public float U5;
+            public int U6;
+            public int U7;
+            public float U8;
+            public float U9;
+            public float U10;
+            public int U11;
+        }
         #endregion
+
+        public struct Type3
+        {
+            public int U0;
+            public int U1;
+        }
+
+        public struct Type5
+        {
+            public int U0;
+            public float U1;
+            public int U2;
+        }
 
         #region Type2
         public struct Type2
