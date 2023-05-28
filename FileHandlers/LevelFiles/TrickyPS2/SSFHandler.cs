@@ -492,12 +492,97 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 NewSubType.U49 = StreamUtil.ReadUInt32(stream);
                                 NewSubType.U50 = StreamUtil.ReadUInt32(stream); 
 
-                                if(NewSubType.U9 != 0)
-                                {
-                                    Console.WriteLine("");
-                                }
-
                                 NewMainType.type2Sub0 = NewSubType;
+                            }
+                            else if(NewMainType.SubType == 1)
+                            {
+                                var NewSubType = new Type2Sub1();
+
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U1 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U2 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U3 = StreamUtil.ReadUInt32(stream);
+
+                                NewSubType.U4 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U5 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U6 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U7 = StreamUtil.ReadUInt32(stream);
+
+                                NewSubType.U8 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U9 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U10 = StreamUtil.ReadUInt32(stream);
+
+                                NewMainType.type2Sub1 = NewSubType;
+                            }
+                            else if (NewMainType.SubType == 2)
+                            {
+                                var NewSubType = new Type2Sub2();
+
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U1 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U2 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U3 = StreamUtil.ReadUInt32(stream);
+
+                                NewSubType.U4 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U5 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U6 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U7 = StreamUtil.ReadUInt32(stream);
+
+                                NewSubType.U8 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U9 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U10 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U11 = StreamUtil.ReadUInt32(stream);
+
+                                NewSubType.U12 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U13 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U14 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U15 = StreamUtil.ReadUInt32(stream);
+
+                                NewSubType.U16 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U17 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U18 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U19 = StreamUtil.ReadUInt32(stream);
+
+                                NewSubType.U20 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U21 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U22 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U23 = StreamUtil.ReadUInt32(stream);
+
+                                NewSubType.U24 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U25 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U26 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U27 = StreamUtil.ReadUInt32(stream);
+
+                                NewSubType.U28 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U29 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U30 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U31 = StreamUtil.ReadUInt32(stream);
+
+                                NewSubType.U32 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U33 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U34 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U35 = StreamUtil.ReadUInt32(stream);
+
+                                NewSubType.U36 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U37 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U38 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U39 = StreamUtil.ReadUInt32(stream);
+
+                                NewSubType.U40 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U41 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U42 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U43 = StreamUtil.ReadUInt32(stream);
+
+                                NewSubType.U44 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U45 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U46 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U47 = StreamUtil.ReadUInt32(stream);
+
+                                NewSubType.U48 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U49 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U50 = StreamUtil.ReadUInt32(stream);
+
+                                NewMainType.type2Sub2 = NewSubType;
                             }
                             else
                             {
@@ -575,6 +660,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         else if (NewEffect.MainType == 24)
                         {
                             NewEffect.type24 = StreamUtil.ReadUInt32(stream);
+                        }
+                        else if (NewEffect.MainType == 25)
+                        {
+                            var NewMainType = new Type25();
+
+                            NewMainType.U0 = StreamUtil.ReadUInt32(stream);
+                            NewMainType.U1 = StreamUtil.ReadUInt32(stream);
+
+                            NewEffect.type25 = NewMainType;
                         }
                         else
                         {
@@ -944,6 +1038,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float type18;
             public int type21;
             public int type24;
+            public Type25? type25;
         }
 
         #region Type0
@@ -1142,25 +1237,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         }
         #endregion
 
-        public struct Type3
-        {
-            public int U0;
-            public int U1;
-        }
-
-        public struct Type5
-        {
-            public int U0;
-            public float U1;
-            public int U2;
-        }
-
         #region Type2
         public struct Type2
         {
             public int SubType;
 
             public Type2Sub0? type2Sub0;
+            public Type2Sub1? type2Sub1;
+            public Type2Sub2? type2Sub2;
         }
 
         public struct Type2Sub0
@@ -1217,7 +1301,91 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int U49;
             public int U50;
         }
+
+        public struct Type2Sub1
+        {
+            public int U0;
+            public int U1;
+            public int U2;
+            public int U3;
+            public float U4;
+            public float U5;
+            public int U6;
+            public int U7;
+            public int U8;
+            public int U9;
+            public int U10;
+        }
+
+        public struct Type2Sub2
+        {
+            public int U0;
+            public int U1;
+            public int U2;
+            public int U3;
+            public int U4;
+            public int U5;
+            public int U6;
+            public int U7;
+            public int U8;
+            public int U9;
+            public int U10;
+            public int U11;
+            public int U12;
+            public int U13;
+            public int U14;
+            public int U15;
+            public int U16;
+            public int U17;
+            public int U18;
+            public int U19;
+            public int U20;
+            public int U21;
+            public int U22;
+            public int U23;
+            public int U24;
+            public int U25;
+            public int U26;
+            public int U27;
+            public int U28;
+            public int U29;
+            public int U30;
+            public int U31;
+            public int U32;
+            public int U33;
+            public int U34;
+            public int U35;
+            public int U36;
+            public int U37;
+            public int U38;
+            public int U39;
+            public int U40;
+            public int U41;
+            public int U42;
+            public int U43;
+            public int U44;
+            public int U45;
+            public int U46;
+            public int U47;
+            public int U48;
+            public int U49;
+            public int U50;
+        }
         #endregion
+
+
+        public struct Type3
+        {
+            public int U0;
+            public int U1;
+        }
+
+        public struct Type5
+        {
+            public int U0;
+            public float U1;
+            public int U2;
+        }
 
         public struct Type7
         {
@@ -1229,6 +1397,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         {
             public int U0;
             public float U1;
+        }
+
+        public struct Type25
+        {
+            public int U0;
+            public int U1;
         }
     }
 }
