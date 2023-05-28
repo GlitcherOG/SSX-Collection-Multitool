@@ -184,11 +184,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         NewEffect.MainType = StreamUtil.ReadUInt32(stream);
                         NewEffect.ByteSize = StreamUtil.ReadUInt32(stream);
                         
-                        //Debug Data
-                        TempEffect.MainType = NewEffect.MainType;
-                        TempEffect.ByteSize = NewEffect.ByteSize;
-                        TempEffect.SubType = StreamUtil.ReadUInt32(stream);
-                        stream.Position -= 4;
                         if (NewEffect.MainType == 0)
                         {
                             var NewMainType = new Type0();
@@ -1011,11 +1006,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int EffectOffset; //Offset
 
             public List<Effect> Effects;
-
-            //Debug Info
-            public int MainType;
-            public int SubType;
-            public int ByteSize;
         }
 
         public struct Effect
