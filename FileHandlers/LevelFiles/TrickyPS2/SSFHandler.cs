@@ -181,6 +181,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     for (int a = 0; a < TempEffect.EffectCount; a++)
                     {
                         var NewEffect = new Effect();
+
+                        //Debug Info
+                        NewEffect.Offset = (int)stream.Position;
+
                         NewEffect.MainType = StreamUtil.ReadUInt32(stream);
                         NewEffect.ByteSize = StreamUtil.ReadUInt32(stream);
                         
@@ -1012,6 +1016,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public struct Effect
         {
+            //Debug Info
+            public int Offset;
+
             public int MainType;
             public int ByteSize;
 

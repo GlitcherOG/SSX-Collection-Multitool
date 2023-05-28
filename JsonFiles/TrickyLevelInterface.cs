@@ -259,6 +259,8 @@ namespace SSXMultiTool
                                 Slot = Slot + TempEffect.Effects[a].type2.Value.SubType;
                             }
 
+                            Slot = Slot +  " | Offset: " + TempEffect.Effects[a].Offset;
+
                             instanceJson.Effects.Add(Slot);
                         }
                     }
@@ -282,6 +284,8 @@ namespace SSXMultiTool
                                 Slot = Slot + TempEffect.Effects[a].type2.Value.SubType;
                             }
 
+                            Slot = Slot + " | Offset: " + TempEffect.Effects[a].Offset;
+
                             instanceJson.Effects.Add(Slot);
                         }
                     }
@@ -303,6 +307,8 @@ namespace SSXMultiTool
                             {
                                 Slot = Slot + TempEffect.Effects[a].type2.Value.SubType;
                             }
+
+                            Slot = Slot + " | Offset: " + TempEffect.Effects[a].Offset;
 
                             instanceJson.Effects.Add(Slot);
                         }
@@ -326,6 +332,8 @@ namespace SSXMultiTool
                                 Slot = Slot + TempEffect.Effects[a].type2.Value.SubType;
                             }
 
+                            Slot = Slot + " | Offset: " + TempEffect.Effects[a].Offset;
+
                             instanceJson.Effects.Add(Slot);
                         }
                     }
@@ -347,6 +355,8 @@ namespace SSXMultiTool
                             {
                                 Slot = Slot + TempEffect.Effects[a].type2.Value.SubType;
                             }
+
+                            Slot = Slot + " | Offset: " + TempEffect.Effects[a].Offset;
 
                             instanceJson.Effects.Add(Slot);
                         }
@@ -370,6 +380,8 @@ namespace SSXMultiTool
                                 Slot = Slot + TempEffect.Effects[a].type2.Value.SubType;
                             }
 
+                            Slot = Slot + " | Offset: " + TempEffect.Effects[a].Offset;
+
                             instanceJson.Effects.Add(Slot);
                         }
                     }
@@ -391,6 +403,8 @@ namespace SSXMultiTool
                             {
                                 Slot = Slot + TempEffect.Effects[a].type2.Value.SubType;
                             }
+
+                            Slot = Slot + " | Offset: " + TempEffect.Effects[a].Offset;
 
                             instanceJson.Effects.Add(Slot);
                         }
