@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Shapes;
@@ -181,102 +182,114 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     {
                         var NewEffect = new Effect();
                         NewEffect.MainType = StreamUtil.ReadUInt32(stream);
-
+                        NewEffect.ByteSize = StreamUtil.ReadUInt32(stream);
+                        
+                        //Debug Data
+                        TempEffect.MainType = NewEffect.MainType;
+                        TempEffect.ByteSize = NewEffect.ByteSize;
+                        TempEffect.SubType = StreamUtil.ReadUInt32(stream);
+                        stream.Position -= 4;
                         if (NewEffect.MainType == 0)
                         {
                             var NewMainType = new Type0();
                             NewMainType.SubType = StreamUtil.ReadUInt32(stream);
 
-                            if(NewMainType.SubType == 12)
+                            if (NewMainType.SubType == 0)
                             {
-                                var TempNewSubType = new Type0Sub12();
-                                TempNewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                                NewMainType.type0Sub12 = TempNewSubType;
+                                var NewSubType = new Type0Sub0();
+                                NewSubType.U0 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U1 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U2 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U3 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U4 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U5 = StreamUtil.ReadFloat(stream);
+                                NewMainType.type0Sub0 = NewSubType;
+                            }
+                            else 
+                            if (NewMainType.SubType == 2)
+                            {
+                                NewMainType.type0Sub2 = StreamUtil.ReadUInt32(stream);
                             }
                             else
-                            if (NewMainType.SubType == 16)
+                            if (NewMainType.SubType == 5)
                             {
-                                var TempNewSubType = new Type0Sub16();
-                                TempNewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U1 = StreamUtil.ReadUInt32(stream);
-                                NewMainType.type0Sub16 = TempNewSubType;
+                                NewMainType.type0Sub5 = StreamUtil.ReadUInt32(stream);
                             }
                             else
-                            if(NewMainType.SubType==20)
+                            if (NewMainType.SubType == 10)
                             {
-                                var TempNewSubType = new Type0Sub20();
-                                TempNewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U1 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U2 = StreamUtil.ReadFloat(stream);
-                                NewMainType.type0Sub20 = TempNewSubType;
+                                var NewSubType = new Type0Sub10();
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U1 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U2 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U3 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U4 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U5 = StreamUtil.ReadUInt32(stream);
+                                NewMainType.type0Sub10 = NewSubType;
                             }
                             else
-                            if(NewMainType.SubType==24)
+                            if (NewMainType.SubType == 11)
                             {
-                                var TempNewSubType = new Type0Sub24();
-                                TempNewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U1 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U2 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U3 = StreamUtil.ReadUInt32(stream);
-                                NewMainType.type0Sub24 = TempNewSubType;
+                                var NewSubType = new Type0Sub11();
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U1 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U2 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U3 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U4 = StreamUtil.ReadUInt32(stream);
+                                NewMainType.type0Sub11 = NewSubType;
                             }
                             else
-                            if(NewMainType.SubType==32)
+                            if (NewMainType.SubType == 12)
                             {
-                                var TempNewSubType = new Type0Sub32();
-                                TempNewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U1 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U2 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U3 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U4 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U5 = StreamUtil.ReadUInt32(stream);
-                                NewMainType.type0Sub32 = TempNewSubType;
+                                var NewSubType = new Type0Sub12();
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U1 = StreamUtil.ReadFloat(stream);
+                                NewMainType.type0Sub12 = NewSubType;
                             }
                             else
-                            if (NewMainType.SubType == 36)
+                            if (NewMainType.SubType == 17)
                             {
-                                var TempNewSubType = new Type0Sub36();
-                                TempNewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U1 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U2 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U3 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U4 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U5 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U6 = StreamUtil.ReadUInt32(stream);
-                                NewMainType.type0Sub36 = TempNewSubType;
+                                var NewSubType = new Type0Sub17();
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U1 = StreamUtil.ReadUInt32(stream); 
+                                NewSubType.U2 = StreamUtil.ReadUInt32(stream);
+                                NewMainType.type0Sub17 = NewSubType;
                             }
-                            else if(NewMainType.SubType==44)
+                            else
+                            if (NewMainType.SubType == 20)
                             {
-                                var TempNewSubType = new Type0Sub44();
-                                TempNewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U1 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U2 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U3 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U4 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U5 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U6 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U7 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U8 = StreamUtil.ReadUInt32(stream);
+                                var NewSubType = new Type0Sub20();
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U1 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U2 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U3 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U4 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U5 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U6 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U7 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U8 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U9 = StreamUtil.ReadFloat(stream);
 
-                                NewMainType.type0Sub44 = TempNewSubType;
+                                NewMainType.type0Sub20 = NewSubType;
                             }
-                            else if (NewMainType.SubType == 52)
+                            else
+                            if (NewMainType.SubType == 23)
                             {
-                                var TempNewSubType = new Type0Sub52();
 
-                                TempNewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U1 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U2 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U3 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U4 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U5 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U6 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U7 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U8 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U9 = StreamUtil.ReadFloat(stream);
-                                TempNewSubType.U10 = StreamUtil.ReadFloat(stream);
+                            }
+                            else if (NewMainType.SubType == 256)
+                            {
+                                var NewSubType = new Type0Sub256();
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U1 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U2 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U3 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U4 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U5 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U6 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U7 = StreamUtil.ReadUInt32(stream);
 
-                                NewMainType.type0Sub52 = TempNewSubType;
+                                NewMainType.type0Sub256 = NewSubType;
                             }
                             else
                             {
@@ -285,42 +298,135 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             }
                             NewEffect.type0 = NewMainType;
                         }
-                        else if (NewEffect.MainType == 9)
+                        else if (NewEffect.MainType == 2)
                         {
-                            var NewMainType = new Type9();
+                            var NewMainType = new Type2();
                             NewMainType.SubType = StreamUtil.ReadUInt32(stream);
-                            if (NewMainType.SubType==16)
+
+                            if(NewMainType.SubType == 0)
                             {
-                                var TempNewSubType = new Type9Sub16();
-                                TempNewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                                TempNewSubType.U1 = StreamUtil.ReadFloat(stream);
-                                NewMainType.type9Sub16 = TempNewSubType;
+                                var NewSubType = new Type2Sub0();
+
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U1 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U2 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U3 = StreamUtil.ReadFloat(stream);
+
+                                NewSubType.U4 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U5 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U6 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U7 = StreamUtil.ReadFloat(stream);
+
+                                NewSubType.U8 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U9 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U10 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U11 = StreamUtil.ReadFloat(stream);
+
+                                NewSubType.U12 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U13 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U14 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U15 = StreamUtil.ReadFloat(stream);
+
+                                NewSubType.U16 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U17 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U18 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U19 = StreamUtil.ReadFloat(stream);
+
+                                NewSubType.U20 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U21 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U22 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U23 = StreamUtil.ReadFloat(stream);
+
+                                NewSubType.U24 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U25 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U26 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U27 = StreamUtil.ReadFloat(stream);
+
+                                NewSubType.U28 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U29 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U30 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U31 = StreamUtil.ReadFloat(stream);
+
+                                NewSubType.U32 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U33 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U34 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U35 = StreamUtil.ReadFloat(stream);
+
+                                NewSubType.U36 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U37 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U38 = StreamUtil.ReadFloat(stream); 
+                                NewSubType.U39 = StreamUtil.ReadFloat(stream);
+
+                                NewSubType.U40 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U41 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U42 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U43 = StreamUtil.ReadFloat(stream);
+
+                                NewSubType.U44 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U45 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U46 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U47 = StreamUtil.ReadFloat(stream); 
+
+                                NewSubType.U48 = StreamUtil.ReadFloat(stream);
+                                NewSubType.U49 = StreamUtil.ReadUInt32(stream);
+                                NewSubType.U50 = StreamUtil.ReadUInt32(stream); 
+
+                                if(NewSubType.U9 != 0)
+                                {
+                                    Console.WriteLine("");
+                                }
+
+                                NewMainType.type2Sub0 = NewSubType;
                             }
                             else
                             {
                                 Debug.WriteLine("Missing Type " + NewEffect.MainType.ToString() + "," + NewMainType.SubType.ToString());
                                 break;
                             }
+
+                            NewEffect.type2 = NewMainType;
+                        }
+                        else if (NewEffect.MainType == 7)
+                        {
+                            var NewMainType = new Type7();
+
+                            NewMainType.U0 = StreamUtil.ReadUInt32(stream);
+                            NewMainType.U1 = StreamUtil.ReadUInt32(stream);
+
+                            NewEffect.type7 = NewMainType;
+                        }
+                        else if (NewEffect.MainType == 8)
+                        {
+                            NewEffect.type8 = StreamUtil.ReadUInt32(stream);
+                        }
+                        else if (NewEffect.MainType == 9)
+                        {
+                            var NewMainType = new Type9();
+
+                            NewMainType.U0 = StreamUtil.ReadUInt32(stream);
+                            NewMainType.U1 = StreamUtil.ReadFloat(stream);
+
                             NewEffect.type9 = NewMainType;
                         }
                         else if (NewEffect.MainType == 13)
                         {
-                            var NewMainType = new Type13();
-                            NewMainType.SubType = StreamUtil.ReadUInt32(stream);
-
-                            if(NewMainType.SubType==12)
-                            {
-                                var TempNewSubType = new Type13Sub12();
-                                TempNewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                                NewMainType.type13Sub12 = TempNewSubType;
-                            }
-                            else
-                            {
-                                Debug.WriteLine("Missing Type " + NewEffect.MainType.ToString() + "," + NewMainType.SubType.ToString());
-                                break;
-                            }
-
-                            NewEffect.type13 = NewMainType;
+                            NewEffect.type13 = StreamUtil.ReadFloat(stream);
+                        }
+                        else if (NewEffect.MainType == 14)
+                        {
+                            NewEffect.type14 = StreamUtil.ReadFloat(stream);
+                        }
+                        else if (NewEffect.MainType == 17)
+                        {
+                            NewEffect.type17 = StreamUtil.ReadFloat(stream);
+                        }
+                        else if (NewEffect.MainType == 18)
+                        {
+                            NewEffect.type18 = StreamUtil.ReadFloat(stream);
+                        }
+                        else if (NewEffect.MainType == 21)
+                        {
+                            NewEffect.type21 = StreamUtil.ReadUInt32(stream);
                         }
                         else
                         {
@@ -663,134 +769,191 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int EffectOffset; //Offset
 
             public List<Effect> Effects;
+
+            //Debug Info
+            public int MainType;
+            public int SubType;
+            public int ByteSize;
         }
 
         public struct Effect
         {
             public int MainType;
+            public int ByteSize;
+
             public Type0? type0;
+            public Type2? type2;
+            public Type7? type7;
+            public int type8;
             public Type9? type9;
-            public Type13? type13;
+
+            public float type13;
+            public float type14;
+            public float type17;
+            public float type18;
+            public int type21;
         }
 
         #region Type0
         public struct Type0
         {
             public int SubType;
+
+            public Type0Sub0? type0Sub0;
+            public int type0Sub2; 
+            public int type0Sub5;
+            public Type0Sub10? type0Sub10;
+            public Type0Sub11? type0Sub11;
             public Type0Sub12? type0Sub12;
-            public Type0Sub16? type0Sub16;
-            public Type0Sub20? type0Sub20; 
-            public Type0Sub24? type0Sub24;
-            public Type0Sub32? type0Sub32;
-            public Type0Sub36? type0Sub36;
-            public Type0Sub44? type0Sub44;
-            public Type0Sub52? type0Sub52;
+            public Type0Sub17? type0Sub17;
+            public Type0Sub20? type0Sub20;
+            public Type0Sub256? type0Sub256;
         }
 
-        public struct Type0Sub12
+        public struct Type0Sub0
         {
-            public int U0;
-        }
-
-        public struct Type0Sub16
-        {
-            public int U0;
-            public int U1;
-        }
-
-        public struct Type0Sub20
-        {
-            public int U0;
-            public int U1;
+            public float U0;
+            public float U1;
             public float U2;
-        }
-
-        public struct Type0Sub24
-        {
-            public int U0;
-            public int U1;
-            public int U2;
-            public int U3;
-        }
-
-        public struct Type0Sub32
-        {
-            public int U0;
-            public int U1;
-            public int U2;
             public float U3;
             public float U4;
-            public int U5;
+            public float U5;
         }
 
-        public struct Type0Sub36
+        public struct Type0Sub10
         {
             public int U0;
             public float U1;
             public float U2;
             public float U3;
             public float U4;
-            public float U5;
-            public int U6;
-        }
-
-        public struct Type0Sub44
-        {
-            public int U0;
-            public int U1;
-            public float U2;
-            public float U3;
-            public float U4;
             public int U5;
-            public float U6;
-            public int U7;
-            public int U8;
         }
 
-        public struct Type0Sub52
+        public struct Type0Sub11
         {
             public int U0;
             public int U1;
             public float U2;
             public float U3;
             public int U4;
-            public int U5;
-            public int U6;
-            public float U7;
-            public float U8;
-            public float U9;
-            public float U10;
         }
-        #endregion
 
-        #region Type9
-        public struct Type9
-        {
-            public int SubType;
-
-            public Type9Sub16? type9Sub16;
-        }
-        public struct Type9Sub16
+        public struct Type0Sub12
         {
             public int U0;
             public float U1;
         }
+
+        public struct Type0Sub17
+        {
+            public int U0;
+            public int U1;
+            public int U2;
+        }
+
+        public struct Type0Sub20
+        {
+            public int U0;
+            public float U1;
+            public float U2;
+            public int U3;
+            public int U4;
+            public int U5;
+            public float U6;
+            public float U7;
+            public float U8;
+            public float U9;
+        }
+
+        public struct Type0Sub256
+        {
+            public int U0;
+            public float U1;
+            public float U2;
+            public float U3;
+            public int U4;
+            public float U5;
+            public int U6;
+            public int U7;
+        }
         #endregion
 
-        #region Type13
-        public struct Type13
+        #region Type2
+        public struct Type2
         {
             public int SubType;
 
-            public Type13Sub12? type13Sub12;
+            public Type2Sub0? type2Sub0;
         }
 
-        public struct Type13Sub12
+        public struct Type2Sub0
         {
             public int U0;
+            public int U1;
+            public float U2;
+            public float U3;
+            public float U4;
+            public float U5;
+            public float U6;
+            public float U7;
+            public float U8;
+            public int U9;
+            public float U10;
+            public float U11;
+            public float U12;
+            public float U13;
+            public float U14;
+            public float U15;
+            public float U16;
+            public float U17;
+            public float U18;
+            public float U19;
+            public float U20;
+            public float U21;
+            public float U22;
+            public float U23;
+            public float U24;
+            public float U25;
+            public float U26;
+            public float U27;
+            public float U28;
+            public float U29;
+            public float U30;
+            public float U31;
+            public float U32;
+            public float U33;
+            public float U34;
+            public float U35;
+            public float U36;
+            public float U37;
+            public float U38;
+            public float U39;
+            public float U40;
+            public float U41;
+            public float U42;
+            public float U43;
+            public float U44;
+            public float U45;
+            public float U46;
+            public float U47;
+            public float U48;
+            public int U49;
+            public int U50;
+        }
+        #endregion
+
+        public struct Type7
+        {
+            public int U0;
+            public int U1;
         }
 
-        #endregion
+        public struct Type9
+        {
+            public int U0;
+            public float U1;
+        }
     }
 }
 
