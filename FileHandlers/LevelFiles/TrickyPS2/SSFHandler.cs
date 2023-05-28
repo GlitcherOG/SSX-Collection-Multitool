@@ -670,6 +670,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             Debug.WriteLine("Missing Type " + NewEffect.MainType.ToString());
                             break;
                         }
+
+                        TempEffect.Effects.Add(NewEffect);
                     }
 
                     EffectHeaders[i] = TempEffect;

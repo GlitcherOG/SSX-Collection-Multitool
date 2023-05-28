@@ -77,6 +77,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int Hash;
             public bool IncludeSound;
             public SoundData? Sounds;
+
+            public List<string> Effects;
         }
         [Serializable]
         public struct SoundData
