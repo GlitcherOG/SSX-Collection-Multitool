@@ -1022,11 +1022,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int type8;
             public Type9? type9;
 
-            public float type13;
+            public float type13; //Used By River
             public float type14;
             public float type17;
             public float type18;
-            public int type21;
+            public int type21; //Script Used By Screenlogo
             public int type24;
             public Type25? type25;
         }
@@ -1036,24 +1036,24 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         {
             public int SubType;
 
-            public Type0Sub0? type0Sub0;
-            public int type0Sub2; 
-            public int type0Sub5;
-            public Type0Sub6? type0Sub6;
-            public Type0Sub7? type0Sub7;
-            public Type0Sub10? type0Sub10;
-            public Type0Sub11? type0Sub11;
-            public Type0Sub12? type0Sub12;
-            public Type0Sub13? type0Sub13;
-            public Type0Sub14? type0Sub14;
-            public Type0Sub15? type0Sub15;
-            public Type0Sub17? type0Sub17;
-            public Type0Sub18? type0Sub18;
-            public Type0Sub20? type0Sub20;
-            public Type0Sub24? type0Sub24;
-            public Type0Sub256? type0Sub256;
-            public Type0Sub257? type0Sub257;
-            public Type0Sub258? type0Sub258;
+            public Type0Sub0? type0Sub0; ///Roller?
+            public int type0Sub2;  //Debounce?
+            public int type0Sub5; //DeadNode?
+            public Type0Sub6? type0Sub6; //Counter
+            public Type0Sub7? type0Sub7; //Boost
+            public Type0Sub10? type0Sub10; //UVScroll
+            public Type0Sub11? type0Sub11; //TexFlip
+            public Type0Sub12? type0Sub12; //Fence
+            public Type0Sub13? type0Sub13; //Flag
+            public Type0Sub14? type0Sub14; //Cracked
+            public Type0Sub15? type0Sub15; //LapBoost
+            public Type0Sub17? type0Sub17; //CrowdBox
+            public Type0Sub18? type0Sub18; //ZBoost
+            public Type0Sub20? type0Sub20; //cMeshAnim
+            public Type0Sub24? type0Sub24; //TubeEndBoost
+            public Type0Sub256? type0Sub256; //AnimObject
+            public Type0Sub257? type0Sub257; //AnimDelta
+            public Type0Sub258? type0Sub258; //AnimCombo
         }
 
         public struct Type0Sub0
@@ -1232,9 +1232,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         {
             public int SubType;
 
-            public Type2Sub0? type2Sub0;
-            public Type2Sub1? type2Sub1;
-            public Type2Sub2? type2Sub2;
+            public Type2Sub0? type2Sub0; //Emitter
+            public Type2Sub1? type2Sub1; //SplinePath
+            public Type2Sub2? type2Sub2; //CollideEmitter
         }
 
         public struct Type2Sub0
