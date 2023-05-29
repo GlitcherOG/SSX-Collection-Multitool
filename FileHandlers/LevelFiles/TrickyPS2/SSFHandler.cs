@@ -1026,6 +1026,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             //13 - Reset
             //14 - Multiplyer
 
+            //16 - Sound (ZBxsfx_31)
+            //17 - Boost
+            //18 - Trick Boost
+
             public Type0? type0;
             public Type2? type2;
             public Type3? type3;
@@ -1048,6 +1052,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public struct Type0
         {
             public int SubType;
+
+            //5 - Destroy
+
+            //10 - UV Scroll
+            //12 - FenceFlex
+            //17 - Crowd
+            //23 - Movie?
 
             public Type0Sub0? type0Sub0; ///Roller?
             public int type0Sub2;  //Debounce?
