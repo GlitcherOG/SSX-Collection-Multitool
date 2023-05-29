@@ -212,7 +212,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             else
                             if (NewMainType.SubType == 5)
                             {
-                                NewMainType.type0Sub5 = StreamUtil.ReadUInt32(stream);
+                                NewMainType.DestroyMode = StreamUtil.ReadUInt32(stream);
                             }
                             else
                             if (NewMainType.SubType == 6)
@@ -238,14 +238,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             else
                             if (NewMainType.SubType == 10)
                             {
-                                var NewSubType = new Type0Sub10();
-                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                                NewSubType.U1 = StreamUtil.ReadFloat(stream);
-                                NewSubType.U2 = StreamUtil.ReadFloat(stream);
-                                NewSubType.U3 = StreamUtil.ReadFloat(stream);
-                                NewSubType.U4 = StreamUtil.ReadFloat(stream);
+                                var NewSubType = new UVScrolling();
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream); //Scroll Mode 
+                                NewSubType.U1 = StreamUtil.ReadFloat(stream); //Horozontal Scroll
+                                NewSubType.U2 = StreamUtil.ReadFloat(stream); //Vertical Scroll
+                                NewSubType.U3 = StreamUtil.ReadFloat(stream); //Horozontal Scroll Length
+                                NewSubType.U4 = StreamUtil.ReadFloat(stream); //Vertical Scroll Length
                                 NewSubType.U5 = StreamUtil.ReadUInt32(stream);
-                                NewMainType.type0Sub10 = NewSubType;
+                                NewMainType.UVScroll = NewSubType;
                             }
                             else
                             if (NewMainType.SubType == 11)
@@ -261,10 +261,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             else
                             if (NewMainType.SubType == 12)
                             {
-                                var NewSubType = new Type0Sub12();
-                                NewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                                NewSubType.U1 = StreamUtil.ReadFloat(stream);
-                                NewMainType.type0Sub12 = NewSubType;
+                                var NewSubType = new FenceFlex();
+                                NewSubType.U0 = StreamUtil.ReadUInt32(stream); //Flex Mode?
+                                NewSubType.FlexAmmount = StreamUtil.ReadFloat(stream);
+                                NewMainType.Fence = NewSubType;
                             }
                             else
                             if (NewMainType.SubType == 13)
@@ -300,7 +300,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             {
                                 var NewSubType = new Type0Sub17();
                                 NewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                                NewSubType.U1 = StreamUtil.ReadUInt32(stream); 
+                                //Both Effect How Many Rows Of People
+                                NewSubType.U1 = StreamUtil.ReadUInt32(stream);
                                 NewSubType.U2 = StreamUtil.ReadUInt32(stream);
                                 NewMainType.type0Sub17 = NewSubType;
                             }
@@ -642,7 +643,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         }
                         else if (NewEffect.MainType == 14)
                         {
-                            NewEffect.type14 = StreamUtil.ReadFloat(stream);
+                            NewEffect.MultiplierScore = StreamUtil.ReadFloat(stream);
                         }
                         else if (NewEffect.MainType == 17)
                         {
@@ -1023,7 +1024,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int ByteSize;
 
             //13 - Reset
-            //14 - Snow Flake Collection Sound 
+            //14 - Multiplyer
 
             public Type0? type0;
             public Type2? type2;
@@ -1035,7 +1036,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public Type9? type9;
 
             public float type13; //Reset Value
-            public float type14;
+            public float MultiplierScore;
             public float type17;
             public float type18;
             public int type21; //Script Used By Screenlogo
@@ -1050,12 +1051,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             public Type0Sub0? type0Sub0; ///Roller?
             public int type0Sub2;  //Debounce?
-            public int type0Sub5; //DeadNode?
+            public int DestroyMode; //5
             public Type0Sub6? type0Sub6; //Counter
             public Type0Sub7? type0Sub7; //Boost
-            public Type0Sub10? type0Sub10; //UVScroll
+            public UVScrolling? UVScroll; //10
             public Type0Sub11? type0Sub11; //TexFlip
-            public Type0Sub12? type0Sub12; //Fence
+            public FenceFlex? Fence; //Fence
             public Type0Sub13? type0Sub13; //Flag
             public Type0Sub14? type0Sub14; //Cracked
             public Type0Sub15? type0Sub15; //LapBoost
@@ -1095,7 +1096,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float U6;
         }
 
-        public struct Type0Sub10
+        public struct UVScrolling
         {
             public int U0;
             public float U1;
@@ -1114,10 +1115,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int U4;
         }
 
-        public struct Type0Sub12
+        public struct FenceFlex
         {
             public int U0;
-            public float U1;
+            public float FlexAmmount;
         }
 
         public struct Type0Sub13
