@@ -264,7 +264,6 @@ namespace SSXMultiTool
                             instanceJson.Effects.Add(Slot);
                         }
                     }
-                    else
                     if (EffectSlot.Slot2 != -1)
                     {
                         var TempEffect = ssfHandler.EffectHeaders[EffectSlot.Slot2];
@@ -408,10 +407,6 @@ namespace SSXMultiTool
 
                             instanceJson.Effects.Add(Slot);
                         }
-                    }
-                    else
-                    {
-                        Console.WriteLine("");
                     }
 
                 }

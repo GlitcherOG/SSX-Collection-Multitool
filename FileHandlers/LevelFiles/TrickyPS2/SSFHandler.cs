@@ -746,7 +746,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     Splines.Add(TempUstruct6);
                 }
 
-            }
+                }
         }
 
         public void SaveTest(string Path)
@@ -1022,6 +1022,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int MainType;
             public int ByteSize;
 
+            //13 - Reset
+            //14 - Snow Flake Collection Sound 
+
             public Type0? type0;
             public Type2? type2;
             public Type3? type3;
@@ -1031,7 +1034,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int type8;
             public Type9? type9;
 
-            public float type13; //Used By River
+            public float type13; //Reset Value
             public float type14;
             public float type17;
             public float type18;
