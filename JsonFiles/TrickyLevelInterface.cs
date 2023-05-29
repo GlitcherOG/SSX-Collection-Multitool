@@ -248,7 +248,7 @@ namespace SSXMultiTool
 
                         for (int a = 0; a < TempEffect.Effects.Count; a++)
                         {
-                            Slot = TempEffect.Effects[a].MainType + ", ";
+                            Slot = "Slot 1 |" + TempEffect.Effects[a].MainType + ", ";
 
                             if (TempEffect.Effects[a].MainType == 0)
                             {
@@ -272,7 +272,7 @@ namespace SSXMultiTool
 
                         for (int a = 0; a < TempEffect.Effects.Count; a++)
                         {
-                            Slot = TempEffect.Effects[a].MainType + ", ";
+                            Slot = "Slot 2 |" + TempEffect.Effects[a].MainType + ", ";
 
                             if (TempEffect.Effects[a].MainType == 0)
                             {
@@ -296,7 +296,7 @@ namespace SSXMultiTool
 
                         for (int a = 0; a < TempEffect.Effects.Count; a++)
                         {
-                            Slot = TempEffect.Effects[a].MainType + ", ";
+                            Slot = "Slot 3 |" + TempEffect.Effects[a].MainType + ", ";
 
                             if (TempEffect.Effects[a].MainType == 0)
                             {
@@ -320,7 +320,7 @@ namespace SSXMultiTool
 
                         for (int a = 0; a < TempEffect.Effects.Count; a++)
                         {
-                            Slot = TempEffect.Effects[a].MainType + ", ";
+                            Slot = "Slot 4 |" + TempEffect.Effects[a].MainType + ", ";
 
                             if (TempEffect.Effects[a].MainType == 0)
                             {
@@ -344,7 +344,7 @@ namespace SSXMultiTool
 
                         for (int a = 0; a < TempEffect.Effects.Count; a++)
                         {
-                            Slot = TempEffect.Effects[a].MainType + ", ";
+                            Slot = "Slot 5 |" + TempEffect.Effects[a].MainType + ", ";
 
                             if (TempEffect.Effects[a].MainType == 0)
                             {
@@ -368,7 +368,7 @@ namespace SSXMultiTool
 
                         for (int a = 0; a < TempEffect.Effects.Count; a++)
                         {
-                            Slot = TempEffect.Effects[a].MainType + ", ";
+                            Slot ="Slot 6 |" + TempEffect.Effects[a].MainType + ", ";
 
                             if (TempEffect.Effects[a].MainType == 0)
                             {
@@ -392,7 +392,7 @@ namespace SSXMultiTool
 
                         for (int a = 0; a < TempEffect.Effects.Count; a++)
                         {
-                            Slot = TempEffect.Effects[a].MainType + ", ";
+                            Slot = "Slot 7 |" + TempEffect.Effects[a].MainType + ", ";
 
                             if (TempEffect.Effects[a].MainType == 0)
                             {
