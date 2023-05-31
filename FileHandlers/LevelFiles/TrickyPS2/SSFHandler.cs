@@ -733,7 +733,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 NewEffect.Instance = NewMainType;
             } //Done
-            else if (NewEffect.MainType == 8)
+            else if (NewEffect.MainType == 8) 
             {
                 NewEffect.type8 = StreamUtil.ReadUInt32(stream);
             }
@@ -768,8 +768,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             } //Done
             else if (NewEffect.MainType == 24)
             {
-                NewEffect.type24 = StreamUtil.ReadUInt32(stream);
-            }
+                NewEffect.TeleportInstanceIndex = StreamUtil.ReadUInt32(stream);
+            } //Done
             else if (NewEffect.MainType == 25)
             {
                 var NewMainType = new SplineEffect();
@@ -1066,8 +1066,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             //17 - Boost
             //18 - Trick Boost
 
+            //8 - PlaySound?
             //7 - Instance Effects
             //21 - Function Run
+
+            //24 - Teleport
             //25 - Spline Effects
 
             public Type0? type0;
@@ -1084,7 +1087,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float type17;
             public float type18;
             public int FunctionRunIndex; //Script Used By Screenlogo
-            public int type24;
+            public int TeleportInstanceIndex;
             public SplineEffect? Spline;
         }
 
