@@ -96,7 +96,7 @@ namespace SSXMultiTool
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Big Archive (*.big)|*.big|All files (*.*)|*.*",
+                Filter = "Big Archive (*.big, *.viv, *.ser)|*.big;*.viv;*.ser|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };

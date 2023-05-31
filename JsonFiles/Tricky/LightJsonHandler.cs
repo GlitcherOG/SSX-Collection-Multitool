@@ -60,6 +60,26 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int UnknownInt3;
 
             public int Hash;
+            //public bool IncludeSound;
+            //public SoundData? Sounds;
+        }
+
+        [Serializable]
+        public struct SoundData
+        {
+            public int CollisonSound;
+            public List<ExternalSound> ExternalSounds;
+        }
+        [Serializable]
+        public struct ExternalSound
+        {
+            public int U0;
+            public int SoundIndex;
+            public float U2;
+            public float U3;
+            public float U4;
+            public float U5; //Radius?
+            public float U6;
         }
     }
 }

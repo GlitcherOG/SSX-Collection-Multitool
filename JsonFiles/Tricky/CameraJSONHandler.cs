@@ -62,6 +62,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public List<CameraAnimationHeader> AnimationHeaders;
 
             public int Hash;
+            //public bool IncludeSound;
+            //public SoundData? Sounds;
         }
 
         public struct CameraAnimationHeader
@@ -76,6 +78,24 @@ namespace SSXMultiTool.JsonFiles.Tricky
             //Probably Wrong I'll figure it out
             public float[] Translation;
             public float[] Rotation;
+        }
+
+        [Serializable]
+        public struct SoundData
+        {
+            public int CollisonSound;
+            public List<ExternalSound> ExternalSounds;
+        }
+        [Serializable]
+        public struct ExternalSound
+        {
+            public int U0;
+            public int SoundIndex;
+            public float U2;
+            public float U3;
+            public float U4;
+            public float U5; //Radius?
+            public float U6;
         }
 
     }

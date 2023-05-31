@@ -244,6 +244,8 @@ namespace SSXMultiTool
                     {
                         var TempEffect = ssfHandler.EffectHeaders[EffectSlot.Slot1];
 
+                        instanceJson.Effects.Add("Object " + instanceJson.SSFState);
+
                         string Slot;
 
                         for (int a = 0; a < TempEffect.Effects.Count; a++)
@@ -416,11 +418,6 @@ namespace SSXMultiTool
             }
             instancesJson.CreateJson(ExportPath + "/Instances.json", InlineExporting);
 
-            if(ADLTest.Contains(false))
-            {
-                MessageBox.Show("Report To Archy/Glitcher. Error 26");
-            }
-
             //Create Particle Instances JSON
             particleInstanceJson = new ParticleInstanceJsonHandler();
             for (int i = 0; i < pbdHandler.particleInstances.Count; i++)
@@ -523,11 +520,43 @@ namespace SSXMultiTool
                     }
                 }
 
+                //if (FindHash != -1)
+                //{
+                //    for (int a = 0; a < adlHandler.HashSounds.Count; a++)
+                //    {
+                //        if (FindHash == adlHandler.HashSounds[a].Hash)
+                //        {
+                //            ADLTest[a] = true;
+
+                //            TempLight.IncludeSound = true;
+                //            var NewSound = new LightJsonHandler.SoundData();
+
+                //            NewSound.CollisonSound = adlHandler.HashSounds[a].Sound.CollisonSound;
+                //            NewSound.ExternalSounds = new List<LightJsonHandler.ExternalSound>();
+
+                //            for (int b = 0; b < adlHandler.HashSounds[a].Sound.ExternalSounds.Count; b++)
+                //            {
+                //                var NewExternalSound = new LightJsonHandler.ExternalSound();
+                //                NewExternalSound.U0 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U0;
+                //                NewExternalSound.SoundIndex = adlHandler.HashSounds[a].Sound.ExternalSounds[b].SoundIndex;
+                //                NewExternalSound.U2 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U2;
+                //                NewExternalSound.U3 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U3;
+                //                NewExternalSound.U4 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U4;
+                //                NewExternalSound.U5 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U5;
+                //                NewExternalSound.U6 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U6;
+                //                NewSound.ExternalSounds.Add(NewExternalSound);
+                //            }
+                //            TempLight.Sounds = NewSound;
+                //            break;
+                //        }
+                //    }
+                //}
 
                 lightJsonHandler.Lights.Add(TempLight);
 
             }
             lightJsonHandler.CreateJson(ExportPath + "/Lights.json", InlineExporting);
+
 
             //Create Spline Json
             splineJsonHandler = new SplineJsonHandler();
@@ -749,10 +778,46 @@ namespace SSXMultiTool
                     }
                 }
 
+                //if (FindHash != -1)
+                //{
+                //    for (int a = 0; a < adlHandler.HashSounds.Count; a++)
+                //    {
+                //        if (FindHash == adlHandler.HashSounds[a].Hash)
+                //        {
+                //            ADLTest[a] = true;
+
+                //            NewCamera.IncludeSound = true;
+                //            var NewSound = new CameraJSONHandler.SoundData();
+
+                //            NewSound.CollisonSound = adlHandler.HashSounds[a].Sound.CollisonSound;
+                //            NewSound.ExternalSounds = new List<CameraJSONHandler.ExternalSound>();
+
+                //            for (int b = 0; b < adlHandler.HashSounds[a].Sound.ExternalSounds.Count; b++)
+                //            {
+                //                var NewExternalSound = new CameraJSONHandler.ExternalSound();
+                //                NewExternalSound.U0 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U0;
+                //                NewExternalSound.SoundIndex = adlHandler.HashSounds[a].Sound.ExternalSounds[b].SoundIndex;
+                //                NewExternalSound.U2 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U2;
+                //                NewExternalSound.U3 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U3;
+                //                NewExternalSound.U4 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U4;
+                //                NewExternalSound.U5 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U5;
+                //                NewExternalSound.U6 = adlHandler.HashSounds[a].Sound.ExternalSounds[b].U6;
+                //                NewSound.ExternalSounds.Add(NewExternalSound);
+                //            }
+                //            NewCamera.Sounds = NewSound;
+                //            break;
+                //        }
+                //    }
+                //}
 
                 cameraJSONHandler.Cameras.Add(NewCamera);
             }
             cameraJSONHandler.CreateJson(ExportPath + "/Cameras.json", InlineExporting);
+
+            //if (ADLTest.Contains(false))
+            //{
+            //    MessageBox.Show("Report To Archy/Glitcher. Error 26");
+            //}
 
 
             #endregion

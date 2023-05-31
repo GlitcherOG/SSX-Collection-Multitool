@@ -928,6 +928,51 @@ namespace SSXMultiTool
                 }
             }
         }
+
+        private void MXFImport_Click(object sender, EventArgs e)
+        {
+            if (MXFList.SelectedIndex != -1)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "gltf File (*.glb)|*.glb|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if ((trickyXboxModel.Board != null) || (trickyXboxModel.Head != null && trickyXboxModel.Body != null))
+                    {
+                        TrickyXboxModelCombiner TempCombiner = null;
+
+                        try
+                        {
+                            TempCombiner = glftHandler.LoadTrickyXboxGlft(openFileDialog.FileName);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Failed to Load File");
+                        }
+                        if (TempCombiner != null)
+                        {
+                            try
+                            {
+                                trickyXboxModel.NormalAverage = ImportAverageNormalMXF.Checked;
+                                trickyXboxModel.BoneUpdate = BoneUpdateCheckMXF.Checked;
+                                trickyXboxModel.ShadowAdd = MXFShadow.Checked;
+                                trickyXboxModel.StartRegenMesh(TempCombiner, MXFList.SelectedIndex);
+
+                                UpdateDataXbox();
+                            }
+                            catch
+                            {
+                                MessageBox.Show("Failed to Convert File");
+                            }
+                        }
+                    }
+                }
+            }
+        }
         #endregion
 
         private bool CheckSX()
@@ -1218,51 +1263,6 @@ namespace SSXMultiTool
                 hdrHandler.U1 = (int)hdrU1.Value;
                 hdrHandler.U2 = (int)hdrU2.Value;
                 DisableUpdate = false;
-            }
-        }
-
-        private void MXFImport_Click(object sender, EventArgs e)
-        {
-            if (MXFList.SelectedIndex != -1)
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog
-                {
-                    Filter = "gltf File (*.glb)|*.glb|All files (*.*)|*.*",
-                    FilterIndex = 1,
-                    RestoreDirectory = false
-                };
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    if ((trickyXboxModel.Board != null) || (trickyXboxModel.Head != null && trickyXboxModel.Body != null))
-                    {
-                        TrickyXboxModelCombiner TempCombiner = null;
-
-                        try
-                        {
-                            TempCombiner = glftHandler.LoadTrickyXboxGlft(openFileDialog.FileName);
-                        }
-                        catch
-                        {
-                            MessageBox.Show("Failed to Load File");
-                        }
-                        if (TempCombiner != null)
-                        {
-                            try
-                            {
-                                trickyXboxModel.NormalAverage = ImportAverageNormalMXF.Checked;
-                                trickyXboxModel.BoneUpdate = BoneUpdateCheckMXF.Checked;
-                                trickyXboxModel.ShadowAdd = MXFShadow.Checked;
-                                trickyXboxModel.StartRegenMesh(TempCombiner, MXFList.SelectedIndex);
-
-                                UpdateDataXbox();
-                            }
-                            catch
-                            {
-                                MessageBox.Show("Failed to Convert File");
-                            }
-                        }
-                    }
-                }
             }
         }
 
