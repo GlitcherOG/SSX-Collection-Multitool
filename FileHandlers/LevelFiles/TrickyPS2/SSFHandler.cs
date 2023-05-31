@@ -76,8 +76,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     var TempUstruct1 = new EffectSlot();
 
-                    TempUstruct1.Slot1 = StreamUtil.ReadUInt32(stream);
-                    TempUstruct1.Slot2 = StreamUtil.ReadUInt32(stream);
+                    TempUstruct1.Slot1 = StreamUtil.ReadUInt32(stream); //Constant
+                    TempUstruct1.Slot2 = StreamUtil.ReadUInt32(stream); //Collsion
                     TempUstruct1.Slot3 = StreamUtil.ReadUInt32(stream);
                     TempUstruct1.Slot4 = StreamUtil.ReadUInt32(stream);
                     TempUstruct1.Slot5 = StreamUtil.ReadUInt32(stream);
@@ -726,13 +726,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
             else if (NewEffect.MainType == 7)
             {
-                var NewMainType = new Type7();
+                var NewMainType = new InstanceEffect();
 
-                NewMainType.U0 = StreamUtil.ReadUInt32(stream);
-                NewMainType.U1 = StreamUtil.ReadUInt32(stream);
+                NewMainType.InstanceIndex = StreamUtil.ReadUInt32(stream);
+                NewMainType.EffectIndex = StreamUtil.ReadUInt32(stream);
 
-                NewEffect.type7 = NewMainType;
-            }
+                NewEffect.Instance = NewMainType;
+            } //Done
             else if (NewEffect.MainType == 8)
             {
                 NewEffect.type8 = StreamUtil.ReadUInt32(stream);
@@ -764,21 +764,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
             else if (NewEffect.MainType == 21)
             {
-                NewEffect.type21 = StreamUtil.ReadUInt32(stream);
-            }
+                NewEffect.FunctionRunIndex = StreamUtil.ReadUInt32(stream);
+            } //Done
             else if (NewEffect.MainType == 24)
             {
                 NewEffect.type24 = StreamUtil.ReadUInt32(stream);
             }
             else if (NewEffect.MainType == 25)
             {
-                var NewMainType = new Type25();
+                var NewMainType = new SplineEffect();
 
-                NewMainType.U0 = StreamUtil.ReadUInt32(stream);
-                NewMainType.U1 = StreamUtil.ReadUInt32(stream);
+                NewMainType.SplineIndex = StreamUtil.ReadUInt32(stream);
+                NewMainType.Effect = StreamUtil.ReadUInt32(stream);
 
-                NewEffect.type25 = NewMainType;
-            }
+                NewEffect.Spline = NewMainType;
+            } //Done
             else
             {
                 Debug.WriteLine("Missing Type " + NewEffect.MainType.ToString());
@@ -1066,12 +1066,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             //17 - Boost
             //18 - Trick Boost
 
+            //7 - Instance Effects
+            //21 - Function Run
+            //25 - Spline Effects
+
             public Type0? type0;
             public Type2? type2;
             public Type3? type3;
             public float type4;
             public Type5? type5;
-            public Type7? type7;
+            public InstanceEffect? Instance;
             public int type8;
             public Type9? type9;
 
@@ -1079,9 +1083,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float MultiplierScore;
             public float type17;
             public float type18;
-            public int type21; //Script Used By Screenlogo
+            public int FunctionRunIndex; //Script Used By Screenlogo
             public int type24;
-            public Type25? type25;
+            public SplineEffect? Spline;
         }
 
         #region Type0
@@ -1437,10 +1441,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int U2;
         }
 
-        public struct Type7
+        public struct InstanceEffect
         {
-            public int U0;
-            public int U1;
+            public int InstanceIndex;
+            public int EffectIndex;
         }
 
         public struct Type9
@@ -1449,10 +1453,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float U1;
         }
 
-        public struct Type25
+        public struct SplineEffect
         {
-            public int U0;
-            public int U1;
+            public int SplineIndex;
+            public int Effect;
+
+            //0 - Toggle Off
+            //1 - Toggle On
         }
 
         #endregion
