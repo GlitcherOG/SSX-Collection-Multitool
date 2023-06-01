@@ -80,7 +80,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempUstruct1.Slot2 = StreamUtil.ReadUInt32(stream); //Collsion
                     TempUstruct1.Slot3 = StreamUtil.ReadUInt32(stream);
                     TempUstruct1.Slot4 = StreamUtil.ReadUInt32(stream);
-                    TempUstruct1.Slot5 = StreamUtil.ReadUInt32(stream);
+                    TempUstruct1.Slot5 = StreamUtil.ReadUInt32(stream); //Effect Triggers (Effects and cause these to happen)
                     TempUstruct1.Slot6 = StreamUtil.ReadUInt32(stream);
                     TempUstruct1.Slot7 = StreamUtil.ReadUInt32(stream);
                     EffectSlots.Add(TempUstruct1);
@@ -321,15 +321,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 else
                 if (NewMainType.SubType == 5)
                 {
-                    NewMainType.DestroyMode = StreamUtil.ReadUInt32(stream);
+                    NewMainType.DeadNodeMode = StreamUtil.ReadUInt32(stream);
                 }
                 else
                 if (NewMainType.SubType == 6)
                 {
-                    var NewSubType = new Type0Sub6();
-                    NewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                    NewSubType.U1 = StreamUtil.ReadFloat(stream);
-                    NewMainType.type0Sub6 = NewSubType;
+                    var NewSubType = new CounterEffect(); //Counter
+                    NewSubType.Count = StreamUtil.ReadUInt32(stream); //Count
+                    NewSubType.U1 = StreamUtil.ReadFloat(stream); 
+                    NewMainType.Counter = NewSubType;
                 }
                 else
                 if (NewMainType.SubType == 7)
@@ -359,13 +359,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 else
                 if (NewMainType.SubType == 11)
                 {
-                    var NewSubType = new Type0Sub11();
-                    NewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                    NewSubType.U1 = StreamUtil.ReadUInt32(stream);
-                    NewSubType.U2 = StreamUtil.ReadFloat(stream);
-                    NewSubType.U3 = StreamUtil.ReadFloat(stream);
-                    NewSubType.U4 = StreamUtil.ReadUInt32(stream);
-                    NewMainType.type0Sub11 = NewSubType;
+                    var NewSubType = new TextureFlipEffect();
+                    NewSubType.U0 = StreamUtil.ReadUInt32(stream); //Nothing
+                    NewSubType.Direction = StreamUtil.ReadUInt32(stream); //Direction 0-Forwards, Anything else-backwards
+                    NewSubType.Speed = StreamUtil.ReadFloat(stream);
+                    NewSubType.Length = StreamUtil.ReadFloat(stream);
+                    NewSubType.U4 = StreamUtil.ReadUInt32(stream); //Pauses on frame? Display pattern?
+                    NewMainType.TextureFlip = NewSubType;
                 }
                 else
                 if (NewMainType.SubType == 12)
@@ -407,12 +407,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 else
                 if (NewMainType.SubType == 17)
                 {
-                    var NewSubType = new Type0Sub17();
+                    var NewSubType = new CrowdBox();
                     NewSubType.U0 = StreamUtil.ReadUInt32(stream);
                     //Both Effect How Many Rows Of People
-                    NewSubType.U1 = StreamUtil.ReadUInt32(stream);
-                    NewSubType.U2 = StreamUtil.ReadUInt32(stream);
-                    NewMainType.type0Sub17 = NewSubType;
+                    NewSubType.U1 = StreamUtil.ReadUInt32(stream); //Row
+                    NewSubType.U2 = StreamUtil.ReadUInt32(stream); //Column
+                    NewMainType.CrowdEffect = NewSubType;
                 }
                 else
                 if (NewMainType.SubType == 18)
@@ -445,10 +445,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     NewMainType.type0Sub20 = NewSubType;
                 }
                 else
-                if (NewMainType.SubType == 23)
+                if (NewMainType.SubType == 23) 
                 {
-
-                }
+                    //Movie, Contains no actual data
+                } //Done
                 else
                 if (NewMainType.SubType == 24)
                 {
@@ -712,8 +712,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
             else if (NewEffect.MainType == 4)
             {
-                NewEffect.type4 = StreamUtil.ReadFloat(stream);
-            }
+                NewEffect.WaitTime = StreamUtil.ReadFloat(stream);
+            } //Done
             else if (NewEffect.MainType == 5)
             {
                 var NewMainType = new Type5();
@@ -724,7 +724,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 NewEffect.type5 = NewMainType;
             }
-            else if (NewEffect.MainType == 7)
+            else if (NewEffect.MainType == 7) //Done
             {
                 var NewMainType = new InstanceEffect();
 
@@ -733,9 +733,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 NewEffect.Instance = NewMainType;
             } //Done
-            else if (NewEffect.MainType == 8) 
+            else if (NewEffect.MainType == 8) //Done
             {
-                NewEffect.type8 = StreamUtil.ReadUInt32(stream);
+                NewEffect.SoundPlay = StreamUtil.ReadUInt32(stream);
             }
             else if (NewEffect.MainType == 9)
             {
@@ -753,7 +753,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             else if (NewEffect.MainType == 14)
             {
                 NewEffect.MultiplierScore = StreamUtil.ReadFloat(stream);
-            }
+            } //Done
             else if (NewEffect.MainType == 17)
             {
                 NewEffect.type17 = StreamUtil.ReadFloat(stream);
@@ -1059,6 +1059,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int MainType;
             public int ByteSize;
 
+
+            //4 - Wait
             //13 - Reset
             //14 - Multiplyer
 
@@ -1066,7 +1068,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             //17 - Boost
             //18 - Trick Boost
 
-            //8 - PlaySound?
+            //8 - PlaySound
             //7 - Instance Effects
             //21 - Function Run
 
@@ -1076,10 +1078,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public Type0? type0;
             public Type2? type2;
             public Type3? type3;
-            public float type4;
+            public float WaitTime;
             public Type5? type5;
             public InstanceEffect? Instance;
-            public int type8;
+            public int SoundPlay;
             public Type9? type9;
 
             public float type13; //Reset Value
@@ -1096,25 +1098,26 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         {
             public int SubType;
 
-            //5 - Destroy
-
+            //5 - DeadNode (Add, Destroy, Remove, Enable)
+            //6 - Counter
             //10 - UV Scroll
+            //11 - Texture Flipping
             //12 - FenceFlex
             //17 - Crowd
             //23 - Movie?
 
             public Type0Sub0? type0Sub0; ///Roller?
             public int type0Sub2;  //Debounce?
-            public int DestroyMode; //5
-            public Type0Sub6? type0Sub6; //Counter
+            public int DeadNodeMode; //5
+            public CounterEffect? Counter; //6
             public Type0Sub7? type0Sub7; //Boost
             public UVScrolling? UVScroll; //10
-            public Type0Sub11? type0Sub11; //TexFlip
-            public FenceFlex? Fence; //Fence
+            public TextureFlipEffect? TextureFlip; //11
+            public FenceFlex? Fence; //12
             public Type0Sub13? type0Sub13; //Flag
             public Type0Sub14? type0Sub14; //Cracked
             public Type0Sub15? type0Sub15; //LapBoost
-            public Type0Sub17? type0Sub17; //CrowdBox
+            public CrowdBox? CrowdEffect; //17
             public Type0Sub18? type0Sub18; //ZBoost
             public Type0Sub20? type0Sub20; //cMeshAnim
             public Type0Sub24? type0Sub24; //TubeEndBoost
@@ -1133,9 +1136,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float U5;
         }
 
-        public struct Type0Sub6
+        public struct CounterEffect
         {
-            public int U0;
+            public int Count;
             public float U1;
         }
 
@@ -1160,12 +1163,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int U5;
         }
 
-        public struct Type0Sub11
+        public struct TextureFlipEffect
         {
             public int U0;
-            public int U1;
-            public float U2;
-            public float U3;
+            public int Direction;
+            public float Speed;
+            public float Length;
             public int U4;
         }
 
@@ -1198,7 +1201,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float U4;
         }
 
-        public struct Type0Sub17
+        public struct CrowdBox
         {
             public int U0;
             public int U1;
