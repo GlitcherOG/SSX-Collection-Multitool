@@ -108,11 +108,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         NewPhysicsData.U2 = StreamUtil.ReadUInt32(stream);
                         NewPhysicsData.U3 = StreamUtil.ReadUInt32(stream);
 
-                        if(NewPhysicsData.U2!=0&& NewPhysicsData.U2 != 1)
-                        {
-                            Console.WriteLine("");
-                        }
-
                         NewPhysicsData.UFloat0 = StreamUtil.ReadFloat(stream);
                         NewPhysicsData.UFloat1 = StreamUtil.ReadFloat(stream);
                         NewPhysicsData.UFloat2 = StreamUtil.ReadFloat(stream);
@@ -152,20 +147,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         }
 
                         NewPhysicsData.UByteData = StreamUtil.ReadBytes(stream, NewPhysicsData.U1);
-                        NewPhysicsData.UByteEndData = StreamUtil.ReadBytes(stream, NewPhysicsData.U0);
+                        NewPhysicsData.UByteEndData = StreamUtil.ReadBytes(stream, NewPhysicsData.U0); //Pretty sure it just allign it by 4 or 8
 
                         TempUstruct2.PhysicsDatas.Add(NewPhysicsData);
-                    }
-
-                    if(stream.Position-TempUstruct2.Offset!= TempUstruct2.ByteSize)
-                    {
-                        Debug.WriteLine("Error " + TempUstruct2.Offset);
                     }
 
                     stream.Position = TempPos;
 
                     PhysicsHeaders.Add(TempUstruct2);
                 }
+
                 //Collision Models
                 CollisonModelPointers = new List<CollisonModelPointer>();
                 stream.Position = CollisonModelOffset;
@@ -872,8 +863,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             //Skip passed it all and write shit
             stream.Position += (PhysicsHeaders.Count * 4 * 3) + (CollisonModelPointers.Count * 4 * 3) + (Functions.Count*16 + Functions.Count*2*4) + (EffectHeaders.Count*4*2);
 
+            //Write Effects
+            //Write Function
+            //Write Physics
+            //Write Collision
 
 
+            ObjectPropertiesOffset = (int)stream.Position;
             stream.Position = PhysicsOffset;
             for (int i = 0; i < PhysicsHeaders.Count; i++)
             {
@@ -905,7 +901,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, EffectHeaders[i].EffectOffset);
             }
 
-            ObjectPropertiesOffset = (int)stream.Position;
+
+            //Write Object Properties
+
+            stream.Position = ObjectPropertiesOffset;
             for (int i = 0; i < ObjectProperties.Count; i++)
             {
                 var TempUstruct5 = ObjectProperties[i];
