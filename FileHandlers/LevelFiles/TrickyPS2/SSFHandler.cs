@@ -38,7 +38,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int SplineOffset;
 
         public List<EffectSlot> EffectSlots = new List<EffectSlot>();
-        public List<UStruct2> PhysicsObjects = new List<UStruct2>();
+        public List<PhysicsHeader> PhysicsHeaders = new List<PhysicsHeader>();
         public List<CollisonModelPointer> CollisonModelPointers = new List<CollisonModelPointer>();
         public List<EffectHeaderStruct> EffectHeaders = new List<EffectHeaderStruct>();
         public List<Function> Functions = new List<Function>();
@@ -86,11 +86,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     EffectSlots.Add(TempUstruct1);
                 }
                 //Phyisics Objects
-                PhysicsObjects = new List<UStruct2>();
+                PhysicsHeaders = new List<PhysicsHeader>();
                 stream.Position = PhysicsOffset;
                 for (int i = 0; i < PhysicsCount; i++)
                 {
-                    var TempUstruct2 = new UStruct2();
+                    var TempUstruct2 = new PhysicsHeader();
 
                     TempUstruct2.Offset = StreamUtil.ReadUInt32(stream);
                     TempUstruct2.ByteSize = StreamUtil.ReadUInt32(stream);
@@ -98,12 +98,73 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     var TempPos = stream.Position;
                     stream.Position = TempUstruct2.Offset;
+                    TempUstruct2.PhysicsDatas = new List<PhysicsData>();
+                    for (int a = 0; a < TempUstruct2.Count; a++)
+                    {
+                        var NewPhysicsData = new PhysicsData();
 
-                    //Inset Stuff Here
+                        NewPhysicsData.U0 = StreamUtil.ReadUInt32(stream);
+                        NewPhysicsData.U1 = StreamUtil.ReadUInt32(stream);
+                        NewPhysicsData.U2 = StreamUtil.ReadUInt32(stream);
+                        NewPhysicsData.U3 = StreamUtil.ReadUInt32(stream);
+
+                        if(NewPhysicsData.U2!=0&& NewPhysicsData.U2 != 1)
+                        {
+                            Console.WriteLine("");
+                        }
+
+                        NewPhysicsData.UFloat0 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat1 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat2 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat3 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat4 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat5 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat6 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat7 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat8 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat9 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat10 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat11 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat12 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat13 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat14 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat15 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat16 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat17 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat18 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat19 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat20 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat21 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat22 = StreamUtil.ReadFloat(stream);
+                        NewPhysicsData.UFloat23 = StreamUtil.ReadFloat(stream);
+
+                        NewPhysicsData.uPhysicsStruct0 = new List<UPhysicsStruct>();
+
+                        for (int b = 0; b < NewPhysicsData.U3 + 1; b++)
+                        {
+                            var NewPhysicsStruct = new UPhysicsStruct();
+
+                            NewPhysicsStruct.U0 = StreamUtil.ReadFloat(stream);
+                            NewPhysicsStruct.U1 = StreamUtil.ReadFloat(stream);
+                            NewPhysicsStruct.U2 = StreamUtil.ReadUInt32(stream);
+
+                            NewPhysicsData.uPhysicsStruct0.Add(NewPhysicsStruct);
+                        }
+
+                        NewPhysicsData.UByteData = StreamUtil.ReadBytes(stream, NewPhysicsData.U1);
+                        NewPhysicsData.UByteEndData = StreamUtil.ReadBytes(stream, NewPhysicsData.U0);
+
+                        TempUstruct2.PhysicsDatas.Add(NewPhysicsData);
+                    }
+
+                    if(stream.Position-TempUstruct2.Offset!= TempUstruct2.ByteSize)
+                    {
+                        Debug.WriteLine("Error " + TempUstruct2.Offset);
+                    }
 
                     stream.Position = TempPos;
 
-                    PhysicsObjects.Add(TempUstruct2);
+                    PhysicsHeaders.Add(TempUstruct2);
                 }
                 //Collision Models
                 CollisonModelPointers = new List<CollisonModelPointer>();
@@ -809,16 +870,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             PhysicsOffset = (int)stream.Position;
             //Skip passed it all and write shit
-            stream.Position += (PhysicsObjects.Count * 4 * 3) + (CollisonModelPointers.Count * 4 * 3) + (Functions.Count*16 + Functions.Count*2*4) + (EffectHeaders.Count*4*2);
+            stream.Position += (PhysicsHeaders.Count * 4 * 3) + (CollisonModelPointers.Count * 4 * 3) + (Functions.Count*16 + Functions.Count*2*4) + (EffectHeaders.Count*4*2);
 
 
 
             stream.Position = PhysicsOffset;
-            for (int i = 0; i < PhysicsObjects.Count; i++)
+            for (int i = 0; i < PhysicsHeaders.Count; i++)
             {
-                StreamUtil.WriteInt32(stream, PhysicsObjects[i].Offset);
-                StreamUtil.WriteInt32(stream, PhysicsObjects[i].ByteSize);
-                StreamUtil.WriteInt32(stream, PhysicsObjects[i].Count);
+                StreamUtil.WriteInt32(stream, PhysicsHeaders[i].Offset);
+                StreamUtil.WriteInt32(stream, PhysicsHeaders[i].ByteSize);
+                StreamUtil.WriteInt32(stream, PhysicsHeaders[i].Count);
             }
 
             CollisonModelOffset = (int)stream.Position;
@@ -900,7 +961,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             StreamUtil.WriteFloat32(stream, U3);
             StreamUtil.WriteInt32(stream, EffectSlots.Count);
             StreamUtil.WriteInt32(stream, EffectSlotsOffset);
-            StreamUtil.WriteInt32(stream, PhysicsObjects.Count);
+            StreamUtil.WriteInt32(stream, PhysicsHeaders.Count);
             StreamUtil.WriteInt32(stream, PhysicsOffset);
             StreamUtil.WriteInt32(stream, CollisonModelPointers.Count);
             StreamUtil.WriteInt32(stream, CollisonModelOffset);
@@ -975,11 +1036,58 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int Slot7;
         }
 
-        public struct UStruct2
+        public struct PhysicsHeader
         {
             public int Offset;
             public int ByteSize;
             public int Count;
+
+            public List<PhysicsData> PhysicsDatas;
+        }
+
+        public struct PhysicsData
+        {
+            public int U0; //End Bytes
+            public int U1; //End Data
+            public int U2; //Struct 1
+            public int U3; //Struct 2
+
+            public float UFloat0;
+            public float UFloat1;
+            public float UFloat2;
+            public float UFloat3;
+            public float UFloat4;
+            public float UFloat5;
+            public float UFloat6;
+            public float UFloat7;
+            public float UFloat8;
+            public float UFloat9;
+            public float UFloat10;
+            public float UFloat11;
+            public float UFloat12;
+            public float UFloat13;
+            public float UFloat14;
+            public float UFloat15;
+            public float UFloat16;
+            public float UFloat17;
+            public float UFloat18;
+            public float UFloat19;
+            public float UFloat20;
+            public float UFloat21;
+            public float UFloat22;
+            public float UFloat23;
+
+            public List<UPhysicsStruct> uPhysicsStruct0;
+
+            public byte[] UByteData;
+            public byte[] UByteEndData;
+        }
+
+        public struct UPhysicsStruct
+        {
+            public float U0;
+            public float U1;
+            public int U2;
         }
 
         public struct CollisonModelPointer
