@@ -864,8 +864,80 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             stream.Position += (PhysicsHeaders.Count * 4 * 3) + (CollisonModelPointers.Count * 4 * 3) + (Functions.Count*16 + Functions.Count*2*4) + (EffectHeaders.Count*4*2);
 
             //Write Effects
+            long EffectData = stream.Position;
+            for (int i = 0; i < EffectHeaders.Count; i++)
+            {
+                for (int a = 0; a < EffectHeaders[a].Effects.Count; a++)
+                {
+                    SaveEffectData(stream, EffectHeaders[a].Effects[a]);
+                }
+            }
+
             //Write Function
+            for (int i = 0; i < Functions.Count; i++)
+            {
+                for (int a = 0; a < Functions[a].Effects.Count; a++)
+                {
+                    SaveEffectData(stream, Functions[a].Effects[a]);
+                }
+            }
+
             //Write Physics
+            for (int i = 0; i < PhysicsHeaders.Count; i++)
+            {
+                var TempHeader = PhysicsHeaders[i];
+                TempHeader.Offset = (int)stream.Position;
+
+                for (int a = 0; a < TempHeader.PhysicsDatas.Count; a++)
+                {
+                    StreamUtil.WriteInt32(stream, TempHeader.PhysicsDatas[a].UByteEndData.Length);
+                    StreamUtil.WriteInt32(stream, TempHeader.PhysicsDatas[a].UByteData.Length);
+                    StreamUtil.WriteInt32(stream, TempHeader.PhysicsDatas[a].U2);
+                    StreamUtil.WriteInt32(stream, TempHeader.PhysicsDatas[a].uPhysicsStruct0.Count - 1);
+
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat0);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat1);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat2);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat3);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat4);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat5);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat6);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat7);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat8);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat9);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat10);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat11);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat12);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat13);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat14);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat15);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat16);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat17);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat18);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat19);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat20);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat21);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat22);
+                    StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].UFloat23);
+
+                    for (int b = 0; b < TempHeader.PhysicsDatas[a].uPhysicsStruct0.Count; b++)
+                    {
+                        StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].uPhysicsStruct0[b].U0);
+                        StreamUtil.WriteFloat32(stream, TempHeader.PhysicsDatas[a].uPhysicsStruct0[b].U1);
+                        StreamUtil.WriteInt32(stream, TempHeader.PhysicsDatas[a].uPhysicsStruct0[b].U2);
+                    }
+
+                    StreamUtil.WriteBytes(stream, TempHeader.PhysicsDatas[a].UByteData);
+                    StreamUtil.WriteBytes(stream, TempHeader.PhysicsDatas[a].UByteEndData);
+                }
+
+
+
+                TempHeader.ByteSize = (int)(stream.Position - TempHeader.Offset);
+                PhysicsHeaders[i] = TempHeader;
+            }
+
+
             //Write Collision
 
 
@@ -875,7 +947,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             {
                 StreamUtil.WriteInt32(stream, PhysicsHeaders[i].Offset);
                 StreamUtil.WriteInt32(stream, PhysicsHeaders[i].ByteSize);
-                StreamUtil.WriteInt32(stream, PhysicsHeaders[i].Count);
+                StreamUtil.WriteInt32(stream, PhysicsHeaders[i].PhysicsDatas.Count);
             }
 
             CollisonModelOffset = (int)stream.Position;
@@ -883,13 +955,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             {
                 StreamUtil.WriteInt32(stream, CollisonModelPointers[i].Offset);
                 StreamUtil.WriteInt32(stream, CollisonModelPointers[i].ByteSize);
-                StreamUtil.WriteInt32(stream, CollisonModelPointers[i].Count);
+                StreamUtil.WriteInt32(stream, CollisonModelPointers[i].Models.Count);
             }
 
             FunctionOffset = (int)stream.Position;
             for (int i = 0; i < Functions.Count; i++)
             {
-                StreamUtil.WriteInt32(stream, Functions[i].Count);
+                StreamUtil.WriteInt32(stream, Functions[i].Effects.Count);
                 StreamUtil.WriteInt32(stream, Functions[i].Offset);
                 StreamUtil.WriteString(stream, Functions[i].FunctionName, 16);
             }
@@ -897,10 +969,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             EffectsOffset = (int)stream.Position;
             for (int i = 0; i < EffectHeaders.Count; i++)
             {
-                StreamUtil.WriteInt32(stream, EffectHeaders[i].EffectCount);
+                StreamUtil.WriteInt32(stream, EffectHeaders[i].Effects.Count);
                 StreamUtil.WriteInt32(stream, EffectHeaders[i].EffectOffset);
             }
-
 
             //Write Object Properties
 
@@ -984,6 +1055,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             stream.CopyTo(file);
             stream.Dispose();
             file.Close();
+        }
+
+        public void SaveEffectData(Stream stream, Effect EffectData)
+        {
+
         }
 
         public void SaveModels(string Path)
