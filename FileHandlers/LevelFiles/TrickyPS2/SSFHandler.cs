@@ -939,6 +939,45 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
 
             //Write Collision
+            for (int i = 0; i < CollisonModelPointers.Count; i++)
+            {
+                var TempCollision = CollisonModelPointers[i];
+                TempCollision.Offset = (int)stream.Position;
+                for (int a = 0; a < TempCollision.Models.Count; a++)
+                {
+                    var TempModel = TempCollision.Models[a];
+
+                    StreamUtil.WriteInt32(stream, TempModel.Index.Count / 3);
+                    StreamUtil.WriteInt32(stream, TempModel.Vertices.Count);
+                    long TempPosition = stream.Position;
+                    stream.Position += 4;
+
+                    for (int b = 0; b < TempModel.Index.Count; b++)
+                    {
+                        StreamUtil.WriteInt32(stream, TempModel.Index[b]);
+                    }
+
+                    long AlignSize = stream.Position;
+                    StreamUtil.AlignBy16(stream);
+                    TempModel.VerticeOffsetAlign = (int)(stream.Position - AlignSize);
+
+                    long VerticesOffset = stream.Position;
+                    stream.Position = TempPosition;
+                    StreamUtil.WriteInt32(stream, TempModel.VerticeOffsetAlign);
+                    stream.Position = VerticesOffset;
+
+                    for (int b = 0; b < TempModel.Vertices.Count; b++)
+                    {
+                        StreamUtil.WriteVector4(stream, TempModel.Vertices[b]);
+                    }
+                    for (int b = 0; b < TempModel.FaceNormals.Count; b++)
+                    {
+                        StreamUtil.WriteVector4(stream, TempModel.FaceNormals[b]);
+                    }
+                }
+                TempCollision.ByteSize = (int)(stream.Position - TempCollision.Offset);
+                CollisonModelPointers[i] = TempCollision;
+            }
 
 
             ObjectPropertiesOffset = (int)stream.Position;
@@ -974,7 +1013,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
 
             //Write Object Properties
-
             stream.Position = ObjectPropertiesOffset;
             for (int i = 0; i < ObjectProperties.Count; i++)
             {
