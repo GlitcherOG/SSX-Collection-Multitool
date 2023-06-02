@@ -44,6 +44,10 @@ namespace SSXMultiTool.JsonFiles.Tricky
         {
             public string SplineName;
 
+            public int U0;
+            public int U1;
+            public int SplineStyle;
+
             public List<SegmentJson> Segments;
 
         }

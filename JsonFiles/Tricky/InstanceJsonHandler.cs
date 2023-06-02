@@ -72,7 +72,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int UnknownInt32;
 
             public int LTGState;
-            public int SSFState;
+            public int ObjectPropertyIndex;
 
             public int Hash;
             public bool IncludeSound;

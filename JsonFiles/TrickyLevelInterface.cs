@@ -188,7 +188,7 @@ namespace SSXMultiTool
                 instanceJson.UnknownInt32 = pbdHandler.Instances[i].UnknownInt32;
 
                 instanceJson.LTGState = ltgHandler.FindIfInstaneState(i);
-                instanceJson.SSFState = ssfHandler.InstanceState[i];
+                instanceJson.ObjectPropertyIndex = ssfHandler.InstanceState[i];
 
                 int FindHash = -1;
                 for (int a = 0; a < pbdHandler.hashData.InstanceHash.Count; a++)
@@ -564,6 +564,11 @@ namespace SSXMultiTool
             {
                 SplineJsonHandler.SplineJson TempSpline = new SplineJsonHandler.SplineJson();
                 TempSpline.SplineName = mapHandler.Splines[i].Name;
+
+                TempSpline.U0 = ssfHandler.Splines[i].U1;
+                TempSpline.U1 = ssfHandler.Splines[i].U2;
+                TempSpline.SplineStyle = ssfHandler.Splines[i].SplineStyle;
+
                 TempSpline.Segments = new List<SplineJsonHandler.SegmentJson>();
 
                 for (int a = pbdHandler.splines[i].SplineSegmentPosition; a < pbdHandler.splines[i].SplineSegmentPosition + pbdHandler.splines[i].SplineSegmentCount; a++)
