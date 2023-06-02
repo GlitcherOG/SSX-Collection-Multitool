@@ -854,7 +854,160 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
             else if (EffectData.MainType == 2)
             {
+                StreamUtil.WriteInt32(stream, EffectData.type2.Value.SubType);
 
+                if(EffectData.type2.Value.SubType == 0)
+                {
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub0.Value.U0);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub0.Value.U1);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U2);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U3);
+
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U4);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U5);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U6);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U7);
+
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U8);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U9);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U10);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U11);
+
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U12);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U13);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U14);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U15);
+
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U16);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U17);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U18);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U19); 
+
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U20);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U21);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U22);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U23);
+
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U24);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U25);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U26);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U27);
+
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U28);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U29);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U30);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U31);
+
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U32);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U33);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U34);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U35);
+
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U36);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U37);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U38);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U39);
+
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U40);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U41);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U42);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U43);
+
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U44);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U45);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U46);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U47);
+
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub0.Value.U48);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub0.Value.U49);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub0.Value.U50);
+                }
+                else if (EffectData.type2.Value.SubType == 1)
+                {
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U0);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U1);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U2);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U3);
+
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub1.Value.U4);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub1.Value.U5);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U6);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U7);
+
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U8);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U9);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U10);
+                }
+                else if (EffectData.type2.Value.SubType == 2)
+                {
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U0);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U1);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U2);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U3);
+
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U4);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U5);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U6);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U7);
+
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U8);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U9);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U10);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U11);
+
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U12);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U13);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U14);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U15);
+
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U16);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U17);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U18);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U19);
+
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U20);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U21);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U22);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U23);
+
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U24);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U25);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U26);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U27);
+
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U28);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U29);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U30);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U31);
+
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U32);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U33);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U34);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U35);
+
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U36);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U37);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U38);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U39);
+
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U40);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U41);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U42);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U43);
+
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U44);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U45);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U46);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U47);
+
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U48);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub0.Value.U49);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub0.Value.U50);
+                }
+                else
+                {
+                    MessageBox.Show("ERROR MISSING DATA CANT SAVE SSF EFFECT " + EffectData.MainType + ", " + EffectData.type2.Value.SubType);
+                }
             }
             else if (EffectData.MainType == 3)
             {
@@ -879,7 +1032,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             else if (EffectData.MainType == 8)
             {
                 StreamUtil.WriteInt32(stream, EffectData.SoundPlay);
-
             }
             else if (EffectData.MainType == 9)
             {
@@ -917,7 +1069,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
             else
             {
-                MessageBox.Show("ERROR MISSING DATA CANT SAVE SSF EFFECt " + EffectData.MainType);
+                MessageBox.Show("ERROR MISSING DATA CANT SAVE SSF EFFECT " + EffectData.MainType);
             }
 
 
