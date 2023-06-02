@@ -236,15 +236,15 @@ namespace SSXMultiTool
                 //Debug Info
                 instanceJson.Effects = new List<string>();
 
-                if(ssfHandler.ObjectProperties[instanceJson.SSFState].EffectSlotIndex != -1)
+                if(ssfHandler.ObjectProperties[instanceJson.ObjectPropertyIndex].EffectSlotIndex != -1)
                 {
-                    var EffectSlot = ssfHandler.EffectSlots[ssfHandler.ObjectProperties[instanceJson.SSFState].EffectSlotIndex];
+                    var EffectSlot = ssfHandler.EffectSlots[ssfHandler.ObjectProperties[instanceJson.ObjectPropertyIndex].EffectSlotIndex];
 
                     if (EffectSlot.Slot1 != -1)
                     {
                         var TempEffect = ssfHandler.EffectHeaders[EffectSlot.Slot1];
 
-                        instanceJson.Effects.Add("Object " + instanceJson.SSFState);
+                        instanceJson.Effects.Add("Object " + instanceJson.ObjectPropertyIndex);
 
                         string Slot;
 
