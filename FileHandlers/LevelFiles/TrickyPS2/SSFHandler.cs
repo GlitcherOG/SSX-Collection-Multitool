@@ -843,14 +843,184 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public void SaveEffectData(Stream stream, Effect EffectData)
         {
-
             StreamUtil.WriteInt32(stream, EffectData.MainType);
             long ByteSize = stream.Position;
             stream.Position += 4;
 
             if(EffectData.MainType == 0)
             {
-
+                var Type0Temp = EffectData.type0.Value;
+                StreamUtil.WriteInt32(stream, Type0Temp.SubType);
+                if (EffectData.type0.Value.SubType == 0)
+                {
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub0.Value.U0);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub0.Value.U1);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub0.Value.U2);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub0.Value.U3);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub0.Value.U4);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub0.Value.U5);
+                }
+                else if (EffectData.type0.Value.SubType == 2)
+                {
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub2);
+                }
+                else if (EffectData.type0.Value.SubType == 5)
+                {
+                    StreamUtil.WriteInt32(stream, Type0Temp.DeadNodeMode);
+                }
+                else if (EffectData.type0.Value.SubType == 6)
+                {
+                    StreamUtil.WriteInt32(stream, Type0Temp.Counter.Value.Count);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.Counter.Value.U1);
+                }
+                else if (EffectData.type0.Value.SubType == 7)
+                {
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub7.Value.U0);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub7.Value.U1);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub7.Value.U2);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub7.Value.U3);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub7.Value.U4);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub7.Value.U5);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub7.Value.U6);
+                }
+                else if (EffectData.type0.Value.SubType == 10)
+                {
+                    StreamUtil.WriteInt32(stream, Type0Temp.UVScroll.Value.U0);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.UVScroll.Value.U1);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.UVScroll.Value.U2);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.UVScroll.Value.U3);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.UVScroll.Value.U4);
+                    StreamUtil.WriteInt32(stream, Type0Temp.UVScroll.Value.U5);
+                }
+                else if (EffectData.type0.Value.SubType == 11)
+                {
+                    StreamUtil.WriteInt32(stream, Type0Temp.TextureFlip.Value.U0);
+                    StreamUtil.WriteInt32(stream, Type0Temp.TextureFlip.Value.Direction);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.TextureFlip.Value.Speed);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.TextureFlip.Value.Length);
+                    StreamUtil.WriteInt32(stream, Type0Temp.TextureFlip.Value.U4);
+                }
+                else if (EffectData.type0.Value.SubType == 12)
+                {
+                    StreamUtil.WriteInt32(stream, Type0Temp.Fence.Value.U0);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.Fence.Value.FlexAmmount);
+                }
+                else if (EffectData.type0.Value.SubType == 13)
+                {
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub13.Value.U0);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub13.Value.U1);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub13.Value.U2);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub13.Value.U3);
+                }
+                else if (EffectData.type0.Value.SubType == 14)
+                {
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub14.Value.U0);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub14.Value.U1);
+                }
+                else if (EffectData.type0.Value.SubType == 15)
+                {
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub15.Value.U0);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub15.Value.U1);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub15.Value.U2);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub15.Value.U3);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub15.Value.U4);
+                }
+                else if (EffectData.type0.Value.SubType == 17)
+                {
+                    StreamUtil.WriteInt32(stream, Type0Temp.CrowdEffect.Value.U0);
+                    StreamUtil.WriteInt32(stream, Type0Temp.CrowdEffect.Value.U1);
+                    StreamUtil.WriteInt32(stream, Type0Temp.CrowdEffect.Value.U2);
+                }
+                else if (EffectData.type0.Value.SubType == 18)
+                {
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub18.Value.U0);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub18.Value.U1);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub18.Value.U2);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub18.Value.U3);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub18.Value.U4);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub18.Value.U5);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub18.Value.U6);
+                }
+                else if (EffectData.type0.Value.SubType == 20)
+                {
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub20.Value.U0);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub20.Value.U1);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub20.Value.U2);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub20.Value.U3);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub20.Value.U4);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub20.Value.U5);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub20.Value.U6);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub20.Value.U7);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub20.Value.U8);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub20.Value.U9);
+                }
+                else if (EffectData.type0.Value.SubType == 23)
+                {
+                    //DONE
+                }
+                else if (EffectData.type0.Value.SubType == 24)
+                {
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub24.Value.U0);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub24.Value.U1);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub24.Value.U2);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub24.Value.U3);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub24.Value.U4);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub24.Value.U5);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub24.Value.U6);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub24.Value.U7);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub24.Value.U8);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub24.Value.U9);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub24.Value.U10);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub24.Value.U11);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub24.Value.U12);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub24.Value.U13);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub24.Value.U14);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub24.Value.U15);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub24.Value.U16);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub24.Value.U17);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub24.Value.U18);
+                }
+                else if (EffectData.type0.Value.SubType == 256)
+                {
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub256.Value.U0);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub256.Value.U2);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub256.Value.U3);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub256.Value.U3);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub256.Value.U4);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub256.Value.U5);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub256.Value.U6);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub256.Value.U7);
+                }
+                else if (EffectData.type0.Value.SubType == 257)
+                {
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub257.Value.U0);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub257.Value.U1);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub257.Value.U2);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub257.Value.U3);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub257.Value.U4);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub257.Value.U5);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub257.Value.U6);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub257.Value.U7);
+                }
+                else if (EffectData.type0.Value.SubType == 258)
+                {
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub258.Value.U0);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub258.Value.U1);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub258.Value.U2);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub258.Value.U3);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub258.Value.U4);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub258.Value.U5);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub258.Value.U6);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub258.Value.U7);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub258.Value.U8);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub258.Value.U9);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub258.Value.U10);
+                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub258.Value.U11);
+                }
+                else
+                {
+                    MessageBox.Show("ERROR MISSING DATA CANT SAVE SSF EFFECT " + EffectData.MainType + ", " + EffectData.type0.Value.SubType);
+                }
             }
             else if (EffectData.MainType == 2)
             {
