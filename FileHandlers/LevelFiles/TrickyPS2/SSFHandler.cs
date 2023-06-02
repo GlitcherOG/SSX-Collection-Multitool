@@ -983,8 +983,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 else if (EffectData.type0.Value.SubType == 256)
                 {
                     StreamUtil.WriteInt32(stream, Type0Temp.type0Sub256.Value.U0);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub256.Value.U1);
                     StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub256.Value.U2);
-                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub256.Value.U3);
                     StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub256.Value.U3);
                     StreamUtil.WriteInt32(stream, Type0Temp.type0Sub256.Value.U4);
                     StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub256.Value.U5);
@@ -1245,7 +1245,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             long TempPos = stream.Position;
             stream.Position = ByteSize;
-            StreamUtil.WriteInt32(stream, (int)(TempPos - ByteSize));
+            StreamUtil.WriteInt32(stream, (int)(TempPos - ByteSize)+4);
             stream.Position = TempPos;
         }
 
@@ -1281,9 +1281,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 TempData.EffectOffset = (int)(stream.Position - EffectData);
 
                 EffectHeaders[i] = TempData;
-                for (int a = 0; a < EffectHeaders[a].Effects.Count; a++)
+                for (int a = 0; a < EffectHeaders[i].Effects.Count; a++)
                 {
-                    SaveEffectData(stream, EffectHeaders[a].Effects[a]);
+                    SaveEffectData(stream, EffectHeaders[i].Effects[a]);
                 }
             }
 
@@ -1296,12 +1296,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 Functions[i] = TempData;
 
-                for (int a = 0; a < Functions[a].Effects.Count; a++)
+                for (int a = 0; a < Functions[i].Effects.Count; a++)
                 {
-                    SaveEffectData(stream, Functions[a].Effects[a]);
+                    SaveEffectData(stream, Functions[i].Effects[a]);
                 }
             }
 
+            StreamUtil.AlignBy16(stream);
+            //stream.Position = PhysicsHeaders[0].Offset;
             //Write Physics
             for (int i = 0; i < PhysicsHeaders.Count; i++)
             {
@@ -1355,7 +1357,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 PhysicsHeaders[i] = TempHeader;
             }
 
-
+            StreamUtil.AlignBy16(stream);
             //Write Collision
             for (int i = 0; i < CollisonModelPointers.Count; i++)
             {
@@ -1477,7 +1479,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             {
                 StreamUtil.WriteInt16(stream, Splines[i].U1);
                 StreamUtil.WriteInt16(stream, Splines[i].U2);
-                StreamUtil.WriteInt16(stream, Splines[i].SplineStyle);
+                StreamUtil.WriteInt32(stream, Splines[i].SplineStyle);
             }
 
 
