@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Microsoft.Toolkit.HighPerformance.Helpers;
 using SSXMultiTool.Utilities;
 using static SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2.SSFHandler;
 
@@ -575,7 +576,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
                 else
                 {
-                    Debug.WriteLine("Missing Type " + NewEffect.MainType.ToString() + "," + NewMainType.SubType.ToString());
+                    MessageBox.Show("Missing Type " + NewEffect.MainType.ToString() + "," + NewMainType.SubType.ToString());
                     return null;
                 }
                 NewEffect.type0 = NewMainType;
@@ -747,7 +748,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
                 else
                 {
-                    Debug.WriteLine("Missing Type " + NewEffect.MainType.ToString() + "," + NewMainType.SubType.ToString());
+                    MessageBox.Show("Missing Type " + NewEffect.MainType.ToString() + "," + NewMainType.SubType.ToString());
                     return null;
                 }
 
@@ -833,11 +834,97 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             } //Done
             else
             {
-                Debug.WriteLine("Missing Type " + NewEffect.MainType.ToString());
+                MessageBox.Show("Missing Type " + NewEffect.MainType.ToString());
                 return null;
             }
 
             return NewEffect;
+        }
+
+        public void SaveEffectData(Stream stream, Effect EffectData)
+        {
+
+            StreamUtil.WriteInt32(stream, EffectData.MainType);
+            long ByteSize = stream.Position;
+            stream.Position += 4;
+
+            if(EffectData.MainType == 0)
+            {
+
+            }
+            else if (EffectData.MainType == 2)
+            {
+
+            }
+            else if (EffectData.MainType == 3)
+            {
+                StreamUtil.WriteInt32(stream, EffectData.type3.Value.U0);
+                StreamUtil.WriteInt32(stream, EffectData.type3.Value.U1);
+            }
+            else if (EffectData.MainType == 4)
+            {
+                StreamUtil.WriteFloat32(stream, EffectData.WaitTime);
+            }
+            else if (EffectData.MainType == 5)
+            {
+                StreamUtil.WriteInt32(stream, EffectData.type5.Value.U0);
+                StreamUtil.WriteFloat32(stream, EffectData.type5.Value.U1);
+                StreamUtil.WriteInt32(stream, EffectData.type5.Value.U2);
+            }
+            else if (EffectData.MainType == 7)
+            {
+                StreamUtil.WriteInt32(stream, EffectData.Instance.Value.InstanceIndex);
+                StreamUtil.WriteInt32(stream, EffectData.Instance.Value.EffectIndex);
+            }
+            else if (EffectData.MainType == 8)
+            {
+                StreamUtil.WriteInt32(stream, EffectData.SoundPlay);
+
+            }
+            else if (EffectData.MainType == 9)
+            {
+                StreamUtil.WriteInt32(stream, EffectData.type9.Value.U0);
+                StreamUtil.WriteFloat32(stream, EffectData.type9.Value.U1);
+            }
+            else if (EffectData.MainType == 13)
+            {
+                StreamUtil.WriteFloat32(stream, EffectData.type13);
+            }
+            else if (EffectData.MainType == 14)
+            {
+                StreamUtil.WriteFloat32(stream, EffectData.MultiplierScore);
+            }
+            else if (EffectData.MainType == 17)
+            {
+                StreamUtil.WriteFloat32(stream, EffectData.type17);
+            }
+            else if (EffectData.MainType == 18)
+            {
+                StreamUtil.WriteFloat32(stream, EffectData.type18);
+            }
+            else if (EffectData.MainType == 21)
+            {
+                StreamUtil.WriteInt32(stream, EffectData.FunctionRunIndex);
+            }
+            else if (EffectData.MainType == 24)
+            {
+                StreamUtil.WriteInt32(stream, EffectData.TeleportInstanceIndex);
+            }
+            else if (EffectData.MainType == 25)
+            {
+                StreamUtil.WriteInt32(stream, EffectData.Spline.Value.SplineIndex);
+                StreamUtil.WriteInt32(stream, EffectData.Spline.Value.Effect);
+            }
+            else
+            {
+                MessageBox.Show("ERROR MISSING DATA CANT SAVE SSF EFFECt " + EffectData.MainType);
+            }
+
+
+            long TempPos = stream.Position;
+            stream.Position = ByteSize;
+            StreamUtil.WriteInt32(stream, (int)(TempPos - ByteSize));
+            stream.Position = TempPos;
         }
 
         public void Save(string path)
@@ -867,6 +954,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             long EffectData = stream.Position;
             for (int i = 0; i < EffectHeaders.Count; i++)
             {
+                var TempData = EffectHeaders[i];
+
+                TempData.EffectOffset = (int)(stream.Position - EffectData);
+
+                EffectHeaders[i] = TempData;
                 for (int a = 0; a < EffectHeaders[a].Effects.Count; a++)
                 {
                     SaveEffectData(stream, EffectHeaders[a].Effects[a]);
@@ -876,6 +968,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             //Write Function
             for (int i = 0; i < Functions.Count; i++)
             {
+                var TempData = Functions[i];
+
+                TempData.Offset = (int)(stream.Position - EffectData);
+
+                Functions[i] = TempData;
+
                 for (int a = 0; a < Functions[a].Effects.Count; a++)
                 {
                     SaveEffectData(stream, Functions[a].Effects[a]);
@@ -930,8 +1028,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     StreamUtil.WriteBytes(stream, TempHeader.PhysicsDatas[a].UByteData);
                     StreamUtil.WriteBytes(stream, TempHeader.PhysicsDatas[a].UByteEndData);
                 }
-
-
 
                 TempHeader.ByteSize = (int)(stream.Position - TempHeader.Offset);
                 PhysicsHeaders[i] = TempHeader;
@@ -1012,6 +1108,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, EffectHeaders[i].EffectOffset);
             }
 
+            //Go Back
             //Write Object Properties
             stream.Position = ObjectPropertiesOffset;
             for (int i = 0; i < ObjectProperties.Count; i++)
@@ -1093,11 +1190,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             stream.CopyTo(file);
             stream.Dispose();
             file.Close();
-        }
-
-        public void SaveEffectData(Stream stream, Effect EffectData)
-        {
-
         }
 
         public void SaveModels(string Path)
