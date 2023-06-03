@@ -290,11 +290,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 for (int i = 0; i < ObjectPropertiesCount; i++)
                 {
                     var TempUstruct5 = new UStruct5();
-                    TempUstruct5.U1 = StreamUtil.ReadUInt8(stream);
-                    TempUstruct5.U12 = StreamUtil.ReadUInt8(stream);
-                    TempUstruct5.U13 = StreamUtil.ReadUInt8(stream);
-                    TempUstruct5.U14 = StreamUtil.ReadUInt8(stream);
-
+                    TempUstruct5.U0 = StreamUtil.ReadFloat(stream);
 
                     TempUstruct5.PlayerBounce = StreamUtil.ReadFloat(stream);
 
@@ -1174,8 +1170,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U47);
 
                     StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U48);
-                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub0.Value.U49);
-                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub0.Value.U50);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U49);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub2.Value.U50);
                 }
                 else
                 {
@@ -1442,10 +1438,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             {
                 var TempUstruct5 = ObjectProperties[i];
 
-                StreamUtil.WriteUInt8(stream, TempUstruct5.U1);
-                StreamUtil.WriteUInt8(stream, TempUstruct5.U12);
-                StreamUtil.WriteUInt8(stream, TempUstruct5.U13);
-                StreamUtil.WriteUInt8(stream, TempUstruct5.U14);
+                StreamUtil.WriteFloat32(stream, TempUstruct5.U0);
 
                 StreamUtil.WriteFloat32(stream, TempUstruct5.PlayerBounce);
 
@@ -1454,7 +1447,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteUInt8(stream, TempUstruct5.U23);
                 StreamUtil.WriteUInt8(stream, TempUstruct5.U24);
 
-                StreamUtil.WriteInt32(stream, TempUstruct5.U4);
+                StreamUtil.WriteInt32(stream, 4);
 
                 StreamUtil.WriteInt16(stream, TempUstruct5.CollsionMode);
 
@@ -1655,17 +1648,33 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public struct UStruct5
         {
-            public int U1;
-            public int U12;
-            public int U13;
-            public int U14;
-
+            public float U0;
             public float PlayerBounce;
 
             public int U2;
             public int U22;
             public int U23;
             public int U24;
+
+            //U23
+            //1 - Visable
+            //2 - 
+            //4 -
+            //8 -
+            //16 -  
+            //32 - Player Collison Detect
+            //64 - 
+            //128 - Player Bounce
+
+            //U24
+            //1
+            //2
+            //4
+            //8
+            //16 - Is used IDK
+            //32 - UV Scrolling? (Also This on fences causes issues)
+            //64
+            //128
 
             public int U4;
             public int CollsionMode;

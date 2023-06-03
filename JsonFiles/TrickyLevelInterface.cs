@@ -66,7 +66,7 @@ namespace SSXMultiTool
 
             SSFHandler ssfHandler = new SSFHandler();
             ssfHandler.Load(LoadPath + ".ssf");
-            //ssfHandler.Save(LoadPath + ".ssf1");
+            ssfHandler.Save(LoadPath + ".ssf1");
 
             //Load Map
             MapHandler mapHandler = new MapHandler();
@@ -234,10 +234,7 @@ namespace SSXMultiTool
                 }
 
                 //SSF
-                instanceJson.U1 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U1;
-                instanceJson.U12 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U12;
-                instanceJson.U13 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U13;
-                instanceJson.U14 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U14;
+                instanceJson.U0 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U0;
                 instanceJson.PlayerBounce = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].PlayerBounce;
                 instanceJson.U2 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U2;
                 instanceJson.U22 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U22;
