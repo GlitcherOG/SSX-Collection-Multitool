@@ -874,13 +874,35 @@ namespace SSXMultiTool
             ssfJsonHandler.EffectHeaders = new List<SSFJsonHandler.EffectHeaderStruct>();
             for (int i = 0; i < ssfHandler.EffectHeaders.Count; i++)
             {
+                var NewEffectHeader = new SSFJsonHandler.EffectHeaderStruct();
+                NewEffectHeader.EffectName = "Effect " + i.ToString();
+                NewEffectHeader.Effects = new List<SSFJsonHandler.Effect>();
 
+                for (int a = 0; a < ssfHandler.EffectHeaders[i].Effects.Count; a++)
+                {
+                    var TempEffect = ssfHandler.EffectHeaders[i].Effects[a];
+                    NewEffectHeader.Effects.Add(SSFJsonHandler.EffectToJSON(TempEffect));
+                }
+                
+
+                ssfJsonHandler.EffectHeaders.Add(NewEffectHeader);
             }
 
             ssfJsonHandler.Functions = new List<SSFJsonHandler.Function>();
             for (int i = 0; i < ssfHandler.Functions.Count; i++)
             {
+                var NewFunction = new SSFJsonHandler.Function();
+                NewFunction.FunctionName = ssfHandler.Functions[i].FunctionName;
 
+                NewFunction.Effects = new List<SSFJsonHandler.Effect>();
+
+                for (int a = 0; a < ssfHandler.Functions[i].Effects.Count; a++)
+                {
+                    var TempEffect = ssfHandler.Functions[i].Effects[a];
+                    NewFunction.Effects.Add(SSFJsonHandler.EffectToJSON(TempEffect));
+                }
+
+                ssfJsonHandler.Functions.Add(NewFunction);
             }
 
             ssfJsonHandler.PhysicsHeaders = new List<SSFJsonHandler.PhysicsHeader>();
