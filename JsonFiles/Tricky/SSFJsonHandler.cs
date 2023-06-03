@@ -569,18 +569,18 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public Type0? type0;
             public Type2? type2;
             public Type3? type3;
-            public float WaitTime;
+            public float? WaitTime;
             public Type5? type5;
             public InstanceEffect? Instance;
-            public int SoundPlay;
+            public int? SoundPlay;
             public Type9? type9;
 
-            public float type13;
-            public float MultiplierScore;
-            public float type17;
-            public float type18;
-            public int FunctionRunIndex;
-            public int TeleportInstanceIndex;
+            public float? type13;
+            public float? MultiplierScore;
+            public float? type17;
+            public float? type18;
+            public int? FunctionRunIndex;
+            public int? TeleportInstanceIndex;
             public SplineEffect? Spline;
         }
 
@@ -590,8 +590,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int SubType;
 
             public Type0Sub0? type0Sub0; ///Roller?
-            public int type0Sub2;  //Debounce?
-            public int DeadNodeMode; //5
+            public int? type0Sub2;  //Debounce?
+            public int? DeadNodeMode; //5
             public CounterEffect? Counter; //6
             public Type0Sub7? type0Sub7; //Boost
             public UVScrolling? UVScroll; //10
