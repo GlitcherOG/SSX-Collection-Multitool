@@ -617,7 +617,8 @@
             // GenSSF
             // 
             GenSSF.AutoSize = true;
-            GenSSF.Enabled = false;
+            GenSSF.Checked = true;
+            GenSSF.CheckState = CheckState.Checked;
             GenSSF.Location = new Point(334, 97);
             GenSSF.Name = "GenSSF";
             GenSSF.Size = new Size(94, 19);

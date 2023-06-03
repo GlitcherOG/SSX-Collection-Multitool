@@ -977,7 +977,6 @@ namespace SSXMultiTool
             ssfHandler.SaveModels(ExportPath + "/Collision/");
             pbdHandler.ExportModels(ExportPath + "/Models/");
 
-
             for (int i = 0; i < TextureHandler.sshImages.Count; i++)
             {
                 TextureHandler.BrightenBitmap(i);
@@ -1145,9 +1144,6 @@ namespace SSXMultiTool
                     LightmapHandler.BMPOneExtract(ExportPath + "\\Lightmaps\\" + LightmapHandler.sshImages[i].shortname + ".png", i);
                 }
             }
-
-            Directory.CreateDirectory(ExportPath + "/Original");
-            File.Copy(LoadPath + ".ssf", ExportPath + "/Original" + "/ssf.ssf");
         }
 
         public void BuildTrickyLevelFiles(string LoadPath, string ExportPath)
@@ -1155,8 +1151,6 @@ namespace SSXMultiTool
             List<string> ImageFiles = new List<string>();
 
             ExportPath = ExportPath.Substring(0, ExportPath.Length - 4);
-
-            File.Copy(LoadPath + "/Original/ssf.ssf", ExportPath + ".ssf", true);
 
             #region Rebuild PBD
             MapHandler mapHandler = new MapHandler();
@@ -1166,8 +1160,10 @@ namespace SSXMultiTool
             PBDHandler pbdHandler = new PBDHandler();
             //pbdHandler.LoadPBD(ExportPath + ".pbd");
 
+            SSFHandler ssfHandler = new SSFHandler();
+
             ADLHandler adlHandler = new ADLHandler();
-            if (MAPGenerate || PBDGenerate || LTGGenerate || ADLGenerate)
+            if (MAPGenerate || PBDGenerate || LTGGenerate || ADLGenerate || SSFGenerate)
             {
                 //Rebuild Patches
                 patchPoints = new PatchesJsonHandler();
@@ -1456,6 +1452,15 @@ namespace SSXMultiTool
                         }
 
                         adlHandler.HashSounds.Add(NewSound);
+                    }
+
+                    if(SSFGenerate)
+                    {
+                        //Make Collision and test if exists
+
+
+                        //Make Object Properties and Test if Exists
+
                     }
 
                     LinkerItem linkerItem = new LinkerItem();
@@ -2135,6 +2140,22 @@ namespace SSXMultiTool
                 }
                 TextureHandler.SaveSSH(ExportPath + ".ssh", true);
             }
+
+            if(SSFGenerate)
+            {
+                //Effect Slot
+
+                //Physics
+
+                //Effects
+
+                //Function
+
+                //Load Model
+
+                ssfHandler.Save(ExportPath + ".ssf");
+            }
+
 
             #region Skybox Rebuild
             PBDHandler skyboxpbdHander = new PBDHandler();
