@@ -856,7 +856,88 @@ namespace SSXMultiTool
             ssfJsonHandler = new SSFJsonHandler();
             ssfJsonHandler.EffectSlots = new List<SSFJsonHandler.EffectSlotJson>();
 
+            for (int i = 0; i < ssfHandler.EffectSlots.Count; i++)
+            {
+                var TempEffectSlot = new SSFJsonHandler.EffectSlotJson();
 
+                TempEffectSlot.EffectSlotName = "EffectSlot " + i;
+                TempEffectSlot.PersistantEffectSlot = ssfHandler.EffectSlots[i].Slot1;
+                TempEffectSlot.CollisionEffectSlot = ssfHandler.EffectSlots[i].Slot2;
+                TempEffectSlot.Slot3 = ssfHandler.EffectSlots[i].Slot3;
+                TempEffectSlot.Slot4 = ssfHandler.EffectSlots[i].Slot4;
+                TempEffectSlot.EffectTriggerSlot = ssfHandler.EffectSlots[i].Slot5;
+                TempEffectSlot.Slot6 = ssfHandler.EffectSlots[i].Slot6;
+                TempEffectSlot.Slot7 = ssfHandler.EffectSlots[i].Slot7;
+                ssfJsonHandler.EffectSlots.Add(TempEffectSlot);
+            }
+
+            ssfJsonHandler.EffectHeaders = new List<SSFJsonHandler.EffectHeaderStruct>();
+            for (int i = 0; i < ssfHandler.EffectHeaders.Count; i++)
+            {
+
+            }
+
+            ssfJsonHandler.Functions = new List<SSFJsonHandler.Function>();
+            for (int i = 0; i < ssfHandler.Functions.Count; i++)
+            {
+
+            }
+
+            ssfJsonHandler.PhysicsHeaders = new List<SSFJsonHandler.PhysicsHeader>();
+            for (int i = 0; i < ssfHandler.PhysicsHeaders.Count; i++)
+            {
+                var NewPhysicsHeader = new SSFJsonHandler.PhysicsHeader();
+                NewPhysicsHeader.PhysicsName = "Physics Header " + i;
+                NewPhysicsHeader.PhysicsDatas = new List<SSFJsonHandler.PhysicsData>();
+
+                for (int a = 0; a < ssfHandler.PhysicsHeaders[i].PhysicsDatas.Count; a++)
+                {
+                    var NewPhysicsData = new SSFJsonHandler.PhysicsData();
+                    NewPhysicsData.UFloat0 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat0;
+                    NewPhysicsData.UFloat1 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat1;
+                    NewPhysicsData.UFloat2 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat2;
+                    NewPhysicsData.UFloat3 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat3;
+                    NewPhysicsData.UFloat4 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat4;
+                    NewPhysicsData.UFloat5 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat5;
+                    NewPhysicsData.UFloat6 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat6;
+                    NewPhysicsData.UFloat7 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat7;
+                    NewPhysicsData.UFloat8 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat8;
+                    NewPhysicsData.UFloat9 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat9;
+                    NewPhysicsData.UFloat10 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat10;
+                    NewPhysicsData.UFloat11 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat11;
+                    NewPhysicsData.UFloat12 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat12;
+                    NewPhysicsData.UFloat13 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat13;
+                    NewPhysicsData.UFloat14 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat14;
+                    NewPhysicsData.UFloat15 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat15;
+                    NewPhysicsData.UFloat16 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat16;
+                    NewPhysicsData.UFloat17 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat17;
+                    NewPhysicsData.UFloat18 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat18;
+                    NewPhysicsData.UFloat19 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat19;
+                    NewPhysicsData.UFloat20 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat20;
+                    NewPhysicsData.UFloat21 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat21;
+                    NewPhysicsData.UFloat22 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat22;
+                    NewPhysicsData.UFloat23 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat23;
+
+                    NewPhysicsData.uPhysicsStruct0 = new List<SSFJsonHandler.UPhysicsStruct>();
+
+                    for (int b = 0; b < ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].uPhysicsStruct0.Count; b++)
+                    {
+                        var NewPhysicsStruct = new SSFJsonHandler.UPhysicsStruct();
+                        NewPhysicsStruct.U0 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].uPhysicsStruct0[b].U0;
+                        NewPhysicsStruct.U1 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].uPhysicsStruct0[b].U1;
+                        NewPhysicsStruct.U2 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].uPhysicsStruct0[b].U2;
+                        NewPhysicsData.uPhysicsStruct0.Add(NewPhysicsStruct);
+                    }
+
+                    NewPhysicsData.UByteData = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UByteData;
+                    NewPhysicsData.UByteEndData = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UByteEndData;
+                    NewPhysicsHeader.PhysicsDatas.Add(NewPhysicsData);
+                }
+
+
+
+                ssfJsonHandler.PhysicsHeaders.Add(NewPhysicsHeader);
+            }
 
 
             ssfJsonHandler.CreateJson(ExportPath + "/SSFLogic.json", InlineExporting);
