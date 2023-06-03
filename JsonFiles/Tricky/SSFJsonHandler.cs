@@ -32,18 +32,18 @@ namespace SSXMultiTool.JsonFiles.Tricky
             File.WriteAllText(path, serializer);
         }
 
-        public static InstanceJsonHandler Load(string path)
+        public static SSFJsonHandler Load(string path)
         {
             string paths = path;
             if (File.Exists(paths))
             {
                 var stream = File.ReadAllText(paths);
-                var container = JsonConvert.DeserializeObject<InstanceJsonHandler>(stream);
+                var container = JsonConvert.DeserializeObject<SSFJsonHandler>(stream);
                 return container;
             }
             else
             {
-                return new InstanceJsonHandler();
+                return new SSFJsonHandler();
             }
         }
 
@@ -486,6 +486,15 @@ namespace SSXMultiTool.JsonFiles.Tricky
             {
                 MessageBox.Show("ERROR Converting to Json Format SSF " + NewEffect.MainType);
             }
+
+            return NewEffect;
+        }
+
+        public static SSFHandler.Effect JSONToEffect(Effect TempEffect)
+        {
+            var NewEffect = new SSFHandler.Effect();
+
+
 
             return NewEffect;
         }

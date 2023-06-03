@@ -1290,6 +1290,7 @@ namespace SSXMultiTool
                 pbdHandler.splines = new List<Spline>();
                 pbdHandler.splinesSegments = new List<SplinesSegments>();
                 mapHandler.Splines = new List<LinkerItem>();
+                ssfHandler.Splines = new List<SSFHandler.Spline>();
                 int SegmentPos = 0;
                 for (int i = 0; i < splineJsonHandler.Splines.Count; i++)
                 {
@@ -1370,6 +1371,18 @@ namespace SSXMultiTool
 
                     spline.LowestXYZ = LowestXYZSpline;
                     spline.HighestXYZ = HighestXYZSpline;
+
+                    if(SSFGenerate)
+                    {
+                        var NewSpline = new SSFHandler.Spline();
+
+                        NewSpline.U1 = TempSpline.U0;
+                        NewSpline.U2 = TempSpline.U1;
+                        NewSpline.SplineStyle = TempSpline.SplineStyle;
+
+                        ssfHandler.Splines.Add(NewSpline);
+                    }
+
 
                     LinkerItem linkerItem = new LinkerItem();
                     linkerItem.Name = TempSpline.SplineName;
@@ -2143,7 +2156,23 @@ namespace SSXMultiTool
 
             if(SSFGenerate)
             {
+                ssfJsonHandler = new SSFJsonHandler();
+                ssfJsonHandler = SSFJsonHandler.Load(LoadPath + "/SSFLogic.json");
+                ssfHandler.EffectSlots = new List<SSFHandler.EffectSlot>();
                 //Effect Slot
+                for (int i = 0; i < ssfJsonHandler.EffectSlots.Count; i++)
+                {
+                    var NewEffectSlot = new SSFHandler.EffectSlot();
+                    NewEffectSlot.Slot1 = ssfJsonHandler.EffectSlots[i].PersistantEffectSlot;
+                    NewEffectSlot.Slot2 = ssfJsonHandler.EffectSlots[i].CollisionEffectSlot;
+                    NewEffectSlot.Slot3 = ssfJsonHandler.EffectSlots[i].Slot3;
+                    NewEffectSlot.Slot4 = ssfJsonHandler.EffectSlots[i].Slot4;
+                    NewEffectSlot.Slot5 = ssfJsonHandler.EffectSlots[i].EffectTriggerSlot;
+                    NewEffectSlot.Slot6 = ssfJsonHandler.EffectSlots[i].Slot6;
+                    NewEffectSlot.Slot7 = ssfJsonHandler.EffectSlots[i].Slot7;
+
+                    ssfHandler.EffectSlots.Add(NewEffectSlot);
+                }
 
                 //Physics
 
