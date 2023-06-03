@@ -185,9 +185,10 @@ namespace SSXMultiTool
                 instanceJson.UnknownInt31 = pbdHandler.Instances[i].UnknownInt31;
                 instanceJson.UnknownInt32 = pbdHandler.Instances[i].UnknownInt32;
 
+                //LTG
                 instanceJson.LTGState = ltgHandler.FindIfInstaneState(i);
-                instanceJson.ObjectPropertyIndex = ssfHandler.InstanceState[i];
 
+                //Find Hash
                 int FindHash = -1;
                 for (int a = 0; a < pbdHandler.hashData.InstanceHash.Count; a++)
                 {
@@ -199,6 +200,7 @@ namespace SSXMultiTool
                     }
                 }
 
+                //ADL
                 if (FindHash != -1)
                 {
                     for (int a = 0; a < adlHandler.HashSounds.Count; a++)
@@ -228,6 +230,33 @@ namespace SSXMultiTool
                             instanceJson.Sounds = NewSound;
                             break;
                         }
+                    }
+                }
+
+                //SSF
+                instanceJson.U1 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U1;
+                instanceJson.U12 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U12;
+                instanceJson.U13 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U13;
+                instanceJson.U14 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U14;
+                instanceJson.PlayerBounce = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].PlayerBounce;
+                instanceJson.U2 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U2;
+                instanceJson.U22 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U22;
+                instanceJson.U23 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U23;
+                instanceJson.U24 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U24;
+                instanceJson.U4 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U4;
+                instanceJson.CollsionMode = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].CollsionMode;
+                instanceJson.EffectSlotIndex = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].EffectSlotIndex;
+                instanceJson.PhysicsIndex = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].PhysicsIndex;
+                instanceJson.U8 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U8;
+
+                int CollsionPos = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].CollisonModelIndex;
+                if (CollsionPos!=-1 && instanceJson.CollsionMode!=3)
+                {
+                    instanceJson.CollsionModelPaths = new string[ssfHandler.CollisonModelPointers[CollsionPos].Models.Count];
+
+                    for (int a = 0; a < instanceJson.CollsionModelPaths.Length; a++)
+                    {
+                        instanceJson.CollsionModelPaths[a] = ssfHandler.CollisonModelPointers[CollsionPos].Models[a].MeshPath;
                     }
                 }
 
