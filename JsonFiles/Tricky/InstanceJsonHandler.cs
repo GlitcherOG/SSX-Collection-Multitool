@@ -78,7 +78,24 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public bool IncludeSound;
             public SoundData? Sounds;
 
-            public List<string> Effects;
+            //Object Properties
+
+            public int U1;
+            public int U12;
+            public int U13;
+            public int U14;
+            public float PlayerBounce;
+            public int U2;
+            public int U22;
+            public int U23;
+            public int U24;
+
+            public int U4;
+            public int CollsionMode;
+            public string[] CollsionModelPaths;
+            public int EffectSlotIndex;
+            public int PhysicsIndex;
+            public int U8;
         }
         [Serializable]
         public struct SoundData

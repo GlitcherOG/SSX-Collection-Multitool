@@ -161,6 +161,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 //Collision Models
                 CollisonModelPointers = new List<CollisonModelPointer>();
                 stream.Position = CollisonModelOffset;
+                int MeshID = 0;
                 for (int i = 0; i < CollisonModelCount; i++)
                 {
                     var TempUstruct3 = new CollisonModelPointer();
@@ -181,6 +182,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         TempModel.VerticeCount = StreamUtil.ReadUInt32(stream);
                         TempModel.VerticeOffsetAlign = StreamUtil.ReadUInt32(stream);
 
+                        TempModel.MeshPath = MeshID.ToString() + ".obj";
 
                         TempModel.Index = new List<int>();
                         TempModel.Vertices = new List<Vector4>();
@@ -206,6 +208,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
 
                         TempUstruct3.Models.Add(TempModel);
+                        MeshID++;
                     }
 
                     stream.Position = TempPos;
@@ -1545,7 +1548,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         output += "vn " + Data.FaceNormals[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Data.FaceNormals[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Data.FaceNormals[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
                     }
                     output += outputString;
-                    File.WriteAllText(Path + "/" + c + ".obj", output);
+                    File.WriteAllText(Path + "/" + Data.MeshPath, output);
                     c++;
                 }
 
@@ -1630,6 +1633,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public struct CollisonModel
         {
+            public string MeshPath;
+
             public int FaceCount;
             public int VerticeCount;
             public int VerticeOffsetAlign;

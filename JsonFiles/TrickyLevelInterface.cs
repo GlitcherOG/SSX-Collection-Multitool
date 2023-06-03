@@ -47,6 +47,7 @@ namespace SSXMultiTool
         public PrefabJsonHandler prefabJsonHandler = new PrefabJsonHandler();
         public ParticleModelJsonHandler particleModelJsonHandler = new ParticleModelJsonHandler();
         public CameraJSONHandler cameraJSONHandler  = new CameraJSONHandler();
+        public SSFJsonHandler ssfJsonHandler = new SSFJsonHandler();
 
         //Skybox JSON
 
@@ -65,10 +66,7 @@ namespace SSXMultiTool
 
             SSFHandler ssfHandler = new SSFHandler();
             ssfHandler.Load(LoadPath + ".ssf");
-            ssfHandler.Save(LoadPath + ".ssf1");
-
-            //Directory.CreateDirectory(ExportPath + "\\Collision");
-            //ssfHandler.SaveModels(ExportPath + "\\Collision");
+            //ssfHandler.Save(LoadPath + ".ssf1");
 
             //Load Map
             MapHandler mapHandler = new MapHandler();
@@ -232,187 +230,6 @@ namespace SSXMultiTool
                         }
                     }
                 }
-
-                //Debug Info
-                instanceJson.Effects = new List<string>();
-
-                if(ssfHandler.ObjectProperties[instanceJson.ObjectPropertyIndex].EffectSlotIndex != -1)
-                {
-                    var EffectSlot = ssfHandler.EffectSlots[ssfHandler.ObjectProperties[instanceJson.ObjectPropertyIndex].EffectSlotIndex];
-
-                    if (EffectSlot.Slot1 != -1)
-                    {
-                        var TempEffect = ssfHandler.EffectHeaders[EffectSlot.Slot1];
-
-                        instanceJson.Effects.Add("Object " + instanceJson.ObjectPropertyIndex);
-
-                        string Slot;
-
-                        for (int a = 0; a < TempEffect.Effects.Count; a++)
-                        {
-                            Slot = "Slot 1 |" + TempEffect.Effects[a].MainType + ", ";
-
-                            if (TempEffect.Effects[a].MainType == 0)
-                            {
-                                Slot = Slot + TempEffect.Effects[a].type0.Value.SubType;
-                            }
-                            if (TempEffect.Effects[a].MainType == 2)
-                            {
-                                Slot = Slot + TempEffect.Effects[a].type2.Value.SubType;
-                            }
-
-                            Slot = Slot +  " | Offset: " + TempEffect.Effects[a].Offset;
-
-                            instanceJson.Effects.Add(Slot);
-                        }
-                    }
-                    if (EffectSlot.Slot2 != -1)
-                    {
-                        var TempEffect = ssfHandler.EffectHeaders[EffectSlot.Slot2];
-
-                        string Slot;
-
-                        for (int a = 0; a < TempEffect.Effects.Count; a++)
-                        {
-                            Slot = "Slot 2 |" + TempEffect.Effects[a].MainType + ", ";
-
-                            if (TempEffect.Effects[a].MainType == 0)
-                            {
-                                Slot = Slot + TempEffect.Effects[a].type0.Value.SubType;
-                            }
-                            if (TempEffect.Effects[a].MainType == 2)
-                            {
-                                Slot = Slot + TempEffect.Effects[a].type2.Value.SubType;
-                            }
-
-                            Slot = Slot + " | Offset: " + TempEffect.Effects[a].Offset;
-
-                            instanceJson.Effects.Add(Slot);
-                        }
-                    }
-                    if (EffectSlot.Slot3 != -1)
-                    {
-                        var TempEffect = ssfHandler.EffectHeaders[EffectSlot.Slot3];
-
-                        string Slot;
-
-                        for (int a = 0; a < TempEffect.Effects.Count; a++)
-                        {
-                            Slot = "Slot 3 |" + TempEffect.Effects[a].MainType + ", ";
-
-                            if (TempEffect.Effects[a].MainType == 0)
-                            {
-                                Slot = Slot + TempEffect.Effects[a].type0.Value.SubType;
-                            }
-                            if (TempEffect.Effects[a].MainType == 2)
-                            {
-                                Slot = Slot + TempEffect.Effects[a].type2.Value.SubType;
-                            }
-
-                            Slot = Slot + " | Offset: " + TempEffect.Effects[a].Offset;
-
-                            instanceJson.Effects.Add(Slot);
-                        }
-                    }
-                    if (EffectSlot.Slot4 != -1)
-                    {
-                        var TempEffect = ssfHandler.EffectHeaders[EffectSlot.Slot4];
-
-                        string Slot;
-
-                        for (int a = 0; a < TempEffect.Effects.Count; a++)
-                        {
-                            Slot = "Slot 4 |" + TempEffect.Effects[a].MainType + ", ";
-
-                            if (TempEffect.Effects[a].MainType == 0)
-                            {
-                                Slot = Slot + TempEffect.Effects[a].type0.Value.SubType;
-                            }
-                            if (TempEffect.Effects[a].MainType == 2)
-                            {
-                                Slot = Slot + TempEffect.Effects[a].type2.Value.SubType;
-                            }
-
-                            Slot = Slot + " | Offset: " + TempEffect.Effects[a].Offset;
-
-                            instanceJson.Effects.Add(Slot);
-                        }
-                    }
-                    if (EffectSlot.Slot5 != -1)
-                    {
-                        var TempEffect = ssfHandler.EffectHeaders[EffectSlot.Slot5];
-
-                        string Slot;
-
-                        for (int a = 0; a < TempEffect.Effects.Count; a++)
-                        {
-                            Slot = "Slot 5 |" + TempEffect.Effects[a].MainType + ", ";
-
-                            if (TempEffect.Effects[a].MainType == 0)
-                            {
-                                Slot = Slot + TempEffect.Effects[a].type0.Value.SubType;
-                            }
-                            if (TempEffect.Effects[a].MainType == 2)
-                            {
-                                Slot = Slot + TempEffect.Effects[a].type2.Value.SubType;
-                            }
-
-                            Slot = Slot + " | Offset: " + TempEffect.Effects[a].Offset;
-
-                            instanceJson.Effects.Add(Slot);
-                        }
-                    }
-                    if (EffectSlot.Slot6 != -1)
-                    {
-                        var TempEffect = ssfHandler.EffectHeaders[EffectSlot.Slot6];
-
-                        string Slot;
-
-                        for (int a = 0; a < TempEffect.Effects.Count; a++)
-                        {
-                            Slot ="Slot 6 |" + TempEffect.Effects[a].MainType + ", ";
-
-                            if (TempEffect.Effects[a].MainType == 0)
-                            {
-                                Slot = Slot + TempEffect.Effects[a].type0.Value.SubType;
-                            }
-                            if (TempEffect.Effects[a].MainType == 2)
-                            {
-                                Slot = Slot + TempEffect.Effects[a].type2.Value.SubType;
-                            }
-
-                            Slot = Slot + " | Offset: " + TempEffect.Effects[a].Offset;
-
-                            instanceJson.Effects.Add(Slot);
-                        }
-                    }
-                    if (EffectSlot.Slot7 != -1)
-                    {
-                        var TempEffect = ssfHandler.EffectHeaders[EffectSlot.Slot7];
-
-                        string Slot;
-
-                        for (int a = 0; a < TempEffect.Effects.Count; a++)
-                        {
-                            Slot = "Slot 7 |" + TempEffect.Effects[a].MainType + ", ";
-
-                            if (TempEffect.Effects[a].MainType == 0)
-                            {
-                                Slot = Slot + TempEffect.Effects[a].type0.Value.SubType;
-                            }
-                            if (TempEffect.Effects[a].MainType == 2)
-                            {
-                                Slot = Slot + TempEffect.Effects[a].type2.Value.SubType;
-                            }
-
-                            Slot = Slot + " | Offset: " + TempEffect.Effects[a].Offset;
-
-                            instanceJson.Effects.Add(Slot);
-                        }
-                    }
-
-                }
-
 
                 instancesJson.Instances.Add(instanceJson);
             }
@@ -1009,6 +826,16 @@ namespace SSXMultiTool
             }
             #endregion
 
+            #region SSF JSON Data
+            ssfJsonHandler = new SSFJsonHandler();
+            ssfJsonHandler.EffectSlots = new List<SSFJsonHandler.EffectSlotJson>();
+
+
+
+
+            ssfJsonHandler.CreateJson(ExportPath + "/SSFLogic.json", InlineExporting);
+            #endregion
+
             //Load and Export Textures
             OldSSHHandler LightmapHandler = new OldSSHHandler();
             Directory.CreateDirectory(ExportPath + "/Models");
@@ -1017,6 +844,8 @@ namespace SSXMultiTool
             Directory.CreateDirectory(ExportPath + "/Skybox/Textures");
             Directory.CreateDirectory(ExportPath + "/Skybox/Models");
             Directory.CreateDirectory(ExportPath + "/Lightmaps");
+            Directory.CreateDirectory(ExportPath + "/Collision");
+            ssfHandler.SaveModels(ExportPath + "/Collision/");
             pbdHandler.ExportModels(ExportPath + "/Models/");
 
 

@@ -11,13 +11,10 @@ namespace SSXMultiTool.JsonFiles.Tricky
 {
     public class SSFJsonHandler
     {
-        public List<ObjectPropertiesJson> ObjectProperties = new List<ObjectPropertiesJson>();
         public List<EffectSlotJson> EffectSlots = new List<EffectSlotJson>();
         public List<PhysicsHeader> PhysicsHeaders = new List<PhysicsHeader>();
-        public List<CollisonModelJson> CollisonModels = new List<CollisonModelJson>();
         public List<Function> Functions = new List<Function>();
         public List<EffectHeaderStruct> EffectHeaders = new List<EffectHeaderStruct>();
-
 
         public void CreateJson(string path, bool Inline = false)
         {
@@ -51,17 +48,20 @@ namespace SSXMultiTool.JsonFiles.Tricky
 
         public struct EffectSlotJson
         {
-            public int Slot1;
-            public int Slot2;
+            public string EffectSlotName;
+
+            public int PersistantEffectSlot;
+            public int CollisionEffectSlot;
             public int Slot3;
             public int Slot4;
-            public int Slot5;
+            public int EffectTriggerSlot;
             public int Slot6;
             public int Slot7;
         }
 
         public struct PhysicsHeader
         {
+            public string PhysicsName;
             public List<PhysicsData> PhysicsDatas;
         }
 
@@ -105,41 +105,15 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int U2;
         }
 
-        public struct CollisonModelJson
+        public struct EffectHeaderStruct
         {
-            public List<string> ModelPaths;
+            public string EffectName;
+            public List<Effect> Effects;
         }
 
         public struct Function
         {
             public string FunctionName;
-            public List<Effect> Effects;
-        }
-
-        public struct ObjectPropertiesJson
-        {
-            public int U1;
-            public int U12;
-            public int U13;
-            public int U14;
-
-            public float PlayerBounce;
-
-            public int U2;
-            public int U22;
-            public int U23;
-            public int U24;
-
-            public int U4;
-            public int CollsionMode;
-            public int CollisonModelIndex;
-            public int EffectSlotIndex;
-            public int PhysicsIndex;
-            public int U8;
-        }
-
-        public struct EffectHeaderStruct
-        {
             public List<Effect> Effects;
         }
 
