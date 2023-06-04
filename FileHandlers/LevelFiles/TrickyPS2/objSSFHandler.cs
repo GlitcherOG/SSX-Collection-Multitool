@@ -34,7 +34,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     vector3.X = float.Parse(splitLine[1], CultureInfo.InvariantCulture.NumberFormat);
                     vector3.Y = float.Parse(splitLine[2], CultureInfo.InvariantCulture.NumberFormat);
                     vector3.Z = float.Parse(splitLine[3], CultureInfo.InvariantCulture.NumberFormat);
-                    vector3.Z = 1f;
+                    vector3.W = 1f;
                     Model.Vertices.Add(vector3);
                 }
 

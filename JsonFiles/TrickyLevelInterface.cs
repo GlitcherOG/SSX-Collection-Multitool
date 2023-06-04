@@ -1496,20 +1496,24 @@ namespace SSXMultiTool
                                 bool Test = false;
                                 for (int a = 0; a < ssfHandler.CollisonModelPointers.Count; a++)
                                 {
-                                    if (ssfHandler.CollisonModelPointers[a].Models.Count != NewCollision.Models.Count)
+                                    if (ssfHandler.CollisonModelPointers[a].Models.Count == NewCollision.Models.Count)
                                     {
                                         for (int b = 0; b < ssfHandler.CollisonModelPointers[a].Models.Count; b++)
                                         {
                                             if (ssfHandler.CollisonModelPointers[a].Models[b].MeshPath == NewCollision.Models[b].MeshPath)
                                             {
                                                 Test = true;
-                                                CollsionIndex = a;
+                                            }
+                                            else
+                                            {
+                                                Test = false;
                                                 break;
                                             }
                                         }
                                     }
                                     if (Test)
                                     {
+                                        CollsionIndex = a;
                                         break;
                                     }
                                 }
