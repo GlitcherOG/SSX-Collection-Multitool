@@ -743,7 +743,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                         break;
                                     }
                                 }
-                                TempMeshData=objHandler.GenerateFaces(TempMeshData);
+                                TempMeshData=objTriPBDHandler.GenerateFaces(TempMeshData);
                                 TempMeshOffset.FullMesh = TempMeshData;
                                 TempMeshOffset.MeshID = MeshID;
                                 TempMeshOffset.MeshPath = MeshID.ToString() + ".obj";
@@ -1682,8 +1682,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             var TempMeshOffset = TempObject.objectData.MeshOffsets[bz];
                             if (File.Exists(FolderPath + "\\" + TempMeshOffset.MeshPath))
                             {
-                                ModelObject modelObject = objHandler.LoadFile(FolderPath + "\\" + TempMeshOffset.MeshPath);
-                                TempMeshOffset.FullMesh = objHandler.GenerateTristripDataOneNew(modelObject.Meshs[0]);
+                                ModelObject modelObject = objTriPBDHandler.LoadFile(FolderPath + "\\" + TempMeshOffset.MeshPath);
+                                TempMeshOffset.FullMesh = objTriPBDHandler.GenerateTristripDataOneNew(modelObject.Meshs[0]);
                             }
                             else
                             {

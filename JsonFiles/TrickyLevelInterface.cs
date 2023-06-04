@@ -1476,49 +1476,51 @@ namespace SSXMultiTool
                     {
                         int CollsionIndex = -1;
 
-                        if (Oldinstance.CollsionModelPaths.Length != 0)
+                        if (Oldinstance.CollsionModelPaths != null)
                         {
-                            //Make Collision and test if exists
-                            var NewCollision = new SSFHandler.CollisonModelPointer();
-                            NewCollision.Models = new List<SSFHandler.CollisonModel>();
-
-                            for (int a = 0; a < Oldinstance.CollsionModelPaths.Length; a++)
+                            if (Oldinstance.CollsionModelPaths.Length != 0)
                             {
-                                var NewCollisionModel = new SSFHandler.CollisonModel();
+                                //Make Collision and test if exists
+                                var NewCollision = new SSFHandler.CollisonModelPointer();
+                                NewCollision.Models = new List<SSFHandler.CollisonModel>();
 
-                                NewCollisionModel.MeshPath = Oldinstance.CollsionModelPaths[a];
-
-                                NewCollision.Models.Add(NewCollisionModel);
-                            }
-
-                            bool Test = false;
-                            for (int a = 0; a < ssfHandler.CollisonModelPointers.Count; a++)
-                            {
-                                if (ssfHandler.CollisonModelPointers[a].Models.Count != NewCollision.Models.Count)
+                                for (int a = 0; a < Oldinstance.CollsionModelPaths.Length; a++)
                                 {
-                                    for (int b = 0; b < ssfHandler.CollisonModelPointers[a].Models.Count; b++)
+                                    var NewCollisionModel = new SSFHandler.CollisonModel();
+
+                                    NewCollisionModel.MeshPath = Oldinstance.CollsionModelPaths[a];
+
+                                    NewCollision.Models.Add(NewCollisionModel);
+                                }
+
+                                bool Test = false;
+                                for (int a = 0; a < ssfHandler.CollisonModelPointers.Count; a++)
+                                {
+                                    if (ssfHandler.CollisonModelPointers[a].Models.Count != NewCollision.Models.Count)
                                     {
-                                        if (ssfHandler.CollisonModelPointers[a].Models[b].MeshPath == NewCollision.Models[b].MeshPath)
+                                        for (int b = 0; b < ssfHandler.CollisonModelPointers[a].Models.Count; b++)
                                         {
-                                            Test = true;
-                                            CollsionIndex = a;
-                                            break;
+                                            if (ssfHandler.CollisonModelPointers[a].Models[b].MeshPath == NewCollision.Models[b].MeshPath)
+                                            {
+                                                Test = true;
+                                                CollsionIndex = a;
+                                                break;
+                                            }
                                         }
                                     }
+                                    if (Test)
+                                    {
+                                        break;
+                                    }
                                 }
-                                if(Test)
-                                {
-                                    break;
-                                }
-                            }
 
-                            if (!Test)
-                            {
-                                ssfHandler.CollisonModelPointers.Add(NewCollision);
-                                CollsionIndex = ssfHandler.CollisonModelPointers.Count - 1;
+                                if (!Test)
+                                {
+                                    ssfHandler.CollisonModelPointers.Add(NewCollision);
+                                    CollsionIndex = ssfHandler.CollisonModelPointers.Count - 1;
+                                }
                             }
                         }
-
                         //Make Object Properties and Test if Exists
                         var NewObjectProperties = new SSFHandler.ObjectPropertiesStruct();
 
@@ -2314,6 +2316,9 @@ namespace SSXMultiTool
 
                             NewPhysicsData.uPhysicsStruct0.Add(NewPhysicsUStruct);
                         }
+
+                        NewPhysicsData.UByteData = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UByteData;
+                        NewPhysicsData.UByteEndData = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UByteEndData;
 
                         NewPhysicsHeader.PhysicsDatas.Add(NewPhysicsData);
                     }

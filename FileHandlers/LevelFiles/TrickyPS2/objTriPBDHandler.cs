@@ -10,7 +10,7 @@ using SSXMultiTool.FileHandlers.Models;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
-    public class objHandler
+    public class objTriPBDHandler
     {
         public List<ModelObject> modelObjects = new List<ModelObject>();
         public void LoadFiles(string path)

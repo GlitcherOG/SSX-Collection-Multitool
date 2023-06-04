@@ -1551,7 +1551,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public void LoadModels(string Path)
         {
+            for (int i = 0; i < CollisonModelPointers.Count; i++)
+            {
+                var TempPath = CollisonModelPointers[i];
 
+                for (int a = 0; a < TempPath.Models.Count; a++)
+                {
+                    var Model = TempPath.Models[a];
+
+                    TempPath.Models[a] = objSSFHandler.LoadModel(Model, Path);
+                }
+
+                CollisonModelPointers[i] = TempPath;
+            }
         }
 
 
