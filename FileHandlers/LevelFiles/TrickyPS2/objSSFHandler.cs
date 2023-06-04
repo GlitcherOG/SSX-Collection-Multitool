@@ -96,13 +96,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             for (int i = 0; i < Faces.Count; i++)
             {
                 var TempFace = Faces[i];
-                Vector4 NewNormal = new Vector4();
 
-                NewNormal.X = (Normals[TempFace.Normal1Pos].X + Normals[TempFace.Normal2Pos].X + Normals[TempFace.Normal3Pos].X) / 3;
-                NewNormal.Y = (Normals[TempFace.Normal1Pos].Y + Normals[TempFace.Normal2Pos].Y + Normals[TempFace.Normal3Pos].Y) / 3;
-                NewNormal.X = (Normals[TempFace.Normal1Pos].Z + Normals[TempFace.Normal2Pos].Z + Normals[TempFace.Normal3Pos].Z) / 3;
-
-                Model.FaceNormals.Add(NewNormal);
+                Model.FaceNormals.Add(Normals[TempFace.Normal1Pos]  /*CalculateFaceNormal(TempFace.V1, TempFace.V2, TempFace.V3)*/);
 
                 Model.Index.Add(TempFace.V1Pos);
                 Model.Index.Add(TempFace.V2Pos);
@@ -112,6 +107,25 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
 
             return Model;
+        }
+
+
+        public static Vector4 CalculateFaceNormal(Vector3 P1, Vector3 P2, Vector3 P3)
+        {
+            Vector3 U = P2 - P1;
+            Vector3 V = P3 - P1;
+
+            Vector4 Normal = new Vector4();
+
+            var Temp = Vector3.Cross(U, V);
+
+            Temp = Vector3.Normalize(Temp);
+
+            Normal.X = Temp.X;
+            Normal.Y = Temp.Y;
+            Normal.Z = Temp.Z;
+
+            return Normal;
         }
 
     }

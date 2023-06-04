@@ -18,9 +18,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
     public class SSFHandler
     {
-        public int U1;
-        public int U2;
-        public float U3;
+        public int U1 = 1966592;
+        public int U2 = 1053952;
+        public float U3 = 0.006f;
         public int EffectSlotsCount;
         public int EffectSlotsOffset;
         public int PhysicsCount;
