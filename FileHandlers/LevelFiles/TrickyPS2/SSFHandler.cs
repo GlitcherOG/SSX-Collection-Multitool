@@ -1292,7 +1292,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 var TempData = Functions[i];
 
                 TempData.Offset = (int)(stream.Position - EffectData);
-
                 Functions[i] = TempData;
 
                 for (int a = 0; a < Functions[i].Effects.Count; a++)
@@ -1447,7 +1446,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteUInt8(stream, TempUstruct5.U23);
                 StreamUtil.WriteUInt8(stream, TempUstruct5.U24);
 
-                StreamUtil.WriteInt32(stream, 4);
+                StreamUtil.WriteInt32(stream, TempUstruct5.U4);
 
                 StreamUtil.WriteInt16(stream, TempUstruct5.CollsionMode);
 

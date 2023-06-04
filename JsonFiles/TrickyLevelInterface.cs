@@ -1541,6 +1541,7 @@ namespace SSXMultiTool
                         NewObjectProperties.PhysicsIndex = Oldinstance.PhysicsIndex;
                         NewObjectProperties.EffectSlotIndex = Oldinstance.EffectSlotIndex;
                         NewObjectProperties.U8 = Oldinstance.U8;
+                        NewObjectProperties.CollsionMode = Oldinstance.CollsionMode;
                         NewObjectProperties.CollisonModelIndex = CollsionIndex;
 
                         bool Test1 = false;
@@ -1558,6 +1559,7 @@ namespace SSXMultiTool
                                 NewObjectProperties.PhysicsIndex == TempProperties.PhysicsIndex &&
                                 NewObjectProperties.EffectSlotIndex == TempProperties.EffectSlotIndex &&
                                 NewObjectProperties.U8 == TempProperties.U8 &&
+                                NewObjectProperties.CollsionMode == Oldinstance.CollsionMode &&
                                 NewObjectProperties.CollisonModelIndex == TempProperties.CollisonModelIndex
                                 )
                             {
@@ -2358,7 +2360,7 @@ namespace SSXMultiTool
                 for (int i = 0; i < ssfJsonHandler.Functions.Count; i++)
                 {
                     var NewEffectHeader = new SSFHandler.Function();
-
+                    NewEffectHeader.FunctionName = ssfJsonHandler.Functions[i].FunctionName;
                     NewEffectHeader.Effects = new List<SSFHandler.Effect>();
 
                     for (int a = 0; a < ssfJsonHandler.Functions[i].Effects.Count; a++)
