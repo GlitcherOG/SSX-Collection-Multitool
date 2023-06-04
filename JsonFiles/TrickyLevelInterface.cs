@@ -1163,6 +1163,10 @@ namespace SSXMultiTool
             SSFHandler ssfHandler = new SSFHandler();
 
             ADLHandler adlHandler = new ADLHandler();
+            ssfHandler.CollisonModelPointers = new List<SSFHandler.CollisonModelPointer>();
+            ssfHandler.ObjectProperties = new List<SSFHandler.ObjectPropertiesStruct>();
+
+
             if (MAPGenerate || PBDGenerate || LTGGenerate || ADLGenerate || SSFGenerate)
             {
                 //Rebuild Patches
@@ -1399,6 +1403,7 @@ namespace SSXMultiTool
                 pbdHandler.Instances = new List<Instance>();
                 mapHandler.InternalInstances = new List<LinkerItem>();
                 pbdHandler.hashData.InstanceHash = new List<HashDataUnknown>();
+                ssfHandler.InstanceState = new List<int>();
                 for (int i = 0; i < instancesJson.Instances.Count; i++)
                 {
                     var Oldinstance = instancesJson.Instances[i];
@@ -1469,10 +1474,100 @@ namespace SSXMultiTool
 
                     if(SSFGenerate)
                     {
-                        //Make Collision and test if exists
+                        int CollsionIndex = -1;
+
+                        if (Oldinstance.CollsionModelPaths.Length != 0)
+                        {
+                            //Make Collision and test if exists
+                            var NewCollision = new SSFHandler.CollisonModelPointer();
+                            NewCollision.Models = new List<SSFHandler.CollisonModel>();
+
+                            for (int a = 0; a < Oldinstance.CollsionModelPaths.Length; a++)
+                            {
+                                var NewCollisionModel = new SSFHandler.CollisonModel();
+
+                                NewCollisionModel.MeshPath = Oldinstance.CollsionModelPaths[a];
+
+                                NewCollision.Models.Add(NewCollisionModel);
+                            }
+
+                            bool Test = false;
+                            for (int a = 0; a < ssfHandler.CollisonModelPointers.Count; a++)
+                            {
+                                if (ssfHandler.CollisonModelPointers[a].Models.Count != NewCollision.Models.Count)
+                                {
+                                    for (int b = 0; b < ssfHandler.CollisonModelPointers[a].Models.Count; b++)
+                                    {
+                                        if (ssfHandler.CollisonModelPointers[a].Models[b].MeshPath == NewCollision.Models[b].MeshPath)
+                                        {
+                                            Test = true;
+                                            CollsionIndex = a;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if(Test)
+                                {
+                                    break;
+                                }
+                            }
+
+                            if (!Test)
+                            {
+                                ssfHandler.CollisonModelPointers.Add(NewCollision);
+                                CollsionIndex = ssfHandler.CollisonModelPointers.Count - 1;
+                            }
+                        }
+
+
 
 
                         //Make Object Properties and Test if Exists
+                        var NewObjectProperties = new SSFHandler.ObjectPropertiesStruct();
+
+                        NewObjectProperties.U0 = Oldinstance.U0;
+                        NewObjectProperties.PlayerBounce = Oldinstance.PlayerBounce;
+                        NewObjectProperties.U2 = Oldinstance.U2;
+                        NewObjectProperties.U22 = Oldinstance.U22;
+                        NewObjectProperties.U23 = Oldinstance.U23;
+                        NewObjectProperties.U24 = Oldinstance.U24;
+                        NewObjectProperties.U4 = Oldinstance.U4;
+                        NewObjectProperties.PhysicsIndex = Oldinstance.PhysicsIndex;
+                        NewObjectProperties.EffectSlotIndex = Oldinstance.EffectSlotIndex;
+                        NewObjectProperties.U8 = Oldinstance.U8;
+                        NewObjectProperties.CollisonModelIndex = CollsionIndex;
+
+                        bool Test = false;
+                        for (int a = 0; a < ssfHandler.ObjectProperties.Count; a++)
+                        {
+                            var TempProperties = ssfHandler.ObjectProperties[a];
+
+                            if (NewObjectProperties.U0 == TempProperties.U0 &&
+                                NewObjectProperties.PlayerBounce == TempProperties.PlayerBounce &&
+                                NewObjectProperties.U2 == TempProperties.U2 &&
+                                NewObjectProperties.U22 == TempProperties.U22 &&
+                                NewObjectProperties.U23 == TempProperties.U23 &&
+                                NewObjectProperties.U24 == TempProperties.U24 &&
+                                NewObjectProperties.U4 == TempProperties.U4 &&
+                                NewObjectProperties.PhysicsIndex == TempProperties.PhysicsIndex &&
+                                NewObjectProperties.EffectSlotIndex == TempProperties.EffectSlotIndex &&
+                                NewObjectProperties.U8 == TempProperties.U8 &&
+                                NewObjectProperties.CollisonModelIndex == TempProperties.CollisonModelIndex
+                                )
+                            {
+                                Test = true;
+                                ssfHandler.InstanceState.Add(a);
+                                break;
+                            }
+
+                        }
+
+
+                        if(!Test)
+                        {
+                            ssfHandler.ObjectProperties.Add(NewObjectProperties);
+                            ssfHandler.InstanceState.Add(ssfHandler.ObjectProperties.Count - 1);
+                        }
 
                     }
 
@@ -2175,12 +2270,96 @@ namespace SSXMultiTool
                 }
 
                 //Physics
+                ssfHandler.PhysicsHeaders = new List<SSFHandler.PhysicsHeader>();
+                for (int i = 0; i < ssfJsonHandler.PhysicsHeaders.Count; i++)
+                {
+                    var NewPhysicsHeader = new SSFHandler.PhysicsHeader();
+                    NewPhysicsHeader.PhysicsDatas = new List<SSFHandler.PhysicsData>();
+
+                    for (int a = 0; a < ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas.Count; a++)
+                    {
+                        var NewPhysicsData = new SSFHandler.PhysicsData();
+
+                        NewPhysicsData.UFloat0 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat0;
+                        NewPhysicsData.UFloat1 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat1;
+                        NewPhysicsData.UFloat2 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat2;
+                        NewPhysicsData.UFloat3 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat3;
+                        NewPhysicsData.UFloat4 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat4;
+                        NewPhysicsData.UFloat5 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat5;
+                        NewPhysicsData.UFloat6 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat6;
+                        NewPhysicsData.UFloat7 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat7;
+                        NewPhysicsData.UFloat8 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat8;
+                        NewPhysicsData.UFloat9 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat9;
+                        NewPhysicsData.UFloat10 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat10;
+                        NewPhysicsData.UFloat11 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat11;
+                        NewPhysicsData.UFloat12 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat12;
+                        NewPhysicsData.UFloat13 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat13;
+                        NewPhysicsData.UFloat14 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat14;
+                        NewPhysicsData.UFloat15 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat15;
+                        NewPhysicsData.UFloat16 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat16;
+                        NewPhysicsData.UFloat17 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat17;
+                        NewPhysicsData.UFloat18 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat18;
+                        NewPhysicsData.UFloat19 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat19;
+                        NewPhysicsData.UFloat20 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat20;
+                        NewPhysicsData.UFloat21 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat21;
+                        NewPhysicsData.UFloat22 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat22;
+                        NewPhysicsData.UFloat23 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat23;
+
+                        NewPhysicsData.uPhysicsStruct0 = new List<SSFHandler.UPhysicsStruct>();
+
+                        for (int b = 0; b < ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].uPhysicsStruct0.Count; b++)
+                        {
+                            var NewPhysicsUStruct = new SSFHandler.UPhysicsStruct();
+
+                            NewPhysicsUStruct.U0 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].uPhysicsStruct0[b].U0;
+                            NewPhysicsUStruct.U1 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].uPhysicsStruct0[b].U1;
+                            NewPhysicsUStruct.U2 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].uPhysicsStruct0[b].U2;
+
+                            NewPhysicsData.uPhysicsStruct0.Add(NewPhysicsUStruct);
+                        }
+
+                        NewPhysicsHeader.PhysicsDatas.Add(NewPhysicsData);
+                    }
+
+                    ssfHandler.PhysicsHeaders.Add(NewPhysicsHeader);
+                }
+
 
                 //Effects
+                ssfHandler.EffectHeaders = new List<SSFHandler.EffectHeaderStruct>();
+                for (int i = 0; i < ssfJsonHandler.EffectHeaders.Count; i++)
+                {
+                    var NewEffectHeader = new SSFHandler.EffectHeaderStruct();
+
+                    NewEffectHeader.Effects = new List<SSFHandler.Effect>();
+
+                    for (int a = 0; a < ssfJsonHandler.EffectHeaders[i].Effects.Count; a++)
+                    {
+                        NewEffectHeader.Effects.Add(SSFJsonHandler.JSONToEffect(ssfJsonHandler.EffectHeaders[i].Effects[a]));
+                    }
+
+                    ssfHandler.EffectHeaders.Add(NewEffectHeader);
+                }
+
 
                 //Function
+                ssfHandler.Functions = new List<SSFHandler.Function>();
+                for (int i = 0; i < ssfJsonHandler.Functions.Count; i++)
+                {
+                    var NewEffectHeader = new SSFHandler.Function();
+
+                    NewEffectHeader.Effects = new List<SSFHandler.Effect>();
+
+                    for (int a = 0; a < ssfJsonHandler.Functions[i].Effects.Count; a++)
+                    {
+                        NewEffectHeader.Effects.Add(SSFJsonHandler.JSONToEffect(ssfJsonHandler.Functions[i].Effects[a]));
+                    }
+
+                    ssfHandler.Functions.Add(NewEffectHeader);
+                }
 
                 //Load Model
+                ssfHandler.LoadModels(LoadPath + "/Collision/");
 
                 ssfHandler.Save(ExportPath + ".ssf");
             }

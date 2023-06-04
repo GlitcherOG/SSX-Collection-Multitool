@@ -43,7 +43,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<CollisonModelPointer> CollisonModelPointers = new List<CollisonModelPointer>();
         public List<EffectHeaderStruct> EffectHeaders = new List<EffectHeaderStruct>();
         public List<Function> Functions = new List<Function>();
-        public List<UStruct5> ObjectProperties = new List<UStruct5>();
+        public List<ObjectPropertiesStruct> ObjectProperties = new List<ObjectPropertiesStruct>();
         public List<Spline> Splines = new List<Spline>();
         public List<int> InstanceState = new List<int>();
 
@@ -285,11 +285,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
 
                 //Appears to do nothing
-                ObjectProperties = new List<UStruct5>();
+                ObjectProperties = new List<ObjectPropertiesStruct>();
                 stream.Position = ObjectPropertiesOffset;
                 for (int i = 0; i < ObjectPropertiesCount; i++)
                 {
-                    var TempUstruct5 = new UStruct5();
+                    var TempUstruct5 = new ObjectPropertiesStruct();
                     TempUstruct5.U0 = StreamUtil.ReadFloat(stream);
 
                     TempUstruct5.PlayerBounce = StreamUtil.ReadFloat(stream);
@@ -1549,6 +1549,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         }
 
+        public void LoadModels(string Path)
+        {
+
+        }
+
 
         public struct EffectSlot
         {
@@ -1646,7 +1651,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public List<Effect> Effects;
         }
 
-        public struct UStruct5
+        public struct ObjectPropertiesStruct
         {
             public float U0;
             public float PlayerBounce;
