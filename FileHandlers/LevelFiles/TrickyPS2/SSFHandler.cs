@@ -1254,7 +1254,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             stream.Position = 76;
 
-            EffectsOffset = (int)stream.Position;
+            EffectSlotsOffset = (int)stream.Position;
             for (int i = 0; i < EffectSlots.Count; i++)
             {
                 StreamUtil.WriteInt32(stream, EffectSlots[i].Slot1);

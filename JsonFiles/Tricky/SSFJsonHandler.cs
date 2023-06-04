@@ -954,6 +954,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
 
         public struct PhysicsData
         {
+            public int U2;
+
             public float UFloat0;
             public float UFloat1;
             public float UFloat2;

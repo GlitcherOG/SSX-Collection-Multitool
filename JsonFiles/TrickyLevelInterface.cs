@@ -915,6 +915,9 @@ namespace SSXMultiTool
                 for (int a = 0; a < ssfHandler.PhysicsHeaders[i].PhysicsDatas.Count; a++)
                 {
                     var NewPhysicsData = new SSFJsonHandler.PhysicsData();
+
+                    NewPhysicsData.U2 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].U2;
+
                     NewPhysicsData.UFloat0 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat0;
                     NewPhysicsData.UFloat1 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat1;
                     NewPhysicsData.UFloat2 = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat2;
@@ -2282,6 +2285,8 @@ namespace SSXMultiTool
                     for (int a = 0; a < ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas.Count; a++)
                     {
                         var NewPhysicsData = new SSFHandler.PhysicsData();
+
+                        NewPhysicsData.U2 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].U2;
 
                         NewPhysicsData.UFloat0 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat0;
                         NewPhysicsData.UFloat1 = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UFloat1;
