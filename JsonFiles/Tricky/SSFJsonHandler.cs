@@ -493,8 +493,442 @@ namespace SSXMultiTool.JsonFiles.Tricky
         public static SSFHandler.Effect JSONToEffect(Effect TempEffect)
         {
             var NewEffect = new SSFHandler.Effect();
+            NewEffect.MainType = TempEffect.MainType;
 
+            if (NewEffect.MainType == 0)
+            {
+                var NewSubType = new SSFHandler.Type0();
+                NewSubType.SubType = TempEffect.type0.Value.SubType;
+                if (NewSubType.SubType == 0)
+                {
+                    var NewSubSubType = new SSFHandler.Type0Sub0();
+                    NewSubSubType.U0 = TempEffect.type0.Value.type0Sub0.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type0.Value.type0Sub0.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type0.Value.type0Sub0.Value.U2;
+                    NewSubSubType.U3 = TempEffect.type0.Value.type0Sub0.Value.U3;
+                    NewSubSubType.U4 = TempEffect.type0.Value.type0Sub0.Value.U4;
+                    NewSubSubType.U5 = TempEffect.type0.Value.type0Sub0.Value.U5;
+                    NewSubType.type0Sub0 = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 2)
+                {
+                    NewSubType.type0Sub2 = TempEffect.type0.Value.type0Sub2.Value;
+                }
+                else if (NewSubType.SubType == 5)
+                {
+                    NewSubType.DeadNodeMode = TempEffect.type0.Value.DeadNodeMode.Value;
+                }
+                else if (NewSubType.SubType == 6)
+                {
+                    var NewSubSubType = new SSFHandler.CounterEffect();
+                    NewSubSubType.Count = TempEffect.type0.Value.Counter.Value.Count;
+                    NewSubSubType.U1 = TempEffect.type0.Value.Counter.Value.U1;
+                    NewSubType.Counter = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 7)
+                {
+                    var NewSubSubType = new SSFHandler.Type0Sub7();
+                    NewSubSubType.U0 = TempEffect.type0.Value.type0Sub7.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type0.Value.type0Sub7.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type0.Value.type0Sub7.Value.U2;
+                    NewSubSubType.U3 = TempEffect.type0.Value.type0Sub7.Value.U3;
+                    NewSubSubType.U4 = TempEffect.type0.Value.type0Sub7.Value.U4;
+                    NewSubSubType.U5 = TempEffect.type0.Value.type0Sub7.Value.U5;
+                    NewSubSubType.U6 = TempEffect.type0.Value.type0Sub7.Value.U6;
+                    NewSubType.type0Sub7 = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 10)
+                {
+                    var NewSubSubType = new SSFHandler.UVScrolling();
+                    NewSubSubType.U0 = TempEffect.type0.Value.UVScroll.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type0.Value.UVScroll.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type0.Value.UVScroll.Value.U2;
+                    NewSubSubType.U3 = TempEffect.type0.Value.UVScroll.Value.U3;
+                    NewSubSubType.U4 = TempEffect.type0.Value.UVScroll.Value.U4;
+                    NewSubSubType.U5 = TempEffect.type0.Value.UVScroll.Value.U5;
+                    NewSubType.UVScroll = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 11)
+                {
+                    var NewSubSubType = new SSFHandler.TextureFlipEffect();
+                    NewSubSubType.U0 = TempEffect.type0.Value.TextureFlip.Value.U0;
+                    NewSubSubType.Direction = TempEffect.type0.Value.TextureFlip.Value.Direction;
+                    NewSubSubType.Speed = TempEffect.type0.Value.TextureFlip.Value.Speed;
+                    NewSubSubType.Length = TempEffect.type0.Value.TextureFlip.Value.Length;
+                    NewSubSubType.U4 = TempEffect.type0.Value.TextureFlip.Value.U4;
+                    NewSubType.TextureFlip = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 12)
+                {
+                    var NewSubSubType = new SSFHandler.FenceFlex();
+                    NewSubSubType.U0 = TempEffect.type0.Value.Fence.Value.U0;
+                    NewSubSubType.FlexAmmount = TempEffect.type0.Value.Fence.Value.FlexAmmount;
+                    NewSubType.Fence = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 13)
+                {
+                    var NewSubSubType = new SSFHandler.Type0Sub13();
+                    NewSubSubType.U0 = TempEffect.type0.Value.type0Sub13.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type0.Value.type0Sub13.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type0.Value.type0Sub13.Value.U2;
+                    NewSubSubType.U3 = TempEffect.type0.Value.type0Sub13.Value.U3;
+                    NewSubType.type0Sub13 = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 14)
+                {
+                    var NewSubSubType = new SSFHandler.Type0Sub14();
+                    NewSubSubType.U0 = TempEffect.type0.Value.type0Sub14.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type0.Value.type0Sub14.Value.U1;
+                    NewSubType.type0Sub14 = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 15)
+                {
+                    var NewSubSubType = new SSFHandler.Type0Sub15();
+                    NewSubSubType.U0 = TempEffect.type0.Value.type0Sub15.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type0.Value.type0Sub15.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type0.Value.type0Sub15.Value.U2;
+                    NewSubSubType.U3 = TempEffect.type0.Value.type0Sub15.Value.U3;
+                    NewSubSubType.U4 = TempEffect.type0.Value.type0Sub15.Value.U4;
+                    NewSubType.type0Sub15 = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 17)
+                {
+                    var NewSubSubType = new SSFHandler.CrowdBox();
+                    NewSubSubType.U0 = TempEffect.type0.Value.CrowdEffect.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type0.Value.CrowdEffect.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type0.Value.CrowdEffect.Value.U2;
+                    NewSubType.CrowdEffect = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 18)
+                {
+                    var NewSubSubType = new SSFHandler.Type0Sub18();
+                    NewSubSubType.U0 = TempEffect.type0.Value.type0Sub18.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type0.Value.type0Sub18.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type0.Value.type0Sub18.Value.U2;
+                    NewSubSubType.U3 = TempEffect.type0.Value.type0Sub18.Value.U3;
+                    NewSubSubType.U4 = TempEffect.type0.Value.type0Sub18.Value.U4;
+                    NewSubSubType.U5 = TempEffect.type0.Value.type0Sub18.Value.U5;
+                    NewSubSubType.U6 = TempEffect.type0.Value.type0Sub18.Value.U6;
+                    NewSubType.type0Sub18 = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 20)
+                {
+                    var NewSubSubType = new SSFHandler.Type0Sub20();
+                    NewSubSubType.U0 = TempEffect.type0.Value.type0Sub20.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type0.Value.type0Sub20.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type0.Value.type0Sub20.Value.U2;
+                    NewSubSubType.U3 = TempEffect.type0.Value.type0Sub20.Value.U3;
+                    NewSubSubType.U4 = TempEffect.type0.Value.type0Sub20.Value.U4;
+                    NewSubSubType.U5 = TempEffect.type0.Value.type0Sub20.Value.U5;
+                    NewSubSubType.U6 = TempEffect.type0.Value.type0Sub20.Value.U6;
+                    NewSubSubType.U7 = TempEffect.type0.Value.type0Sub20.Value.U7;
+                    NewSubSubType.U8 = TempEffect.type0.Value.type0Sub20.Value.U8;
+                    NewSubSubType.U9 = TempEffect.type0.Value.type0Sub20.Value.U9;
+                    NewSubType.type0Sub20 = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 23)
+                {
+                    //DONE
+                }
+                else if (NewSubType.SubType == 24)
+                {
+                    var NewSubSubType = new SSFHandler.Type0Sub24();
+                    NewSubSubType.U0 = TempEffect.type0.Value.type0Sub24.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type0.Value.type0Sub24.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type0.Value.type0Sub24.Value.U2;
+                    NewSubSubType.U3 = TempEffect.type0.Value.type0Sub24.Value.U3;
+                    NewSubSubType.U4 = TempEffect.type0.Value.type0Sub24.Value.U4;
+                    NewSubSubType.U5 = TempEffect.type0.Value.type0Sub24.Value.U5;
+                    NewSubSubType.U6 = TempEffect.type0.Value.type0Sub24.Value.U6;
+                    NewSubSubType.U7 = TempEffect.type0.Value.type0Sub24.Value.U7;
+                    NewSubSubType.U8 = TempEffect.type0.Value.type0Sub24.Value.U8;
+                    NewSubSubType.U9 = TempEffect.type0.Value.type0Sub24.Value.U9;
+                    NewSubSubType.U10 = TempEffect.type0.Value.type0Sub24.Value.U10;
+                    NewSubSubType.U11 = TempEffect.type0.Value.type0Sub24.Value.U11;
+                    NewSubSubType.U12 = TempEffect.type0.Value.type0Sub24.Value.U12;
+                    NewSubSubType.U13 = TempEffect.type0.Value.type0Sub24.Value.U13;
+                    NewSubSubType.U14 = TempEffect.type0.Value.type0Sub24.Value.U14;
+                    NewSubSubType.U15 = TempEffect.type0.Value.type0Sub24.Value.U15;
+                    NewSubSubType.U16 = TempEffect.type0.Value.type0Sub24.Value.U16;
+                    NewSubSubType.U17 = TempEffect.type0.Value.type0Sub24.Value.U17;
+                    NewSubSubType.U18 = TempEffect.type0.Value.type0Sub24.Value.U18;
+                    NewSubType.type0Sub24 = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 256)
+                {
+                    var NewSubSubType = new SSFHandler.Type0Sub256();
+                    NewSubSubType.U0 = TempEffect.type0.Value.type0Sub256.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type0.Value.type0Sub256.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type0.Value.type0Sub256.Value.U2;
+                    NewSubSubType.U3 = TempEffect.type0.Value.type0Sub256.Value.U3;
+                    NewSubSubType.U4 = TempEffect.type0.Value.type0Sub256.Value.U4;
+                    NewSubSubType.U5 = TempEffect.type0.Value.type0Sub256.Value.U5;
+                    NewSubSubType.U6 = TempEffect.type0.Value.type0Sub256.Value.U6;
+                    NewSubSubType.U7 = TempEffect.type0.Value.type0Sub256.Value.U7;
+                    NewSubType.type0Sub256 = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 257)
+                {
+                    var NewSubSubType = new SSFHandler.Type0Sub257();
+                    NewSubSubType.U0 = TempEffect.type0.Value.type0Sub257.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type0.Value.type0Sub257.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type0.Value.type0Sub257.Value.U2;
+                    NewSubSubType.U3 = TempEffect.type0.Value.type0Sub257.Value.U3;
+                    NewSubSubType.U4 = TempEffect.type0.Value.type0Sub257.Value.U4;
+                    NewSubSubType.U5 = TempEffect.type0.Value.type0Sub257.Value.U5;
+                    NewSubSubType.U6 = TempEffect.type0.Value.type0Sub257.Value.U6;
+                    NewSubSubType.U7 = TempEffect.type0.Value.type0Sub257.Value.U7;
+                    NewSubType.type0Sub257 = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 258)
+                {
+                    var NewSubSubType = new SSFHandler.Type0Sub258();
+                    NewSubSubType.U0 = TempEffect.type0.Value.type0Sub258.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type0.Value.type0Sub258.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type0.Value.type0Sub258.Value.U2;
+                    NewSubSubType.U3 = TempEffect.type0.Value.type0Sub258.Value.U3;
+                    NewSubSubType.U4 = TempEffect.type0.Value.type0Sub258.Value.U4;
+                    NewSubSubType.U5 = TempEffect.type0.Value.type0Sub258.Value.U5;
+                    NewSubSubType.U6 = TempEffect.type0.Value.type0Sub258.Value.U6;
+                    NewSubSubType.U7 = TempEffect.type0.Value.type0Sub258.Value.U7;
+                    NewSubSubType.U8 = TempEffect.type0.Value.type0Sub258.Value.U8;
+                    NewSubSubType.U9 = TempEffect.type0.Value.type0Sub258.Value.U9;
+                    NewSubSubType.U10 = TempEffect.type0.Value.type0Sub258.Value.U10;
+                    NewSubSubType.U11 = TempEffect.type0.Value.type0Sub258.Value.U11;
+                    NewSubType.type0Sub258 = NewSubSubType;
+                }
+                else
+                {
+                    MessageBox.Show("ERROR Converting to Json Format SSF " + NewEffect.MainType + ", " + NewEffect.type0.Value.SubType);
+                }
 
+                NewEffect.type0 = NewSubType;
+            }
+            else if (NewEffect.MainType == 2)
+            {
+                var NewSubType = new SSFHandler.Type2();
+                NewSubType.SubType = TempEffect.type2.Value.SubType;
+
+                if (NewSubType.SubType == 0)
+                {
+                    var NewSubSubType = new SSFHandler.Type2Sub0();
+                    NewSubSubType.U0 = TempEffect.type2.Value.type2Sub0.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type2.Value.type2Sub0.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type2.Value.type2Sub0.Value.U2;
+                    NewSubSubType.U3 = TempEffect.type2.Value.type2Sub0.Value.U3;
+                    NewSubSubType.U4 = TempEffect.type2.Value.type2Sub0.Value.U4;
+                    NewSubSubType.U5 = TempEffect.type2.Value.type2Sub0.Value.U5;
+                    NewSubSubType.U6 = TempEffect.type2.Value.type2Sub0.Value.U6;
+                    NewSubSubType.U7 = TempEffect.type2.Value.type2Sub0.Value.U7;
+                    NewSubSubType.U8 = TempEffect.type2.Value.type2Sub0.Value.U8;
+                    NewSubSubType.U9 = TempEffect.type2.Value.type2Sub0.Value.U9;
+                    NewSubSubType.U10 = TempEffect.type2.Value.type2Sub0.Value.U10;
+                    NewSubSubType.U11 = TempEffect.type2.Value.type2Sub0.Value.U11;
+                    NewSubSubType.U12 = TempEffect.type2.Value.type2Sub0.Value.U12;
+                    NewSubSubType.U13 = TempEffect.type2.Value.type2Sub0.Value.U13;
+                    NewSubSubType.U14 = TempEffect.type2.Value.type2Sub0.Value.U14;
+                    NewSubSubType.U15 = TempEffect.type2.Value.type2Sub0.Value.U15;
+                    NewSubSubType.U16 = TempEffect.type2.Value.type2Sub0.Value.U16;
+                    NewSubSubType.U17 = TempEffect.type2.Value.type2Sub0.Value.U17;
+                    NewSubSubType.U18 = TempEffect.type2.Value.type2Sub0.Value.U18;
+                    NewSubSubType.U19 = TempEffect.type2.Value.type2Sub0.Value.U19;
+                    NewSubSubType.U20 = TempEffect.type2.Value.type2Sub0.Value.U20;
+                    NewSubSubType.U21 = TempEffect.type2.Value.type2Sub0.Value.U21;
+                    NewSubSubType.U22 = TempEffect.type2.Value.type2Sub0.Value.U22;
+                    NewSubSubType.U23 = TempEffect.type2.Value.type2Sub0.Value.U23;
+                    NewSubSubType.U24 = TempEffect.type2.Value.type2Sub0.Value.U24;
+                    NewSubSubType.U25 = TempEffect.type2.Value.type2Sub0.Value.U25;
+                    NewSubSubType.U26 = TempEffect.type2.Value.type2Sub0.Value.U26;
+                    NewSubSubType.U27 = TempEffect.type2.Value.type2Sub0.Value.U27;
+                    NewSubSubType.U28 = TempEffect.type2.Value.type2Sub0.Value.U28;
+                    NewSubSubType.U29 = TempEffect.type2.Value.type2Sub0.Value.U29;
+                    NewSubSubType.U30 = TempEffect.type2.Value.type2Sub0.Value.U30;
+                    NewSubSubType.U31 = TempEffect.type2.Value.type2Sub0.Value.U31;
+                    NewSubSubType.U32 = TempEffect.type2.Value.type2Sub0.Value.U32;
+                    NewSubSubType.U33 = TempEffect.type2.Value.type2Sub0.Value.U33;
+                    NewSubSubType.U34 = TempEffect.type2.Value.type2Sub0.Value.U34;
+                    NewSubSubType.U35 = TempEffect.type2.Value.type2Sub0.Value.U35;
+                    NewSubSubType.U36 = TempEffect.type2.Value.type2Sub0.Value.U36;
+                    NewSubSubType.U37 = TempEffect.type2.Value.type2Sub0.Value.U37;
+                    NewSubSubType.U38 = TempEffect.type2.Value.type2Sub0.Value.U38;
+                    NewSubSubType.U39 = TempEffect.type2.Value.type2Sub0.Value.U39;
+                    NewSubSubType.U40 = TempEffect.type2.Value.type2Sub0.Value.U40;
+                    NewSubSubType.U41 = TempEffect.type2.Value.type2Sub0.Value.U41;
+                    NewSubSubType.U42 = TempEffect.type2.Value.type2Sub0.Value.U42;
+                    NewSubSubType.U43 = TempEffect.type2.Value.type2Sub0.Value.U43;
+                    NewSubSubType.U44 = TempEffect.type2.Value.type2Sub0.Value.U44;
+                    NewSubSubType.U45 = TempEffect.type2.Value.type2Sub0.Value.U45;
+                    NewSubSubType.U46 = TempEffect.type2.Value.type2Sub0.Value.U46;
+                    NewSubSubType.U47 = TempEffect.type2.Value.type2Sub0.Value.U47;
+                    NewSubSubType.U48 = TempEffect.type2.Value.type2Sub0.Value.U48;
+                    NewSubSubType.U49 = TempEffect.type2.Value.type2Sub0.Value.U49;
+                    NewSubSubType.U50 = TempEffect.type2.Value.type2Sub0.Value.U50;
+
+                    NewSubType.type2Sub0 = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 1)
+                {
+                    var NewSubSubType = new SSFHandler.Type2Sub1();
+                    NewSubSubType.U0 = TempEffect.type2.Value.type2Sub1.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type2.Value.type2Sub1.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type2.Value.type2Sub1.Value.U2;
+                    NewSubSubType.U3 = TempEffect.type2.Value.type2Sub1.Value.U3;
+                    NewSubSubType.U4 = TempEffect.type2.Value.type2Sub1.Value.U4;
+                    NewSubSubType.U5 = TempEffect.type2.Value.type2Sub1.Value.U5;
+                    NewSubSubType.U6 = TempEffect.type2.Value.type2Sub1.Value.U6;
+                    NewSubSubType.U7 = TempEffect.type2.Value.type2Sub1.Value.U7;
+                    NewSubSubType.U8 = TempEffect.type2.Value.type2Sub1.Value.U8;
+                    NewSubSubType.U9 = TempEffect.type2.Value.type2Sub1.Value.U9;
+                    NewSubSubType.U10 = TempEffect.type2.Value.type2Sub1.Value.U10;
+
+                    NewSubType.type2Sub1 = NewSubSubType;
+                }
+                else if (NewSubType.SubType == 2)
+                {
+                    var NewSubSubType = new SSFHandler.Type2Sub2();
+                    NewSubSubType.U0 = TempEffect.type2.Value.type2Sub2.Value.U0;
+                    NewSubSubType.U1 = TempEffect.type2.Value.type2Sub2.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type2.Value.type2Sub2.Value.U2;
+                    NewSubSubType.U3 = TempEffect.type2.Value.type2Sub2.Value.U3;
+                    NewSubSubType.U4 = TempEffect.type2.Value.type2Sub2.Value.U4;
+                    NewSubSubType.U5 = TempEffect.type2.Value.type2Sub2.Value.U5;
+                    NewSubSubType.U6 = TempEffect.type2.Value.type2Sub2.Value.U6;
+                    NewSubSubType.U7 = TempEffect.type2.Value.type2Sub2.Value.U7;
+                    NewSubSubType.U8 = TempEffect.type2.Value.type2Sub2.Value.U8;
+                    NewSubSubType.U9 = TempEffect.type2.Value.type2Sub2.Value.U9;
+                    NewSubSubType.U10 = TempEffect.type2.Value.type2Sub2.Value.U10;
+                    NewSubSubType.U11 = TempEffect.type2.Value.type2Sub2.Value.U11;
+                    NewSubSubType.U12 = TempEffect.type2.Value.type2Sub2.Value.U12;
+                    NewSubSubType.U13 = TempEffect.type2.Value.type2Sub2.Value.U13;
+                    NewSubSubType.U14 = TempEffect.type2.Value.type2Sub2.Value.U14;
+                    NewSubSubType.U15 = TempEffect.type2.Value.type2Sub2.Value.U15;
+                    NewSubSubType.U16 = TempEffect.type2.Value.type2Sub2.Value.U16;
+                    NewSubSubType.U17 = TempEffect.type2.Value.type2Sub2.Value.U17;
+                    NewSubSubType.U18 = TempEffect.type2.Value.type2Sub2.Value.U18;
+                    NewSubSubType.U19 = TempEffect.type2.Value.type2Sub2.Value.U19;
+                    NewSubSubType.U20 = TempEffect.type2.Value.type2Sub2.Value.U20;
+                    NewSubSubType.U21 = TempEffect.type2.Value.type2Sub2.Value.U21;
+                    NewSubSubType.U22 = TempEffect.type2.Value.type2Sub2.Value.U22;
+                    NewSubSubType.U23 = TempEffect.type2.Value.type2Sub2.Value.U23;
+                    NewSubSubType.U24 = TempEffect.type2.Value.type2Sub2.Value.U24;
+                    NewSubSubType.U25 = TempEffect.type2.Value.type2Sub2.Value.U25;
+                    NewSubSubType.U26 = TempEffect.type2.Value.type2Sub2.Value.U26;
+                    NewSubSubType.U27 = TempEffect.type2.Value.type2Sub2.Value.U27;
+                    NewSubSubType.U28 = TempEffect.type2.Value.type2Sub2.Value.U28;
+                    NewSubSubType.U29 = TempEffect.type2.Value.type2Sub2.Value.U29;
+                    NewSubSubType.U30 = TempEffect.type2.Value.type2Sub2.Value.U30;
+                    NewSubSubType.U31 = TempEffect.type2.Value.type2Sub2.Value.U31;
+                    NewSubSubType.U32 = TempEffect.type2.Value.type2Sub2.Value.U32;
+                    NewSubSubType.U33 = TempEffect.type2.Value.type2Sub2.Value.U33;
+                    NewSubSubType.U34 = TempEffect.type2.Value.type2Sub2.Value.U34;
+                    NewSubSubType.U35 = TempEffect.type2.Value.type2Sub2.Value.U35;
+                    NewSubSubType.U36 = TempEffect.type2.Value.type2Sub2.Value.U36;
+                    NewSubSubType.U37 = TempEffect.type2.Value.type2Sub2.Value.U37;
+                    NewSubSubType.U38 = TempEffect.type2.Value.type2Sub2.Value.U38;
+                    NewSubSubType.U39 = TempEffect.type2.Value.type2Sub2.Value.U39;
+                    NewSubSubType.U40 = TempEffect.type2.Value.type2Sub2.Value.U40;
+                    NewSubSubType.U41 = TempEffect.type2.Value.type2Sub2.Value.U41;
+                    NewSubSubType.U42 = TempEffect.type2.Value.type2Sub2.Value.U42;
+                    NewSubSubType.U43 = TempEffect.type2.Value.type2Sub2.Value.U43;
+                    NewSubSubType.U44 = TempEffect.type2.Value.type2Sub2.Value.U44;
+                    NewSubSubType.U45 = TempEffect.type2.Value.type2Sub2.Value.U45;
+                    NewSubSubType.U46 = TempEffect.type2.Value.type2Sub2.Value.U46;
+                    NewSubSubType.U47 = TempEffect.type2.Value.type2Sub2.Value.U47;
+                    NewSubSubType.U48 = TempEffect.type2.Value.type2Sub2.Value.U48;
+                    NewSubSubType.U49 = TempEffect.type2.Value.type2Sub2.Value.U49;
+                    NewSubSubType.U50 = TempEffect.type2.Value.type2Sub2.Value.U50;
+
+                    NewSubType.type2Sub2 = NewSubSubType;
+                }
+                else
+                {
+                    MessageBox.Show("ERROR Converting to Json Format SSF " + NewEffect.MainType + ", " + NewEffect.type2.Value.SubType);
+                }
+
+                NewEffect.type2 = NewSubType;
+            }
+            else if (NewEffect.MainType == 3)
+            {
+                var NewSubType = new SSFHandler.Type3();
+
+                NewSubType.U0 = TempEffect.type3.Value.U0;
+                NewSubType.U1 = TempEffect.type3.Value.U1;
+
+                NewEffect.type3 = NewSubType;
+            }
+            else if (NewEffect.MainType == 4)
+            {
+                NewEffect.WaitTime = TempEffect.WaitTime.Value;
+            }
+            else if (NewEffect.MainType == 5)
+            {
+                var NewSubType = new SSFHandler.Type5();
+
+                NewSubType.U0 = TempEffect.type5.Value.U0;
+                NewSubType.U1 = TempEffect.type5.Value.U1;
+                NewSubType.U2 = TempEffect.type5.Value.U2;
+
+                NewEffect.type5 = NewSubType;
+            }
+            else if (NewEffect.MainType == 7)
+            {
+                var NewInstance = new SSFHandler.InstanceEffect();
+
+                NewInstance.InstanceIndex = TempEffect.Instance.Value.InstanceIndex;
+                NewInstance.EffectIndex = TempEffect.Instance.Value.EffectIndex;
+
+                NewEffect.Instance = NewInstance;
+            }
+            else if (NewEffect.MainType == 8)
+            {
+                NewEffect.SoundPlay = TempEffect.SoundPlay.Value;
+            }
+            else if (NewEffect.MainType == 9)
+            {
+                var NewSubType = new SSFHandler.Type9();
+
+                NewSubType.U0 = TempEffect.type9.Value.U0;
+                NewSubType.U1 = TempEffect.type9.Value.U1;
+
+                NewEffect.type9 = NewSubType;
+            }
+            else if (NewEffect.MainType == 13)
+            {
+                NewEffect.type13 = TempEffect.type13.Value;
+            }
+            else if (NewEffect.MainType == 14)
+            {
+                NewEffect.MultiplierScore = TempEffect.MultiplierScore.Value;
+            }
+            else if (NewEffect.MainType == 17)
+            {
+                NewEffect.type17 = TempEffect.type17.Value;
+            }
+            else if (NewEffect.MainType == 18)
+            {
+                NewEffect.type18 = TempEffect.type18.Value;
+            }
+            else if (NewEffect.MainType == 21)
+            {
+                NewEffect.FunctionRunIndex = TempEffect.FunctionRunIndex.Value;
+            }
+            else if (NewEffect.MainType == 24)
+            {
+                NewEffect.TeleportInstanceIndex = TempEffect.TeleportInstanceIndex.Value;
+            }
+            else if (NewEffect.MainType == 25)
+            {
+                var NewSpline = new SSFHandler.SplineEffect();
+
+                NewSpline.SplineIndex = TempEffect.Spline.Value.SplineIndex;
+                NewSpline.Effect = TempEffect.Spline.Value.Effect;
+
+                NewEffect.Spline = NewSpline;
+            }
+            else
+            {
+                MessageBox.Show("ERROR Converting to Json Format SSF " + NewEffect.MainType);
+            }
 
             return NewEffect;
         }

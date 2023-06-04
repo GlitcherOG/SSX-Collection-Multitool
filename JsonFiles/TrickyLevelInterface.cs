@@ -1519,9 +1519,6 @@ namespace SSXMultiTool
                             }
                         }
 
-
-
-
                         //Make Object Properties and Test if Exists
                         var NewObjectProperties = new SSFHandler.ObjectPropertiesStruct();
 
@@ -1537,7 +1534,7 @@ namespace SSXMultiTool
                         NewObjectProperties.U8 = Oldinstance.U8;
                         NewObjectProperties.CollisonModelIndex = CollsionIndex;
 
-                        bool Test = false;
+                        bool Test1 = false;
                         for (int a = 0; a < ssfHandler.ObjectProperties.Count; a++)
                         {
                             var TempProperties = ssfHandler.ObjectProperties[a];
@@ -1555,7 +1552,7 @@ namespace SSXMultiTool
                                 NewObjectProperties.CollisonModelIndex == TempProperties.CollisonModelIndex
                                 )
                             {
-                                Test = true;
+                                Test1 = true;
                                 ssfHandler.InstanceState.Add(a);
                                 break;
                             }
@@ -1563,7 +1560,7 @@ namespace SSXMultiTool
                         }
 
 
-                        if(!Test)
+                        if(!Test1)
                         {
                             ssfHandler.ObjectProperties.Add(NewObjectProperties);
                             ssfHandler.InstanceState.Add(ssfHandler.ObjectProperties.Count - 1);
