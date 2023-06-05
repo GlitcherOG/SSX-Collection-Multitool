@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
+using SSXMultiTool.Utilities;
 
 namespace SSXMultiTool.JsonFiles.Tricky
 {
@@ -84,15 +85,13 @@ namespace SSXMultiTool.JsonFiles.Tricky
                 }
                 else if (NewSubType.SubType == 7)
                 {
-                    var NewSubSubType = new Type0Sub7();
-                    NewSubSubType.U0 = TempEffect.type0.Value.type0Sub7.Value.U0;
-                    NewSubSubType.U1 = TempEffect.type0.Value.type0Sub7.Value.U1;
-                    NewSubSubType.U2 = TempEffect.type0.Value.type0Sub7.Value.U2;
-                    NewSubSubType.U3 = TempEffect.type0.Value.type0Sub7.Value.U3;
-                    NewSubSubType.U4 = TempEffect.type0.Value.type0Sub7.Value.U4;
-                    NewSubSubType.U5 = TempEffect.type0.Value.type0Sub7.Value.U5;
-                    NewSubSubType.U6 = TempEffect.type0.Value.type0Sub7.Value.U6;
-                    NewSubType.type0Sub7 = NewSubSubType;
+                    var NewSubSubType = new BoostEffect();
+                    NewSubSubType.Mode = TempEffect.type0.Value.Boost.Value.Mode;
+                    NewSubSubType.U1 = TempEffect.type0.Value.Boost.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type0.Value.Boost.Value.U2;
+                    NewSubSubType.BoostAmount = TempEffect.type0.Value.Boost.Value.BoostAmount;
+                    NewSubSubType.BoostDir = JsonUtil.Vector3ToArray(TempEffect.type0.Value.Boost.Value.BoostDir);
+                    NewSubType.Boost = NewSubSubType;
                 }
                 else if (NewSubType.SubType == 10)
                 {
@@ -527,15 +526,13 @@ namespace SSXMultiTool.JsonFiles.Tricky
                 }
                 else if (NewSubType.SubType == 7)
                 {
-                    var NewSubSubType = new SSFHandler.Type0Sub7();
-                    NewSubSubType.U0 = TempEffect.type0.Value.type0Sub7.Value.U0;
-                    NewSubSubType.U1 = TempEffect.type0.Value.type0Sub7.Value.U1;
-                    NewSubSubType.U2 = TempEffect.type0.Value.type0Sub7.Value.U2;
-                    NewSubSubType.U3 = TempEffect.type0.Value.type0Sub7.Value.U3;
-                    NewSubSubType.U4 = TempEffect.type0.Value.type0Sub7.Value.U4;
-                    NewSubSubType.U5 = TempEffect.type0.Value.type0Sub7.Value.U5;
-                    NewSubSubType.U6 = TempEffect.type0.Value.type0Sub7.Value.U6;
-                    NewSubType.type0Sub7 = NewSubSubType;
+                    var NewSubSubType = new SSFHandler.BoostEffect();
+                    NewSubSubType.Mode = TempEffect.type0.Value.Boost.Value.Mode;
+                    NewSubSubType.U1 = TempEffect.type0.Value.Boost.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type0.Value.Boost.Value.U2;
+                    NewSubSubType.BoostAmount = TempEffect.type0.Value.Boost.Value.BoostAmount;
+                    NewSubSubType.BoostDir = JsonUtil.ArrayToVector3(TempEffect.type0.Value.Boost.Value.BoostDir);
+                    NewSubType.Boost = NewSubSubType;
                 }
                 else if (NewSubType.SubType == 10)
                 {
@@ -1038,7 +1035,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int? type0Sub2;  //Debounce?
             public int? DeadNodeMode; //5
             public CounterEffect? Counter; //6
-            public Type0Sub7? type0Sub7; //Boost
+            public BoostEffect? Boost; //Boost
             public UVScrolling? UVScroll; //10
             public TextureFlipEffect? TextureFlip; //11
             public FenceFlex? Fence; //12
@@ -1070,15 +1067,13 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public float U1;
         }
 
-        public struct Type0Sub7
+        public struct BoostEffect
         {
-            public int U0;
-            public int U1;
+            public int Mode;
+            public float U1;
             public float U2;
-            public float U3;
-            public float U4;
-            public int U5;
-            public float U6;
+            public float BoostAmount;
+            public float[] BoostDir;
         }
 
         public struct UVScrolling

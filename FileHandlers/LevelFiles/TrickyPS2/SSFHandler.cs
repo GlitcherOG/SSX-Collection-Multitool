@@ -386,15 +386,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 else
                 if (NewMainType.SubType == 7)
                 {
-                    var NewSubType = new Type0Sub7();
-                    NewSubType.U0 = StreamUtil.ReadUInt32(stream);
-                    NewSubType.U1 = StreamUtil.ReadUInt32(stream);
+                    var NewSubType = new BoostEffect();
+                    NewSubType.Mode = StreamUtil.ReadUInt32(stream);
+                    NewSubType.U1 = StreamUtil.ReadFloat(stream);
                     NewSubType.U2 = StreamUtil.ReadFloat(stream);
-                    NewSubType.U3 = StreamUtil.ReadFloat(stream);
-                    NewSubType.U4 = StreamUtil.ReadFloat(stream);
-                    NewSubType.U5 = StreamUtil.ReadUInt32(stream);
-                    NewSubType.U6 = StreamUtil.ReadFloat(stream);
-                    NewMainType.type0Sub7 = NewSubType;
+                    NewSubType.BoostAmount = StreamUtil.ReadFloat(stream);
+                    NewSubType.BoostDir = StreamUtil.ReadVector3(stream);
+                    NewMainType.Boost = NewSubType;
                 }
                 else
                 if (NewMainType.SubType == 10)
@@ -874,13 +872,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
                 else if (EffectData.type0.Value.SubType == 7)
                 {
-                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub7.Value.U0);
-                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub7.Value.U1);
-                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub7.Value.U2);
-                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub7.Value.U3);
-                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub7.Value.U4);
-                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub7.Value.U5);
-                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub7.Value.U6);
+                    StreamUtil.WriteInt32(stream, Type0Temp.Boost.Value.Mode);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.Boost.Value.U1);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.Boost.Value.U2);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.Boost.Value.BoostAmount);
+                    StreamUtil.WriteVector3(stream, Type0Temp.Boost.Value.BoostDir);
                 }
                 else if (EffectData.type0.Value.SubType == 10)
                 {
@@ -1777,7 +1773,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int type0Sub2;  //Debounce?
             public int DeadNodeMode; //5
             public CounterEffect? Counter; //6
-            public Type0Sub7? type0Sub7; //Boost
+            public BoostEffect? Boost; //Boost
             public UVScrolling? UVScroll; //10
             public TextureFlipEffect? TextureFlip; //11
             public FenceFlex? Fence; //12
@@ -1809,15 +1805,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float U1;
         }
 
-        public struct Type0Sub7
+        public struct BoostEffect
         {
-            public int U0;
-            public int U1;
+            public int Mode;
+            public float U1;
             public float U2;
-            public float U3;
-            public float U4;
-            public int U5;
-            public float U6;
+            public float BoostAmount;
+            public Vector3 BoostDir;
         }
 
         public struct UVScrolling
