@@ -955,7 +955,6 @@ namespace SSXMultiTool
                     }
 
                     NewPhysicsData.UByteData = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UByteData;
-                    NewPhysicsData.UByteEndData = ssfHandler.PhysicsHeaders[i].PhysicsDatas[a].UByteEndData;
                     NewPhysicsHeader.PhysicsDatas.Add(NewPhysicsData);
                 }
 
@@ -2329,7 +2328,6 @@ namespace SSXMultiTool
                         }
 
                         NewPhysicsData.UByteData = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UByteData;
-                        NewPhysicsData.UByteEndData = ssfJsonHandler.PhysicsHeaders[i].PhysicsDatas[a].UByteEndData;
 
                         NewPhysicsHeader.PhysicsDatas.Add(NewPhysicsData);
                     }

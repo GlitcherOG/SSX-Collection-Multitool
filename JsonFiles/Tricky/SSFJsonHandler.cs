@@ -981,7 +981,6 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public List<UPhysicsStruct> uPhysicsStruct0;
 
             public byte[] UByteData;
-            public byte[] UByteEndData;
         }
 
         public struct UPhysicsStruct

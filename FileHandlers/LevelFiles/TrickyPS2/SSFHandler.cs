@@ -104,7 +104,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     {
                         var NewPhysicsData = new PhysicsData();
 
-                        NewPhysicsData.U0 = StreamUtil.ReadUInt32(stream);
+                        NewPhysicsData.EndAlignment = StreamUtil.ReadUInt32(stream);
                         NewPhysicsData.U1 = StreamUtil.ReadUInt32(stream);
                         NewPhysicsData.U2 = StreamUtil.ReadUInt32(stream);
                         NewPhysicsData.U3 = StreamUtil.ReadUInt32(stream);
@@ -148,7 +148,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         }
 
                         NewPhysicsData.UByteData = StreamUtil.ReadBytes(stream, NewPhysicsData.U1);
-                        NewPhysicsData.UByteEndData = StreamUtil.ReadBytes(stream, NewPhysicsData.U0); //Pretty sure it just allign it by 4 or 8
+                        stream.Position += NewPhysicsData.EndAlignment;
 
                         TempUstruct2.PhysicsDatas.Add(NewPhysicsData);
                     }
@@ -1306,7 +1306,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 for (int a = 0; a < TempHeader.PhysicsDatas.Count; a++)
                 {
-                    StreamUtil.WriteInt32(stream, TempHeader.PhysicsDatas[a].UByteEndData.Length);
+                    long U0Pos = stream.Position;
+                    stream.Position += 4;
                     StreamUtil.WriteInt32(stream, TempHeader.PhysicsDatas[a].UByteData.Length);
                     StreamUtil.WriteInt32(stream, TempHeader.PhysicsDatas[a].U2);
                     StreamUtil.WriteInt32(stream, TempHeader.PhysicsDatas[a].uPhysicsStruct0.Count - 1);
@@ -1344,7 +1345,22 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     }
 
                     StreamUtil.WriteBytes(stream, TempHeader.PhysicsDatas[a].UByteData);
-                    StreamUtil.WriteBytes(stream, TempHeader.PhysicsDatas[a].UByteEndData);
+
+                    long TempPos = stream.Position;
+                    StreamUtil.AlignBy(stream, 4);
+                    long TempLen = stream.Position - TempPos;
+                    if(TempLen==0)
+                    {
+                        TempLen = 4;
+                        stream.Position += 4;
+                    }
+                    TempPos = stream.Position;
+
+                    stream.Position = U0Pos;
+                    StreamUtil.WriteInt32(stream, (int)TempLen);
+
+                    stream.Position = TempPos;
+
                 }
 
                 TempHeader.ByteSize = (int)(stream.Position - TempHeader.Offset);
@@ -1584,7 +1600,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public struct PhysicsData
         {
-            public int U0; //End Bytes
+            public int EndAlignment; //End Bytes
             public int U1; //End Data
             public int U2; //Struct 1
             public int U3; //Struct 2
@@ -1617,7 +1633,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public List<UPhysicsStruct> uPhysicsStruct0;
 
             public byte[] UByteData;
-            public byte[] UByteEndData;
         }
 
         public struct UPhysicsStruct
@@ -1809,7 +1824,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         {
             public int Mode;
             public float U1;
-            public float U2;
+            public float U2; //Might be acceleration
             public float BoostAmount;
             public Vector3 BoostDir;
         }
