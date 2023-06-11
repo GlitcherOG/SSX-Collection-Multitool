@@ -80,11 +80,14 @@ namespace SSXMultiTool.JsonFiles.Tricky
             //Object Properties
 
             public float U0;
-            public float PlayerBounce;
+            public float PlayerBounceAmmount;
             public int U2;
             public int U22;
-            public int U23;
-            public int U24;
+            public bool Visable;
+            public bool PlayerCollision;
+            public bool PlayerBounce;
+            public bool Unknown241;
+            public bool UVScroll;
 
             public int U4;
             public int CollsionMode;

@@ -13,6 +13,7 @@ using static SSXMultiTool.JsonFiles.Tricky.InstanceJsonHandler;
 using System.Windows.Documents;
 using SSXMultiTool.FileHandlers.Textures;
 using Microsoft.Toolkit.HighPerformance;
+using System.Collections;
 
 namespace SSXMultiTool
 {
@@ -235,11 +236,27 @@ namespace SSXMultiTool
 
                 //SSF
                 instanceJson.U0 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U0;
-                instanceJson.PlayerBounce = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].PlayerBounce;
+                instanceJson.PlayerBounceAmmount = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].PlayerBounce;
                 instanceJson.U2 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U2;
                 instanceJson.U22 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U22;
-                instanceJson.U23 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U23;
-                instanceJson.U24 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U24;
+
+                //GenerateBitArray
+
+                byte[] TempBytes = new byte[2];
+                TempBytes[0] = (byte)ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U23;
+                TempBytes[1] = (byte)ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U24;
+
+                BitArray bitArray = new BitArray(TempBytes);
+
+
+
+                instanceJson.Visable = bitArray[0];
+                instanceJson.PlayerCollision = bitArray[5];
+                instanceJson.PlayerBounce = bitArray[7];
+                instanceJson.Unknown241 = bitArray[12];
+                instanceJson.UVScroll  = bitArray[13];
+
+
                 instanceJson.U4 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U4;
                 instanceJson.CollsionMode = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].CollsionMode;
                 instanceJson.EffectSlotIndex = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].EffectSlotIndex;
@@ -1531,11 +1548,44 @@ namespace SSXMultiTool
                         var NewObjectProperties = new SSFHandler.ObjectPropertiesStruct();
 
                         NewObjectProperties.U0 = Oldinstance.U0;
-                        NewObjectProperties.PlayerBounce = Oldinstance.PlayerBounce;
+                        NewObjectProperties.PlayerBounce = Oldinstance.PlayerBounceAmmount;
                         NewObjectProperties.U2 = Oldinstance.U2;
                         NewObjectProperties.U22 = Oldinstance.U22;
-                        NewObjectProperties.U23 = Oldinstance.U23;
-                        NewObjectProperties.U24 = Oldinstance.U24;
+
+                        //Turn Bools into U23/U24
+
+                        int U23Convert = 0;
+
+                        if (Oldinstance.Visable)
+                        {
+                            U23Convert += 1;
+                        }
+                        if (Oldinstance.PlayerCollision)
+                        {
+                            U23Convert += 32;
+                        }
+                        if (Oldinstance.PlayerBounce)
+                        {
+                            U23Convert += 128;
+                        }
+
+                        NewObjectProperties.U23 = U23Convert;
+
+                        int U24Convert = 0;
+
+                        if(Oldinstance.Unknown241)
+                        {
+                            U24Convert += 16;
+                        }
+
+                        if (Oldinstance.UVScroll)
+                        {
+                            U24Convert += 32;
+                        }
+
+                        NewObjectProperties.U24 = U24Convert;
+
+
                         NewObjectProperties.U4 = Oldinstance.U4;
                         NewObjectProperties.PhysicsIndex = Oldinstance.PhysicsIndex;
                         NewObjectProperties.EffectSlotIndex = Oldinstance.EffectSlotIndex;
