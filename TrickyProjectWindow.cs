@@ -92,7 +92,7 @@ namespace SSXMultiTool
             SplinesLabel.Text = trickyLevelInterface.splineJsonHandler.Splines.Count.ToString();
             LightLabel.Text = trickyLevelInterface.lightJsonHandler.Lights.Count.ToString();
             ModelsLabel.Text = trickyLevelInterface.prefabJsonHandler.Prefabs.Count.ToString();
-            ParticleModelLabels.Text = trickyLevelInterface.particleModelJsonHandler.ParticlePrefab.Count.ToString();
+            ParticleModelLabels.Text = trickyLevelInterface.particleModelJsonHandler.ParticlePrefabs.Count.ToString();
 
             SkyMat.Text = trickyLevelInterface.SkyMaterialJson.Materials.Count.ToString();
             SkyModel.Text = trickyLevelInterface.SkyPrefabJsonHandler.Prefabs.Count.ToString();

@@ -11,7 +11,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
 {
     public class ParticleModelJsonHandler
     {
-        public List<ParticleModelJson> ParticlePrefab = new List<ParticleModelJson>();
+        public List<ParticleModelJson> ParticlePrefabs = new List<ParticleModelJson>();
 
         public void CreateJson(string path, bool Inline = false)
         {
