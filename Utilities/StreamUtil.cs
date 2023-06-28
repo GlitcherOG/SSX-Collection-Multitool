@@ -34,11 +34,18 @@ namespace SSXMultiTool.Utilities
             return Encoding.ASCII.GetString(FilePath);
         }
 
-        public static string ReadString(Stream stream, int Length)
+        public static string ReadString(Stream stream, int Length, bool FixNull = true)
         {
             byte[] tempByte = new byte[Length];
             stream.Read(tempByte, 0, tempByte.Length);
-            return Encoding.ASCII.GetString(tempByte).Replace("\0","");
+            if (FixNull)
+            {
+                return Encoding.ASCII.GetString(tempByte).Replace("\0", "");
+            }
+            else
+            {
+                return Encoding.ASCII.GetString(tempByte);
+            }
         }
 
         public static byte[] ReadBytes(Stream stream, int Length, bool BigEndian = false)
