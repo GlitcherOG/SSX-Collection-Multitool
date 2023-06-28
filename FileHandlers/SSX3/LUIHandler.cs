@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,6 +23,8 @@ namespace SSXMultiTool.FileHandlers.SSX3
         public int ObjectTableCount;
         public int FontTableCount;
 
+        public List<ScreenTable> ScreenTables = new List<ScreenTable>();
+        public List<ObjectTable> ObjectTables = new List<ObjectTable>();
         public List<FontTable> FontTables = new List<FontTable>();
 
         public void LoadLUIFile(string path)
@@ -40,9 +43,53 @@ namespace SSXMultiTool.FileHandlers.SSX3
 
                 stream.Position = ScreenTableOffset;
                 ScreenTableCount = StreamUtil.ReadUInt32(stream);
+                ScreenTables = new List<ScreenTable>();
+                for (int i = 0; i < ScreenTableCount; i++)
+                {
+                    var NewScreenTable = new ScreenTable();
+
+                    NewScreenTable.U0 = StreamUtil.ReadUInt32(stream);
+                    NewScreenTable.Offset = StreamUtil.ReadUInt32(stream);
+
+                    ScreenTables.Add(NewScreenTable);
+                }
+
+                for (int i = 0; i < ScreenTables.Count; i++)
+                {
+                    stream.Position = ScreenTableOffset + ScreenTables[i].Offset;
+
+                    int ByteSize = 0;
+
+                    if(ScreenTables.Count-1!=i)
+                    {
+                        ByteSize = (int)(ScreenTables[i + 1].Offset - ScreenTables[i].Offset);
+                    }
+                    else
+                    {
+                        ByteSize = (int)(ObjectTableOffset - (stream.Position + ScreenTables[i].Offset));
+                    }
+                    var TempScreenTable = ScreenTables[i];
+                    TempScreenTable.RefpackData = StreamUtil.ReadBytes(stream, ByteSize);
+
+                    TempScreenTable.RefpackData = RefpackHandler.Decompress(TempScreenTable.RefpackData);
+
+                    ScreenTables[i] = TempScreenTable;
+                }
 
                 stream.Position = ObjectTableOffset;
                 ObjectTableCount = StreamUtil.ReadUInt32(stream);
+                ObjectTables = new List<ObjectTable>();
+                for (int i = 0; i < ObjectTableCount; i++)
+                {
+                    var NewObjectTable = new ObjectTable();
+                    NewObjectTable.Name = StreamUtil.ReadUInt32(stream);
+                    NewObjectTable.Flags = StreamUtil.ReadUInt32(stream);
+
+                    NewObjectTable.Position = StreamUtil.ReadVector2(stream);
+                    NewObjectTable.Size = StreamUtil.ReadVector2(stream);
+
+                    ObjectTables.Add(NewObjectTable);
+                }
 
                 stream.Position = FontTableOffset;
                 FontTableCount = StreamUtil.ReadUInt32(stream);
@@ -59,8 +106,41 @@ namespace SSXMultiTool.FileHandlers.SSX3
             }
         }
 
+        public struct U1Struct
+        {
+            public int LineID;
+            public int Type;
+            public int LineCount;
+            public int NameHash;
+            public int ByteSize;
 
-        struct FontTable
+
+
+        }
+
+        public struct Type51Lines
+        {
+
+        }
+
+        public struct ScreenTable
+        {
+            public int U0;
+            public int Offset;
+
+            public byte[] RefpackData;
+        }
+
+        public struct ObjectTable
+        {
+            public int Name;
+            public int Flags;
+
+            public Vector2 Position;
+            public Vector2 Size;
+        }
+
+        public struct FontTable
         {
             public int U0;
             public int U1;
