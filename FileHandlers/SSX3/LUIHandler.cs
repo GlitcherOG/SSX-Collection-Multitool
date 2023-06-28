@@ -6,6 +6,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static SSXMultiTool.FileHandlers.SSX3.LUIHandler;
 
 namespace SSXMultiTool.FileHandlers.SSX3
 {
@@ -23,6 +24,7 @@ namespace SSXMultiTool.FileHandlers.SSX3
         public int ObjectTableCount;
         public int FontTableCount;
 
+        public List<U1Struct> u1Structs = new List<U1Struct>();
         public List<ScreenTable> ScreenTables = new List<ScreenTable>();
         public List<ObjectTable> ObjectTables = new List<ObjectTable>();
         public List<FontTable> FontTables = new List<FontTable>();
@@ -40,6 +42,49 @@ namespace SSXMultiTool.FileHandlers.SSX3
 
                 stream.Position = U1Offset;
                 U1Count = StreamUtil.ReadUInt32(stream);
+                u1Structs = new List<U1Struct>();
+                for (int i = 0; i < U1Count; i++)
+                {
+                    var NewUStruct1 = new U1Struct();
+
+                    int HeaderByteTest = StreamUtil.ReadUInt16(stream);
+
+                    if(HeaderByteTest == 0x50)
+                    {
+                        NewUStruct1.U0 = StreamUtil.ReadUInt16(stream);
+                        NewUStruct1.LineCount = StreamUtil.ReadUInt32(stream);
+                        NewUStruct1.NameHash = StreamUtil.ReadUInt32(stream);
+                        NewUStruct1.ByteSize = StreamUtil.ReadUInt32(stream);
+
+                        NewUStruct1.type51Lines = new List<Type51Lines>();
+                        for (int a = 0; a < NewUStruct1.LineCount; a++)
+                        {
+                            int TempLineBytes = StreamUtil.ReadUInt16(stream);
+
+                            if (TempLineBytes == 0x51)
+                            {
+                                var Type51Line = new Type51Lines();
+
+                                Type51Line.U0 = StreamUtil.ReadUInt16(stream);
+                                Type51Line.U1 = StreamUtil.ReadUInt16(stream);
+                                Type51Line.Bytes = StreamUtil.ReadBytes(stream, Type51Line.U1 - 2*3);
+
+                                NewUStruct1.type51Lines.Add(Type51Line);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Error Unkown Sub Header Bytes " + TempLineBytes.ToString());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error Unkown Header Bytes " + HeaderByteTest.ToString());
+                    }
+
+                    u1Structs.Add(NewUStruct1);
+                }
+
 
                 stream.Position = ScreenTableOffset;
                 ScreenTableCount = StreamUtil.ReadUInt32(stream);
@@ -66,7 +111,7 @@ namespace SSXMultiTool.FileHandlers.SSX3
                     }
                     else
                     {
-                        ByteSize = (int)(ObjectTableOffset - (stream.Position + ScreenTables[i].Offset));
+                        ByteSize = (int)(ObjectTableOffset - (stream.Position));
                     }
                     var TempScreenTable = ScreenTables[i];
                     TempScreenTable.RefpackData = StreamUtil.ReadBytes(stream, ByteSize);
@@ -108,19 +153,19 @@ namespace SSXMultiTool.FileHandlers.SSX3
 
         public struct U1Struct
         {
-            public int LineID;
-            public int Type;
+            public int U0;
             public int LineCount;
             public int NameHash;
             public int ByteSize;
 
-
-
+            public List<Type51Lines> type51Lines;
         }
 
         public struct Type51Lines
         {
-
+            public int U0;
+            public int U1;
+            public byte[] Bytes;
         }
 
         public struct ScreenTable

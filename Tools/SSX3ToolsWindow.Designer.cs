@@ -225,6 +225,7 @@
             ModelListLabel = new Label();
             tabPage4 = new TabPage();
             BiglessStore = new Button();
+            LoadLUI = new Button();
             ((System.ComponentModel.ISupportInitialize)charnumericUpDown5).BeginInit();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -2263,6 +2264,7 @@
             // 
             // tabPage4
             // 
+            tabPage4.Controls.Add(LoadLUI);
             tabPage4.Controls.Add(BiglessStore);
             tabPage4.Location = new Point(4, 24);
             tabPage4.Name = "tabPage4";
@@ -2280,6 +2282,16 @@
             BiglessStore.Text = "Generate Bigless Store";
             BiglessStore.UseVisualStyleBackColor = true;
             BiglessStore.Click += BiglessStore_Click;
+            // 
+            // LoadLUI
+            // 
+            LoadLUI.Location = new Point(693, 439);
+            LoadLUI.Name = "LoadLUI";
+            LoadLUI.Size = new Size(75, 23);
+            LoadLUI.TabIndex = 1;
+            LoadLUI.Text = "Test";
+            LoadLUI.UseVisualStyleBackColor = true;
+            LoadLUI.Click += LoadLUI_Click;
             // 
             // SSX3ToolsWindow
             // 
@@ -2547,5 +2559,6 @@
         private ComboBox TristripMethodList;
         private CheckBox BoneUpdateCheck;
         private CheckBox ImportAverageNormal;
+        private Button LoadLUI;
     }
 }

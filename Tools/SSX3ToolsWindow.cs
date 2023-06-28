@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SSXMultiTool.FileHandlers.SSX3;
 
 namespace SSXMultiTool
 {
@@ -808,6 +809,21 @@ namespace SSXMultiTool
                 ssx3ModelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex] = TempModel;
 
                 DisableUpdate = false;
+            }
+        }
+
+        private void LoadLUI_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "LUI File (*.LUI)|*.LUI|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                LUIHandler lUIHandler = new LUIHandler();
+                lUIHandler.LoadLUIFile(openFileDialog.FileName);
             }
         }
     }
