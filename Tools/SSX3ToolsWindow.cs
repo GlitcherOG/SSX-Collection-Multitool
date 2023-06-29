@@ -824,6 +824,7 @@ namespace SSXMultiTool
             {
                 LUIHandler lUIHandler = new LUIHandler();
                 lUIHandler.LoadLUIFile(openFileDialog.FileName);
+                lUIHandler.SaveDecompressed(openFileDialog.FileName + "1");
             }
         }
     }

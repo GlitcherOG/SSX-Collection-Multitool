@@ -6,6 +6,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 using static SSXMultiTool.FileHandlers.SSX3.LUIHandler;
 
 namespace SSXMultiTool.FileHandlers.SSX3
@@ -149,6 +150,37 @@ namespace SSXMultiTool.FileHandlers.SSX3
                 }
 
             }
+        }
+
+        public void SaveDecompressed(string path)
+        {
+            Stream stream = new MemoryStream();
+
+            stream.Position += 4 * 6;
+
+            U1Offset = (int)stream.Position;
+
+
+
+
+
+            stream.Position = 0;
+            StreamUtil.WriteInt32(stream, Magic);
+            StreamUtil.WriteInt32(stream, U0);
+            StreamUtil.WriteInt32(stream, U1Offset);
+            StreamUtil.WriteInt32(stream, ScreenTableOffset);
+            StreamUtil.WriteInt32(stream, ObjectTableOffset);
+            StreamUtil.WriteInt32(stream, FontTableOffset);
+
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            var file = File.Create(path);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            file.Close();
         }
 
         public struct U1Struct
