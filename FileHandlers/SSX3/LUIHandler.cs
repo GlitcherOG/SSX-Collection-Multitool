@@ -53,12 +53,12 @@ namespace SSXMultiTool.FileHandlers.SSX3
                     if(HeaderByteTest == 0x50)
                     {
                         NewUStruct1.U0 = StreamUtil.ReadUInt16(stream);
-                        NewUStruct1.LineCount = StreamUtil.ReadUInt32(stream);
+                        NewUStruct1.EntryCount = StreamUtil.ReadUInt32(stream);
                         NewUStruct1.NameHash = StreamUtil.ReadUInt32(stream);
                         NewUStruct1.ByteSize = StreamUtil.ReadUInt32(stream);
 
                         NewUStruct1.type51Lines = new List<Type51Lines>();
-                        for (int a = 0; a < NewUStruct1.LineCount; a++)
+                        for (int a = 0; a < NewUStruct1.EntryCount; a++)
                         {
                             int TempLineBytes = StreamUtil.ReadUInt16(stream);
 
@@ -67,8 +67,8 @@ namespace SSXMultiTool.FileHandlers.SSX3
                                 var Type51Line = new Type51Lines();
 
                                 Type51Line.U0 = StreamUtil.ReadUInt16(stream);
-                                Type51Line.U1 = StreamUtil.ReadUInt16(stream);
-                                Type51Line.Bytes = StreamUtil.ReadBytes(stream, Type51Line.U1 - 2*3);
+                                Type51Line.EntrySize = StreamUtil.ReadUInt16(stream);
+                                Type51Line.Bytes = StreamUtil.ReadBytes(stream, Type51Line.EntrySize - 2*3);
 
                                 NewUStruct1.type51Lines.Add(Type51Line);
                             }
@@ -186,7 +186,7 @@ namespace SSXMultiTool.FileHandlers.SSX3
         public struct U1Struct
         {
             public int U0;
-            public int LineCount;
+            public int EntryCount;
             public int NameHash;
             public int ByteSize;
 
@@ -196,7 +196,7 @@ namespace SSXMultiTool.FileHandlers.SSX3
         public struct Type51Lines
         {
             public int U0;
-            public int U1;
+            public int EntrySize;
             public byte[] Bytes;
         }
 
