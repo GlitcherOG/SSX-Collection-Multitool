@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.IO;
+using System.Windows;
 using SSXMultiTool.FileHandlers;
 
 namespace SSXMultiTool
@@ -38,6 +30,7 @@ namespace SSXMultiTool
                 {
                     ListText.Items.Add(lOCEditor.StringList[i]);
                 }
+                this.Text = "LOC Editor - " + Path.GetFileName(openFileDialog.FileName); 
             }
         }
 
@@ -175,7 +168,7 @@ namespace SSXMultiTool
 
                     if (strings.Count < lOCEditor.StringList.Count)
                     {
-                        MessageBox.Show("Error Incorrect Ammount Of Strings " + strings.Count + "/" + lOCEditor.StringList.Count);
+                        System.Windows.Forms.MessageBox.Show("Error Incorrect Ammount Of Strings " + strings.Count + "/" + lOCEditor.StringList.Count);
                     }
 
                     for (int i = 0; i < lOCEditor.StringList.Count; i++)

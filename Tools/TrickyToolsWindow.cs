@@ -1066,7 +1066,7 @@ namespace SSXMultiTool
                         MessageBox.Show("Incorrect Wav Count " + hdrHandler.fileHeaders.Count + "/" + Files.ToArray().Length);
                         return;
                     }
-                    hdrHandler = datAudio.GenerateDATAndHDR(Files.ToArray(), openFileDialog1.FileName, hdrHandler);
+                    hdrHandler = datAudio.GenerateDATAndHDR3(Files.ToArray(), openFileDialog1.FileName, hdrHandler);
                     MessageBox.Show("File Generated");
 
                     hdrList2.Items.Clear();

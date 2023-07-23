@@ -92,6 +92,7 @@ namespace SSXMultiTool.FileHandlers
                     if (NewPos != -1)
                     {
                         GapSize = (int)(NewPos - Pos);
+                        stream.Position -= 1;
                     }
                 }
 
@@ -116,13 +117,25 @@ namespace SSXMultiTool.FileHandlers
             StreamUtil.WriteUInt8(stream, U4);
             StreamUtil.WriteInt16(stream, U5);
 
-            stream.Position += 4 - EntryTypes;
+            if (EntryTypes == 0 || EntryTypes == 2)
+            {
+                stream.Position += 2;
+            }
+            else if (EntryTypes == 3 || EntryTypes == 1)
+            {
+                stream.Position += 1;
+            }
 
             for (int i = 0; i < fileHeaders.Count; i++)
             {
                 var TempHeader = fileHeaders[i];
+                if (EntryTypes == 0)
+                {
+                    StreamUtil.WriteInt16(stream, TempHeader.OffsetInt, true);
+                }
                 if (EntryTypes == 1)
                 {
+                    StreamUtil.WriteUInt8(stream, TempHeader.Unknown);
                     StreamUtil.WriteInt16(stream, TempHeader.OffsetInt, true);
                 }
                 if (EntryTypes == 2)

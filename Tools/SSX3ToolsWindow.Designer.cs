@@ -28,2336 +28,2740 @@
         /// </summary>
         private void InitializeComponent()
         {
-            charnumericUpDown5 = new NumericUpDown();
-            tabControl1 = new TabControl();
-            tabPage1 = new TabPage();
-            charLoad = new Button();
-            charSaveAs = new Button();
-            charSave = new Button();
-            charnumericUpDown6 = new NumericUpDown();
-            label12 = new Label();
-            label11 = new Label();
-            charnumericUpDown3 = new NumericUpDown();
-            label10 = new Label();
-            charnumericUpDown4 = new NumericUpDown();
-            label9 = new Label();
-            charnumericUpDown2 = new NumericUpDown();
-            label8 = new Label();
-            charnumericUpDown1 = new NumericUpDown();
-            label7 = new Label();
-            chartextBox6 = new TextBox();
-            label6 = new Label();
-            chartextBox5 = new TextBox();
-            label5 = new Label();
-            chartextBox4 = new TextBox();
-            label4 = new Label();
-            chartextBox3 = new TextBox();
-            label3 = new Label();
-            chartextBox2 = new TextBox();
-            label2 = new Label();
-            chartextBox1 = new TextBox();
-            label1 = new Label();
-            charBox1 = new ListBox();
-            tabPage2 = new TabPage();
-            MusINFnumericUpDown12 = new NumericUpDown();
-            label56 = new Label();
-            MusINFnumericUpDown11 = new NumericUpDown();
-            label55 = new Label();
-            MusINFnumericUpDown5 = new NumericUpDown();
-            label54 = new Label();
-            MusINFnumericUpDown4 = new NumericUpDown();
-            label53 = new Label();
-            MusINFnumericUpDown3 = new NumericUpDown();
-            label52 = new Label();
-            MusINFnumericUpDown2 = new NumericUpDown();
-            label51 = new Label();
-            MusINFnumericUpDown10 = new NumericUpDown();
-            label50 = new Label();
-            MusINFnumericUpDown9 = new NumericUpDown();
-            label49 = new Label();
-            MusINFnumericUpDown8 = new NumericUpDown();
-            label48 = new Label();
-            MusINFnumericUpDown7 = new NumericUpDown();
-            label47 = new Label();
-            MusINFnumericUpDown6 = new NumericUpDown();
-            label46 = new Label();
-            MusicLoopData = new TextBox();
-            label45 = new Label();
-            MusINFnumericUpDown1 = new NumericUpDown();
-            label44 = new Label();
-            MusnumericUpDown0 = new NumericUpDown();
-            label43 = new Label();
-            MuscheckBox5 = new CheckBox();
-            MuscheckBox4 = new CheckBox();
-            MuscheckBox3 = new CheckBox();
-            MuscheckBox2 = new CheckBox();
-            MuscheckBox1 = new CheckBox();
-            MusicDataBox = new TextBox();
-            label42 = new Label();
-            MusicPathDataBox = new TextBox();
-            label41 = new Label();
-            MusicAlbumBox = new TextBox();
-            label40 = new Label();
-            MusicArtistBox = new TextBox();
-            label39 = new Label();
-            MusicTitleBox = new TextBox();
-            label38 = new Label();
-            MusicID = new TextBox();
-            label37 = new Label();
-            MusicLoad = new Button();
-            button3 = new Button();
-            button2 = new Button();
-            button1 = new Button();
-            musiclistBox1 = new ListBox();
-            tabPage3 = new TabPage();
-            BoltApply = new Button();
-            BoltSave = new Button();
-            boltLoad = new Button();
-            BoltPS2TreeView = new TreeView();
-            BoltIconPath = new TextBox();
-            label36 = new Label();
-            BoltTexturePath = new TextBox();
-            label35 = new Label();
-            BoltModelPath = new TextBox();
-            label34 = new Label();
-            BoltModelIDFour = new TextBox();
-            label33 = new Label();
-            BoltModelIDThree = new TextBox();
-            label32 = new Label();
-            BoltModelIDTwo = new TextBox();
-            label31 = new Label();
-            BoltModelID = new TextBox();
-            label30 = new Label();
-            BoltName = new TextBox();
-            label29 = new Label();
-            BoltUnkown9 = new NumericUpDown();
-            label28 = new Label();
-            BoltSpecialThree = new NumericUpDown();
-            label27 = new Label();
-            BoltSpecialTwo = new NumericUpDown();
-            label26 = new Label();
-            BoltSpecialOne = new NumericUpDown();
-            label25 = new Label();
-            BoltUnkown8 = new NumericUpDown();
-            label24 = new Label();
-            BoltCost = new NumericUpDown();
-            label23 = new Label();
-            BoltFillBar = new NumericUpDown();
-            label22 = new Label();
-            BoltUnkown7 = new NumericUpDown();
-            label21 = new Label();
-            BoltMenuOrder = new NumericUpDown();
-            label20 = new Label();
-            BoltBuy = new NumericUpDown();
-            label19 = new Label();
-            BoltCat = new NumericUpDown();
-            label18 = new Label();
-            BoltUnkownFour = new NumericUpDown();
-            label17 = new Label();
-            BoltUnkownThree = new NumericUpDown();
-            label16 = new Label();
-            BoltUnkownTwo = new NumericUpDown();
-            label15 = new Label();
-            BoltUnlock = new NumericUpDown();
-            label14 = new Label();
-            BoltUnkownOne = new NumericUpDown();
-            label13 = new Label();
-            BoltCharacter = new ComboBox();
-            tabPage5 = new TabPage();
-            groupBox1 = new GroupBox();
-            label57 = new Label();
-            TristripMethodList = new ComboBox();
-            BoneUpdateCheck = new CheckBox();
-            ImportAverageNormal = new CheckBox();
-            groupBox4 = new GroupBox();
-            label74 = new Label();
-            MorphGroupCount = new Label();
-            label75 = new Label();
-            WeightGroupCount = new Label();
-            label76 = new Label();
-            MaterialGroupCount = new Label();
-            label77 = new Label();
-            TristripCountLabel = new Label();
-            label78 = new Label();
-            VerticeCount = new Label();
-            MeshChunks = new Label();
-            label79 = new Label();
-            groupBox3 = new GroupBox();
-            label66 = new Label();
-            MatUnknown2 = new NumericUpDown();
-            label67 = new Label();
-            MatUnknown1 = new NumericUpDown();
-            label68 = new Label();
-            MatFlagFactor = new NumericUpDown();
-            MatTextureFlag4 = new TextBox();
-            label69 = new Label();
-            MatTextureFlag3 = new TextBox();
-            label70 = new Label();
-            MatTextureFlag2 = new TextBox();
-            label71 = new Label();
-            MatTextureFlag1 = new TextBox();
-            label72 = new Label();
-            MatMainTexture = new TextBox();
-            label73 = new Label();
-            MaterialList = new ListBox();
-            groupBox2 = new GroupBox();
-            label60 = new Label();
-            MpfWeights = new Label();
-            label61 = new Label();
-            FileID = new Label();
-            label62 = new Label();
-            BoneCount = new Label();
-            label63 = new Label();
-            ShapeKeyCount = new Label();
-            MaterialCount = new Label();
-            label64 = new Label();
-            label65 = new Label();
-            IkCount = new Label();
-            MPFWarningLabel = new Label();
-            label59 = new Label();
-            MpfExport = new Button();
-            MpfImport = new Button();
-            MpfSaveCompressed = new Button();
-            MpfBoneLoad = new Button();
-            MpfModelList = new ListBox();
-            MPFSaveDecompressed = new Button();
-            MPFLoad = new Button();
-            ModelListLabel = new Label();
-            tabPage4 = new TabPage();
-            BiglessStore = new Button();
-            LoadLUI = new Button();
-            ((System.ComponentModel.ISupportInitialize)charnumericUpDown5).BeginInit();
-            tabControl1.SuspendLayout();
-            tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)charnumericUpDown6).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)charnumericUpDown3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)charnumericUpDown4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)charnumericUpDown2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)charnumericUpDown1).BeginInit();
-            tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown12).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown11).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown5).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown10).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown9).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown8).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown7).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown6).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MusnumericUpDown0).BeginInit();
-            tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkown9).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltSpecialThree).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltSpecialTwo).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltSpecialOne).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkown8).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltCost).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltFillBar).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkown7).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltMenuOrder).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltBuy).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltCat).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkownFour).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkownThree).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkownTwo).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnlock).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkownOne).BeginInit();
-            tabPage5.SuspendLayout();
-            groupBox1.SuspendLayout();
-            groupBox4.SuspendLayout();
-            groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)MatUnknown2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MatUnknown1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MatFlagFactor).BeginInit();
-            groupBox2.SuspendLayout();
-            tabPage4.SuspendLayout();
-            SuspendLayout();
+            this.charnumericUpDown5 = (new global::System.Windows.Forms.NumericUpDown());
+            this.tabControl1 = (new global::System.Windows.Forms.TabControl());
+            this.tabPage1 = (new global::System.Windows.Forms.TabPage());
+            this.charLoad = (new global::System.Windows.Forms.Button());
+            this.charSaveAs = (new global::System.Windows.Forms.Button());
+            this.charSave = (new global::System.Windows.Forms.Button());
+            this.charnumericUpDown6 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label12 = (new global::System.Windows.Forms.Label());
+            this.label11 = (new global::System.Windows.Forms.Label());
+            this.charnumericUpDown3 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label10 = (new global::System.Windows.Forms.Label());
+            this.charnumericUpDown4 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label9 = (new global::System.Windows.Forms.Label());
+            this.charnumericUpDown2 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label8 = (new global::System.Windows.Forms.Label());
+            this.charnumericUpDown1 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label7 = (new global::System.Windows.Forms.Label());
+            this.chartextBox6 = (new global::System.Windows.Forms.TextBox());
+            this.label6 = (new global::System.Windows.Forms.Label());
+            this.chartextBox5 = (new global::System.Windows.Forms.TextBox());
+            this.label5 = (new global::System.Windows.Forms.Label());
+            this.chartextBox4 = (new global::System.Windows.Forms.TextBox());
+            this.label4 = (new global::System.Windows.Forms.Label());
+            this.chartextBox3 = (new global::System.Windows.Forms.TextBox());
+            this.label3 = (new global::System.Windows.Forms.Label());
+            this.chartextBox2 = (new global::System.Windows.Forms.TextBox());
+            this.label2 = (new global::System.Windows.Forms.Label());
+            this.chartextBox1 = (new global::System.Windows.Forms.TextBox());
+            this.label1 = (new global::System.Windows.Forms.Label());
+            this.charBox1 = (new global::System.Windows.Forms.ListBox());
+            this.tabPage2 = (new global::System.Windows.Forms.TabPage());
+            this.MusINFnumericUpDown12 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label56 = (new global::System.Windows.Forms.Label());
+            this.MusINFnumericUpDown11 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label55 = (new global::System.Windows.Forms.Label());
+            this.MusINFnumericUpDown5 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label54 = (new global::System.Windows.Forms.Label());
+            this.MusINFnumericUpDown4 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label53 = (new global::System.Windows.Forms.Label());
+            this.MusINFnumericUpDown3 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label52 = (new global::System.Windows.Forms.Label());
+            this.MusINFnumericUpDown2 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label51 = (new global::System.Windows.Forms.Label());
+            this.MusINFnumericUpDown10 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label50 = (new global::System.Windows.Forms.Label());
+            this.MusINFnumericUpDown9 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label49 = (new global::System.Windows.Forms.Label());
+            this.MusINFnumericUpDown8 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label48 = (new global::System.Windows.Forms.Label());
+            this.MusINFnumericUpDown7 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label47 = (new global::System.Windows.Forms.Label());
+            this.MusINFnumericUpDown6 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label46 = (new global::System.Windows.Forms.Label());
+            this.MusicLoopData = (new global::System.Windows.Forms.TextBox());
+            this.label45 = (new global::System.Windows.Forms.Label());
+            this.MusINFnumericUpDown1 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label44 = (new global::System.Windows.Forms.Label());
+            this.MusnumericUpDown0 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label43 = (new global::System.Windows.Forms.Label());
+            this.MuscheckBox5 = (new global::System.Windows.Forms.CheckBox());
+            this.MuscheckBox4 = (new global::System.Windows.Forms.CheckBox());
+            this.MuscheckBox3 = (new global::System.Windows.Forms.CheckBox());
+            this.MuscheckBox2 = (new global::System.Windows.Forms.CheckBox());
+            this.MuscheckBox1 = (new global::System.Windows.Forms.CheckBox());
+            this.MusicDataBox = (new global::System.Windows.Forms.TextBox());
+            this.label42 = (new global::System.Windows.Forms.Label());
+            this.MusicPathDataBox = (new global::System.Windows.Forms.TextBox());
+            this.label41 = (new global::System.Windows.Forms.Label());
+            this.MusicAlbumBox = (new global::System.Windows.Forms.TextBox());
+            this.label40 = (new global::System.Windows.Forms.Label());
+            this.MusicArtistBox = (new global::System.Windows.Forms.TextBox());
+            this.label39 = (new global::System.Windows.Forms.Label());
+            this.MusicTitleBox = (new global::System.Windows.Forms.TextBox());
+            this.label38 = (new global::System.Windows.Forms.Label());
+            this.MusicID = (new global::System.Windows.Forms.TextBox());
+            this.label37 = (new global::System.Windows.Forms.Label());
+            this.MusicLoad = (new global::System.Windows.Forms.Button());
+            this.button3 = (new global::System.Windows.Forms.Button());
+            this.button2 = (new global::System.Windows.Forms.Button());
+            this.button1 = (new global::System.Windows.Forms.Button());
+            this.musiclistBox1 = (new global::System.Windows.Forms.ListBox());
+            this.tabPage3 = (new global::System.Windows.Forms.TabPage());
+            this.BoltApply = (new global::System.Windows.Forms.Button());
+            this.BoltSave = (new global::System.Windows.Forms.Button());
+            this.boltLoad = (new global::System.Windows.Forms.Button());
+            this.BoltPS2TreeView = (new global::System.Windows.Forms.TreeView());
+            this.BoltIconPath = (new global::System.Windows.Forms.TextBox());
+            this.label36 = (new global::System.Windows.Forms.Label());
+            this.BoltTexturePath = (new global::System.Windows.Forms.TextBox());
+            this.label35 = (new global::System.Windows.Forms.Label());
+            this.BoltModelPath = (new global::System.Windows.Forms.TextBox());
+            this.label34 = (new global::System.Windows.Forms.Label());
+            this.BoltModelIDFour = (new global::System.Windows.Forms.TextBox());
+            this.label33 = (new global::System.Windows.Forms.Label());
+            this.BoltModelIDThree = (new global::System.Windows.Forms.TextBox());
+            this.label32 = (new global::System.Windows.Forms.Label());
+            this.BoltModelIDTwo = (new global::System.Windows.Forms.TextBox());
+            this.label31 = (new global::System.Windows.Forms.Label());
+            this.BoltModelID = (new global::System.Windows.Forms.TextBox());
+            this.label30 = (new global::System.Windows.Forms.Label());
+            this.BoltName = (new global::System.Windows.Forms.TextBox());
+            this.label29 = (new global::System.Windows.Forms.Label());
+            this.BoltUnkown9 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label28 = (new global::System.Windows.Forms.Label());
+            this.BoltSpecialThree = (new global::System.Windows.Forms.NumericUpDown());
+            this.label27 = (new global::System.Windows.Forms.Label());
+            this.BoltSpecialTwo = (new global::System.Windows.Forms.NumericUpDown());
+            this.label26 = (new global::System.Windows.Forms.Label());
+            this.BoltSpecialOne = (new global::System.Windows.Forms.NumericUpDown());
+            this.label25 = (new global::System.Windows.Forms.Label());
+            this.BoltUnkown8 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label24 = (new global::System.Windows.Forms.Label());
+            this.BoltCost = (new global::System.Windows.Forms.NumericUpDown());
+            this.label23 = (new global::System.Windows.Forms.Label());
+            this.BoltFillBar = (new global::System.Windows.Forms.NumericUpDown());
+            this.label22 = (new global::System.Windows.Forms.Label());
+            this.BoltUnkown7 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label21 = (new global::System.Windows.Forms.Label());
+            this.BoltMenuOrder = (new global::System.Windows.Forms.NumericUpDown());
+            this.label20 = (new global::System.Windows.Forms.Label());
+            this.BoltBuy = (new global::System.Windows.Forms.NumericUpDown());
+            this.label19 = (new global::System.Windows.Forms.Label());
+            this.BoltCat = (new global::System.Windows.Forms.NumericUpDown());
+            this.label18 = (new global::System.Windows.Forms.Label());
+            this.BoltUnkownFour = (new global::System.Windows.Forms.NumericUpDown());
+            this.label17 = (new global::System.Windows.Forms.Label());
+            this.BoltUnkownThree = (new global::System.Windows.Forms.NumericUpDown());
+            this.label16 = (new global::System.Windows.Forms.Label());
+            this.BoltUnkownTwo = (new global::System.Windows.Forms.NumericUpDown());
+            this.label15 = (new global::System.Windows.Forms.Label());
+            this.BoltUnlock = (new global::System.Windows.Forms.NumericUpDown());
+            this.label14 = (new global::System.Windows.Forms.Label());
+            this.BoltUnkownOne = (new global::System.Windows.Forms.NumericUpDown());
+            this.label13 = (new global::System.Windows.Forms.Label());
+            this.BoltCharacter = (new global::System.Windows.Forms.ComboBox());
+            this.tabPage5 = (new global::System.Windows.Forms.TabPage());
+            this.groupBox1 = (new global::System.Windows.Forms.GroupBox());
+            this.label57 = (new global::System.Windows.Forms.Label());
+            this.TristripMethodList = (new global::System.Windows.Forms.ComboBox());
+            this.BoneUpdateCheck = (new global::System.Windows.Forms.CheckBox());
+            this.ImportAverageNormal = (new global::System.Windows.Forms.CheckBox());
+            this.groupBox4 = (new global::System.Windows.Forms.GroupBox());
+            this.label74 = (new global::System.Windows.Forms.Label());
+            this.MorphGroupCount = (new global::System.Windows.Forms.Label());
+            this.label75 = (new global::System.Windows.Forms.Label());
+            this.WeightGroupCount = (new global::System.Windows.Forms.Label());
+            this.label76 = (new global::System.Windows.Forms.Label());
+            this.MaterialGroupCount = (new global::System.Windows.Forms.Label());
+            this.label77 = (new global::System.Windows.Forms.Label());
+            this.TristripCountLabel = (new global::System.Windows.Forms.Label());
+            this.label78 = (new global::System.Windows.Forms.Label());
+            this.VerticeCount = (new global::System.Windows.Forms.Label());
+            this.MeshChunks = (new global::System.Windows.Forms.Label());
+            this.label79 = (new global::System.Windows.Forms.Label());
+            this.groupBox3 = (new global::System.Windows.Forms.GroupBox());
+            this.label66 = (new global::System.Windows.Forms.Label());
+            this.MatUnknown2 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label67 = (new global::System.Windows.Forms.Label());
+            this.MatUnknown1 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label68 = (new global::System.Windows.Forms.Label());
+            this.MatFlagFactor = (new global::System.Windows.Forms.NumericUpDown());
+            this.MatTextureFlag4 = (new global::System.Windows.Forms.TextBox());
+            this.label69 = (new global::System.Windows.Forms.Label());
+            this.MatTextureFlag3 = (new global::System.Windows.Forms.TextBox());
+            this.label70 = (new global::System.Windows.Forms.Label());
+            this.MatTextureFlag2 = (new global::System.Windows.Forms.TextBox());
+            this.label71 = (new global::System.Windows.Forms.Label());
+            this.MatTextureFlag1 = (new global::System.Windows.Forms.TextBox());
+            this.label72 = (new global::System.Windows.Forms.Label());
+            this.MatMainTexture = (new global::System.Windows.Forms.TextBox());
+            this.label73 = (new global::System.Windows.Forms.Label());
+            this.MaterialList = (new global::System.Windows.Forms.ListBox());
+            this.groupBox2 = (new global::System.Windows.Forms.GroupBox());
+            this.label60 = (new global::System.Windows.Forms.Label());
+            this.MpfWeights = (new global::System.Windows.Forms.Label());
+            this.label61 = (new global::System.Windows.Forms.Label());
+            this.FileID = (new global::System.Windows.Forms.Label());
+            this.label62 = (new global::System.Windows.Forms.Label());
+            this.BoneCount = (new global::System.Windows.Forms.Label());
+            this.label63 = (new global::System.Windows.Forms.Label());
+            this.ShapeKeyCount = (new global::System.Windows.Forms.Label());
+            this.MaterialCount = (new global::System.Windows.Forms.Label());
+            this.label64 = (new global::System.Windows.Forms.Label());
+            this.label65 = (new global::System.Windows.Forms.Label());
+            this.IkCount = (new global::System.Windows.Forms.Label());
+            this.MPFWarningLabel = (new global::System.Windows.Forms.Label());
+            this.label59 = (new global::System.Windows.Forms.Label());
+            this.MpfExport = (new global::System.Windows.Forms.Button());
+            this.MpfImport = (new global::System.Windows.Forms.Button());
+            this.MpfSaveCompressed = (new global::System.Windows.Forms.Button());
+            this.MpfBoneLoad = (new global::System.Windows.Forms.Button());
+            this.MpfModelList = (new global::System.Windows.Forms.ListBox());
+            this.MPFSaveDecompressed = (new global::System.Windows.Forms.Button());
+            this.MPFLoad = (new global::System.Windows.Forms.Button());
+            this.ModelListLabel = (new global::System.Windows.Forms.Label());
+            this.tabPage4 = (new global::System.Windows.Forms.TabPage());
+            this.LoadLUI = (new global::System.Windows.Forms.Button());
+            this.BiglessStore = (new global::System.Windows.Forms.Button());
+            this.tabPage6 = (new global::System.Windows.Forms.TabPage());
+            this.groupBox6 = (new global::System.Windows.Forms.GroupBox());
+            this.groupBox8 = (new global::System.Windows.Forms.GroupBox());
+            this.hdrEntryU3 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label58 = (new global::System.Windows.Forms.Label());
+            this.hdrEntryU2 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label80 = (new global::System.Windows.Forms.Label());
+            this.hdrEntryU1 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label81 = (new global::System.Windows.Forms.Label());
+            this.groupBox7 = (new global::System.Windows.Forms.GroupBox());
+            this.hdrU2 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label82 = (new global::System.Windows.Forms.Label());
+            this.hdrU1 = (new global::System.Windows.Forms.NumericUpDown());
+            this.label83 = (new global::System.Windows.Forms.Label());
+            this.hdrList2 = (new global::System.Windows.Forms.ListBox());
+            this.hdrSave = (new global::System.Windows.Forms.Button());
+            this.HdrLoad = (new global::System.Windows.Forms.Button());
+            this.groupBox5 = (new global::System.Windows.Forms.GroupBox());
+            this.hdrFileList = (new global::System.Windows.Forms.ListBox());
+            this.hdrPlay = (new global::System.Windows.Forms.Button());
+            this.HDRTotalSamples = (new global::System.Windows.Forms.Label());
+            this.label84 = (new global::System.Windows.Forms.Label());
+            this.hdrBuildDAT = (new global::System.Windows.Forms.Button());
+            this.hdrRemoveFile = (new global::System.Windows.Forms.Button());
+            this.hdrExtract = (new global::System.Windows.Forms.Button());
+            this.HDRSample = (new global::System.Windows.Forms.Label());
+            this.hdrDown = (new global::System.Windows.Forms.Button());
+            this.label85 = (new global::System.Windows.Forms.Label());
+            this.hdrUp = (new global::System.Windows.Forms.Button());
+            this.HDRFileSize = (new global::System.Windows.Forms.Label());
+            this.hdrLoadFolder = (new global::System.Windows.Forms.Button());
+            this.label86 = (new global::System.Windows.Forms.Label());
+            this.hdrAddFile = (new global::System.Windows.Forms.Button());
+            this.label87 = (new global::System.Windows.Forms.Label());
+            this.HDRTime = (new global::System.Windows.Forms.Label());
+            ((global::System.ComponentModel.ISupportInitialize)(this.charnumericUpDown5)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            ((global::System.ComponentModel.ISupportInitialize)(this.charnumericUpDown6)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.charnumericUpDown3)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.charnumericUpDown4)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.charnumericUpDown2)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.charnumericUpDown1)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown12)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown11)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown5)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown4)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown3)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown2)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown10)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown9)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown8)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown7)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown6)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown1)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusnumericUpDown0)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnkown9)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltSpecialThree)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltSpecialTwo)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltSpecialOne)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnkown8)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltCost)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltFillBar)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnkown7)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltMenuOrder)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltBuy)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltCat)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnkownFour)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnkownThree)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnkownTwo)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnlock)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnkownOne)).BeginInit();
+            this.tabPage5.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MatUnknown2)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MatUnknown1)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MatFlagFactor)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.tabPage6.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            ((global::System.ComponentModel.ISupportInitialize)(this.hdrEntryU3)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.hdrEntryU2)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.hdrEntryU1)).BeginInit();
+            this.groupBox7.SuspendLayout();
+            ((global::System.ComponentModel.ISupportInitialize)(this.hdrU2)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.hdrU1)).BeginInit();
+            this.groupBox5.SuspendLayout();
+            this.SuspendLayout();
             // 
             // charnumericUpDown5
             // 
-            charnumericUpDown5.Location = new Point(642, 156);
-            charnumericUpDown5.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
-            charnumericUpDown5.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
-            charnumericUpDown5.Name = "charnumericUpDown5";
-            charnumericUpDown5.Size = new Size(75, 23);
-            charnumericUpDown5.TabIndex = 22;
-            charnumericUpDown5.ValueChanged += CharApply;
+            this.charnumericUpDown5.Location = (new global::System.Drawing.Point(642, 156));
+            this.charnumericUpDown5.Maximum = (new global::System.Decimal(new global::System.Int32[] { global::System.Int32.MaxValue, 0, 0, 0 }));
+            this.charnumericUpDown5.Minimum = (new global::System.Decimal(new global::System.Int32[] { global::System.Int32.MaxValue, 0, 0, global::System.Int32.MinValue }));
+            this.charnumericUpDown5.Name = ("charnumericUpDown5");
+            this.charnumericUpDown5.Size = (new global::System.Drawing.Size(75, 23));
+            this.charnumericUpDown5.TabIndex = (22);
+            this.charnumericUpDown5.ValueChanged += (this.CharApply);
             // 
             // tabControl1
             // 
-            tabControl1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
-            tabControl1.Controls.Add(tabPage3);
-            tabControl1.Controls.Add(tabPage5);
-            tabControl1.Controls.Add(tabPage4);
-            tabControl1.Location = new Point(12, 12);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(949, 556);
-            tabControl1.TabIndex = 0;
+            this.tabControl1.Anchor = ((global::System.Windows.Forms.AnchorStyles)((((global::System.Windows.Forms.AnchorStyles.Top) | (global::System.Windows.Forms.AnchorStyles.Bottom)) | (global::System.Windows.Forms.AnchorStyles.Left)) | (global::System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Location = (new global::System.Drawing.Point(12, 12));
+            this.tabControl1.Name = ("tabControl1");
+            this.tabControl1.SelectedIndex = (0);
+            this.tabControl1.Size = (new global::System.Drawing.Size(949, 556));
+            this.tabControl1.TabIndex = (0);
             // 
             // tabPage1
             // 
-            tabPage1.Controls.Add(charLoad);
-            tabPage1.Controls.Add(charSaveAs);
-            tabPage1.Controls.Add(charSave);
-            tabPage1.Controls.Add(charnumericUpDown6);
-            tabPage1.Controls.Add(label12);
-            tabPage1.Controls.Add(charnumericUpDown5);
-            tabPage1.Controls.Add(label11);
-            tabPage1.Controls.Add(charnumericUpDown3);
-            tabPage1.Controls.Add(label10);
-            tabPage1.Controls.Add(charnumericUpDown4);
-            tabPage1.Controls.Add(label9);
-            tabPage1.Controls.Add(charnumericUpDown2);
-            tabPage1.Controls.Add(label8);
-            tabPage1.Controls.Add(charnumericUpDown1);
-            tabPage1.Controls.Add(label7);
-            tabPage1.Controls.Add(chartextBox6);
-            tabPage1.Controls.Add(label6);
-            tabPage1.Controls.Add(chartextBox5);
-            tabPage1.Controls.Add(label5);
-            tabPage1.Controls.Add(chartextBox4);
-            tabPage1.Controls.Add(label4);
-            tabPage1.Controls.Add(chartextBox3);
-            tabPage1.Controls.Add(label3);
-            tabPage1.Controls.Add(chartextBox2);
-            tabPage1.Controls.Add(label2);
-            tabPage1.Controls.Add(chartextBox1);
-            tabPage1.Controls.Add(label1);
-            tabPage1.Controls.Add(charBox1);
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(941, 528);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "Character Database";
-            tabPage1.UseVisualStyleBackColor = true;
+            this.tabPage1.Controls.Add(this.charLoad);
+            this.tabPage1.Controls.Add(this.charSaveAs);
+            this.tabPage1.Controls.Add(this.charSave);
+            this.tabPage1.Controls.Add(this.charnumericUpDown6);
+            this.tabPage1.Controls.Add(this.label12);
+            this.tabPage1.Controls.Add(this.charnumericUpDown5);
+            this.tabPage1.Controls.Add(this.label11);
+            this.tabPage1.Controls.Add(this.charnumericUpDown3);
+            this.tabPage1.Controls.Add(this.label10);
+            this.tabPage1.Controls.Add(this.charnumericUpDown4);
+            this.tabPage1.Controls.Add(this.label9);
+            this.tabPage1.Controls.Add(this.charnumericUpDown2);
+            this.tabPage1.Controls.Add(this.label8);
+            this.tabPage1.Controls.Add(this.charnumericUpDown1);
+            this.tabPage1.Controls.Add(this.label7);
+            this.tabPage1.Controls.Add(this.chartextBox6);
+            this.tabPage1.Controls.Add(this.label6);
+            this.tabPage1.Controls.Add(this.chartextBox5);
+            this.tabPage1.Controls.Add(this.label5);
+            this.tabPage1.Controls.Add(this.chartextBox4);
+            this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Controls.Add(this.chartextBox3);
+            this.tabPage1.Controls.Add(this.label3);
+            this.tabPage1.Controls.Add(this.chartextBox2);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.chartextBox1);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.charBox1);
+            this.tabPage1.Location = (new global::System.Drawing.Point(4, 24));
+            this.tabPage1.Name = ("tabPage1");
+            this.tabPage1.Padding = (new global::System.Windows.Forms.Padding(3));
+            this.tabPage1.Size = (new global::System.Drawing.Size(941, 528));
+            this.tabPage1.TabIndex = (0);
+            this.tabPage1.Text = ("Character Database");
+            this.tabPage1.UseVisualStyleBackColor = (true);
             // 
             // charLoad
             // 
-            charLoad.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            charLoad.Location = new Point(701, 497);
-            charLoad.Name = "charLoad";
-            charLoad.Size = new Size(75, 23);
-            charLoad.TabIndex = 27;
-            charLoad.Text = "Load";
-            charLoad.UseVisualStyleBackColor = true;
-            charLoad.Click += charLoad_Click;
+            this.charLoad.Anchor = ((global::System.Windows.Forms.AnchorStyles)((global::System.Windows.Forms.AnchorStyles.Bottom) | (global::System.Windows.Forms.AnchorStyles.Right)));
+            this.charLoad.Location = (new global::System.Drawing.Point(701, 497));
+            this.charLoad.Name = ("charLoad");
+            this.charLoad.Size = (new global::System.Drawing.Size(75, 23));
+            this.charLoad.TabIndex = (27);
+            this.charLoad.Text = ("Load");
+            this.charLoad.UseVisualStyleBackColor = (true);
+            this.charLoad.Click += (this.charLoad_Click);
             // 
             // charSaveAs
             // 
-            charSaveAs.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            charSaveAs.Location = new Point(779, 497);
-            charSaveAs.Name = "charSaveAs";
-            charSaveAs.Size = new Size(75, 23);
-            charSaveAs.TabIndex = 26;
-            charSaveAs.Text = "Save As";
-            charSaveAs.UseVisualStyleBackColor = true;
-            charSaveAs.Click += charSaveAs_Click;
+            this.charSaveAs.Anchor = ((global::System.Windows.Forms.AnchorStyles)((global::System.Windows.Forms.AnchorStyles.Bottom) | (global::System.Windows.Forms.AnchorStyles.Right)));
+            this.charSaveAs.Location = (new global::System.Drawing.Point(779, 497));
+            this.charSaveAs.Name = ("charSaveAs");
+            this.charSaveAs.Size = (new global::System.Drawing.Size(75, 23));
+            this.charSaveAs.TabIndex = (26);
+            this.charSaveAs.Text = ("Save As");
+            this.charSaveAs.UseVisualStyleBackColor = (true);
+            this.charSaveAs.Click += (this.charSaveAs_Click);
             // 
             // charSave
             // 
-            charSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            charSave.Location = new Point(860, 497);
-            charSave.Name = "charSave";
-            charSave.Size = new Size(75, 23);
-            charSave.TabIndex = 25;
-            charSave.Text = "Save";
-            charSave.UseVisualStyleBackColor = true;
-            charSave.Click += charSave_Click;
+            this.charSave.Anchor = ((global::System.Windows.Forms.AnchorStyles)((global::System.Windows.Forms.AnchorStyles.Bottom) | (global::System.Windows.Forms.AnchorStyles.Right)));
+            this.charSave.Location = (new global::System.Drawing.Point(860, 497));
+            this.charSave.Name = ("charSave");
+            this.charSave.Size = (new global::System.Drawing.Size(75, 23));
+            this.charSave.TabIndex = (25);
+            this.charSave.Text = ("Save");
+            this.charSave.UseVisualStyleBackColor = (true);
+            this.charSave.Click += (this.charSave_Click);
             // 
             // charnumericUpDown6
             // 
-            charnumericUpDown6.Location = new Point(726, 156);
-            charnumericUpDown6.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
-            charnumericUpDown6.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
-            charnumericUpDown6.Name = "charnumericUpDown6";
-            charnumericUpDown6.Size = new Size(75, 23);
-            charnumericUpDown6.TabIndex = 24;
-            charnumericUpDown6.ValueChanged += CharApply;
+            this.charnumericUpDown6.Location = (new global::System.Drawing.Point(726, 156));
+            this.charnumericUpDown6.Maximum = (new global::System.Decimal(new global::System.Int32[] { global::System.Int32.MaxValue, 0, 0, 0 }));
+            this.charnumericUpDown6.Minimum = (new global::System.Decimal(new global::System.Int32[] { global::System.Int32.MaxValue, 0, 0, global::System.Int32.MinValue }));
+            this.charnumericUpDown6.Name = ("charnumericUpDown6");
+            this.charnumericUpDown6.Size = (new global::System.Drawing.Size(75, 23));
+            this.charnumericUpDown6.TabIndex = (24);
+            this.charnumericUpDown6.ValueChanged += (this.CharApply);
             // 
             // label12
             // 
-            label12.AutoSize = true;
-            label12.Location = new Point(726, 138);
-            label12.Name = "label12";
-            label12.Size = new Size(50, 15);
-            label12.TabIndex = 23;
-            label12.Text = "Position";
+            this.label12.AutoSize = (true);
+            this.label12.Location = (new global::System.Drawing.Point(726, 138));
+            this.label12.Name = ("label12");
+            this.label12.Size = (new global::System.Drawing.Size(50, 15));
+            this.label12.TabIndex = (23);
+            this.label12.Text = ("Position");
             // 
             // label11
             // 
-            label11.AutoSize = true;
-            label11.Location = new Point(642, 138);
-            label11.Name = "label11";
-            label11.Size = new Size(28, 15);
-            label11.TabIndex = 21;
-            label11.Text = "Age";
+            this.label11.AutoSize = (true);
+            this.label11.Location = (new global::System.Drawing.Point(642, 138));
+            this.label11.Name = ("label11");
+            this.label11.Size = (new global::System.Drawing.Size(28, 15));
+            this.label11.TabIndex = (21);
+            this.label11.Text = ("Age");
             // 
             // charnumericUpDown3
             // 
-            charnumericUpDown3.Location = new Point(560, 156);
-            charnumericUpDown3.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
-            charnumericUpDown3.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
-            charnumericUpDown3.Name = "charnumericUpDown3";
-            charnumericUpDown3.Size = new Size(75, 23);
-            charnumericUpDown3.TabIndex = 20;
-            charnumericUpDown3.ValueChanged += CharApply;
+            this.charnumericUpDown3.Location = (new global::System.Drawing.Point(560, 156));
+            this.charnumericUpDown3.Maximum = (new global::System.Decimal(new global::System.Int32[] { global::System.Int32.MaxValue, 0, 0, 0 }));
+            this.charnumericUpDown3.Minimum = (new global::System.Decimal(new global::System.Int32[] { global::System.Int32.MaxValue, 0, 0, global::System.Int32.MinValue }));
+            this.charnumericUpDown3.Name = ("charnumericUpDown3");
+            this.charnumericUpDown3.Size = (new global::System.Drawing.Size(75, 23));
+            this.charnumericUpDown3.TabIndex = (20);
+            this.charnumericUpDown3.ValueChanged += (this.CharApply);
             // 
             // label10
             // 
-            label10.AutoSize = true;
-            label10.Location = new Point(560, 138);
-            label10.Name = "label10";
-            label10.Size = new Size(64, 15);
-            label10.TabIndex = 19;
-            label10.Text = "Model Size";
+            this.label10.AutoSize = (true);
+            this.label10.Location = (new global::System.Drawing.Point(560, 138));
+            this.label10.Name = ("label10");
+            this.label10.Size = (new global::System.Drawing.Size(64, 15));
+            this.label10.TabIndex = (19);
+            this.label10.Text = ("Model Size");
             // 
             // charnumericUpDown4
             // 
-            charnumericUpDown4.Location = new Point(478, 156);
-            charnumericUpDown4.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
-            charnumericUpDown4.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
-            charnumericUpDown4.Name = "charnumericUpDown4";
-            charnumericUpDown4.Size = new Size(75, 23);
-            charnumericUpDown4.TabIndex = 18;
-            charnumericUpDown4.ValueChanged += CharApply;
+            this.charnumericUpDown4.Location = (new global::System.Drawing.Point(478, 156));
+            this.charnumericUpDown4.Maximum = (new global::System.Decimal(new global::System.Int32[] { global::System.Int32.MaxValue, 0, 0, 0 }));
+            this.charnumericUpDown4.Minimum = (new global::System.Decimal(new global::System.Int32[] { global::System.Int32.MaxValue, 0, 0, global::System.Int32.MinValue }));
+            this.charnumericUpDown4.Name = ("charnumericUpDown4");
+            this.charnumericUpDown4.Size = (new global::System.Drawing.Size(75, 23));
+            this.charnumericUpDown4.TabIndex = (18);
+            this.charnumericUpDown4.ValueChanged += (this.CharApply);
             // 
             // label9
             // 
-            label9.AutoSize = true;
-            label9.Location = new Point(478, 138);
-            label9.Name = "label9";
-            label9.Size = new Size(45, 15);
-            label9.TabIndex = 17;
-            label9.Text = "Gender";
+            this.label9.AutoSize = (true);
+            this.label9.Location = (new global::System.Drawing.Point(478, 138));
+            this.label9.Name = ("label9");
+            this.label9.Size = (new global::System.Drawing.Size(45, 15));
+            this.label9.TabIndex = (17);
+            this.label9.Text = ("Gender");
             // 
             // charnumericUpDown2
             // 
-            charnumericUpDown2.Location = new Point(392, 156);
-            charnumericUpDown2.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
-            charnumericUpDown2.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
-            charnumericUpDown2.Name = "charnumericUpDown2";
-            charnumericUpDown2.Size = new Size(80, 23);
-            charnumericUpDown2.TabIndex = 16;
-            charnumericUpDown2.ValueChanged += CharApply;
+            this.charnumericUpDown2.Location = (new global::System.Drawing.Point(392, 156));
+            this.charnumericUpDown2.Maximum = (new global::System.Decimal(new global::System.Int32[] { global::System.Int32.MaxValue, 0, 0, 0 }));
+            this.charnumericUpDown2.Minimum = (new global::System.Decimal(new global::System.Int32[] { global::System.Int32.MaxValue, 0, 0, global::System.Int32.MinValue }));
+            this.charnumericUpDown2.Name = ("charnumericUpDown2");
+            this.charnumericUpDown2.Size = (new global::System.Drawing.Size(80, 23));
+            this.charnumericUpDown2.TabIndex = (16);
+            this.charnumericUpDown2.ValueChanged += (this.CharApply);
             // 
             // label8
             // 
-            label8.AutoSize = true;
-            label8.Location = new Point(392, 138);
-            label8.Name = "label8";
-            label8.Size = new Size(42, 15);
-            label8.TabIndex = 15;
-            label8.Text = "Stance";
+            this.label8.AutoSize = (true);
+            this.label8.Location = (new global::System.Drawing.Point(392, 138));
+            this.label8.Name = ("label8");
+            this.label8.Size = (new global::System.Drawing.Size(42, 15));
+            this.label8.TabIndex = (15);
+            this.label8.Text = ("Stance");
             // 
             // charnumericUpDown1
             // 
-            charnumericUpDown1.Location = new Point(241, 156);
-            charnumericUpDown1.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
-            charnumericUpDown1.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
-            charnumericUpDown1.Name = "charnumericUpDown1";
-            charnumericUpDown1.Size = new Size(120, 23);
-            charnumericUpDown1.TabIndex = 14;
-            charnumericUpDown1.ValueChanged += CharApply;
+            this.charnumericUpDown1.Location = (new global::System.Drawing.Point(241, 156));
+            this.charnumericUpDown1.Maximum = (new global::System.Decimal(new global::System.Int32[] { global::System.Int32.MaxValue, 0, 0, 0 }));
+            this.charnumericUpDown1.Minimum = (new global::System.Decimal(new global::System.Int32[] { global::System.Int32.MaxValue, 0, 0, global::System.Int32.MinValue }));
+            this.charnumericUpDown1.Name = ("charnumericUpDown1");
+            this.charnumericUpDown1.Size = (new global::System.Drawing.Size(120, 23));
+            this.charnumericUpDown1.TabIndex = (14);
+            this.charnumericUpDown1.ValueChanged += (this.CharApply);
             // 
             // label7
             // 
-            label7.AutoSize = true;
-            label7.Location = new Point(241, 138);
-            label7.Name = "label7";
-            label7.Size = new Size(75, 15);
-            label7.TabIndex = 13;
-            label7.Text = "Unknown Int";
+            this.label7.AutoSize = (true);
+            this.label7.Location = (new global::System.Drawing.Point(241, 138));
+            this.label7.Name = ("label7");
+            this.label7.Size = (new global::System.Drawing.Size(75, 15));
+            this.label7.TabIndex = (13);
+            this.label7.Text = ("Unknown Int");
             // 
             // chartextBox6
             // 
-            chartextBox6.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            chartextBox6.Location = new Point(241, 289);
-            chartextBox6.MaxLength = 15;
-            chartextBox6.Name = "chartextBox6";
-            chartextBox6.Size = new Size(694, 23);
-            chartextBox6.TabIndex = 12;
-            chartextBox6.TextChanged += CharApply;
+            this.chartextBox6.Anchor = ((global::System.Windows.Forms.AnchorStyles)(((global::System.Windows.Forms.AnchorStyles.Top) | (global::System.Windows.Forms.AnchorStyles.Left)) | (global::System.Windows.Forms.AnchorStyles.Right)));
+            this.chartextBox6.Location = (new global::System.Drawing.Point(241, 289));
+            this.chartextBox6.MaxLength = (15);
+            this.chartextBox6.Name = ("chartextBox6");
+            this.chartextBox6.Size = (new global::System.Drawing.Size(694, 23));
+            this.chartextBox6.TabIndex = (12);
+            this.chartextBox6.TextChanged += (this.CharApply);
             // 
             // label6
             // 
-            label6.AutoSize = true;
-            label6.Location = new Point(241, 271);
-            label6.Name = "label6";
-            label6.Size = new Size(65, 15);
-            label6.TabIndex = 11;
-            label6.Text = "Nationality";
+            this.label6.AutoSize = (true);
+            this.label6.Location = (new global::System.Drawing.Point(241, 271));
+            this.label6.Name = ("label6");
+            this.label6.Size = (new global::System.Drawing.Size(65, 15));
+            this.label6.TabIndex = (11);
+            this.label6.Text = ("Nationality");
             // 
             // chartextBox5
             // 
-            chartextBox5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            chartextBox5.Location = new Point(241, 245);
-            chartextBox5.MaxLength = 15;
-            chartextBox5.Name = "chartextBox5";
-            chartextBox5.Size = new Size(694, 23);
-            chartextBox5.TabIndex = 10;
-            chartextBox5.TextChanged += CharApply;
+            this.chartextBox5.Anchor = ((global::System.Windows.Forms.AnchorStyles)(((global::System.Windows.Forms.AnchorStyles.Top) | (global::System.Windows.Forms.AnchorStyles.Left)) | (global::System.Windows.Forms.AnchorStyles.Right)));
+            this.chartextBox5.Location = (new global::System.Drawing.Point(241, 245));
+            this.chartextBox5.MaxLength = (15);
+            this.chartextBox5.Name = ("chartextBox5");
+            this.chartextBox5.Size = (new global::System.Drawing.Size(694, 23));
+            this.chartextBox5.TabIndex = (10);
+            this.chartextBox5.TextChanged += (this.CharApply);
             // 
             // label5
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(241, 227);
-            label5.Name = "label5";
-            label5.Size = new Size(43, 15);
-            label5.TabIndex = 9;
-            label5.Text = "Height";
+            this.label5.AutoSize = (true);
+            this.label5.Location = (new global::System.Drawing.Point(241, 227));
+            this.label5.Name = ("label5");
+            this.label5.Size = (new global::System.Drawing.Size(43, 15));
+            this.label5.TabIndex = (9);
+            this.label5.Text = ("Height");
             // 
             // chartextBox4
             // 
-            chartextBox4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            chartextBox4.Location = new Point(241, 200);
-            chartextBox4.MaxLength = 15;
-            chartextBox4.Name = "chartextBox4";
-            chartextBox4.Size = new Size(694, 23);
-            chartextBox4.TabIndex = 8;
-            chartextBox4.TextChanged += CharApply;
+            this.chartextBox4.Anchor = ((global::System.Windows.Forms.AnchorStyles)(((global::System.Windows.Forms.AnchorStyles.Top) | (global::System.Windows.Forms.AnchorStyles.Left)) | (global::System.Windows.Forms.AnchorStyles.Right)));
+            this.chartextBox4.Location = (new global::System.Drawing.Point(241, 200));
+            this.chartextBox4.MaxLength = (15);
+            this.chartextBox4.Name = ("chartextBox4");
+            this.chartextBox4.Size = (new global::System.Drawing.Size(694, 23));
+            this.chartextBox4.TabIndex = (8);
+            this.chartextBox4.TextChanged += (this.CharApply);
             // 
             // label4
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(241, 182);
-            label4.Name = "label4";
-            label4.Size = new Size(65, 15);
-            label4.TabIndex = 7;
-            label4.Text = "Blood Type";
+            this.label4.AutoSize = (true);
+            this.label4.Location = (new global::System.Drawing.Point(241, 182));
+            this.label4.Name = ("label4");
+            this.label4.Size = (new global::System.Drawing.Size(65, 15));
+            this.label4.TabIndex = (7);
+            this.label4.Text = ("Blood Type");
             // 
             // chartextBox3
             // 
-            chartextBox3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            chartextBox3.Location = new Point(241, 112);
-            chartextBox3.MaxLength = 15;
-            chartextBox3.Name = "chartextBox3";
-            chartextBox3.Size = new Size(694, 23);
-            chartextBox3.TabIndex = 6;
-            chartextBox3.Click += CharApply;
-            chartextBox3.TextChanged += CharApply;
+            this.chartextBox3.Anchor = ((global::System.Windows.Forms.AnchorStyles)(((global::System.Windows.Forms.AnchorStyles.Top) | (global::System.Windows.Forms.AnchorStyles.Left)) | (global::System.Windows.Forms.AnchorStyles.Right)));
+            this.chartextBox3.Location = (new global::System.Drawing.Point(241, 112));
+            this.chartextBox3.MaxLength = (15);
+            this.chartextBox3.Name = ("chartextBox3");
+            this.chartextBox3.Size = (new global::System.Drawing.Size(694, 23));
+            this.chartextBox3.TabIndex = (6);
+            this.chartextBox3.Click += (this.CharApply);
+            this.chartextBox3.TextChanged += (this.CharApply);
             // 
             // label3
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(241, 94);
-            label3.Name = "label3";
-            label3.Size = new Size(61, 15);
-            label3.TabIndex = 5;
-            label3.Text = "Nickname";
+            this.label3.AutoSize = (true);
+            this.label3.Location = (new global::System.Drawing.Point(241, 94));
+            this.label3.Name = ("label3");
+            this.label3.Size = (new global::System.Drawing.Size(61, 15));
+            this.label3.TabIndex = (5);
+            this.label3.Text = ("Nickname");
             // 
             // chartextBox2
             // 
-            chartextBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            chartextBox2.Location = new Point(241, 68);
-            chartextBox2.MaxLength = 15;
-            chartextBox2.Name = "chartextBox2";
-            chartextBox2.Size = new Size(694, 23);
-            chartextBox2.TabIndex = 4;
-            chartextBox2.Click += CharApply;
-            chartextBox2.TextChanged += CharApply;
+            this.chartextBox2.Anchor = ((global::System.Windows.Forms.AnchorStyles)(((global::System.Windows.Forms.AnchorStyles.Top) | (global::System.Windows.Forms.AnchorStyles.Left)) | (global::System.Windows.Forms.AnchorStyles.Right)));
+            this.chartextBox2.Location = (new global::System.Drawing.Point(241, 68));
+            this.chartextBox2.MaxLength = (15);
+            this.chartextBox2.Name = ("chartextBox2");
+            this.chartextBox2.Size = (new global::System.Drawing.Size(694, 23));
+            this.chartextBox2.TabIndex = (4);
+            this.chartextBox2.Click += (this.CharApply);
+            this.chartextBox2.TextChanged += (this.CharApply);
             // 
             // label2
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(241, 50);
-            label2.Name = "label2";
-            label2.Size = new Size(80, 15);
-            label2.TabIndex = 3;
-            label2.Text = "Display Name";
+            this.label2.AutoSize = (true);
+            this.label2.Location = (new global::System.Drawing.Point(241, 50));
+            this.label2.Name = ("label2");
+            this.label2.Size = (new global::System.Drawing.Size(80, 15));
+            this.label2.TabIndex = (3);
+            this.label2.Text = ("Display Name");
             // 
             // chartextBox1
             // 
-            chartextBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            chartextBox1.Location = new Point(241, 24);
-            chartextBox1.MaxLength = 31;
-            chartextBox1.Name = "chartextBox1";
-            chartextBox1.Size = new Size(694, 23);
-            chartextBox1.TabIndex = 2;
-            chartextBox1.Click += CharApply;
-            chartextBox1.TextChanged += CharApply;
+            this.chartextBox1.Anchor = ((global::System.Windows.Forms.AnchorStyles)(((global::System.Windows.Forms.AnchorStyles.Top) | (global::System.Windows.Forms.AnchorStyles.Left)) | (global::System.Windows.Forms.AnchorStyles.Right)));
+            this.chartextBox1.Location = (new global::System.Drawing.Point(241, 24));
+            this.chartextBox1.MaxLength = (31);
+            this.chartextBox1.Name = ("chartextBox1");
+            this.chartextBox1.Size = (new global::System.Drawing.Size(694, 23));
+            this.chartextBox1.TabIndex = (2);
+            this.chartextBox1.Click += (this.CharApply);
+            this.chartextBox1.TextChanged += (this.CharApply);
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(241, 6);
-            label1.Name = "label1";
-            label1.Size = new Size(69, 15);
-            label1.TabIndex = 1;
-            label1.Text = "Long Name";
+            this.label1.AutoSize = (true);
+            this.label1.Location = (new global::System.Drawing.Point(241, 6));
+            this.label1.Name = ("label1");
+            this.label1.Size = (new global::System.Drawing.Size(69, 15));
+            this.label1.TabIndex = (1);
+            this.label1.Text = ("Long Name");
             // 
             // charBox1
             // 
-            charBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            charBox1.FormattingEnabled = true;
-            charBox1.ItemHeight = 15;
-            charBox1.Location = new Point(6, 6);
-            charBox1.Name = "charBox1";
-            charBox1.Size = new Size(229, 514);
-            charBox1.TabIndex = 0;
-            charBox1.SelectedIndexChanged += charBox1_SelectedIndexChanged;
+            this.charBox1.Anchor = ((global::System.Windows.Forms.AnchorStyles)(((global::System.Windows.Forms.AnchorStyles.Top) | (global::System.Windows.Forms.AnchorStyles.Bottom)) | (global::System.Windows.Forms.AnchorStyles.Left)));
+            this.charBox1.FormattingEnabled = (true);
+            this.charBox1.ItemHeight = (15);
+            this.charBox1.Location = (new global::System.Drawing.Point(6, 6));
+            this.charBox1.Name = ("charBox1");
+            this.charBox1.Size = (new global::System.Drawing.Size(229, 514));
+            this.charBox1.TabIndex = (0);
+            this.charBox1.SelectedIndexChanged += (this.charBox1_SelectedIndexChanged);
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(MusINFnumericUpDown12);
-            tabPage2.Controls.Add(label56);
-            tabPage2.Controls.Add(MusINFnumericUpDown11);
-            tabPage2.Controls.Add(label55);
-            tabPage2.Controls.Add(MusINFnumericUpDown5);
-            tabPage2.Controls.Add(label54);
-            tabPage2.Controls.Add(MusINFnumericUpDown4);
-            tabPage2.Controls.Add(label53);
-            tabPage2.Controls.Add(MusINFnumericUpDown3);
-            tabPage2.Controls.Add(label52);
-            tabPage2.Controls.Add(MusINFnumericUpDown2);
-            tabPage2.Controls.Add(label51);
-            tabPage2.Controls.Add(MusINFnumericUpDown10);
-            tabPage2.Controls.Add(label50);
-            tabPage2.Controls.Add(MusINFnumericUpDown9);
-            tabPage2.Controls.Add(label49);
-            tabPage2.Controls.Add(MusINFnumericUpDown8);
-            tabPage2.Controls.Add(label48);
-            tabPage2.Controls.Add(MusINFnumericUpDown7);
-            tabPage2.Controls.Add(label47);
-            tabPage2.Controls.Add(MusINFnumericUpDown6);
-            tabPage2.Controls.Add(label46);
-            tabPage2.Controls.Add(MusicLoopData);
-            tabPage2.Controls.Add(label45);
-            tabPage2.Controls.Add(MusINFnumericUpDown1);
-            tabPage2.Controls.Add(label44);
-            tabPage2.Controls.Add(MusnumericUpDown0);
-            tabPage2.Controls.Add(label43);
-            tabPage2.Controls.Add(MuscheckBox5);
-            tabPage2.Controls.Add(MuscheckBox4);
-            tabPage2.Controls.Add(MuscheckBox3);
-            tabPage2.Controls.Add(MuscheckBox2);
-            tabPage2.Controls.Add(MuscheckBox1);
-            tabPage2.Controls.Add(MusicDataBox);
-            tabPage2.Controls.Add(label42);
-            tabPage2.Controls.Add(MusicPathDataBox);
-            tabPage2.Controls.Add(label41);
-            tabPage2.Controls.Add(MusicAlbumBox);
-            tabPage2.Controls.Add(label40);
-            tabPage2.Controls.Add(MusicArtistBox);
-            tabPage2.Controls.Add(label39);
-            tabPage2.Controls.Add(MusicTitleBox);
-            tabPage2.Controls.Add(label38);
-            tabPage2.Controls.Add(MusicID);
-            tabPage2.Controls.Add(label37);
-            tabPage2.Controls.Add(MusicLoad);
-            tabPage2.Controls.Add(button3);
-            tabPage2.Controls.Add(button2);
-            tabPage2.Controls.Add(button1);
-            tabPage2.Controls.Add(musiclistBox1);
-            tabPage2.Location = new Point(4, 24);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(941, 528);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "Music Config";
-            tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown12);
+            this.tabPage2.Controls.Add(this.label56);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown11);
+            this.tabPage2.Controls.Add(this.label55);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown5);
+            this.tabPage2.Controls.Add(this.label54);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown4);
+            this.tabPage2.Controls.Add(this.label53);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown3);
+            this.tabPage2.Controls.Add(this.label52);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown2);
+            this.tabPage2.Controls.Add(this.label51);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown10);
+            this.tabPage2.Controls.Add(this.label50);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown9);
+            this.tabPage2.Controls.Add(this.label49);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown8);
+            this.tabPage2.Controls.Add(this.label48);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown7);
+            this.tabPage2.Controls.Add(this.label47);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown6);
+            this.tabPage2.Controls.Add(this.label46);
+            this.tabPage2.Controls.Add(this.MusicLoopData);
+            this.tabPage2.Controls.Add(this.label45);
+            this.tabPage2.Controls.Add(this.MusINFnumericUpDown1);
+            this.tabPage2.Controls.Add(this.label44);
+            this.tabPage2.Controls.Add(this.MusnumericUpDown0);
+            this.tabPage2.Controls.Add(this.label43);
+            this.tabPage2.Controls.Add(this.MuscheckBox5);
+            this.tabPage2.Controls.Add(this.MuscheckBox4);
+            this.tabPage2.Controls.Add(this.MuscheckBox3);
+            this.tabPage2.Controls.Add(this.MuscheckBox2);
+            this.tabPage2.Controls.Add(this.MuscheckBox1);
+            this.tabPage2.Controls.Add(this.MusicDataBox);
+            this.tabPage2.Controls.Add(this.label42);
+            this.tabPage2.Controls.Add(this.MusicPathDataBox);
+            this.tabPage2.Controls.Add(this.label41);
+            this.tabPage2.Controls.Add(this.MusicAlbumBox);
+            this.tabPage2.Controls.Add(this.label40);
+            this.tabPage2.Controls.Add(this.MusicArtistBox);
+            this.tabPage2.Controls.Add(this.label39);
+            this.tabPage2.Controls.Add(this.MusicTitleBox);
+            this.tabPage2.Controls.Add(this.label38);
+            this.tabPage2.Controls.Add(this.MusicID);
+            this.tabPage2.Controls.Add(this.label37);
+            this.tabPage2.Controls.Add(this.MusicLoad);
+            this.tabPage2.Controls.Add(this.button3);
+            this.tabPage2.Controls.Add(this.button2);
+            this.tabPage2.Controls.Add(this.button1);
+            this.tabPage2.Controls.Add(this.musiclistBox1);
+            this.tabPage2.Location = (new global::System.Drawing.Point(4, 24));
+            this.tabPage2.Name = ("tabPage2");
+            this.tabPage2.Padding = (new global::System.Windows.Forms.Padding(3));
+            this.tabPage2.Size = (new global::System.Drawing.Size(941, 528));
+            this.tabPage2.TabIndex = (1);
+            this.tabPage2.Text = ("Music Config");
+            this.tabPage2.UseVisualStyleBackColor = (true);
             // 
             // MusINFnumericUpDown12
             // 
-            MusINFnumericUpDown12.Location = new Point(605, 244);
-            MusINFnumericUpDown12.Maximum = new decimal(new int[] { 100000000, 0, 0, 0 });
-            MusINFnumericUpDown12.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            MusINFnumericUpDown12.Name = "MusINFnumericUpDown12";
-            MusINFnumericUpDown12.Size = new Size(120, 23);
-            MusINFnumericUpDown12.TabIndex = 49;
-            MusINFnumericUpDown12.ValueChanged += MusUpdate;
+            this.MusINFnumericUpDown12.Location = (new global::System.Drawing.Point(605, 244));
+            this.MusINFnumericUpDown12.Maximum = (new global::System.Decimal(new global::System.Int32[] { 100000000, 0, 0, 0 }));
+            this.MusINFnumericUpDown12.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.MusINFnumericUpDown12.Name = ("MusINFnumericUpDown12");
+            this.MusINFnumericUpDown12.Size = (new global::System.Drawing.Size(120, 23));
+            this.MusINFnumericUpDown12.TabIndex = (49);
+            this.MusINFnumericUpDown12.ValueChanged += (this.MusUpdate);
             // 
             // label56
             // 
-            label56.AutoSize = true;
-            label56.Location = new Point(605, 226);
-            label56.Name = "label56";
-            label56.Size = new Size(79, 15);
-            label56.TabIndex = 48;
-            label56.Text = "Duck To Loop";
+            this.label56.AutoSize = (true);
+            this.label56.Location = (new global::System.Drawing.Point(605, 226));
+            this.label56.Name = ("label56");
+            this.label56.Size = (new global::System.Drawing.Size(79, 15));
+            this.label56.TabIndex = (48);
+            this.label56.Text = ("Duck To Loop");
             // 
             // MusINFnumericUpDown11
             // 
-            MusINFnumericUpDown11.Location = new Point(605, 200);
-            MusINFnumericUpDown11.Maximum = new decimal(new int[] { 100000000, 0, 0, 0 });
-            MusINFnumericUpDown11.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            MusINFnumericUpDown11.Name = "MusINFnumericUpDown11";
-            MusINFnumericUpDown11.Size = new Size(120, 23);
-            MusINFnumericUpDown11.TabIndex = 47;
-            MusINFnumericUpDown11.ValueChanged += MusUpdate;
+            this.MusINFnumericUpDown11.Location = (new global::System.Drawing.Point(605, 200));
+            this.MusINFnumericUpDown11.Maximum = (new global::System.Decimal(new global::System.Int32[] { 100000000, 0, 0, 0 }));
+            this.MusINFnumericUpDown11.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.MusINFnumericUpDown11.Name = ("MusINFnumericUpDown11");
+            this.MusINFnumericUpDown11.Size = (new global::System.Drawing.Size(120, 23));
+            this.MusINFnumericUpDown11.TabIndex = (47);
+            this.MusINFnumericUpDown11.ValueChanged += (this.MusUpdate);
             // 
             // label55
             // 
-            label55.AutoSize = true;
-            label55.Location = new Point(605, 182);
-            label55.Name = "label55";
-            label55.Size = new Size(51, 15);
-            label55.TabIndex = 46;
-            label55.Text = "Songbig";
+            this.label55.AutoSize = (true);
+            this.label55.Location = (new global::System.Drawing.Point(605, 182));
+            this.label55.Name = ("label55");
+            this.label55.Size = (new global::System.Drawing.Size(51, 15));
+            this.label55.TabIndex = (46);
+            this.label55.Text = ("Songbig");
             // 
             // MusINFnumericUpDown5
             // 
-            MusINFnumericUpDown5.Location = new Point(605, 156);
-            MusINFnumericUpDown5.Maximum = new decimal(new int[] { 100000000, 0, 0, 0 });
-            MusINFnumericUpDown5.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            MusINFnumericUpDown5.Name = "MusINFnumericUpDown5";
-            MusINFnumericUpDown5.Size = new Size(120, 23);
-            MusINFnumericUpDown5.TabIndex = 45;
-            MusINFnumericUpDown5.ValueChanged += MusUpdate;
+            this.MusINFnumericUpDown5.Location = (new global::System.Drawing.Point(605, 156));
+            this.MusINFnumericUpDown5.Maximum = (new global::System.Decimal(new global::System.Int32[] { 100000000, 0, 0, 0 }));
+            this.MusINFnumericUpDown5.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.MusINFnumericUpDown5.Name = ("MusINFnumericUpDown5");
+            this.MusINFnumericUpDown5.Size = (new global::System.Drawing.Size(120, 23));
+            this.MusINFnumericUpDown5.TabIndex = (45);
+            this.MusINFnumericUpDown5.ValueChanged += (this.MusUpdate);
             // 
             // label54
             // 
-            label54.AutoSize = true;
-            label54.Location = new Point(605, 138);
-            label54.Name = "label54";
-            label54.Size = new Size(48, 15);
-            label54.TabIndex = 44;
-            label54.Text = "Preview";
+            this.label54.AutoSize = (true);
+            this.label54.Location = (new global::System.Drawing.Point(605, 138));
+            this.label54.Name = ("label54");
+            this.label54.Size = (new global::System.Drawing.Size(48, 15));
+            this.label54.TabIndex = (44);
+            this.label54.Text = ("Preview");
             // 
             // MusINFnumericUpDown4
             // 
-            MusINFnumericUpDown4.Location = new Point(605, 112);
-            MusINFnumericUpDown4.Maximum = new decimal(new int[] { 100000000, 0, 0, 0 });
-            MusINFnumericUpDown4.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            MusINFnumericUpDown4.Name = "MusINFnumericUpDown4";
-            MusINFnumericUpDown4.Size = new Size(120, 23);
-            MusINFnumericUpDown4.TabIndex = 43;
-            MusINFnumericUpDown4.ValueChanged += MusUpdate;
+            this.MusINFnumericUpDown4.Location = (new global::System.Drawing.Point(605, 112));
+            this.MusINFnumericUpDown4.Maximum = (new global::System.Decimal(new global::System.Int32[] { 100000000, 0, 0, 0 }));
+            this.MusINFnumericUpDown4.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.MusINFnumericUpDown4.Name = ("MusINFnumericUpDown4");
+            this.MusINFnumericUpDown4.Size = (new global::System.Drawing.Size(120, 23));
+            this.MusINFnumericUpDown4.TabIndex = (43);
+            this.MusINFnumericUpDown4.ValueChanged += (this.MusUpdate);
             // 
             // label53
             // 
-            label53.AutoSize = true;
-            label53.Location = new Point(605, 94);
-            label53.Name = "label53";
-            label53.Size = new Size(52, 15);
-            label53.TabIndex = 42;
-            label53.Text = "Lowpass";
+            this.label53.AutoSize = (true);
+            this.label53.Location = (new global::System.Drawing.Point(605, 94));
+            this.label53.Name = ("label53");
+            this.label53.Size = (new global::System.Drawing.Size(52, 15));
+            this.label53.TabIndex = (42);
+            this.label53.Text = ("Lowpass");
             // 
             // MusINFnumericUpDown3
             // 
-            MusINFnumericUpDown3.Location = new Point(605, 68);
-            MusINFnumericUpDown3.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
-            MusINFnumericUpDown3.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            MusINFnumericUpDown3.Name = "MusINFnumericUpDown3";
-            MusINFnumericUpDown3.Size = new Size(120, 23);
-            MusINFnumericUpDown3.TabIndex = 41;
-            MusINFnumericUpDown3.ValueChanged += MusUpdate;
+            this.MusINFnumericUpDown3.Location = (new global::System.Drawing.Point(605, 68));
+            this.MusINFnumericUpDown3.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000, 0, 0, 0 }));
+            this.MusINFnumericUpDown3.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.MusINFnumericUpDown3.Name = ("MusINFnumericUpDown3");
+            this.MusINFnumericUpDown3.Size = (new global::System.Drawing.Size(120, 23));
+            this.MusINFnumericUpDown3.TabIndex = (41);
+            this.MusINFnumericUpDown3.ValueChanged += (this.MusUpdate);
             // 
             // label52
             // 
-            label52.AutoSize = true;
-            label52.Location = new Point(605, 50);
-            label52.Name = "label52";
-            label52.Size = new Size(47, 15);
-            label52.TabIndex = 40;
-            label52.Text = "DJ Intro";
+            this.label52.AutoSize = (true);
+            this.label52.Location = (new global::System.Drawing.Point(605, 50));
+            this.label52.Name = ("label52");
+            this.label52.Size = (new global::System.Drawing.Size(47, 15));
+            this.label52.TabIndex = (40);
+            this.label52.Text = ("DJ Intro");
             // 
             // MusINFnumericUpDown2
             // 
-            MusINFnumericUpDown2.Location = new Point(605, 24);
-            MusINFnumericUpDown2.Maximum = new decimal(new int[] { 100000000, 0, 0, 0 });
-            MusINFnumericUpDown2.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            MusINFnumericUpDown2.Name = "MusINFnumericUpDown2";
-            MusINFnumericUpDown2.Size = new Size(120, 23);
-            MusINFnumericUpDown2.TabIndex = 39;
-            MusINFnumericUpDown2.ValueChanged += MusUpdate;
+            this.MusINFnumericUpDown2.Location = (new global::System.Drawing.Point(605, 24));
+            this.MusINFnumericUpDown2.Maximum = (new global::System.Decimal(new global::System.Int32[] { 100000000, 0, 0, 0 }));
+            this.MusINFnumericUpDown2.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.MusINFnumericUpDown2.Name = ("MusINFnumericUpDown2");
+            this.MusINFnumericUpDown2.Size = (new global::System.Drawing.Size(120, 23));
+            this.MusINFnumericUpDown2.TabIndex = (39);
+            this.MusINFnumericUpDown2.ValueChanged += (this.MusUpdate);
             // 
             // label51
             // 
-            label51.AutoSize = true;
-            label51.Location = new Point(605, 6);
-            label51.Name = "label51";
-            label51.Size = new Size(32, 15);
-            label51.TabIndex = 38;
-            label51.Text = "BPM";
+            this.label51.AutoSize = (true);
+            this.label51.Location = (new global::System.Drawing.Point(605, 6));
+            this.label51.Name = ("label51");
+            this.label51.Size = (new global::System.Drawing.Size(32, 15));
+            this.label51.TabIndex = (38);
+            this.label51.Text = ("BPM");
             // 
             // MusINFnumericUpDown10
             // 
-            MusINFnumericUpDown10.Location = new Point(461, 288);
-            MusINFnumericUpDown10.Maximum = new decimal(new int[] { 100000000, 0, 0, 0 });
-            MusINFnumericUpDown10.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            MusINFnumericUpDown10.Name = "MusINFnumericUpDown10";
-            MusINFnumericUpDown10.Size = new Size(120, 23);
-            MusINFnumericUpDown10.TabIndex = 37;
-            MusINFnumericUpDown10.ValueChanged += MusUpdate;
+            this.MusINFnumericUpDown10.Location = (new global::System.Drawing.Point(461, 288));
+            this.MusINFnumericUpDown10.Maximum = (new global::System.Decimal(new global::System.Int32[] { 100000000, 0, 0, 0 }));
+            this.MusINFnumericUpDown10.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.MusINFnumericUpDown10.Name = ("MusINFnumericUpDown10");
+            this.MusINFnumericUpDown10.Size = (new global::System.Drawing.Size(120, 23));
+            this.MusINFnumericUpDown10.TabIndex = (37);
+            this.MusINFnumericUpDown10.ValueChanged += (this.MusUpdate);
             // 
             // label50
             // 
-            label50.AutoSize = true;
-            label50.Location = new Point(461, 270);
-            label50.Name = "label50";
-            label50.Size = new Size(85, 15);
-            label50.TabIndex = 36;
-            label50.Text = "Big Air Volume";
+            this.label50.AutoSize = (true);
+            this.label50.Location = (new global::System.Drawing.Point(461, 270));
+            this.label50.Name = ("label50");
+            this.label50.Size = (new global::System.Drawing.Size(85, 15));
+            this.label50.TabIndex = (36);
+            this.label50.Text = ("Big Air Volume");
             // 
             // MusINFnumericUpDown9
             // 
-            MusINFnumericUpDown9.Location = new Point(461, 244);
-            MusINFnumericUpDown9.Maximum = new decimal(new int[] { 100000000, 0, 0, 0 });
-            MusINFnumericUpDown9.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            MusINFnumericUpDown9.Name = "MusINFnumericUpDown9";
-            MusINFnumericUpDown9.Size = new Size(120, 23);
-            MusINFnumericUpDown9.TabIndex = 35;
-            MusINFnumericUpDown9.ValueChanged += MusUpdate;
+            this.MusINFnumericUpDown9.Location = (new global::System.Drawing.Point(461, 244));
+            this.MusINFnumericUpDown9.Maximum = (new global::System.Decimal(new global::System.Int32[] { 100000000, 0, 0, 0 }));
+            this.MusINFnumericUpDown9.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.MusINFnumericUpDown9.Name = ("MusINFnumericUpDown9");
+            this.MusINFnumericUpDown9.Size = (new global::System.Drawing.Size(120, 23));
+            this.MusINFnumericUpDown9.TabIndex = (35);
+            this.MusINFnumericUpDown9.ValueChanged += (this.MusUpdate);
             // 
             // label49
             // 
-            label49.AutoSize = true;
-            label49.Location = new Point(461, 226);
-            label49.Name = "label49";
-            label49.Size = new Size(47, 15);
-            label49.TabIndex = 34;
-            label49.Text = "Volume";
+            this.label49.AutoSize = (true);
+            this.label49.Location = (new global::System.Drawing.Point(461, 226));
+            this.label49.Name = ("label49");
+            this.label49.Size = (new global::System.Drawing.Size(47, 15));
+            this.label49.TabIndex = (34);
+            this.label49.Text = ("Volume");
             // 
             // MusINFnumericUpDown8
             // 
-            MusINFnumericUpDown8.Location = new Point(461, 200);
-            MusINFnumericUpDown8.Maximum = new decimal(new int[] { 100000000, 0, 0, 0 });
-            MusINFnumericUpDown8.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            MusINFnumericUpDown8.Name = "MusINFnumericUpDown8";
-            MusINFnumericUpDown8.Size = new Size(120, 23);
-            MusINFnumericUpDown8.TabIndex = 33;
-            MusINFnumericUpDown8.ValueChanged += MusUpdate;
+            this.MusINFnumericUpDown8.Location = (new global::System.Drawing.Point(461, 200));
+            this.MusINFnumericUpDown8.Maximum = (new global::System.Decimal(new global::System.Int32[] { 100000000, 0, 0, 0 }));
+            this.MusINFnumericUpDown8.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.MusINFnumericUpDown8.Name = ("MusINFnumericUpDown8");
+            this.MusINFnumericUpDown8.Size = (new global::System.Drawing.Size(120, 23));
+            this.MusINFnumericUpDown8.TabIndex = (33);
+            this.MusINFnumericUpDown8.ValueChanged += (this.MusUpdate);
             // 
             // label48
             // 
-            label48.AutoSize = true;
-            label48.Location = new Point(461, 182);
-            label48.Name = "label48";
-            label48.Size = new Size(96, 15);
-            label48.TabIndex = 32;
-            label48.Text = "Beats Per Phrase ";
+            this.label48.AutoSize = (true);
+            this.label48.Location = (new global::System.Drawing.Point(461, 182));
+            this.label48.Name = ("label48");
+            this.label48.Size = (new global::System.Drawing.Size(96, 15));
+            this.label48.TabIndex = (32);
+            this.label48.Text = ("Beats Per Phrase ");
             // 
             // MusINFnumericUpDown7
             // 
-            MusINFnumericUpDown7.Location = new Point(461, 156);
-            MusINFnumericUpDown7.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            MusINFnumericUpDown7.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            MusINFnumericUpDown7.Name = "MusINFnumericUpDown7";
-            MusINFnumericUpDown7.Size = new Size(120, 23);
-            MusINFnumericUpDown7.TabIndex = 31;
-            MusINFnumericUpDown7.ValueChanged += MusUpdate;
+            this.MusINFnumericUpDown7.Location = (new global::System.Drawing.Point(461, 156));
+            this.MusINFnumericUpDown7.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.MusINFnumericUpDown7.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.MusINFnumericUpDown7.Name = ("MusINFnumericUpDown7");
+            this.MusINFnumericUpDown7.Size = (new global::System.Drawing.Size(120, 23));
+            this.MusINFnumericUpDown7.TabIndex = (31);
+            this.MusINFnumericUpDown7.ValueChanged += (this.MusUpdate);
             // 
             // label47
             // 
-            label47.AutoSize = true;
-            label47.Location = new Point(461, 138);
-            label47.Name = "label47";
-            label47.Size = new Size(96, 15);
-            label47.TabIndex = 30;
-            label47.Text = "Phrases Per Bank";
+            this.label47.AutoSize = (true);
+            this.label47.Location = (new global::System.Drawing.Point(461, 138));
+            this.label47.Name = ("label47");
+            this.label47.Size = (new global::System.Drawing.Size(96, 15));
+            this.label47.TabIndex = (30);
+            this.label47.Text = ("Phrases Per Bank");
             // 
             // MusINFnumericUpDown6
             // 
-            MusINFnumericUpDown6.Location = new Point(461, 112);
-            MusINFnumericUpDown6.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            MusINFnumericUpDown6.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            MusINFnumericUpDown6.Name = "MusINFnumericUpDown6";
-            MusINFnumericUpDown6.Size = new Size(120, 23);
-            MusINFnumericUpDown6.TabIndex = 29;
-            MusINFnumericUpDown6.ValueChanged += MusUpdate;
+            this.MusINFnumericUpDown6.Location = (new global::System.Drawing.Point(461, 112));
+            this.MusINFnumericUpDown6.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.MusINFnumericUpDown6.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.MusINFnumericUpDown6.Name = ("MusINFnumericUpDown6");
+            this.MusINFnumericUpDown6.Size = (new global::System.Drawing.Size(120, 23));
+            this.MusINFnumericUpDown6.TabIndex = (29);
+            this.MusINFnumericUpDown6.ValueChanged += (this.MusUpdate);
             // 
             // label46
             // 
-            label46.AutoSize = true;
-            label46.Location = new Point(461, 94);
-            label46.Name = "label46";
-            label46.Size = new Size(94, 15);
-            label46.TabIndex = 28;
-            label46.Text = "Measures PerBar";
+            this.label46.AutoSize = (true);
+            this.label46.Location = (new global::System.Drawing.Point(461, 94));
+            this.label46.Name = ("label46");
+            this.label46.Size = (new global::System.Drawing.Size(94, 15));
+            this.label46.TabIndex = (28);
+            this.label46.Text = ("Measures PerBar");
             // 
             // MusicLoopData
             // 
-            MusicLoopData.Location = new Point(209, 288);
-            MusicLoopData.Name = "MusicLoopData";
-            MusicLoopData.Size = new Size(246, 23);
-            MusicLoopData.TabIndex = 27;
-            MusicLoopData.Click += MusUpdate;
+            this.MusicLoopData.Location = (new global::System.Drawing.Point(209, 288));
+            this.MusicLoopData.Name = ("MusicLoopData");
+            this.MusicLoopData.Size = (new global::System.Drawing.Size(246, 23));
+            this.MusicLoopData.TabIndex = (27);
+            this.MusicLoopData.Click += (this.MusUpdate);
             // 
             // label45
             // 
-            label45.AutoSize = true;
-            label45.Location = new Point(209, 270);
-            label45.Name = "label45";
-            label45.Size = new Size(61, 15);
-            label45.TabIndex = 26;
-            label45.Text = "Loop Data";
+            this.label45.AutoSize = (true);
+            this.label45.Location = (new global::System.Drawing.Point(209, 270));
+            this.label45.Name = ("label45");
+            this.label45.Size = (new global::System.Drawing.Size(61, 15));
+            this.label45.TabIndex = (26);
+            this.label45.Text = ("Loop Data");
             // 
             // MusINFnumericUpDown1
             // 
-            MusINFnumericUpDown1.Location = new Point(461, 68);
-            MusINFnumericUpDown1.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            MusINFnumericUpDown1.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            MusINFnumericUpDown1.Name = "MusINFnumericUpDown1";
-            MusINFnumericUpDown1.Size = new Size(120, 23);
-            MusINFnumericUpDown1.TabIndex = 25;
-            MusINFnumericUpDown1.ValueChanged += MusUpdate;
+            this.MusINFnumericUpDown1.Location = (new global::System.Drawing.Point(461, 68));
+            this.MusINFnumericUpDown1.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.MusINFnumericUpDown1.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.MusINFnumericUpDown1.Name = ("MusINFnumericUpDown1");
+            this.MusINFnumericUpDown1.Size = (new global::System.Drawing.Size(120, 23));
+            this.MusINFnumericUpDown1.TabIndex = (25);
+            this.MusINFnumericUpDown1.ValueChanged += (this.MusUpdate);
             // 
             // label44
             // 
-            label44.AutoSize = true;
-            label44.Location = new Point(461, 50);
-            label44.Name = "label44";
-            label44.Size = new Size(103, 15);
-            label44.TabIndex = 24;
-            label44.Text = "Beats Per Measure";
+            this.label44.AutoSize = (true);
+            this.label44.Location = (new global::System.Drawing.Point(461, 50));
+            this.label44.Name = ("label44");
+            this.label44.Size = (new global::System.Drawing.Size(103, 15));
+            this.label44.TabIndex = (24);
+            this.label44.Text = ("Beats Per Measure");
             // 
             // MusnumericUpDown0
             // 
-            MusnumericUpDown0.Location = new Point(461, 24);
-            MusnumericUpDown0.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            MusnumericUpDown0.Name = "MusnumericUpDown0";
-            MusnumericUpDown0.Size = new Size(120, 23);
-            MusnumericUpDown0.TabIndex = 23;
-            MusnumericUpDown0.ValueChanged += MusUpdate;
+            this.MusnumericUpDown0.Location = (new global::System.Drawing.Point(461, 24));
+            this.MusnumericUpDown0.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.MusnumericUpDown0.Name = ("MusnumericUpDown0");
+            this.MusnumericUpDown0.Size = (new global::System.Drawing.Size(120, 23));
+            this.MusnumericUpDown0.TabIndex = (23);
+            this.MusnumericUpDown0.ValueChanged += (this.MusUpdate);
             // 
             // label43
             // 
-            label43.AutoSize = true;
-            label43.Location = new Point(461, 6);
-            label43.Name = "label43";
-            label43.Size = new Size(56, 15);
-            label43.TabIndex = 22;
-            label43.Text = "AADTOFE";
+            this.label43.AutoSize = (true);
+            this.label43.Location = (new global::System.Drawing.Point(461, 6));
+            this.label43.Name = ("label43");
+            this.label43.Size = (new global::System.Drawing.Size(56, 15));
+            this.label43.TabIndex = (22);
+            this.label43.Text = ("AADTOFE");
             // 
             // MuscheckBox5
             // 
-            MuscheckBox5.AutoSize = true;
-            MuscheckBox5.Location = new Point(209, 417);
-            MuscheckBox5.Name = "MuscheckBox5";
-            MuscheckBox5.Size = new Size(135, 19);
-            MuscheckBox5.TabIndex = 21;
-            MuscheckBox5.Text = "Play in Back Country";
-            MuscheckBox5.UseVisualStyleBackColor = true;
-            MuscheckBox5.Click += MusUpdate;
+            this.MuscheckBox5.AutoSize = (true);
+            this.MuscheckBox5.Location = (new global::System.Drawing.Point(209, 417));
+            this.MuscheckBox5.Name = ("MuscheckBox5");
+            this.MuscheckBox5.Size = (new global::System.Drawing.Size(135, 19));
+            this.MuscheckBox5.TabIndex = (21);
+            this.MuscheckBox5.Text = ("Play in Back Country");
+            this.MuscheckBox5.UseVisualStyleBackColor = (true);
+            this.MuscheckBox5.Click += (this.MusUpdate);
             // 
             // MuscheckBox4
             // 
-            MuscheckBox4.AutoSize = true;
-            MuscheckBox4.Location = new Point(209, 392);
-            MuscheckBox4.Name = "MuscheckBox4";
-            MuscheckBox4.Size = new Size(138, 19);
-            MuscheckBox4.TabIndex = 20;
-            MuscheckBox4.Text = "Play During Half Pipe";
-            MuscheckBox4.UseVisualStyleBackColor = true;
-            MuscheckBox4.Click += MusUpdate;
+            this.MuscheckBox4.AutoSize = (true);
+            this.MuscheckBox4.Location = (new global::System.Drawing.Point(209, 392));
+            this.MuscheckBox4.Name = ("MuscheckBox4");
+            this.MuscheckBox4.Size = (new global::System.Drawing.Size(138, 19));
+            this.MuscheckBox4.TabIndex = (20);
+            this.MuscheckBox4.Text = ("Play During Half Pipe");
+            this.MuscheckBox4.UseVisualStyleBackColor = (true);
+            this.MuscheckBox4.Click += (this.MusUpdate);
             // 
             // MuscheckBox3
             // 
-            MuscheckBox3.AutoSize = true;
-            MuscheckBox3.Location = new Point(209, 367);
-            MuscheckBox3.Name = "MuscheckBox3";
-            MuscheckBox3.Size = new Size(125, 19);
-            MuscheckBox3.TabIndex = 19;
-            MuscheckBox3.Text = "Play During Big Air";
-            MuscheckBox3.UseVisualStyleBackColor = true;
-            MuscheckBox3.Click += MusUpdate;
+            this.MuscheckBox3.AutoSize = (true);
+            this.MuscheckBox3.Location = (new global::System.Drawing.Point(209, 367));
+            this.MuscheckBox3.Name = ("MuscheckBox3");
+            this.MuscheckBox3.Size = (new global::System.Drawing.Size(125, 19));
+            this.MuscheckBox3.TabIndex = (19);
+            this.MuscheckBox3.Text = ("Play During Big Air");
+            this.MuscheckBox3.UseVisualStyleBackColor = (true);
+            this.MuscheckBox3.Click += (this.MusUpdate);
             // 
             // MuscheckBox2
             // 
-            MuscheckBox2.AutoSize = true;
-            MuscheckBox2.Location = new Point(209, 342);
-            MuscheckBox2.Name = "MuscheckBox2";
-            MuscheckBox2.Size = new Size(144, 19);
-            MuscheckBox2.TabIndex = 18;
-            MuscheckBox2.Text = "Play During SlopeStyle";
-            MuscheckBox2.UseVisualStyleBackColor = true;
-            MuscheckBox2.Click += MusUpdate;
+            this.MuscheckBox2.AutoSize = (true);
+            this.MuscheckBox2.Location = (new global::System.Drawing.Point(209, 342));
+            this.MuscheckBox2.Name = ("MuscheckBox2");
+            this.MuscheckBox2.Size = (new global::System.Drawing.Size(144, 19));
+            this.MuscheckBox2.TabIndex = (18);
+            this.MuscheckBox2.Text = ("Play During SlopeStyle");
+            this.MuscheckBox2.UseVisualStyleBackColor = (true);
+            this.MuscheckBox2.Click += (this.MusUpdate);
             // 
             // MuscheckBox1
             // 
-            MuscheckBox1.AutoSize = true;
-            MuscheckBox1.Location = new Point(209, 317);
-            MuscheckBox1.Name = "MuscheckBox1";
-            MuscheckBox1.Size = new Size(115, 19);
-            MuscheckBox1.TabIndex = 17;
-            MuscheckBox1.Text = "Play During Race";
-            MuscheckBox1.UseVisualStyleBackColor = true;
-            MuscheckBox1.Click += MusUpdate;
+            this.MuscheckBox1.AutoSize = (true);
+            this.MuscheckBox1.Location = (new global::System.Drawing.Point(209, 317));
+            this.MuscheckBox1.Name = ("MuscheckBox1");
+            this.MuscheckBox1.Size = (new global::System.Drawing.Size(115, 19));
+            this.MuscheckBox1.TabIndex = (17);
+            this.MuscheckBox1.Text = ("Play During Race");
+            this.MuscheckBox1.UseVisualStyleBackColor = (true);
+            this.MuscheckBox1.Click += (this.MusUpdate);
             // 
             // MusicDataBox
             // 
-            MusicDataBox.Location = new Point(209, 244);
-            MusicDataBox.Name = "MusicDataBox";
-            MusicDataBox.Size = new Size(246, 23);
-            MusicDataBox.TabIndex = 16;
-            MusicDataBox.Click += MusUpdate;
+            this.MusicDataBox.Location = (new global::System.Drawing.Point(209, 244));
+            this.MusicDataBox.Name = ("MusicDataBox");
+            this.MusicDataBox.Size = (new global::System.Drawing.Size(246, 23));
+            this.MusicDataBox.TabIndex = (16);
+            this.MusicDataBox.Click += (this.MusUpdate);
             // 
             // label42
             // 
-            label42.AutoSize = true;
-            label42.Location = new Point(209, 226);
-            label42.Name = "label42";
-            label42.Size = new Size(66, 15);
-            label42.TabIndex = 15;
-            label42.Text = "Music Data";
+            this.label42.AutoSize = (true);
+            this.label42.Location = (new global::System.Drawing.Point(209, 226));
+            this.label42.Name = ("label42");
+            this.label42.Size = (new global::System.Drawing.Size(66, 15));
+            this.label42.TabIndex = (15);
+            this.label42.Text = ("Music Data");
             // 
             // MusicPathDataBox
             // 
-            MusicPathDataBox.Location = new Point(209, 200);
-            MusicPathDataBox.Name = "MusicPathDataBox";
-            MusicPathDataBox.Size = new Size(246, 23);
-            MusicPathDataBox.TabIndex = 14;
-            MusicPathDataBox.Click += MusUpdate;
+            this.MusicPathDataBox.Location = (new global::System.Drawing.Point(209, 200));
+            this.MusicPathDataBox.Name = ("MusicPathDataBox");
+            this.MusicPathDataBox.Size = (new global::System.Drawing.Size(246, 23));
+            this.MusicPathDataBox.TabIndex = (14);
+            this.MusicPathDataBox.Click += (this.MusUpdate);
             // 
             // label41
             // 
-            label41.AutoSize = true;
-            label41.Location = new Point(209, 182);
-            label41.Name = "label41";
-            label41.Size = new Size(58, 15);
-            label41.TabIndex = 13;
-            label41.Text = "Path Data";
+            this.label41.AutoSize = (true);
+            this.label41.Location = (new global::System.Drawing.Point(209, 182));
+            this.label41.Name = ("label41");
+            this.label41.Size = (new global::System.Drawing.Size(58, 15));
+            this.label41.TabIndex = (13);
+            this.label41.Text = ("Path Data");
             // 
             // MusicAlbumBox
             // 
-            MusicAlbumBox.Location = new Point(209, 156);
-            MusicAlbumBox.Name = "MusicAlbumBox";
-            MusicAlbumBox.Size = new Size(246, 23);
-            MusicAlbumBox.TabIndex = 12;
-            MusicAlbumBox.Click += MusUpdate;
+            this.MusicAlbumBox.Location = (new global::System.Drawing.Point(209, 156));
+            this.MusicAlbumBox.Name = ("MusicAlbumBox");
+            this.MusicAlbumBox.Size = (new global::System.Drawing.Size(246, 23));
+            this.MusicAlbumBox.TabIndex = (12);
+            this.MusicAlbumBox.Click += (this.MusUpdate);
             // 
             // label40
             // 
-            label40.AutoSize = true;
-            label40.Location = new Point(209, 138);
-            label40.Name = "label40";
-            label40.Size = new Size(43, 15);
-            label40.TabIndex = 11;
-            label40.Text = "Album";
+            this.label40.AutoSize = (true);
+            this.label40.Location = (new global::System.Drawing.Point(209, 138));
+            this.label40.Name = ("label40");
+            this.label40.Size = (new global::System.Drawing.Size(43, 15));
+            this.label40.TabIndex = (11);
+            this.label40.Text = ("Album");
             // 
             // MusicArtistBox
             // 
-            MusicArtistBox.Location = new Point(209, 112);
-            MusicArtistBox.Name = "MusicArtistBox";
-            MusicArtistBox.Size = new Size(246, 23);
-            MusicArtistBox.TabIndex = 10;
-            MusicArtistBox.Click += MusUpdate;
+            this.MusicArtistBox.Location = (new global::System.Drawing.Point(209, 112));
+            this.MusicArtistBox.Name = ("MusicArtistBox");
+            this.MusicArtistBox.Size = (new global::System.Drawing.Size(246, 23));
+            this.MusicArtistBox.TabIndex = (10);
+            this.MusicArtistBox.Click += (this.MusUpdate);
             // 
             // label39
             // 
-            label39.AutoSize = true;
-            label39.Location = new Point(209, 94);
-            label39.Name = "label39";
-            label39.Size = new Size(35, 15);
-            label39.TabIndex = 9;
-            label39.Text = "Artist";
+            this.label39.AutoSize = (true);
+            this.label39.Location = (new global::System.Drawing.Point(209, 94));
+            this.label39.Name = ("label39");
+            this.label39.Size = (new global::System.Drawing.Size(35, 15));
+            this.label39.TabIndex = (9);
+            this.label39.Text = ("Artist");
             // 
             // MusicTitleBox
             // 
-            MusicTitleBox.Location = new Point(209, 68);
-            MusicTitleBox.Name = "MusicTitleBox";
-            MusicTitleBox.Size = new Size(246, 23);
-            MusicTitleBox.TabIndex = 8;
-            MusicTitleBox.Click += MusUpdate;
+            this.MusicTitleBox.Location = (new global::System.Drawing.Point(209, 68));
+            this.MusicTitleBox.Name = ("MusicTitleBox");
+            this.MusicTitleBox.Size = (new global::System.Drawing.Size(246, 23));
+            this.MusicTitleBox.TabIndex = (8);
+            this.MusicTitleBox.Click += (this.MusUpdate);
             // 
             // label38
             // 
-            label38.AutoSize = true;
-            label38.Location = new Point(209, 50);
-            label38.Name = "label38";
-            label38.Size = new Size(29, 15);
-            label38.TabIndex = 7;
-            label38.Text = "Title";
+            this.label38.AutoSize = (true);
+            this.label38.Location = (new global::System.Drawing.Point(209, 50));
+            this.label38.Name = ("label38");
+            this.label38.Size = (new global::System.Drawing.Size(29, 15));
+            this.label38.TabIndex = (7);
+            this.label38.Text = ("Title");
             // 
             // MusicID
             // 
-            MusicID.Location = new Point(209, 24);
-            MusicID.Name = "MusicID";
-            MusicID.Size = new Size(246, 23);
-            MusicID.TabIndex = 6;
-            MusicID.Click += MusUpdate;
+            this.MusicID.Location = (new global::System.Drawing.Point(209, 24));
+            this.MusicID.Name = ("MusicID");
+            this.MusicID.Size = (new global::System.Drawing.Size(246, 23));
+            this.MusicID.TabIndex = (6);
+            this.MusicID.Click += (this.MusUpdate);
             // 
             // label37
             // 
-            label37.AutoSize = true;
-            label37.Location = new Point(209, 6);
-            label37.Name = "label37";
-            label37.Size = new Size(18, 15);
-            label37.TabIndex = 5;
-            label37.Text = "ID";
+            this.label37.AutoSize = (true);
+            this.label37.Location = (new global::System.Drawing.Point(209, 6));
+            this.label37.Name = ("label37");
+            this.label37.Size = (new global::System.Drawing.Size(18, 15));
+            this.label37.TabIndex = (5);
+            this.label37.Text = ("ID");
             // 
             // MusicLoad
             // 
-            MusicLoad.Location = new Point(779, 499);
-            MusicLoad.Name = "MusicLoad";
-            MusicLoad.Size = new Size(75, 23);
-            MusicLoad.TabIndex = 4;
-            MusicLoad.Text = "Load";
-            MusicLoad.UseVisualStyleBackColor = true;
-            MusicLoad.Click += MusicLoad_Click;
+            this.MusicLoad.Location = (new global::System.Drawing.Point(779, 499));
+            this.MusicLoad.Name = ("MusicLoad");
+            this.MusicLoad.Size = (new global::System.Drawing.Size(75, 23));
+            this.MusicLoad.TabIndex = (4);
+            this.MusicLoad.Text = ("Load");
+            this.MusicLoad.UseVisualStyleBackColor = (true);
+            this.MusicLoad.Click += (this.MusicLoad_Click);
             // 
             // button3
             // 
-            button3.Location = new Point(860, 499);
-            button3.Name = "button3";
-            button3.Size = new Size(75, 23);
-            button3.TabIndex = 3;
-            button3.Text = "Save As";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += MusSaveAs_Click;
+            this.button3.Location = (new global::System.Drawing.Point(860, 499));
+            this.button3.Name = ("button3");
+            this.button3.Size = (new global::System.Drawing.Size(75, 23));
+            this.button3.TabIndex = (3);
+            this.button3.Text = ("Save As");
+            this.button3.UseVisualStyleBackColor = (true);
+            this.button3.Click += (this.MusSaveAs_Click);
             // 
             // button2
             // 
-            button2.Location = new Point(128, 496);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 2;
-            button2.Text = "Remove";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += MusRemove_Click;
+            this.button2.Location = (new global::System.Drawing.Point(128, 496));
+            this.button2.Name = ("button2");
+            this.button2.Size = (new global::System.Drawing.Size(75, 23));
+            this.button2.TabIndex = (2);
+            this.button2.Text = ("Remove");
+            this.button2.UseVisualStyleBackColor = (true);
+            this.button2.Click += (this.MusRemove_Click);
             // 
             // button1
             // 
-            button1.Location = new Point(6, 496);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 1;
-            button1.Text = "Add";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += MusAdd_Click;
+            this.button1.Location = (new global::System.Drawing.Point(6, 496));
+            this.button1.Name = ("button1");
+            this.button1.Size = (new global::System.Drawing.Size(75, 23));
+            this.button1.TabIndex = (1);
+            this.button1.Text = ("Add");
+            this.button1.UseVisualStyleBackColor = (true);
+            this.button1.Click += (this.MusAdd_Click);
             // 
             // musiclistBox1
             // 
-            musiclistBox1.FormattingEnabled = true;
-            musiclistBox1.ItemHeight = 15;
-            musiclistBox1.Location = new Point(6, 6);
-            musiclistBox1.Name = "musiclistBox1";
-            musiclistBox1.Size = new Size(197, 484);
-            musiclistBox1.TabIndex = 0;
-            musiclistBox1.SelectedIndexChanged += musiclistBox1_SelectedIndexChanged;
+            this.musiclistBox1.FormattingEnabled = (true);
+            this.musiclistBox1.ItemHeight = (15);
+            this.musiclistBox1.Location = (new global::System.Drawing.Point(6, 6));
+            this.musiclistBox1.Name = ("musiclistBox1");
+            this.musiclistBox1.Size = (new global::System.Drawing.Size(197, 484));
+            this.musiclistBox1.TabIndex = (0);
+            this.musiclistBox1.SelectedIndexChanged += (this.musiclistBox1_SelectedIndexChanged);
             // 
             // tabPage3
             // 
-            tabPage3.Controls.Add(BoltApply);
-            tabPage3.Controls.Add(BoltSave);
-            tabPage3.Controls.Add(boltLoad);
-            tabPage3.Controls.Add(BoltPS2TreeView);
-            tabPage3.Controls.Add(BoltIconPath);
-            tabPage3.Controls.Add(label36);
-            tabPage3.Controls.Add(BoltTexturePath);
-            tabPage3.Controls.Add(label35);
-            tabPage3.Controls.Add(BoltModelPath);
-            tabPage3.Controls.Add(label34);
-            tabPage3.Controls.Add(BoltModelIDFour);
-            tabPage3.Controls.Add(label33);
-            tabPage3.Controls.Add(BoltModelIDThree);
-            tabPage3.Controls.Add(label32);
-            tabPage3.Controls.Add(BoltModelIDTwo);
-            tabPage3.Controls.Add(label31);
-            tabPage3.Controls.Add(BoltModelID);
-            tabPage3.Controls.Add(label30);
-            tabPage3.Controls.Add(BoltName);
-            tabPage3.Controls.Add(label29);
-            tabPage3.Controls.Add(BoltUnkown9);
-            tabPage3.Controls.Add(label28);
-            tabPage3.Controls.Add(BoltSpecialThree);
-            tabPage3.Controls.Add(label27);
-            tabPage3.Controls.Add(BoltSpecialTwo);
-            tabPage3.Controls.Add(label26);
-            tabPage3.Controls.Add(BoltSpecialOne);
-            tabPage3.Controls.Add(label25);
-            tabPage3.Controls.Add(BoltUnkown8);
-            tabPage3.Controls.Add(label24);
-            tabPage3.Controls.Add(BoltCost);
-            tabPage3.Controls.Add(label23);
-            tabPage3.Controls.Add(BoltFillBar);
-            tabPage3.Controls.Add(label22);
-            tabPage3.Controls.Add(BoltUnkown7);
-            tabPage3.Controls.Add(label21);
-            tabPage3.Controls.Add(BoltMenuOrder);
-            tabPage3.Controls.Add(label20);
-            tabPage3.Controls.Add(BoltBuy);
-            tabPage3.Controls.Add(label19);
-            tabPage3.Controls.Add(BoltCat);
-            tabPage3.Controls.Add(label18);
-            tabPage3.Controls.Add(BoltUnkownFour);
-            tabPage3.Controls.Add(label17);
-            tabPage3.Controls.Add(BoltUnkownThree);
-            tabPage3.Controls.Add(label16);
-            tabPage3.Controls.Add(BoltUnkownTwo);
-            tabPage3.Controls.Add(label15);
-            tabPage3.Controls.Add(BoltUnlock);
-            tabPage3.Controls.Add(label14);
-            tabPage3.Controls.Add(BoltUnkownOne);
-            tabPage3.Controls.Add(label13);
-            tabPage3.Controls.Add(BoltCharacter);
-            tabPage3.Location = new Point(4, 24);
-            tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(941, 528);
-            tabPage3.TabIndex = 2;
-            tabPage3.Text = "Store (BoltPS2)";
-            tabPage3.UseVisualStyleBackColor = true;
+            this.tabPage3.Controls.Add(this.BoltApply);
+            this.tabPage3.Controls.Add(this.BoltSave);
+            this.tabPage3.Controls.Add(this.boltLoad);
+            this.tabPage3.Controls.Add(this.BoltPS2TreeView);
+            this.tabPage3.Controls.Add(this.BoltIconPath);
+            this.tabPage3.Controls.Add(this.label36);
+            this.tabPage3.Controls.Add(this.BoltTexturePath);
+            this.tabPage3.Controls.Add(this.label35);
+            this.tabPage3.Controls.Add(this.BoltModelPath);
+            this.tabPage3.Controls.Add(this.label34);
+            this.tabPage3.Controls.Add(this.BoltModelIDFour);
+            this.tabPage3.Controls.Add(this.label33);
+            this.tabPage3.Controls.Add(this.BoltModelIDThree);
+            this.tabPage3.Controls.Add(this.label32);
+            this.tabPage3.Controls.Add(this.BoltModelIDTwo);
+            this.tabPage3.Controls.Add(this.label31);
+            this.tabPage3.Controls.Add(this.BoltModelID);
+            this.tabPage3.Controls.Add(this.label30);
+            this.tabPage3.Controls.Add(this.BoltName);
+            this.tabPage3.Controls.Add(this.label29);
+            this.tabPage3.Controls.Add(this.BoltUnkown9);
+            this.tabPage3.Controls.Add(this.label28);
+            this.tabPage3.Controls.Add(this.BoltSpecialThree);
+            this.tabPage3.Controls.Add(this.label27);
+            this.tabPage3.Controls.Add(this.BoltSpecialTwo);
+            this.tabPage3.Controls.Add(this.label26);
+            this.tabPage3.Controls.Add(this.BoltSpecialOne);
+            this.tabPage3.Controls.Add(this.label25);
+            this.tabPage3.Controls.Add(this.BoltUnkown8);
+            this.tabPage3.Controls.Add(this.label24);
+            this.tabPage3.Controls.Add(this.BoltCost);
+            this.tabPage3.Controls.Add(this.label23);
+            this.tabPage3.Controls.Add(this.BoltFillBar);
+            this.tabPage3.Controls.Add(this.label22);
+            this.tabPage3.Controls.Add(this.BoltUnkown7);
+            this.tabPage3.Controls.Add(this.label21);
+            this.tabPage3.Controls.Add(this.BoltMenuOrder);
+            this.tabPage3.Controls.Add(this.label20);
+            this.tabPage3.Controls.Add(this.BoltBuy);
+            this.tabPage3.Controls.Add(this.label19);
+            this.tabPage3.Controls.Add(this.BoltCat);
+            this.tabPage3.Controls.Add(this.label18);
+            this.tabPage3.Controls.Add(this.BoltUnkownFour);
+            this.tabPage3.Controls.Add(this.label17);
+            this.tabPage3.Controls.Add(this.BoltUnkownThree);
+            this.tabPage3.Controls.Add(this.label16);
+            this.tabPage3.Controls.Add(this.BoltUnkownTwo);
+            this.tabPage3.Controls.Add(this.label15);
+            this.tabPage3.Controls.Add(this.BoltUnlock);
+            this.tabPage3.Controls.Add(this.label14);
+            this.tabPage3.Controls.Add(this.BoltUnkownOne);
+            this.tabPage3.Controls.Add(this.label13);
+            this.tabPage3.Controls.Add(this.BoltCharacter);
+            this.tabPage3.Location = (new global::System.Drawing.Point(4, 24));
+            this.tabPage3.Name = ("tabPage3");
+            this.tabPage3.Size = (new global::System.Drawing.Size(941, 528));
+            this.tabPage3.TabIndex = (2);
+            this.tabPage3.Text = ("Store (BoltPS2)");
+            this.tabPage3.UseVisualStyleBackColor = (true);
             // 
             // BoltApply
             // 
-            BoltApply.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            BoltApply.Location = new Point(863, 502);
-            BoltApply.Name = "BoltApply";
-            BoltApply.Size = new Size(75, 23);
-            BoltApply.TabIndex = 53;
-            BoltApply.Text = "Apply";
-            BoltApply.UseVisualStyleBackColor = true;
-            BoltApply.Click += BoltApply_Click;
+            this.BoltApply.Anchor = ((global::System.Windows.Forms.AnchorStyles)((global::System.Windows.Forms.AnchorStyles.Bottom) | (global::System.Windows.Forms.AnchorStyles.Right)));
+            this.BoltApply.Location = (new global::System.Drawing.Point(863, 502));
+            this.BoltApply.Name = ("BoltApply");
+            this.BoltApply.Size = (new global::System.Drawing.Size(75, 23));
+            this.BoltApply.TabIndex = (53);
+            this.BoltApply.Text = ("Apply");
+            this.BoltApply.UseVisualStyleBackColor = (true);
+            this.BoltApply.Click += (this.BoltApply_Click);
             // 
             // BoltSave
             // 
-            BoltSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            BoltSave.Location = new Point(364, 502);
-            BoltSave.Name = "BoltSave";
-            BoltSave.Size = new Size(75, 23);
-            BoltSave.TabIndex = 52;
-            BoltSave.Text = "Save";
-            BoltSave.UseVisualStyleBackColor = true;
-            BoltSave.Click += BoltSave_Click;
+            this.BoltSave.Anchor = ((global::System.Windows.Forms.AnchorStyles)((global::System.Windows.Forms.AnchorStyles.Bottom) | (global::System.Windows.Forms.AnchorStyles.Left)));
+            this.BoltSave.Location = (new global::System.Drawing.Point(364, 502));
+            this.BoltSave.Name = ("BoltSave");
+            this.BoltSave.Size = (new global::System.Drawing.Size(75, 23));
+            this.BoltSave.TabIndex = (52);
+            this.BoltSave.Text = ("Save");
+            this.BoltSave.UseVisualStyleBackColor = (true);
+            this.BoltSave.Click += (this.BoltSave_Click);
             // 
             // boltLoad
             // 
-            boltLoad.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            boltLoad.Location = new Point(283, 502);
-            boltLoad.Name = "boltLoad";
-            boltLoad.Size = new Size(75, 23);
-            boltLoad.TabIndex = 51;
-            boltLoad.Text = "Load";
-            boltLoad.UseVisualStyleBackColor = true;
-            boltLoad.Click += BoltLoad_Click;
+            this.boltLoad.Anchor = ((global::System.Windows.Forms.AnchorStyles)((global::System.Windows.Forms.AnchorStyles.Bottom) | (global::System.Windows.Forms.AnchorStyles.Left)));
+            this.boltLoad.Location = (new global::System.Drawing.Point(283, 502));
+            this.boltLoad.Name = ("boltLoad");
+            this.boltLoad.Size = (new global::System.Drawing.Size(75, 23));
+            this.boltLoad.TabIndex = (51);
+            this.boltLoad.Text = ("Load");
+            this.boltLoad.UseVisualStyleBackColor = (true);
+            this.boltLoad.Click += (this.BoltLoad_Click);
             // 
             // BoltPS2TreeView
             // 
-            BoltPS2TreeView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
-            BoltPS2TreeView.Location = new Point(3, 29);
-            BoltPS2TreeView.Name = "BoltPS2TreeView";
-            BoltPS2TreeView.Size = new Size(274, 496);
-            BoltPS2TreeView.TabIndex = 50;
-            BoltPS2TreeView.AfterSelect += BoltPS2TreeView_AfterSelect;
+            this.BoltPS2TreeView.Anchor = ((global::System.Windows.Forms.AnchorStyles)(((global::System.Windows.Forms.AnchorStyles.Top) | (global::System.Windows.Forms.AnchorStyles.Bottom)) | (global::System.Windows.Forms.AnchorStyles.Left)));
+            this.BoltPS2TreeView.Location = (new global::System.Drawing.Point(3, 29));
+            this.BoltPS2TreeView.Name = ("BoltPS2TreeView");
+            this.BoltPS2TreeView.Size = (new global::System.Drawing.Size(274, 496));
+            this.BoltPS2TreeView.TabIndex = (50);
+            this.BoltPS2TreeView.AfterSelect += (this.BoltPS2TreeView_AfterSelect);
             // 
             // BoltIconPath
             // 
-            BoltIconPath.Location = new Point(535, 381);
-            BoltIconPath.Name = "BoltIconPath";
-            BoltIconPath.Size = new Size(247, 23);
-            BoltIconPath.TabIndex = 49;
+            this.BoltIconPath.Location = (new global::System.Drawing.Point(535, 381));
+            this.BoltIconPath.Name = ("BoltIconPath");
+            this.BoltIconPath.Size = (new global::System.Drawing.Size(247, 23));
+            this.BoltIconPath.TabIndex = (49);
             // 
             // label36
             // 
-            label36.AutoSize = true;
-            label36.Location = new Point(535, 363);
-            label36.Name = "label36";
-            label36.Size = new Size(57, 15);
-            label36.TabIndex = 48;
-            label36.Text = "Icon Path";
+            this.label36.AutoSize = (true);
+            this.label36.Location = (new global::System.Drawing.Point(535, 363));
+            this.label36.Name = ("label36");
+            this.label36.Size = (new global::System.Drawing.Size(57, 15));
+            this.label36.TabIndex = (48);
+            this.label36.Text = ("Icon Path");
             // 
             // BoltTexturePath
             // 
-            BoltTexturePath.Location = new Point(283, 381);
-            BoltTexturePath.Name = "BoltTexturePath";
-            BoltTexturePath.Size = new Size(246, 23);
-            BoltTexturePath.TabIndex = 47;
+            this.BoltTexturePath.Location = (new global::System.Drawing.Point(283, 381));
+            this.BoltTexturePath.Name = ("BoltTexturePath");
+            this.BoltTexturePath.Size = (new global::System.Drawing.Size(246, 23));
+            this.BoltTexturePath.TabIndex = (47);
             // 
             // label35
             // 
-            label35.AutoSize = true;
-            label35.Location = new Point(283, 363);
-            label35.Name = "label35";
-            label35.Size = new Size(72, 15);
-            label35.TabIndex = 46;
-            label35.Text = "Texture Path";
+            this.label35.AutoSize = (true);
+            this.label35.Location = (new global::System.Drawing.Point(283, 363));
+            this.label35.Name = ("label35");
+            this.label35.Size = (new global::System.Drawing.Size(72, 15));
+            this.label35.TabIndex = (46);
+            this.label35.Text = ("Texture Path");
             // 
             // BoltModelPath
             // 
-            BoltModelPath.Location = new Point(283, 337);
-            BoltModelPath.Name = "BoltModelPath";
-            BoltModelPath.Size = new Size(499, 23);
-            BoltModelPath.TabIndex = 45;
+            this.BoltModelPath.Location = (new global::System.Drawing.Point(283, 337));
+            this.BoltModelPath.Name = ("BoltModelPath");
+            this.BoltModelPath.Size = (new global::System.Drawing.Size(499, 23));
+            this.BoltModelPath.TabIndex = (45);
             // 
             // label34
             // 
-            label34.AutoSize = true;
-            label34.Location = new Point(283, 319);
-            label34.Name = "label34";
-            label34.Size = new Size(68, 15);
-            label34.TabIndex = 44;
-            label34.Text = "Model Path";
+            this.label34.AutoSize = (true);
+            this.label34.Location = (new global::System.Drawing.Point(283, 319));
+            this.label34.Name = ("label34");
+            this.label34.Size = (new global::System.Drawing.Size(68, 15));
+            this.label34.TabIndex = (44);
+            this.label34.Text = ("Model Path");
             // 
             // BoltModelIDFour
             // 
-            BoltModelIDFour.Location = new Point(661, 293);
-            BoltModelIDFour.Name = "BoltModelIDFour";
-            BoltModelIDFour.Size = new Size(120, 23);
-            BoltModelIDFour.TabIndex = 43;
+            this.BoltModelIDFour.Location = (new global::System.Drawing.Point(661, 293));
+            this.BoltModelIDFour.Name = ("BoltModelIDFour");
+            this.BoltModelIDFour.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltModelIDFour.TabIndex = (43);
             // 
             // label33
             // 
-            label33.AutoSize = true;
-            label33.Location = new Point(661, 275);
-            label33.Name = "label33";
-            label33.Size = new Size(100, 15);
-            label33.TabIndex = 42;
-            label33.Text = "Model Shadow ID";
+            this.label33.AutoSize = (true);
+            this.label33.Location = (new global::System.Drawing.Point(661, 275));
+            this.label33.Name = ("label33");
+            this.label33.Size = (new global::System.Drawing.Size(100, 15));
+            this.label33.TabIndex = (42);
+            this.label33.Text = ("Model Shadow ID");
             // 
             // BoltModelIDThree
             // 
-            BoltModelIDThree.Location = new Point(535, 293);
-            BoltModelIDThree.Name = "BoltModelIDThree";
-            BoltModelIDThree.Size = new Size(120, 23);
-            BoltModelIDThree.TabIndex = 41;
+            this.BoltModelIDThree.Location = (new global::System.Drawing.Point(535, 293));
+            this.BoltModelIDThree.Name = ("BoltModelIDThree");
+            this.BoltModelIDThree.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltModelIDThree.TabIndex = (41);
             // 
             // label32
             // 
-            label32.AutoSize = true;
-            label32.Location = new Point(535, 275);
-            label32.Name = "label32";
-            label32.Size = new Size(101, 15);
-            label32.TabIndex = 40;
-            label32.Text = "Model Low Res ID";
+            this.label32.AutoSize = (true);
+            this.label32.Location = (new global::System.Drawing.Point(535, 275));
+            this.label32.Name = ("label32");
+            this.label32.Size = (new global::System.Drawing.Size(101, 15));
+            this.label32.TabIndex = (40);
+            this.label32.Text = ("Model Low Res ID");
             // 
             // BoltModelIDTwo
             // 
-            BoltModelIDTwo.Location = new Point(409, 293);
-            BoltModelIDTwo.Name = "BoltModelIDTwo";
-            BoltModelIDTwo.Size = new Size(120, 23);
-            BoltModelIDTwo.TabIndex = 39;
+            this.BoltModelIDTwo.Location = (new global::System.Drawing.Point(409, 293));
+            this.BoltModelIDTwo.Name = ("BoltModelIDTwo");
+            this.BoltModelIDTwo.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltModelIDTwo.TabIndex = (39);
             // 
             // label31
             // 
-            label31.AutoSize = true;
-            label31.Location = new Point(409, 275);
-            label31.Name = "label31";
-            label31.Size = new Size(103, 15);
-            label31.TabIndex = 38;
-            label31.Text = "Model Med Res ID";
+            this.label31.AutoSize = (true);
+            this.label31.Location = (new global::System.Drawing.Point(409, 275));
+            this.label31.Name = ("label31");
+            this.label31.Size = (new global::System.Drawing.Size(103, 15));
+            this.label31.TabIndex = (38);
+            this.label31.Text = ("Model Med Res ID");
             // 
             // BoltModelID
             // 
-            BoltModelID.Location = new Point(283, 293);
-            BoltModelID.Name = "BoltModelID";
-            BoltModelID.Size = new Size(120, 23);
-            BoltModelID.TabIndex = 37;
+            this.BoltModelID.Location = (new global::System.Drawing.Point(283, 293));
+            this.BoltModelID.Name = ("BoltModelID");
+            this.BoltModelID.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltModelID.TabIndex = (37);
             // 
             // label30
             // 
-            label30.AutoSize = true;
-            label30.Location = new Point(283, 275);
-            label30.Name = "label30";
-            label30.Size = new Size(105, 15);
-            label30.TabIndex = 36;
-            label30.Text = "Model High Res ID";
+            this.label30.AutoSize = (true);
+            this.label30.Location = (new global::System.Drawing.Point(283, 275));
+            this.label30.Name = ("label30");
+            this.label30.Size = (new global::System.Drawing.Size(105, 15));
+            this.label30.TabIndex = (36);
+            this.label30.Text = ("Model High Res ID");
             // 
             // BoltName
             // 
-            BoltName.Location = new Point(283, 249);
-            BoltName.Name = "BoltName";
-            BoltName.Size = new Size(209, 23);
-            BoltName.TabIndex = 35;
+            this.BoltName.Location = (new global::System.Drawing.Point(283, 249));
+            this.BoltName.Name = ("BoltName");
+            this.BoltName.Size = (new global::System.Drawing.Size(209, 23));
+            this.BoltName.TabIndex = (35);
             // 
             // label29
             // 
-            label29.AutoSize = true;
-            label29.Location = new Point(283, 231);
-            label29.Name = "label29";
-            label29.Size = new Size(39, 15);
-            label29.TabIndex = 34;
-            label29.Text = "Name";
+            this.label29.AutoSize = (true);
+            this.label29.Location = (new global::System.Drawing.Point(283, 231));
+            this.label29.Name = ("label29");
+            this.label29.Size = (new global::System.Drawing.Size(39, 15));
+            this.label29.TabIndex = (34);
+            this.label29.Text = ("Name");
             // 
             // BoltUnkown9
             // 
-            BoltUnkown9.Location = new Point(283, 425);
-            BoltUnkown9.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltUnkown9.Name = "BoltUnkown9";
-            BoltUnkown9.Size = new Size(120, 23);
-            BoltUnkown9.TabIndex = 33;
+            this.BoltUnkown9.Location = (new global::System.Drawing.Point(283, 425));
+            this.BoltUnkown9.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltUnkown9.Name = ("BoltUnkown9");
+            this.BoltUnkown9.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltUnkown9.TabIndex = (33);
             // 
             // label28
             // 
-            label28.AutoSize = true;
-            label28.Location = new Point(283, 407);
-            label28.Name = "label28";
-            label28.Size = new Size(74, 15);
-            label28.TabIndex = 32;
-            label28.Text = "Unkown Int6";
+            this.label28.AutoSize = (true);
+            this.label28.Location = (new global::System.Drawing.Point(283, 407));
+            this.label28.Name = ("label28");
+            this.label28.Size = (new global::System.Drawing.Size(74, 15));
+            this.label28.TabIndex = (32);
+            this.label28.Text = ("Unkown Int6");
             // 
             // BoltSpecialThree
             // 
-            BoltSpecialThree.Location = new Point(662, 205);
-            BoltSpecialThree.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltSpecialThree.Name = "BoltSpecialThree";
-            BoltSpecialThree.Size = new Size(120, 23);
-            BoltSpecialThree.TabIndex = 31;
+            this.BoltSpecialThree.Location = (new global::System.Drawing.Point(662, 205));
+            this.BoltSpecialThree.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltSpecialThree.Name = ("BoltSpecialThree");
+            this.BoltSpecialThree.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltSpecialThree.TabIndex = (31);
             // 
             // label27
             // 
-            label27.AutoSize = true;
-            label27.Location = new Point(662, 187);
-            label27.Name = "label27";
-            label27.Size = new Size(67, 15);
-            label27.TabIndex = 30;
-            label27.Text = "Special ID 3";
+            this.label27.AutoSize = (true);
+            this.label27.Location = (new global::System.Drawing.Point(662, 187));
+            this.label27.Name = ("label27");
+            this.label27.Size = (new global::System.Drawing.Size(67, 15));
+            this.label27.TabIndex = (30);
+            this.label27.Text = ("Special ID 3");
             // 
             // BoltSpecialTwo
             // 
-            BoltSpecialTwo.Location = new Point(535, 205);
-            BoltSpecialTwo.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltSpecialTwo.Name = "BoltSpecialTwo";
-            BoltSpecialTwo.Size = new Size(120, 23);
-            BoltSpecialTwo.TabIndex = 29;
+            this.BoltSpecialTwo.Location = (new global::System.Drawing.Point(535, 205));
+            this.BoltSpecialTwo.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltSpecialTwo.Name = ("BoltSpecialTwo");
+            this.BoltSpecialTwo.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltSpecialTwo.TabIndex = (29);
             // 
             // label26
             // 
-            label26.AutoSize = true;
-            label26.Location = new Point(535, 187);
-            label26.Name = "label26";
-            label26.Size = new Size(67, 15);
-            label26.TabIndex = 28;
-            label26.Text = "Special ID 2";
+            this.label26.AutoSize = (true);
+            this.label26.Location = (new global::System.Drawing.Point(535, 187));
+            this.label26.Name = ("label26");
+            this.label26.Size = (new global::System.Drawing.Size(67, 15));
+            this.label26.TabIndex = (28);
+            this.label26.Text = ("Special ID 2");
             // 
             // BoltSpecialOne
             // 
-            BoltSpecialOne.Location = new Point(409, 205);
-            BoltSpecialOne.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltSpecialOne.Name = "BoltSpecialOne";
-            BoltSpecialOne.Size = new Size(120, 23);
-            BoltSpecialOne.TabIndex = 27;
+            this.BoltSpecialOne.Location = (new global::System.Drawing.Point(409, 205));
+            this.BoltSpecialOne.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltSpecialOne.Name = ("BoltSpecialOne");
+            this.BoltSpecialOne.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltSpecialOne.TabIndex = (27);
             // 
             // label25
             // 
-            label25.AutoSize = true;
-            label25.Location = new Point(409, 187);
-            label25.Name = "label25";
-            label25.Size = new Size(87, 15);
-            label25.TabIndex = 26;
-            label25.Text = "Special FX Type";
+            this.label25.AutoSize = (true);
+            this.label25.Location = (new global::System.Drawing.Point(409, 187));
+            this.label25.Name = ("label25");
+            this.label25.Size = (new global::System.Drawing.Size(87, 15));
+            this.label25.TabIndex = (26);
+            this.label25.Text = ("Special FX Type");
             // 
             // BoltUnkown8
             // 
-            BoltUnkown8.Location = new Point(283, 205);
-            BoltUnkown8.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltUnkown8.Name = "BoltUnkown8";
-            BoltUnkown8.Size = new Size(120, 23);
-            BoltUnkown8.TabIndex = 25;
+            this.BoltUnkown8.Location = (new global::System.Drawing.Point(283, 205));
+            this.BoltUnkown8.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltUnkown8.Name = ("BoltUnkown8");
+            this.BoltUnkown8.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltUnkown8.TabIndex = (25);
             // 
             // label24
             // 
-            label24.AutoSize = true;
-            label24.Location = new Point(283, 187);
-            label24.Name = "label24";
-            label24.Size = new Size(60, 15);
-            label24.TabIndex = 24;
-            label24.Text = "Unkown 8";
+            this.label24.AutoSize = (true);
+            this.label24.Location = (new global::System.Drawing.Point(283, 187));
+            this.label24.Name = ("label24");
+            this.label24.Size = (new global::System.Drawing.Size(60, 15));
+            this.label24.TabIndex = (24);
+            this.label24.Text = ("Unkown 8");
             // 
             // BoltCost
             // 
-            BoltCost.Location = new Point(535, 161);
-            BoltCost.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltCost.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            BoltCost.Name = "BoltCost";
-            BoltCost.Size = new Size(120, 23);
-            BoltCost.TabIndex = 23;
+            this.BoltCost.Location = (new global::System.Drawing.Point(535, 161));
+            this.BoltCost.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltCost.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.BoltCost.Name = ("BoltCost");
+            this.BoltCost.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltCost.TabIndex = (23);
             // 
             // label23
             // 
-            label23.AutoSize = true;
-            label23.Location = new Point(535, 143);
-            label23.Name = "label23";
-            label23.Size = new Size(31, 15);
-            label23.TabIndex = 22;
-            label23.Text = "Cost";
+            this.label23.AutoSize = (true);
+            this.label23.Location = (new global::System.Drawing.Point(535, 143));
+            this.label23.Name = ("label23");
+            this.label23.Size = (new global::System.Drawing.Size(31, 15));
+            this.label23.TabIndex = (22);
+            this.label23.Text = ("Cost");
             // 
             // BoltFillBar
             // 
-            BoltFillBar.Location = new Point(409, 161);
-            BoltFillBar.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltFillBar.Name = "BoltFillBar";
-            BoltFillBar.Size = new Size(120, 23);
-            BoltFillBar.TabIndex = 21;
+            this.BoltFillBar.Location = (new global::System.Drawing.Point(409, 161));
+            this.BoltFillBar.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltFillBar.Name = ("BoltFillBar");
+            this.BoltFillBar.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltFillBar.TabIndex = (21);
             // 
             // label22
             // 
-            label22.AutoSize = true;
-            label22.Location = new Point(409, 143);
-            label22.Name = "label22";
-            label22.Size = new Size(45, 15);
-            label22.TabIndex = 20;
-            label22.Text = "Weight";
+            this.label22.AutoSize = (true);
+            this.label22.Location = (new global::System.Drawing.Point(409, 143));
+            this.label22.Name = ("label22");
+            this.label22.Size = (new global::System.Drawing.Size(45, 15));
+            this.label22.TabIndex = (20);
+            this.label22.Text = ("Weight");
             // 
             // BoltUnkown7
             // 
-            BoltUnkown7.Location = new Point(283, 161);
-            BoltUnkown7.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltUnkown7.Name = "BoltUnkown7";
-            BoltUnkown7.Size = new Size(120, 23);
-            BoltUnkown7.TabIndex = 19;
+            this.BoltUnkown7.Location = (new global::System.Drawing.Point(283, 161));
+            this.BoltUnkown7.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltUnkown7.Name = ("BoltUnkown7");
+            this.BoltUnkown7.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltUnkown7.TabIndex = (19);
             // 
             // label21
             // 
-            label21.AutoSize = true;
-            label21.Location = new Point(283, 143);
-            label21.Name = "label21";
-            label21.Size = new Size(74, 15);
-            label21.TabIndex = 18;
-            label21.Text = "Unkown int5";
+            this.label21.AutoSize = (true);
+            this.label21.Location = (new global::System.Drawing.Point(283, 143));
+            this.label21.Name = ("label21");
+            this.label21.Size = (new global::System.Drawing.Size(74, 15));
+            this.label21.TabIndex = (18);
+            this.label21.Text = ("Unkown int5");
             // 
             // BoltMenuOrder
             // 
-            BoltMenuOrder.Location = new Point(535, 117);
-            BoltMenuOrder.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltMenuOrder.Name = "BoltMenuOrder";
-            BoltMenuOrder.Size = new Size(120, 23);
-            BoltMenuOrder.TabIndex = 17;
+            this.BoltMenuOrder.Location = (new global::System.Drawing.Point(535, 117));
+            this.BoltMenuOrder.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltMenuOrder.Name = ("BoltMenuOrder");
+            this.BoltMenuOrder.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltMenuOrder.TabIndex = (17);
             // 
             // label20
             // 
-            label20.AutoSize = true;
-            label20.Location = new Point(535, 99);
-            label20.Name = "label20";
-            label20.Size = new Size(71, 15);
-            label20.TabIndex = 16;
-            label20.Text = "Menu Order";
+            this.label20.AutoSize = (true);
+            this.label20.Location = (new global::System.Drawing.Point(535, 99));
+            this.label20.Name = ("label20");
+            this.label20.Size = (new global::System.Drawing.Size(71, 15));
+            this.label20.TabIndex = (16);
+            this.label20.Text = ("Menu Order");
             // 
             // BoltBuy
             // 
-            BoltBuy.Location = new Point(409, 117);
-            BoltBuy.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltBuy.Name = "BoltBuy";
-            BoltBuy.Size = new Size(120, 23);
-            BoltBuy.TabIndex = 15;
+            this.BoltBuy.Location = (new global::System.Drawing.Point(409, 117));
+            this.BoltBuy.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltBuy.Name = ("BoltBuy");
+            this.BoltBuy.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltBuy.TabIndex = (15);
             // 
             // label19
             // 
-            label19.AutoSize = true;
-            label19.Location = new Point(409, 99);
-            label19.Name = "label19";
-            label19.Size = new Size(49, 15);
-            label19.TabIndex = 14;
-            label19.Text = "Buyable";
+            this.label19.AutoSize = (true);
+            this.label19.Location = (new global::System.Drawing.Point(409, 99));
+            this.label19.Name = ("label19");
+            this.label19.Size = (new global::System.Drawing.Size(49, 15));
+            this.label19.TabIndex = (14);
+            this.label19.Text = ("Buyable");
             // 
             // BoltCat
             // 
-            BoltCat.Location = new Point(283, 117);
-            BoltCat.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltCat.Name = "BoltCat";
-            BoltCat.Size = new Size(120, 23);
-            BoltCat.TabIndex = 13;
+            this.BoltCat.Location = (new global::System.Drawing.Point(283, 117));
+            this.BoltCat.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltCat.Name = ("BoltCat");
+            this.BoltCat.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltCat.TabIndex = (13);
             // 
             // label18
             // 
-            label18.AutoSize = true;
-            label18.Location = new Point(283, 99);
-            label18.Name = "label18";
-            label18.Size = new Size(69, 15);
-            label18.TabIndex = 12;
-            label18.Text = "Category ID";
+            this.label18.AutoSize = (true);
+            this.label18.Location = (new global::System.Drawing.Point(283, 99));
+            this.label18.Name = ("label18");
+            this.label18.Size = (new global::System.Drawing.Size(69, 15));
+            this.label18.TabIndex = (12);
+            this.label18.Text = ("Category ID");
             // 
             // BoltUnkownFour
             // 
-            BoltUnkownFour.Location = new Point(535, 73);
-            BoltUnkownFour.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltUnkownFour.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            BoltUnkownFour.Name = "BoltUnkownFour";
-            BoltUnkownFour.Size = new Size(120, 23);
-            BoltUnkownFour.TabIndex = 11;
+            this.BoltUnkownFour.Location = (new global::System.Drawing.Point(535, 73));
+            this.BoltUnkownFour.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltUnkownFour.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.BoltUnkownFour.Name = ("BoltUnkownFour");
+            this.BoltUnkownFour.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltUnkownFour.TabIndex = (11);
             // 
             // label17
             // 
-            label17.AutoSize = true;
-            label17.Location = new Point(535, 55);
-            label17.Name = "label17";
-            label17.Size = new Size(85, 15);
-            label17.TabIndex = 10;
-            label17.Text = "Parent Item ID ";
+            this.label17.AutoSize = (true);
+            this.label17.Location = (new global::System.Drawing.Point(535, 55));
+            this.label17.Name = ("label17");
+            this.label17.Size = (new global::System.Drawing.Size(85, 15));
+            this.label17.TabIndex = (10);
+            this.label17.Text = ("Parent Item ID ");
             // 
             // BoltUnkownThree
             // 
-            BoltUnkownThree.Location = new Point(409, 73);
-            BoltUnkownThree.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltUnkownThree.Name = "BoltUnkownThree";
-            BoltUnkownThree.Size = new Size(120, 23);
-            BoltUnkownThree.TabIndex = 9;
+            this.BoltUnkownThree.Location = (new global::System.Drawing.Point(409, 73));
+            this.BoltUnkownThree.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltUnkownThree.Name = ("BoltUnkownThree");
+            this.BoltUnkownThree.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltUnkownThree.TabIndex = (9);
             // 
             // label16
             // 
-            label16.AutoSize = true;
-            label16.Location = new Point(409, 55);
-            label16.Name = "label16";
-            label16.Size = new Size(45, 15);
-            label16.TabIndex = 8;
-            label16.Text = "Item ID";
+            this.label16.AutoSize = (true);
+            this.label16.Location = (new global::System.Drawing.Point(409, 55));
+            this.label16.Name = ("label16");
+            this.label16.Size = (new global::System.Drawing.Size(45, 15));
+            this.label16.TabIndex = (8);
+            this.label16.Text = ("Item ID");
             // 
             // BoltUnkownTwo
             // 
-            BoltUnkownTwo.Location = new Point(283, 73);
-            BoltUnkownTwo.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltUnkownTwo.Name = "BoltUnkownTwo";
-            BoltUnkownTwo.Size = new Size(120, 23);
-            BoltUnkownTwo.TabIndex = 7;
+            this.BoltUnkownTwo.Location = (new global::System.Drawing.Point(283, 73));
+            this.BoltUnkownTwo.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltUnkownTwo.Name = ("BoltUnkownTwo");
+            this.BoltUnkownTwo.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltUnkownTwo.TabIndex = (7);
             // 
             // label15
             // 
-            label15.AutoSize = true;
-            label15.Location = new Point(283, 55);
-            label15.Name = "label15";
-            label15.Size = new Size(74, 15);
-            label15.TabIndex = 6;
-            label15.Text = "Unkown Int2";
+            this.label15.AutoSize = (true);
+            this.label15.Location = (new global::System.Drawing.Point(283, 55));
+            this.label15.Name = ("label15");
+            this.label15.Size = (new global::System.Drawing.Size(74, 15));
+            this.label15.TabIndex = (6);
+            this.label15.Text = ("Unkown Int2");
             // 
             // BoltUnlock
             // 
-            BoltUnlock.Location = new Point(409, 29);
-            BoltUnlock.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltUnlock.Name = "BoltUnlock";
-            BoltUnlock.Size = new Size(120, 23);
-            BoltUnlock.TabIndex = 5;
+            this.BoltUnlock.Location = (new global::System.Drawing.Point(409, 29));
+            this.BoltUnlock.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltUnlock.Name = ("BoltUnlock");
+            this.BoltUnlock.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltUnlock.TabIndex = (5);
             // 
             // label14
             // 
-            label14.AutoSize = true;
-            label14.Location = new Point(409, 11);
-            label14.Name = "label14";
-            label14.Size = new Size(100, 15);
-            label14.TabIndex = 4;
-            label14.Text = "Unlock Condition";
+            this.label14.AutoSize = (true);
+            this.label14.Location = (new global::System.Drawing.Point(409, 11));
+            this.label14.Name = ("label14");
+            this.label14.Size = (new global::System.Drawing.Size(100, 15));
+            this.label14.TabIndex = (4);
+            this.label14.Text = ("Unlock Condition");
             // 
             // BoltUnkownOne
             // 
-            BoltUnkownOne.Location = new Point(283, 29);
-            BoltUnkownOne.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltUnkownOne.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
-            BoltUnkownOne.Name = "BoltUnkownOne";
-            BoltUnkownOne.Size = new Size(120, 23);
-            BoltUnkownOne.TabIndex = 3;
+            this.BoltUnkownOne.Location = (new global::System.Drawing.Point(283, 29));
+            this.BoltUnkownOne.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000, 0, 0, 0 }));
+            this.BoltUnkownOne.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.BoltUnkownOne.Name = ("BoltUnkownOne");
+            this.BoltUnkownOne.Size = (new global::System.Drawing.Size(120, 23));
+            this.BoltUnkownOne.TabIndex = (3);
             // 
             // label13
             // 
-            label13.AutoSize = true;
-            label13.Location = new Point(283, 11);
-            label13.Name = "label13";
-            label13.Size = new Size(74, 15);
-            label13.TabIndex = 2;
-            label13.Text = "Unkown Int1";
+            this.label13.AutoSize = (true);
+            this.label13.Location = (new global::System.Drawing.Point(283, 11));
+            this.label13.Name = ("label13");
+            this.label13.Size = (new global::System.Drawing.Size(74, 15));
+            this.label13.TabIndex = (2);
+            this.label13.Text = ("Unkown Int1");
             // 
             // BoltCharacter
             // 
-            BoltCharacter.DropDownStyle = ComboBoxStyle.DropDownList;
-            BoltCharacter.FormattingEnabled = true;
-            BoltCharacter.Items.AddRange(new object[] { "0-Moby", "1-Kaori", "2-Allegra", "3-Mac", "4-Zoe", "5-Grommet", "6-Elise", "7-Rocco", "8-Psymon", "9-Deiter", "10-Brodi", "11-Eddie", "12-Jp", "13-Luther", "14-Marisol", "15-Marty", "16-Seeiah", "17-Hiro", "18-Jurgen", "19-luthern", "20-Stretch", "21-Bessy", "22-Bunny", "23-Churchil", "24-Skel", "25-Snowman", "26-Yeti", "27-Unkown", "28-Beaver", "29-Abom" });
-            BoltCharacter.Location = new Point(3, 3);
-            BoltCharacter.Name = "BoltCharacter";
-            BoltCharacter.Size = new Size(274, 23);
-            BoltCharacter.TabIndex = 1;
-            BoltCharacter.SelectedIndexChanged += BoltCharacter_SelectedIndexChanged;
+            this.BoltCharacter.DropDownStyle = (global::System.Windows.Forms.ComboBoxStyle.DropDownList);
+            this.BoltCharacter.FormattingEnabled = (true);
+            this.BoltCharacter.Items.AddRange(new global::System.Object[] { "0-Moby", "1-Kaori", "2-Allegra", "3-Mac", "4-Zoe", "5-Grommet", "6-Elise", "7-Rocco", "8-Psymon", "9-Deiter", "10-Brodi", "11-Eddie", "12-Jp", "13-Luther", "14-Marisol", "15-Marty", "16-Seeiah", "17-Hiro", "18-Jurgen", "19-luthern", "20-Stretch", "21-Bessy", "22-Bunny", "23-Churchil", "24-Skel", "25-Snowman", "26-Yeti", "27-Unkown", "28-Beaver", "29-Abom" });
+            this.BoltCharacter.Location = (new global::System.Drawing.Point(3, 3));
+            this.BoltCharacter.Name = ("BoltCharacter");
+            this.BoltCharacter.Size = (new global::System.Drawing.Size(274, 23));
+            this.BoltCharacter.TabIndex = (1);
+            this.BoltCharacter.SelectedIndexChanged += (this.BoltCharacter_SelectedIndexChanged);
             // 
             // tabPage5
             // 
-            tabPage5.Controls.Add(groupBox1);
-            tabPage5.Controls.Add(groupBox4);
-            tabPage5.Controls.Add(groupBox3);
-            tabPage5.Controls.Add(groupBox2);
-            tabPage5.Controls.Add(MPFWarningLabel);
-            tabPage5.Controls.Add(label59);
-            tabPage5.Controls.Add(MpfExport);
-            tabPage5.Controls.Add(MpfImport);
-            tabPage5.Controls.Add(MpfSaveCompressed);
-            tabPage5.Controls.Add(MpfBoneLoad);
-            tabPage5.Controls.Add(MpfModelList);
-            tabPage5.Controls.Add(MPFSaveDecompressed);
-            tabPage5.Controls.Add(MPFLoad);
-            tabPage5.Controls.Add(ModelListLabel);
-            tabPage5.Location = new Point(4, 24);
-            tabPage5.Name = "tabPage5";
-            tabPage5.Size = new Size(941, 528);
-            tabPage5.TabIndex = 4;
-            tabPage5.Text = "SSX 3 MPF(Models)";
-            tabPage5.UseVisualStyleBackColor = true;
+            this.tabPage5.Controls.Add(this.groupBox1);
+            this.tabPage5.Controls.Add(this.groupBox4);
+            this.tabPage5.Controls.Add(this.groupBox3);
+            this.tabPage5.Controls.Add(this.groupBox2);
+            this.tabPage5.Controls.Add(this.MPFWarningLabel);
+            this.tabPage5.Controls.Add(this.label59);
+            this.tabPage5.Controls.Add(this.MpfExport);
+            this.tabPage5.Controls.Add(this.MpfImport);
+            this.tabPage5.Controls.Add(this.MpfSaveCompressed);
+            this.tabPage5.Controls.Add(this.MpfBoneLoad);
+            this.tabPage5.Controls.Add(this.MpfModelList);
+            this.tabPage5.Controls.Add(this.MPFSaveDecompressed);
+            this.tabPage5.Controls.Add(this.MPFLoad);
+            this.tabPage5.Controls.Add(this.ModelListLabel);
+            this.tabPage5.Location = (new global::System.Drawing.Point(4, 24));
+            this.tabPage5.Name = ("tabPage5");
+            this.tabPage5.Size = (new global::System.Drawing.Size(941, 528));
+            this.tabPage5.TabIndex = (4);
+            this.tabPage5.Text = ("SSX 3 MPF(Models)");
+            this.tabPage5.UseVisualStyleBackColor = (true);
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(label57);
-            groupBox1.Controls.Add(TristripMethodList);
-            groupBox1.Controls.Add(BoneUpdateCheck);
-            groupBox1.Controls.Add(ImportAverageNormal);
-            groupBox1.Location = new Point(205, 418);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(292, 78);
-            groupBox1.TabIndex = 28;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Import Settings";
+            this.groupBox1.Controls.Add(this.label57);
+            this.groupBox1.Controls.Add(this.TristripMethodList);
+            this.groupBox1.Controls.Add(this.BoneUpdateCheck);
+            this.groupBox1.Controls.Add(this.ImportAverageNormal);
+            this.groupBox1.Location = (new global::System.Drawing.Point(205, 418));
+            this.groupBox1.Name = ("groupBox1");
+            this.groupBox1.Size = (new global::System.Drawing.Size(292, 78));
+            this.groupBox1.TabIndex = (28);
+            this.groupBox1.TabStop = (false);
+            this.groupBox1.Text = ("Import Settings");
             // 
             // label57
             // 
-            label57.AutoSize = true;
-            label57.Location = new Point(149, 23);
-            label57.Name = "label57";
-            label57.Size = new Size(87, 15);
-            label57.TabIndex = 3;
-            label57.Text = "Tristrip Method";
+            this.label57.AutoSize = (true);
+            this.label57.Location = (new global::System.Drawing.Point(149, 23));
+            this.label57.Name = ("label57");
+            this.label57.Size = (new global::System.Drawing.Size(87, 15));
+            this.label57.TabIndex = (3);
+            this.label57.Text = ("Tristrip Method");
             // 
             // TristripMethodList
             // 
-            TristripMethodList.FormattingEnabled = true;
-            TristripMethodList.Items.AddRange(new object[] { "Nvida Tristrip" });
-            TristripMethodList.Location = new Point(149, 41);
-            TristripMethodList.Name = "TristripMethodList";
-            TristripMethodList.Size = new Size(121, 23);
-            TristripMethodList.TabIndex = 2;
+            this.TristripMethodList.FormattingEnabled = (true);
+            this.TristripMethodList.Items.AddRange(new global::System.Object[] { "Nvida Tristrip" });
+            this.TristripMethodList.Location = (new global::System.Drawing.Point(149, 41));
+            this.TristripMethodList.Name = ("TristripMethodList");
+            this.TristripMethodList.Size = (new global::System.Drawing.Size(121, 23));
+            this.TristripMethodList.TabIndex = (2);
             // 
             // BoneUpdateCheck
             // 
-            BoneUpdateCheck.AutoSize = true;
-            BoneUpdateCheck.Location = new Point(6, 47);
-            BoneUpdateCheck.Name = "BoneUpdateCheck";
-            BoneUpdateCheck.Size = new Size(131, 19);
-            BoneUpdateCheck.TabIndex = 1;
-            BoneUpdateCheck.Text = "Update Bones (WIP)";
-            BoneUpdateCheck.UseVisualStyleBackColor = true;
+            this.BoneUpdateCheck.AutoSize = (true);
+            this.BoneUpdateCheck.Location = (new global::System.Drawing.Point(6, 47));
+            this.BoneUpdateCheck.Name = ("BoneUpdateCheck");
+            this.BoneUpdateCheck.Size = (new global::System.Drawing.Size(131, 19));
+            this.BoneUpdateCheck.TabIndex = (1);
+            this.BoneUpdateCheck.Text = ("Update Bones (WIP)");
+            this.BoneUpdateCheck.UseVisualStyleBackColor = (true);
             // 
             // ImportAverageNormal
             // 
-            ImportAverageNormal.AutoSize = true;
-            ImportAverageNormal.Location = new Point(6, 22);
-            ImportAverageNormal.Name = "ImportAverageNormal";
-            ImportAverageNormal.Size = new Size(117, 19);
-            ImportAverageNormal.TabIndex = 0;
-            ImportAverageNormal.Text = "Average Normals";
-            ImportAverageNormal.UseVisualStyleBackColor = true;
+            this.ImportAverageNormal.AutoSize = (true);
+            this.ImportAverageNormal.Location = (new global::System.Drawing.Point(6, 22));
+            this.ImportAverageNormal.Name = ("ImportAverageNormal");
+            this.ImportAverageNormal.Size = (new global::System.Drawing.Size(117, 19));
+            this.ImportAverageNormal.TabIndex = (0);
+            this.ImportAverageNormal.Text = ("Average Normals");
+            this.ImportAverageNormal.UseVisualStyleBackColor = (true);
             // 
             // groupBox4
             // 
-            groupBox4.Controls.Add(label74);
-            groupBox4.Controls.Add(MorphGroupCount);
-            groupBox4.Controls.Add(label75);
-            groupBox4.Controls.Add(WeightGroupCount);
-            groupBox4.Controls.Add(label76);
-            groupBox4.Controls.Add(MaterialGroupCount);
-            groupBox4.Controls.Add(label77);
-            groupBox4.Controls.Add(TristripCountLabel);
-            groupBox4.Controls.Add(label78);
-            groupBox4.Controls.Add(VerticeCount);
-            groupBox4.Controls.Add(MeshChunks);
-            groupBox4.Controls.Add(label79);
-            groupBox4.Location = new Point(209, 94);
-            groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(462, 93);
-            groupBox4.TabIndex = 27;
-            groupBox4.TabStop = false;
-            groupBox4.Text = "Model Data";
+            this.groupBox4.Controls.Add(this.label74);
+            this.groupBox4.Controls.Add(this.MorphGroupCount);
+            this.groupBox4.Controls.Add(this.label75);
+            this.groupBox4.Controls.Add(this.WeightGroupCount);
+            this.groupBox4.Controls.Add(this.label76);
+            this.groupBox4.Controls.Add(this.MaterialGroupCount);
+            this.groupBox4.Controls.Add(this.label77);
+            this.groupBox4.Controls.Add(this.TristripCountLabel);
+            this.groupBox4.Controls.Add(this.label78);
+            this.groupBox4.Controls.Add(this.VerticeCount);
+            this.groupBox4.Controls.Add(this.MeshChunks);
+            this.groupBox4.Controls.Add(this.label79);
+            this.groupBox4.Location = (new global::System.Drawing.Point(209, 94));
+            this.groupBox4.Name = ("groupBox4");
+            this.groupBox4.Size = (new global::System.Drawing.Size(462, 93));
+            this.groupBox4.TabIndex = (27);
+            this.groupBox4.TabStop = (false);
+            this.groupBox4.Text = ("Model Data");
             // 
             // label74
             // 
-            label74.AutoSize = true;
-            label74.Location = new Point(6, 50);
-            label74.Name = "label74";
-            label74.Size = new Size(84, 15);
-            label74.TabIndex = 17;
-            label74.Text = "Morph Groups";
+            this.label74.AutoSize = (true);
+            this.label74.Location = (new global::System.Drawing.Point(6, 50));
+            this.label74.Name = ("label74");
+            this.label74.Size = (new global::System.Drawing.Size(84, 15));
+            this.label74.TabIndex = (17);
+            this.label74.Text = ("Morph Groups");
             // 
             // MorphGroupCount
             // 
-            MorphGroupCount.AutoSize = true;
-            MorphGroupCount.Location = new Point(6, 65);
-            MorphGroupCount.Name = "MorphGroupCount";
-            MorphGroupCount.Size = new Size(13, 15);
-            MorphGroupCount.TabIndex = 18;
-            MorphGroupCount.Text = "0";
+            this.MorphGroupCount.AutoSize = (true);
+            this.MorphGroupCount.Location = (new global::System.Drawing.Point(6, 65));
+            this.MorphGroupCount.Name = ("MorphGroupCount");
+            this.MorphGroupCount.Size = (new global::System.Drawing.Size(13, 15));
+            this.MorphGroupCount.TabIndex = (18);
+            this.MorphGroupCount.Text = ("0");
             // 
             // label75
             // 
-            label75.AutoSize = true;
-            label75.Location = new Point(355, 19);
-            label75.Name = "label75";
-            label75.Size = new Size(86, 15);
-            label75.TabIndex = 15;
-            label75.Text = "Weight Groups";
+            this.label75.AutoSize = (true);
+            this.label75.Location = (new global::System.Drawing.Point(355, 19));
+            this.label75.Name = ("label75");
+            this.label75.Size = (new global::System.Drawing.Size(86, 15));
+            this.label75.TabIndex = (15);
+            this.label75.Text = ("Weight Groups");
             // 
             // WeightGroupCount
             // 
-            WeightGroupCount.AutoSize = true;
-            WeightGroupCount.Location = new Point(355, 34);
-            WeightGroupCount.Name = "WeightGroupCount";
-            WeightGroupCount.Size = new Size(13, 15);
-            WeightGroupCount.TabIndex = 16;
-            WeightGroupCount.Text = "0";
+            this.WeightGroupCount.AutoSize = (true);
+            this.WeightGroupCount.Location = (new global::System.Drawing.Point(355, 34));
+            this.WeightGroupCount.Name = ("WeightGroupCount");
+            this.WeightGroupCount.Size = (new global::System.Drawing.Size(13, 15));
+            this.WeightGroupCount.TabIndex = (16);
+            this.WeightGroupCount.Text = ("0");
             // 
             // label76
             // 
-            label76.AutoSize = true;
-            label76.Location = new Point(265, 19);
-            label76.Name = "label76";
-            label76.Size = new Size(91, 15);
-            label76.TabIndex = 13;
-            label76.Text = "Material Groups";
+            this.label76.AutoSize = (true);
+            this.label76.Location = (new global::System.Drawing.Point(265, 19));
+            this.label76.Name = ("label76");
+            this.label76.Size = (new global::System.Drawing.Size(91, 15));
+            this.label76.TabIndex = (13);
+            this.label76.Text = ("Material Groups");
             // 
             // MaterialGroupCount
             // 
-            MaterialGroupCount.AutoSize = true;
-            MaterialGroupCount.Location = new Point(265, 34);
-            MaterialGroupCount.Name = "MaterialGroupCount";
-            MaterialGroupCount.Size = new Size(13, 15);
-            MaterialGroupCount.TabIndex = 14;
-            MaterialGroupCount.Text = "0";
+            this.MaterialGroupCount.AutoSize = (true);
+            this.MaterialGroupCount.Location = (new global::System.Drawing.Point(265, 34));
+            this.MaterialGroupCount.Name = ("MaterialGroupCount");
+            this.MaterialGroupCount.Size = (new global::System.Drawing.Size(13, 15));
+            this.MaterialGroupCount.TabIndex = (14);
+            this.MaterialGroupCount.Text = ("0");
             // 
             // label77
             // 
-            label77.AutoSize = true;
-            label77.Location = new Point(6, 19);
-            label77.Name = "label77";
-            label77.Size = new Size(78, 15);
-            label77.TabIndex = 6;
-            label77.Text = "Tristrip Count";
+            this.label77.AutoSize = (true);
+            this.label77.Location = (new global::System.Drawing.Point(6, 19));
+            this.label77.Name = ("label77");
+            this.label77.Size = (new global::System.Drawing.Size(78, 15));
+            this.label77.TabIndex = (6);
+            this.label77.Text = ("Tristrip Count");
             // 
             // TristripCountLabel
             // 
-            TristripCountLabel.AutoSize = true;
-            TristripCountLabel.Location = new Point(6, 34);
-            TristripCountLabel.Name = "TristripCountLabel";
-            TristripCountLabel.Size = new Size(13, 15);
-            TristripCountLabel.TabIndex = 7;
-            TristripCountLabel.Text = "0";
+            this.TristripCountLabel.AutoSize = (true);
+            this.TristripCountLabel.Location = (new global::System.Drawing.Point(6, 34));
+            this.TristripCountLabel.Name = ("TristripCountLabel");
+            this.TristripCountLabel.Size = (new global::System.Drawing.Size(13, 15));
+            this.TristripCountLabel.TabIndex = (7);
+            this.TristripCountLabel.Text = ("0");
             // 
             // label78
             // 
-            label78.AutoSize = true;
-            label78.Location = new Point(96, 19);
-            label78.Name = "label78";
-            label78.Size = new Size(78, 15);
-            label78.TabIndex = 8;
-            label78.Text = "Vertice Count";
+            this.label78.AutoSize = (true);
+            this.label78.Location = (new global::System.Drawing.Point(96, 19));
+            this.label78.Name = ("label78");
+            this.label78.Size = (new global::System.Drawing.Size(78, 15));
+            this.label78.TabIndex = (8);
+            this.label78.Text = ("Vertice Count");
             // 
             // VerticeCount
             // 
-            VerticeCount.AutoSize = true;
-            VerticeCount.Location = new Point(96, 34);
-            VerticeCount.Name = "VerticeCount";
-            VerticeCount.Size = new Size(13, 15);
-            VerticeCount.TabIndex = 9;
-            VerticeCount.Text = "0";
+            this.VerticeCount.AutoSize = (true);
+            this.VerticeCount.Location = (new global::System.Drawing.Point(96, 34));
+            this.VerticeCount.Name = ("VerticeCount");
+            this.VerticeCount.Size = (new global::System.Drawing.Size(13, 15));
+            this.VerticeCount.TabIndex = (9);
+            this.VerticeCount.Text = ("0");
             // 
             // MeshChunks
             // 
-            MeshChunks.AutoSize = true;
-            MeshChunks.Location = new Point(180, 34);
-            MeshChunks.Name = "MeshChunks";
-            MeshChunks.Size = new Size(13, 15);
-            MeshChunks.TabIndex = 12;
-            MeshChunks.Text = "0";
+            this.MeshChunks.AutoSize = (true);
+            this.MeshChunks.Location = (new global::System.Drawing.Point(180, 34));
+            this.MeshChunks.Name = ("MeshChunks");
+            this.MeshChunks.Size = (new global::System.Drawing.Size(13, 15));
+            this.MeshChunks.TabIndex = (12);
+            this.MeshChunks.Text = ("0");
             // 
             // label79
             // 
-            label79.AutoSize = true;
-            label79.Location = new Point(180, 19);
-            label79.Name = "label79";
-            label79.Size = new Size(79, 15);
-            label79.TabIndex = 11;
-            label79.Text = "Mesh Chunks";
+            this.label79.AutoSize = (true);
+            this.label79.Location = (new global::System.Drawing.Point(180, 19));
+            this.label79.Name = ("label79");
+            this.label79.Size = (new global::System.Drawing.Size(79, 15));
+            this.label79.TabIndex = (11);
+            this.label79.Text = ("Mesh Chunks");
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(label66);
-            groupBox3.Controls.Add(MatUnknown2);
-            groupBox3.Controls.Add(label67);
-            groupBox3.Controls.Add(MatUnknown1);
-            groupBox3.Controls.Add(label68);
-            groupBox3.Controls.Add(MatFlagFactor);
-            groupBox3.Controls.Add(MatTextureFlag4);
-            groupBox3.Controls.Add(label69);
-            groupBox3.Controls.Add(MatTextureFlag3);
-            groupBox3.Controls.Add(label70);
-            groupBox3.Controls.Add(MatTextureFlag2);
-            groupBox3.Controls.Add(label71);
-            groupBox3.Controls.Add(MatTextureFlag1);
-            groupBox3.Controls.Add(label72);
-            groupBox3.Controls.Add(MatMainTexture);
-            groupBox3.Controls.Add(label73);
-            groupBox3.Controls.Add(MaterialList);
-            groupBox3.Location = new Point(677, 25);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(254, 218);
-            groupBox3.TabIndex = 26;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "Material Settings";
+            this.groupBox3.Controls.Add(this.label66);
+            this.groupBox3.Controls.Add(this.MatUnknown2);
+            this.groupBox3.Controls.Add(this.label67);
+            this.groupBox3.Controls.Add(this.MatUnknown1);
+            this.groupBox3.Controls.Add(this.label68);
+            this.groupBox3.Controls.Add(this.MatFlagFactor);
+            this.groupBox3.Controls.Add(this.MatTextureFlag4);
+            this.groupBox3.Controls.Add(this.label69);
+            this.groupBox3.Controls.Add(this.MatTextureFlag3);
+            this.groupBox3.Controls.Add(this.label70);
+            this.groupBox3.Controls.Add(this.MatTextureFlag2);
+            this.groupBox3.Controls.Add(this.label71);
+            this.groupBox3.Controls.Add(this.MatTextureFlag1);
+            this.groupBox3.Controls.Add(this.label72);
+            this.groupBox3.Controls.Add(this.MatMainTexture);
+            this.groupBox3.Controls.Add(this.label73);
+            this.groupBox3.Controls.Add(this.MaterialList);
+            this.groupBox3.Location = (new global::System.Drawing.Point(677, 25));
+            this.groupBox3.Name = ("groupBox3");
+            this.groupBox3.Size = (new global::System.Drawing.Size(254, 218));
+            this.groupBox3.TabIndex = (26);
+            this.groupBox3.TabStop = (false);
+            this.groupBox3.Text = ("Material Settings");
             // 
             // label66
             // 
-            label66.AutoSize = true;
-            label66.Location = new Point(167, 164);
-            label66.Name = "label66";
-            label66.Size = new Size(67, 15);
-            label66.TabIndex = 43;
-            label66.Text = "Unknown 2";
+            this.label66.AutoSize = (true);
+            this.label66.Location = (new global::System.Drawing.Point(167, 164));
+            this.label66.Name = ("label66");
+            this.label66.Size = (new global::System.Drawing.Size(67, 15));
+            this.label66.TabIndex = (43);
+            this.label66.Text = ("Unknown 2");
             // 
             // MatUnknown2
             // 
-            MatUnknown2.DecimalPlaces = 6;
-            MatUnknown2.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            MatUnknown2.Location = new Point(167, 183);
-            MatUnknown2.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
-            MatUnknown2.Name = "MatUnknown2";
-            MatUnknown2.Size = new Size(81, 23);
-            MatUnknown2.TabIndex = 42;
-            MatUnknown2.ValueChanged += MatUpdate;
+            this.MatUnknown2.DecimalPlaces = (6);
+            this.MatUnknown2.Increment = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, 65536 }));
+            this.MatUnknown2.Location = (new global::System.Drawing.Point(167, 183));
+            this.MatUnknown2.Minimum = (new global::System.Decimal(new global::System.Int32[] { 100, 0, 0, global::System.Int32.MinValue }));
+            this.MatUnknown2.Name = ("MatUnknown2");
+            this.MatUnknown2.Size = (new global::System.Drawing.Size(81, 23));
+            this.MatUnknown2.TabIndex = (42);
+            this.MatUnknown2.ValueChanged += (this.MatUpdate);
             // 
             // label67
             // 
-            label67.AutoSize = true;
-            label67.Location = new Point(82, 164);
-            label67.Name = "label67";
-            label67.Size = new Size(67, 15);
-            label67.TabIndex = 41;
-            label67.Text = "Unknown 1";
+            this.label67.AutoSize = (true);
+            this.label67.Location = (new global::System.Drawing.Point(82, 164));
+            this.label67.Name = ("label67");
+            this.label67.Size = (new global::System.Drawing.Size(67, 15));
+            this.label67.TabIndex = (41);
+            this.label67.Text = ("Unknown 1");
             // 
             // MatUnknown1
             // 
-            MatUnknown1.DecimalPlaces = 6;
-            MatUnknown1.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            MatUnknown1.Location = new Point(82, 183);
-            MatUnknown1.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
-            MatUnknown1.Name = "MatUnknown1";
-            MatUnknown1.Size = new Size(81, 23);
-            MatUnknown1.TabIndex = 40;
-            MatUnknown1.ValueChanged += MatUpdate;
+            this.MatUnknown1.DecimalPlaces = (6);
+            this.MatUnknown1.Increment = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, 65536 }));
+            this.MatUnknown1.Location = (new global::System.Drawing.Point(82, 183));
+            this.MatUnknown1.Minimum = (new global::System.Decimal(new global::System.Int32[] { 100, 0, 0, global::System.Int32.MinValue }));
+            this.MatUnknown1.Name = ("MatUnknown1");
+            this.MatUnknown1.Size = (new global::System.Drawing.Size(81, 23));
+            this.MatUnknown1.TabIndex = (40);
+            this.MatUnknown1.ValueChanged += (this.MatUpdate);
             // 
             // label68
             // 
-            label68.AutoSize = true;
-            label68.Location = new Point(167, 117);
-            label68.Name = "label68";
-            label68.Size = new Size(65, 15);
-            label68.TabIndex = 39;
-            label68.Text = "Flag Factor";
+            this.label68.AutoSize = (true);
+            this.label68.Location = (new global::System.Drawing.Point(167, 117));
+            this.label68.Name = ("label68");
+            this.label68.Size = (new global::System.Drawing.Size(65, 15));
+            this.label68.TabIndex = (39);
+            this.label68.Text = ("Flag Factor");
             // 
             // MatFlagFactor
             // 
-            MatFlagFactor.DecimalPlaces = 6;
-            MatFlagFactor.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            MatFlagFactor.Location = new Point(167, 136);
-            MatFlagFactor.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
-            MatFlagFactor.Name = "MatFlagFactor";
-            MatFlagFactor.Size = new Size(81, 23);
-            MatFlagFactor.TabIndex = 38;
-            MatFlagFactor.ValueChanged += MatUpdate;
+            this.MatFlagFactor.DecimalPlaces = (6);
+            this.MatFlagFactor.Increment = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, 65536 }));
+            this.MatFlagFactor.Location = (new global::System.Drawing.Point(167, 136));
+            this.MatFlagFactor.Minimum = (new global::System.Decimal(new global::System.Int32[] { 100, 0, 0, global::System.Int32.MinValue }));
+            this.MatFlagFactor.Name = ("MatFlagFactor");
+            this.MatFlagFactor.Size = (new global::System.Drawing.Size(81, 23));
+            this.MatFlagFactor.TabIndex = (38);
+            this.MatFlagFactor.ValueChanged += (this.MatUpdate);
             // 
             // MatTextureFlag4
             // 
-            MatTextureFlag4.Location = new Point(82, 135);
-            MatTextureFlag4.Name = "MatTextureFlag4";
-            MatTextureFlag4.Size = new Size(79, 23);
-            MatTextureFlag4.TabIndex = 37;
-            MatTextureFlag4.TextChanged += MatUpdate;
+            this.MatTextureFlag4.Location = (new global::System.Drawing.Point(82, 135));
+            this.MatTextureFlag4.Name = ("MatTextureFlag4");
+            this.MatTextureFlag4.Size = (new global::System.Drawing.Size(79, 23));
+            this.MatTextureFlag4.TabIndex = (37);
+            this.MatTextureFlag4.TextChanged += (this.MatUpdate);
             // 
             // label69
             // 
-            label69.AutoSize = true;
-            label69.Location = new Point(82, 117);
-            label69.Name = "label69";
-            label69.Size = new Size(79, 15);
-            label69.TabIndex = 36;
-            label69.Text = "Texture Flag 4";
+            this.label69.AutoSize = (true);
+            this.label69.Location = (new global::System.Drawing.Point(82, 117));
+            this.label69.Name = ("label69");
+            this.label69.Size = (new global::System.Drawing.Size(79, 15));
+            this.label69.TabIndex = (36);
+            this.label69.Text = ("Texture Flag 4");
             // 
             // MatTextureFlag3
             // 
-            MatTextureFlag3.Location = new Point(169, 86);
-            MatTextureFlag3.Name = "MatTextureFlag3";
-            MatTextureFlag3.Size = new Size(79, 23);
-            MatTextureFlag3.TabIndex = 35;
-            MatTextureFlag3.TextChanged += MatUpdate;
+            this.MatTextureFlag3.Location = (new global::System.Drawing.Point(169, 86));
+            this.MatTextureFlag3.Name = ("MatTextureFlag3");
+            this.MatTextureFlag3.Size = (new global::System.Drawing.Size(79, 23));
+            this.MatTextureFlag3.TabIndex = (35);
+            this.MatTextureFlag3.TextChanged += (this.MatUpdate);
             // 
             // label70
             // 
-            label70.AutoSize = true;
-            label70.Location = new Point(169, 68);
-            label70.Name = "label70";
-            label70.Size = new Size(79, 15);
-            label70.TabIndex = 34;
-            label70.Text = "Texture Flag 3";
+            this.label70.AutoSize = (true);
+            this.label70.Location = (new global::System.Drawing.Point(169, 68));
+            this.label70.Name = ("label70");
+            this.label70.Size = (new global::System.Drawing.Size(79, 15));
+            this.label70.TabIndex = (34);
+            this.label70.Text = ("Texture Flag 3");
             // 
             // MatTextureFlag2
             // 
-            MatTextureFlag2.Location = new Point(82, 86);
-            MatTextureFlag2.Name = "MatTextureFlag2";
-            MatTextureFlag2.Size = new Size(79, 23);
-            MatTextureFlag2.TabIndex = 33;
-            MatTextureFlag2.TextChanged += MatUpdate;
+            this.MatTextureFlag2.Location = (new global::System.Drawing.Point(82, 86));
+            this.MatTextureFlag2.Name = ("MatTextureFlag2");
+            this.MatTextureFlag2.Size = (new global::System.Drawing.Size(79, 23));
+            this.MatTextureFlag2.TabIndex = (33);
+            this.MatTextureFlag2.TextChanged += (this.MatUpdate);
             // 
             // label71
             // 
-            label71.AutoSize = true;
-            label71.Location = new Point(82, 68);
-            label71.Name = "label71";
-            label71.Size = new Size(79, 15);
-            label71.TabIndex = 32;
-            label71.Text = "Texture Flag 2";
+            this.label71.AutoSize = (true);
+            this.label71.Location = (new global::System.Drawing.Point(82, 68));
+            this.label71.Name = ("label71");
+            this.label71.Size = (new global::System.Drawing.Size(79, 15));
+            this.label71.TabIndex = (32);
+            this.label71.Text = ("Texture Flag 2");
             // 
             // MatTextureFlag1
             // 
-            MatTextureFlag1.Location = new Point(169, 40);
-            MatTextureFlag1.Name = "MatTextureFlag1";
-            MatTextureFlag1.Size = new Size(79, 23);
-            MatTextureFlag1.TabIndex = 31;
-            MatTextureFlag1.TextChanged += MatUpdate;
+            this.MatTextureFlag1.Location = (new global::System.Drawing.Point(169, 40));
+            this.MatTextureFlag1.Name = ("MatTextureFlag1");
+            this.MatTextureFlag1.Size = (new global::System.Drawing.Size(79, 23));
+            this.MatTextureFlag1.TabIndex = (31);
+            this.MatTextureFlag1.TextChanged += (this.MatUpdate);
             // 
             // label72
             // 
-            label72.AutoSize = true;
-            label72.Location = new Point(169, 22);
-            label72.Name = "label72";
-            label72.Size = new Size(79, 15);
-            label72.TabIndex = 30;
-            label72.Text = "Texture Flag 1";
+            this.label72.AutoSize = (true);
+            this.label72.Location = (new global::System.Drawing.Point(169, 22));
+            this.label72.Name = ("label72");
+            this.label72.Size = (new global::System.Drawing.Size(79, 15));
+            this.label72.TabIndex = (30);
+            this.label72.Text = ("Texture Flag 1");
             // 
             // MatMainTexture
             // 
-            MatMainTexture.Location = new Point(82, 40);
-            MatMainTexture.Name = "MatMainTexture";
-            MatMainTexture.Size = new Size(79, 23);
-            MatMainTexture.TabIndex = 29;
-            MatMainTexture.TextChanged += MatUpdate;
+            this.MatMainTexture.Location = (new global::System.Drawing.Point(82, 40));
+            this.MatMainTexture.Name = ("MatMainTexture");
+            this.MatMainTexture.Size = (new global::System.Drawing.Size(79, 23));
+            this.MatMainTexture.TabIndex = (29);
+            this.MatMainTexture.TextChanged += (this.MatUpdate);
             // 
             // label73
             // 
-            label73.AutoSize = true;
-            label73.Location = new Point(82, 22);
-            label73.Name = "label73";
-            label73.Size = new Size(75, 15);
-            label73.TabIndex = 28;
-            label73.Text = "Main Texture";
+            this.label73.AutoSize = (true);
+            this.label73.Location = (new global::System.Drawing.Point(82, 22));
+            this.label73.Name = ("label73");
+            this.label73.Size = (new global::System.Drawing.Size(75, 15));
+            this.label73.TabIndex = (28);
+            this.label73.Text = ("Main Texture");
             // 
             // MaterialList
             // 
-            MaterialList.FormattingEnabled = true;
-            MaterialList.ItemHeight = 15;
-            MaterialList.Location = new Point(6, 22);
-            MaterialList.Name = "MaterialList";
-            MaterialList.Size = new Size(70, 184);
-            MaterialList.TabIndex = 27;
-            MaterialList.SelectedIndexChanged += MaterialList_SelectedIndexChanged;
+            this.MaterialList.FormattingEnabled = (true);
+            this.MaterialList.ItemHeight = (15);
+            this.MaterialList.Location = (new global::System.Drawing.Point(6, 22));
+            this.MaterialList.Name = ("MaterialList");
+            this.MaterialList.Size = (new global::System.Drawing.Size(70, 184));
+            this.MaterialList.TabIndex = (27);
+            this.MaterialList.SelectedIndexChanged += (this.MaterialList_SelectedIndexChanged);
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(label60);
-            groupBox2.Controls.Add(MpfWeights);
-            groupBox2.Controls.Add(label61);
-            groupBox2.Controls.Add(FileID);
-            groupBox2.Controls.Add(label62);
-            groupBox2.Controls.Add(BoneCount);
-            groupBox2.Controls.Add(label63);
-            groupBox2.Controls.Add(ShapeKeyCount);
-            groupBox2.Controls.Add(MaterialCount);
-            groupBox2.Controls.Add(label64);
-            groupBox2.Controls.Add(label65);
-            groupBox2.Controls.Add(IkCount);
-            groupBox2.Location = new Point(209, 25);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(462, 63);
-            groupBox2.TabIndex = 25;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Model Header Info";
+            this.groupBox2.Controls.Add(this.label60);
+            this.groupBox2.Controls.Add(this.MpfWeights);
+            this.groupBox2.Controls.Add(this.label61);
+            this.groupBox2.Controls.Add(this.FileID);
+            this.groupBox2.Controls.Add(this.label62);
+            this.groupBox2.Controls.Add(this.BoneCount);
+            this.groupBox2.Controls.Add(this.label63);
+            this.groupBox2.Controls.Add(this.ShapeKeyCount);
+            this.groupBox2.Controls.Add(this.MaterialCount);
+            this.groupBox2.Controls.Add(this.label64);
+            this.groupBox2.Controls.Add(this.label65);
+            this.groupBox2.Controls.Add(this.IkCount);
+            this.groupBox2.Location = (new global::System.Drawing.Point(209, 25));
+            this.groupBox2.Name = ("groupBox2");
+            this.groupBox2.Size = (new global::System.Drawing.Size(462, 63));
+            this.groupBox2.TabIndex = (25);
+            this.groupBox2.TabStop = (false);
+            this.groupBox2.Text = ("Model Header Info");
             // 
             // label60
             // 
-            label60.AutoSize = true;
-            label60.Location = new Point(288, 19);
-            label60.Name = "label60";
-            label60.Size = new Size(50, 15);
-            label60.TabIndex = 24;
-            label60.Text = "Weights";
+            this.label60.AutoSize = (true);
+            this.label60.Location = (new global::System.Drawing.Point(288, 19));
+            this.label60.Name = ("label60");
+            this.label60.Size = (new global::System.Drawing.Size(50, 15));
+            this.label60.TabIndex = (24);
+            this.label60.Text = ("Weights");
             // 
             // MpfWeights
             // 
-            MpfWeights.AutoSize = true;
-            MpfWeights.Location = new Point(288, 34);
-            MpfWeights.Name = "MpfWeights";
-            MpfWeights.Size = new Size(13, 15);
-            MpfWeights.TabIndex = 25;
-            MpfWeights.Text = "0";
+            this.MpfWeights.AutoSize = (true);
+            this.MpfWeights.Location = (new global::System.Drawing.Point(288, 34));
+            this.MpfWeights.Name = ("MpfWeights");
+            this.MpfWeights.Size = (new global::System.Drawing.Size(13, 15));
+            this.MpfWeights.TabIndex = (25);
+            this.MpfWeights.Text = ("0");
             // 
             // label61
             // 
-            label61.AutoSize = true;
-            label61.Location = new Point(6, 19);
-            label61.Name = "label61";
-            label61.Size = new Size(39, 15);
-            label61.TabIndex = 22;
-            label61.Text = "File ID";
+            this.label61.AutoSize = (true);
+            this.label61.Location = (new global::System.Drawing.Point(6, 19));
+            this.label61.Name = ("label61");
+            this.label61.Size = (new global::System.Drawing.Size(39, 15));
+            this.label61.TabIndex = (22);
+            this.label61.Text = ("File ID");
             // 
             // FileID
             // 
-            FileID.AutoSize = true;
-            FileID.Location = new Point(6, 34);
-            FileID.Name = "FileID";
-            FileID.Size = new Size(13, 15);
-            FileID.TabIndex = 23;
-            FileID.Text = "0";
+            this.FileID.AutoSize = (true);
+            this.FileID.Location = (new global::System.Drawing.Point(6, 34));
+            this.FileID.Name = ("FileID");
+            this.FileID.Size = (new global::System.Drawing.Size(13, 15));
+            this.FileID.TabIndex = (23);
+            this.FileID.Text = ("0");
             // 
             // label62
             // 
-            label62.AutoSize = true;
-            label62.Location = new Point(51, 19);
-            label62.Name = "label62";
-            label62.Size = new Size(39, 15);
-            label62.TabIndex = 13;
-            label62.Text = "Bones";
+            this.label62.AutoSize = (true);
+            this.label62.Location = (new global::System.Drawing.Point(51, 19));
+            this.label62.Name = ("label62");
+            this.label62.Size = (new global::System.Drawing.Size(39, 15));
+            this.label62.TabIndex = (13);
+            this.label62.Text = ("Bones");
             // 
             // BoneCount
             // 
-            BoneCount.AutoSize = true;
-            BoneCount.Location = new Point(51, 34);
-            BoneCount.Name = "BoneCount";
-            BoneCount.Size = new Size(13, 15);
-            BoneCount.TabIndex = 14;
-            BoneCount.Text = "0";
+            this.BoneCount.AutoSize = (true);
+            this.BoneCount.Location = (new global::System.Drawing.Point(51, 34));
+            this.BoneCount.Name = ("BoneCount");
+            this.BoneCount.Size = (new global::System.Drawing.Size(13, 15));
+            this.BoneCount.TabIndex = (14);
+            this.BoneCount.Text = ("0");
             // 
             // label63
             // 
-            label63.AutoSize = true;
-            label63.Location = new Point(96, 19);
-            label63.Name = "label63";
-            label63.Size = new Size(55, 15);
-            label63.TabIndex = 15;
-            label63.Text = "Materials";
+            this.label63.AutoSize = (true);
+            this.label63.Location = (new global::System.Drawing.Point(96, 19));
+            this.label63.Name = ("label63");
+            this.label63.Size = (new global::System.Drawing.Size(55, 15));
+            this.label63.TabIndex = (15);
+            this.label63.Text = ("Materials");
             // 
             // ShapeKeyCount
             // 
-            ShapeKeyCount.AutoSize = true;
-            ShapeKeyCount.Location = new Point(216, 34);
-            ShapeKeyCount.Name = "ShapeKeyCount";
-            ShapeKeyCount.Size = new Size(13, 15);
-            ShapeKeyCount.TabIndex = 20;
-            ShapeKeyCount.Text = "0";
+            this.ShapeKeyCount.AutoSize = (true);
+            this.ShapeKeyCount.Location = (new global::System.Drawing.Point(216, 34));
+            this.ShapeKeyCount.Name = ("ShapeKeyCount");
+            this.ShapeKeyCount.Size = (new global::System.Drawing.Size(13, 15));
+            this.ShapeKeyCount.TabIndex = (20);
+            this.ShapeKeyCount.Text = ("0");
             // 
             // MaterialCount
             // 
-            MaterialCount.AutoSize = true;
-            MaterialCount.Location = new Point(96, 34);
-            MaterialCount.Name = "MaterialCount";
-            MaterialCount.Size = new Size(13, 15);
-            MaterialCount.TabIndex = 16;
-            MaterialCount.Text = "0";
+            this.MaterialCount.AutoSize = (true);
+            this.MaterialCount.Location = (new global::System.Drawing.Point(96, 34));
+            this.MaterialCount.Name = ("MaterialCount");
+            this.MaterialCount.Size = (new global::System.Drawing.Size(13, 15));
+            this.MaterialCount.TabIndex = (16);
+            this.MaterialCount.Text = ("0");
             // 
             // label64
             // 
-            label64.AutoSize = true;
-            label64.Location = new Point(216, 19);
-            label64.Name = "label64";
-            label64.Size = new Size(66, 15);
-            label64.TabIndex = 19;
-            label64.Text = "Shape Keys";
+            this.label64.AutoSize = (true);
+            this.label64.Location = (new global::System.Drawing.Point(216, 19));
+            this.label64.Name = ("label64");
+            this.label64.Size = (new global::System.Drawing.Size(66, 15));
+            this.label64.TabIndex = (19);
+            this.label64.Text = ("Shape Keys");
             // 
             // label65
             // 
-            label65.AutoSize = true;
-            label65.Location = new Point(157, 19);
-            label65.Name = "label65";
-            label65.Size = new Size(53, 15);
-            label65.TabIndex = 17;
-            label65.Text = "IK Points";
+            this.label65.AutoSize = (true);
+            this.label65.Location = (new global::System.Drawing.Point(157, 19));
+            this.label65.Name = ("label65");
+            this.label65.Size = (new global::System.Drawing.Size(53, 15));
+            this.label65.TabIndex = (17);
+            this.label65.Text = ("IK Points");
             // 
             // IkCount
             // 
-            IkCount.AutoSize = true;
-            IkCount.Location = new Point(157, 34);
-            IkCount.Name = "IkCount";
-            IkCount.Size = new Size(13, 15);
-            IkCount.TabIndex = 18;
-            IkCount.Text = "0";
+            this.IkCount.AutoSize = (true);
+            this.IkCount.Location = (new global::System.Drawing.Point(157, 34));
+            this.IkCount.Name = ("IkCount");
+            this.IkCount.Size = (new global::System.Drawing.Size(13, 15));
+            this.IkCount.TabIndex = (18);
+            this.IkCount.Text = ("0");
             // 
             // MPFWarningLabel
             // 
-            MPFWarningLabel.AutoSize = true;
-            MPFWarningLabel.Location = new Point(215, 204);
-            MPFWarningLabel.Name = "MPFWarningLabel";
-            MPFWarningLabel.Size = new Size(36, 15);
-            MPFWarningLabel.TabIndex = 13;
-            MPFWarningLabel.Text = "None";
+            this.MPFWarningLabel.AutoSize = (true);
+            this.MPFWarningLabel.Location = (new global::System.Drawing.Point(215, 204));
+            this.MPFWarningLabel.Name = ("MPFWarningLabel");
+            this.MPFWarningLabel.Size = (new global::System.Drawing.Size(36, 15));
+            this.MPFWarningLabel.TabIndex = (13);
+            this.MPFWarningLabel.Text = ("None");
             // 
             // label59
             // 
-            label59.AutoSize = true;
-            label59.Location = new Point(215, 189);
-            label59.Name = "label59";
-            label59.Size = new Size(52, 15);
-            label59.TabIndex = 12;
-            label59.Text = "Warning";
+            this.label59.AutoSize = (true);
+            this.label59.Location = (new global::System.Drawing.Point(215, 189));
+            this.label59.Name = ("label59");
+            this.label59.Size = (new global::System.Drawing.Size(52, 15));
+            this.label59.TabIndex = (12);
+            this.label59.Text = ("Warning");
             // 
             // MpfExport
             // 
-            MpfExport.Location = new Point(782, 502);
-            MpfExport.Name = "MpfExport";
-            MpfExport.Size = new Size(77, 23);
-            MpfExport.TabIndex = 11;
-            MpfExport.Text = "Export";
-            MpfExport.UseVisualStyleBackColor = true;
-            MpfExport.Click += MpfExport_Click;
+            this.MpfExport.Location = (new global::System.Drawing.Point(782, 502));
+            this.MpfExport.Name = ("MpfExport");
+            this.MpfExport.Size = (new global::System.Drawing.Size(77, 23));
+            this.MpfExport.TabIndex = (11);
+            this.MpfExport.Text = ("Export");
+            this.MpfExport.UseVisualStyleBackColor = (true);
+            this.MpfExport.Click += (this.MpfExport_Click);
             // 
             // MpfImport
             // 
-            MpfImport.Location = new Point(367, 502);
-            MpfImport.Name = "MpfImport";
-            MpfImport.Size = new Size(66, 23);
-            MpfImport.TabIndex = 10;
-            MpfImport.Text = "Import";
-            MpfImport.UseVisualStyleBackColor = true;
-            MpfImport.Click += MpfImport_Click;
+            this.MpfImport.Location = (new global::System.Drawing.Point(367, 502));
+            this.MpfImport.Name = ("MpfImport");
+            this.MpfImport.Size = (new global::System.Drawing.Size(66, 23));
+            this.MpfImport.TabIndex = (10);
+            this.MpfImport.Text = ("Import");
+            this.MpfImport.UseVisualStyleBackColor = (true);
+            this.MpfImport.Click += (this.MpfImport_Click);
             // 
             // MpfSaveCompressed
             // 
-            MpfSaveCompressed.Location = new Point(865, 502);
-            MpfSaveCompressed.Name = "MpfSaveCompressed";
-            MpfSaveCompressed.Size = new Size(73, 23);
-            MpfSaveCompressed.TabIndex = 9;
-            MpfSaveCompressed.Text = "Save";
-            MpfSaveCompressed.UseVisualStyleBackColor = true;
-            MpfSaveCompressed.Click += MpfSaveCompressed_Click;
+            this.MpfSaveCompressed.Location = (new global::System.Drawing.Point(865, 502));
+            this.MpfSaveCompressed.Name = ("MpfSaveCompressed");
+            this.MpfSaveCompressed.Size = (new global::System.Drawing.Size(73, 23));
+            this.MpfSaveCompressed.TabIndex = (9);
+            this.MpfSaveCompressed.Text = ("Save");
+            this.MpfSaveCompressed.UseVisualStyleBackColor = (true);
+            this.MpfSaveCompressed.Click += (this.MpfSaveCompressed_Click);
             // 
             // MpfBoneLoad
             // 
-            MpfBoneLoad.Location = new Point(286, 502);
-            MpfBoneLoad.Name = "MpfBoneLoad";
-            MpfBoneLoad.Size = new Size(75, 23);
-            MpfBoneLoad.TabIndex = 4;
-            MpfBoneLoad.Text = "Bone Load";
-            MpfBoneLoad.UseVisualStyleBackColor = true;
-            MpfBoneLoad.Click += MpfBoneLoad_Click;
+            this.MpfBoneLoad.Location = (new global::System.Drawing.Point(286, 502));
+            this.MpfBoneLoad.Name = ("MpfBoneLoad");
+            this.MpfBoneLoad.Size = (new global::System.Drawing.Size(75, 23));
+            this.MpfBoneLoad.TabIndex = (4);
+            this.MpfBoneLoad.Text = ("Bone Load");
+            this.MpfBoneLoad.UseVisualStyleBackColor = (true);
+            this.MpfBoneLoad.Click += (this.MpfBoneLoad_Click);
             // 
             // MpfModelList
             // 
-            MpfModelList.FormattingEnabled = true;
-            MpfModelList.ItemHeight = 15;
-            MpfModelList.Location = new Point(7, 25);
-            MpfModelList.Name = "MpfModelList";
-            MpfModelList.Size = new Size(196, 499);
-            MpfModelList.TabIndex = 2;
-            MpfModelList.SelectedIndexChanged += MpfModelList_SelectedIndexChanged;
+            this.MpfModelList.FormattingEnabled = (true);
+            this.MpfModelList.ItemHeight = (15);
+            this.MpfModelList.Location = (new global::System.Drawing.Point(7, 25));
+            this.MpfModelList.Name = ("MpfModelList");
+            this.MpfModelList.Size = (new global::System.Drawing.Size(196, 499));
+            this.MpfModelList.TabIndex = (2);
+            this.MpfModelList.SelectedIndexChanged += (this.MpfModelList_SelectedIndexChanged);
             // 
             // MPFSaveDecompressed
             // 
-            MPFSaveDecompressed.Location = new Point(782, 473);
-            MPFSaveDecompressed.Name = "MPFSaveDecompressed";
-            MPFSaveDecompressed.Size = new Size(156, 23);
-            MPFSaveDecompressed.TabIndex = 1;
-            MPFSaveDecompressed.Text = "Save Decompressed";
-            MPFSaveDecompressed.UseVisualStyleBackColor = true;
-            MPFSaveDecompressed.Click += MPFSaveDecompressed_Click;
+            this.MPFSaveDecompressed.Location = (new global::System.Drawing.Point(782, 473));
+            this.MPFSaveDecompressed.Name = ("MPFSaveDecompressed");
+            this.MPFSaveDecompressed.Size = (new global::System.Drawing.Size(156, 23));
+            this.MPFSaveDecompressed.TabIndex = (1);
+            this.MPFSaveDecompressed.Text = ("Save Decompressed");
+            this.MPFSaveDecompressed.UseVisualStyleBackColor = (true);
+            this.MPFSaveDecompressed.Click += (this.MPFSaveDecompressed_Click);
             // 
             // MPFLoad
             // 
-            MPFLoad.Location = new Point(205, 502);
-            MPFLoad.Name = "MPFLoad";
-            MPFLoad.Size = new Size(75, 23);
-            MPFLoad.TabIndex = 0;
-            MPFLoad.Text = "Load";
-            MPFLoad.UseVisualStyleBackColor = true;
-            MPFLoad.Click += MPFLoad_Click;
+            this.MPFLoad.Location = (new global::System.Drawing.Point(205, 502));
+            this.MPFLoad.Name = ("MPFLoad");
+            this.MPFLoad.Size = (new global::System.Drawing.Size(75, 23));
+            this.MPFLoad.TabIndex = (0);
+            this.MPFLoad.Text = ("Load");
+            this.MPFLoad.UseVisualStyleBackColor = (true);
+            this.MPFLoad.Click += (this.MPFLoad_Click);
             // 
             // ModelListLabel
             // 
-            ModelListLabel.AutoSize = true;
-            ModelListLabel.Location = new Point(7, 7);
-            ModelListLabel.Name = "ModelListLabel";
-            ModelListLabel.Size = new Size(62, 15);
-            ModelListLabel.TabIndex = 3;
-            ModelListLabel.Text = "Model List";
-            ModelListLabel.Click += ModelListLabel_Click;
+            this.ModelListLabel.AutoSize = (true);
+            this.ModelListLabel.Location = (new global::System.Drawing.Point(7, 7));
+            this.ModelListLabel.Name = ("ModelListLabel");
+            this.ModelListLabel.Size = (new global::System.Drawing.Size(62, 15));
+            this.ModelListLabel.TabIndex = (3);
+            this.ModelListLabel.Text = ("Model List");
+            this.ModelListLabel.Click += (this.ModelListLabel_Click);
             // 
             // tabPage4
             // 
-            tabPage4.Controls.Add(LoadLUI);
-            tabPage4.Controls.Add(BiglessStore);
-            tabPage4.Location = new Point(4, 24);
-            tabPage4.Name = "tabPage4";
-            tabPage4.Size = new Size(941, 528);
-            tabPage4.TabIndex = 3;
-            tabPage4.Text = "Tools";
-            tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // BiglessStore
-            // 
-            BiglessStore.Location = new Point(13, 14);
-            BiglessStore.Name = "BiglessStore";
-            BiglessStore.Size = new Size(133, 71);
-            BiglessStore.TabIndex = 0;
-            BiglessStore.Text = "Generate Bigless Store";
-            BiglessStore.UseVisualStyleBackColor = true;
-            BiglessStore.Click += BiglessStore_Click;
+            this.tabPage4.Controls.Add(this.LoadLUI);
+            this.tabPage4.Controls.Add(this.BiglessStore);
+            this.tabPage4.Location = (new global::System.Drawing.Point(4, 24));
+            this.tabPage4.Name = ("tabPage4");
+            this.tabPage4.Size = (new global::System.Drawing.Size(941, 528));
+            this.tabPage4.TabIndex = (3);
+            this.tabPage4.Text = ("Tools");
+            this.tabPage4.UseVisualStyleBackColor = (true);
             // 
             // LoadLUI
             // 
-            LoadLUI.Location = new Point(693, 439);
-            LoadLUI.Name = "LoadLUI";
-            LoadLUI.Size = new Size(75, 23);
-            LoadLUI.TabIndex = 1;
-            LoadLUI.Text = "Test";
-            LoadLUI.UseVisualStyleBackColor = true;
-            LoadLUI.Click += LoadLUI_Click;
+            this.LoadLUI.Location = (new global::System.Drawing.Point(693, 439));
+            this.LoadLUI.Name = ("LoadLUI");
+            this.LoadLUI.Size = (new global::System.Drawing.Size(75, 23));
+            this.LoadLUI.TabIndex = (1);
+            this.LoadLUI.Text = ("Test");
+            this.LoadLUI.UseVisualStyleBackColor = (true);
+            this.LoadLUI.Click += (this.LoadLUI_Click);
+            // 
+            // BiglessStore
+            // 
+            this.BiglessStore.Location = (new global::System.Drawing.Point(13, 14));
+            this.BiglessStore.Name = ("BiglessStore");
+            this.BiglessStore.Size = (new global::System.Drawing.Size(133, 71));
+            this.BiglessStore.TabIndex = (0);
+            this.BiglessStore.Text = ("Generate Bigless Store");
+            this.BiglessStore.UseVisualStyleBackColor = (true);
+            this.BiglessStore.Click += (this.BiglessStore_Click);
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.groupBox6);
+            this.tabPage6.Controls.Add(this.groupBox5);
+            this.tabPage6.Location = (new global::System.Drawing.Point(4, 24));
+            this.tabPage6.Name = ("tabPage6");
+            this.tabPage6.Size = (new global::System.Drawing.Size(941, 528));
+            this.tabPage6.TabIndex = (5);
+            this.tabPage6.Text = ("SSX 3 Sound Files (.HDR/.DAT)");
+            this.tabPage6.UseVisualStyleBackColor = (true);
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.groupBox8);
+            this.groupBox6.Controls.Add(this.groupBox7);
+            this.groupBox6.Controls.Add(this.hdrList2);
+            this.groupBox6.Controls.Add(this.hdrSave);
+            this.groupBox6.Controls.Add(this.HdrLoad);
+            this.groupBox6.Location = (new global::System.Drawing.Point(459, 71));
+            this.groupBox6.Name = ("groupBox6");
+            this.groupBox6.Size = (new global::System.Drawing.Size(389, 386));
+            this.groupBox6.TabIndex = (41);
+            this.groupBox6.TabStop = (false);
+            this.groupBox6.Text = (".HDR");
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.hdrEntryU3);
+            this.groupBox8.Controls.Add(this.label58);
+            this.groupBox8.Controls.Add(this.hdrEntryU2);
+            this.groupBox8.Controls.Add(this.label80);
+            this.groupBox8.Controls.Add(this.hdrEntryU1);
+            this.groupBox8.Controls.Add(this.label81);
+            this.groupBox8.Location = (new global::System.Drawing.Point(182, 22));
+            this.groupBox8.Name = ("groupBox8");
+            this.groupBox8.Size = (new global::System.Drawing.Size(200, 154));
+            this.groupBox8.TabIndex = (40);
+            this.groupBox8.TabStop = (false);
+            this.groupBox8.Text = ("HDR Entry");
+            // 
+            // hdrEntryU3
+            // 
+            this.hdrEntryU3.Location = (new global::System.Drawing.Point(6, 119));
+            this.hdrEntryU3.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000000, 0, 0, 0 }));
+            this.hdrEntryU3.Name = ("hdrEntryU3");
+            this.hdrEntryU3.Size = (new global::System.Drawing.Size(188, 23));
+            this.hdrEntryU3.TabIndex = (9);
+            // 
+            // label58
+            // 
+            this.label58.AutoSize = (true);
+            this.label58.Location = (new global::System.Drawing.Point(6, 101));
+            this.label58.Name = ("label58");
+            this.label58.Size = (new global::System.Drawing.Size(50, 15));
+            this.label58.TabIndex = (8);
+            this.label58.Text = ("Event ID");
+            // 
+            // hdrEntryU2
+            // 
+            this.hdrEntryU2.Location = (new global::System.Drawing.Point(6, 75));
+            this.hdrEntryU2.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000000, 0, 0, 0 }));
+            this.hdrEntryU2.Name = ("hdrEntryU2");
+            this.hdrEntryU2.Size = (new global::System.Drawing.Size(188, 23));
+            this.hdrEntryU2.TabIndex = (7);
+            // 
+            // label80
+            // 
+            this.label80.AutoSize = (true);
+            this.label80.Location = (new global::System.Drawing.Point(6, 57));
+            this.label80.Name = ("label80");
+            this.label80.Size = (new global::System.Drawing.Size(92, 15));
+            this.label80.TabIndex = (6);
+            this.label80.Text = ("U2 (Speaker ID?)");
+            // 
+            // hdrEntryU1
+            // 
+            this.hdrEntryU1.Location = (new global::System.Drawing.Point(6, 34));
+            this.hdrEntryU1.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000000, 0, 0, 0 }));
+            this.hdrEntryU1.Name = ("hdrEntryU1");
+            this.hdrEntryU1.Size = (new global::System.Drawing.Size(188, 23));
+            this.hdrEntryU1.TabIndex = (5);
+            // 
+            // label81
+            // 
+            this.label81.AutoSize = (true);
+            this.label81.Location = (new global::System.Drawing.Point(6, 16));
+            this.label81.Name = ("label81");
+            this.label81.Size = (new global::System.Drawing.Size(21, 15));
+            this.label81.TabIndex = (4);
+            this.label81.Text = ("U1");
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.hdrU2);
+            this.groupBox7.Controls.Add(this.label82);
+            this.groupBox7.Controls.Add(this.hdrU1);
+            this.groupBox7.Controls.Add(this.label83);
+            this.groupBox7.Location = (new global::System.Drawing.Point(182, 182));
+            this.groupBox7.Name = ("groupBox7");
+            this.groupBox7.Size = (new global::System.Drawing.Size(200, 174));
+            this.groupBox7.TabIndex = (39);
+            this.groupBox7.TabStop = (false);
+            this.groupBox7.Text = ("Header Info");
+            // 
+            // hdrU2
+            // 
+            this.hdrU2.Location = (new global::System.Drawing.Point(6, 81));
+            this.hdrU2.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000000, 0, 0, 0 }));
+            this.hdrU2.Name = ("hdrU2");
+            this.hdrU2.Size = (new global::System.Drawing.Size(188, 23));
+            this.hdrU2.TabIndex = (3);
+            // 
+            // label82
+            // 
+            this.label82.AutoSize = (true);
+            this.label82.Location = (new global::System.Drawing.Point(6, 63));
+            this.label82.Name = ("label82");
+            this.label82.Size = (new global::System.Drawing.Size(21, 15));
+            this.label82.TabIndex = (2);
+            this.label82.Text = ("U2");
+            // 
+            // hdrU1
+            // 
+            this.hdrU1.Location = (new global::System.Drawing.Point(6, 37));
+            this.hdrU1.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000000, 0, 0, 0 }));
+            this.hdrU1.Name = ("hdrU1");
+            this.hdrU1.Size = (new global::System.Drawing.Size(188, 23));
+            this.hdrU1.TabIndex = (1);
+            // 
+            // label83
+            // 
+            this.label83.AutoSize = (true);
+            this.label83.Location = (new global::System.Drawing.Point(6, 19));
+            this.label83.Name = ("label83");
+            this.label83.Size = (new global::System.Drawing.Size(21, 15));
+            this.label83.TabIndex = (0);
+            this.label83.Text = ("U1");
+            // 
+            // hdrList2
+            // 
+            this.hdrList2.FormattingEnabled = (true);
+            this.hdrList2.ItemHeight = (15);
+            this.hdrList2.Location = (new global::System.Drawing.Point(6, 22));
+            this.hdrList2.Name = ("hdrList2");
+            this.hdrList2.Size = (new global::System.Drawing.Size(170, 334));
+            this.hdrList2.TabIndex = (38);
+            // 
+            // hdrSave
+            // 
+            this.hdrSave.Location = (new global::System.Drawing.Point(308, 357));
+            this.hdrSave.Name = ("hdrSave");
+            this.hdrSave.Size = (new global::System.Drawing.Size(75, 23));
+            this.hdrSave.TabIndex = (28);
+            this.hdrSave.Text = ("Save .HDR");
+            this.hdrSave.UseVisualStyleBackColor = (true);
+            // 
+            // HdrLoad
+            // 
+            this.HdrLoad.Location = (new global::System.Drawing.Point(6, 357));
+            this.HdrLoad.Name = ("HdrLoad");
+            this.HdrLoad.Size = (new global::System.Drawing.Size(80, 23));
+            this.HdrLoad.TabIndex = (19);
+            this.HdrLoad.Text = ("Load .HDR");
+            this.HdrLoad.UseVisualStyleBackColor = (true);
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.hdrFileList);
+            this.groupBox5.Controls.Add(this.hdrPlay);
+            this.groupBox5.Controls.Add(this.HDRTotalSamples);
+            this.groupBox5.Controls.Add(this.label84);
+            this.groupBox5.Controls.Add(this.hdrBuildDAT);
+            this.groupBox5.Controls.Add(this.hdrRemoveFile);
+            this.groupBox5.Controls.Add(this.hdrExtract);
+            this.groupBox5.Controls.Add(this.HDRSample);
+            this.groupBox5.Controls.Add(this.hdrDown);
+            this.groupBox5.Controls.Add(this.label85);
+            this.groupBox5.Controls.Add(this.hdrUp);
+            this.groupBox5.Controls.Add(this.HDRFileSize);
+            this.groupBox5.Controls.Add(this.hdrLoadFolder);
+            this.groupBox5.Controls.Add(this.label86);
+            this.groupBox5.Controls.Add(this.hdrAddFile);
+            this.groupBox5.Controls.Add(this.label87);
+            this.groupBox5.Controls.Add(this.HDRTime);
+            this.groupBox5.Location = (new global::System.Drawing.Point(93, 71));
+            this.groupBox5.Name = ("groupBox5");
+            this.groupBox5.Size = (new global::System.Drawing.Size(360, 386));
+            this.groupBox5.TabIndex = (40);
+            this.groupBox5.TabStop = (false);
+            this.groupBox5.Text = (".DAT");
+            // 
+            // hdrFileList
+            // 
+            this.hdrFileList.FormattingEnabled = (true);
+            this.hdrFileList.ItemHeight = (15);
+            this.hdrFileList.Location = (new global::System.Drawing.Point(6, 23));
+            this.hdrFileList.Name = ("hdrFileList");
+            this.hdrFileList.Size = (new global::System.Drawing.Size(170, 304));
+            this.hdrFileList.TabIndex = (24);
+            // 
+            // hdrPlay
+            // 
+            this.hdrPlay.Location = (new global::System.Drawing.Point(182, 328));
+            this.hdrPlay.Name = ("hdrPlay");
+            this.hdrPlay.Size = (new global::System.Drawing.Size(84, 23));
+            this.hdrPlay.TabIndex = (33);
+            this.hdrPlay.Text = ("Play Audio");
+            this.hdrPlay.UseVisualStyleBackColor = (true);
+            // 
+            // HDRTotalSamples
+            // 
+            this.HDRTotalSamples.AutoSize = (true);
+            this.HDRTotalSamples.Location = (new global::System.Drawing.Point(272, 68));
+            this.HDRTotalSamples.Name = ("HDRTotalSamples");
+            this.HDRTotalSamples.Size = (new global::System.Drawing.Size(13, 15));
+            this.HDRTotalSamples.TabIndex = (37);
+            this.HDRTotalSamples.Text = ("0");
+            // 
+            // label84
+            // 
+            this.label84.AutoSize = (true);
+            this.label84.Location = (new global::System.Drawing.Point(182, 23));
+            this.label84.Name = ("label84");
+            this.label84.Size = (new global::System.Drawing.Size(73, 15));
+            this.label84.TabIndex = (29);
+            this.label84.Text = ("Time Length");
+            // 
+            // hdrBuildDAT
+            // 
+            this.hdrBuildDAT.Enabled = (false);
+            this.hdrBuildDAT.Location = (new global::System.Drawing.Point(272, 357));
+            this.hdrBuildDAT.Name = ("hdrBuildDAT");
+            this.hdrBuildDAT.Size = (new global::System.Drawing.Size(82, 23));
+            this.hdrBuildDAT.TabIndex = (21);
+            this.hdrBuildDAT.Text = ("Build .DAT");
+            this.hdrBuildDAT.UseVisualStyleBackColor = (true);
+            // 
+            // hdrRemoveFile
+            // 
+            this.hdrRemoveFile.Location = (new global::System.Drawing.Point(6, 328));
+            this.hdrRemoveFile.Name = ("hdrRemoveFile");
+            this.hdrRemoveFile.Size = (new global::System.Drawing.Size(38, 23));
+            this.hdrRemoveFile.TabIndex = (27);
+            this.hdrRemoveFile.Text = ("-");
+            this.hdrRemoveFile.UseVisualStyleBackColor = (true);
+            // 
+            // hdrExtract
+            // 
+            this.hdrExtract.Location = (new global::System.Drawing.Point(182, 357));
+            this.hdrExtract.Name = ("hdrExtract");
+            this.hdrExtract.Size = (new global::System.Drawing.Size(84, 23));
+            this.hdrExtract.TabIndex = (20);
+            this.hdrExtract.Text = ("Extract .DAT");
+            this.hdrExtract.UseVisualStyleBackColor = (true);
+            // 
+            // HDRSample
+            // 
+            this.HDRSample.AutoSize = (true);
+            this.HDRSample.Location = (new global::System.Drawing.Point(182, 68));
+            this.HDRSample.Name = ("HDRSample");
+            this.HDRSample.Size = (new global::System.Drawing.Size(13, 15));
+            this.HDRSample.TabIndex = (36);
+            this.HDRSample.Text = ("0");
+            // 
+            // hdrDown
+            // 
+            this.hdrDown.Location = (new global::System.Drawing.Point(96, 328));
+            this.hdrDown.Name = ("hdrDown");
+            this.hdrDown.Size = (new global::System.Drawing.Size(32, 23));
+            this.hdrDown.TabIndex = (26);
+            this.hdrDown.Text = ("\\/");
+            this.hdrDown.UseVisualStyleBackColor = (true);
+            // 
+            // label85
+            // 
+            this.label85.AutoSize = (true);
+            this.label85.Location = (new global::System.Drawing.Point(272, 23));
+            this.label85.Name = ("label85");
+            this.label85.Size = (new global::System.Drawing.Size(48, 15));
+            this.label85.TabIndex = (30);
+            this.label85.Text = ("File Size");
+            // 
+            // hdrUp
+            // 
+            this.hdrUp.Location = (new global::System.Drawing.Point(48, 328));
+            this.hdrUp.Name = ("hdrUp");
+            this.hdrUp.Size = (new global::System.Drawing.Size(33, 23));
+            this.hdrUp.TabIndex = (25);
+            this.hdrUp.Text = ("/\\");
+            this.hdrUp.UseVisualStyleBackColor = (true);
+            // 
+            // HDRFileSize
+            // 
+            this.HDRFileSize.AutoSize = (true);
+            this.HDRFileSize.Location = (new global::System.Drawing.Point(272, 38));
+            this.HDRFileSize.Name = ("HDRFileSize");
+            this.HDRFileSize.Size = (new global::System.Drawing.Size(13, 15));
+            this.HDRFileSize.TabIndex = (35);
+            this.HDRFileSize.Text = ("0");
+            // 
+            // hdrLoadFolder
+            // 
+            this.hdrLoadFolder.Location = (new global::System.Drawing.Point(6, 357));
+            this.hdrLoadFolder.Name = ("hdrLoadFolder");
+            this.hdrLoadFolder.Size = (new global::System.Drawing.Size(170, 23));
+            this.hdrLoadFolder.TabIndex = (23);
+            this.hdrLoadFolder.Text = ("Load Folder");
+            this.hdrLoadFolder.UseVisualStyleBackColor = (true);
+            // 
+            // label86
+            // 
+            this.label86.AutoSize = (true);
+            this.label86.Location = (new global::System.Drawing.Point(272, 53));
+            this.label86.Name = ("label86");
+            this.label86.Size = (new global::System.Drawing.Size(79, 15));
+            this.label86.TabIndex = (32);
+            this.label86.Text = ("Total Samples");
+            // 
+            // hdrAddFile
+            // 
+            this.hdrAddFile.Location = (new global::System.Drawing.Point(134, 328));
+            this.hdrAddFile.Name = ("hdrAddFile");
+            this.hdrAddFile.Size = (new global::System.Drawing.Size(42, 23));
+            this.hdrAddFile.TabIndex = (22);
+            this.hdrAddFile.Text = ("+");
+            this.hdrAddFile.UseVisualStyleBackColor = (true);
+            // 
+            // label87
+            // 
+            this.label87.AutoSize = (true);
+            this.label87.Location = (new global::System.Drawing.Point(182, 53));
+            this.label87.Name = ("label87");
+            this.label87.Size = (new global::System.Drawing.Size(72, 15));
+            this.label87.TabIndex = (31);
+            this.label87.Text = ("Sample Rate");
+            // 
+            // HDRTime
+            // 
+            this.HDRTime.AutoSize = (true);
+            this.HDRTime.Location = (new global::System.Drawing.Point(182, 38));
+            this.HDRTime.Name = ("HDRTime");
+            this.HDRTime.Size = (new global::System.Drawing.Size(13, 15));
+            this.HDRTime.TabIndex = (34);
+            this.HDRTime.Text = ("0");
             // 
             // SSX3ToolsWindow
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(973, 580);
-            Controls.Add(tabControl1);
-            Name = "SSX3ToolsWindow";
-            Text = "SSX3ToolsWindow";
-            ((System.ComponentModel.ISupportInitialize)charnumericUpDown5).EndInit();
-            tabControl1.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
-            tabPage1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)charnumericUpDown6).EndInit();
-            ((System.ComponentModel.ISupportInitialize)charnumericUpDown3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)charnumericUpDown4).EndInit();
-            ((System.ComponentModel.ISupportInitialize)charnumericUpDown2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)charnumericUpDown1).EndInit();
-            tabPage2.ResumeLayout(false);
-            tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown12).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown11).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown5).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown4).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown10).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown9).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown8).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown7).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown6).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MusINFnumericUpDown1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MusnumericUpDown0).EndInit();
-            tabPage3.ResumeLayout(false);
-            tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkown9).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltSpecialThree).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltSpecialTwo).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltSpecialOne).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkown8).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltCost).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltFillBar).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkown7).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltMenuOrder).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltBuy).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltCat).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkownFour).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkownThree).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkownTwo).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnlock).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkownOne).EndInit();
-            tabPage5.ResumeLayout(false);
-            tabPage5.PerformLayout();
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
-            groupBox4.ResumeLayout(false);
-            groupBox4.PerformLayout();
-            groupBox3.ResumeLayout(false);
-            groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)MatUnknown2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MatUnknown1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)MatFlagFactor).EndInit();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
-            tabPage4.ResumeLayout(false);
-            ResumeLayout(false);
+            this.AutoScaleDimensions = (new global::System.Drawing.SizeF(7F, 15F));
+            this.AutoScaleMode = (global::System.Windows.Forms.AutoScaleMode.Font);
+            this.ClientSize = (new global::System.Drawing.Size(973, 580));
+            this.Controls.Add(this.tabControl1);
+            this.Name = ("SSX3ToolsWindow");
+            this.Text = ("SSX3ToolsWindow");
+            ((global::System.ComponentModel.ISupportInitialize)(this.charnumericUpDown5)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            ((global::System.ComponentModel.ISupportInitialize)(this.charnumericUpDown6)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.charnumericUpDown3)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.charnumericUpDown4)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.charnumericUpDown2)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.charnumericUpDown1)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown12)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown11)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown5)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown4)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown3)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown2)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown10)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown9)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown8)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown7)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown6)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusINFnumericUpDown1)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MusnumericUpDown0)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnkown9)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltSpecialThree)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltSpecialTwo)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltSpecialOne)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnkown8)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltCost)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltFillBar)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnkown7)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltMenuOrder)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltBuy)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltCat)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnkownFour)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnkownThree)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnkownTwo)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnlock)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.BoltUnkownOne)).EndInit();
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MatUnknown2)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MatUnknown1)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.MatFlagFactor)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage6.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            ((global::System.ComponentModel.ISupportInitialize)(this.hdrEntryU3)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.hdrEntryU2)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.hdrEntryU1)).EndInit();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            ((global::System.ComponentModel.ISupportInitialize)(this.hdrU2)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.hdrU1)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.ResumeLayout(false);
         }
 
         #endregion
@@ -2560,5 +2964,40 @@
         private CheckBox BoneUpdateCheck;
         private CheckBox ImportAverageNormal;
         private Button LoadLUI;
+        private TabPage tabPage6;
+        private global::System.Windows.Forms.GroupBox groupBox6;
+        private global::System.Windows.Forms.GroupBox groupBox8;
+        private global::System.Windows.Forms.NumericUpDown hdrEntryU3;
+        private global::System.Windows.Forms.Label label58;
+        private global::System.Windows.Forms.NumericUpDown hdrEntryU2;
+        private global::System.Windows.Forms.Label label80;
+        private global::System.Windows.Forms.NumericUpDown hdrEntryU1;
+        private global::System.Windows.Forms.Label label81;
+        private global::System.Windows.Forms.GroupBox groupBox7;
+        private global::System.Windows.Forms.NumericUpDown hdrU2;
+        private global::System.Windows.Forms.Label label82;
+        private global::System.Windows.Forms.NumericUpDown hdrU1;
+        private global::System.Windows.Forms.Label label83;
+        private global::System.Windows.Forms.ListBox hdrList2;
+        private global::System.Windows.Forms.Button hdrSave;
+        private global::System.Windows.Forms.Button HdrLoad;
+        private global::System.Windows.Forms.GroupBox groupBox5;
+        private global::System.Windows.Forms.ListBox hdrFileList;
+        private global::System.Windows.Forms.Button hdrPlay;
+        private global::System.Windows.Forms.Label HDRTotalSamples;
+        private global::System.Windows.Forms.Label label84;
+        private global::System.Windows.Forms.Button hdrBuildDAT;
+        private global::System.Windows.Forms.Button hdrRemoveFile;
+        private global::System.Windows.Forms.Button hdrExtract;
+        private global::System.Windows.Forms.Label HDRSample;
+        private global::System.Windows.Forms.Button hdrDown;
+        private global::System.Windows.Forms.Label label85;
+        private global::System.Windows.Forms.Button hdrUp;
+        private global::System.Windows.Forms.Label HDRFileSize;
+        private global::System.Windows.Forms.Button hdrLoadFolder;
+        private global::System.Windows.Forms.Label label86;
+        private global::System.Windows.Forms.Button hdrAddFile;
+        private global::System.Windows.Forms.Label label87;
+        private global::System.Windows.Forms.Label HDRTime;
     }
 }
