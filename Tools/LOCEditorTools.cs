@@ -130,7 +130,8 @@ namespace SSXMultiTool
 
                     for (int i = 0; i < lOCEditor.StringList.Count; i++)
                     {
-                        NewFile.WriteLine(lOCEditor.StringList[i].Replace("\n", "/n").Replace("\r","/r"));
+                        NewFile.WriteLine(lOCEditor.StringList[i]/*.Replace("\n", "/n").Replace("\r", "/r")*/);
+                        NewFile.WriteLine("\n###New String###\n");
                     }
 
                     NewFile.Close();
@@ -154,17 +155,25 @@ namespace SSXMultiTool
 
                     List<string> strings = new List<string>();
 
-                    while (true)
+                    string ReadTextLines = OldFile.ReadToEnd();
+                    string[] SplitLines = ReadTextLines.Split("\n###New String###\n");
+
+                    for (int i = 0; i < SplitLines.Length; i++)
                     {
-                        string? TempString = OldFile.ReadLine();
-
-                        if (TempString == null)
-                        {
-                            break;
-                        }
-
-                        strings.Add(TempString.Replace("/n", "\n").Replace("/r", "\r"));
+                        strings.Add(SplitLines[i]);
                     }
+
+                    //while (true)
+                    //{
+                    //    string? TempString = OldFile.ReadLine();
+
+                    //    if (TempString == null)
+                    //    {
+                    //        break;
+                    //    }
+
+                    //    strings.Add(TempString.Replace("/n", "\n").Replace("/r", "\r"));
+                    //}
 
                     if (strings.Count < lOCEditor.StringList.Count)
                     {
