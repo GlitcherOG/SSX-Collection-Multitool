@@ -24,9 +24,7 @@ As such, I chose to redo the entire project and improve it as I did so.
 ### General
 - [ ] Fix Model Header Amination
 - [ ] Fix Normal Average, Bone Update
-- [ ] Redo Folder Loading SSH
 - [ ] Fix Model Orientation
-- [ ] Replace Loc Newline with ### or something similar
 - [ ] Matrix Type 3 SSH
 - [ ] Audio Exporting/Importing 
 - [ ] Character Importer Add Face Count
