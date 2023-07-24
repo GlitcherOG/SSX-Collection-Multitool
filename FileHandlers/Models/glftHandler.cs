@@ -406,9 +406,9 @@ namespace SSXMultiTool.FileHandlers
             }
 
 
-            Matrix4x4 matrix4X4 = Matrix4x4.CreateRotationX(-1.5708f);
+            //Matrix4x4 matrix4X4 = Matrix4x4.CreateRotationX(-1.5708f);
 
-            scene.ApplyBasisTransform(matrix4X4);
+            //scene.ApplyBasisTransform(matrix4X4);
 
             // save the model in different formats
             var model = scene.ToGltf2();
