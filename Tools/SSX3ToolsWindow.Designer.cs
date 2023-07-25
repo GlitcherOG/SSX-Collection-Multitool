@@ -233,6 +233,10 @@
             this.hdrEntryU1 = (new global::System.Windows.Forms.NumericUpDown());
             this.label81 = (new global::System.Windows.Forms.Label());
             this.groupBox7 = (new global::System.Windows.Forms.GroupBox());
+            this.hdrEntryType = (new global::System.Windows.Forms.NumericUpDown());
+            this.label88 = (new global::System.Windows.Forms.Label());
+            this.hdrAligmentMode = (new global::System.Windows.Forms.NumericUpDown());
+            this.label89 = (new global::System.Windows.Forms.Label());
             this.hdrU2 = (new global::System.Windows.Forms.NumericUpDown());
             this.label82 = (new global::System.Windows.Forms.Label());
             this.hdrU1 = (new global::System.Windows.Forms.NumericUpDown());
@@ -315,6 +319,8 @@
             ((global::System.ComponentModel.ISupportInitialize)(this.hdrEntryU2)).BeginInit();
             ((global::System.ComponentModel.ISupportInitialize)(this.hdrEntryU1)).BeginInit();
             this.groupBox7.SuspendLayout();
+            ((global::System.ComponentModel.ISupportInitialize)(this.hdrEntryType)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.hdrAligmentMode)).BeginInit();
             ((global::System.ComponentModel.ISupportInitialize)(this.hdrU2)).BeginInit();
             ((global::System.ComponentModel.ISupportInitialize)(this.hdrU1)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -2341,9 +2347,9 @@
             this.groupBox8.Controls.Add(this.label80);
             this.groupBox8.Controls.Add(this.hdrEntryU1);
             this.groupBox8.Controls.Add(this.label81);
-            this.groupBox8.Location = (new global::System.Drawing.Point(273, 23));
+            this.groupBox8.Location = (new global::System.Drawing.Point(273, 22));
             this.groupBox8.Name = ("groupBox8");
-            this.groupBox8.Size = (new global::System.Drawing.Size(200, 284));
+            this.groupBox8.Size = (new global::System.Drawing.Size(200, 158));
             this.groupBox8.TabIndex = (40);
             this.groupBox8.TabStop = (false);
             this.groupBox8.Text = ("HDR Entry");
@@ -2352,9 +2358,11 @@
             // 
             this.hdrEntryU3.Location = (new global::System.Drawing.Point(6, 119));
             this.hdrEntryU3.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000000, 0, 0, 0 }));
+            this.hdrEntryU3.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
             this.hdrEntryU3.Name = ("hdrEntryU3");
             this.hdrEntryU3.Size = (new global::System.Drawing.Size(188, 23));
             this.hdrEntryU3.TabIndex = (9);
+            this.hdrEntryU3.ValueChanged += (this.hdrEntryU1_ValueChanged);
             // 
             // label58
             // 
@@ -2369,9 +2377,11 @@
             // 
             this.hdrEntryU2.Location = (new global::System.Drawing.Point(6, 75));
             this.hdrEntryU2.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000000, 0, 0, 0 }));
+            this.hdrEntryU2.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
             this.hdrEntryU2.Name = ("hdrEntryU2");
             this.hdrEntryU2.Size = (new global::System.Drawing.Size(188, 23));
             this.hdrEntryU2.TabIndex = (7);
+            this.hdrEntryU2.ValueChanged += (this.hdrEntryU1_ValueChanged);
             // 
             // label80
             // 
@@ -2386,9 +2396,11 @@
             // 
             this.hdrEntryU1.Location = (new global::System.Drawing.Point(6, 34));
             this.hdrEntryU1.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000000, 0, 0, 0 }));
+            this.hdrEntryU1.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
             this.hdrEntryU1.Name = ("hdrEntryU1");
             this.hdrEntryU1.Size = (new global::System.Drawing.Size(188, 23));
             this.hdrEntryU1.TabIndex = (5);
+            this.hdrEntryU1.ValueChanged += (this.hdrEntryU1_ValueChanged);
             // 
             // label81
             // 
@@ -2401,24 +2413,68 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.hdrEntryType);
+            this.groupBox7.Controls.Add(this.label88);
+            this.groupBox7.Controls.Add(this.hdrAligmentMode);
+            this.groupBox7.Controls.Add(this.label89);
             this.groupBox7.Controls.Add(this.hdrU2);
             this.groupBox7.Controls.Add(this.label82);
             this.groupBox7.Controls.Add(this.hdrU1);
             this.groupBox7.Controls.Add(this.label83);
-            this.groupBox7.Location = (new global::System.Drawing.Point(273, 313));
+            this.groupBox7.Location = (new global::System.Drawing.Point(273, 186));
             this.groupBox7.Name = ("groupBox7");
-            this.groupBox7.Size = (new global::System.Drawing.Size(200, 174));
+            this.groupBox7.Size = (new global::System.Drawing.Size(200, 301));
             this.groupBox7.TabIndex = (39);
             this.groupBox7.TabStop = (false);
             this.groupBox7.Text = ("Header Info");
+            // 
+            // hdrEntryType
+            // 
+            this.hdrEntryType.Location = (new global::System.Drawing.Point(6, 170));
+            this.hdrEntryType.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000000, 0, 0, 0 }));
+            this.hdrEntryType.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.hdrEntryType.Name = ("hdrEntryType");
+            this.hdrEntryType.Size = (new global::System.Drawing.Size(188, 23));
+            this.hdrEntryType.TabIndex = (11);
+            this.hdrEntryType.ValueChanged += (this.hdrU1_ValueChanged);
+            // 
+            // label88
+            // 
+            this.label88.AutoSize = (true);
+            this.label88.Location = (new global::System.Drawing.Point(6, 152));
+            this.label88.Name = ("label88");
+            this.label88.Size = (new global::System.Drawing.Size(61, 15));
+            this.label88.TabIndex = (10);
+            this.label88.Text = ("Entry Type");
+            // 
+            // hdrAligmentMode
+            // 
+            this.hdrAligmentMode.Location = (new global::System.Drawing.Point(6, 126));
+            this.hdrAligmentMode.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000000, 0, 0, 0 }));
+            this.hdrAligmentMode.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
+            this.hdrAligmentMode.Name = ("hdrAligmentMode");
+            this.hdrAligmentMode.Size = (new global::System.Drawing.Size(188, 23));
+            this.hdrAligmentMode.TabIndex = (9);
+            this.hdrAligmentMode.ValueChanged += (this.hdrU1_ValueChanged);
+            // 
+            // label89
+            // 
+            this.label89.AutoSize = (true);
+            this.label89.Location = (new global::System.Drawing.Point(6, 108));
+            this.label89.Name = ("label89");
+            this.label89.Size = (new global::System.Drawing.Size(97, 15));
+            this.label89.TabIndex = (8);
+            this.label89.Text = ("Alignment Mode");
             // 
             // hdrU2
             // 
             this.hdrU2.Location = (new global::System.Drawing.Point(6, 81));
             this.hdrU2.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000000, 0, 0, 0 }));
+            this.hdrU2.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
             this.hdrU2.Name = ("hdrU2");
             this.hdrU2.Size = (new global::System.Drawing.Size(188, 23));
             this.hdrU2.TabIndex = (3);
+            this.hdrU2.ValueChanged += (this.hdrU1_ValueChanged);
             // 
             // label82
             // 
@@ -2433,9 +2489,11 @@
             // 
             this.hdrU1.Location = (new global::System.Drawing.Point(6, 37));
             this.hdrU1.Maximum = (new global::System.Decimal(new global::System.Int32[] { 1000000000, 0, 0, 0 }));
+            this.hdrU1.Minimum = (new global::System.Decimal(new global::System.Int32[] { 1, 0, 0, global::System.Int32.MinValue }));
             this.hdrU1.Name = ("hdrU1");
             this.hdrU1.Size = (new global::System.Drawing.Size(188, 23));
             this.hdrU1.TabIndex = (1);
+            this.hdrU1.ValueChanged += (this.hdrU1_ValueChanged);
             // 
             // label83
             // 
@@ -2454,6 +2512,7 @@
             this.hdrList2.Name = ("hdrList2");
             this.hdrList2.Size = (new global::System.Drawing.Size(261, 469));
             this.hdrList2.TabIndex = (38);
+            this.hdrList2.SelectedIndexChanged += (this.hdrList2_SelectedIndexChanged);
             // 
             // hdrSave
             // 
@@ -2463,15 +2522,17 @@
             this.hdrSave.TabIndex = (28);
             this.hdrSave.Text = ("Save .HDR");
             this.hdrSave.UseVisualStyleBackColor = (true);
+            this.hdrSave.Click += (this.hdrSave_Click);
             // 
             // HdrLoad
             // 
-            this.HdrLoad.Location = (new global::System.Drawing.Point(0, 493));
+            this.HdrLoad.Location = (new global::System.Drawing.Point(6, 493));
             this.HdrLoad.Name = ("HdrLoad");
             this.HdrLoad.Size = (new global::System.Drawing.Size(80, 23));
             this.HdrLoad.TabIndex = (19);
             this.HdrLoad.Text = ("Load .HDR");
             this.HdrLoad.UseVisualStyleBackColor = (true);
+            this.HdrLoad.Click += (this.HdrLoad_Click);
             // 
             // groupBox5
             // 
@@ -2508,6 +2569,7 @@
             this.hdrFileList.Name = ("hdrFileList");
             this.hdrFileList.Size = (new global::System.Drawing.Size(170, 424));
             this.hdrFileList.TabIndex = (24);
+            this.hdrFileList.SelectedIndexChanged += (this.hdrFileList_SelectedIndexChanged);
             // 
             // hdrPlay
             // 
@@ -2518,6 +2580,7 @@
             this.hdrPlay.TabIndex = (33);
             this.hdrPlay.Text = ("Play Audio");
             this.hdrPlay.UseVisualStyleBackColor = (true);
+            this.hdrPlay.Click += (this.hdrPlay_Click);
             // 
             // HDRTotalSamples
             // 
@@ -2547,6 +2610,7 @@
             this.hdrBuildDAT.TabIndex = (21);
             this.hdrBuildDAT.Text = ("Build .DAT");
             this.hdrBuildDAT.UseVisualStyleBackColor = (true);
+            this.hdrBuildDAT.Click += (this.hdrBuildDAT_Click);
             // 
             // hdrRemoveFile
             // 
@@ -2557,6 +2621,7 @@
             this.hdrRemoveFile.TabIndex = (27);
             this.hdrRemoveFile.Text = ("-");
             this.hdrRemoveFile.UseVisualStyleBackColor = (true);
+            this.hdrRemoveFile.Click += (this.hdrRemoveFile_Click);
             // 
             // hdrExtract
             // 
@@ -2567,6 +2632,7 @@
             this.hdrExtract.TabIndex = (20);
             this.hdrExtract.Text = ("Extract .DAT");
             this.hdrExtract.UseVisualStyleBackColor = (true);
+            this.hdrExtract.Click += (this.hdrExtract_Click);
             // 
             // HDRSample
             // 
@@ -2586,6 +2652,7 @@
             this.hdrDown.TabIndex = (26);
             this.hdrDown.Text = ("\\/");
             this.hdrDown.UseVisualStyleBackColor = (true);
+            this.hdrDown.Click += (this.hdrDown_Click);
             // 
             // label85
             // 
@@ -2605,6 +2672,7 @@
             this.hdrUp.TabIndex = (25);
             this.hdrUp.Text = ("/\\");
             this.hdrUp.UseVisualStyleBackColor = (true);
+            this.hdrUp.Click += (this.hdrUp_Click);
             // 
             // HDRFileSize
             // 
@@ -2622,8 +2690,9 @@
             this.hdrLoadFolder.Name = ("hdrLoadFolder");
             this.hdrLoadFolder.Size = (new global::System.Drawing.Size(170, 23));
             this.hdrLoadFolder.TabIndex = (23);
-            this.hdrLoadFolder.Text = ("Load Folder");
+            this.hdrLoadFolder.Text = ("Load WAV Folder");
             this.hdrLoadFolder.UseVisualStyleBackColor = (true);
+            this.hdrLoadFolder.Click += (this.hdrLoadFolder_Click);
             // 
             // label86
             // 
@@ -2643,6 +2712,7 @@
             this.hdrAddFile.TabIndex = (22);
             this.hdrAddFile.Text = ("+");
             this.hdrAddFile.UseVisualStyleBackColor = (true);
+            this.hdrAddFile.Click += (this.hdrAddFile_Click);
             // 
             // label87
             // 
@@ -2701,6 +2771,7 @@
             this.Controls.Add(this.tabControl1);
             this.Name = ("SSX3ToolsWindow");
             this.Text = ("SSX3ToolsWindow");
+            this.FormClosing += (this.SSX3ToolsWindow_FormClosing);
             ((global::System.ComponentModel.ISupportInitialize)(this.charnumericUpDown5)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -2765,6 +2836,8 @@
             ((global::System.ComponentModel.ISupportInitialize)(this.hdrEntryU1)).EndInit();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
+            ((global::System.ComponentModel.ISupportInitialize)(this.hdrEntryType)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.hdrAligmentMode)).EndInit();
             ((global::System.ComponentModel.ISupportInitialize)(this.hdrU2)).EndInit();
             ((global::System.ComponentModel.ISupportInitialize)(this.hdrU1)).EndInit();
             this.groupBox5.ResumeLayout(false);
@@ -3008,5 +3081,9 @@
         private global::System.Windows.Forms.Button hdrAddFile;
         private global::System.Windows.Forms.Label label87;
         private global::System.Windows.Forms.Label HDRTime;
+        private global::System.Windows.Forms.NumericUpDown hdrEntryType;
+        private global::System.Windows.Forms.Label label88;
+        private global::System.Windows.Forms.NumericUpDown hdrAligmentMode;
+        private global::System.Windows.Forms.Label label89;
     }
 }

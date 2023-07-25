@@ -11,6 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SSXMultiTool.FileHandlers.SSX3;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using System.IO;
+using NAudio.Wave;
 
 namespace SSXMultiTool
 {
@@ -827,5 +830,343 @@ namespace SSXMultiTool
                 lUIHandler.SaveDecompressed(openFileDialog.FileName + "1");
             }
         }
+
+        #region HDR
+        DATAudio datAudio = new DATAudio();
+        HDRHandler hdrHandler = new HDRHandler();
+        public List<string> Files = new List<string>();
+        bool HDRLoaded = false;
+        private void hdrLoadFolder_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+                Title = "Select Wav Folder",
+            };
+            if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string[] NewFiles = Directory.GetFiles(openFileDialog1.FileName, "*.wav", SearchOption.TopDirectoryOnly);
+
+                Files = NewFiles.ToList();
+
+                hdrFileList.Items.Clear();
+                for (int i = 0; i < Files.Count; i++)
+                {
+                    hdrFileList.Items.Add(Path.GetFileName(Files[i]));
+                }
+            }
+        }
+
+        private void hdrRemoveFile_Click(object sender, EventArgs e)
+        {
+            if (hdrFileList.SelectedIndex != -1)
+            {
+                Files.RemoveAt(hdrFileList.SelectedIndex);
+
+                hdrFileList.Items.Clear();
+                for (int i = 0; i < Files.Count; i++)
+                {
+                    hdrFileList.Items.Add(Path.GetFileName(Files[i]));
+                }
+            }
+        }
+
+        private void hdrUp_Click(object sender, EventArgs e)
+        {
+            if (hdrFileList.SelectedIndex != -1 && hdrFileList.SelectedIndex != 0)
+            {
+                int Pos = hdrFileList.SelectedIndex;
+                var Tempstring = Files[Pos];
+                Files.RemoveAt(Pos);
+                Files.Insert(Pos - 1, Tempstring);
+                hdrFileList.Items.Clear();
+
+                for (int i = 0; i < Files.Count; i++)
+                {
+                    hdrFileList.Items.Add(Path.GetFileName(Files[i]));
+                }
+
+                hdrFileList.SelectedIndex = Pos - 1;
+            }
+        }
+
+        private void hdrDown_Click(object sender, EventArgs e)
+        {
+            if (hdrFileList.SelectedIndex != -1 && hdrFileList.SelectedIndex != Files.Count - 1)
+            {
+                int Pos = hdrFileList.SelectedIndex;
+                var Tempstring = Files[Pos];
+                Files.RemoveAt(Pos);
+                Files.Insert(Pos + 1, Tempstring);
+                hdrFileList.Items.Clear();
+
+                for (int i = 0; i < Files.Count; i++)
+                {
+                    hdrFileList.Items.Add(Path.GetFileName(Files[i]));
+                }
+
+                hdrFileList.SelectedIndex = Pos + 1;
+            }
+        }
+
+        private void hdrAddFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Wav Audio File (*.wav)|*.wav|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Files.Add(openFileDialog.FileName);
+
+                hdrFileList.Items.Clear();
+                for (int i = 0; i < Files.Count; i++)
+                {
+                    hdrFileList.Items.Add(Path.GetFileName(Files[i]));
+                }
+            }
+        }
+
+        private void hdrFileList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (hdrFileList.SelectedIndex != -1)
+            {
+                using (var reader = new WaveFileReader(Files[hdrFileList.SelectedIndex]))
+                {
+                    HDRTime.Text = reader.TotalTime.ToString(@"hh\:mm\:ss\.ff");
+                    HDRSample.Text = reader.WaveFormat.SampleRate.ToString();
+                    HDRFileSize.Text = reader.Length.ToString();
+                    HDRTotalSamples.Text = (reader.TotalTime.TotalSeconds * reader.WaveFormat.SampleRate).ToString();
+                }
+            }
+        }
+
+        WaveFileReader waveFile = null;
+        WaveOut waveOut = null;
+        private void hdrPlay_Click(object sender, EventArgs e)
+        {
+            if (hdrFileList.SelectedIndex != -1)
+            {
+                if (waveOut != null)
+                {
+                    waveOut.Stop();
+                    waveFile.Close();
+                }
+                waveFile = new WaveFileReader(Files[hdrFileList.SelectedIndex]);
+                waveOut = new WaveOut();
+                waveOut.Init(waveFile);
+                waveOut.Play();
+            }
+        }
+        private bool CheckSX()
+        {
+            string StringPath = Application.StartupPath;
+            if (Directory.GetFiles(StringPath, "sx_2002.exe", SearchOption.TopDirectoryOnly).Length == 1)
+            {
+                return true;
+            }
+            MessageBox.Show("Missing sx_2002.exe");
+            return false;
+        }
+        private void hdrExtract_Click(object sender, EventArgs e)
+        {
+            if (CheckSX())
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
+                    {
+                        IsFolderPicker = true,
+                        Title = "Select Extract Folder",
+                    };
+                    if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
+                    {
+                        datAudio = new DATAudio();
+
+                        datAudio.ExtractGuess(openFileDialog.FileName, openFileDialog1.FileName);
+
+                        MessageBox.Show("Audio Extracted");
+
+                        string[] NewFiles = Directory.GetFiles(openFileDialog1.FileName, "*.wav", SearchOption.TopDirectoryOnly);
+
+                        Files = NewFiles.ToList();
+
+                        hdrFileList.Items.Clear();
+                        for (int i = 0; i < Files.Count; i++)
+                        {
+                            hdrFileList.Items.Add(Path.GetFileName(Files[i]));
+                        }
+                    }
+                }
+
+            }
+        }
+
+        private void hdrBuildDAT_Click(object sender, EventArgs e)
+        {
+            if (CheckSX() && HDRLoaded)
+            {
+                SaveFileDialog openFileDialog1 = new SaveFileDialog
+                {
+                    Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    if (hdrHandler.fileHeaders.Count != Files.ToArray().Length)
+                    {
+                        MessageBox.Show("Incorrect Wav Count " + hdrHandler.fileHeaders.Count + "/" + Files.ToArray().Length);
+                        return;
+                    }
+                    hdrHandler = datAudio.GenerateDATAndHDR3(Files.ToArray(), openFileDialog1.FileName, hdrHandler);
+                    MessageBox.Show("File Generated");
+
+                    hdrList2.Items.Clear();
+                    for (int i = 0; i < hdrHandler.fileHeaders.Count; i++)
+                    {
+                        hdrList2.Items.Add("Entry " + i + " - Offset " + hdrHandler.fileHeaders[i].OffsetInt);
+                    }
+                }
+            }
+            else
+            {
+                if (!HDRLoaded)
+                {
+                    MessageBox.Show("Rebuilding Requires HDR File Loaded");
+                }
+            }
+        }
+
+        private void hdrList2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (hdrList2.SelectedIndex != -1 && !DisableUpdate)
+            {
+                DisableUpdate = true;
+                hdrEntryU1.Value = hdrHandler.fileHeaders[hdrList2.SelectedIndex].Unknown;
+                hdrEntryU2.Value = hdrHandler.fileHeaders[hdrList2.SelectedIndex].Unknown2;
+                hdrEntryU3.Value = hdrHandler.fileHeaders[hdrList2.SelectedIndex].EventID;
+                DisableUpdate = false;
+            }
+        }
+
+        private void HdrLoad_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "PS2 Audio Header File (*.hdr)|*.hdr|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                hdrHandler.Load(openFileDialog.FileName);
+                hdrBuildDAT.Enabled = true;
+                HDRLoaded = true;
+
+                hdrList2.Items.Clear();
+
+                for (int i = 0; i < hdrHandler.fileHeaders.Count; i++)
+                {
+                    hdrList2.Items.Add("Entry " + i + " - Offset " + hdrHandler.fileHeaders[i].OffsetInt);
+                }
+
+                DisableUpdate = true;
+                hdrU1.Value = hdrHandler.U1;
+                hdrU2.Value = hdrHandler.U2;
+                hdrAligmentMode.Value = hdrHandler.AligmentSize;
+                hdrEntryType.Value = hdrHandler.EntryTypes;
+                hdrUpdateActiveButtons();
+                DisableUpdate = false;
+            }
+        }
+
+        public void hdrUpdateActiveButtons()
+        {
+            hdrEntryU1.Enabled = false;
+            hdrEntryU2.Enabled = false;
+            hdrEntryU3.Enabled = false;
+
+            if (hdrHandler.EntryTypes == 1 || hdrHandler.EntryTypes == 2)
+            {
+                hdrEntryU1.Enabled = true;
+            }
+            if (hdrHandler.EntryTypes == 3)
+            {
+                hdrEntryU2.Enabled = true;
+                hdrEntryU3.Enabled = true;
+            }
+            if (hdrHandler.EntryTypes == 4)
+            {
+                hdrEntryU1.Enabled = true;
+                hdrEntryU2.Enabled = true;
+                hdrEntryU3.Enabled = true;
+            }
+        }
+
+        private void hdrSave_Click(object sender, EventArgs e)
+        {
+            if (HDRLoaded)
+            {
+                SaveFileDialog openFileDialog1 = new SaveFileDialog
+                {
+                    Filter = "PS2 Audio File (*.hdr)|*.hdr|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    hdrHandler.Save(openFileDialog1.FileName);
+                }
+            }
+        }
+
+        private void hdrEntryU1_ValueChanged(object sender, EventArgs e)
+        {
+            if (hdrList2.SelectedIndex != -1 && !DisableUpdate)
+            {
+                DisableUpdate = true;
+                var Temp = hdrHandler.fileHeaders[hdrList2.SelectedIndex];
+                Temp.Unknown = (int)hdrEntryU1.Value;
+                Temp.Unknown2 = (int)hdrEntryU2.Value;
+                Temp.EventID = (int)hdrEntryU3.Value;
+                hdrHandler.fileHeaders[hdrList2.SelectedIndex] = Temp;
+                DisableUpdate = false;
+            }
+        }
+
+        private void hdrU1_ValueChanged(object sender, EventArgs e)
+        {
+            if (hdrList2.SelectedIndex != -1 && !DisableUpdate)
+            {
+                DisableUpdate = true;
+                hdrHandler.U1 = (int)hdrU1.Value;
+                hdrHandler.U2 = (int)hdrU2.Value;
+                hdrHandler.AligmentSize = (int)hdrAligmentMode.Value;
+                hdrHandler.EntryTypes = (int)hdrEntryType.Value;
+                hdrUpdateActiveButtons();
+                DisableUpdate = false;
+            }
+        }
+
+        private void SSX3ToolsWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (waveOut != null)
+            {
+                waveOut.Stop();
+                waveFile.Close();
+            }
+        }
+
+
+        #endregion
     }
 }
