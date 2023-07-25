@@ -148,6 +148,10 @@
             hdrEntryU1 = new NumericUpDown();
             label30 = new Label();
             groupBox7 = new GroupBox();
+            hdrEntryType = new NumericUpDown();
+            label12 = new Label();
+            hdrAligmentMode = new NumericUpDown();
+            label35 = new Label();
             hdrU2 = new NumericUpDown();
             label29 = new Label();
             hdrU1 = new NumericUpDown();
@@ -174,8 +178,8 @@
             label24 = new Label();
             HDRTime = new Label();
             tabPage2 = new TabPage();
-            ELFLdrSetup = new Button();
             button1 = new Button();
+            ELFLdrSetup = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -201,6 +205,8 @@
             ((System.ComponentModel.ISupportInitialize)hdrEntryU2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)hdrEntryU1).BeginInit();
             groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)hdrEntryType).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)hdrAligmentMode).BeginInit();
             ((System.ComponentModel.ISupportInitialize)hdrU2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)hdrU1).BeginInit();
             groupBox5.SuspendLayout();
@@ -209,6 +215,7 @@
             // 
             // tabControl1
             // 
+            tabControl1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage3);
             tabControl1.Controls.Add(tabPage5);
@@ -1343,6 +1350,7 @@
             // 
             // groupBox6
             // 
+            groupBox6.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             groupBox6.Controls.Add(groupBox8);
             groupBox6.Controls.Add(groupBox7);
             groupBox6.Controls.Add(hdrList2);
@@ -1363,7 +1371,7 @@
             groupBox8.Controls.Add(label31);
             groupBox8.Controls.Add(hdrEntryU1);
             groupBox8.Controls.Add(label30);
-            groupBox8.Location = new Point(182, 22);
+            groupBox8.Location = new Point(183, 12);
             groupBox8.Name = "groupBox8";
             groupBox8.Size = new Size(200, 154);
             groupBox8.TabIndex = 40;
@@ -1426,16 +1434,56 @@
             // 
             // groupBox7
             // 
+            groupBox7.Controls.Add(hdrEntryType);
+            groupBox7.Controls.Add(label12);
+            groupBox7.Controls.Add(hdrAligmentMode);
+            groupBox7.Controls.Add(label35);
             groupBox7.Controls.Add(hdrU2);
             groupBox7.Controls.Add(label29);
             groupBox7.Controls.Add(hdrU1);
             groupBox7.Controls.Add(label28);
-            groupBox7.Location = new Point(182, 182);
+            groupBox7.Location = new Point(182, 172);
             groupBox7.Name = "groupBox7";
-            groupBox7.Size = new Size(200, 174);
+            groupBox7.Size = new Size(200, 202);
             groupBox7.TabIndex = 39;
             groupBox7.TabStop = false;
             groupBox7.Text = "Header Info";
+            // 
+            // hdrEntryType
+            // 
+            hdrEntryType.Location = new Point(6, 169);
+            hdrEntryType.Maximum = new decimal(new int[] { 1000000000, 0, 0, 0 });
+            hdrEntryType.Name = "hdrEntryType";
+            hdrEntryType.Size = new Size(188, 23);
+            hdrEntryType.TabIndex = 7;
+            hdrEntryType.ValueChanged += hdrU1_ValueChanged;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(6, 151);
+            label12.Name = "label12";
+            label12.Size = new Size(61, 15);
+            label12.TabIndex = 6;
+            label12.Text = "Entry Type";
+            // 
+            // hdrAligmentMode
+            // 
+            hdrAligmentMode.Location = new Point(6, 125);
+            hdrAligmentMode.Maximum = new decimal(new int[] { 1000000000, 0, 0, 0 });
+            hdrAligmentMode.Name = "hdrAligmentMode";
+            hdrAligmentMode.Size = new Size(188, 23);
+            hdrAligmentMode.TabIndex = 5;
+            hdrAligmentMode.ValueChanged += hdrU1_ValueChanged;
+            // 
+            // label35
+            // 
+            label35.AutoSize = true;
+            label35.Location = new Point(6, 107);
+            label35.Name = "label35";
+            label35.Size = new Size(97, 15);
+            label35.TabIndex = 4;
+            label35.Text = "Alignment Mode";
             // 
             // hdrU2
             // 
@@ -1485,7 +1533,7 @@
             // 
             // hdrSave
             // 
-            hdrSave.Location = new Point(308, 357);
+            hdrSave.Location = new Point(92, 357);
             hdrSave.Name = "hdrSave";
             hdrSave.Size = new Size(75, 23);
             hdrSave.TabIndex = 28;
@@ -1505,6 +1553,7 @@
             // 
             // groupBox5
             // 
+            groupBox5.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             groupBox5.Controls.Add(hdrFileList);
             groupBox5.Controls.Add(hdrPlay);
             groupBox5.Controls.Add(HDRTotalSamples);
@@ -1651,7 +1700,7 @@
             hdrLoadFolder.Name = "hdrLoadFolder";
             hdrLoadFolder.Size = new Size(170, 23);
             hdrLoadFolder.TabIndex = 23;
-            hdrLoadFolder.Text = "Load Folder";
+            hdrLoadFolder.Text = "Load WAV Folder";
             hdrLoadFolder.UseVisualStyleBackColor = true;
             hdrLoadFolder.Click += hdrLoadFolder_Click;
             // 
@@ -1703,16 +1752,6 @@
             tabPage2.Text = "Tools";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // ELFLdrSetup
-            // 
-            ELFLdrSetup.Location = new Point(3, 3);
-            ELFLdrSetup.Name = "ELFLdrSetup";
-            ELFLdrSetup.Size = new Size(132, 72);
-            ELFLdrSetup.TabIndex = 0;
-            ELFLdrSetup.Text = "Setup For ELFLdr";
-            ELFLdrSetup.UseVisualStyleBackColor = true;
-            ELFLdrSetup.Click += ELFLdrSetup_Click;
-            // 
             // button1
             // 
             button1.Location = new Point(174, 282);
@@ -1722,6 +1761,16 @@
             button1.Text = "Test";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
+            // 
+            // ELFLdrSetup
+            // 
+            ELFLdrSetup.Location = new Point(3, 3);
+            ELFLdrSetup.Name = "ELFLdrSetup";
+            ELFLdrSetup.Size = new Size(132, 72);
+            ELFLdrSetup.TabIndex = 0;
+            ELFLdrSetup.Text = "Setup For ELFLdr";
+            ELFLdrSetup.UseVisualStyleBackColor = true;
+            ELFLdrSetup.Click += ELFLdrSetup_Click;
             // 
             // TrickyToolsWindow
             // 
@@ -1769,6 +1818,8 @@
             ((System.ComponentModel.ISupportInitialize)hdrEntryU1).EndInit();
             groupBox7.ResumeLayout(false);
             groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)hdrEntryType).EndInit();
+            ((System.ComponentModel.ISupportInitialize)hdrAligmentMode).EndInit();
             ((System.ComponentModel.ISupportInitialize)hdrU2).EndInit();
             ((System.ComponentModel.ISupportInitialize)hdrU1).EndInit();
             groupBox5.ResumeLayout(false);
@@ -1927,5 +1978,9 @@
         private TabPage tabPage5;
         private Button MNFLoad;
         private Button button1;
+        private NumericUpDown hdrEntryType;
+        private Label label12;
+        private NumericUpDown hdrAligmentMode;
+        private Label label35;
     }
 }

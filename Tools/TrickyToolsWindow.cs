@@ -1015,7 +1015,33 @@ namespace SSXMultiTool
                 DisableUpdate = true;
                 hdrU1.Value = hdrHandler.U1;
                 hdrU2.Value = hdrHandler.U2;
+                hdrAligmentMode.Value = hdrHandler.AligmentSize;
+                hdrEntryType.Value = hdrHandler.EntryTypes;
+                hdrUpdateActiveButtons();
                 DisableUpdate = false;
+            }
+        }
+
+        public void hdrUpdateActiveButtons()
+        {
+            hdrEntryU1.Enabled = false;
+            hdrEntryU2.Enabled = false;
+            hdrEntryU3.Enabled = false;
+
+            if(hdrHandler.EntryTypes==1|| hdrHandler.EntryTypes == 2)
+            {
+                hdrEntryU1.Enabled = true;
+            }
+            if (hdrHandler.EntryTypes == 3)
+            {
+                hdrEntryU2.Enabled = true;
+                hdrEntryU3.Enabled = true;
+            }
+            if(hdrHandler.EntryTypes == 4)
+            {
+                hdrEntryU1.Enabled = true;
+                hdrEntryU2.Enabled = true;
+                hdrEntryU3.Enabled = true;
             }
         }
 
@@ -1043,6 +1069,16 @@ namespace SSXMultiTool
                         datAudio.ExtractGuess(openFileDialog.FileName, openFileDialog1.FileName);
 
                         MessageBox.Show("Audio Extracted");
+
+                        string[] NewFiles = Directory.GetFiles(openFileDialog1.FileName, "*.wav", SearchOption.TopDirectoryOnly);
+
+                        Files = NewFiles.ToList();
+
+                        hdrFileList.Items.Clear();
+                        for (int i = 0; i < Files.Count; i++)
+                        {
+                            hdrFileList.Items.Add(Path.GetFileName(Files[i]));
+                        }
                     }
                 }
 
@@ -1066,7 +1102,7 @@ namespace SSXMultiTool
                         MessageBox.Show("Incorrect Wav Count " + hdrHandler.fileHeaders.Count + "/" + Files.ToArray().Length);
                         return;
                     }
-                    hdrHandler = datAudio.GenerateDATAndHDR3(Files.ToArray(), openFileDialog1.FileName, hdrHandler);
+                    hdrHandler = datAudio.GenerateDATAndHDR(Files.ToArray(), openFileDialog1.FileName, hdrHandler);
                     MessageBox.Show("File Generated");
 
                     hdrList2.Items.Clear();
@@ -1074,6 +1110,13 @@ namespace SSXMultiTool
                     {
                         hdrList2.Items.Add("Entry " + i + " - Offset " + hdrHandler.fileHeaders[i].OffsetInt);
                     }
+                }
+            }
+            else
+            {
+                if (!HDRLoaded)
+                {
+                    MessageBox.Show("Rebuilding Requires HDR File Loaded");
                 }
             }
         }
@@ -1262,6 +1305,9 @@ namespace SSXMultiTool
                 DisableUpdate = true;
                 hdrHandler.U1 = (int)hdrU1.Value;
                 hdrHandler.U2 = (int)hdrU2.Value;
+                hdrHandler.AligmentSize = (int)hdrAligmentMode.Value;
+                hdrHandler.EntryTypes = (int)hdrEntryType.Value;
+                hdrUpdateActiveButtons();
                 DisableUpdate = false;
             }
         }

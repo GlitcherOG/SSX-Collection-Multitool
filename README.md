@@ -28,12 +28,9 @@ As such, I chose to redo the entire project and improve it as I did so.
 - [ ] Matrix Type 3 SSH
 - [ ] Audio Exporting/Importing 
 - [ ] Character Importer Add Face Count
-Fix button naming
-load offsets for hdr button
-load wav file folder automatically afterward
-big toggle for / and \
-Negitive one Linkz lightmap Fix
-Fix ADL Light/Camera and ensure saving
+- [ ] big toggle for / and \
+- [ ] Negitive one Linkz lightmap Fix
+- [ ] Fix ADL Light/Camera and ensure saving
 
 ### SSX Tricky
 - [ ] Normal Average Proper

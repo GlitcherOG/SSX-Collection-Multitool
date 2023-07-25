@@ -223,9 +223,6 @@
             this.MPFSaveDecompressed = (new global::System.Windows.Forms.Button());
             this.MPFLoad = (new global::System.Windows.Forms.Button());
             this.ModelListLabel = (new global::System.Windows.Forms.Label());
-            this.tabPage4 = (new global::System.Windows.Forms.TabPage());
-            this.LoadLUI = (new global::System.Windows.Forms.Button());
-            this.BiglessStore = (new global::System.Windows.Forms.Button());
             this.tabPage6 = (new global::System.Windows.Forms.TabPage());
             this.groupBox6 = (new global::System.Windows.Forms.GroupBox());
             this.groupBox8 = (new global::System.Windows.Forms.GroupBox());
@@ -261,6 +258,9 @@
             this.hdrAddFile = (new global::System.Windows.Forms.Button());
             this.label87 = (new global::System.Windows.Forms.Label());
             this.HDRTime = (new global::System.Windows.Forms.Label());
+            this.tabPage4 = (new global::System.Windows.Forms.TabPage());
+            this.LoadLUI = (new global::System.Windows.Forms.Button());
+            this.BiglessStore = (new global::System.Windows.Forms.Button());
             ((global::System.ComponentModel.ISupportInitialize)(this.charnumericUpDown5)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -308,7 +308,6 @@
             ((global::System.ComponentModel.ISupportInitialize)(this.MatUnknown1)).BeginInit();
             ((global::System.ComponentModel.ISupportInitialize)(this.MatFlagFactor)).BeginInit();
             this.groupBox2.SuspendLayout();
-            this.tabPage4.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox8.SuspendLayout();
@@ -319,6 +318,7 @@
             ((global::System.ComponentModel.ISupportInitialize)(this.hdrU2)).BeginInit();
             ((global::System.ComponentModel.ISupportInitialize)(this.hdrU1)).BeginInit();
             this.groupBox5.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // charnumericUpDown5
@@ -2308,37 +2308,6 @@
             this.ModelListLabel.Text = ("Model List");
             this.ModelListLabel.Click += (this.ModelListLabel_Click);
             // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.LoadLUI);
-            this.tabPage4.Controls.Add(this.BiglessStore);
-            this.tabPage4.Location = (new global::System.Drawing.Point(4, 24));
-            this.tabPage4.Name = ("tabPage4");
-            this.tabPage4.Size = (new global::System.Drawing.Size(941, 528));
-            this.tabPage4.TabIndex = (3);
-            this.tabPage4.Text = ("Tools");
-            this.tabPage4.UseVisualStyleBackColor = (true);
-            // 
-            // LoadLUI
-            // 
-            this.LoadLUI.Location = (new global::System.Drawing.Point(693, 439));
-            this.LoadLUI.Name = ("LoadLUI");
-            this.LoadLUI.Size = (new global::System.Drawing.Size(75, 23));
-            this.LoadLUI.TabIndex = (1);
-            this.LoadLUI.Text = ("Test");
-            this.LoadLUI.UseVisualStyleBackColor = (true);
-            this.LoadLUI.Click += (this.LoadLUI_Click);
-            // 
-            // BiglessStore
-            // 
-            this.BiglessStore.Location = (new global::System.Drawing.Point(13, 14));
-            this.BiglessStore.Name = ("BiglessStore");
-            this.BiglessStore.Size = (new global::System.Drawing.Size(133, 71));
-            this.BiglessStore.TabIndex = (0);
-            this.BiglessStore.Text = ("Generate Bigless Store");
-            this.BiglessStore.UseVisualStyleBackColor = (true);
-            this.BiglessStore.Click += (this.BiglessStore_Click);
-            // 
             // tabPage6
             // 
             this.tabPage6.Controls.Add(this.groupBox6);
@@ -2357,9 +2326,9 @@
             this.groupBox6.Controls.Add(this.hdrList2);
             this.groupBox6.Controls.Add(this.hdrSave);
             this.groupBox6.Controls.Add(this.HdrLoad);
-            this.groupBox6.Location = (new global::System.Drawing.Point(459, 71));
+            this.groupBox6.Location = (new global::System.Drawing.Point(459, 3));
             this.groupBox6.Name = ("groupBox6");
-            this.groupBox6.Size = (new global::System.Drawing.Size(389, 386));
+            this.groupBox6.Size = (new global::System.Drawing.Size(479, 522));
             this.groupBox6.TabIndex = (41);
             this.groupBox6.TabStop = (false);
             this.groupBox6.Text = (".HDR");
@@ -2372,9 +2341,9 @@
             this.groupBox8.Controls.Add(this.label80);
             this.groupBox8.Controls.Add(this.hdrEntryU1);
             this.groupBox8.Controls.Add(this.label81);
-            this.groupBox8.Location = (new global::System.Drawing.Point(182, 22));
+            this.groupBox8.Location = (new global::System.Drawing.Point(273, 23));
             this.groupBox8.Name = ("groupBox8");
-            this.groupBox8.Size = (new global::System.Drawing.Size(200, 154));
+            this.groupBox8.Size = (new global::System.Drawing.Size(200, 284));
             this.groupBox8.TabIndex = (40);
             this.groupBox8.TabStop = (false);
             this.groupBox8.Text = ("HDR Entry");
@@ -2436,7 +2405,7 @@
             this.groupBox7.Controls.Add(this.label82);
             this.groupBox7.Controls.Add(this.hdrU1);
             this.groupBox7.Controls.Add(this.label83);
-            this.groupBox7.Location = (new global::System.Drawing.Point(182, 182));
+            this.groupBox7.Location = (new global::System.Drawing.Point(273, 313));
             this.groupBox7.Name = ("groupBox7");
             this.groupBox7.Size = (new global::System.Drawing.Size(200, 174));
             this.groupBox7.TabIndex = (39);
@@ -2483,12 +2452,12 @@
             this.hdrList2.ItemHeight = (15);
             this.hdrList2.Location = (new global::System.Drawing.Point(6, 22));
             this.hdrList2.Name = ("hdrList2");
-            this.hdrList2.Size = (new global::System.Drawing.Size(170, 334));
+            this.hdrList2.Size = (new global::System.Drawing.Size(261, 469));
             this.hdrList2.TabIndex = (38);
             // 
             // hdrSave
             // 
-            this.hdrSave.Location = (new global::System.Drawing.Point(308, 357));
+            this.hdrSave.Location = (new global::System.Drawing.Point(398, 493));
             this.hdrSave.Name = ("hdrSave");
             this.hdrSave.Size = (new global::System.Drawing.Size(75, 23));
             this.hdrSave.TabIndex = (28);
@@ -2497,7 +2466,7 @@
             // 
             // HdrLoad
             // 
-            this.HdrLoad.Location = (new global::System.Drawing.Point(6, 357));
+            this.HdrLoad.Location = (new global::System.Drawing.Point(0, 493));
             this.HdrLoad.Name = ("HdrLoad");
             this.HdrLoad.Size = (new global::System.Drawing.Size(80, 23));
             this.HdrLoad.TabIndex = (19);
@@ -2523,25 +2492,27 @@
             this.groupBox5.Controls.Add(this.hdrAddFile);
             this.groupBox5.Controls.Add(this.label87);
             this.groupBox5.Controls.Add(this.HDRTime);
-            this.groupBox5.Location = (new global::System.Drawing.Point(93, 71));
+            this.groupBox5.Location = (new global::System.Drawing.Point(3, 3));
             this.groupBox5.Name = ("groupBox5");
-            this.groupBox5.Size = (new global::System.Drawing.Size(360, 386));
+            this.groupBox5.Size = (new global::System.Drawing.Size(450, 522));
             this.groupBox5.TabIndex = (40);
             this.groupBox5.TabStop = (false);
             this.groupBox5.Text = (".DAT");
             // 
             // hdrFileList
             // 
+            this.hdrFileList.Anchor = ((global::System.Windows.Forms.AnchorStyles)(((global::System.Windows.Forms.AnchorStyles.Top) | (global::System.Windows.Forms.AnchorStyles.Bottom)) | (global::System.Windows.Forms.AnchorStyles.Left)));
             this.hdrFileList.FormattingEnabled = (true);
             this.hdrFileList.ItemHeight = (15);
             this.hdrFileList.Location = (new global::System.Drawing.Point(6, 23));
             this.hdrFileList.Name = ("hdrFileList");
-            this.hdrFileList.Size = (new global::System.Drawing.Size(170, 304));
+            this.hdrFileList.Size = (new global::System.Drawing.Size(170, 424));
             this.hdrFileList.TabIndex = (24);
             // 
             // hdrPlay
             // 
-            this.hdrPlay.Location = (new global::System.Drawing.Point(182, 328));
+            this.hdrPlay.Anchor = ((global::System.Windows.Forms.AnchorStyles)((global::System.Windows.Forms.AnchorStyles.Bottom) | (global::System.Windows.Forms.AnchorStyles.Left)));
+            this.hdrPlay.Location = (new global::System.Drawing.Point(272, 464));
             this.hdrPlay.Name = ("hdrPlay");
             this.hdrPlay.Size = (new global::System.Drawing.Size(84, 23));
             this.hdrPlay.TabIndex = (33);
@@ -2568,8 +2539,9 @@
             // 
             // hdrBuildDAT
             // 
+            this.hdrBuildDAT.Anchor = ((global::System.Windows.Forms.AnchorStyles)((global::System.Windows.Forms.AnchorStyles.Bottom) | (global::System.Windows.Forms.AnchorStyles.Left)));
             this.hdrBuildDAT.Enabled = (false);
-            this.hdrBuildDAT.Location = (new global::System.Drawing.Point(272, 357));
+            this.hdrBuildDAT.Location = (new global::System.Drawing.Point(362, 493));
             this.hdrBuildDAT.Name = ("hdrBuildDAT");
             this.hdrBuildDAT.Size = (new global::System.Drawing.Size(82, 23));
             this.hdrBuildDAT.TabIndex = (21);
@@ -2578,7 +2550,8 @@
             // 
             // hdrRemoveFile
             // 
-            this.hdrRemoveFile.Location = (new global::System.Drawing.Point(6, 328));
+            this.hdrRemoveFile.Anchor = ((global::System.Windows.Forms.AnchorStyles)((global::System.Windows.Forms.AnchorStyles.Bottom) | (global::System.Windows.Forms.AnchorStyles.Left)));
+            this.hdrRemoveFile.Location = (new global::System.Drawing.Point(6, 464));
             this.hdrRemoveFile.Name = ("hdrRemoveFile");
             this.hdrRemoveFile.Size = (new global::System.Drawing.Size(38, 23));
             this.hdrRemoveFile.TabIndex = (27);
@@ -2587,7 +2560,8 @@
             // 
             // hdrExtract
             // 
-            this.hdrExtract.Location = (new global::System.Drawing.Point(182, 357));
+            this.hdrExtract.Anchor = ((global::System.Windows.Forms.AnchorStyles)((global::System.Windows.Forms.AnchorStyles.Bottom) | (global::System.Windows.Forms.AnchorStyles.Left)));
+            this.hdrExtract.Location = (new global::System.Drawing.Point(272, 493));
             this.hdrExtract.Name = ("hdrExtract");
             this.hdrExtract.Size = (new global::System.Drawing.Size(84, 23));
             this.hdrExtract.TabIndex = (20);
@@ -2605,7 +2579,8 @@
             // 
             // hdrDown
             // 
-            this.hdrDown.Location = (new global::System.Drawing.Point(96, 328));
+            this.hdrDown.Anchor = ((global::System.Windows.Forms.AnchorStyles)((global::System.Windows.Forms.AnchorStyles.Bottom) | (global::System.Windows.Forms.AnchorStyles.Left)));
+            this.hdrDown.Location = (new global::System.Drawing.Point(96, 464));
             this.hdrDown.Name = ("hdrDown");
             this.hdrDown.Size = (new global::System.Drawing.Size(32, 23));
             this.hdrDown.TabIndex = (26);
@@ -2623,7 +2598,8 @@
             // 
             // hdrUp
             // 
-            this.hdrUp.Location = (new global::System.Drawing.Point(48, 328));
+            this.hdrUp.Anchor = ((global::System.Windows.Forms.AnchorStyles)((global::System.Windows.Forms.AnchorStyles.Bottom) | (global::System.Windows.Forms.AnchorStyles.Left)));
+            this.hdrUp.Location = (new global::System.Drawing.Point(48, 464));
             this.hdrUp.Name = ("hdrUp");
             this.hdrUp.Size = (new global::System.Drawing.Size(33, 23));
             this.hdrUp.TabIndex = (25);
@@ -2641,7 +2617,8 @@
             // 
             // hdrLoadFolder
             // 
-            this.hdrLoadFolder.Location = (new global::System.Drawing.Point(6, 357));
+            this.hdrLoadFolder.Anchor = ((global::System.Windows.Forms.AnchorStyles)((global::System.Windows.Forms.AnchorStyles.Bottom) | (global::System.Windows.Forms.AnchorStyles.Left)));
+            this.hdrLoadFolder.Location = (new global::System.Drawing.Point(6, 493));
             this.hdrLoadFolder.Name = ("hdrLoadFolder");
             this.hdrLoadFolder.Size = (new global::System.Drawing.Size(170, 23));
             this.hdrLoadFolder.TabIndex = (23);
@@ -2659,7 +2636,8 @@
             // 
             // hdrAddFile
             // 
-            this.hdrAddFile.Location = (new global::System.Drawing.Point(134, 328));
+            this.hdrAddFile.Anchor = ((global::System.Windows.Forms.AnchorStyles)((global::System.Windows.Forms.AnchorStyles.Bottom) | (global::System.Windows.Forms.AnchorStyles.Left)));
+            this.hdrAddFile.Location = (new global::System.Drawing.Point(134, 464));
             this.hdrAddFile.Name = ("hdrAddFile");
             this.hdrAddFile.Size = (new global::System.Drawing.Size(42, 23));
             this.hdrAddFile.TabIndex = (22);
@@ -2683,6 +2661,37 @@
             this.HDRTime.Size = (new global::System.Drawing.Size(13, 15));
             this.HDRTime.TabIndex = (34);
             this.HDRTime.Text = ("0");
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.LoadLUI);
+            this.tabPage4.Controls.Add(this.BiglessStore);
+            this.tabPage4.Location = (new global::System.Drawing.Point(4, 24));
+            this.tabPage4.Name = ("tabPage4");
+            this.tabPage4.Size = (new global::System.Drawing.Size(941, 528));
+            this.tabPage4.TabIndex = (3);
+            this.tabPage4.Text = ("Tools");
+            this.tabPage4.UseVisualStyleBackColor = (true);
+            // 
+            // LoadLUI
+            // 
+            this.LoadLUI.Location = (new global::System.Drawing.Point(693, 439));
+            this.LoadLUI.Name = ("LoadLUI");
+            this.LoadLUI.Size = (new global::System.Drawing.Size(75, 23));
+            this.LoadLUI.TabIndex = (1);
+            this.LoadLUI.Text = ("Test");
+            this.LoadLUI.UseVisualStyleBackColor = (true);
+            this.LoadLUI.Click += (this.LoadLUI_Click);
+            // 
+            // BiglessStore
+            // 
+            this.BiglessStore.Location = (new global::System.Drawing.Point(13, 14));
+            this.BiglessStore.Name = ("BiglessStore");
+            this.BiglessStore.Size = (new global::System.Drawing.Size(133, 71));
+            this.BiglessStore.TabIndex = (0);
+            this.BiglessStore.Text = ("Generate Bigless Store");
+            this.BiglessStore.UseVisualStyleBackColor = (true);
+            this.BiglessStore.Click += (this.BiglessStore_Click);
             // 
             // SSX3ToolsWindow
             // 
@@ -2747,7 +2756,6 @@
             ((global::System.ComponentModel.ISupportInitialize)(this.MatFlagFactor)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.tabPage4.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
@@ -2761,6 +2769,7 @@
             ((global::System.ComponentModel.ISupportInitialize)(this.hdrU1)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
             this.ResumeLayout(false);
         }
 

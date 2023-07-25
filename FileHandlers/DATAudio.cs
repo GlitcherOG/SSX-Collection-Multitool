@@ -173,10 +173,10 @@ namespace SSXMultiTool.FileHandlers
                     var TempHolder = File.Open(HolderPaths[i], FileMode.Open);
                     var TempHdrHeader = hdrHandler.fileHeaders[i];
                     TempHolder.Position = TempHolder.Length;
-                    StreamUtil.AlignBy(TempHolder, 0x100 * (hdrHandler.U4 + 1));
+                    StreamUtil.AlignBy(TempHolder, 0x100 * (hdrHandler.AligmentSize + 1));
                     long FixedLength = TempHolder.Position;
                     TempHolder.Close();
-                    TempHdrHeader.OffsetInt = (int)(CurrentOffset / (0x100 * (hdrHandler.U4 + 1)));
+                    TempHdrHeader.OffsetInt = (int)(CurrentOffset / (0x100 * (hdrHandler.AligmentSize + 1)));
                     CurrentOffset += FixedLength;
 
                     hdrHandler.fileHeaders[i] = TempHdrHeader;
@@ -189,7 +189,7 @@ namespace SSXMultiTool.FileHandlers
                 {
                     using (Stream stream1 = File.Open(HolderPaths[i], FileMode.Open))
                     {
-                        stream.Position = (hdrHandler.fileHeaders[i].OffsetInt * 0x100) / (hdrHandler.U4 + 1);
+                        stream.Position = (hdrHandler.fileHeaders[i].OffsetInt * 0x100) / (hdrHandler.AligmentSize + 1);
 
                         StreamUtil.WriteStreamIntoStream(stream, stream1);
                     }
@@ -275,10 +275,10 @@ namespace SSXMultiTool.FileHandlers
                     var TempHolder = File.Open(HolderPaths[i], FileMode.Open);
                     var TempHdrHeader = hdrHandler.fileHeaders[i];
                     TempHolder.Position = TempHolder.Length;
-                    StreamUtil.AlignBy(TempHolder, 0x100 * (hdrHandler.U4 + 1));
+                    StreamUtil.AlignBy(TempHolder, 0x100 * (hdrHandler.AligmentSize + 1));
                     long FixedLength = TempHolder.Position;
                     TempHolder.Close();
-                    TempHdrHeader.OffsetInt = (int)(CurrentOffset / (0x100 * (hdrHandler.U4 + 1)));
+                    TempHdrHeader.OffsetInt = (int)(CurrentOffset / (0x100 * (hdrHandler.AligmentSize + 1)));
                     CurrentOffset += FixedLength;
 
                     hdrHandler.fileHeaders[i] = TempHdrHeader;
@@ -291,7 +291,7 @@ namespace SSXMultiTool.FileHandlers
                 {
                     using (Stream stream1 = File.Open(HolderPaths[i], FileMode.Open))
                     {
-                        stream.Position = (hdrHandler.fileHeaders[i].OffsetInt * 0x100) / (hdrHandler.U4 + 1);
+                        stream.Position = (hdrHandler.fileHeaders[i].OffsetInt * 0x100) / (hdrHandler.AligmentSize + 1);
 
                         StreamUtil.WriteStreamIntoStream(stream, stream1);
                     }

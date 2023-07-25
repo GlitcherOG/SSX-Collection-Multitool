@@ -16,7 +16,7 @@ namespace SSXMultiTool.FileHandlers
         public int EntryTypes;
         public int FileCount;
         public int PaddingCount;
-        public int U4;
+        public int AligmentSize;
         public int U5;
 
         public int GapSize;
@@ -32,7 +32,7 @@ namespace SSXMultiTool.FileHandlers
                 EntryTypes = StreamUtil.ReadUInt8(stream);
                 FileCount = StreamUtil.ReadUInt8(stream);
                 PaddingCount = StreamUtil.ReadUInt8(stream);
-                U4 = StreamUtil.ReadUInt8(stream); //Multi 0 == 1
+                AligmentSize = StreamUtil.ReadUInt8(stream); //Multi 0 == 1
                 U5 = StreamUtil.ReadInt16(stream);
 
                 if(EntryTypes == 0 || EntryTypes == 2)
@@ -114,7 +114,7 @@ namespace SSXMultiTool.FileHandlers
             StreamUtil.WriteUInt8(stream, EntryTypes);
             StreamUtil.WriteUInt8(stream, fileHeaders.Count);
             StreamUtil.WriteUInt8(stream, Padding.Count);
-            StreamUtil.WriteUInt8(stream, U4);
+            StreamUtil.WriteUInt8(stream, AligmentSize);
             StreamUtil.WriteInt16(stream, U5);
 
             if (EntryTypes == 0 || EntryTypes == 2)
