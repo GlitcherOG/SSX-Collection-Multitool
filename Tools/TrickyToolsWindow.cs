@@ -1317,7 +1317,7 @@ namespace SSXMultiTool
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "MXF Model File (*.mxf)|*.mxf|All files (*.*)|*.*",
+                Filter = "MNF Model File (*.mnf)|*.mnf|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };

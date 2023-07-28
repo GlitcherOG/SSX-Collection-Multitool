@@ -226,6 +226,57 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         Model.boneWeightHeaders.Add(BoneWeight);
                     }
 
+                    streamMatrix.Position = Model.OffsetTristripSection;
+                    for (int b = 0; b < Model.NumMeshPerSkin; b++)
+                    {
+                        var TempTriData = new MeshHeader();
+                        TempTriData.NumWeightIndices = StreamUtil.ReadUInt32(streamMatrix, true);
+                        TempTriData.NumIndexGroups = StreamUtil.ReadUInt32(streamMatrix, true);
+                        TempTriData.OffsetSkinIndexList = StreamUtil.ReadUInt32(streamMatrix, true);
+                        TempTriData.OffsetIndexGroupList = StreamUtil.ReadUInt32(streamMatrix, true);
+                        TempTriData.unk0 = StreamUtil.ReadUInt32(streamMatrix, true);
+                        TempTriData.unk1 = StreamUtil.ReadUInt32(streamMatrix, true);
+                        TempTriData.unk2 = StreamUtil.ReadUInt32(streamMatrix, true);
+
+                        long TempPos = streamMatrix.Position;
+                        stream.Position = TempTriData.OffsetSkinIndexList;
+                        TempTriData.SkinIndex = new List<int>();
+                        for (int c = 0; c < TempTriData.NumWeightIndices; c++)
+                        {
+                            TempTriData.SkinIndex.Add(StreamUtil.ReadUInt32(streamMatrix, true));
+                        }
+
+                        stream.Position = TempTriData.OffsetIndexGroupList;
+                        TempTriData.indexGroupHeaders = new List<IndexGroupHeader>();
+                        for (int c = 0; c < TempTriData.NumIndexGroups; c++)
+                        {
+                            var TempIndexGroup = new IndexGroupHeader();
+
+                            TempIndexGroup.Offset = StreamUtil.ReadUInt32(streamMatrix, true);
+                            TempIndexGroup.ByteLength = StreamUtil.ReadUInt16(streamMatrix, true);
+                            TempIndexGroup.MatIndex0 = StreamUtil.ReadUInt16(streamMatrix, true);
+                            TempIndexGroup.MatIndex1 = StreamUtil.ReadUInt16(streamMatrix, true);
+                            TempIndexGroup.MatIndex2 = StreamUtil.ReadUInt16(streamMatrix, true);
+                            TempIndexGroup.MatIndex3 = StreamUtil.ReadUInt16(streamMatrix, true);
+                            TempIndexGroup.MatIndex4 = StreamUtil.ReadUInt16(streamMatrix, true);
+
+                            long TempPos1 = streamMatrix.Position;
+                            TempIndexGroup.indexGroups = new List<IndexGroup>();
+
+                            for (int d = 0; d < length; d++)
+                            {
+
+                            }
+
+
+                            streamMatrix.Position = TempPos1;
+
+                            TempTriData.indexGroupHeaders.Add(TempIndexGroup);
+                        }
+
+                        streamMatrix.Position = TempPos;
+                    }
+
                     modelHeaders[i] = Model;
                 }
             }
@@ -368,7 +419,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public int MatIndex3;
             public int MatIndex4;
 
-            public List<IndexGroup> indexGroups;
+            public IndexGroup indexGroup;
         }
 
         public struct IndexGroup
