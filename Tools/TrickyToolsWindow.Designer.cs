@@ -180,6 +180,7 @@
             tabPage2 = new TabPage();
             button1 = new Button();
             ELFLdrSetup = new Button();
+            label36 = new Label();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -1319,6 +1320,7 @@
             // 
             // tabPage5
             // 
+            tabPage5.Controls.Add(label36);
             tabPage5.Controls.Add(MNFLoad);
             tabPage5.Location = new Point(4, 24);
             tabPage5.Name = "tabPage5";
@@ -1329,6 +1331,7 @@
             // 
             // MNFLoad
             // 
+            MNFLoad.Enabled = false;
             MNFLoad.Location = new Point(3, 372);
             MNFLoad.Name = "MNFLoad";
             MNFLoad.Size = new Size(75, 23);
@@ -1760,6 +1763,7 @@
             button1.TabIndex = 1;
             button1.Text = "Test";
             button1.UseVisualStyleBackColor = true;
+            button1.Visible = false;
             button1.Click += button1_Click;
             // 
             // ELFLdrSetup
@@ -1771,6 +1775,15 @@
             ELFLdrSetup.Text = "Setup For ELFLdr";
             ELFLdrSetup.UseVisualStyleBackColor = true;
             ELFLdrSetup.Click += ELFLdrSetup_Click;
+            // 
+            // label36
+            // 
+            label36.AutoSize = true;
+            label36.Location = new Point(331, 176);
+            label36.Name = "label36";
+            label36.Size = new Size(80, 15);
+            label36.TabIndex = 2;
+            label36.Text = "Coming Soon";
             // 
             // TrickyToolsWindow
             // 
@@ -1809,6 +1822,7 @@
             groupBox12.ResumeLayout(false);
             groupBox12.PerformLayout();
             tabPage5.ResumeLayout(false);
+            tabPage5.PerformLayout();
             tabPage4.ResumeLayout(false);
             groupBox6.ResumeLayout(false);
             groupBox8.ResumeLayout(false);
@@ -1982,5 +1996,6 @@
         private Label label12;
         private NumericUpDown hdrAligmentMode;
         private Label label35;
+        private Label label36;
     }
 }

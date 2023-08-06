@@ -261,12 +261,6 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                             TempIndexGroup.MatIndex4 = StreamUtil.ReadUInt16(streamMatrix, true);
 
                             long TempPos1 = streamMatrix.Position;
-                            TempIndexGroup.indexGroups = new List<IndexGroup>();
-
-                            for (int d = 0; d < length; d++)
-                            {
-
-                            }
 
 
                             streamMatrix.Position = TempPos1;

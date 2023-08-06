@@ -1028,7 +1028,7 @@ namespace SSXMultiTool
             hdrEntryU2.Enabled = false;
             hdrEntryU3.Enabled = false;
 
-            if(hdrHandler.EntryTypes==1|| hdrHandler.EntryTypes == 2)
+            if (hdrHandler.EntryTypes == 1 || hdrHandler.EntryTypes == 2)
             {
                 hdrEntryU1.Enabled = true;
             }
@@ -1037,7 +1037,7 @@ namespace SSXMultiTool
                 hdrEntryU2.Enabled = true;
                 hdrEntryU3.Enabled = true;
             }
-            if(hdrHandler.EntryTypes == 4)
+            if (hdrHandler.EntryTypes == 4)
             {
                 hdrEntryU1.Enabled = true;
                 hdrEntryU2.Enabled = true;

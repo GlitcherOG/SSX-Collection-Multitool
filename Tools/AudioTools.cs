@@ -302,6 +302,6 @@ namespace SSXMultiTool.Tools
 
                 audioHandler.Load(openFileDialog.FileName);
             }
-         }
+        }
     }
 }

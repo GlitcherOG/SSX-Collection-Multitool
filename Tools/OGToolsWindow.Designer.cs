@@ -34,8 +34,8 @@
             MpfLoad = new Button();
             MPFList = new ListBox();
             tabPage2 = new TabPage();
-            ELFLdrSetup = new Button();
             LoadADF = new Button();
+            ELFLdrSetup = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -104,6 +104,17 @@
             tabPage2.Text = "Tools";
             tabPage2.UseVisualStyleBackColor = true;
             // 
+            // LoadADF
+            // 
+            LoadADF.Location = new Point(112, 157);
+            LoadADF.Name = "LoadADF";
+            LoadADF.Size = new Size(75, 23);
+            LoadADF.TabIndex = 2;
+            LoadADF.Text = "Load Test";
+            LoadADF.UseVisualStyleBackColor = true;
+            LoadADF.Visible = false;
+            LoadADF.Click += LoadADF_Click;
+            // 
             // ELFLdrSetup
             // 
             ELFLdrSetup.Location = new Point(3, 3);
@@ -113,16 +124,6 @@
             ELFLdrSetup.Text = "Setup For ELFLdr";
             ELFLdrSetup.UseVisualStyleBackColor = true;
             ELFLdrSetup.Click += ELFLdrSetup_Click;
-            // 
-            // LoadADF
-            // 
-            LoadADF.Location = new Point(112, 157);
-            LoadADF.Name = "LoadADF";
-            LoadADF.Size = new Size(75, 23);
-            LoadADF.TabIndex = 2;
-            LoadADF.Text = "Load Test";
-            LoadADF.UseVisualStyleBackColor = true;
-            LoadADF.Click += LoadADF_Click;
             // 
             // OGToolsWindow
             // 

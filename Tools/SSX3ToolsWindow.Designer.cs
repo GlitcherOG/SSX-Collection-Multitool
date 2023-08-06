@@ -2751,6 +2751,7 @@
             this.LoadLUI.TabIndex = (1);
             this.LoadLUI.Text = ("Test");
             this.LoadLUI.UseVisualStyleBackColor = (true);
+            this.LoadLUI.Visible = (false);
             this.LoadLUI.Click += (this.LoadLUI_Click);
             // 
             // BiglessStore

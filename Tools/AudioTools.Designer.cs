@@ -47,17 +47,14 @@
             BnkBuild = new Button();
             BnkWavExtract = new Button();
             BnkLoadFile = new Button();
-            tabPage2 = new TabPage();
             NewLoadTest = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
-            tabPage2.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
             // 
             tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
             tabControl1.Location = new Point(12, 12);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -253,24 +250,15 @@
             BnkLoadFile.UseVisualStyleBackColor = true;
             BnkLoadFile.Click += BnkLoadFile_Click;
             // 
-            // tabPage2
-            // 
-            tabPage2.Controls.Add(NewLoadTest);
-            tabPage2.Location = new Point(4, 24);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Size = new Size(768, 398);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
-            tabPage2.UseVisualStyleBackColor = true;
-            // 
             // NewLoadTest
             // 
-            NewLoadTest.Location = new Point(20, 20);
+            NewLoadTest.Location = new Point(359, 7);
             NewLoadTest.Name = "NewLoadTest";
             NewLoadTest.Size = new Size(75, 23);
             NewLoadTest.TabIndex = 0;
             NewLoadTest.Text = "Load Audio";
             NewLoadTest.UseVisualStyleBackColor = true;
+            NewLoadTest.Visible = false;
             NewLoadTest.Click += NewLoadTest_Click;
             // 
             // AudioTools
@@ -278,13 +266,13 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(NewLoadTest);
             Controls.Add(tabControl1);
             Name = "AudioTools";
             Text = "AudioTools";
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
-            tabPage2.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -309,7 +297,6 @@
         private Label BnkSample;
         private Label BnkFileSize;
         private Label BnkTime;
-        private TabPage tabPage2;
         private Button NewLoadTest;
     }
 }
