@@ -137,6 +137,7 @@
             MXFExport = new Button();
             MXFLoad = new Button();
             tabPage5 = new TabPage();
+            label36 = new Label();
             MNFLoad = new Button();
             tabPage4 = new TabPage();
             groupBox6 = new GroupBox();
@@ -180,7 +181,6 @@
             tabPage2 = new TabPage();
             button1 = new Button();
             ELFLdrSetup = new Button();
-            label36 = new Label();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -1329,6 +1329,15 @@
             tabPage5.Text = "Tricky MNF (Models)";
             tabPage5.UseVisualStyleBackColor = true;
             // 
+            // label36
+            // 
+            label36.AutoSize = true;
+            label36.Location = new Point(331, 176);
+            label36.Name = "label36";
+            label36.Size = new Size(80, 15);
+            label36.TabIndex = 2;
+            label36.Text = "Coming Soon";
+            // 
             // MNFLoad
             // 
             MNFLoad.Enabled = false;
@@ -1348,7 +1357,7 @@
             tabPage4.Name = "tabPage4";
             tabPage4.Size = new Size(768, 398);
             tabPage4.TabIndex = 3;
-            tabPage4.Text = "Tricky Sound Files (.HDR/.DAT)";
+            tabPage4.Text = "Tricky Sound Files PS2 (.HDR/.DAT)";
             tabPage4.UseVisualStyleBackColor = true;
             // 
             // groupBox6
@@ -1775,15 +1784,6 @@
             ELFLdrSetup.Text = "Setup For ELFLdr";
             ELFLdrSetup.UseVisualStyleBackColor = true;
             ELFLdrSetup.Click += ELFLdrSetup_Click;
-            // 
-            // label36
-            // 
-            label36.AutoSize = true;
-            label36.Location = new Point(331, 176);
-            label36.Name = "label36";
-            label36.Size = new Size(80, 15);
-            label36.TabIndex = 2;
-            label36.Text = "Coming Soon";
             // 
             // TrickyToolsWindow
             // 
