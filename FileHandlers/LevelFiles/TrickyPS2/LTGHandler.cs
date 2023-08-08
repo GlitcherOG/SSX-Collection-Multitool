@@ -193,6 +193,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 WorldBounds2 = MathUtil.Highest(WorldBounds2, pbdHandler.particleInstances[i].HighestXYZ);
             }
 
+            //Apparently was missing?
+            WorldBounds3 = Vector3.Lerp(WorldBounds1, WorldBounds2, 0.5f);
 
 
             mainBboxSize = NewMainBoxSize;

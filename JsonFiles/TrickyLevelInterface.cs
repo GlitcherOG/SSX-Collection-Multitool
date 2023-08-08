@@ -1172,12 +1172,12 @@ namespace SSXMultiTool
             ExportPath = ExportPath.Substring(0, ExportPath.Length - 4);
 
             #region Rebuild PBD
+            SSXTrickyConfig trickyConfig = SSXTrickyConfig.Load(LoadPath + "/config.ssx");
+
             MapHandler mapHandler = new MapHandler();
-            //mapHandler.Load(LoadPath + "/Original/level.map");
 
             //Load PBDHandler
             PBDHandler pbdHandler = new PBDHandler();
-            //pbdHandler.LoadPBD(ExportPath + ".pbd");
 
             SSFHandler ssfHandler = new SSFHandler();
 
@@ -2076,6 +2076,17 @@ namespace SSXMultiTool
             {
                 LTGHandler ltgHandler = new LTGHandler();
                 ltgHandler.RegenerateLTG(pbdHandler);
+
+                Vector3 BboxLower = new Vector3(trickyConfig.BBox[0,0], trickyConfig.BBox[0, 1], trickyConfig.BBox[0, 2]);
+                Vector3 BboxHigher = new Vector3(trickyConfig.BBox[1, 0], trickyConfig.BBox[1, 1], trickyConfig.BBox[1, 2]);
+                if(BboxLower != Vector3.Zero && BboxHigher != Vector3.Zero)
+                {
+                    ltgHandler.WorldBounds1 = BboxLower;
+                    ltgHandler.WorldBounds2 = BboxHigher;
+                    ltgHandler.WorldBounds3 = Vector3.Lerp(BboxLower, BboxHigher, 0.5f);
+                }
+
+                
                 ltgHandler.SaveLTGFile(ExportPath + ".ltg");
             }
 

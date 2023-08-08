@@ -21,6 +21,9 @@ namespace SSXMultiTool.JsonFiles.Tricky
         public string Description = "";
         public string BuildPath = "";
 
+        //If BBox Is all Zeros it will generate a new one
+        public float[,] BBox = new float[2,3];
+
         public void CreateJson(string path, bool Inline = false)
         {
             var TempFormating = Formatting.None;
