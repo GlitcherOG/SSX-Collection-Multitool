@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +18,16 @@ namespace SSXMultiTool
     {
         OldSSHHandler sshHandler = new OldSSHHandler();
         bool DisableUpdate;
-        public SSHImageTools()
+        public SSHImageTools(string OpenFile = "")
         {
             InitializeComponent();
+
+            if(File.Exists(OpenFile))
+            {
+                sshHandler = new OldSSHHandler();
+                sshHandler.LoadSSH(OpenFile);
+                UpdateFileText();
+            }
         }
         [STAThread]
         private void LoadSSHButton_Click(object sender, EventArgs e)

@@ -32,6 +32,14 @@ namespace SSXMultiTool
                         Application.Run(new BigArchiveTool(args[0]));
                     }
                 }
+                if (args[0].ToLower().Contains(".ssh"))
+                {
+                    if (File.Exists(args[0]))
+                    {
+                        ApplicationConfiguration.Initialize();
+                        Application.Run(new SSHImageTools(args[0]));
+                    }
+                }
                 if (args[0].ToLower()=="big")
                 {
                     BigLaunchOptions(args);
