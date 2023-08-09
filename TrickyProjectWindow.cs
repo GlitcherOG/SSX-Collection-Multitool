@@ -15,6 +15,7 @@ namespace SSXMultiTool
         public TrickyProjectWindow()
         {
             InitializeComponent();
+            LTGMode.SelectedIndex = 0;
         }
 
         private void ExtractLevel_Click(object sender, EventArgs e)
@@ -139,6 +140,7 @@ namespace SSXMultiTool
                     trickyLevelInterface.SSFGenerate = GenSSF.Checked;
                     trickyLevelInterface.AIPGenerate = GenAIP.Checked;
                     trickyLevelInterface.SOPGenerate = GenSOP.Checked;
+                    trickyLevelInterface.LTGGenerateMode = LTGMode.SelectedIndex;
 
 
                     if (openFileDialog.FileName.ToLower().Contains(".big"))

@@ -79,6 +79,8 @@
             SkyModel = new Label();
             UnlitCheckbox = new CheckBox();
             groupBox4 = new GroupBox();
+            LTGMode = new ComboBox();
+            label5 = new Label();
             GenSOP = new CheckBox();
             GenAIP = new CheckBox();
             GenSSF = new CheckBox();
@@ -571,6 +573,8 @@
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(LTGMode);
+            groupBox4.Controls.Add(label5);
             groupBox4.Controls.Add(GenSOP);
             groupBox4.Controls.Add(GenAIP);
             groupBox4.Controls.Add(GenSSF);
@@ -589,6 +593,25 @@
             groupBox4.TabIndex = 51;
             groupBox4.TabStop = false;
             groupBox4.Text = "Build Settings";
+            // 
+            // LTGMode
+            // 
+            LTGMode.DropDownStyle = ComboBoxStyle.DropDownList;
+            LTGMode.FormattingEnabled = true;
+            LTGMode.Items.AddRange(new object[] { "Center Mode", "Origin Mode" });
+            LTGMode.Location = new Point(11, 62);
+            LTGMode.Name = "LTGMode";
+            LTGMode.Size = new Size(155, 23);
+            LTGMode.TabIndex = 63;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(11, 44);
+            label5.Name = "label5";
+            label5.Size = new Size(102, 15);
+            label5.TabIndex = 62;
+            label5.Text = "LTG Rebuild Mode";
             // 
             // GenSOP
             // 
@@ -866,5 +889,7 @@
         private CheckBox GenLSSH;
         private CheckBox GenSkySSH;
         private CheckBox GenSkyPBD;
+        private Label label5;
+        private ComboBox LTGMode;
     }
 }

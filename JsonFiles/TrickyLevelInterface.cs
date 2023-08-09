@@ -38,6 +38,10 @@ namespace SSXMultiTool
 
         public bool Unilightmap;
 
+        public int LTGGenerateMode = 0;
+        //0 - Centre
+        //1 - Origin
+
         //PBD JSONS
         public PatchesJsonHandler patchPoints = new PatchesJsonHandler();
         public InstanceJsonHandler instancesJson = new InstanceJsonHandler();
@@ -2075,7 +2079,19 @@ namespace SSXMultiTool
             if (LTGGenerate)
             {
                 LTGHandler ltgHandler = new LTGHandler();
-                ltgHandler.RegenerateLTG(pbdHandler);
+
+                if (LTGGenerateMode == 0)
+                {
+                    ltgHandler.RegenerateCentreLTG(pbdHandler);
+                }
+                else if(LTGGenerateMode==1)
+                {
+                    ltgHandler.RegenerateOriginLTG(pbdHandler);
+                }
+                else
+                {
+                    ltgHandler.RegenerateCentreLTG(pbdHandler);
+                }
 
                 Vector3 BboxLower = new Vector3(trickyConfig.BBox[0,0], trickyConfig.BBox[0, 1], trickyConfig.BBox[0, 2]);
                 Vector3 BboxHigher = new Vector3(trickyConfig.BBox[1, 0], trickyConfig.BBox[1, 1], trickyConfig.BBox[1, 2]);
