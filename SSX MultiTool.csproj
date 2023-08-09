@@ -9,7 +9,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <UseWPF>True</UseWPF>
+    <PackageIcon>Moutain.png</PackageIcon>
+    <ApplicationIcon>Textures\Moutain.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Textures\Moutain.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BCnEncoder.Net" Version="2.1.0" />
@@ -22,6 +28,13 @@
 
   <ItemGroup>
     <Folder Include="FileHandlers\SSX3\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Textures\Moutain.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

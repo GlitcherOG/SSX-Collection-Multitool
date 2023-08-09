@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SSXMultitoolHubpage));
             button1 = new Button();
             groupBox1 = new GroupBox();
             button2 = new Button();
@@ -240,6 +241,7 @@
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "SSXMultitoolHubpage";
             Text = "SSX Multitool Hubpage";
             groupBox1.ResumeLayout(false);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,13 +16,18 @@ namespace SSXMultiTool
     public partial class BigArchiveTool : Form
     {
         BigHandler bigHandler = new BigHandler();
-        public BigArchiveTool()
+        public BigArchiveTool(string OpenPath = "")
         {
             InitializeComponent();
             SetupDataView();
             BigTypeCombobox.SelectedIndex = 0;
             ExtractBigArchive.Enabled = false;
             BuildBigArchive.Enabled=false;
+
+            if(File.Exists(OpenPath))
+            {
+                LoadBigPath(OpenPath);
+            }
         }
 
         public void SetupDataView()

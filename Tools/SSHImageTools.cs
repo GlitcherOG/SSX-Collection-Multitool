@@ -94,7 +94,7 @@ namespace SSXMultiTool
 
         private void ImageList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(!DisableUpdate && ImageList.SelectedIndex != -1)
+            if (!DisableUpdate && ImageList.SelectedIndex != -1)
             {
                 UpdateImageText(ImageList.SelectedIndex);
             }
@@ -182,7 +182,7 @@ namespace SSXMultiTool
 
         private void UpdateImageDetails(object sender, EventArgs e)
         {
-            if(!DisableUpdate && ImageList.SelectedIndex!=-1)
+            if (!DisableUpdate && ImageList.SelectedIndex != -1)
             {
                 DisableUpdate = true;
                 var ImageDetails = sshHandler.sshImages[ImageList.SelectedIndex];
@@ -388,7 +388,7 @@ namespace SSXMultiTool
                 int a = ImageList.SelectedIndex;
                 var Temp = sshHandler.sshImages[ImageList.SelectedIndex];
                 sshHandler.sshImages.RemoveAt(ImageList.SelectedIndex);
-                sshHandler.sshImages.Insert(ImageList.SelectedIndex-1, Temp);
+                sshHandler.sshImages.Insert(ImageList.SelectedIndex - 1, Temp);
                 UpdateFileText();
                 ImageList.SelectedIndex = a - 1;
             }
@@ -396,7 +396,7 @@ namespace SSXMultiTool
 
         private void ImageMoveDownButton_Click(object sender, EventArgs e)
         {
-            if (ImageList.SelectedIndex != -1 && ImageList.Items.Count-1 != ImageList.SelectedIndex)
+            if (ImageList.SelectedIndex != -1 && ImageList.Items.Count - 1 != ImageList.SelectedIndex)
             {
                 int a = ImageList.SelectedIndex;
                 var Temp = sshHandler.sshImages[ImageList.SelectedIndex];
@@ -417,7 +417,7 @@ namespace SSXMultiTool
 
         private void ImageRemoveButton_Click(object sender, EventArgs e)
         {
-            if(ImageList.SelectedIndex!=-1)
+            if (ImageList.SelectedIndex != -1)
             {
                 sshHandler.RemoveImage(ImageList.SelectedIndex);
                 ImageList.SelectedIndex = -1;

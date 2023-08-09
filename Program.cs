@@ -24,6 +24,14 @@ namespace SSXMultiTool
             }
             else
             {
+                if (args[0].ToLower().Contains(".big"))
+                {
+                    if(File.Exists(args[0]))
+                    {
+                        ApplicationConfiguration.Initialize();
+                        Application.Run(new BigArchiveTool(args[0]));
+                    }
+                }
                 if (args[0].ToLower()=="big")
                 {
                     BigLaunchOptions(args);
