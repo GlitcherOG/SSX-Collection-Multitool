@@ -175,10 +175,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     var TempInstance = new Instance();
                     TempInstance.matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
-                    TempInstance.Unknown5 = StreamUtil.ReadVector4(stream);
-                    TempInstance.Unknown6 = StreamUtil.ReadVector4(stream);
-                    TempInstance.Unknown7 = StreamUtil.ReadVector4(stream);
-                    TempInstance.Unknown8 = StreamUtil.ReadVector4(stream);
+                    TempInstance.lightingMatrix4x4 = StreamUtil.ReadMatrix4x4(stream);
                     TempInstance.Unknown9 = StreamUtil.ReadVector4(stream);
                     TempInstance.Unknown10 = StreamUtil.ReadVector4(stream);
                     TempInstance.Unknown11 = StreamUtil.ReadVector4(stream);
@@ -902,10 +899,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             {
                 var TempInstance = Instances[i];
                 StreamUtil.WriteMatrix4x4(stream, TempInstance.matrix4X4);
-                StreamUtil.WriteVector4(stream, TempInstance.Unknown5);
-                StreamUtil.WriteVector4(stream, TempInstance.Unknown6);
-                StreamUtil.WriteVector4(stream, TempInstance.Unknown7);
-                StreamUtil.WriteVector4(stream, TempInstance.Unknown8);
+                StreamUtil.WriteMatrix4x4(stream, TempInstance.lightingMatrix4x4);
                 StreamUtil.WriteVector4(stream, TempInstance.Unknown9);
                 StreamUtil.WriteVector4(stream, TempInstance.Unknown10);
                 StreamUtil.WriteVector4(stream, TempInstance.Unknown11);
@@ -2259,14 +2253,17 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     public struct Instance
     {
         public Matrix4x4 matrix4X4;
-        public Vector4 Unknown5;
-        public Vector4 Unknown6;
-        public Vector4 Unknown7;
-        public Vector4 Unknown8;
+        public Matrix4x4 lightingMatrix4x4;
+        //public Vector4 Unknown5;
+        //public Vector4 Unknown6;
+        //public Vector4 Unknown7;
+        //public Vector4 Unknown8;
+
         public Vector4 Unknown9;
         public Vector4 Unknown10;
         public Vector4 Unknown11;
         public Vector4 RGBA;
+
         public int ModelID;
         public int PrevInstance;
         public int NextInstance;

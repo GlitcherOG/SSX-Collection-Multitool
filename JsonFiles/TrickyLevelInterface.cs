@@ -170,10 +170,14 @@ namespace SSXMultiTool
                 instanceJson.Rotation = JsonUtil.QuaternionToArray(Rotation);
                 instanceJson.Scale = JsonUtil.Vector3ToArray(Scale);
 
-                instanceJson.Unknown5 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown5);
-                instanceJson.Unknown6 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown6);
-                instanceJson.Unknown7 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown7);
-                instanceJson.Unknown8 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown8);
+                Vector3 LightingScale;
+                Quaternion LightingRotation;
+                Vector3 LightingLocation;
+
+                Matrix4x4.Decompose(pbdHandler.Instances[i].lightingMatrix4x4, out LightingScale, out LightingRotation, out LightingLocation);
+                instanceJson.LightingVector = JsonUtil.Vector3ToArray(LightingScale);
+
+
                 instanceJson.Unknown9 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown9);
                 instanceJson.Unknown10 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown10);
                 instanceJson.Unknown11 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown11);
@@ -1439,10 +1443,11 @@ namespace SSXMultiTool
 
                     NewInstance.matrix4X4 = matrix4X4;
 
-                    NewInstance.Unknown5 = JsonUtil.ArrayToVector4(Oldinstance.Unknown5);
-                    NewInstance.Unknown6 = JsonUtil.ArrayToVector4(Oldinstance.Unknown6);
-                    NewInstance.Unknown7 = JsonUtil.ArrayToVector4(Oldinstance.Unknown7);
-                    NewInstance.Unknown8 = JsonUtil.ArrayToVector4(Oldinstance.Unknown8);
+                    Matrix4x4 Lscale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(Oldinstance.LightingVector));
+                    Matrix4x4 LRotation = Matrix4x4.CreateFromQuaternion(new Quaternion(0,0,0,1));
+                    Matrix4x4 Lmatrix4X4 = Matrix4x4.Multiply(scale, Rotation);
+                    NewInstance.lightingMatrix4x4 = Lmatrix4X4;
+
                     NewInstance.Unknown9 = JsonUtil.ArrayToVector4(Oldinstance.Unknown9);
                     NewInstance.Unknown10 = JsonUtil.ArrayToVector4(Oldinstance.Unknown10);
                     NewInstance.Unknown11 = JsonUtil.ArrayToVector4(Oldinstance.Unknown11);

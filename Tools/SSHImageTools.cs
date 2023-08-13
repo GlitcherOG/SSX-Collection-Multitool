@@ -21,8 +21,7 @@ namespace SSXMultiTool
         public SSHImageTools(string OpenFile = "")
         {
             InitializeComponent();
-
-            if(File.Exists(OpenFile))
+            if (File.Exists(OpenFile))
             {
                 sshHandler = new OldSSHHandler();
                 sshHandler.LoadSSH(OpenFile);
