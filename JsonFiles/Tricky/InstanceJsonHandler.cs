@@ -52,6 +52,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public float[] Scale;
 
             public float[] LightingVector;
+            public float[] LightingRotation;
 
             public float[] Unknown9;
             public float[] Unknown10;

@@ -175,7 +175,14 @@ namespace SSXMultiTool
                 Vector3 LightingLocation;
 
                 Matrix4x4.Decompose(pbdHandler.Instances[i].lightingMatrix4x4, out LightingScale, out LightingRotation, out LightingLocation);
+
+                if (LightingLocation != new Vector3(0, 0, 0))
+                {
+                    Console.WriteLine();
+                }
+
                 instanceJson.LightingVector = JsonUtil.Vector3ToArray(LightingScale);
+                instanceJson.LightingRotation = JsonUtil.QuaternionToArray(LightingRotation);
 
 
                 instanceJson.Unknown9 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown9);
@@ -1444,7 +1451,7 @@ namespace SSXMultiTool
                     NewInstance.matrix4X4 = matrix4X4;
 
                     Matrix4x4 Lscale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(Oldinstance.LightingVector));
-                    Matrix4x4 LRotation = Matrix4x4.CreateFromQuaternion(new Quaternion(0,0,0,1));
+                    Matrix4x4 LRotation = Matrix4x4.CreateFromQuaternion(JsonUtil.ArrayToQuaternion(Oldinstance.LightingRotation));
                     Matrix4x4 Lmatrix4X4 = Matrix4x4.Multiply(scale, Rotation);
                     NewInstance.lightingMatrix4x4 = Lmatrix4X4;
 
