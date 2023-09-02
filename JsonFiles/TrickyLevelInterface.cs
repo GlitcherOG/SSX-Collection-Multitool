@@ -176,11 +176,6 @@ namespace SSXMultiTool
 
                 Matrix4x4.Decompose(pbdHandler.Instances[i].lightingMatrix4x4, out LightingScale, out LightingRotation, out LightingLocation);
 
-                if (LightingLocation != new Vector3(0, 0, 0))
-                {
-                    Console.WriteLine();
-                }
-
                 instanceJson.LightingVector = JsonUtil.Vector3ToArray(LightingScale);
                 instanceJson.LightingRotation = JsonUtil.QuaternionToArray(LightingRotation);
 
@@ -1449,10 +1444,10 @@ namespace SSXMultiTool
                     matrix4X4.Translation = JsonUtil.ArrayToVector3(Oldinstance.Location);
 
                     NewInstance.matrix4X4 = matrix4X4;
-
+                   
                     Matrix4x4 Lscale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(Oldinstance.LightingVector));
                     Matrix4x4 LRotation = Matrix4x4.CreateFromQuaternion(JsonUtil.ArrayToQuaternion(Oldinstance.LightingRotation));
-                    Matrix4x4 Lmatrix4X4 = Matrix4x4.Multiply(scale, Rotation);
+                    Matrix4x4 Lmatrix4X4 = Matrix4x4.Multiply(Lscale, LRotation);
                     NewInstance.lightingMatrix4x4 = Lmatrix4X4;
 
                     NewInstance.Unknown9 = JsonUtil.ArrayToVector4(Oldinstance.Unknown9);
@@ -1881,25 +1876,32 @@ namespace SSXMultiTool
                     NewMaterial.UnknownInt17 = materialJson.Materials[i].UnknownInt17;
                     NewMaterial.UnknownInt18 = materialJson.Materials[i].UnknownInt18;
 
-                    if (materialJson.Materials[i].TextureFlipbook.Count != 0)
+                    if (materialJson.Materials[i].TextureFlipbook != null)
                     {
-                        TextureFlipbook textureFlipbook = new TextureFlipbook();
-                        textureFlipbook.ImagePositions = new List<int>();
-
-                        for (int a = 0; a < materialJson.Materials[i].TextureFlipbook.Count; a++)
+                        if (materialJson.Materials[i].TextureFlipbook.Count != 0)
                         {
-                            if (ImageFiles.Contains(materialJson.Materials[i].TextureFlipbook[a]))
+                            TextureFlipbook textureFlipbook = new TextureFlipbook();
+                            textureFlipbook.ImagePositions = new List<int>();
+
+                            for (int a = 0; a < materialJson.Materials[i].TextureFlipbook.Count; a++)
                             {
-                                textureFlipbook.ImagePositions.Add(ImageFiles.IndexOf(materialJson.Materials[i].TextureFlipbook[a]));
+                                if (ImageFiles.Contains(materialJson.Materials[i].TextureFlipbook[a]))
+                                {
+                                    textureFlipbook.ImagePositions.Add(ImageFiles.IndexOf(materialJson.Materials[i].TextureFlipbook[a]));
+                                }
+                                else
+                                {
+                                    ImageFiles.Add(materialJson.Materials[i].TextureFlipbook[a]);
+                                    textureFlipbook.ImagePositions.Add(ImageFiles.Count - 1);
+                                }
                             }
-                            else
-                            {
-                                ImageFiles.Add(materialJson.Materials[i].TextureFlipbook[a]);
-                                textureFlipbook.ImagePositions.Add(ImageFiles.Count - 1);
-                            }
+                            pbdHandler.textureFlipbooks.Add(textureFlipbook);
+                            NewMaterial.TextureFlipbookID = pbdHandler.textureFlipbooks.Count - 1;
                         }
-                        pbdHandler.textureFlipbooks.Add(textureFlipbook);
-                        NewMaterial.TextureFlipbookID = pbdHandler.textureFlipbooks.Count-1;
+                        else
+                        {
+                            NewMaterial.TextureFlipbookID = -1;
+                        }
                     }
                     else
                     {
