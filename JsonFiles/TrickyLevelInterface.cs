@@ -71,7 +71,7 @@ namespace SSXMultiTool
 
             SSFHandler ssfHandler = new SSFHandler();
             ssfHandler.Load(LoadPath + ".ssf");
-            ssfHandler.Save(LoadPath + ".ssf1");
+            //ssfHandler.Save(LoadPath + ".ssf1");
 
             //Load Map
             MapHandler mapHandler = new MapHandler();
