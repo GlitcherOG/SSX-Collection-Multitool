@@ -129,6 +129,16 @@ namespace SSXMultiTool
             if (commonDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 LoadFolderPath(commonDialog.FileName);
+                if(CompressionButton.Text.Contains("True"))
+                {
+                    bigHandler.CompressBuild = true;
+                    CompressionButton.Text = "Compressed Build: "+bigHandler.CompressBuild.ToString();
+                }
+                else
+                {
+                    bigHandler.CompressBuild = false;
+                    CompressionButton.Text = "Compressed Build: "+bigHandler.CompressBuild.ToString();
+                }
             }
         }
 
