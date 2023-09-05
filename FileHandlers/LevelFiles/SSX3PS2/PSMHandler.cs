@@ -23,7 +23,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 Unknown1 = StreamUtil.ReadBytes(stream, 8);
                 NumArrays = StreamUtil.ReadUInt32(stream);
                 nameLists = new List<NameList>();
-                for (int i = 0; i < 9; i++)
+                for (int i = 0; i < NumArrays; i++)
                 {
                     var TempNameList = new NameList();
                     TempNameList.Unknown2 = StreamUtil.ReadBytes(stream, 4);

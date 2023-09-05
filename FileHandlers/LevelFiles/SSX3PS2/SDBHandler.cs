@@ -34,13 +34,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 numUnknown2 = StreamUtil.ReadUInt32(stream);
                 UnknownBytes2 = StreamUtil.ReadBytes(stream, 60);
 
+                int TempData = 0;
+
                 locations = new List<Location>();
                 for (int i = 0; i < numLocations; i++)
                 {
                     var TempLocation = new Location();
                     TempLocation.Name = StreamUtil.ReadString(stream, 16);
-                    TempLocation.Unknown1 = StreamUtil.ReadUInt32(stream);
-                    TempLocation.Unknown2 = StreamUtil.ReadUInt32(stream);
+                    TempLocation.Unknown1 = StreamUtil.ReadUInt32(stream); //BBox Sections (Unknowns1)/Chunks
+                    TempLocation.Unknown2 = StreamUtil.ReadUInt32(stream); //Unknowns2
                     TempLocation.Unknown3 = StreamUtil.ReadUInt32(stream);
                     TempLocation.Unknown4 = StreamUtil.ReadUInt32(stream);
 
@@ -73,8 +75,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     TempLocation.Unknown31 = StreamUtil.ReadInt16(stream);
                     TempLocation.Unknown32 = StreamUtil.ReadInt16(stream);
 
+                    TempData += TempLocation.Unknown3;
+
                     locations.Add(TempLocation);
                 }
+
                 StreamUtil.AlignBy16(stream);
                 Unknown1s = new List<Unknown1>();
                 for (int i = 0; i < numUnknown1; i++)

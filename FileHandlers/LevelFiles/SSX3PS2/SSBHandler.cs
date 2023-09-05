@@ -43,7 +43,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 MemoryStream memoryStream = new MemoryStream();
                 List<int> ints = new List<int>();
                 int a = 0;
-                while(true)
+                int CEND = 0;
+                int CBXS = 0;
+                while (true)
                 {
                     if (stream.Position >= stream.Length - 1)
                     {
@@ -52,39 +54,44 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     string MagicWords = StreamUtil.ReadString(stream, 4);
 
                     int Size = StreamUtil.ReadUInt32(stream);
-                    byte[] Data = new byte[Size-8];
+                    byte[] Data = new byte[Size - 8];
                     byte[] DecompressedData = new byte[1];
-                    Data = StreamUtil.ReadBytes(stream, Size-8);
+                    Data = StreamUtil.ReadBytes(stream, Size - 8);
 
-                    DecompressedData= RefpackHandler.Decompress(Data);
+                    DecompressedData = RefpackHandler.Decompress(Data);
                     StreamUtil.WriteBytes(memoryStream, DecompressedData);
 
+                    if (MagicWords.ToUpper() == "CBXS")
+                    {
+                        CBXS += 1;
+                    }
 
                     if (MagicWords.ToUpper() == "CEND")
                     {
-                        int FilePos = 0;
-                        memoryStream.Position = 0;
-                        Directory.CreateDirectory(extractPath + "//" + a);
-                        while (memoryStream.Position< memoryStream.Length)
-                        {
-                            MemoryStream memoryStream1 = new MemoryStream();
-                            int ID = StreamUtil.ReadUInt8(memoryStream);
-                            int ChunkSize = StreamUtil.ReadInt24(memoryStream);
-                            int RID = StreamUtil.ReadUInt32(memoryStream);
+                        CEND += 1;
+                        //int FilePos = 0;
+                        //memoryStream.Position = 0;
+                        //Directory.CreateDirectory(extractPath + "//" + a);
+                        //while (memoryStream.Position< memoryStream.Length)
+                        //{
+                        //    MemoryStream memoryStream1 = new MemoryStream();
+                        //    int ID = StreamUtil.ReadUInt8(memoryStream);
+                        //    int ChunkSize = StreamUtil.ReadInt24(memoryStream);
+                        //    int RID = StreamUtil.ReadUInt32(memoryStream);
 
-                            byte[] NewData= StreamUtil.ReadBytes(memoryStream, ChunkSize);
-                            StreamUtil.WriteBytes(memoryStream1, NewData);
+                        //    byte[] NewData= StreamUtil.ReadBytes(memoryStream, ChunkSize);
+                        //    StreamUtil.WriteBytes(memoryStream1, NewData);
 
-                            var file = File.Create(extractPath + "//" + a + "//" + FilePos + "." + ID + "bin");
-                            memoryStream1.Position = 0;
-                            memoryStream1.CopyTo(file);
-                            memoryStream1 = new MemoryStream();
-                            memoryStream1.Dispose();
-                            file.Close();
-                            FilePos++;
-                        }
-                        memoryStream.Dispose();
-                        memoryStream = new MemoryStream();
+                        //    var file = File.Create(extractPath + "//" + a + "//" + FilePos + "." + ID + "bin");
+                        //    memoryStream1.Position = 0;
+                        //    memoryStream1.CopyTo(file);
+                        //    memoryStream1 = new MemoryStream();
+                        //    memoryStream1.Dispose();
+                        //    file.Close();
+                        //    FilePos++;
+                        //}
+                        //memoryStream.Dispose();
+                        //memoryStream = new MemoryStream();
                         a++;
                     }
                 }
