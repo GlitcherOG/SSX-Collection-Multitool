@@ -98,6 +98,85 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
             }
         }
 
+        public void LoadAndExtractSSBFromSBD(string path, string extractPath, SDBHandler sdbHandler)
+        {
+            using (Stream stream = File.Open(path, FileMode.Open))
+            {
+                MemoryStream memoryStream = new MemoryStream();
+                List<int> ints = new List<int>();
+                int a = 0;
+                int splitCount = 1;
+
+                int IDCount = 0;
+                while (true)
+                {
+                    if (stream.Position >= stream.Length - 1)
+                    {
+                        break;
+                    }
+                    string MagicWords = StreamUtil.ReadString(stream, 4);
+
+                    int Size = StreamUtil.ReadUInt32(stream);
+                    byte[] Data = new byte[Size - 8];
+                    byte[] DecompressedData = new byte[1];
+                    Data = StreamUtil.ReadBytes(stream, Size - 8);
+
+                    DecompressedData = RefpackHandler.Decompress(Data);
+                    StreamUtil.WriteBytes(memoryStream, DecompressedData);
+
+                    if (MagicWords.ToUpper() == "CEND")
+                    {
+                        int ChunkID = sdbHandler.FindLocationChunk(a);
+                        Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name);
+                        memoryStream.Position = 0;
+                        int FilePos = 0;
+
+                        while (memoryStream.Position < memoryStream.Length)
+                        {
+                            //MemoryStream memoryStream1 = new MemoryStream();
+                            int ID = StreamUtil.ReadUInt8(memoryStream);
+                            int ChunkSize = StreamUtil.ReadInt24(memoryStream);
+                            int RID = StreamUtil.ReadUInt32(memoryStream);
+
+                            byte[] NewData = StreamUtil.ReadBytes(memoryStream, ChunkSize);
+
+                            if(ID==14)
+                            {
+                                IDCount++;
+                            }
+
+                            //StreamUtil.WriteBytes(memoryStream1, NewData);
+
+                            //var file = File.Create(extractPath + "//" + a + "//" + FilePos + "." + ID + "bin");
+                            //memoryStream1.Position = 0;
+                            //memoryStream1.CopyTo(file);
+                            //memoryStream1 = new MemoryStream();
+                            //memoryStream1.Dispose();
+                            //file.Close();
+                            FilePos++;
+                        }
+                        //memoryStream.Dispose();
+                        //memoryStream = new MemoryStream();
+
+
+                        var file = File.Create(extractPath +"//" + sdbHandler.locations[ChunkID].Name + "//" + a + " " + splitCount + " " + IDCount + ".bin");
+                        memoryStream.Position = 0;
+                        memoryStream.CopyTo(file);
+                        memoryStream.Dispose();
+                        memoryStream = new MemoryStream();
+                        file.Close();
+
+                        //Directory.CreateDirectory(extractPath + "//" + a);
+
+                        a++;
+                        splitCount = 1;
+                    }
+                    IDCount = 0;
+                    splitCount++;
+                }
+            }
+        }
+
         public void PackSSB(string Folder, string BuildPath)
         {
             MemoryStream memoryStream = new MemoryStream();
