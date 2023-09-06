@@ -59,16 +59,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     TempLocation.Unknown15 = StreamUtil.ReadInt16(stream);
                     TempLocation.Unknown16 = StreamUtil.ReadInt16(stream);
                     TempLocation.Unknown17 = StreamUtil.ReadInt16(stream);
-                    TempLocation.Unknown18 = StreamUtil.ReadInt16(stream);
-                    TempLocation.Unknown19 = StreamUtil.ReadInt16(stream);
-                    TempLocation.Unknown20 = StreamUtil.ReadInt16(stream);
-                    TempLocation.Unknown21 = StreamUtil.ReadInt16(stream);
-                    TempLocation.Unknown22 = StreamUtil.ReadInt16(stream);
-                    TempLocation.Unknown23 = StreamUtil.ReadInt16(stream);
-                    TempLocation.Unknown24 = StreamUtil.ReadInt16(stream);
+                    TempLocation.Unknown18 = StreamUtil.ReadInt16(stream); //13
+                    TempLocation.Unknown19 = StreamUtil.ReadInt16(stream); //14
+                    TempLocation.Unknown20 = StreamUtil.ReadInt16(stream); //15
+                    TempLocation.Unknown21 = StreamUtil.ReadInt16(stream); //16
+                    TempLocation.Unknown22 = StreamUtil.ReadInt16(stream); //17
+                    TempLocation.Unknown23 = StreamUtil.ReadInt16(stream); //18
+                    TempLocation.Unknown24 = StreamUtil.ReadInt16(stream); //19
                     TempLocation.Unknown25 = StreamUtil.ReadInt16(stream); //20
-                    TempLocation.Unknown26 = StreamUtil.ReadInt16(stream);
-                    TempLocation.Unknown27 = StreamUtil.ReadInt16(stream);
+                    TempLocation.Unknown26 = StreamUtil.ReadInt16(stream); //21
+                    TempLocation.Unknown27 = StreamUtil.ReadInt16(stream); //22
                     TempLocation.Unknown28 = StreamUtil.ReadInt16(stream);
                     TempLocation.Unknown29 = StreamUtil.ReadInt16(stream);
                     TempLocation.Unknown30 = StreamUtil.ReadInt16(stream);
@@ -130,8 +130,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     TempUnknown2.UnknownInt17 = StreamUtil.ReadUInt16(stream); //10
                     TempUnknown2.UnknownInt18 = StreamUtil.ReadUInt16(stream); //11
                     TempUnknown2.UnknownInt19 = StreamUtil.ReadUInt16(stream); //12
-                    TempUnknown2.UnknownInt20 = StreamUtil.ReadUInt16(stream); //13
 
+                    TempUnknown2.UnknownInt20 = StreamUtil.ReadUInt16(stream);
                     TempUnknown2.UnusedUnknownInt11 = StreamUtil.ReadUInt32(stream);
                     TempUnknown2.UnusedUnknownInt12 = StreamUtil.ReadUInt32(stream);
                     TempUnknown2.UnusedUnknownInt13 = StreamUtil.ReadUInt32(stream);
