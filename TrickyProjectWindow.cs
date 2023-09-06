@@ -15,7 +15,7 @@ namespace SSXMultiTool
         public TrickyProjectWindow()
         {
             InitializeComponent();
-            LTGMode.SelectedIndex = 0;
+            LTGMode.SelectedIndex = 1;
         }
 
         private void ExtractLevel_Click(object sender, EventArgs e)
