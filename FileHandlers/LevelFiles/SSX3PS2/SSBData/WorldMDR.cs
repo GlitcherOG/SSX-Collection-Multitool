@@ -77,6 +77,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
                 if(TempS1.U1Offset >0)
                 {
+                    stream.Position = TempS1.U1Offset;
+
                     var TempS2 = new UnknownS2();
                     TempS2.BboxLow = StreamUtil.ReadVector3(stream);
                     TempS2.BboxHigh = StreamUtil.ReadVector3(stream);
@@ -89,7 +91,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
                 if (TempS1.U2Offset > 0)
                 {
-
+                    stream.Position = TempS1.U2Offset;
                 }
 
                 if (TempS1.MatrixOffset > 0)
