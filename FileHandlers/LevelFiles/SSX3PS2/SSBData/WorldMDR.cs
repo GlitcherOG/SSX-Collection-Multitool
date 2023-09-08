@@ -112,7 +112,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
                             TempS7.LineCount = StreamUtil.ReadInt24(stream);
                             TempS7.U1 = StreamUtil.ReadUInt8(stream);
-                            TempS7.ModelOffset = StreamUtil.ReadInt24(stream);
+                            TempS7.ModelOffset = StreamUtil.ReadUInt32(stream);
                             TempS5.unknownS6.ModelOffsetHeaders.Add(TempS7);
 
                             StreamUtil.AlignBy16(stream);
@@ -177,7 +177,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                     {
                         var S5 = S1.unknownS2.unknownS5[a];
                         bool Normal = false;
-                        for (int b = 0; b < S5.unknownS6.ModelOffsetHeaders.Count; b++)
+                        for (int b = 0; b < S5.unknownS6.ModelOffsetHeaders.Count-1; b++)
                         {
                             var ModelOffsetHeader = S5.unknownS6.ModelOffsetHeaders[b];
 
@@ -232,8 +232,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                                 {
                                     Vector2 vector3 = new Vector2();
 
-                                    vector3.X = StreamUtil.ReadInt16(stream) / 1024f;
-                                    vector3.Y = StreamUtil.ReadInt16(stream) / 1024f;
+                                    vector3.X = StreamUtil.ReadInt16(stream) / 32767f;
+                                    vector3.Y = StreamUtil.ReadInt16(stream) / 32767f;
 
                                     TempModelData.UV.Add(vector3);
                                 }
@@ -257,9 +257,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                                 {
                                     Vector3 vector3 = new Vector3();
 
-                                    vector3.X = StreamUtil.ReadInt16(stream) / 1024f;
-                                    vector3.Y = StreamUtil.ReadInt16(stream) / 1024f;
-                                    vector3.Z = StreamUtil.ReadInt16(stream) / 1024f;
+                                    vector3.X = StreamUtil.ReadInt16(stream) / 32767f;
+                                    vector3.Y = StreamUtil.ReadInt16(stream) / 32767f;
+                                    vector3.Z = StreamUtil.ReadInt16(stream) / 32767f;
 
                                     TempModelData.Normals.Add(vector3);
                                 }
@@ -280,9 +280,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                 UnknownS1s[i] = S1;
             }
 
-
-
             stream.Close();
+        }
+
+        public void SaveModel(string Path)
+        {
+
         }
 
         public struct UnknownS1

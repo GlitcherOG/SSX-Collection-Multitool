@@ -140,39 +140,31 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                             byte[] NewData = StreamUtil.ReadBytes(memoryStream, ChunkSize);
 
-                            if(ID==14)
+                            if(ID==2)
                             {
-                                IDCount++;
+                                WorldMDR worldMDR = new WorldMDR();
+
+                                worldMDR.LoadData(NewData);
                             }
 
-                            //StreamUtil.WriteBytes(memoryStream1, NewData);
-
-                            //var file = File.Create(extractPath + "//" + a + "//" + FilePos + "." + ID + "bin");
-                            //memoryStream1.Position = 0;
-                            //memoryStream1.CopyTo(file);
-                            //memoryStream1 = new MemoryStream();
-                            //memoryStream1.Dispose();
-                            //file.Close();
                             FilePos++;
                         }
+
+
+                        //var file = File.Create(extractPath +"//" + sdbHandler.locations[ChunkID].Name + "//" + a + " " + splitCount + " " + IDCount + ".bin");
+                        //memoryStream.Position = 0;
+                        //memoryStream.CopyTo(file);
                         //memoryStream.Dispose();
                         //memoryStream = new MemoryStream();
+                        //file.Close();
 
+                        ////Directory.CreateDirectory(extractPath + "//" + a);
 
-                        var file = File.Create(extractPath +"//" + sdbHandler.locations[ChunkID].Name + "//" + a + " " + splitCount + " " + IDCount + ".bin");
-                        memoryStream.Position = 0;
-                        memoryStream.CopyTo(file);
-                        memoryStream.Dispose();
-                        memoryStream = new MemoryStream();
-                        file.Close();
-
-                        //Directory.CreateDirectory(extractPath + "//" + a);
-
-                        a++;
-                        splitCount = 1;
+                        //a++;
+                        //splitCount = 1;
                     }
-                    IDCount = 0;
-                    splitCount++;
+                    //IDCount = 0;
+                    //splitCount++;
                 }
             }
         }

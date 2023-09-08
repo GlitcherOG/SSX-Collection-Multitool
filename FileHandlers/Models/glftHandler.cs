@@ -12,8 +12,6 @@ using SSXMultiTool.FileHandlers.Models.Tricky;
 using SSXMultiTool.FileHandlers.Models.OnTour;
 using SSXMultiTool.FileHandlers.Models.SSX3;
 using SSXMultiTool.Utilities;
-using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
-using static SSXMultiTool.FileHandlers.glftHandler;
 using SSXMultiTool.FileHandlers.Models.SSXOG;
 
 //https://github.com/vpenades/SharpGLTF/blob/master/src/SharpGLTF.Toolkit/Geometry/readme.md
