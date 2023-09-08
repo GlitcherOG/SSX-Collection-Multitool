@@ -16,14 +16,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public int U2;
         public int U3;
         public int U4;
-        public int U5;
 
         public float U6;
         public float U7;
         public float U8;
         public float U9;
 
-        public int U10;
+        public int U10Offset;
         public int U11Count;
 
         public List<int> U12 = new List<int>();
@@ -43,15 +42,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             U2 = StreamUtil.ReadUInt32(stream);
             U3 = StreamUtil.ReadUInt32(stream);
             U4 = StreamUtil.ReadUInt32(stream);
-            U5 = StreamUtil.ReadUInt32(stream);
 
             U6 = StreamUtil.ReadFloat(stream);
             U7 = StreamUtil.ReadFloat(stream);
             U8 = StreamUtil.ReadFloat(stream);
             U9 = StreamUtil.ReadFloat(stream);
 
-            U10 = StreamUtil.ReadUInt32(stream);
-            U1Count = StreamUtil.ReadUInt32(stream);
+            U10Offset = StreamUtil.ReadUInt32(stream);
+            U11Count = StreamUtil.ReadUInt32(stream);
 
             U12 = new List<int>();
 
@@ -86,12 +84,58 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                     TempS2.ArrayCount = StreamUtil.ReadUInt32(stream);
                     TempS2.ArrayOffset = StreamUtil.ReadUInt32(stream);
 
+                    TempS2.unknownS5 = new List<UnknownS5>();
+                    stream.Position = TempS2.ArrayOffset;
+                    for (int a = 0; a < TempS2.ArrayCount; a++)
+                    {
+                        UnknownS5 TempS5 = new UnknownS5();
+
+                        TempS5.Offset = StreamUtil.ReadUInt32(stream);
+
+                        long TempPos1 = stream.Position;
+
+                        stream.Position = TempS5.Offset;
+
+                        TempS5.unknownS6 = new UnknownS6();
+
+                        TempS5.unknownS6.U0 = StreamUtil.ReadInt16(stream);
+                        TempS5.unknownS6.U1 = StreamUtil.ReadInt16(stream);
+                        TempS5.unknownS6.U3Offset = StreamUtil.ReadUInt32(stream);
+
+                        TempS5.unknownS6.unknownS7 = new List<UnknownS7>();
+
+                        stream.Position = TempS5.unknownS6.U3Offset + U10Offset;
+
+                        while (true)
+                        {
+                            UnknownS7 TempS7 = new UnknownS7();
+
+                            TempS7.U0 = StreamUtil.ReadInt24(stream);
+                            TempS7.U1 = StreamUtil.ReadUInt8(stream);
+                            TempS7.U2 = StreamUtil.ReadInt24(stream);
+                            TempS5.unknownS6.unknownS7.Add(TempS7);
+
+                            StreamUtil.AlignBy16(stream);
+
+                            if(TempS7.U1==96)
+                            {
+                                break;
+                            }
+                        }
+                        stream.Position = TempPos1;
+                        TempS2.unknownS5.Add(TempS5);
+                    }
+
                     TempS1.unknownS2 = TempS2;
                 }
 
                 if (TempS1.U2Offset > 0)
                 {
                     stream.Position = TempS1.U2Offset;
+                    UnknownS4 TempS4 = new UnknownS4();
+                    TempS4.U0 = StreamUtil.ReadUInt32(stream);
+                    TempS4.U1 = StreamUtil.ReadUInt32(stream);
+                    TempS1.unknownS4 = TempS4;
                 }
 
                 if (TempS1.MatrixOffset > 0)
@@ -129,7 +173,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             public int ArrayCount;
             public int ArrayOffset;
 
-            public UnknownS5 unknownS5;
+            public List<UnknownS5> unknownS5;
         }
 
         public struct UnknownS3
@@ -170,6 +214,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             public int U0;
             public int U1;
             public int U3Offset;
+
+            public List <UnknownS7> unknownS7;
+        }
+
+        public struct UnknownS7
+        {
+            public int U0;
+            public int U1;
+            public int U2;
         }
     }
 }

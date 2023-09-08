@@ -41,7 +41,7 @@ namespace SSXMultiTool
                     {
                         sdbHandler = new SDBHandler();
                         sdbHandler.LoadSBD(openFileDialog.FileName.ToLower().Replace(".ssb",".sdb"));
-                        ssbHandler.LoadAndExtractSSBFromSBD(openFileDialog.FileName, commonDialog.FileName, sdbHandler);
+                        ssbHandler.LoadAndExtractSSB(openFileDialog.FileName, commonDialog.FileName);
                     }
                     else
                     {

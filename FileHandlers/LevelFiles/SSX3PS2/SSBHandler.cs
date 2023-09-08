@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SSXMultiTool.Utilities;
+using SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 {
@@ -69,29 +70,28 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     if (MagicWords.ToUpper() == "CEND")
                     {
                         CEND += 1;
-                        //int FilePos = 0;
-                        //memoryStream.Position = 0;
-                        //Directory.CreateDirectory(extractPath + "//" + a);
-                        //while (memoryStream.Position< memoryStream.Length)
-                        //{
-                        //    MemoryStream memoryStream1 = new MemoryStream();
-                        //    int ID = StreamUtil.ReadUInt8(memoryStream);
-                        //    int ChunkSize = StreamUtil.ReadInt24(memoryStream);
-                        //    int RID = StreamUtil.ReadUInt32(memoryStream);
+                        int FilePos = 0;
+                        memoryStream.Position = 0;
+                        Directory.CreateDirectory(extractPath + "//" + a);
+                        while (memoryStream.Position < memoryStream.Length)
+                        {
+                            int ID = StreamUtil.ReadUInt8(memoryStream);
+                            int ChunkSize = StreamUtil.ReadInt24(memoryStream);
+                            int RID = StreamUtil.ReadUInt32(memoryStream);
 
-                        //    byte[] NewData= StreamUtil.ReadBytes(memoryStream, ChunkSize);
-                        //    StreamUtil.WriteBytes(memoryStream1, NewData);
+                            byte[] NewData = StreamUtil.ReadBytes(memoryStream, ChunkSize);
 
-                        //    var file = File.Create(extractPath + "//" + a + "//" + FilePos + "." + ID + "bin");
-                        //    memoryStream1.Position = 0;
-                        //    memoryStream1.CopyTo(file);
-                        //    memoryStream1 = new MemoryStream();
-                        //    memoryStream1.Dispose();
-                        //    file.Close();
-                        //    FilePos++;
-                        //}
-                        //memoryStream.Dispose();
-                        //memoryStream = new MemoryStream();
+                            if (ID == 2)
+                            {
+                                WorldMDR worldMDR = new WorldMDR();
+                                worldMDR.LoadData(NewData);
+                            }
+
+                            //var file = File.Create(extractPath + "//" + a + "//" + FilePos + "." + ID + "bin");
+                            FilePos++;
+                        }
+                        memoryStream.Dispose();
+                        memoryStream = new MemoryStream();
                         a++;
                     }
                 }
