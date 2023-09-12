@@ -129,6 +129,17 @@ namespace SSXMultiTool.Utilities
             return (int)BitConverter.ToUInt32(tempByte, 0);
         }
 
+        public static ulong ReadUInt64(Stream stream, bool BigEndian = false)
+        {
+            byte[] tempByte = new byte[8];
+            stream.Read(tempByte, 0, tempByte.Length);
+
+            if (BigEndian)
+                Array.Reverse(tempByte);
+
+            return BitConverter.ToUInt64(tempByte, 0);
+        }
+
         public static float ReadFloat(Stream stream, bool BigEndian = false)
         {
             byte[] tempByte = new byte[4];

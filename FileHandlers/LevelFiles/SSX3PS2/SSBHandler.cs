@@ -145,6 +145,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 WorldMDR worldMDR = new WorldMDR();
 
                                 worldMDR.LoadData(NewData);
+                                worldMDR.SaveModel(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".glb");
                             }
 
                             FilePos++;

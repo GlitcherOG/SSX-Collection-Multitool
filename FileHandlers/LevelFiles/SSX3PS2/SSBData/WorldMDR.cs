@@ -1,4 +1,6 @@
-﻿using SSXMultiTool.Utilities;
+﻿using SharpGLTF.Geometry.VertexTypes;
+using SharpGLTF.Geometry;
+using SSXMultiTool.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +8,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using SharpGLTF.Materials;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
@@ -177,98 +180,106 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                     {
                         var S5 = S1.unknownS2.unknownS5[a];
                         bool Normal = false;
-                        for (int b = 0; b < S5.unknownS6.ModelOffsetHeaders.Count-1; b++)
+                        for (int b = 0; b < S5.unknownS6.ModelOffsetHeaders.Count - 1; b++)
                         {
                             var ModelOffsetHeader = S5.unknownS6.ModelOffsetHeaders[b];
 
-                            stream.Position = ModelOffsetHeader.ModelOffset + U10Offset;
-                            if (b==0)
+                            if (ModelOffsetHeader.ModelOffset > 0)
                             {
-                                //Unknown if used
-                                stream.Position += 32;
-                            }
 
-                            if(!Normal)
-                            {
-                                stream.Position += 32;
-                                ModelVandUVData TempModelData = new ModelVandUVData();
-
-                                TempModelData.TristripCount = StreamUtil.ReadUInt32(stream);
-
-                                stream.Position += 4;
-
-                                TempModelData.VerticesCount = StreamUtil.ReadUInt32(stream);
-
-                                stream.Position += 4 + 16;
-
-                                TempModelData.Tristrip = new List<int>();
-
-                                for (int c = 0; c < TempModelData.TristripCount; c++)
+                                stream.Position = ModelOffsetHeader.ModelOffset + U10Offset;
+                                int Temp = StreamUtil.ReadUInt32(stream);
+                                if (Temp == 16777473)
                                 {
-                                    TempModelData.Tristrip.Add(StreamUtil.ReadUInt32(stream));
+                                    //Unknown if used
+                                    stream.Position += 32 - 4;
+                                }
+                                else
+                                {
+                                    stream.Position -= 4;
+                                }
+
+                                if (!Normal)
+                                {
+                                    stream.Position += 32;
+                                    ModelVandUVData TempModelData = new ModelVandUVData();
+
+                                    TempModelData.TristripCount = StreamUtil.ReadUInt32(stream);
+
+                                    stream.Position += 4;
+
+                                    TempModelData.VerticesCount = StreamUtil.ReadUInt32(stream);
+
+                                    stream.Position += 4 + 16;
+
+                                    TempModelData.Tristrip = new List<int>();
+
+                                    for (int c = 0; c < TempModelData.TristripCount; c++)
+                                    {
+                                        TempModelData.Tristrip.Add(StreamUtil.ReadUInt16(stream));
+                                    }
                                     StreamUtil.AlignBy16(stream);
+                                    stream.Position += 16;
+                                    TempModelData.UV = new List<Vector2>();
+
+                                    for (int c = 0; c < TempModelData.VerticesCount; c++)
+                                    {
+                                        Vector2 vector3 = new Vector2();
+
+                                        vector3.X = StreamUtil.ReadInt16(stream) / 32767f;
+                                        vector3.Y = StreamUtil.ReadInt16(stream) / 32767f;
+
+                                        TempModelData.UV.Add(vector3);
+                                    }
+                                    StreamUtil.AlignBy16(stream);
+
+                                    stream.Position += 16;
+
+                                    TempModelData.Vertices = new List<Vector3>();
+
+                                    for (int c = 0; c < TempModelData.VerticesCount; c++)
+                                    {
+                                        Vector3 vector3 = new Vector3();
+
+                                        vector3.X = StreamUtil.ReadInt16(stream) / 16f;
+                                        vector3.Y = StreamUtil.ReadInt16(stream) / 16f;
+                                        vector3.Z = StreamUtil.ReadInt16(stream) / 16f;
+
+                                        TempModelData.Vertices.Add(vector3);
+                                    }
+                                    StreamUtil.AlignBy16(stream);
+
+                                    ModelOffsetHeader.modelVandUVData = TempModelData;
                                 }
-
-                                stream.Position += 16;
-
-                                TempModelData.Vertices = new List<Vector3>();
-
-                                for (int c = 0; c < TempModelData.VerticesCount; c++)
+                                else
                                 {
-                                    Vector3 vector3 = new Vector3();
+                                    ModelNormalData TempModelData = new ModelNormalData();
 
-                                    vector3.X = StreamUtil.ReadInt16(stream) / 1024f;
-                                    vector3.Y = StreamUtil.ReadInt16(stream) / 1024f;
-                                    vector3.Z = StreamUtil.ReadInt16(stream) / 1024f;
+                                    stream.Position += 14;
 
-                                    TempModelData.Vertices.Add(vector3);
+                                    TempModelData.NormalCount = StreamUtil.ReadUInt8(stream);
+
+                                    stream.Position += 1;
+
+                                    TempModelData.Normals = new List<Vector3>();
+
+                                    for (int c = 0; c < TempModelData.NormalCount; c++)
+                                    {
+                                        Vector3 vector3 = new Vector3();
+
+                                        vector3.X = StreamUtil.ReadInt16(stream) / 32767f;
+                                        vector3.Y = StreamUtil.ReadInt16(stream) / 32767f;
+                                        vector3.Z = StreamUtil.ReadInt16(stream) / 32767f;
+
+                                        TempModelData.Normals.Add(vector3);
+                                    }
+                                    StreamUtil.AlignBy16(stream);
+
+                                    ModelOffsetHeader.modelNormalData = TempModelData;
                                 }
-                                StreamUtil.AlignBy16(stream);
 
-                                stream.Position += 16;
-                                TempModelData.UV = new List<Vector2>();
-
-                                for (int c = 0; c < TempModelData.VerticesCount; c++)
-                                {
-                                    Vector2 vector3 = new Vector2();
-
-                                    vector3.X = StreamUtil.ReadInt16(stream) / 32767f;
-                                    vector3.Y = StreamUtil.ReadInt16(stream) / 32767f;
-
-                                    TempModelData.UV.Add(vector3);
-                                }
-                                StreamUtil.AlignBy16(stream);
-
-                                ModelOffsetHeader.modelVandUVData = TempModelData;
+                                Normal = !Normal;
                             }
-                            else
-                            {
-                                ModelNormalData TempModelData = new ModelNormalData();
-
-                                stream.Position += 14;
-
-                                TempModelData.NormalCount = StreamUtil.ReadUInt8(stream);
-
-                                stream.Position += 1;
-
-                                TempModelData.Normals = new List<Vector3>();
-
-                                for (int c = 0; c < TempModelData.NormalCount; c++)
-                                {
-                                    Vector3 vector3 = new Vector3();
-
-                                    vector3.X = StreamUtil.ReadInt16(stream) / 32767f;
-                                    vector3.Y = StreamUtil.ReadInt16(stream) / 32767f;
-                                    vector3.Z = StreamUtil.ReadInt16(stream) / 32767f;
-
-                                    TempModelData.Normals.Add(vector3);
-                                }
-                                StreamUtil.AlignBy16(stream);
-
-                                ModelOffsetHeader.modelNormalData = TempModelData;
-                            }
-
-                            Normal = !Normal;
 
                             S5.unknownS6.ModelOffsetHeaders[b] = ModelOffsetHeader;
                         }
@@ -279,13 +290,196 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
                 UnknownS1s[i] = S1;
             }
-
+            ConvertToModelFaces();
             stream.Close();
+        }
+
+        public void ConvertToModelFaces()
+        {
+            for (int i = 0; i < UnknownS1s.Count; i++)
+            {
+                var S1 = UnknownS1s[i];
+                S1.modelFaces = new List<ModelFace>();
+
+                if (S1.U1Offset > 0)
+                {
+                    for (int a = 0; a < S1.unknownS2.unknownS5.Count; a++)
+                    {
+                        var S5 = S1.unknownS2.unknownS5[a];
+
+                        for (int b = 0; b < (S5.unknownS6.ModelOffsetHeaders.Count-1)/2; b++)
+                        {
+                            int VerticesUVID = b * 2;
+                            int NormalID = b * 2 +1;
+
+                            var VerticesUV = S5.unknownS6.ModelOffsetHeaders[VerticesUVID];
+                            var Normal = S5.unknownS6.ModelOffsetHeaders[NormalID];
+
+                            S1.modelFaces.AddRange(GenerateFaces(VerticesUV.modelVandUVData, Normal.modelNormalData));
+
+                        }
+
+                        S1.unknownS2.unknownS5[a] = S5;
+                    }
+                }
+
+
+
+                UnknownS1s[i] = S1;
+            }
+
+
+        }
+        public List<ModelFace> GenerateFaces(ModelVandUVData ModelData, ModelNormalData modelNormalData)
+        {
+            //Increment Strips
+            List<int> strip2 = new List<int>();
+            strip2.Add(0);
+            foreach (var item in ModelData.Tristrip)
+            {
+                strip2.Add(strip2[strip2.Count - 1] + item);
+            }
+
+            //Make Faces
+            List<ModelFace> faces = new List<ModelFace>();
+            int localIndex = 0;
+            bool Rotation = false;
+            for (int b = 0; b < ModelData.Vertices.Count; b++)
+            {
+                if (InsideSplits(b, strip2))
+                {
+                    Rotation = false;
+                    localIndex = 1;
+                    continue;
+                }
+                if (localIndex < 2)
+                {
+                    localIndex++;
+                    continue;
+                }
+
+                faces.Add(CreateFaces(b, ModelData, modelNormalData, Rotation));
+                Rotation = !Rotation;
+                localIndex++;
+            }
+
+            return faces;
+        }
+        public bool InsideSplits(int Number, List<int> splits)
+        {
+            foreach (var item in splits)
+            {
+                if (item == Number)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public ModelFace CreateFaces(int Index, ModelVandUVData ModelData, ModelNormalData modelNormalData, bool roatation)
+        {
+            ModelFace face = new ModelFace();
+            int Index1 = 0;
+            int Index2 = 0;
+            int Index3 = 0;
+            //Fixes the Rotation For Exporting
+            //Swap When Exporting to other formats
+            //1-Clockwise
+            //0-Counter Clocwise
+            if (roatation)
+            {
+                Index1 = Index;
+                Index2 = Index - 1;
+                Index3 = Index - 2;
+            }
+            if (!roatation)
+            {
+                Index1 = Index - 2;
+                Index2 = Index - 1;
+                Index3 = Index;
+            }
+            face.V1 = ModelData.Vertices[Index1];
+            face.V2 = ModelData.Vertices[Index2];
+            face.V3 = ModelData.Vertices[Index3];
+
+            //face.V1Pos = Index1;
+            //face.V2Pos = Index2;
+            //face.V3Pos = Index3;
+
+            face.UV1 = ModelData.UV[Index1];
+            face.UV2 = ModelData.UV[Index2];
+            face.UV3 = ModelData.UV[Index3];
+
+            //face.UV1Pos = Index1;
+            //face.UV2Pos = Index2;
+            //face.UV3Pos = Index3;
+
+            face.Normal1 = modelNormalData.Normals[Index1];
+            face.Normal2 = modelNormalData.Normals[Index2];
+            face.Normal3 = modelNormalData.Normals[Index3];
+
+            //face.Normal1Pos = Index1;
+            //face.Normal2Pos = Index2;
+            //face.Normal3Pos = Index3;
+
+
+
+            return face;
         }
 
         public void SaveModel(string Path)
         {
+            var scene = new SharpGLTF.Scenes.SceneBuilder();
 
+                var material1 = new MaterialBuilder("TempMat")
+                .WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
+
+
+            for (int i = 0; i < UnknownS1s.Count; i++)
+            {
+                var s1 = UnknownS1s[i];
+                var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1>(i.ToString());
+
+                for (int a = 0; a < s1.modelFaces.Count; a++)
+                {
+                    var Face = s1.modelFaces[a];
+                    VertexPositionNormal TempPos1 = new VertexPositionNormal();
+                    TempPos1.Position = Face.V1;
+                    TempPos1.Normal = Face.Normal1;
+
+                    VertexPositionNormal TempPos2 = new VertexPositionNormal();
+                    TempPos2.Position = Face.V2;
+                    TempPos2.Normal = Face.Normal2;
+
+                    VertexPositionNormal TempPos3 = new VertexPositionNormal();
+                    TempPos3.Position = Face.V3;
+                    TempPos3.Normal = Face.Normal3;
+
+                    VertexTexture1 TempTexture1 = new VertexTexture1();
+                    TempTexture1.TexCoord = Face.UV1;
+
+                    VertexTexture1 TempTexture2 = new VertexTexture1();
+                    TempTexture2.TexCoord = Face.UV2;
+
+                    VertexTexture1 TempTexture3 = new VertexTexture1();
+                    TempTexture3.TexCoord = Face.UV3;
+
+                    mesh.UsePrimitive(material1).AddTriangle((TempPos1, TempTexture1), (TempPos2, TempTexture2), (TempPos3, TempTexture3));
+                }
+
+                if (UnknownS1s[i].MatrixOffset > 0)
+                {
+                    scene.AddRigidMesh(mesh, UnknownS1s[i].matrix4X4);
+                }
+                else
+                {
+                    scene.AddRigidMesh(mesh, Matrix4x4.CreateFromQuaternion(new Quaternion(0,0,0,0)));
+                }
+            }
+
+            var model = scene.ToGltf2();
+            //model.ApplyBasisTransform(matrix4X4);
+            model.SaveGLB(Path);
         }
 
         public struct UnknownS1
@@ -298,6 +492,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             public Matrix4x4 matrix4X4;
             public UnknownS2 unknownS2;
             public UnknownS3 unknownS3;
+
+            public List<ModelFace> modelFaces;
         }
 
         public struct UnknownS2
@@ -351,7 +547,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         {
             public int LineCount;
             public int U1;
-            public int ModelOffset;
+            public long ModelOffset;
 
             public ModelVandUVData modelVandUVData;
             public ModelNormalData modelNormalData;
@@ -372,6 +568,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             public int NormalCount;
 
             public List<Vector3> Normals;
+        }
+
+        public struct ModelFace
+        {
+            public Vector3 V1;
+            public Vector3 V2;
+            public Vector3 V3;
+
+            public Vector2 UV1;
+            public Vector2 UV2;
+            public Vector2 UV3;
+
+            public Vector3 Normal1;
+            public Vector3 Normal2;
+            public Vector3 Normal3;
         }
     }
 }
