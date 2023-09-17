@@ -721,7 +721,7 @@ namespace SSXMultiTool
                     NewAIPath.U3 = aip.AIPath.PathAs[i].U3;
                     NewAIPath.U4 = aip.AIPath.PathAs[i].U4;
                     NewAIPath.U5 = aip.AIPath.PathAs[i].U5;
-                    NewAIPath.U6 = aip.AIPath.PathAs[i].U6;
+                    NewAIPath.Respawnable = aip.AIPath.PathAs[i].Respawnable;
 
                     NewAIPath.PathPoints = new float[aip.AIPath.PathAs[i].VectorPoints.Count, 3];
 
@@ -811,7 +811,7 @@ namespace SSXMultiTool
                     NewAIPath.U3 = sop.AIPath.PathAs[i].U3;
                     NewAIPath.U4 = sop.AIPath.PathAs[i].U4;
                     NewAIPath.U5 = sop.AIPath.PathAs[i].U5;
-                    NewAIPath.U6 = sop.AIPath.PathAs[i].U6;
+                    NewAIPath.Respawnable = sop.AIPath.PathAs[i].Respawnable;
 
                     NewAIPath.PathPoints = new float[sop.AIPath.PathAs[i].VectorPoints.Count, 3];
 
@@ -2146,7 +2146,7 @@ namespace SSXMultiTool
                     NewAIPATH.U3 = aip.AIPaths[i].U3;
                     NewAIPATH.U4 = aip.AIPaths[i].U4;
                     NewAIPATH.U5 = aip.AIPaths[i].U5;
-                    NewAIPATH.U6 = aip.AIPaths[i].U6;
+                    NewAIPATH.Respawnable = aip.AIPaths[i].Respawnable;
 
                     NewAIPATH.PathPos = JsonUtil.ArrayToVector3(aip.AIPaths[i].PathPos);
 
@@ -2250,7 +2250,7 @@ namespace SSXMultiTool
                     NewAIPATH.U3 = sop.AIPaths[i].U3;
                     NewAIPATH.U4 = sop.AIPaths[i].U4;
                     NewAIPATH.U5 = sop.AIPaths[i].U5;
-                    NewAIPATH.U6 = sop.AIPaths[i].U6;
+                    NewAIPATH.Respawnable = sop.AIPaths[i].Respawnable;
 
                     NewAIPATH.PathPos = JsonUtil.ArrayToVector3(sop.AIPaths[i].PathPos);
 
