@@ -51,7 +51,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int U3;
             public int U4;
             public int U5;
-            public int U6;
+            public int Respawnable;
 
             public float[] PathPos;
 

@@ -49,7 +49,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     NewPath.U3 = StreamUtil.ReadUInt32(stream);
                     NewPath.U4 = StreamUtil.ReadUInt32(stream);
                     NewPath.U5 = StreamUtil.ReadUInt32(stream);
-                    NewPath.U6 = StreamUtil.ReadUInt32(stream);
+                    NewPath.Respawnable = StreamUtil.ReadUInt32(stream);
 
                     NewPath.PointCount = StreamUtil.ReadUInt32(stream);
                     NewPath.UCount = StreamUtil.ReadUInt32(stream);
@@ -143,7 +143,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, AIPath.PathAs[i].U3);
                 StreamUtil.WriteInt32(stream, AIPath.PathAs[i].U4);
                 StreamUtil.WriteInt32(stream, AIPath.PathAs[i].U5);
-                StreamUtil.WriteInt32(stream, AIPath.PathAs[i].U6);
+                StreamUtil.WriteInt32(stream, AIPath.PathAs[i].Respawnable);
 
                 StreamUtil.WriteInt32(stream, AIPath.PathAs[i].VectorPoints.Count);
                 StreamUtil.WriteInt32(stream, AIPath.PathAs[i].UnknownStructs.Count);
@@ -331,7 +331,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int U3;
             public int U4;
             public int U5;
-            public int U6;
+            public int Respawnable;
 
             public int PointCount;
             public int UCount;

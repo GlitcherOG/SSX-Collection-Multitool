@@ -176,6 +176,11 @@ namespace SSXMultiTool
 
                 Matrix4x4.Decompose(pbdHandler.Instances[i].lightingMatrix4x4, out LightingScale, out LightingRotation, out LightingLocation);
 
+                if(LightingRotation!=new Quaternion(0,0,0,1))
+                {
+                    Console.WriteLine("");
+                }
+
                 instanceJson.LightingVector = JsonUtil.Vector3ToArray(LightingScale);
                 instanceJson.LightingRotation = JsonUtil.QuaternionToArray(LightingRotation);
 

@@ -16,7 +16,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
     {
         public int U0;
         public int U1Count;
-        public int U2;
+        public int U1Offset;
         public int U3;
         public int U4;
 
@@ -42,7 +42,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
             U0 = StreamUtil.ReadUInt32(stream);
             U1Count = StreamUtil.ReadUInt32(stream);
-            U2 = StreamUtil.ReadUInt32(stream);
+            U1Offset = StreamUtil.ReadUInt32(stream);
             U3 = StreamUtil.ReadUInt32(stream);
             U4 = StreamUtil.ReadUInt32(stream);
 
