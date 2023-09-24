@@ -458,10 +458,10 @@ namespace SSXMultiTool
 
                     bezierUtil.GenerateRawPoints();
 
-                    segmentJson.Point4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[0]);
-                    segmentJson.Point3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[1]);
-                    segmentJson.Point2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[2]);
-                    segmentJson.Point1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[3]);
+                    segmentJson.Point1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[0]);
+                    segmentJson.Point2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[1]);
+                    segmentJson.Point3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[2]);
+                    segmentJson.Point4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[3]);
 
                     segmentJson.U0 = pbdHandler.splinesSegments[a].U0;
                     segmentJson.U1 = pbdHandler.splinesSegments[a].U1;
