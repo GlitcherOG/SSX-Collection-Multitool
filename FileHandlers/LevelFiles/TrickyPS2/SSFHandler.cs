@@ -657,19 +657,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     var NewSubType = new Type2Sub1();
 
-                    NewSubType.U0 = StreamUtil.ReadUInt32(stream);
+                    NewSubType.SplineIndex = StreamUtil.ReadUInt32(stream);
                     NewSubType.U1 = StreamUtil.ReadUInt32(stream);
                     NewSubType.U2 = StreamUtil.ReadUInt32(stream);
                     NewSubType.U3 = StreamUtil.ReadUInt32(stream);
 
-                    NewSubType.U4 = StreamUtil.ReadFloat(stream);
+                    NewSubType.AnimationSpeed = StreamUtil.ReadFloat(stream);
                     NewSubType.U5 = StreamUtil.ReadFloat(stream);
                     NewSubType.U6 = StreamUtil.ReadUInt32(stream);
-                    NewSubType.U7 = StreamUtil.ReadUInt32(stream);
+                    NewSubType.U7 = StreamUtil.ReadFloat(stream);
 
-                    NewSubType.U8 = StreamUtil.ReadUInt32(stream);
-                    NewSubType.U9 = StreamUtil.ReadUInt32(stream);
-                    NewSubType.U10 = StreamUtil.ReadUInt32(stream);
+                    NewSubType.R = StreamUtil.ReadFloat(stream);
+                    NewSubType.G = StreamUtil.ReadFloat(stream);
+                    NewSubType.B = StreamUtil.ReadFloat(stream);
 
                     NewMainType.type2Sub1 = NewSubType;
                 }
@@ -1089,19 +1089,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
                 else if (EffectData.type2.Value.SubType == 1)
                 {
-                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U0);
+                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.SplineIndex);
                     StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U1);
                     StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U2);
                     StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U3);
 
-                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub1.Value.U4);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub1.Value.AnimationSpeed);
                     StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub1.Value.U5);
                     StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U6);
-                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U7);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub1.Value.U7);
 
-                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U8);
-                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U9);
-                    StreamUtil.WriteInt32(stream, EffectData.type2.Value.type2Sub1.Value.U10);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub1.Value.R);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub1.Value.G);
+                    StreamUtil.WriteFloat32(stream, EffectData.type2.Value.type2Sub1.Value.B);
                 }
                 else if (EffectData.type2.Value.SubType == 2)
                 {
@@ -2040,17 +2040,17 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public struct Type2Sub1
         {
-            public int U0;
+            public int SplineIndex;
             public int U1;
             public int U2;
             public int U3;
-            public float U4;
+            public float AnimationSpeed;
             public float U5;
             public int U6;
-            public int U7;
-            public int U8;
-            public int U9;
-            public int U10;
+            public float U7;
+            public float R;
+            public float G;
+            public float B;
         }
 
         public struct Type2Sub2

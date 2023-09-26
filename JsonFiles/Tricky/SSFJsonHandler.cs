@@ -325,17 +325,17 @@ namespace SSXMultiTool.JsonFiles.Tricky
                 else if (NewSubType.SubType == 1)
                 {
                     var NewSubSubType = new Type2Sub1();
-                    NewSubSubType.U0 = TempEffect.type2.Value.type2Sub1.Value.U0;
+                    NewSubSubType.SplineIndex = TempEffect.type2.Value.type2Sub1.Value.SplineIndex;
                     NewSubSubType.U1 = TempEffect.type2.Value.type2Sub1.Value.U1;
                     NewSubSubType.U2 = TempEffect.type2.Value.type2Sub1.Value.U2;
                     NewSubSubType.U3 = TempEffect.type2.Value.type2Sub1.Value.U3;
-                    NewSubSubType.U4 = TempEffect.type2.Value.type2Sub1.Value.U4;
+                    NewSubSubType.AnimationSpeed = TempEffect.type2.Value.type2Sub1.Value.AnimationSpeed;
                     NewSubSubType.U5 = TempEffect.type2.Value.type2Sub1.Value.U5;
                     NewSubSubType.U6 = TempEffect.type2.Value.type2Sub1.Value.U6;
                     NewSubSubType.U7 = TempEffect.type2.Value.type2Sub1.Value.U7;
-                    NewSubSubType.U8 = TempEffect.type2.Value.type2Sub1.Value.U8;
-                    NewSubSubType.U9 = TempEffect.type2.Value.type2Sub1.Value.U9;
-                    NewSubSubType.U10 = TempEffect.type2.Value.type2Sub1.Value.U10;
+                    NewSubSubType.R = TempEffect.type2.Value.type2Sub1.Value.R;
+                    NewSubSubType.G = TempEffect.type2.Value.type2Sub1.Value.G;
+                    NewSubSubType.B = TempEffect.type2.Value.type2Sub1.Value.B;
 
                     NewSubType.type2Sub1 = NewSubSubType;
                 }
@@ -766,17 +766,17 @@ namespace SSXMultiTool.JsonFiles.Tricky
                 else if (NewSubType.SubType == 1)
                 {
                     var NewSubSubType = new SSFHandler.Type2Sub1();
-                    NewSubSubType.U0 = TempEffect.type2.Value.type2Sub1.Value.U0;
+                    NewSubSubType.SplineIndex = TempEffect.type2.Value.type2Sub1.Value.SplineIndex;
                     NewSubSubType.U1 = TempEffect.type2.Value.type2Sub1.Value.U1;
                     NewSubSubType.U2 = TempEffect.type2.Value.type2Sub1.Value.U2;
                     NewSubSubType.U3 = TempEffect.type2.Value.type2Sub1.Value.U3;
-                    NewSubSubType.U4 = TempEffect.type2.Value.type2Sub1.Value.U4;
+                    NewSubSubType.AnimationSpeed = TempEffect.type2.Value.type2Sub1.Value.AnimationSpeed;
                     NewSubSubType.U5 = TempEffect.type2.Value.type2Sub1.Value.U5;
                     NewSubSubType.U6 = TempEffect.type2.Value.type2Sub1.Value.U6;
                     NewSubSubType.U7 = TempEffect.type2.Value.type2Sub1.Value.U7;
-                    NewSubSubType.U8 = TempEffect.type2.Value.type2Sub1.Value.U8;
-                    NewSubSubType.U9 = TempEffect.type2.Value.type2Sub1.Value.U9;
-                    NewSubSubType.U10 = TempEffect.type2.Value.type2Sub1.Value.U10;
+                    NewSubSubType.R = TempEffect.type2.Value.type2Sub1.Value.R;
+                    NewSubSubType.G = TempEffect.type2.Value.type2Sub1.Value.G;
+                    NewSubSubType.B = TempEffect.type2.Value.type2Sub1.Value.B;
 
                     NewSubType.type2Sub1 = NewSubSubType;
                 }
@@ -1286,17 +1286,17 @@ namespace SSXMultiTool.JsonFiles.Tricky
 
         public struct Type2Sub1
         {
-            public int U0;
+            public int SplineIndex;
             public int U1;
             public int U2;
             public int U3;
-            public float U4;
+            public float AnimationSpeed;
             public float U5;
             public int U6;
-            public int U7;
-            public int U8;
-            public int U9;
-            public int U10;
+            public float U7;
+            public float R;
+            public float G;
+            public float B;
         }
 
         public struct Type2Sub2
