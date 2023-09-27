@@ -70,7 +70,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
                 }
                 else if (NewSubType.SubType == 2)
                 {
-                    NewSubType.type0Sub2 = TempEffect.type0.Value.type0Sub2;
+                    NewSubType.Debounce = TempEffect.type0.Value.Debounce;
                 }
                 else if (NewSubType.SubType == 5)
                 {
@@ -324,20 +324,20 @@ namespace SSXMultiTool.JsonFiles.Tricky
                 }
                 else if (NewSubType.SubType == 1)
                 {
-                    var NewSubSubType = new Type2Sub1();
-                    NewSubSubType.SplineIndex = TempEffect.type2.Value.type2Sub1.Value.SplineIndex;
-                    NewSubSubType.U1 = TempEffect.type2.Value.type2Sub1.Value.U1;
-                    NewSubSubType.U2 = TempEffect.type2.Value.type2Sub1.Value.U2;
-                    NewSubSubType.U3 = TempEffect.type2.Value.type2Sub1.Value.U3;
-                    NewSubSubType.AnimationSpeed = TempEffect.type2.Value.type2Sub1.Value.AnimationSpeed;
-                    NewSubSubType.U5 = TempEffect.type2.Value.type2Sub1.Value.U5;
-                    NewSubSubType.U6 = TempEffect.type2.Value.type2Sub1.Value.U6;
-                    NewSubSubType.U7 = TempEffect.type2.Value.type2Sub1.Value.U7;
-                    NewSubSubType.R = TempEffect.type2.Value.type2Sub1.Value.R;
-                    NewSubSubType.G = TempEffect.type2.Value.type2Sub1.Value.G;
-                    NewSubSubType.B = TempEffect.type2.Value.type2Sub1.Value.B;
+                    var NewSubSubType = new SplinePathAnimation();
+                    NewSubSubType.SplineIndex = TempEffect.type2.Value.SplineAnimation.Value.SplineIndex;
+                    NewSubSubType.U1 = TempEffect.type2.Value.SplineAnimation.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type2.Value.SplineAnimation.Value.U2;
+                    NewSubSubType.InstanceCount = TempEffect.type2.Value.SplineAnimation.Value.InstanceCount;
+                    NewSubSubType.AnimationSpeed = TempEffect.type2.Value.SplineAnimation.Value.AnimationSpeed;
+                    NewSubSubType.U5 = TempEffect.type2.Value.SplineAnimation.Value.U5;
+                    NewSubSubType.U6 = TempEffect.type2.Value.SplineAnimation.Value.U6;
+                    NewSubSubType.U7 = TempEffect.type2.Value.SplineAnimation.Value.U7;
+                    NewSubSubType.R = TempEffect.type2.Value.SplineAnimation.Value.R;
+                    NewSubSubType.G = TempEffect.type2.Value.SplineAnimation.Value.G;
+                    NewSubSubType.B = TempEffect.type2.Value.SplineAnimation.Value.B;
 
-                    NewSubType.type2Sub1 = NewSubSubType;
+                    NewSubType.SplineAnimation = NewSubSubType;
                 }
                 else if (NewSubType.SubType == 2)
                 {
@@ -511,7 +511,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
                 }
                 else if (NewSubType.SubType == 2)
                 {
-                    NewSubType.type0Sub2 = TempEffect.type0.Value.type0Sub2.Value;
+                    NewSubType.Debounce = TempEffect.type0.Value.Debounce.Value;
                 }
                 else if (NewSubType.SubType == 5)
                 {
@@ -765,20 +765,20 @@ namespace SSXMultiTool.JsonFiles.Tricky
                 }
                 else if (NewSubType.SubType == 1)
                 {
-                    var NewSubSubType = new SSFHandler.Type2Sub1();
-                    NewSubSubType.SplineIndex = TempEffect.type2.Value.type2Sub1.Value.SplineIndex;
-                    NewSubSubType.U1 = TempEffect.type2.Value.type2Sub1.Value.U1;
-                    NewSubSubType.U2 = TempEffect.type2.Value.type2Sub1.Value.U2;
-                    NewSubSubType.U3 = TempEffect.type2.Value.type2Sub1.Value.U3;
-                    NewSubSubType.AnimationSpeed = TempEffect.type2.Value.type2Sub1.Value.AnimationSpeed;
-                    NewSubSubType.U5 = TempEffect.type2.Value.type2Sub1.Value.U5;
-                    NewSubSubType.U6 = TempEffect.type2.Value.type2Sub1.Value.U6;
-                    NewSubSubType.U7 = TempEffect.type2.Value.type2Sub1.Value.U7;
-                    NewSubSubType.R = TempEffect.type2.Value.type2Sub1.Value.R;
-                    NewSubSubType.G = TempEffect.type2.Value.type2Sub1.Value.G;
-                    NewSubSubType.B = TempEffect.type2.Value.type2Sub1.Value.B;
+                    var NewSubSubType = new SSFHandler.SplinePathAnimation();
+                    NewSubSubType.SplineIndex = TempEffect.type2.Value.SplineAnimation.Value.SplineIndex;
+                    NewSubSubType.U1 = TempEffect.type2.Value.SplineAnimation.Value.U1;
+                    NewSubSubType.U2 = TempEffect.type2.Value.SplineAnimation.Value.U2;
+                    NewSubSubType.InstanceCount = TempEffect.type2.Value.SplineAnimation.Value.InstanceCount;
+                    NewSubSubType.AnimationSpeed = TempEffect.type2.Value.SplineAnimation.Value.AnimationSpeed;
+                    NewSubSubType.U5 = TempEffect.type2.Value.SplineAnimation.Value.U5;
+                    NewSubSubType.U6 = TempEffect.type2.Value.SplineAnimation.Value.U6;
+                    NewSubSubType.U7 = TempEffect.type2.Value.SplineAnimation.Value.U7;
+                    NewSubSubType.R = TempEffect.type2.Value.SplineAnimation.Value.R;
+                    NewSubSubType.G = TempEffect.type2.Value.SplineAnimation.Value.G;
+                    NewSubSubType.B = TempEffect.type2.Value.SplineAnimation.Value.B;
 
-                    NewSubType.type2Sub1 = NewSubSubType;
+                    NewSubType.SplineAnimation = NewSubSubType;
                 }
                 else if (NewSubType.SubType == 2)
                 {
@@ -1031,7 +1031,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int SubType;
 
             public Type0Sub0? type0Sub0; ///Roller?
-            public int? type0Sub2;  //Debounce?
+            public float? Debounce;  //Debounce?
             public int? DeadNodeMode; //5
             public CounterEffect? Counter; //6
             public BoostEffect? Boost; //Boost
@@ -1225,7 +1225,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int SubType;
 
             public Type2Sub0? type2Sub0; //Emitter
-            public Type2Sub1? type2Sub1; //SplinePath
+            public SplinePathAnimation? SplineAnimation; //SplinePath
             public Type2Sub2? type2Sub2; //CollideEmitter
         }
 
@@ -1284,12 +1284,12 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int U50;
         }
 
-        public struct Type2Sub1
+        public struct SplinePathAnimation
         {
             public int SplineIndex;
             public int U1;
             public int U2;
-            public int U3;
+            public int InstanceCount;
             public float AnimationSpeed;
             public float U5;
             public int U6;
