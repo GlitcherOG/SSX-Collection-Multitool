@@ -84,5 +84,10 @@ namespace SSXMultiTool
         {
             new AudioTools().ShowDialog();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            new SSXOGProjectWindow().ShowDialog();
+        }
     }
 }

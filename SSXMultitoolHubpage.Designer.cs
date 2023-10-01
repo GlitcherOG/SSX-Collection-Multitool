@@ -150,13 +150,13 @@
             // 
             // button4
             // 
-            button4.Enabled = false;
             button4.Location = new Point(6, 22);
             button4.Name = "button4";
             button4.Size = new Size(94, 50);
             button4.TabIndex = 2;
             button4.Text = "SSX Level Files";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // SSX3LevelButton
             // 
