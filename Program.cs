@@ -6,7 +6,7 @@ namespace SSXMultiTool
 {
     internal static class Program
     {
-        public static string Version = "0.0.1";
+        public static string Version = "0.2.0";
         public static bool Start = true;
         public static SSXMultitoolHubpage hubpage = new SSXMultitoolHubpage();
         /// <summary>
