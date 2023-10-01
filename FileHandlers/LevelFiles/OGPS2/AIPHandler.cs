@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 {
-    internal class AIPHandler
+    public class AIPHandler
     {
     }
 }
