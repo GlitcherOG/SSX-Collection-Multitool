@@ -16,6 +16,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         public void Load(string path)
         {
             string[] Lines = File.ReadAllLines(path);
+            LinePos = 12;
             Models = ReadLinkerItems(Lines);
             LinePos += 3;
             Splines = ReadLinkerItems(Lines, true);
