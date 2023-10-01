@@ -9,6 +9,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 {
     internal class WDRHandler
     {
+        //This is all models
+
         //Whole thing is chunked
         //Header
         public int U0;

@@ -31,6 +31,7 @@ As such, I chose to redo the entire project and improve it as I did so.
 - [ ] big toggle for / and \
 - [ ] Negitive one Linkz lightmap Fix
 - [ ] Fix ADL Light/Camera and ensure saving
+- [ ] 150M (150*100) Segment Warning in level editor
 
 ### SSX Tricky
 - [ ] Normal Average Proper

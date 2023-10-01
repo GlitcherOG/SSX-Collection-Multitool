@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 {
-    internal class WDSHandler
+    public class WDSHandler
     {
+        //Links thinks this is logic
+
     }
 }

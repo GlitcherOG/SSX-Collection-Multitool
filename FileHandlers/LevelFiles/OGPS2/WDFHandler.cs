@@ -157,12 +157,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         TempPatch.R1C2 = StreamUtil.ReadVector4(stream);
                         TempPatch.R1C1 = StreamUtil.ReadVector4(stream);
 
-                        TempPatch.PointU1 = StreamUtil.ReadVector4(stream);
-                        TempPatch.PointU2 = StreamUtil.ReadVector4(stream);
-                        TempPatch.PointU3 = StreamUtil.ReadVector4(stream);
-                        TempPatch.PointU4 = StreamUtil.ReadVector4(stream);
-                        TempPatch.PointU5 = StreamUtil.ReadVector4(stream);
-                        TempPatch.PointU6 = StreamUtil.ReadVector4(stream);
+                        TempPatch.LowestXYZ = StreamUtil.ReadVector4(stream);
+                        TempPatch.HighestXYZ = StreamUtil.ReadVector4(stream);
+                        TempPatch.Point1 = StreamUtil.ReadVector4(stream);
+                        TempPatch.Point2 = StreamUtil.ReadVector4(stream);
+                        TempPatch.Point3 = StreamUtil.ReadVector4(stream);
+                        TempPatch.Point4 = StreamUtil.ReadVector4(stream);
 
                         TempPatch.TextureID = StreamUtil.ReadUInt32(stream);
                         TempPatch.PatchType = StreamUtil.ReadUInt32(stream);
@@ -356,12 +356,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public Vector4 R1C2;
             public Vector4 R1C1;
 
-            public Vector4 PointU1;
-            public Vector4 PointU2;
-            public Vector4 PointU3;
-            public Vector4 PointU4;
-            public Vector4 PointU5;
-            public Vector4 PointU6;
+            public Vector4 LowestXYZ;
+            public Vector4 HighestXYZ;
+
+            public Vector4 Point1;
+            public Vector4 Point2;
+            public Vector4 Point3;
+            public Vector4 Point4;
 
             public int TextureID;
             public int PatchType;

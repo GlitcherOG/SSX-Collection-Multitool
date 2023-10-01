@@ -8,5 +8,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 {
     internal class WFXHandler
     {
+        //Collsion Models
+
     }
 }
