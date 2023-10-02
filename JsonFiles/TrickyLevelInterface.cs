@@ -22,7 +22,6 @@ namespace SSXMultiTool
         //Exporting Options
         public bool InlineExporting;
 
-
         //Importing Options
         public bool PBDGenerate = true;
         public bool SSHGenerate = true;
@@ -740,15 +739,15 @@ namespace SSXMultiTool
                         }
                     }
 
-                    NewAIPath.UnknownStructs = new List<AIPSOPJsonHandler.UnknownStruct>();
-                    for (int a = 0; a < aip.AIPath.PathAs[i].UnknownStructs.Count; a++)
+                    NewAIPath.PathEvents = new List<AIPSOPJsonHandler.PathEvent>();
+                    for (int a = 0; a < aip.AIPath.PathAs[i].PathEvents.Count; a++)
                     {
-                        var NewStruct = new AIPSOPJsonHandler.UnknownStruct();
-                        NewStruct.U0 = aip.AIPath.PathAs[i].UnknownStructs[a].U0;
-                        NewStruct.U1 = aip.AIPath.PathAs[i].UnknownStructs[a].U1;
-                        NewStruct.U2 = aip.AIPath.PathAs[i].UnknownStructs[a].U2;
-                        NewStruct.U3 = aip.AIPath.PathAs[i].UnknownStructs[a].U3;
-                        NewAIPath.UnknownStructs.Add(NewStruct);
+                        var NewStruct = new AIPSOPJsonHandler.PathEvent();
+                        NewStruct.U0 = aip.AIPath.PathAs[i].PathEvents[a].U0;
+                        NewStruct.U1 = aip.AIPath.PathAs[i].PathEvents[a].U1;
+                        NewStruct.U2 = aip.AIPath.PathAs[i].PathEvents[a].U2;
+                        NewStruct.U3 = aip.AIPath.PathAs[i].PathEvents[a].U3;
+                        NewAIPath.PathEvents.Add(NewStruct);
                     }
                     aipJson.AIPaths.Add(NewAIPath);
                 }
@@ -780,15 +779,15 @@ namespace SSXMultiTool
                         }
                     }
 
-                    NewAIPath.UnknownStructs = new List<AIPSOPJsonHandler.UnknownStruct>();
-                    for (int a = 0; a < aip.RaceLine.PathBs[i].UnknownStructs.Count; a++)
+                    NewAIPath.PathEvents = new List<AIPSOPJsonHandler.PathEvent>();
+                    for (int a = 0; a < aip.RaceLine.PathBs[i].PathEvents.Count; a++)
                     {
-                        var NewStruct = new AIPSOPJsonHandler.UnknownStruct();
-                        NewStruct.U0 = aip.RaceLine.PathBs[i].UnknownStructs[a].U0;
-                        NewStruct.U1 = aip.RaceLine.PathBs[i].UnknownStructs[a].U1;
-                        NewStruct.U2 = aip.RaceLine.PathBs[i].UnknownStructs[a].U2;
-                        NewStruct.U3 = aip.RaceLine.PathBs[i].UnknownStructs[a].U3;
-                        NewAIPath.UnknownStructs.Add(NewStruct);
+                        var NewStruct = new AIPSOPJsonHandler.PathEvent();
+                        NewStruct.U0 = aip.RaceLine.PathBs[i].PathEvents[a].U0;
+                        NewStruct.U1 = aip.RaceLine.PathBs[i].PathEvents[a].U1;
+                        NewStruct.U2 = aip.RaceLine.PathBs[i].PathEvents[a].U2;
+                        NewStruct.U3 = aip.RaceLine.PathBs[i].PathEvents[a].U3;
+                        NewAIPath.PathEvents.Add(NewStruct);
                     }
                     aipJson.RaceLines.Add(NewAIPath);
                 }
@@ -830,15 +829,15 @@ namespace SSXMultiTool
                         }
                     }
 
-                    NewAIPath.UnknownStructs = new List<AIPSOPJsonHandler.UnknownStruct>();
-                    for (int a = 0; a < sop.AIPath.PathAs[i].UnknownStructs.Count; a++)
+                    NewAIPath.PathEvents = new List<AIPSOPJsonHandler.PathEvent>();
+                    for (int a = 0; a < sop.AIPath.PathAs[i].PathEvents.Count; a++)
                     {
-                        var NewStruct = new AIPSOPJsonHandler.UnknownStruct();
-                        NewStruct.U0 = sop.AIPath.PathAs[i].UnknownStructs[a].U0;
-                        NewStruct.U1 = sop.AIPath.PathAs[i].UnknownStructs[a].U1;
-                        NewStruct.U2 = sop.AIPath.PathAs[i].UnknownStructs[a].U2;
-                        NewStruct.U3 = sop.AIPath.PathAs[i].UnknownStructs[a].U3;
-                        NewAIPath.UnknownStructs.Add(NewStruct);
+                        var NewStruct = new AIPSOPJsonHandler.PathEvent();
+                        NewStruct.U0 = sop.AIPath.PathAs[i].PathEvents[a].U0;
+                        NewStruct.U1 = sop.AIPath.PathAs[i].PathEvents[a].U1;
+                        NewStruct.U2 = sop.AIPath.PathAs[i].PathEvents[a].U2;
+                        NewStruct.U3 = sop.AIPath.PathAs[i].PathEvents[a].U3;
+                        NewAIPath.PathEvents.Add(NewStruct);
                     }
                     sopJson.AIPaths.Add(NewAIPath);
                 }
@@ -867,15 +866,15 @@ namespace SSXMultiTool
                         }
                     }
 
-                    NewAIPath.UnknownStructs = new List<AIPSOPJsonHandler.UnknownStruct>();
-                    for (int a = 0; a < sop.RaceLine.PathBs[i].UnknownStructs.Count; a++)
+                    NewAIPath.PathEvents = new List<AIPSOPJsonHandler.PathEvent>();
+                    for (int a = 0; a < sop.RaceLine.PathBs[i].PathEvents.Count; a++)
                     {
-                        var NewStruct = new AIPSOPJsonHandler.UnknownStruct();
-                        NewStruct.U0 = sop.RaceLine.PathBs[i].UnknownStructs[a].U0;
-                        NewStruct.U1 = sop.RaceLine.PathBs[i].UnknownStructs[a].U1;
-                        NewStruct.U2 = sop.RaceLine.PathBs[i].UnknownStructs[a].U2;
-                        NewStruct.U3 = sop.RaceLine.PathBs[i].UnknownStructs[a].U3;
-                        NewAIPath.UnknownStructs.Add(NewStruct);
+                        var NewStruct = new AIPSOPJsonHandler.PathEvent();
+                        NewStruct.U0 = sop.RaceLine.PathBs[i].PathEvents[a].U0;
+                        NewStruct.U1 = sop.RaceLine.PathBs[i].PathEvents[a].U1;
+                        NewStruct.U2 = sop.RaceLine.PathBs[i].PathEvents[a].U2;
+                        NewStruct.U3 = sop.RaceLine.PathBs[i].PathEvents[a].U3;
+                        NewAIPath.PathEvents.Add(NewStruct);
                     }
                     sopJson.RaceLines.Add(NewAIPath);
                 }
@@ -2167,15 +2166,15 @@ namespace SSXMultiTool
 
                     NewAIPATH.VectorPoints = AIPSOPHandler.GenerateNewVectors(Points);
 
-                    NewAIPATH.UnknownStructs = new List<AIPSOPHandler.UnknownStruct>();
-                    for (int a = 0; a < aip.AIPaths[i].UnknownStructs.Count; a++)
+                    NewAIPATH.PathEvents = new List<AIPSOPHandler.PathEvent>();
+                    for (int a = 0; a < aip.AIPaths[i].PathEvents.Count; a++)
                     {
-                        var NewStruct = new AIPSOPHandler.UnknownStruct();
-                        NewStruct.U0 = aip.AIPaths[i].UnknownStructs[a].U0;
-                        NewStruct.U1 = aip.AIPaths[i].UnknownStructs[a].U1;
-                        NewStruct.U2 = aip.AIPaths[i].UnknownStructs[a].U2;
-                        NewStruct.U3 = aip.AIPaths[i].UnknownStructs[a].U3;
-                        NewAIPATH.UnknownStructs.Add(NewStruct);
+                        var NewStruct = new AIPSOPHandler.PathEvent();
+                        NewStruct.U0 = aip.AIPaths[i].PathEvents[a].U0;
+                        NewStruct.U1 = aip.AIPaths[i].PathEvents[a].U1;
+                        NewStruct.U2 = aip.AIPaths[i].PathEvents[a].U2;
+                        NewStruct.U3 = aip.AIPaths[i].PathEvents[a].U3;
+                        NewAIPATH.PathEvents.Add(NewStruct);
                     }
 
                     aipHandler.AIPath.PathAs.Add(NewAIPATH);
@@ -2212,15 +2211,15 @@ namespace SSXMultiTool
 
                     NewAIPATH.VectorPoints = AIPSOPHandler.GenerateNewVectors(Points);
 
-                    NewAIPATH.UnknownStructs = new List<AIPSOPHandler.UnknownStruct>();
-                    for (int a = 0; a < aip.RaceLines[i].UnknownStructs.Count; a++)
+                    NewAIPATH.PathEvents = new List<AIPSOPHandler.PathEvent>();
+                    for (int a = 0; a < aip.RaceLines[i].PathEvents.Count; a++)
                     {
-                        var NewStruct = new AIPSOPHandler.UnknownStruct();
-                        NewStruct.U0 = aip.RaceLines[i].UnknownStructs[a].U0;
-                        NewStruct.U1 = aip.RaceLines[i].UnknownStructs[a].U1;
-                        NewStruct.U2 = aip.RaceLines[i].UnknownStructs[a].U2;
-                        NewStruct.U3 = aip.RaceLines[i].UnknownStructs[a].U3;
-                        NewAIPATH.UnknownStructs.Add(NewStruct);
+                        var NewStruct = new AIPSOPHandler.PathEvent();
+                        NewStruct.U0 = aip.RaceLines[i].PathEvents[a].U0;
+                        NewStruct.U1 = aip.RaceLines[i].PathEvents[a].U1;
+                        NewStruct.U2 = aip.RaceLines[i].PathEvents[a].U2;
+                        NewStruct.U3 = aip.RaceLines[i].PathEvents[a].U3;
+                        NewAIPATH.PathEvents.Add(NewStruct);
                     }
 
                     aipHandler.RaceLine.PathBs.Add(NewAIPATH);
@@ -2271,15 +2270,15 @@ namespace SSXMultiTool
 
                     NewAIPATH.VectorPoints = AIPSOPHandler.GenerateNewVectors(Points);
 
-                    NewAIPATH.UnknownStructs = new List<AIPSOPHandler.UnknownStruct>();
-                    for (int a = 0; a < sop.AIPaths[i].UnknownStructs.Count; a++)
+                    NewAIPATH.PathEvents = new List<AIPSOPHandler.PathEvent>();
+                    for (int a = 0; a < sop.AIPaths[i].PathEvents.Count; a++)
                     {
-                        var NewStruct = new AIPSOPHandler.UnknownStruct();
-                        NewStruct.U0 = sop.AIPaths[i].UnknownStructs[a].U0;
-                        NewStruct.U1 = sop.AIPaths[i].UnknownStructs[a].U1;
-                        NewStruct.U2 = sop.AIPaths[i].UnknownStructs[a].U2;
-                        NewStruct.U3 = sop.AIPaths[i].UnknownStructs[a].U3;
-                        NewAIPATH.UnknownStructs.Add(NewStruct);
+                        var NewStruct = new AIPSOPHandler.PathEvent();
+                        NewStruct.U0 = sop.AIPaths[i].PathEvents[a].U0;
+                        NewStruct.U1 = sop.AIPaths[i].PathEvents[a].U1;
+                        NewStruct.U2 = sop.AIPaths[i].PathEvents[a].U2;
+                        NewStruct.U3 = sop.AIPaths[i].PathEvents[a].U3;
+                        NewAIPATH.PathEvents.Add(NewStruct);
                     }
 
                     sopHandler.AIPath.PathAs.Add(NewAIPATH);
@@ -2316,15 +2315,15 @@ namespace SSXMultiTool
 
                     NewAIPATH.VectorPoints = AIPSOPHandler.GenerateNewVectors(Points);
 
-                    NewAIPATH.UnknownStructs = new List<AIPSOPHandler.UnknownStruct>();
-                    for (int a = 0; a < sop.RaceLines[i].UnknownStructs.Count; a++)
+                    NewAIPATH.PathEvents = new List<AIPSOPHandler.PathEvent>();
+                    for (int a = 0; a < sop.RaceLines[i].PathEvents.Count; a++)
                     {
-                        var NewStruct = new AIPSOPHandler.UnknownStruct();
-                        NewStruct.U0 = sop.RaceLines[i].UnknownStructs[a].U0;
-                        NewStruct.U1 = sop.RaceLines[i].UnknownStructs[a].U1;
-                        NewStruct.U2 = sop.RaceLines[i].UnknownStructs[a].U2;
-                        NewStruct.U3 = sop.RaceLines[i].UnknownStructs[a].U3;
-                        NewAIPATH.UnknownStructs.Add(NewStruct);
+                        var NewStruct = new AIPSOPHandler.PathEvent();
+                        NewStruct.U0 = sop.RaceLines[i].PathEvents[a].U0;
+                        NewStruct.U1 = sop.RaceLines[i].PathEvents[a].U1;
+                        NewStruct.U2 = sop.RaceLines[i].PathEvents[a].U2;
+                        NewStruct.U3 = sop.RaceLines[i].PathEvents[a].U3;
+                        NewAIPATH.PathEvents.Add(NewStruct);
                     }
 
                     sopHandler.RaceLine.PathBs.Add(NewAIPATH);

@@ -56,10 +56,10 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public float[] PathPos;
 
             public float[,] PathPoints;
-            public List<UnknownStruct> UnknownStructs;
+            public List<PathEvent> PathEvents;
         }
         [System.Serializable]
-        public struct UnknownStruct
+        public struct PathEvent
         {
             public int U0;
             public int U1;
@@ -78,7 +78,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public float[] PathPos;
 
             public float[,] PathPoints;
-            public List<UnknownStruct> UnknownStructs;
+            public List<PathEvent> PathEvents;
         }
     }
 }

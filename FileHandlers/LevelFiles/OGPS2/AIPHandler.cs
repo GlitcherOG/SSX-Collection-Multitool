@@ -119,7 +119,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     pathDatas1.Add(TempPathData);
                 }
 
-                stream.Position = 0;
             }
         }
 

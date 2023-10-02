@@ -64,15 +64,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         NewPath.VectorPoints.Add(StreamUtil.ReadVector4(stream));
                     }
 
-                    NewPath.UnknownStructs = new List<UnknownStruct>();
+                    NewPath.PathEvents = new List<PathEvent>();
                     for (int a = 0; a < NewPath.UCount; a++)
                     {
-                        var NewUStrcut = new UnknownStruct();
+                        var NewUStrcut = new PathEvent();
                         NewUStrcut.U0 = StreamUtil.ReadUInt32(stream);
                         NewUStrcut.U1 = StreamUtil.ReadUInt32(stream);
                         NewUStrcut.U2 = StreamUtil.ReadFloat(stream);
                         NewUStrcut.U3 = StreamUtil.ReadFloat(stream);
-                        NewPath.UnknownStructs.Add(NewUStrcut);
+                        NewPath.PathEvents.Add(NewUStrcut);
                     }
 
                     AIPath.PathAs.Add(NewPath);
@@ -107,15 +107,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         NewPath.VectorPoints.Add(StreamUtil.ReadVector4(stream));
                     }
 
-                    NewPath.UnknownStructs = new List<UnknownStruct>();
+                    NewPath.PathEvents = new List<PathEvent>();
                     for (int a = 0; a < NewPath.UCount; a++)
                     {
-                        var NewUStrcut = new UnknownStruct();
+                        var NewUStrcut = new PathEvent();
                         NewUStrcut.U0 = StreamUtil.ReadUInt32(stream);
                         NewUStrcut.U1 = StreamUtil.ReadUInt32(stream);
                         NewUStrcut.U2 = StreamUtil.ReadFloat(stream);
                         NewUStrcut.U3 = StreamUtil.ReadFloat(stream);
-                        NewPath.UnknownStructs.Add(NewUStrcut);
+                        NewPath.PathEvents.Add(NewUStrcut);
                     }
 
                     RaceLine.PathBs.Add(NewPath);
@@ -146,7 +146,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, AIPath.PathAs[i].Respawnable);
 
                 StreamUtil.WriteInt32(stream, AIPath.PathAs[i].VectorPoints.Count);
-                StreamUtil.WriteInt32(stream, AIPath.PathAs[i].UnknownStructs.Count);
+                StreamUtil.WriteInt32(stream, AIPath.PathAs[i].PathEvents.Count);
 
                 StreamUtil.WriteVector3(stream, AIPath.PathAs[i].PathPos);
                 StreamUtil.WriteVector3(stream, AIPath.PathAs[i].BBoxMin);
@@ -157,12 +157,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     StreamUtil.WriteVector4(stream, AIPath.PathAs[i].VectorPoints[a]);
                 }
 
-                for (int a = 0; a < AIPath.PathAs[i].UnknownStructs.Count; a++)
+                for (int a = 0; a < AIPath.PathAs[i].PathEvents.Count; a++)
                 {
-                    StreamUtil.WriteInt32(stream, AIPath.PathAs[i].UnknownStructs[a].U0);
-                    StreamUtil.WriteInt32(stream, AIPath.PathAs[i].UnknownStructs[a].U1);
-                    StreamUtil.WriteFloat32(stream, AIPath.PathAs[i].UnknownStructs[a].U2);
-                    StreamUtil.WriteFloat32(stream, AIPath.PathAs[i].UnknownStructs[a].U3);
+                    StreamUtil.WriteInt32(stream, AIPath.PathAs[i].PathEvents[a].U0);
+                    StreamUtil.WriteInt32(stream, AIPath.PathAs[i].PathEvents[a].U1);
+                    StreamUtil.WriteFloat32(stream, AIPath.PathAs[i].PathEvents[a].U2);
+                    StreamUtil.WriteFloat32(stream, AIPath.PathAs[i].PathEvents[a].U3);
                 }
             }
 
@@ -180,7 +180,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteFloat32(stream, RaceLine.PathBs[i].U2);
 
                 StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].VectorPoints.Count);
-                StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].UnknownStructs.Count);
+                StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].PathEvents.Count);
 
                 StreamUtil.WriteVector3(stream, RaceLine.PathBs[i].PathPos);
                 StreamUtil.WriteVector3(stream, RaceLine.PathBs[i].BBoxMin);
@@ -191,12 +191,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     StreamUtil.WriteVector4(stream, RaceLine.PathBs[i].VectorPoints[a]);
                 }
 
-                for (int a = 0; a < RaceLine.PathBs[i].UnknownStructs.Count; a++)
+                for (int a = 0; a < RaceLine.PathBs[i].PathEvents.Count; a++)
                 {
-                    StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].UnknownStructs[a].U0);
-                    StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].UnknownStructs[a].U1);
-                    StreamUtil.WriteFloat32(stream, RaceLine.PathBs[i].UnknownStructs[a].U2);
-                    StreamUtil.WriteFloat32(stream, RaceLine.PathBs[i].UnknownStructs[a].U3);
+                    StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].PathEvents[a].U0);
+                    StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].PathEvents[a].U1);
+                    StreamUtil.WriteFloat32(stream, RaceLine.PathBs[i].PathEvents[a].U2);
+                    StreamUtil.WriteFloat32(stream, RaceLine.PathBs[i].PathEvents[a].U3);
                 }
             }
             long TempPos = stream.Position;
@@ -341,10 +341,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public Vector3 BBoxMax;
 
             public List<Vector4> VectorPoints;
-            public List<UnknownStruct> UnknownStructs;
+            public List<PathEvent> PathEvents;
         }
 
-        public struct UnknownStruct
+        public struct PathEvent
         {
             public int U0;
             public int U1;
@@ -378,7 +378,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public Vector3 BBoxMax;
 
             public List<Vector4> VectorPoints;
-            public List<UnknownStruct> UnknownStructs;
+            public List<PathEvent> PathEvents;
         }
     }
 }
