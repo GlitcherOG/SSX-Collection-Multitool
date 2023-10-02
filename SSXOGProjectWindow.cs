@@ -22,13 +22,13 @@ namespace SSXMultiTool
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Map File (*.map)|*.map|All files (*.*)|*.*",
+                Filter = "Map File (*.wdx)|*.wdx|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                MapHandler handler = new MapHandler();
+                WDXHandler handler = new WDXHandler();
                 handler.Load(openFileDialog.FileName);
             }
         }
