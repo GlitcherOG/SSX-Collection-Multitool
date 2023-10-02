@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SSXMultiTool.Utilities;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -12,8 +14,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
     {
         public int Count0;
         public int Count1;
-        public int U0;
-        public int U1;
         public int U2;
         public int U3;
 
@@ -29,11 +29,105 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         List<PathData> pathDatas = new List<PathData>();
         List<PathData> pathDatas1 = new List<PathData>();
 
+        public void Load(string path)
+        {
+            using (Stream stream = File.Open(path, FileMode.Open))
+            {
+                Count0 = StreamUtil.ReadUInt32(stream);
+                Count1 = StreamUtil.ReadUInt32(stream);
+                U2 = StreamUtil.ReadUInt32(stream);
+                U3 = StreamUtil.ReadUInt32(stream);
+
+                U4 = StreamUtil.ReadUInt32(stream);
+                U5 = StreamUtil.ReadUInt32(stream);
+                U6 = StreamUtil.ReadUInt32(stream);
+                U7 = StreamUtil.ReadUInt32(stream);
+
+                U8 = StreamUtil.ReadUInt32(stream);
+                U9 = StreamUtil.ReadUInt32(stream);
+                U10 = StreamUtil.ReadUInt32(stream);
+
+                pathDatas = new List<PathData>();
+
+                for (int i = 0; i < Count0; i++)
+                {
+                    var TempPathData = new PathData();
+
+                    TempPathData.U0 = StreamUtil.ReadFloat(stream);
+                    TempPathData.Vector4Count = StreamUtil.ReadUInt32(stream);
+                    TempPathData.PathEventCount = StreamUtil.ReadUInt32(stream);
+
+                    TempPathData.Pos1 = StreamUtil.ReadVector3(stream);
+                    TempPathData.Pos2 = StreamUtil.ReadVector3(stream);
+                    TempPathData.Pos3 = StreamUtil.ReadVector3(stream);
+
+                    TempPathData.vector4s = new List<Vector4>();
+                    for (int a = 0; a < TempPathData.Vector4Count; a++)
+                    {
+                        TempPathData.vector4s.Add(StreamUtil.ReadVector4(stream));
+                    }
+
+                    TempPathData.PathEvents = new List<PathEvent>();
+                    for (int a = 0; a < TempPathData.PathEventCount; a++)
+                    {
+                        var TempEvent = new PathEvent();
+
+                        TempEvent.U0 = StreamUtil.ReadUInt32(stream);
+                        TempEvent.U1 = StreamUtil.ReadUInt32(stream);
+                        TempEvent.U2 = StreamUtil.ReadFloat(stream);
+                        TempEvent.U3 = StreamUtil.ReadFloat(stream);
+
+                        TempPathData.PathEvents.Add(TempEvent);
+                    }
+
+                    pathDatas.Add(TempPathData);
+                }
+
+                pathDatas1 = new List<PathData>();
+
+                for (int i = 0; i < Count1; i++)
+                {
+                    var TempPathData = new PathData();
+
+                    TempPathData.U0 = StreamUtil.ReadFloat(stream);
+                    TempPathData.Vector4Count = StreamUtil.ReadUInt32(stream);
+                    TempPathData.PathEventCount = StreamUtil.ReadUInt32(stream);
+
+                    TempPathData.Pos1 = StreamUtil.ReadVector3(stream);
+                    TempPathData.Pos2 = StreamUtil.ReadVector3(stream);
+                    TempPathData.Pos3 = StreamUtil.ReadVector3(stream);
+
+                    TempPathData.vector4s = new List<Vector4>();
+                    for (int a = 0; a < TempPathData.Vector4Count; a++)
+                    {
+                        TempPathData.vector4s.Add(StreamUtil.ReadVector4(stream));
+                    }
+
+                    TempPathData.PathEvents = new List<PathEvent>();
+                    for (int a = 0; a < TempPathData.PathEventCount; a++)
+                    {
+                        var TempEvent = new PathEvent();
+
+                        TempEvent.U0 = StreamUtil.ReadUInt32(stream);
+                        TempEvent.U1 = StreamUtil.ReadUInt32(stream);
+                        TempEvent.U2 = StreamUtil.ReadFloat(stream);
+                        TempEvent.U3 = StreamUtil.ReadFloat(stream);
+
+                        TempPathData.PathEvents.Add(TempEvent);
+                    }
+
+                    pathDatas1.Add(TempPathData);
+                }
+
+                stream.Position = 0;
+            }
+        }
+
         public struct PathData
         {
             public float U0;
-            public int U1;
-            public float U2;
+            public int Vector4Count;
+            public int PathEventCount;
 
             public Vector3 Pos1;
             public Vector3 Pos2;
@@ -46,7 +140,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         public struct PathEvent
         {
             public int U0;
-            public float U1;
+            public int U1;
+            public float U2;
+            public float U3;
         }
     }
 }
