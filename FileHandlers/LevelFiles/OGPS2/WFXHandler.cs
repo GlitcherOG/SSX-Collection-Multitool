@@ -131,6 +131,20 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                             {
                                 TempType0.type0Sub5 = StreamUtil.ReadUInt32(stream);
                             }
+                            else if (TempType0.SubType == 7)
+                            {
+                                Type0Sub7 type0Sub7 = new Type0Sub7();
+
+                                type0Sub7.U0 = StreamUtil.ReadUInt32(stream);
+                                type0Sub7.U1 = StreamUtil.ReadUInt32(stream);
+                                type0Sub7.U2 = StreamUtil.ReadUInt32(stream);
+                                type0Sub7.U3 = StreamUtil.ReadUInt32(stream);
+                                type0Sub7.U4 = StreamUtil.ReadUInt32(stream);
+                                type0Sub7.U5 = StreamUtil.ReadUInt32(stream);
+                                type0Sub7.U6 = StreamUtil.ReadUInt32(stream);
+
+                                TempType0.type0Sub7 = type0Sub7;
+                            }
                             else if (TempType0.SubType == 10)
                             {
                                 Type0Sub10 type0Sub10 = new Type0Sub10();
@@ -155,6 +169,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                                 TempType0.type0Sub11 = type0Sub11;
                             }
+                            else if (TempType0.SubType == 12)
+                            {
+                                Type0Sub12 type0Sub12 = new Type0Sub12();
+
+                                type0Sub12.U0 = StreamUtil.ReadUInt32(stream);
+                                type0Sub12.U1 = StreamUtil.ReadFloat(stream);
+
+                                TempType0.type0Sub12 = type0Sub12;
+                            }
                             else if (TempType0.SubType == 13)
                             {
                                 Type0Sub13 type0Sub13 = new Type0Sub13();
@@ -165,6 +188,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                                 type0Sub13.U3 = StreamUtil.ReadUInt32(stream);
 
                                 TempType0.type0Sub13 = type0Sub13;
+                            }
+                            else if (TempType0.SubType == 14)
+                            {
+                                Type0Sub14 type0Sub14 = new Type0Sub14();
+
+                                type0Sub14.U0 = StreamUtil.ReadUInt32(stream);
+                                type0Sub14.U1 = StreamUtil.ReadFloat(stream);
+
+                                TempType0.type0Sub14 = type0Sub14;
                             }
                             else if (TempType0.SubType == 17)
                             {
@@ -200,6 +232,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                                 type0Sub20.U8 = StreamUtil.ReadUInt32(stream);
 
                                 TempType0.type0Sub20 = type0Sub20;
+                            }
+                            else if (TempType0.SubType == 21)
+                            {
+                                Type0Sub21 type0Sub21 = new Type0Sub21();
+
+                                type0Sub21.U0 = StreamUtil.ReadUInt32(stream);
+                                type0Sub21.U1 = StreamUtil.ReadUInt32(stream);
+                                type0Sub21.U2 = StreamUtil.ReadFloat(stream);
+
+                                TempType0.type0Sub21 = type0Sub21;
                             }
                             else if (TempType0.SubType == 256)
                             {
@@ -409,6 +451,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         {
                             TempEffect.type12 = StreamUtil.ReadUInt32(stream);
                         }
+                        else if (TempEffect.Type == 13)
+                        {
+                            TempEffect.type13 = StreamUtil.ReadFloat(stream);
+                        }
                         else if (TempEffect.Type == 16)
                         {
                             TempEffect.type16 = StreamUtil.ReadFloat(stream);
@@ -482,6 +528,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int type7;
             public Type8? type8;
             public int type12;
+            public float type13;
             public float type16;
             public float type17;
         }
@@ -493,12 +540,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public Type0Sub0? type0Sub0;
             public float type0Sub2;
             public int type0Sub5;
+            public Type0Sub7? type0Sub7;
             public Type0Sub10? type0Sub10;
             public Type0Sub11? type0Sub11;
+            public Type0Sub12? type0Sub12;
             public Type0Sub13? type0Sub13;
+            public Type0Sub14? type0Sub14;
             public float type0Sub17;
             public Type0Sub19? type0Sub19;
             public Type0Sub20? type0Sub20;
+            public Type0Sub21? type0Sub21;
             public Type0Sub256? type0Sub256;
             public Type0Sub257? type0Sub257;
             public Type0Sub258? type0Sub258;
@@ -510,6 +561,17 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public float U2;
             public float U3;
             public float U4;
+            public int U5;
+            public int U6;
+        }
+
+        public struct Type0Sub7
+        {
+            public int U0;
+            public int U1;
+            public int U2;
+            public int U3;
+            public int U4;
             public int U5;
             public int U6;
         }
@@ -532,12 +594,24 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int U3;
         }
 
+        public struct Type0Sub12
+        {
+            public int U0;
+            public float U1;
+        }
+
         public struct Type0Sub13
         {
             public int U0;
             public int U1;
             public int U2;
             public int U3;
+        }
+
+        public struct Type0Sub14
+        {
+            public int U0;
+            public float U1;
         }
 
         public struct Type0Sub19
@@ -563,6 +637,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int U6;
             public int U7;
             public int U8;
+        }
+
+        public struct Type0Sub21
+        {
+            public int U0;
+            public int U1;
+            public float U2;
+
         }
 
         public struct Type0Sub256
