@@ -16,13 +16,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         public Vector3 U3;
         public Vector3 U4;
 
-        public int U41;
-        public int U5;
-        public int U6;
+        public int GroupSize;
+        public int GridRowCount;
+        public int GridColumnCount;
 
-        public int U7;
+        public int ModelCount;
         public int UStruct2Count;
-        public int U9;
+        public int UStruct1Count;
         public int SplineCount;
 
         //16
@@ -32,8 +32,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         public int U14;
 
         //Something Here
-
+        public List<ModelOffset> ModelOffsets = new List<ModelOffset>();
+        public List<WDFGridGroup> WDFGridGroups = new List<WDFGridGroup>();
         public List<UStruct2> uStruct2s = new List<UStruct2>();
+        public List<Spline> Splines = new List<Spline>();
+
+        public struct UStruct1
+        {
+            public int UsedCount;
+            public List<int> U0; //Always 8 Slots
+        }
 
         public struct UStruct2
         {
@@ -63,6 +71,18 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int U8;
             public int U9;
             public int U10;
+        }
+
+        public struct ModelOffset
+        {
+            public int Offset;
+            public int Size;
+        }
+
+        public struct WDFGridGroup
+        {
+            public int Offset;
+            public int Size;
         }
     }
 }
