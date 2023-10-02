@@ -22,13 +22,13 @@ namespace SSXMultiTool
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Map File (*.aip)|*.aip|All files (*.*)|*.*",
+                Filter = "Map File (*.wfx)|*.wfx|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                AIPHandler handler = new AIPHandler();
+                WFXHandler handler = new WFXHandler();
                 handler.Load(openFileDialog.FileName);
             }
         }
