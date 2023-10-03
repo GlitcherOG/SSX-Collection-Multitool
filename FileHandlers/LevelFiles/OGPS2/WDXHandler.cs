@@ -15,8 +15,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         public float FormatVersion;
         public float PS2Version;
         public int Revision;
-        public Vector3 U3;
-        public Vector3 U4;
+        public Vector3 U3; //Bbox stuff?
+        public Vector3 U4; //Bbox stuff?
 
         public int GroupSize;
         public int GridRowCount;
@@ -35,7 +35,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
         public List<ModelOffset> ModelOffsets = new List<ModelOffset>();
         public List<WDFGridGroup> WDFGridGroups = new List<WDFGridGroup>();
-        public List<UStruct1> uStruct1s = new List<UStruct1>();
+        public List<UStruct1> uStruct1s = new List<UStruct1>(); //Convert to have 8 slots, appears to be effect slots
         public List<UStruct2> uStruct2s = new List<UStruct2>();
         public List<Spline> Splines = new List<Spline>();
 
@@ -89,12 +89,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                     TempUStruct1.UsedCount = StreamUtil.ReadUInt32(stream);
 
-                    TempUStruct1.U0 = new List<int>();
-
-                    for (int a = 0; a < 8; a++)
-                    {
-                        TempUStruct1.U0.Add(StreamUtil.ReadUInt16(stream));
-                    }
+                    TempUStruct1.U0 = StreamUtil.ReadUInt16(stream);
+                    TempUStruct1.U1 = StreamUtil.ReadUInt16(stream);
+                    TempUStruct1.U2 = StreamUtil.ReadUInt16(stream);
+                    TempUStruct1.U3 = StreamUtil.ReadUInt16(stream);
+                    TempUStruct1.U4 = StreamUtil.ReadUInt16(stream);
+                    TempUStruct1.U5 = StreamUtil.ReadUInt16(stream);
+                    TempUStruct1.U6 = StreamUtil.ReadUInt16(stream);
+                    TempUStruct1.U7 = StreamUtil.ReadUInt16(stream);
 
                     uStruct1s.Add(TempUStruct1);
                 }
@@ -152,8 +154,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         }
         public struct UStruct1
         {
-            public int UsedCount;
-            public List<int> U0; //Always 8 Slots
+            public int UsedCount; //?
+
+            public int U0;
+            public int U1;
+            public int U2;
+            public int U3;
+            public int U4;
+            public int U5;
+            public int U6;
+            public int U7;
         }
 
         public struct UStruct2
