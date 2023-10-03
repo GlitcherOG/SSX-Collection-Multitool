@@ -12,9 +12,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
     internal class WDXHandler
     {
         //Splines
-        public float U0;
-        public float U1;
-        public int U2;
+        public float FormatVersion;
+        public float PS2Version;
+        public int Revision;
         public Vector3 U3;
         public Vector3 U4;
 
@@ -43,9 +43,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
-                U0 = StreamUtil.ReadFloat(stream);
-                U1 = StreamUtil.ReadFloat(stream);
-                U2 = StreamUtil.ReadUInt32(stream);
+                FormatVersion = StreamUtil.ReadFloat(stream);
+                PS2Version = StreamUtil.ReadFloat(stream);
+                Revision = StreamUtil.ReadUInt32(stream);
 
                 U3 = StreamUtil.ReadVector3(stream);
                 U4 = StreamUtil.ReadVector3(stream);
