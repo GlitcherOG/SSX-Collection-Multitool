@@ -66,9 +66,74 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 {
                     var TempUStruct1 = new UStruct1();
 
-                    TempUStruct1.U0 = StreamUtil.ReadUInt32(stream);
-                    TempUStruct1.U1 = StreamUtil.ReadUInt32(stream);
-                    TempUStruct1.U2 = StreamUtil.ReadUInt32(stream);
+                    TempUStruct1.Offset = StreamUtil.ReadUInt32(stream);
+                    TempUStruct1.ByteSize = StreamUtil.ReadUInt32(stream);
+                    TempUStruct1.UStruct3Count = StreamUtil.ReadUInt32(stream);
+
+                    TempUStruct1.uStruct3s = new List<UStruct3>();
+
+                    long TempPos = stream.Position;
+                    stream.Position = TempUStruct1.ByteSize;
+                    for (int a = 0; a < TempUStruct1.UStruct3Count; a++)
+                    {
+                        var NewTempStruct = new UStruct3();
+
+                        NewTempStruct.EndAlligment = StreamUtil.ReadUInt32(stream);
+                        NewTempStruct.U1 = StreamUtil.ReadUInt32(stream);
+                        NewTempStruct.U2 = StreamUtil.ReadUInt32(stream);
+                        NewTempStruct.UStruct4Count = StreamUtil.ReadUInt32(stream);
+
+                        NewTempStruct.U4 = StreamUtil.ReadUInt32(stream);
+                        NewTempStruct.U5 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U6 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U7 = StreamUtil.ReadFloat(stream);
+
+                        NewTempStruct.U8 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U9 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U10 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U11 = StreamUtil.ReadFloat(stream);
+
+                        NewTempStruct.U12 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U13 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U14 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U15 = StreamUtil.ReadFloat(stream);
+
+                        NewTempStruct.U16 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U17 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U18 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U19 = StreamUtil.ReadFloat(stream);
+
+                        NewTempStruct.U20 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U21 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U22 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U23 = StreamUtil.ReadFloat(stream);
+
+                        NewTempStruct.U24 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U25 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U26 = StreamUtil.ReadFloat(stream);
+                        NewTempStruct.U27 = StreamUtil.ReadFloat(stream);
+
+                        NewTempStruct.struct4s = new List<UStruct4>();
+
+                        for (int b = 0; b < NewTempStruct.UStruct4Count; b++)
+                        {
+                            UStruct4 TempStruct4 = new UStruct4();
+
+                            TempStruct4.U0 = StreamUtil.ReadFloat(stream);
+                            TempStruct4.U1 = StreamUtil.ReadFloat(stream);
+                            TempStruct4.U2 = StreamUtil.ReadUInt32(stream);
+
+                            NewTempStruct.struct4s.Add(TempStruct4);
+                        }
+
+
+                        NewTempStruct.UByteData = StreamUtil.ReadBytes(stream, NewTempStruct.U1);
+                        NewTempStruct.UEndData = StreamUtil.ReadBytes(stream, NewTempStruct.EndAlligment);
+
+                        TempUStruct1.uStruct3s.Add(NewTempStruct);
+                    }
+
+                    stream.Position = TempPos;
 
                     uStruct1s.Add(TempUStruct1);
                 }
@@ -629,9 +694,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
         public struct UStruct1
         {
-            public int U0;
-            public int U1;
-            public int U2;
+            public int Offset;
+            public int ByteSize;
+            public int UStruct3Count;
+
+            public List<UStruct3> uStruct3s;
         }
         public struct UStruct2
         {
@@ -640,6 +707,57 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int U2;
         }
 
+        public struct UStruct3
+        {
+            public int EndAlligment; //Ending Allignment
+            public int U1;
+            public int U2;
+            public int UStruct4Count; //+1
+
+            public int U4;
+            public float U5;
+            public float U6;
+            public float U7;
+
+            public float U8;
+            public float U9;
+            public float U10;
+            public float U11;
+
+            public float U12;
+            public float U13;
+            public float U14;
+            public float U15;
+
+            public float U16;
+            public float U17;
+            public float U18;
+            public float U19;
+
+            public float U20;
+            public float U21;
+            public float U22;
+            public float U23;
+
+            public float U24;
+            public float U25;
+            public float U26;
+            public float U27;
+
+            public List<UStruct4> struct4s;
+
+            public byte[] UByteData;
+            public byte[] UEndData;
+        }
+
+        public struct UStruct4
+        {
+            public float U0;
+            public float U1;
+            public int U2;
+        }
+
+        #region Effects
         //Effect
         public struct EffectHeader
         {
@@ -1052,5 +1170,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int U0;
             public float U1;
         }
+
+        #endregion
     }
 }

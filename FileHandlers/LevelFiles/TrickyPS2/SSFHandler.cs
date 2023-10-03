@@ -1609,22 +1609,27 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float UFloat1;
             public float UFloat2;
             public float UFloat3;
+
             public float UFloat4;
             public float UFloat5;
             public float UFloat6;
             public float UFloat7;
+
             public float UFloat8;
             public float UFloat9;
             public float UFloat10;
             public float UFloat11;
+
             public float UFloat12;
             public float UFloat13;
             public float UFloat14;
             public float UFloat15;
+
             public float UFloat16;
             public float UFloat17;
             public float UFloat18;
             public float UFloat19;
+
             public float UFloat20;
             public float UFloat21;
             public float UFloat22;

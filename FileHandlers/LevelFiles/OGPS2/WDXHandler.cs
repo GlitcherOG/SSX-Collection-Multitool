@@ -195,5 +195,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int U9;
             public int U10;
         }
+
     }
 }
