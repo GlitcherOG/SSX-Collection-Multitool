@@ -144,10 +144,53 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 {
                     var TempUStruct2 = new UStruct2();
 
-                    TempUStruct2.U0 = StreamUtil.ReadUInt32(stream);
-                    TempUStruct2.U1 = StreamUtil.ReadUInt32(stream);
-                    TempUStruct2.U2 = StreamUtil.ReadUInt32(stream);
+                    TempUStruct2.Offset = StreamUtil.ReadUInt32(stream);
+                    TempUStruct2.ByteSize = StreamUtil.ReadUInt32(stream);
+                    TempUStruct2.Count = StreamUtil.ReadUInt32(stream);
 
+                    var TempPos = stream.Position;
+                    stream.Position = TempUStruct2.Offset;
+
+                    //Inset Stuff Here
+                    TempUStruct2.Models = new List<CollisonModel>();
+                    for (int a = 0; a < TempUStruct2.Count; a++)
+                    {
+                        var TempModel = new CollisonModel();
+                        TempModel.FaceCount = StreamUtil.ReadUInt32(stream);
+                        TempModel.VerticeCount = StreamUtil.ReadUInt32(stream);
+                        TempModel.VerticeOffsetAlign = StreamUtil.ReadUInt32(stream);
+
+                        TempModel.MeshPath = MeshID.ToString() + ".obj";
+
+                        TempModel.Index = new List<int>();
+                        TempModel.Vertices = new List<Vector4>();
+                        TempModel.FaceNormals = new List<Vector4>();
+
+                        for (int b = 0; b < TempModel.FaceCount*3; b++)
+                        {
+                            TempModel.Index.Add(StreamUtil.ReadUInt32(stream));
+                        }
+                        stream.Position += TempModel.VerticeOffsetAlign;
+
+                        //StreamUtil.AlignBy16(stream);
+
+                        for (int b = 0; b < TempModel.VerticeCount; b++)
+                        {
+                            TempModel.Vertices.Add(StreamUtil.ReadVector4(stream));
+                        }
+
+                        for (int b = 0; b < TempModel.FaceCount; b++)
+                        {
+                            TempModel.FaceNormals.Add(StreamUtil.ReadVector4(stream));
+                        }
+
+
+                        TempUStruct2.Models.Add(TempModel);
+                        MeshID++;
+                    }
+
+                    stream.Position = TempPos;
+                    
                     uStruct2s.Add(TempUStruct2);
                 }
 
@@ -702,9 +745,22 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         }
         public struct UStruct2
         {
-            public int U0;
-            public int U1;
-            public int U2;
+            public int Offset;
+            public int ByteSize;
+            public int Count;
+        }
+
+        public struct CollisonModel
+        {
+            public string MeshPath;
+
+            public int FaceCount;
+            public int VerticeCount;
+            public int VerticeOffsetAlign;
+
+            public List<int> Index;
+            public List<Vector4> Vertices;
+            public List<Vector4> FaceNormals; //Face Count
         }
 
         public struct UStruct3

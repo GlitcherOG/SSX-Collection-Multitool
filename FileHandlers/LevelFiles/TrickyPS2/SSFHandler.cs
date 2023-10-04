@@ -1666,7 +1666,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             public List<int> Index;
             public List<Vector4> Vertices;
-            public List<Vector4> FaceNormals;
+            public List<Vector4> FaceNormals; //Face Count
         }
 
         public struct Function
