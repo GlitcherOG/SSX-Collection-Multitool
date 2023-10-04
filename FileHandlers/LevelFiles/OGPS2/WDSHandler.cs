@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 {
@@ -36,5 +38,30 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
             public List<int> ints;
         }
+
+        struct struct2
+        {
+
+            Vector3 U0;
+            Vector3 U1;
+            Vector3 U2;
+            float U3;
+            float U4;
+            int U5;
+            int U6;
+            int U7;
+            int U8; //16
+            int U9; //16
+            int U10; // -1 or FFFFFFFF
+            byte[] blank10; //16 bytes
+            float U11;
+            byte[] U12; //4 bytes
+            float U13; // or 2 * UInt16
+            byte[] U14; //4 bytes
+            int U15; // -1 or FFFFFFFF
+            float U16;
+            byte[] U17; //16 bytes
+            float U18;
+        };
     }
 }
