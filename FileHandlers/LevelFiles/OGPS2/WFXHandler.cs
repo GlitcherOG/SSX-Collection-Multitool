@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -140,6 +141,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                 uStruct2s = new List<UStruct2>();
                 stream.Position = UStruct2Offset;
+                int MeshID = 0;
                 for (int i = 0; i < UStruct2Count; i++)
                 {
                     var TempUStruct2 = new UStruct2();
@@ -748,6 +750,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int Offset;
             public int ByteSize;
             public int Count;
+
+            public List<CollisonModel> Models;
         }
 
         public struct CollisonModel
