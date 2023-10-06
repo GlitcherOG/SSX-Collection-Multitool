@@ -71,6 +71,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                         TempModelData.Tristrip = new List<int>();
 
+                        if(modelHeaders.Count ==39)
+                        {
+                            int TempPos = 0;
+                        }
+
                         for (int i = 0; i < TempModelData.TristripCount; i++)
                         {
                             TempModelData.Tristrip.Add(StreamUtil.ReadUInt16(stream));
@@ -90,7 +95,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         }
                         StreamUtil.AlignBy16(stream);
 
-                        stream.Position += 64;
+                        stream.Position += 48;
                         TempModelData.Normals = new List<Vector3>();
 
                         for (int a = 0; a < TempModelData.VertexCount; a++)
@@ -124,15 +129,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                         if(-559038737 == Temp)
                         {
-                            stream.Position += 4 + 16;
+                            stream.Position += 16;
 
                             StreamUtil.AlignBy(stream, 128);
-
+                            NewHeader.modelDatas.Add(TempModelData);
                             break;
                         }
                         else
                         {
-                            stream.Position -= 60;
+                            stream.Position -= 64;
                         }
 
                         NewHeader.modelDatas.Add(TempModelData);
