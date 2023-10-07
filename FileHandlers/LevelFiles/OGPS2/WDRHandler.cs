@@ -20,8 +20,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             {
                 while (stream.Position <= stream.Length)
                 {
+                    long StartPos = stream.Position;
+
                     var NewHeader = new ModelHeader();
                     NewHeader.ModelCount = StreamUtil.ReadUInt32(stream);
+
+                    if(NewHeader.ModelCount>20)
+                    {
+                        int Tempdata = 1;
+                    }
+
                     NewHeader.U1 = StreamUtil.ReadUInt32(stream);
                     NewHeader.ModelByteSize = StreamUtil.ReadUInt32(stream);
                     NewHeader.U2 = StreamUtil.ReadUInt32(stream);
@@ -55,13 +63,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         TempModel.U18 = StreamUtil.ReadUInt32(stream);
                         TempModel.U19 = StreamUtil.ReadUInt32(stream);
 
-                        TempModel.U20 = StreamUtil.ReadUInt32(stream);
-                        TempModel.U21 = StreamUtil.ReadUInt32(stream);
-                        TempModel.U22 = StreamUtil.ReadUInt32(stream);
-                        TempModel.U23 = StreamUtil.ReadUInt32(stream);
-
                         TempModel.modelDatas = new List<ModelData>();
-
+                        StreamUtil.AlignBy(stream, 128, StartPos);
                         while (true)
                         {
                             stream.Position += 48;
@@ -193,11 +196,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int U17;
             public int U18;
             public int U19;
-
-            public int U20;
-            public int U21;
-            public int U22;
-            public int U23;
 
             public List<ModelData> modelDatas;
         }
