@@ -21,7 +21,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 while (stream.Position <= stream.Length)
                 {
                     var NewHeader = new ModelHeader();
-                    NewHeader.U0 = StreamUtil.ReadUInt32(stream);
+                    NewHeader.ModelCount = StreamUtil.ReadUInt32(stream);
                     NewHeader.U1 = StreamUtil.ReadUInt32(stream);
                     NewHeader.ModelByteSize = StreamUtil.ReadUInt32(stream);
                     NewHeader.U2 = StreamUtil.ReadUInt32(stream);
@@ -34,115 +34,122 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     NewHeader.U6 = StreamUtil.ReadUInt32(stream);
                     NewHeader.U7 = StreamUtil.ReadUInt32(stream);
 
-                    NewHeader.vector31 = StreamUtil.ReadVector3(stream);
-                    NewHeader.vector32 = StreamUtil.ReadVector3(stream);
-                    NewHeader.U10 = StreamUtil.ReadUInt32(stream);
-                    NewHeader.U11 = StreamUtil.ReadUInt32(stream);
+                    NewHeader.models = new List<Model>();
 
-                    NewHeader.U12 = StreamUtil.ReadUInt32(stream);
-                    NewHeader.U13 = StreamUtil.ReadUInt32(stream);
-                    NewHeader.U14 = StreamUtil.ReadUInt32(stream);
-                    NewHeader.U15 = StreamUtil.ReadUInt32(stream);
-
-                    NewHeader.U16 = StreamUtil.ReadUInt32(stream);
-                    NewHeader.U17 = StreamUtil.ReadUInt32(stream);
-                    NewHeader.U18 = StreamUtil.ReadUInt32(stream);
-                    NewHeader.U19 = StreamUtil.ReadUInt32(stream);
-
-                    NewHeader.U20 = StreamUtil.ReadUInt32(stream);
-                    NewHeader.U21 = StreamUtil.ReadUInt32(stream);
-                    NewHeader.U22 = StreamUtil.ReadUInt32(stream);
-                    NewHeader.U23 = StreamUtil.ReadUInt32(stream);
-
-                    NewHeader.modelDatas = new List<ModelData>();
-
-                    while(true)
+                    for (int z = 0; z < NewHeader.ModelCount; z++)
                     {
-                        stream.Position += 48;
+                        var TempModel = new Model();
 
-                        var TempModelData = new ModelData();
+                        TempModel.vector31 = StreamUtil.ReadVector3(stream);
+                        TempModel.vector32 = StreamUtil.ReadVector3(stream);
+                        TempModel.U10 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U11 = StreamUtil.ReadUInt32(stream);
 
-                        TempModelData.TristripCount = StreamUtil.ReadUInt32(stream);
-                        TempModelData.U0 = StreamUtil.ReadUInt32(stream);
-                        TempModelData.VertexCount = StreamUtil.ReadUInt32(stream);
-                        TempModelData.U1 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U12 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U13 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U14 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U15 = StreamUtil.ReadUInt32(stream);
 
-                        stream.Position += 16;
+                        TempModel.U16 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U17 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U18 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U19 = StreamUtil.ReadUInt32(stream);
 
-                        TempModelData.Tristrip = new List<int>();
+                        TempModel.U20 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U21 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U22 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U23 = StreamUtil.ReadUInt32(stream);
 
-                        if(modelHeaders.Count ==39)
+                        TempModel.modelDatas = new List<ModelData>();
+
+                        while (true)
                         {
-                            int TempPos = 0;
-                        }
+                            stream.Position += 48;
 
-                        for (int i = 0; i < TempModelData.TristripCount; i++)
-                        {
-                            TempModelData.Tristrip.Add(StreamUtil.ReadUInt16(stream));
-                        }
+                            var TempModelData = new ModelData();
 
-                        StreamUtil.AlignBy16(stream);
+                            TempModelData.TristripCount = StreamUtil.ReadUInt32(stream);
+                            TempModelData.U0 = StreamUtil.ReadUInt32(stream);
+                            TempModelData.VertexCount = StreamUtil.ReadUInt32(stream);
+                            TempModelData.U1 = StreamUtil.ReadUInt32(stream);
 
-                        stream.Position += 64;
-
-                        TempModelData.UV = new List<Vector2>();
-                        for (int a = 0; a < TempModelData.VertexCount; a++)
-                        {
-                            Vector2 uv = new Vector2();
-                            uv.X = StreamUtil.ReadInt16(stream) / 4096f;
-                            uv.Y = StreamUtil.ReadInt16(stream) / 4096f;
-                            TempModelData.UV.Add(uv);
-                        }
-                        StreamUtil.AlignBy16(stream);
-
-                        stream.Position += 48;
-                        TempModelData.Normals = new List<Vector3>();
-
-                        for (int a = 0; a < TempModelData.VertexCount; a++)
-                        {
-                            Vector3 normal = new Vector3();
-                            normal.X = StreamUtil.ReadInt16(stream) / 32768f;
-                            normal.Y = StreamUtil.ReadInt16(stream) / 32768f;
-                            normal.Z = StreamUtil.ReadInt16(stream) / 32768f;
-                            TempModelData.Normals.Add(normal);
-                        }
-                        StreamUtil.AlignBy16(stream);
-
-                        stream.Position += 16;
-                        TempModelData.Vertex = new List<Vector3>();
-                        for (int a = 0; a < TempModelData.VertexCount; a++)
-                        {
-                            Vector3 vertex = new Vector3();
-                            vertex.X = ((float)StreamUtil.ReadInt16(stream) / 32768f);
-                            vertex.Y = ((float)StreamUtil.ReadInt16(stream) / 32768f);
-                            vertex.Z = ((float)StreamUtil.ReadInt16(stream) / 32768f);
-                            TempModelData.Vertex.Add(vertex);
-                        }
-
-                        StreamUtil.AlignBy16(stream);
-
-                        stream.Position += 16;
-
-                        stream.Position += 60;
-
-                        int Temp = StreamUtil.ReadUInt32(stream);
-
-                        if(-559038737 == Temp)
-                        {
                             stream.Position += 16;
 
-                            StreamUtil.AlignBy(stream, 128);
-                            NewHeader.modelDatas.Add(TempModelData);
-                            break;
-                        }
-                        else
-                        {
-                            stream.Position -= 64;
+                            TempModelData.Tristrip = new List<int>();
+
+                            if (TempModelData.TristripCount > 20)
+                            {
+                                int TempPos = 0;
+                            }
+
+                            for (int i = 0; i < TempModelData.TristripCount; i++)
+                            {
+                                TempModelData.Tristrip.Add(StreamUtil.ReadUInt16(stream));
+                            }
+
+                            StreamUtil.AlignBy16(stream);
+
+                            stream.Position += 64;
+
+                            TempModelData.UV = new List<Vector2>();
+                            for (int a = 0; a < TempModelData.VertexCount; a++)
+                            {
+                                Vector2 uv = new Vector2();
+                                uv.X = StreamUtil.ReadInt16(stream) / 4096f;
+                                uv.Y = StreamUtil.ReadInt16(stream) / 4096f;
+                                TempModelData.UV.Add(uv);
+                            }
+                            StreamUtil.AlignBy16(stream);
+
+                            stream.Position += 48;
+                            TempModelData.Normals = new List<Vector3>();
+
+                            for (int a = 0; a < TempModelData.VertexCount; a++)
+                            {
+                                Vector3 normal = new Vector3();
+                                normal.X = StreamUtil.ReadInt16(stream) / 32768f;
+                                normal.Y = StreamUtil.ReadInt16(stream) / 32768f;
+                                normal.Z = StreamUtil.ReadInt16(stream) / 32768f;
+                                TempModelData.Normals.Add(normal);
+                            }
+                            StreamUtil.AlignBy16(stream);
+
+                            stream.Position += 16;
+                            TempModelData.Vertex = new List<Vector3>();
+                            for (int a = 0; a < TempModelData.VertexCount; a++)
+                            {
+                                Vector3 vertex = new Vector3();
+                                vertex.X = ((float)StreamUtil.ReadInt16(stream) / 32768f);
+                                vertex.Y = ((float)StreamUtil.ReadInt16(stream) / 32768f);
+                                vertex.Z = ((float)StreamUtil.ReadInt16(stream) / 32768f);
+                                TempModelData.Vertex.Add(vertex);
+                            }
+
+                            StreamUtil.AlignBy16(stream);
+
+                            stream.Position += 16;
+
+                            stream.Position += 60;
+
+                            int Temp = StreamUtil.ReadUInt32(stream);
+
+                            if (-559038737 == Temp)
+                            {
+                                stream.Position += 16;
+                                TempModel.modelDatas.Add(TempModelData);
+                                break;
+                            }
+                            else
+                            {
+                                stream.Position -= 64;
+                            }
+
+                            TempModel.modelDatas.Add(TempModelData);
                         }
 
-                        NewHeader.modelDatas.Add(TempModelData);
+                        NewHeader.models.Add(TempModel);
                     }
-
+                    StreamUtil.AlignBy(stream, 128);
                     modelHeaders.Add(NewHeader);
                 }
             }
@@ -154,7 +161,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
             //Whole thing is chunked
             //Header
-            public int U0;
+            public int ModelCount;
             public int U1;
             public int ModelByteSize;
             public int U2;
@@ -167,6 +174,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int U6;
             public int U7;
 
+            public List<Model> models;
+        }
+
+        public struct Model
+        {
             public Vector3 vector31;
             public Vector3 vector32;
             public int U10;
