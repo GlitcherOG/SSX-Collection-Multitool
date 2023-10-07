@@ -25,7 +25,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     var NewHeader = new ModelHeader();
                     NewHeader.ModelCount = StreamUtil.ReadUInt32(stream);
 
-                    if(NewHeader.ModelCount>20)
+                    if(NewHeader.ModelCount>4)
                     {
                         int Tempdata = 1;
                     }
@@ -185,19 +185,40 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public Vector3 vector31;
             public Vector3 vector32;
             public int U10;
-            public int U11;
+            public int U11; //Matrix Offset
 
             public int U12;
-            public int U13;
+            public int U13; 
             public int U14;
-            public int U15;
+            public int U15; //Mesh Size
 
             public int U16;
-            public int U17;
-            public int U18;
-            public int U19;
+            public int U17; //Mesh Size 1
+            public int U18; //Mesh Size 2
+            public int U19; //Mesh Size 3
 
             public List<ModelData> modelDatas;
+            public MatrixData matrixData;
+        }
+
+        public struct MatrixData
+        {
+            public Matrix4x4 matrix4;
+
+            //16
+            public int U0;
+            public int U1;
+            public int U2;
+            public int U3;
+            public int U4;
+            public int U5;
+            public int U6;
+            public int U7;
+
+            public int U8;
+            public int U9;
+            public int U10;
+            public int U11;
         }
 
         public struct ModelData
