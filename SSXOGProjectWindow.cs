@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace SSXMultiTool
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Map File (*.mdr)|*.mdr|All files (*.*)|*.*",
+                Filter = "Map File (*.wdr)|*.wdr|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };
@@ -30,6 +31,9 @@ namespace SSXMultiTool
             {
                 WDRHandler handler = new WDRHandler();
                 handler.LoadGuess(openFileDialog.FileName);
+
+                Directory.CreateDirectory(Path.GetDirectoryName(openFileDialog.FileName) + "\\Models");
+                handler.ExportModels(Path.GetDirectoryName(openFileDialog.FileName) + "\\Models");
             }
         }
     }

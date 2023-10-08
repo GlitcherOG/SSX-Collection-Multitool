@@ -1,6 +1,7 @@
 ﻿using SSXMultiTool.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -18,17 +19,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
+                int MeshID = 0;
+
                 while (stream.Position < stream.Length)
                 {
                     long StartPos = stream.Position;
 
                     var NewHeader = new ModelHeader();
                     NewHeader.ModelCount = StreamUtil.ReadUInt32(stream);
-
-                    if (NewHeader.ModelCount > 4)
-                    {
-                        int Tempdata = 1;
-                    }
 
                     NewHeader.U1 = StreamUtil.ReadUInt32(stream);
                     NewHeader.ModelByteSize = StreamUtil.ReadUInt32(stream);
@@ -53,6 +51,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     for (int z = 0; z < NewHeader.ModelCount; z++)
                     {
                         var TempModel = new Model();
+                        TempModel.MeshPath = MeshID.ToString() + ".obj";
 
                         TempModel.vector31 = StreamUtil.ReadVector3(stream);
                         TempModel.vector32 = StreamUtil.ReadVector3(stream);
@@ -85,11 +84,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                             stream.Position += 16;
 
                             TempModelData.Tristrip = new List<int>();
-
-                            if (TempModelData.TristripCount > 30 || TempModelData.VertexCount > 75)
-                            {
-                                int TempPos = 0;
-                            }
 
                             for (int i = 0; i < TempModelData.TristripCount; i++)
                             {
@@ -207,6 +201,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                             TempModel.modelDatas.Add(TempModelData);
                         }
+                        MeshID++;
+
+                        TempModel.FullMesh = GenerateFaces(TempModel);
 
                         NewHeader.models.Add(TempModel);
                     }
@@ -214,11 +211,219 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     modelHeaders.Add(NewHeader);
                 }
             }
+
+
+        }
+
+        public static Mesh GenerateFaces(Model models)
+        {
+            Mesh mesh = new Mesh();
+            mesh.meshFaces = new List<Faces>();
+            for (int i = 0; i < models.modelDatas.Count; i++)
+            {
+                var ModelData = models.modelDatas[i];
+                //Increment Strips
+                List<int> strip2 = new List<int>();
+                strip2.Add(0);
+                foreach (var item in ModelData.Tristrip)
+                {
+                    strip2.Add(strip2[strip2.Count - 1] + item);
+                }
+                ModelData.Tristrip = strip2;
+
+                //Make Faces
+                int localIndex = 0;
+                int Rotation = 0;
+                for (int b = 0; b < ModelData.Vertex.Count; b++)
+                {
+                    if (InsideSplits(b, ModelData.Tristrip))
+                    {
+                        Rotation = 0;
+                        localIndex = 1;
+                        continue;
+                    }
+                    if (localIndex < 2)
+                    {
+                        localIndex++;
+                        continue;
+                    }
+
+                    mesh.meshFaces.Add(CreateFaces(b, ModelData, Rotation));
+                    Rotation++;
+                    if (Rotation == 2)
+                    {
+                        Rotation = 0;
+                    }
+                    localIndex++;
+                }
+            }
+            return mesh;
+        }
+        public static bool InsideSplits(int Number, List<int> splits)
+        {
+            foreach (var item in splits)
+            {
+                if (item == Number)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public static Faces CreateFaces(int Index, ModelData ModelData, int roatation)
+        {
+            Faces face = new Faces();
+            int Index1 = 0;
+            int Index2 = 0;
+            int Index3 = 0;
+            //Fixes the Rotation For Exporting
+            //Swap When Exporting to other formats
+            //1-Clockwise
+            //0-Counter Clocwise
+            if (roatation == 1)
+            {
+                Index1 = Index;
+                Index2 = Index - 1;
+                Index3 = Index - 2;
+            }
+            if (roatation == 0)
+            {
+                Index1 = Index - 2;
+                Index2 = Index - 1;
+                Index3 = Index;
+            }
+            face.V1 = ModelData.Vertex[Index1];
+            face.V2 = ModelData.Vertex[Index2];
+            face.V3 = ModelData.Vertex[Index3];
+
+            face.V1Pos = Index1;
+            face.V2Pos = Index2;
+            face.V3Pos = Index3;
+
+            if (ModelData.UV.Count != 0)
+            {
+                face.UV1 = ModelData.UV[Index1];
+                face.UV2 = ModelData.UV[Index2];
+                face.UV3 = ModelData.UV[Index3];
+
+                face.UV1Pos = Index1;
+                face.UV2Pos = Index2;
+                face.UV3Pos = Index3;
+
+                face.Normal1 = ModelData.Normals[Index1];
+                face.Normal2 = ModelData.Normals[Index2];
+                face.Normal3 = ModelData.Normals[Index3];
+
+                face.Normal1Pos = Index1;
+                face.Normal2Pos = Index2;
+                face.Normal3Pos = Index3;
+            }
+
+            return face;
         }
 
         public void Load(string path, WDXHandler.ModelOffset ModelOffsets)
         {
 
+        }
+
+        public void ExportModels(string path)
+        {
+            //glstHandler.SavePDBModelglTF(path, this);
+            for (int a = 0; a < modelHeaders.Count; a++)
+            {
+                for (int ax = 0; ax < modelHeaders[a].models.Count; ax++)
+                {
+                    string outputString = "";
+                    string output = "# Exported From SSX Using SSX Multitool Modder by GlitcherOG \n";
+
+                    List<Vector3> vertices = new List<Vector3>();
+                    List<Vector3> Normals = new List<Vector3>();
+                    List<Vector2> UV = new List<Vector2>();
+                    outputString += "o Mesh" + ax.ToString() + "\n";
+                    var Data = modelHeaders[a].models[ax].FullMesh;
+                    for (int b = 0; b < Data.meshFaces.Count; b++)
+                    {
+                        var Face = Data.meshFaces[b];
+
+                        //Vertices
+                        if (!vertices.Contains(Face.V1))
+                        {
+                            vertices.Add(Face.V1);
+                        }
+                        int VPos1 = vertices.IndexOf(Face.V1) + 1;
+
+                        if (!vertices.Contains(Face.V2))
+                        {
+                            vertices.Add(Face.V2);
+                        }
+                        int VPos2 = vertices.IndexOf(Face.V2) + 1;
+
+                        if (!vertices.Contains(Face.V3))
+                        {
+                            vertices.Add(Face.V3);
+                        }
+                        int VPos3 = vertices.IndexOf(Face.V3) + 1;
+
+                        //UVs
+                        if (!UV.Contains(Face.UV1))
+                        {
+                            UV.Add(Face.UV1);
+                        }
+                        int UPos1 = UV.IndexOf(Face.UV1) + 1;
+
+                        if (!UV.Contains(Face.UV2))
+                        {
+                            UV.Add(Face.UV2);
+                        }
+                        int UPos2 = UV.IndexOf(Face.UV2) + 1;
+
+                        if (!UV.Contains(Face.UV3))
+                        {
+                            UV.Add(Face.UV3);
+                        }
+                        int UPos3 = UV.IndexOf(Face.UV3) + 1;
+
+                        //Normals
+                        if (!Normals.Contains(Face.Normal1))
+                        {
+                            Normals.Add(Face.Normal1);
+                        }
+                        int NPos1 = Normals.IndexOf(Face.Normal1) + 1;
+
+                        if (!Normals.Contains(Face.Normal2))
+                        {
+                            Normals.Add(Face.Normal2);
+                        }
+                        int NPos2 = Normals.IndexOf(Face.Normal2) + 1;
+
+                        if (!Normals.Contains(Face.Normal3))
+                        {
+                            Normals.Add(Face.Normal3);
+                        }
+                        int NPos3 = Normals.IndexOf(Face.Normal3) + 1;
+
+                        outputString += "f " + VPos1.ToString() + "/" + UPos1.ToString() + "/" + NPos1.ToString() + " " + VPos2.ToString() + "/" + UPos2.ToString() + "/" + NPos2.ToString() + " " + VPos3.ToString() + "/" + UPos3.ToString() + "/" + NPos3.ToString() + "\n";
+                    }
+
+                    for (int z = 0; z < vertices.Count; z++)
+                    {
+                        output += "v " + vertices[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + vertices[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + vertices[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+                    }
+                    for (int z = 0; z < UV.Count; z++)
+                    {
+                        output += "vt " + UV[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + (-UV[z].Y).ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+                    }
+                    for (int z = 0; z < Normals.Count; z++)
+                    {
+                        output += "vn " + Normals[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Normals[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Normals[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+                    }
+                    output += outputString;
+                    File.AppendAllText(path + "/" + modelHeaders[a].models[ax].MeshPath, output);
+
+                }
+
+            }
         }
 
         public struct ModelHeader
@@ -243,6 +448,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
         public struct Model
         {
+            public string MeshPath;
+
             public Vector3 vector31;
             public Vector3 vector32;
             public int U10;
@@ -260,6 +467,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
             public List<ModelData> modelDatas;
             public MatrixData matrixData;
+
+            public Mesh FullMesh;
         }
 
         public struct ModelData
@@ -305,6 +514,42 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public Vector3 vector31;
             public int U0;
             public int U1;
+        }
+
+        public struct Mesh
+        {
+            public List<Faces> meshFaces;
+            //public List<MeshChunk> meshChunk;
+
+        }
+
+        public struct Faces
+        {
+            public Vector3 V1;
+            public Vector3 V2;
+            public Vector3 V3;
+
+            public int V1Pos;
+            public int V2Pos;
+            public int V3Pos;
+
+            public Vector2 UV1;
+            public Vector2 UV2;
+            public Vector2 UV3;
+
+            public int UV1Pos;
+            public int UV2Pos;
+            public int UV3Pos;
+
+            public Vector3 Normal1;
+            public Vector3 Normal2;
+            public Vector3 Normal3;
+
+            public int Normal1Pos;
+            public int Normal2Pos;
+            public int Normal3Pos;
+
+            public bool tripstriped;
         }
     }
 }
