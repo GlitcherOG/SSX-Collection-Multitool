@@ -173,7 +173,7 @@ namespace SSXMultiTool
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Config File (*.ssx)|*.ssx|All files (*.*)|*.*",
+                Filter = "Config File (*.ssx2)|*.ssx2|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };
@@ -207,7 +207,7 @@ namespace SSXMultiTool
             trickyConfig.Vertical = VerticalDropTextbox.Text;
             trickyConfig.Length = CourseLengthTextbox.Text;
             trickyConfig.Description = DescriptionTextbox.Text;
-            trickyConfig.CreateJson(ProjectPath + "/Config.ssx");
+            trickyConfig.CreateJson(ProjectPath + "/Config.ssx2");
         }
 
         private void PatchesTitleLabel_Click(object sender, EventArgs e)
