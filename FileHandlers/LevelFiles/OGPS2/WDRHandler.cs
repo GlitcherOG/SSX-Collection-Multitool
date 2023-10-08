@@ -87,7 +87,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                             for (int i = 0; i < TempModelData.TristripCount; i++)
                             {
-                                TempModelData.Tristrip.Add(StreamUtil.ReadUInt16(stream));
+                                TempModelData.Tristrip.Add(StreamUtil.ReadUInt16(stream)/3);
                             }
 
                             StreamUtil.AlignBy16(stream);
@@ -219,7 +219,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         {
             Mesh mesh = new Mesh();
             mesh.meshFaces = new List<Faces>();
-            int Rotation = 0;
             for (int i = 0; i < models.modelDatas.Count; i++)
             {
                 var ModelData = models.modelDatas[i];
@@ -234,6 +233,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                 //Make Faces
                 int localIndex = 0;
+                int Rotation = 0;
                 for (int b = 0; b < ModelData.Vertex.Count; b++)
                 {
                     if (InsideSplits(b, ModelData.Tristrip))
