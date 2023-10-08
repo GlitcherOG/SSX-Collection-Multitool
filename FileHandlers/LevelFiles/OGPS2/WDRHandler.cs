@@ -18,7 +18,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
-                while (stream.Position <= stream.Length)
+                while (stream.Position < stream.Length)
                 {
                     long StartPos = stream.Position;
 
@@ -86,7 +86,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                             TempModelData.Tristrip = new List<int>();
 
-                            if (TempModelData.TristripCount > 20 || TempModelData.VertexCount > 75)
+                            if (TempModelData.TristripCount > 30 || TempModelData.VertexCount > 75)
                             {
                                 int TempPos = 0;
                             }
@@ -152,7 +152,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                                     matrixData.matrix4 = StreamUtil.ReadMatrix4x4(stream);
                                     matrixData.U0 = StreamUtil.ReadInt16(stream);
-                                    matrixData.U1 = StreamUtil.ReadInt16(stream);
+                                    matrixData.uStruct0Count = StreamUtil.ReadInt16(stream);
                                     matrixData.U2 = StreamUtil.ReadInt16(stream);
                                     matrixData.U3 = StreamUtil.ReadInt16(stream);
                                     matrixData.U4 = StreamUtil.ReadInt16(stream);
@@ -160,35 +160,39 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                                     matrixData.U6 = StreamUtil.ReadInt16(stream);
                                     matrixData.U7 = StreamUtil.ReadInt16(stream);
 
-                                    matrixData.UStruct11Count = StreamUtil.ReadUInt32(stream);
-                                    matrixData.UStruct11Offset = StreamUtil.ReadUInt32(stream);
-                                    matrixData.UStruct12Count = StreamUtil.ReadUInt32(stream);
-                                    matrixData.UStruct12Offset = StreamUtil.ReadUInt32(stream);
+                                    matrixData.uStruct0s = new List<UStruct0>();
 
-                                    matrixData.uStruct11s = new List<UStruct1>();
-
-                                    for (int c = 0; c < matrixData.UStruct11Count; c++)
+                                    for (int c = 0; c < matrixData.uStruct0Count; c++)
                                     {
-                                        var TempUStruct1 = new UStruct1();
+                                        var UStruct0 = new UStruct0();
 
-                                        TempUStruct1.vector30 = StreamUtil.ReadVector3(stream);
-                                        TempUStruct1.vector31 = StreamUtil.ReadVector3(stream);
-                                        TempUStruct1.U0 = StreamUtil.ReadUInt32(stream);
-                                        TempUStruct1.U1 = StreamUtil.ReadUInt32(stream);
+                                        UStruct0.UStruct1Count = StreamUtil.ReadUInt32(stream);
+                                        UStruct0.UStruct1Offset = StreamUtil.ReadUInt32(stream);
 
-                                        matrixData.uStruct11s.Add(TempUStruct1);
+                                        matrixData.uStruct0s.Add(UStruct0);
                                     }
-                                    matrixData.uStruct12s = new List<UStruct1>();
-                                    for (int c = 0; c < matrixData.UStruct12Count; c++)
+
+                                    StreamUtil.AlignBy16(stream);
+
+                                    for (int c = 0; c < matrixData.uStruct0s.Count; c++)
                                     {
-                                        var TempUStruct1 = new UStruct1();
+                                        var TempData = matrixData.uStruct0s[c];
 
-                                        TempUStruct1.vector30 = StreamUtil.ReadVector3(stream);
-                                        TempUStruct1.vector31 = StreamUtil.ReadVector3(stream);
-                                        TempUStruct1.U0 = StreamUtil.ReadUInt32(stream);
-                                        TempUStruct1.U1 = StreamUtil.ReadUInt32(stream);
+                                        TempData.uStruct1s = new List<UStruct1>();
 
-                                        matrixData.uStruct12s.Add(TempUStruct1);
+                                        for (int d = 0; d < TempData.UStruct1Count; d++)
+                                        {
+                                            var TempUStruct1 = new UStruct1();
+
+                                            TempUStruct1.vector30 = StreamUtil.ReadVector3(stream);
+                                            TempUStruct1.vector31 = StreamUtil.ReadVector3(stream);
+                                            TempUStruct1.U0 = StreamUtil.ReadUInt32(stream);
+                                            TempUStruct1.U1 = StreamUtil.ReadUInt32(stream);
+
+                                            TempData.uStruct1s.Add(TempUStruct1);
+                                        }
+
+                                        matrixData.uStruct0s[c] = TempData;
                                     }
                                 }
 
@@ -272,7 +276,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
             //16
             public int U0;
-            public int U1;
+            public int uStruct0Count;
             public int U2;
             public int U3;
             public int U4;
@@ -280,13 +284,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int U6;
             public int U7;
 
-            public int UStruct11Count;
-            public int UStruct11Offset;
-            public int UStruct12Count;
-            public int UStruct12Offset;
+            public List<UStruct0> uStruct0s;
+        }
 
-            public List<UStruct1> uStruct11s;
-            public List<UStruct1> uStruct12s;
+        public struct UStruct0
+        {
+            public int UStruct1Count;
+            public int UStruct1Offset;
+            public List<UStruct1> uStruct1s;
         }
 
         public struct UStruct1
