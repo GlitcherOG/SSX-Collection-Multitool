@@ -32,7 +32,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     NewHeader.ModelByteSize = StreamUtil.ReadUInt32(stream);
                     NewHeader.U2 = StreamUtil.ReadUInt32(stream);
 
-                    NewHeader.vector3 = StreamUtil.ReadVector3(stream);
+                    NewHeader.Scale = StreamUtil.ReadVector3(stream);
                     NewHeader.U3 = StreamUtil.ReadUInt32(stream);
 
                     NewHeader.U4 = StreamUtil.ReadUInt32(stream);
@@ -122,9 +122,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                             for (int a = 0; a < TempModelData.VertexCount; a++)
                             {
                                 Vector3 vertex = new Vector3();
-                                vertex.X = ((float)StreamUtil.ReadInt16(stream) / 32768f);
-                                vertex.Y = ((float)StreamUtil.ReadInt16(stream) / 32768f);
-                                vertex.Z = ((float)StreamUtil.ReadInt16(stream) / 32768f);
+                                vertex.X = ((float)StreamUtil.ReadInt16(stream) / 32768f)* NewHeader.Scale.X;
+                                vertex.Y = ((float)StreamUtil.ReadInt16(stream) / 32768f) * NewHeader.Scale.Y;
+                                vertex.Z = ((float)StreamUtil.ReadInt16(stream) / 32768f) * NewHeader.Scale.Z;
                                 TempModelData.Vertex.Add(vertex);
                             }
 
@@ -219,6 +219,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         {
             Mesh mesh = new Mesh();
             mesh.meshFaces = new List<Faces>();
+            int Rotation = 0;
             for (int i = 0; i < models.modelDatas.Count; i++)
             {
                 var ModelData = models.modelDatas[i];
@@ -233,7 +234,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                 //Make Faces
                 int localIndex = 0;
-                int Rotation = 0;
                 for (int b = 0; b < ModelData.Vertex.Count; b++)
                 {
                     if (InsideSplits(b, ModelData.Tristrip))
@@ -435,7 +435,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int ModelByteSize;
             public int U2;
 
-            public Vector3 vector3;
+            public Vector3 Scale;
             public int U3;
 
             public int U4;
