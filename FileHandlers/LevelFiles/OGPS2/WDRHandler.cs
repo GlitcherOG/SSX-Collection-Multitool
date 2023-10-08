@@ -25,7 +25,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     var NewHeader = new ModelHeader();
                     NewHeader.ModelCount = StreamUtil.ReadUInt32(stream);
 
-                    if(NewHeader.ModelCount>4)
+                    if (NewHeader.ModelCount > 4)
                     {
                         int Tempdata = 1;
                     }
@@ -38,9 +38,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     NewHeader.U3 = StreamUtil.ReadUInt32(stream);
 
                     NewHeader.U4 = StreamUtil.ReadUInt32(stream);
-                    NewHeader.U5 = StreamUtil.ReadUInt32(stream);
-                    NewHeader.U6 = StreamUtil.ReadUInt32(stream);
-                    NewHeader.U7 = StreamUtil.ReadUInt32(stream);
+
+                    NewHeader.ModelOffsets = new List<int>();
+
+                    for (int i = 0; i < NewHeader.ModelCount; i++)
+                    {
+                        NewHeader.ModelOffsets.Add(StreamUtil.ReadUInt32(stream));
+                    }
+
+                    StreamUtil.AlignBy16(stream);
 
                     NewHeader.models = new List<Model>();
 
@@ -80,7 +86,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                             TempModelData.Tristrip = new List<int>();
 
-                            if (TempModelData.TristripCount > 20)
+                            if (TempModelData.TristripCount > 20 || TempModelData.VertexCount > 70)
                             {
                                 int TempPos = 0;
                             }
@@ -139,6 +145,54 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                             if (-559038737 == Temp)
                             {
                                 stream.Position += 16;
+
+                                if (TempModel.U11 != -559038737)
+                                {
+                                    MatrixData matrixData = new MatrixData();
+
+                                    matrixData.matrix4 = StreamUtil.ReadMatrix4x4(stream);
+                                    matrixData.U0 = StreamUtil.ReadInt16(stream);
+                                    matrixData.U1 = StreamUtil.ReadInt16(stream);
+                                    matrixData.U2 = StreamUtil.ReadInt16(stream);
+                                    matrixData.U3 = StreamUtil.ReadInt16(stream);
+                                    matrixData.U4 = StreamUtil.ReadInt16(stream);
+                                    matrixData.U5 = StreamUtil.ReadInt16(stream);
+                                    matrixData.U6 = StreamUtil.ReadInt16(stream);
+                                    matrixData.U7 = StreamUtil.ReadInt16(stream);
+
+                                    matrixData.UStruct11Count = StreamUtil.ReadUInt32(stream);
+                                    matrixData.UStruct11Offset = StreamUtil.ReadUInt32(stream);
+                                    matrixData.UStruct12Count = StreamUtil.ReadUInt32(stream);
+                                    matrixData.UStruct12Offset = StreamUtil.ReadUInt32(stream);
+
+                                    matrixData.uStruct11s = new List<UStruct1>();
+
+                                    for (int c = 0; c < matrixData.UStruct11Count; c++)
+                                    {
+                                        var TempUStruct1 = new UStruct1();
+
+                                        TempUStruct1.vector30 = StreamUtil.ReadVector3(stream);
+                                        TempUStruct1.vector31 = StreamUtil.ReadVector3(stream);
+                                        TempUStruct1.U0 = StreamUtil.ReadUInt32(stream);
+                                        TempUStruct1.U1 = StreamUtil.ReadUInt32(stream);
+
+                                        matrixData.uStruct11s.Add(TempUStruct1);
+                                    }
+                                    matrixData.uStruct12s = new List<UStruct1>();
+                                    for (int c = 0; c < matrixData.UStruct12Count; c++)
+                                    {
+                                        var TempUStruct1 = new UStruct1();
+
+                                        TempUStruct1.vector30 = StreamUtil.ReadVector3(stream);
+                                        TempUStruct1.vector31 = StreamUtil.ReadVector3(stream);
+                                        TempUStruct1.U0 = StreamUtil.ReadUInt32(stream);
+                                        TempUStruct1.U1 = StreamUtil.ReadUInt32(stream);
+
+                                        matrixData.uStruct12s.Add(TempUStruct1);
+                                    }
+                                }
+
+
                                 TempModel.modelDatas.Add(TempModelData);
                                 break;
                             }
@@ -173,9 +227,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int U3;
 
             public int U4;
-            public int U5;
-            public int U6;
-            public int U7;
+            public List<int> ModelOffsets;
 
             public List<Model> models;
         }
@@ -188,7 +240,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int U11; //Matrix Offset
 
             public int U12;
-            public int U13; 
+            public int U13;
             public int U14;
             public int U15; //Mesh Size
 
@@ -199,6 +251,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
             public List<ModelData> modelDatas;
             public MatrixData matrixData;
+        }
+
+        public struct ModelData
+        {
+            public int TristripCount;
+            public int U0;
+            public int VertexCount;
+            public int U1;
+
+            public List<int> Tristrip;
+            public List<Vector2> UV;
+            public List<Vector3> Vertex;
+            public List<Vector3> Normals;
         }
 
         public struct MatrixData
@@ -215,23 +280,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int U6;
             public int U7;
 
-            public int U8;
-            public int U9;
-            public int U10;
-            public int U11;
+            public int UStruct11Count;
+            public int UStruct11Offset;
+            public int UStruct12Count;
+            public int UStruct12Offset;
+
+            public List<UStruct1> uStruct11s;
+            public List<UStruct1> uStruct12s;
         }
 
-        public struct ModelData
+        public struct UStruct1
         {
-            public int TristripCount;
+            public Vector3 vector30;
+            public Vector3 vector31;
             public int U0;
-            public int VertexCount;
             public int U1;
-
-            public List<int> Tristrip;
-            public List<Vector2> UV;
-            public List<Vector3> Vertex;
-            public List<Vector3> Normals;
         }
     }
 }
