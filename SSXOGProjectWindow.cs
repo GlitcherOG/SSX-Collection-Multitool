@@ -22,14 +22,14 @@ namespace SSXMultiTool
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Map File (*.wdr)|*.wdr|All files (*.*)|*.*",
+                Filter = "Map File (*.mdr)|*.mdr|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 WDRHandler handler = new WDRHandler();
-                handler.Load(openFileDialog.FileName);
+                handler.LoadGuess(openFileDialog.FileName);
             }
         }
     }

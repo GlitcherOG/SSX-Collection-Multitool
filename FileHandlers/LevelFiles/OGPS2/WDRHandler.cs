@@ -14,7 +14,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         public List<ModelHeader> modelHeaders = new List<ModelHeader>();
 
         //Model Data
-        public void Load(string path)
+        public void LoadGuess(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
@@ -216,12 +216,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             }
         }
 
+        public void Load(string path, WDXHandler.ModelOffset ModelOffsets)
+        {
+
+        }
+
         public struct ModelHeader
         {
-            //This is all models
+            public int Offset;
 
-            //Whole thing is chunked
-            //Header
             public int ModelCount;
             public int U1;
             public int ModelByteSize;
@@ -232,6 +235,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
             public int U4;
             public List<int> ModelOffsets;
+
+            public byte[] ModelBytes;
 
             public List<Model> models;
         }

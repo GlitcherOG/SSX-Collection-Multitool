@@ -37,11 +37,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     wdfChunk.UstructCount1 = StreamUtil.ReadInt16(stream);
                     wdfChunk.U7 = StreamUtil.ReadInt16(stream);
 
-                    if(wdfChunk.UstructCount4 != 0)
-                    {
-                        Console.WriteLine("");
-                    }
-
                     wdfChunk.unknownStruct0s = new List<UnknownStruct0>();
                     for (int i = 0; i < 16; i++)
                     {
