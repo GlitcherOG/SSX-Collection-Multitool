@@ -86,7 +86,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                             TempModelData.Tristrip = new List<int>();
 
-                            if (TempModelData.TristripCount > 20 || TempModelData.VertexCount > 70)
+                            if (TempModelData.TristripCount > 20 || TempModelData.VertexCount > 75)
                             {
                                 int TempPos = 0;
                             }
