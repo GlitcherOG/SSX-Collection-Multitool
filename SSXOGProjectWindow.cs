@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using SSXMultiTool.FileHandlers.LevelFiles.OGPS2;
+using SSXMultiTool.JsonFiles;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,14 +39,17 @@ namespace SSXMultiTool
                 {
                     if (Directory.GetFiles(commonDialog.FileName).Count() != 1)
                     {
-                        WDRHandler handler = new WDRHandler();
-                        handler.LoadGuess(openFileDialog.FileName);
-
-                        Directory.CreateDirectory(Path.GetDirectoryName(openFileDialog.FileName) + "\\Models");
-                        handler.ExportModels(Path.GetDirectoryName(openFileDialog.FileName) + "\\Models");
+                        ExtractFiles(openFileDialog.FileName, commonDialog.FileName);
                     }
                 }
             }
+        }
+
+        public void ExtractFiles(string Laod, string Extract)
+        {
+            string LoadPath = Laod.Substring(0, Laod.Length - 4);
+            SSXOGLevelInterface OGLevelInterface = new SSXOGLevelInterface();
+            OGLevelInterface.ExtractOGLevelFiles(LoadPath, Extract);
         }
     }
 }

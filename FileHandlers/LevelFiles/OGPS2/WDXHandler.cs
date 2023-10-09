@@ -35,7 +35,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
         public List<ModelOffset> ModelOffsets = new List<ModelOffset>();
         public List<WDFGridGroup> WDFGridGroups = new List<WDFGridGroup>();
-        public List<UStruct1> uStruct1s = new List<UStruct1>(); //Convert to have 8 slots, appears to be effect slots
+        public List<UStruct1> uStruct1s = new List<UStruct1>();
         public List<UStruct2> uStruct2s = new List<UStruct2>();
         public List<Spline> Splines = new List<Spline>();
 
