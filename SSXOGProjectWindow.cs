@@ -1,4 +1,5 @@
-﻿using SSXMultiTool.FileHandlers.LevelFiles.OGPS2;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
+using SSXMultiTool.FileHandlers.LevelFiles.OGPS2;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,17 +24,27 @@ namespace SSXMultiTool
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Map File (*.wdr)|*.wdr|All files (*.*)|*.*",
+                Filter = "Map File (*.map)|*.map|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                WDRHandler handler = new WDRHandler();
-                handler.LoadGuess(openFileDialog.FileName);
+                CommonOpenFileDialog commonDialog = new CommonOpenFileDialog
+                {
+                    IsFolderPicker = true
+                };
+                if (commonDialog.ShowDialog() == CommonFileDialogResult.Ok)
+                {
+                    if (Directory.GetFiles(commonDialog.FileName).Count() != 1)
+                    {
+                        WDRHandler handler = new WDRHandler();
+                        handler.LoadGuess(openFileDialog.FileName);
 
-                Directory.CreateDirectory(Path.GetDirectoryName(openFileDialog.FileName) + "\\Models");
-                handler.ExportModels(Path.GetDirectoryName(openFileDialog.FileName) + "\\Models");
+                        Directory.CreateDirectory(Path.GetDirectoryName(openFileDialog.FileName) + "\\Models");
+                        handler.ExportModels(Path.GetDirectoryName(openFileDialog.FileName) + "\\Models");
+                    }
+                }
             }
         }
     }

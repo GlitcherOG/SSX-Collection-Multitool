@@ -79,7 +79,7 @@ namespace SSXMultiTool
             SaveConfig.Enabled = true;
             RebuildButton.Enabled = true;
             trickyConfig = new SSXTrickyConfig();
-            trickyConfig.CreateJson(ExportPath + "/Config.ssx2");
+            trickyConfig.CreateJson(ExportPath + "/trickyConfig.ssx");
             trickyLevelInterface.LoadAndVerifyFiles(ProjectPath);
             UpdateText();
         }
@@ -117,7 +117,7 @@ namespace SSXMultiTool
 
         private void RebuildButton_Click(object sender, EventArgs e)
         {
-            if (File.Exists(ProjectPath + "/config.ssx"))
+            if (File.Exists(ProjectPath + "/trickyConfig.ssx"))
             {
                 SaveFileDialog openFileDialog = new SaveFileDialog
                 {
@@ -173,7 +173,7 @@ namespace SSXMultiTool
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Config File (*.ssx2)|*.ssx2|All files (*.*)|*.*",
+                Filter = "Config File (*.ssx)|*.ssx|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };
@@ -207,7 +207,7 @@ namespace SSXMultiTool
             trickyConfig.Vertical = VerticalDropTextbox.Text;
             trickyConfig.Length = CourseLengthTextbox.Text;
             trickyConfig.Description = DescriptionTextbox.Text;
-            trickyConfig.CreateJson(ProjectPath + "/Config.ssx2");
+            trickyConfig.CreateJson(ProjectPath + "/trickyConfig.ssx");
         }
 
         private void PatchesTitleLabel_Click(object sender, EventArgs e)

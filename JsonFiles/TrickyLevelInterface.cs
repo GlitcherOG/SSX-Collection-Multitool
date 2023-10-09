@@ -1186,7 +1186,7 @@ namespace SSXMultiTool
             ExportPath = ExportPath.Substring(0, ExportPath.Length - 4);
 
             #region Rebuild PBD
-            SSXTrickyConfig trickyConfig = SSXTrickyConfig.Load(LoadPath + "/config.ssx");
+            SSXTrickyConfig trickyConfig = SSXTrickyConfig.Load(LoadPath + "/trickyconfig.ssx");
 
             MapHandler mapHandler = new MapHandler();
 
