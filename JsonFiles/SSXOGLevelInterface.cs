@@ -98,6 +98,7 @@ namespace SSXMultiTool.JsonFiles
 
             Directory.CreateDirectory(ExtractPath + "\\Textures");
             Directory.CreateDirectory(ExtractPath + "\\Models");
+            Directory.CreateDirectory(ExtractPath + "\\Lightmaps");
             Directory.CreateDirectory(ExtractPath + "\\Skybox");
             Directory.CreateDirectory(ExtractPath + "\\Skybox\\Textures");
             Directory.CreateDirectory(ExtractPath + "\\Skybox\\Models");
@@ -109,6 +110,24 @@ namespace SSXMultiTool.JsonFiles
             {
                 sshTexture.BrightenBitmap(i);
                 sshTexture.BMPOneExtract(ExtractPath + "\\Textures\\" + i.ToString("0000") + ".png", i);
+            }
+
+            OldSSHHandler sshTextureSky = new OldSSHHandler();
+            sshTextureSky.LoadSSH(LoadPath + "_sky.ssh");
+
+            for (int i = 0; i < sshTextureSky.sshImages.Count; i++)
+            {
+                sshTextureSky.BrightenBitmap(i);
+                sshTextureSky.BMPOneExtract(ExtractPath + "\\Skybox\\Textures\\" + i.ToString("0000") + ".png", i);
+            }
+
+            OldSSHHandler sshTextureLight = new OldSSHHandler();
+            sshTextureLight.LoadSSH(LoadPath + "l.ssh");
+
+            for (int i = 0; i < sshTextureLight.sshImages.Count; i++)
+            {
+                //sshTextureLight.BrightenBitmap(i);
+                sshTextureLight.BMPOneExtract(ExtractPath + "\\Lightmaps\\" + i.ToString("0000") + ".png", i);
             }
 
         }
