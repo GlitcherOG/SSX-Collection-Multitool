@@ -14,7 +14,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
     {
         public List<WDFChunk> WDFChunks = new List<WDFChunk>();
 
-        public void Load(string path)
+        public void LoadGuess(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
@@ -230,6 +230,229 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     WDFChunks.Add(wdfChunk);
                 }
 
+            }
+        }
+
+        public void Load(string path, WDXHandler.WDFGridGroup[,] wdfGridGroup)
+        {
+            using (Stream stream = File.Open(path, FileMode.Open))
+            {
+                WDFChunks = new List<WDFChunk>();
+
+                for (int y = 0; y < wdfGridGroup.GetLength(1); y++)
+                {
+                    for (int x = 0; x < wdfGridGroup.GetLength(0); x++)
+                    {
+                        stream.Position = wdfGridGroup[x,y].Offset;
+                        WDFChunk wdfChunk = new WDFChunk();
+
+                        StreamUtil.AlignBy16(stream);
+
+                        wdfChunk.U0 = StreamUtil.ReadVector3(stream);
+                        wdfChunk.U1 = StreamUtil.ReadVector3(stream);
+                        wdfChunk.U2 = StreamUtil.ReadVector3(stream);
+
+                        wdfChunk.UstructCount2 = StreamUtil.ReadInt16(stream);
+                        wdfChunk.PatchesCount = StreamUtil.ReadInt16(stream);
+                        wdfChunk.UstructCount3 = StreamUtil.ReadInt16(stream);
+                        wdfChunk.UstructCount4 = StreamUtil.ReadInt16(stream);
+                        wdfChunk.UstructCount1 = StreamUtil.ReadInt16(stream);
+                        wdfChunk.U7 = StreamUtil.ReadInt16(stream);
+
+                        wdfChunk.unknownStruct0s = new List<UnknownStruct0>();
+                        for (int i = 0; i < 16; i++)
+                        {
+                            var TempUnknown = new UnknownStruct0();
+
+                            TempUnknown.U0 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U1 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U2 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U3 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U4 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U5 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U6 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U7 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U8 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U9 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U10 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U11 = StreamUtil.ReadInt16(stream);
+
+                            TempUnknown.U12 = StreamUtil.ReadVector3(stream);
+                            TempUnknown.U13 = StreamUtil.ReadVector3(stream);
+
+                            wdfChunk.unknownStruct0s.Add(TempUnknown);
+                        }
+
+                        wdfChunk.unknownStruct1s = new List<UnknownStruct1>();
+
+                        for (int i = 0; i < wdfChunk.UstructCount1; i++)
+                        {
+                            var TempUnknown = new UnknownStruct1();
+
+                            TempUnknown.U0 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U1 = StreamUtil.ReadInt16(stream);
+
+                            wdfChunk.unknownStruct1s.Add(TempUnknown);
+                        }
+
+                        StreamUtil.AlignBy16(stream);
+
+                        wdfChunk.unknownStruct2s = new List<UnknownStruct2>();
+
+                        for (int i = 0; i < wdfChunk.UstructCount2; i++)
+                        {
+                            var TempUnknown = new UnknownStruct2();
+
+                            TempUnknown.matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
+
+                            TempUnknown.matrix4X41 = StreamUtil.ReadMatrix4x4(stream);
+                            TempUnknown.vector40 = StreamUtil.ReadVector4(stream);
+                            TempUnknown.vector41 = StreamUtil.ReadVector4(stream);
+                            TempUnknown.vector42 = StreamUtil.ReadVector4(stream);
+                            TempUnknown.vector43 = StreamUtil.ReadVector4(stream);
+
+                            TempUnknown.U0 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U1 = StreamUtil.ReadInt16(stream);
+
+                            TempUnknown.U2 = StreamUtil.ReadUInt32(stream);
+                            TempUnknown.U3 = StreamUtil.ReadUInt32(stream);
+                            TempUnknown.U4 = StreamUtil.ReadUInt32(stream);
+
+                            TempUnknown.vector31 = StreamUtil.ReadVector3(stream);
+                            TempUnknown.vector32 = StreamUtil.ReadVector3(stream);
+
+                            TempUnknown.U5 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U6 = StreamUtil.ReadInt16(stream);
+
+                            TempUnknown.U7 = StreamUtil.ReadFloat(stream);
+
+                            TempUnknown.U8 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U9 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U10 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U11 = StreamUtil.ReadInt16(stream);
+
+                            TempUnknown.U12 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U13 = StreamUtil.ReadUInt32(stream);
+
+                            TempUnknown.U14 = StreamUtil.ReadUInt32(stream);
+                            TempUnknown.U15 = StreamUtil.ReadUInt32(stream);
+                            TempUnknown.U16 = StreamUtil.ReadUInt32(stream);
+                            TempUnknown.U17 = StreamUtil.ReadUInt32(stream);
+
+                            wdfChunk.unknownStruct2s.Add(TempUnknown);
+                        }
+
+                        wdfChunk.Patches = new List<Patch>();
+                        for (int i = 0; i < wdfChunk.PatchesCount; i++)
+                        {
+                            var TempPatch = new Patch();
+
+                            TempPatch.LightMapPoint = StreamUtil.ReadVector4(stream);
+
+                            TempPatch.UVPoint1 = StreamUtil.ReadVector4(stream);
+                            TempPatch.UVPoint2 = StreamUtil.ReadVector4(stream);
+                            TempPatch.UVPoint3 = StreamUtil.ReadVector4(stream);
+                            TempPatch.UVPoint4 = StreamUtil.ReadVector4(stream);
+
+                            TempPatch.R4C4 = StreamUtil.ReadVector4(stream);
+                            TempPatch.R4C3 = StreamUtil.ReadVector4(stream);
+                            TempPatch.R4C2 = StreamUtil.ReadVector4(stream);
+                            TempPatch.R4C1 = StreamUtil.ReadVector4(stream);
+
+                            TempPatch.R3C4 = StreamUtil.ReadVector4(stream);
+                            TempPatch.R3C3 = StreamUtil.ReadVector4(stream);
+                            TempPatch.R3C2 = StreamUtil.ReadVector4(stream);
+                            TempPatch.R3C1 = StreamUtil.ReadVector4(stream);
+
+                            TempPatch.R2C4 = StreamUtil.ReadVector4(stream);
+                            TempPatch.R2C3 = StreamUtil.ReadVector4(stream);
+                            TempPatch.R2C2 = StreamUtil.ReadVector4(stream);
+                            TempPatch.R2C1 = StreamUtil.ReadVector4(stream);
+
+                            TempPatch.R1C4 = StreamUtil.ReadVector4(stream);
+                            TempPatch.R1C3 = StreamUtil.ReadVector4(stream);
+                            TempPatch.R1C2 = StreamUtil.ReadVector4(stream);
+                            TempPatch.R1C1 = StreamUtil.ReadVector4(stream);
+
+                            TempPatch.LowestXYZ = StreamUtil.ReadVector4(stream);
+                            TempPatch.HighestXYZ = StreamUtil.ReadVector4(stream);
+                            TempPatch.Point1 = StreamUtil.ReadVector4(stream);
+                            TempPatch.Point2 = StreamUtil.ReadVector4(stream);
+                            TempPatch.Point3 = StreamUtil.ReadVector4(stream);
+                            TempPatch.Point4 = StreamUtil.ReadVector4(stream);
+
+                            TempPatch.TextureID = StreamUtil.ReadUInt32(stream);
+                            TempPatch.PatchType = StreamUtil.ReadUInt32(stream);
+                            TempPatch.LightmapID = StreamUtil.ReadUInt32(stream);
+                            TempPatch.U0 = StreamUtil.ReadUInt32(stream);
+
+                            wdfChunk.Patches.Add(TempPatch);
+                        }
+
+                        wdfChunk.unknownStruct4s = new List<UnknownStruct4>();
+                        for (int i = 0; i < wdfChunk.UstructCount4; i++)
+                        {
+                            var TempUnknown = new UnknownStruct4();
+
+                            TempUnknown.matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
+                            TempUnknown.vector4 = StreamUtil.ReadVector4(stream);
+
+                            TempUnknown.U0 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U1 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U2 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U3 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U4 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.U5 = StreamUtil.ReadInt16(stream);
+
+                            TempUnknown.U6 = StreamUtil.ReadVector3(stream);
+                            TempUnknown.U7 = StreamUtil.ReadVector3(stream);
+
+                            TempUnknown.U71 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U8 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U9 = StreamUtil.ReadUInt32(stream);
+
+                            wdfChunk.unknownStruct4s.Add(TempUnknown);
+                        }
+
+
+                        wdfChunk.unknownStruct3s = new List<UnknownStruct3>();
+                        for (int i = 0; i < wdfChunk.UstructCount3; i++)
+                        {
+                            var TempUnknown = new UnknownStruct3();
+
+                            TempUnknown.U0 = StreamUtil.ReadUInt32(stream);
+
+                            TempUnknown.U1 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U2 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U3 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U4 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U5 = StreamUtil.ReadFloat(stream);
+
+                            TempUnknown.U6 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U7 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U8 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U9 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U10 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U11 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U12 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U13 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U14 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U15 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U16 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U17 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U18 = StreamUtil.ReadFloat(stream);
+
+                            TempUnknown.U19 = StreamUtil.ReadUInt32(stream);
+                            TempUnknown.U20 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.U21 = StreamUtil.ReadUInt32(stream);
+
+                            wdfChunk.unknownStruct3s.Add(TempUnknown);
+                        }
+
+                        WDFChunks.Add(wdfChunk);
+                    }
+
+                }
             }
         }
 

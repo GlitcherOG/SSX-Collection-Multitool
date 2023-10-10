@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 {
-    internal class WDXHandler
+    public class WDXHandler
     {
         //Splines
         public float FormatVersion;
@@ -34,7 +34,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         public int U14;
 
         public List<ModelOffset> ModelOffsets = new List<ModelOffset>();
-        public List<WDFGridGroup> WDFGridGroups = new List<WDFGridGroup>();
+        public WDFGridGroup[,] WDFGridGroups = new WDFGridGroup[1,1];
         public List<UStruct1> uStruct1s = new List<UStruct1>();
         public List<UStruct2> uStruct2s = new List<UStruct2>();
         public List<Spline> Splines = new List<Spline>();
@@ -73,13 +73,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     ModelOffsets.Add(TempOffset);
                 }
 
-                WDFGridGroups = new List<WDFGridGroup>();
-                for (int i = 0; i < GridRowCount* GridColumnCount; i++)
+                WDFGridGroups = new WDFGridGroup[GridRowCount, GridColumnCount];
+                for (int y = 0; y < GridColumnCount; y++)
                 {
-                    var TempOffset = new WDFGridGroup();
-                    TempOffset.Offset = StreamUtil.ReadUInt32(stream);
-                    TempOffset.Size = StreamUtil.ReadUInt32(stream);
-                    WDFGridGroups.Add(TempOffset);
+                    for (int x = 0; x < GridRowCount; x++)
+                    {
+                        var TempOffset = new WDFGridGroup();
+                        TempOffset.Offset = StreamUtil.ReadUInt32(stream);
+                        TempOffset.Size = StreamUtil.ReadUInt32(stream);
+                        WDFGridGroups[x, y] = TempOffset;
+                    }
                 }
 
                 uStruct1s = new List<UStruct1>();
