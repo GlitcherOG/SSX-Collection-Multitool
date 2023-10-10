@@ -382,8 +382,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                             TempPatch.Point4 = StreamUtil.ReadVector4(stream);
 
                             TempPatch.TextureID = StreamUtil.ReadUInt32(stream);
-                            TempPatch.PatchType = StreamUtil.ReadUInt32(stream);
                             TempPatch.LightmapID = StreamUtil.ReadUInt32(stream);
+                            TempPatch.PatchType = StreamUtil.ReadUInt32(stream);
                             TempPatch.U0 = StreamUtil.ReadUInt32(stream);
 
                             wdfChunk.Patches.Add(TempPatch);
@@ -583,8 +583,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public Vector4 Point4;
 
             public int TextureID;
-            public int PatchType;
             public int LightmapID;
+            public int PatchType;
             public int U0;
         }
 

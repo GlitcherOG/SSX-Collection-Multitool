@@ -36,7 +36,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         public List<ModelOffset> ModelOffsets = new List<ModelOffset>();
         public WDFGridGroup[,] WDFGridGroups = new WDFGridGroup[1,1];
         public List<UStruct1> uStruct1s = new List<UStruct1>();
-        public List<UStruct2> uStruct2s = new List<UStruct2>();
+        public List<Material> Materials = new List<Material>();
         public List<Spline> Splines = new List<Spline>();
 
         public void Load(string path)
@@ -104,19 +104,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     uStruct1s.Add(TempUStruct1);
                 }
 
-                uStruct2s = new List<UStruct2>();
+                Materials = new List<Material>();
                 for (int i = 0; i < UStruct2Count; i++)
                 {
-                    var TempUStruct0 = new UStruct2();
+                    var TempMaterial = new Material();
 
-                    TempUStruct0.U0 = StreamUtil.ReadUInt32(stream);
+                    TempMaterial.U0 = StreamUtil.ReadUInt32(stream);
 
-                    TempUStruct0.U1 = StreamUtil.ReadUInt16(stream);
-                    TempUStruct0.U2 = StreamUtil.ReadUInt16(stream);
+                    TempMaterial.U1 = StreamUtil.ReadUInt16(stream);
+                    TempMaterial.U2 = StreamUtil.ReadUInt16(stream);
 
-                    TempUStruct0.U3 = StreamUtil.ReadUInt32(stream);
+                    TempMaterial.U3 = StreamUtil.ReadUInt32(stream);
 
-                    uStruct2s.Add(TempUStruct0);
+                    Materials.Add(TempMaterial);
                 }
 
                 Splines = new List<Spline>();
@@ -169,7 +169,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int U7;
         }
 
-        public struct UStruct2
+        public struct Material
         {
             public int U0;
             //16

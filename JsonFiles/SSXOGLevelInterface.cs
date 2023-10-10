@@ -87,7 +87,7 @@ namespace SSXMultiTool.JsonFiles
 
                     patch.PatchStyle = TempChunk.Patches[i].PatchType;
 
-                    patch.TexturePath = TempChunk.Patches[i].TextureID.ToString("0000") + ".png";
+                    patch.TexturePath = wdxHandler.Materials[TempChunk.Patches[i].TextureID].U1.ToString("0000") + ".png";
                     patch.LightmapID = TempChunk.Patches[i].LightmapID;
                     patchesJsonHandler.Patches.Add(patch);
                 }
