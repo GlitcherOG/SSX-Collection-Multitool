@@ -25,6 +25,23 @@ namespace SSXMultiTool.JsonFiles
             MapHandler mapHandler = new MapHandler();
             mapHandler.Load(LoadPath + ".map");
 
+            MaterialsJsonHandler materialsJsonHandler = new MaterialsJsonHandler();
+            materialsJsonHandler.Materials = new List<MaterialsJsonHandler.MaterialJson>();
+            for (int i = 0; i < wdxHandler.Materials.Count; i++)
+            {
+                MaterialsJsonHandler.MaterialJson TempMaterialJson = new MaterialsJsonHandler.MaterialJson();
+
+                TempMaterialJson.MaterialName = "Material " + i.ToString();
+
+                TempMaterialJson.U0 = wdxHandler.Materials[i].U0;
+                TempMaterialJson.TexturePath =  wdxHandler.Materials[wdxHandler.Materials[i].TextureID].TextureID.ToString("0000") + ".png";
+                TempMaterialJson.U2 = wdxHandler.Materials[i].U2;
+                TempMaterialJson.U3 = wdxHandler.Materials[i].U3;
+
+                materialsJsonHandler.Materials.Add(TempMaterialJson);
+            }
+            materialsJsonHandler.CreateJson(ExtractPath + "\\Materials.json", true);
+
             PatchesJsonHandler patchesJsonHandler = new PatchesJsonHandler();
             patchesJsonHandler.Patches = new List<PatchesJsonHandler.PatchJson>();
 
@@ -87,7 +104,7 @@ namespace SSXMultiTool.JsonFiles
 
                     patch.PatchStyle = TempChunk.Patches[i].PatchType;
 
-                    patch.TexturePath = wdxHandler.Materials[TempChunk.Patches[i].TextureID].U1.ToString("0000") + ".png";
+                    patch.TexturePath = wdxHandler.Materials[TempChunk.Patches[i].TextureID].TextureID.ToString("0000") + ".png";
                     patch.LightmapID = TempChunk.Patches[i].LightmapID;
                     patchesJsonHandler.Patches.Add(patch);
                 }

@@ -111,7 +111,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                     TempMaterial.U0 = StreamUtil.ReadUInt32(stream);
 
-                    TempMaterial.U1 = StreamUtil.ReadUInt16(stream);
+                    TempMaterial.TextureID = StreamUtil.ReadUInt16(stream);
                     TempMaterial.U2 = StreamUtil.ReadUInt16(stream);
 
                     TempMaterial.U3 = StreamUtil.ReadUInt32(stream);
@@ -173,7 +173,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         {
             public int U0;
             //16
-            public int U1;
+            public int TextureID;
             public int U2;
             //32
             public int U3;
