@@ -215,6 +215,211 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
         }
 
+        public void Load(string path, List<WDXHandler.ModelOffset> ModelOffsets)
+        {
+            using (Stream stream = File.Open(path, FileMode.Open))
+            {
+                int MeshID = 0;
+
+                for (int az = 0; az < ModelOffsets.Count; az++)
+                {
+                    stream.Position = ModelOffsets[az].Offset;
+
+                    long StartPos = stream.Position;
+
+                    var NewHeader = new ModelHeader();
+                    NewHeader.ModelCount = StreamUtil.ReadUInt32(stream);
+
+                    NewHeader.U1 = StreamUtil.ReadUInt32(stream);
+                    NewHeader.ModelByteSize = StreamUtil.ReadUInt32(stream);
+                    NewHeader.U2 = StreamUtil.ReadUInt32(stream);
+
+                    NewHeader.Scale = StreamUtil.ReadVector3(stream);
+                    NewHeader.U3 = StreamUtil.ReadUInt32(stream);
+
+                    NewHeader.U4 = StreamUtil.ReadUInt32(stream);
+
+                    NewHeader.ModelOffsets = new List<int>();
+
+                    for (int i = 0; i < NewHeader.ModelCount; i++)
+                    {
+                        NewHeader.ModelOffsets.Add(StreamUtil.ReadUInt32(stream));
+                    }
+
+                    StreamUtil.AlignBy16(stream);
+
+                    NewHeader.models = new List<Model>();
+
+                    for (int z = 0; z < NewHeader.ModelCount; z++)
+                    {
+                        stream.Position = NewHeader.ModelOffsets[z] + ModelOffsets[az].Offset;
+
+                        var TempModel = new Model();
+                        TempModel.MeshPath = MeshID.ToString() + ".obj";
+
+                        TempModel.vector31 = StreamUtil.ReadVector3(stream);
+                        TempModel.vector32 = StreamUtil.ReadVector3(stream);
+                        TempModel.U10 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U11 = StreamUtil.ReadUInt32(stream);
+
+                        TempModel.U12 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U13 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U14 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U15 = StreamUtil.ReadUInt32(stream);
+
+                        TempModel.U16 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U17 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U18 = StreamUtil.ReadUInt32(stream);
+                        TempModel.U19 = StreamUtil.ReadUInt32(stream);
+
+                        TempModel.modelDatas = new List<ModelData>();
+                        StreamUtil.AlignBy(stream, 128, StartPos);
+                        while (true)
+                        {
+                            stream.Position += 48;
+
+                            var TempModelData = new ModelData();
+
+                            TempModelData.TristripCount = StreamUtil.ReadUInt32(stream);
+                            TempModelData.U0 = StreamUtil.ReadUInt32(stream);
+                            TempModelData.VertexCount = StreamUtil.ReadUInt32(stream);
+                            TempModelData.U1 = StreamUtil.ReadUInt32(stream);
+
+                            stream.Position += 16;
+
+                            TempModelData.Tristrip = new List<int>();
+
+                            for (int i = 0; i < TempModelData.TristripCount; i++)
+                            {
+                                TempModelData.Tristrip.Add(StreamUtil.ReadUInt16(stream) / 3);
+                            }
+
+                            StreamUtil.AlignBy16(stream);
+
+                            stream.Position += 64;
+
+                            TempModelData.UV = new List<Vector2>();
+                            for (int a = 0; a < TempModelData.VertexCount; a++)
+                            {
+                                Vector2 uv = new Vector2();
+                                uv.X = StreamUtil.ReadInt16(stream) / 4096f;
+                                uv.Y = StreamUtil.ReadInt16(stream) / 4096f;
+                                TempModelData.UV.Add(uv);
+                            }
+                            StreamUtil.AlignBy16(stream);
+
+                            stream.Position += 48;
+                            TempModelData.Normals = new List<Vector3>();
+
+                            for (int a = 0; a < TempModelData.VertexCount; a++)
+                            {
+                                Vector3 normal = new Vector3();
+                                normal.X = StreamUtil.ReadInt16(stream) / 32768f;
+                                normal.Y = StreamUtil.ReadInt16(stream) / 32768f;
+                                normal.Z = StreamUtil.ReadInt16(stream) / 32768f;
+                                TempModelData.Normals.Add(normal);
+                            }
+                            StreamUtil.AlignBy16(stream);
+
+                            stream.Position += 16;
+                            TempModelData.Vertex = new List<Vector3>();
+                            for (int a = 0; a < TempModelData.VertexCount; a++)
+                            {
+                                Vector3 vertex = new Vector3();
+                                vertex.X = ((float)StreamUtil.ReadInt16(stream) / 32768f) * NewHeader.Scale.X;
+                                vertex.Y = ((float)StreamUtil.ReadInt16(stream) / 32768f) * NewHeader.Scale.Y;
+                                vertex.Z = ((float)StreamUtil.ReadInt16(stream) / 32768f) * NewHeader.Scale.Z;
+                                TempModelData.Vertex.Add(vertex);
+                            }
+
+                            StreamUtil.AlignBy16(stream);
+
+                            stream.Position += 16;
+
+                            stream.Position += 60;
+
+                            int Temp = StreamUtil.ReadUInt32(stream);
+
+                            if (-559038737 == Temp)
+                            {
+                                stream.Position += 16;
+
+                                if (TempModel.U11 != -559038737)
+                                {
+                                    stream.Position = NewHeader.ModelOffsets[z] + ModelOffsets[az].Offset + TempModel.U11;
+                                    MatrixData matrixData = new MatrixData();
+
+                                    matrixData.matrix4 = StreamUtil.ReadMatrix4x4(stream);
+                                    matrixData.U0 = StreamUtil.ReadInt16(stream);
+                                    matrixData.uStruct0Count = StreamUtil.ReadInt16(stream);
+                                    matrixData.U2 = StreamUtil.ReadInt16(stream);
+                                    matrixData.U3 = StreamUtil.ReadInt16(stream);
+                                    matrixData.U4 = StreamUtil.ReadInt16(stream);
+                                    matrixData.U5 = StreamUtil.ReadInt16(stream);
+                                    matrixData.U6 = StreamUtil.ReadInt16(stream);
+                                    matrixData.U7 = StreamUtil.ReadInt16(stream);
+
+                                    matrixData.uStruct0s = new List<UStruct0>();
+
+                                    for (int c = 0; c < matrixData.uStruct0Count; c++)
+                                    {
+                                        var UStruct0 = new UStruct0();
+
+                                        UStruct0.UStruct1Count = StreamUtil.ReadUInt32(stream);
+                                        UStruct0.UStruct1Offset = StreamUtil.ReadUInt32(stream);
+
+                                        matrixData.uStruct0s.Add(UStruct0);
+                                    }
+
+                                    StreamUtil.AlignBy16(stream);
+
+                                    for (int c = 0; c < matrixData.uStruct0s.Count; c++)
+                                    {
+                                        var TempData = matrixData.uStruct0s[c];
+
+                                        stream.Position = NewHeader.ModelOffsets[z] + ModelOffsets[az].Offset + TempModel.U11 + matrixData.uStruct0s[c].UStruct1Offset;
+
+                                        TempData.uStruct1s = new List<UStruct1>();
+
+                                        for (int d = 0; d < TempData.UStruct1Count; d++)
+                                        {
+                                            var TempUStruct1 = new UStruct1();
+
+                                            TempUStruct1.vector30 = StreamUtil.ReadVector3(stream);
+                                            TempUStruct1.vector31 = StreamUtil.ReadVector3(stream);
+                                            TempUStruct1.U0 = StreamUtil.ReadUInt32(stream);
+                                            TempUStruct1.U1 = StreamUtil.ReadUInt32(stream);
+
+                                            TempData.uStruct1s.Add(TempUStruct1);
+                                        }
+
+                                        matrixData.uStruct0s[c] = TempData;
+                                    }
+                                }
+
+
+                                TempModel.modelDatas.Add(TempModelData);
+                                break;
+                            }
+                            else
+                            {
+                                stream.Position -= 64;
+                            }
+
+                            TempModel.modelDatas.Add(TempModelData);
+                        }
+                        MeshID++;
+
+                        TempModel.FullMesh = GenerateFaces(TempModel);
+
+                        NewHeader.models.Add(TempModel);
+                    }
+                    StreamUtil.AlignBy(stream, 128);
+                    modelHeaders.Add(NewHeader);
+                }
+            }
+        }
+
         public static Mesh GenerateFaces(Model models)
         {
             Mesh mesh = new Mesh();
@@ -320,11 +525,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             }
 
             return face;
-        }
-
-        public void Load(string path, WDXHandler.ModelOffset ModelOffsets)
-        {
-
         }
 
         public void ExportModels(string path)
