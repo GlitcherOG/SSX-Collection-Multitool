@@ -25,6 +25,18 @@ namespace SSXMultiTool.JsonFiles
             MapHandler mapHandler = new MapHandler();
             mapHandler.Load(LoadPath + ".map");
 
+            WDRHandler wdrHandler = new WDRHandler();
+            wdrHandler.Load(LoadPath + ".wdr", wdxHandler.ModelOffsets);
+
+            Directory.CreateDirectory(ExtractPath + "\\Textures");
+            Directory.CreateDirectory(ExtractPath + "\\Models");
+            Directory.CreateDirectory(ExtractPath + "\\Lightmaps");
+            Directory.CreateDirectory(ExtractPath + "\\Skybox");
+            Directory.CreateDirectory(ExtractPath + "\\Skybox\\Textures");
+            Directory.CreateDirectory(ExtractPath + "\\Skybox\\Models");
+
+            wdrHandler.ExportModels(ExtractPath + "\\Models");
+
             MaterialsJsonHandler materialsJsonHandler = new MaterialsJsonHandler();
             materialsJsonHandler.Materials = new List<MaterialsJsonHandler.MaterialJson>();
             for (int i = 0; i < wdxHandler.Materials.Count; i++)
@@ -112,13 +124,6 @@ namespace SSXMultiTool.JsonFiles
             }
 
             patchesJsonHandler.CreateJson(ExtractPath + "\\Patches.json", true);
-
-            Directory.CreateDirectory(ExtractPath + "\\Textures");
-            Directory.CreateDirectory(ExtractPath + "\\Models");
-            Directory.CreateDirectory(ExtractPath + "\\Lightmaps");
-            Directory.CreateDirectory(ExtractPath + "\\Skybox");
-            Directory.CreateDirectory(ExtractPath + "\\Skybox\\Textures");
-            Directory.CreateDirectory(ExtractPath + "\\Skybox\\Models");
 
             OldSSHHandler sshTexture = new OldSSHHandler();
             sshTexture.LoadSSH(LoadPath + ".ssh");
