@@ -89,15 +89,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         TempUnknown.vector42 = StreamUtil.ReadVector4(stream);
                         TempUnknown.vector43 = StreamUtil.ReadVector4(stream);
 
-                        TempUnknown.U0 = StreamUtil.ReadInt16(stream);
-                        TempUnknown.U1 = StreamUtil.ReadInt16(stream);
+                        TempUnknown.WDFGridID = StreamUtil.ReadInt16(stream);
+                        TempUnknown.InstanceIndex = StreamUtil.ReadInt16(stream);
 
                         TempUnknown.U2 = StreamUtil.ReadUInt32(stream);
                         TempUnknown.U3 = StreamUtil.ReadUInt32(stream);
-                        TempUnknown.U4 = StreamUtil.ReadUInt32(stream);
+                        TempUnknown.PrefabID = StreamUtil.ReadUInt32(stream);
 
-                        TempUnknown.vector31 = StreamUtil.ReadVector3(stream);
-                        TempUnknown.vector32 = StreamUtil.ReadVector3(stream);
+                        TempUnknown.LowestXYZ = StreamUtil.ReadVector3(stream);
+                        TempUnknown.HighestXYZ = StreamUtil.ReadVector3(stream);
 
                         TempUnknown.U5 = StreamUtil.ReadInt16(stream);
                         TempUnknown.U6 = StreamUtil.ReadInt16(stream);
@@ -311,15 +311,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                             TempUnknown.vector42 = StreamUtil.ReadVector4(stream);
                             TempUnknown.vector43 = StreamUtil.ReadVector4(stream);
 
-                            TempUnknown.U0 = StreamUtil.ReadInt16(stream);
-                            TempUnknown.U1 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.WDFGridID = StreamUtil.ReadInt16(stream);
+                            TempUnknown.InstanceIndex = StreamUtil.ReadInt16(stream);
 
                             TempUnknown.U2 = StreamUtil.ReadUInt32(stream);
                             TempUnknown.U3 = StreamUtil.ReadUInt32(stream);
-                            TempUnknown.U4 = StreamUtil.ReadUInt32(stream);
+                            TempUnknown.PrefabID = StreamUtil.ReadUInt32(stream);
 
-                            TempUnknown.vector31 = StreamUtil.ReadVector3(stream);
-                            TempUnknown.vector32 = StreamUtil.ReadVector3(stream);
+                            TempUnknown.LowestXYZ = StreamUtil.ReadVector3(stream);
+                            TempUnknown.HighestXYZ = StreamUtil.ReadVector3(stream);
 
                             TempUnknown.U5 = StreamUtil.ReadInt16(stream);
                             TempUnknown.U6 = StreamUtil.ReadInt16(stream);
@@ -515,15 +515,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public Vector4 vector42;
             public Vector4 vector43;
 
-            public int U0; //16
-            public int U1; //16
+            public int WDFGridID; //16
+            public int InstanceIndex; //16
 
             public int U2;
             public int U3;
-            public int U4;
+            public int PrefabID;
 
-            public Vector3 vector31;
-            public Vector3 vector32;
+            public Vector3 LowestXYZ;
+            public Vector3 HighestXYZ;
 
             public int U5; //16
             public int U6; //16

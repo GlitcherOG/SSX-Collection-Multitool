@@ -58,7 +58,7 @@ namespace SSXMultiTool.JsonFiles.SSXOG
         public int U10;
 
         public int U12;
-        public int MaterialID; //Material ID
+        public int MaterialID;
         public int U14;
 
         public int U16;
@@ -71,7 +71,6 @@ namespace SSXMultiTool.JsonFiles.SSXOG
         public float[] Location;
         public float[] Rotation;
         public float[] Scale;
-
 
         //16
         public int U0;

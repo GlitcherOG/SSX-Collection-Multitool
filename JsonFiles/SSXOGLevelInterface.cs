@@ -28,6 +28,12 @@ namespace SSXMultiTool.JsonFiles
             WDRHandler wdrHandler = new WDRHandler();
             wdrHandler.Load(LoadPath + ".wdr", wdxHandler.ModelOffsets);
 
+            int Test = 0;
+            for (int y = 0; y < wdrHandler.modelHeaders.Count; y++)
+            {
+                Test += wdrHandler.modelHeaders[y].models.Count;
+            }
+
             Directory.CreateDirectory(ExtractPath + "\\Textures");
             Directory.CreateDirectory(ExtractPath + "\\Models");
             Directory.CreateDirectory(ExtractPath + "\\Lightmaps");
