@@ -59,7 +59,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         TempModel.MatrixOffset = StreamUtil.ReadUInt32(stream);
 
                         TempModel.U12 = StreamUtil.ReadUInt32(stream);
-                        TempModel.U13 = StreamUtil.ReadUInt32(stream);
+                        TempModel.MaterialID = StreamUtil.ReadUInt32(stream);
                         TempModel.U14 = StreamUtil.ReadUInt32(stream);
                         TempModel.MeshSize = StreamUtil.ReadUInt32(stream);
 
@@ -263,7 +263,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         TempModel.MatrixOffset = StreamUtil.ReadUInt32(stream);
 
                         TempModel.U12 = StreamUtil.ReadUInt32(stream);
-                        TempModel.U13 = StreamUtil.ReadUInt32(stream);
+                        TempModel.MaterialID = StreamUtil.ReadUInt32(stream);
                         TempModel.U14 = StreamUtil.ReadUInt32(stream);
                         TempModel.MeshSize = StreamUtil.ReadUInt32(stream);
 
@@ -656,7 +656,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int MatrixOffset; //Matrix Offset
 
             public int U12;
-            public int U13;
+            public int MaterialID; //Material ID
             public int U14;
             public int MeshSize; //Mesh Size
 
