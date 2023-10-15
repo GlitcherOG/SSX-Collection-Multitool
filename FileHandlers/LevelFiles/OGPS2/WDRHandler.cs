@@ -53,20 +53,20 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         var TempModel = new Model();
                         TempModel.MeshPath = MeshID.ToString() + ".obj";
 
-                        TempModel.vector31 = StreamUtil.ReadVector3(stream);
-                        TempModel.vector32 = StreamUtil.ReadVector3(stream);
+                        TempModel.LowestXYZ = StreamUtil.ReadVector3(stream);
+                        TempModel.HighestXYZ = StreamUtil.ReadVector3(stream);
                         TempModel.U10 = StreamUtil.ReadUInt32(stream);
-                        TempModel.U11 = StreamUtil.ReadUInt32(stream);
+                        TempModel.MatrixOffset = StreamUtil.ReadUInt32(stream);
 
                         TempModel.U12 = StreamUtil.ReadUInt32(stream);
                         TempModel.U13 = StreamUtil.ReadUInt32(stream);
                         TempModel.U14 = StreamUtil.ReadUInt32(stream);
-                        TempModel.U15 = StreamUtil.ReadUInt32(stream);
+                        TempModel.MeshSize = StreamUtil.ReadUInt32(stream);
 
                         TempModel.U16 = StreamUtil.ReadUInt32(stream);
-                        TempModel.U17 = StreamUtil.ReadUInt32(stream);
-                        TempModel.U18 = StreamUtil.ReadUInt32(stream);
-                        TempModel.U19 = StreamUtil.ReadUInt32(stream);
+                        TempModel.MeshSize1 = StreamUtil.ReadUInt32(stream);
+                        TempModel.MeshSize2 = StreamUtil.ReadUInt32(stream);
+                        TempModel.MeshSize3 = StreamUtil.ReadUInt32(stream);
 
                         TempModel.modelDatas = new List<ModelData>();
                         StreamUtil.AlignBy(stream, 128, StartPos);
@@ -140,7 +140,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                             {
                                 stream.Position += 16;
 
-                                if (TempModel.U11 != -559038737)
+                                if (TempModel.MatrixOffset != -559038737)
                                 {
                                     MatrixData matrixData = new MatrixData();
 
@@ -257,20 +257,20 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         var TempModel = new Model();
                         TempModel.MeshPath = MeshID.ToString() + ".obj";
 
-                        TempModel.vector31 = StreamUtil.ReadVector3(stream);
-                        TempModel.vector32 = StreamUtil.ReadVector3(stream);
+                        TempModel.LowestXYZ = StreamUtil.ReadVector3(stream);
+                        TempModel.HighestXYZ = StreamUtil.ReadVector3(stream);
                         TempModel.U10 = StreamUtil.ReadUInt32(stream);
-                        TempModel.U11 = StreamUtil.ReadUInt32(stream);
+                        TempModel.MatrixOffset = StreamUtil.ReadUInt32(stream);
 
                         TempModel.U12 = StreamUtil.ReadUInt32(stream);
                         TempModel.U13 = StreamUtil.ReadUInt32(stream);
                         TempModel.U14 = StreamUtil.ReadUInt32(stream);
-                        TempModel.U15 = StreamUtil.ReadUInt32(stream);
+                        TempModel.MeshSize = StreamUtil.ReadUInt32(stream);
 
                         TempModel.U16 = StreamUtil.ReadUInt32(stream);
-                        TempModel.U17 = StreamUtil.ReadUInt32(stream);
-                        TempModel.U18 = StreamUtil.ReadUInt32(stream);
-                        TempModel.U19 = StreamUtil.ReadUInt32(stream);
+                        TempModel.MeshSize1 = StreamUtil.ReadUInt32(stream);
+                        TempModel.MeshSize2 = StreamUtil.ReadUInt32(stream);
+                        TempModel.MeshSize3 = StreamUtil.ReadUInt32(stream);
 
                         TempModel.modelDatas = new List<ModelData>();
                         StreamUtil.AlignBy(stream, 128, StartPos);
@@ -344,9 +344,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                             {
                                 stream.Position += 16;
 
-                                if (TempModel.U11 != -559038737)
+                                if (TempModel.MatrixOffset != -559038737)
                                 {
-                                    stream.Position = NewHeader.ModelOffsets[z] + ModelOffsets[az].Offset + TempModel.U11;
+                                    stream.Position = NewHeader.ModelOffsets[z] + ModelOffsets[az].Offset + TempModel.MatrixOffset;
                                     MatrixData matrixData = new MatrixData();
 
                                     matrixData.matrix4 = StreamUtil.ReadMatrix4x4(stream);
@@ -377,7 +377,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                                     {
                                         var TempData = matrixData.uStruct0s[c];
 
-                                        stream.Position = NewHeader.ModelOffsets[z] + ModelOffsets[az].Offset + TempModel.U11 + matrixData.uStruct0s[c].UStruct1Offset;
+                                        stream.Position = NewHeader.ModelOffsets[z] + ModelOffsets[az].Offset + TempModel.MatrixOffset + matrixData.uStruct0s[c].UStruct1Offset;
 
                                         TempData.uStruct1s = new List<UStruct1>();
 
@@ -650,20 +650,20 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         {
             public string MeshPath;
 
-            public Vector3 vector31;
-            public Vector3 vector32;
+            public Vector3 LowestXYZ;
+            public Vector3 HighestXYZ;
             public int U10;
-            public int U11; //Matrix Offset
+            public int MatrixOffset; //Matrix Offset
 
             public int U12;
             public int U13;
             public int U14;
-            public int U15; //Mesh Size
+            public int MeshSize; //Mesh Size
 
             public int U16;
-            public int U17; //Mesh Size 1
-            public int U18; //Mesh Size 2
-            public int U19; //Mesh Size 3
+            public int MeshSize1; //Mesh Size 1
+            public int MeshSize2; //Mesh Size 2
+            public int MeshSize3; //Mesh Size 3
 
             public List<ModelData> modelDatas;
             public MatrixData matrixData;
