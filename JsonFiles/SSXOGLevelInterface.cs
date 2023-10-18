@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SSXMultiTool.FileHandlers.Textures;
 using System.IO;
+using System.Numerics;
 
 namespace SSXMultiTool.JsonFiles
 {
@@ -27,6 +28,9 @@ namespace SSXMultiTool.JsonFiles
 
             WDRHandler wdrHandler = new WDRHandler();
             wdrHandler.Load(LoadPath + ".wdr", wdxHandler.ModelOffsets);
+
+            SSXOGConfig ssxOGConfig = new SSXOGConfig();
+            ssxOGConfig.CreateJson(ExtractPath + "\\Config.ssx");
 
             int Test = 0;
             for (int y = 0; y < wdrHandler.modelHeaders.Count; y++)
@@ -58,10 +62,94 @@ namespace SSXMultiTool.JsonFiles
 
                 materialsJsonHandler.Materials.Add(TempMaterialJson);
             }
+
+            PrefabJsonHandler prefabJsonHandler = new PrefabJsonHandler();
+            prefabJsonHandler.Prefabs = new List<PrefabJsonHandler.PrefabJson>();
+            for (int i = 0; i < wdrHandler.modelHeaders.Count; i++)
+            {
+                var TempPrefab = new PrefabJsonHandler.PrefabJson();
+
+                TempPrefab.U1 = wdrHandler.modelHeaders[i].U1;
+                TempPrefab.U2 = wdrHandler.modelHeaders[i].U2;
+                TempPrefab.U3 = wdrHandler.modelHeaders[i].U3;
+                TempPrefab.U4 = wdrHandler.modelHeaders[i].U4;
+
+                TempPrefab.models = new List<PrefabJsonHandler.ObjectHeader>();
+
+                for (int a = 0; a < wdrHandler.modelHeaders[i].models.Count; a++)
+                {
+                    var TempObjectHeader = new PrefabJsonHandler.ObjectHeader();
+
+                    TempObjectHeader.MeshPath = wdrHandler.modelHeaders[i].models[a].MeshPath;
+
+                    TempObjectHeader.U10 = wdrHandler.modelHeaders[i].models[a].U10;
+
+                    TempObjectHeader.U12 = wdrHandler.modelHeaders[i].models[a].U12;
+                    TempObjectHeader.MaterialID = wdrHandler.modelHeaders[i].models[a].MaterialID;
+                    TempObjectHeader.U14 = wdrHandler.modelHeaders[i].models[a].U14;
+
+                    TempObjectHeader.U16 = wdrHandler.modelHeaders[i].models[a].U16;
+
+                    if(wdrHandler.modelHeaders[i].models[a].matrixData != null)
+                    {
+                        var TempMatrixData = new PrefabJsonHandler.MatrixData();
+
+                        var OldMatrixData = wdrHandler.modelHeaders[i].models[a].matrixData.Value;
+
+                        Vector3 Scale;
+                        Quaternion Rotation;
+                        Vector3 Location;
+
+                        Matrix4x4.Decompose(OldMatrixData.matrix4, out Scale, out Rotation, out Location);
+                        TempMatrixData.Location = JsonUtil.Vector3ToArray(Location);
+                        TempMatrixData.Rotation = JsonUtil.QuaternionToArray(Rotation);
+                        TempMatrixData.Scale = JsonUtil.Vector3ToArray(Scale);
+
+                        TempMatrixData.U0 = OldMatrixData.U0;
+                        TempMatrixData.U2 = OldMatrixData.U2;
+                        TempMatrixData.U3 = OldMatrixData.U3;
+                        TempMatrixData.U4 = OldMatrixData.U4;
+                        TempMatrixData.U5 = OldMatrixData.U5;
+                        TempMatrixData.U6 = OldMatrixData.U6;
+                        TempMatrixData.U7 = OldMatrixData.U7;
+
+                        TempMatrixData.uStruct0s = new List<PrefabJsonHandler.UStruct0>();
+
+                        for (int b = 0; b < OldMatrixData.uStruct0s.Count; b++)
+                        {
+                            var UStruct0 = new PrefabJsonHandler.UStruct0();
+
+                            UStruct0.uStruct1s = new List<PrefabJsonHandler.UStruct1>();
+
+                            for (int c = 0; c < OldMatrixData.uStruct0s[b].uStruct1s.Count; c++)
+                            {
+                                var Ustruct1 = new PrefabJsonHandler.UStruct1();
+
+                                Ustruct1.vector30 = JsonUtil.Vector3ToArray(OldMatrixData.uStruct0s[b].uStruct1s[c].vector30);
+                                Ustruct1.vector31 = JsonUtil.Vector3ToArray(OldMatrixData.uStruct0s[b].uStruct1s[c].vector31);
+                                Ustruct1.U0 = OldMatrixData.uStruct0s[b].uStruct1s[c].U0;
+                                Ustruct1.U1 = OldMatrixData.uStruct0s[b].uStruct1s[c].U1;
+
+                                UStruct0.uStruct1s.Add(Ustruct1);
+                            }
+
+                            TempMatrixData.uStruct0s.Add(UStruct0);
+                        }
+
+                        TempObjectHeader.matrixData = TempMatrixData;
+                    }
+
+                    TempPrefab.models.Add(TempObjectHeader);
+                }
+
+                prefabJsonHandler.Prefabs.Add(TempPrefab);
+            }
+
             materialsJsonHandler.CreateJson(ExtractPath + "\\Materials.json", true);
 
             PatchesJsonHandler patchesJsonHandler = new PatchesJsonHandler();
             patchesJsonHandler.Patches = new List<PatchesJsonHandler.PatchJson>();
+
 
             int PatchCount = 0;
 

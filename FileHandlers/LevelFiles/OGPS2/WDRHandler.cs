@@ -395,6 +395,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                                         matrixData.uStruct0s[c] = TempData;
                                     }
+
+                                    TempModel.matrixData = matrixData;
+
                                 }
 
 
@@ -666,7 +669,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int MeshSize3; //Mesh Size 3
 
             public List<ModelData> modelDatas;
-            public MatrixData matrixData;
+            public MatrixData? matrixData;
 
             public Mesh FullMesh;
         }
