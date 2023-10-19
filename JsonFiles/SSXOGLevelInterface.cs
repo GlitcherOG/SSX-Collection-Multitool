@@ -56,12 +56,14 @@ namespace SSXMultiTool.JsonFiles
                 TempMaterialJson.MaterialName = "Material " + i.ToString();
 
                 TempMaterialJson.U0 = wdxHandler.Materials[i].U0;
-                TempMaterialJson.TexturePath =  wdxHandler.Materials[wdxHandler.Materials[i].TextureID].TextureID.ToString("0000") + ".png";
+                TempMaterialJson.TexturePath =  wdxHandler.Materials[i].TextureID.ToString("0000") + ".png";
                 TempMaterialJson.U2 = wdxHandler.Materials[i].U2;
                 TempMaterialJson.U3 = wdxHandler.Materials[i].U3;
 
                 materialsJsonHandler.Materials.Add(TempMaterialJson);
             }
+
+            materialsJsonHandler.CreateJson(ExtractPath + "\\Materials.json", true);
 
             PrefabJsonHandler prefabJsonHandler = new PrefabJsonHandler();
             prefabJsonHandler.Prefabs = new List<PrefabJsonHandler.PrefabJson>();
@@ -145,11 +147,13 @@ namespace SSXMultiTool.JsonFiles
                 prefabJsonHandler.Prefabs.Add(TempPrefab);
             }
 
-            materialsJsonHandler.CreateJson(ExtractPath + "\\Materials.json", true);
+            prefabJsonHandler.CreateJson(ExtractPath + "\\Prefabs.json", true);
 
             PatchesJsonHandler patchesJsonHandler = new PatchesJsonHandler();
             patchesJsonHandler.Patches = new List<PatchesJsonHandler.PatchJson>();
 
+            InstanceJsonHandler instanceJsonHandler = new InstanceJsonHandler();
+            instanceJsonHandler.Instances = new List<InstanceJsonHandler.InstanceJson>();
 
             int PatchCount = 0;
 
@@ -214,9 +218,49 @@ namespace SSXMultiTool.JsonFiles
                     patch.LightmapID = TempChunk.Patches[i].LightmapID;
                     patchesJsonHandler.Patches.Add(patch);
                 }
+
+                for (int i = 0; i < TempChunk.Instances.Count; i++)
+                {
+                    var TempInstanceJson = new InstanceJsonHandler.InstanceJson();
+
+                    var OldMatrixData = TempChunk.Instances[i].matrix4X4;
+
+                    Vector3 Scale;
+                    Quaternion Rotation;
+                    Vector3 Location;
+
+                    Matrix4x4.Decompose(OldMatrixData, out Scale, out Rotation, out Location);
+                    TempInstanceJson.Location = JsonUtil.Vector3ToArray(Location);
+                    TempInstanceJson.Rotation = JsonUtil.QuaternionToArray(Rotation);
+                    TempInstanceJson.Scale = JsonUtil.Vector3ToArray(Scale);
+
+                    TempInstanceJson.U2 = TempChunk.Instances[i].U2;
+                    TempInstanceJson.U3 = TempChunk.Instances[i].U3;
+                    TempInstanceJson.PrefabID = TempChunk.Instances[i].PrefabID;
+
+                    TempInstanceJson.U5 = TempChunk.Instances[i].U5;
+                    TempInstanceJson.U6 = TempChunk.Instances[i].U6;
+
+                    TempInstanceJson.U7 = TempChunk.Instances[i].U7;
+
+                    TempInstanceJson.U8 = TempChunk.Instances[i].U8;
+                    TempInstanceJson.U9 = TempChunk.Instances[i].U9;
+                    TempInstanceJson.U10 = TempChunk.Instances[i].U10;
+                    TempInstanceJson.U11 = TempChunk.Instances[i].U11;
+
+                    TempInstanceJson.U12 = TempChunk.Instances[i].U12;
+                    TempInstanceJson.U13 = TempChunk.Instances[i].U13;
+
+                    TempInstanceJson.U14 = TempChunk.Instances[i].U14;
+                    TempInstanceJson.U15 = TempChunk.Instances[i].U15;
+                    TempInstanceJson.U16 = TempChunk.Instances[i].U16;
+                    TempInstanceJson.U17 = TempChunk.Instances[i].U17;
+
+                    instanceJsonHandler.Instances.Add(TempInstanceJson);
+                }
                 //}
             }
-
+            instanceJsonHandler.CreateJson(ExtractPath + "\\Instaces.json", true);
             patchesJsonHandler.CreateJson(ExtractPath + "\\Patches.json", true);
 
             OldSSHHandler sshTexture = new OldSSHHandler();

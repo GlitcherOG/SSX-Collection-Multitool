@@ -19,7 +19,10 @@ namespace SSXMultiTool.JsonFiles.SSXOG
                 TempFormating = Formatting.Indented;
             }
 
-            var serializer = JsonConvert.SerializeObject(this, TempFormating);
+            var serializer = JsonConvert.SerializeObject(this, TempFormating,new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
             File.WriteAllText(path, serializer);
         }
 

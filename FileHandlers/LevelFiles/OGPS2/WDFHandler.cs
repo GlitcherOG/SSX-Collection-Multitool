@@ -30,7 +30,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     wdfChunk.U1 = StreamUtil.ReadVector3(stream);
                     wdfChunk.U2 = StreamUtil.ReadVector3(stream);
 
-                    wdfChunk.UstructCount2 = StreamUtil.ReadInt16(stream);
+                    wdfChunk.InstanceCount = StreamUtil.ReadInt16(stream);
                     wdfChunk.PatchesCount = StreamUtil.ReadInt16(stream);
                     wdfChunk.UstructCount3 = StreamUtil.ReadInt16(stream);
                     wdfChunk.UstructCount4 = StreamUtil.ReadInt16(stream);
@@ -75,11 +75,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                     StreamUtil.AlignBy16(stream);
 
-                    wdfChunk.unknownStruct2s = new List<UnknownStruct2>();
+                    wdfChunk.Instances = new List<Instance>();
 
-                    for (int i = 0; i < wdfChunk.UstructCount2; i++)
+                    for (int i = 0; i < wdfChunk.InstanceCount; i++)
                     {
-                        var TempUnknown = new UnknownStruct2();
+                        var TempUnknown = new Instance();
 
                         TempUnknown.matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
 
@@ -117,7 +117,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         TempUnknown.U16 = StreamUtil.ReadUInt32(stream);
                         TempUnknown.U17 = StreamUtil.ReadUInt32(stream);
 
-                        wdfChunk.unknownStruct2s.Add(TempUnknown);
+                        wdfChunk.Instances.Add(TempUnknown);
                     }
 
                     wdfChunk.Patches = new List<Patch>();
@@ -252,7 +252,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         wdfChunk.U1 = StreamUtil.ReadVector3(stream);
                         wdfChunk.U2 = StreamUtil.ReadVector3(stream);
 
-                        wdfChunk.UstructCount2 = StreamUtil.ReadInt16(stream);
+                        wdfChunk.InstanceCount = StreamUtil.ReadInt16(stream);
                         wdfChunk.PatchesCount = StreamUtil.ReadInt16(stream);
                         wdfChunk.UstructCount3 = StreamUtil.ReadInt16(stream);
                         wdfChunk.UstructCount4 = StreamUtil.ReadInt16(stream);
@@ -297,11 +297,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                         StreamUtil.AlignBy16(stream);
 
-                        wdfChunk.unknownStruct2s = new List<UnknownStruct2>();
+                        wdfChunk.Instances = new List<Instance>();
 
-                        for (int i = 0; i < wdfChunk.UstructCount2; i++)
+                        for (int i = 0; i < wdfChunk.InstanceCount; i++)
                         {
-                            var TempUnknown = new UnknownStruct2();
+                            var TempUnknown = new Instance();
 
                             TempUnknown.matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
 
@@ -339,7 +339,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                             TempUnknown.U16 = StreamUtil.ReadUInt32(stream);
                             TempUnknown.U17 = StreamUtil.ReadUInt32(stream);
 
-                            wdfChunk.unknownStruct2s.Add(TempUnknown);
+                            wdfChunk.Instances.Add(TempUnknown);
                         }
 
                         wdfChunk.Patches = new List<Patch>();
@@ -461,7 +461,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public Vector3 U0;
             public Vector3 U1;
             public Vector3 U2;
-            public int UstructCount2;
+            public int InstanceCount;
             public int PatchesCount;
             public int UstructCount3;
             public int UstructCount4;
@@ -472,7 +472,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public List<UnknownStruct1> unknownStruct1s;
             //Align by 16
 
-            public List<UnknownStruct2> unknownStruct2s;
+            public List<Instance> Instances;
             public List<Patch> Patches;
             public List<UnknownStruct4> unknownStruct4s;
             public List<UnknownStruct3> unknownStruct3s;
@@ -504,7 +504,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         }
 
         //272 bytes
-        public struct UnknownStruct2
+        public struct Instance
         {
             public Matrix4x4 matrix4X4;
 
