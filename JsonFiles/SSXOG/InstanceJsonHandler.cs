@@ -41,6 +41,8 @@ namespace SSXMultiTool.JsonFiles.SSXOG
 
         public struct InstanceJson
         {
+            public string Name;
+
             public float[] Location;
             public float[] Rotation;
             public float[] Scale;

@@ -54,6 +54,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             return TempList;
         }
 
+        public string GetInstanceName(int ID, int Index)
+        {
+            for (int i = 0; i < Models.Count; i++)
+            {
+                if (Models[i].ID == ID && Models[i].Index == Index)
+                {
+                    return Models[i].Name;
+                }
+            }
+
+            return "Instance " + ID + ", " + Index;
+        }
+
         public struct LinkerItem
         {
             public string Name;

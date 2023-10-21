@@ -2237,7 +2237,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         //14 - Speed, Grinding Sound
         //15 - Standard?//
         //16 - Standard Sand
-        //17 - No Collidion/Door
+        //17 - No Collidion
         //18 - Show Off Ramp/Metal
         public int PatchStyle; //Type
 

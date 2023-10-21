@@ -223,6 +223,8 @@ namespace SSXMultiTool.JsonFiles
                 {
                     var TempInstanceJson = new InstanceJsonHandler.InstanceJson();
 
+                    TempInstanceJson.Name = mapHandler.GetInstanceName(TempChunk.Instances[i].WDFGridID, TempChunk.Instances[i].InstanceIndex);
+
                     var OldMatrixData = TempChunk.Instances[i].matrix4X4;
 
                     Vector3 Scale;
