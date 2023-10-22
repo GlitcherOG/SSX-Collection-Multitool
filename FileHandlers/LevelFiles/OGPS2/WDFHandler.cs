@@ -421,7 +421,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         {
                             var TempUnknown = new UnknownStruct3();
 
-                            TempUnknown.U0 = StreamUtil.ReadUInt32(stream);
+                            TempUnknown.U0 = StreamUtil.ReadFloat(stream);
 
                             TempUnknown.U1 = StreamUtil.ReadFloat(stream);
                             TempUnknown.U2 = StreamUtil.ReadFloat(stream);
@@ -443,9 +443,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                             TempUnknown.U17 = StreamUtil.ReadFloat(stream);
                             TempUnknown.U18 = StreamUtil.ReadFloat(stream);
 
-                            TempUnknown.U19 = StreamUtil.ReadUInt32(stream);
+                            TempUnknown.U19 = StreamUtil.ReadFloat(stream);
                             TempUnknown.U20 = StreamUtil.ReadFloat(stream);
-                            TempUnknown.U21 = StreamUtil.ReadUInt32(stream);
+                            TempUnknown.U21 = StreamUtil.ReadFloat(stream);
 
                             wdfChunk.unknownStruct3s.Add(TempUnknown);
                         }
@@ -592,7 +592,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         //88
         public struct UnknownStruct3
         {
-            public int U0;
+            public float U0;
             public float U1;
             public float U2;
             public float U3;
@@ -613,9 +613,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public float U17;
             public float U18;
 
-            public int U19;
+            public float U19;
             public float U20;
-            public int U21;
+            public float U21;
         }
 
         public struct UnknownStruct4

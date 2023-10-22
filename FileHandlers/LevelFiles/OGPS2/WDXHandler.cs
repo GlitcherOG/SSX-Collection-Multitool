@@ -134,6 +134,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     TempSpline.U3 = StreamUtil.ReadUInt16(stream);
                     TempSpline.U4 = StreamUtil.ReadUInt16(stream);
                     TempSpline.U5 = StreamUtil.ReadUInt16(stream);
+
                     TempSpline.U6 = StreamUtil.ReadUInt16(stream);
                     TempSpline.U7 = StreamUtil.ReadUInt16(stream);
                     TempSpline.U8 = StreamUtil.ReadUInt16(stream);
