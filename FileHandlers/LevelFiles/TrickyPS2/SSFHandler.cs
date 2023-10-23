@@ -294,10 +294,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     TempUstruct5.PlayerBounce = StreamUtil.ReadFloat(stream);
 
-                    TempUstruct5.BitFlags = StreamUtil.ReadUInt8(stream);
-                    TempUstruct5.BitFlags1 = StreamUtil.ReadUInt8(stream);
-                    TempUstruct5.BitFlags2 = StreamUtil.ReadUInt8(stream);
-                    TempUstruct5.BitFlags3 = StreamUtil.ReadUInt8(stream);
+                    TempUstruct5.U2 = StreamUtil.ReadUInt16(stream);
+                    TempUstruct5.BitFlags = StreamUtil.ReadUInt16(stream);
 
                     TempUstruct5.U4 = StreamUtil.ReadUInt32(stream); //-1
 
@@ -1453,10 +1451,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 StreamUtil.WriteFloat32(stream, TempUstruct5.PlayerBounce);
 
-                StreamUtil.WriteUInt8(stream, TempUstruct5.BitFlags);
-                StreamUtil.WriteUInt8(stream, TempUstruct5.BitFlags);
-                StreamUtil.WriteUInt8(stream, TempUstruct5.BitFlags2);
-                StreamUtil.WriteUInt8(stream, TempUstruct5.BitFlags3);
+                StreamUtil.WriteInt16(stream, TempUstruct5.U2);
+                StreamUtil.WriteInt16(stream, TempUstruct5.BitFlags);
 
                 StreamUtil.WriteInt32(stream, TempUstruct5.U4);
 
@@ -1683,12 +1679,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float U0;
             public float PlayerBounce;
 
+            public int U2;
             public int BitFlags;
-            public int BitFlags1;
-            public int BitFlags2;
-            public int BitFlags3;
 
-            //BitFlags2
+            //BitFlags1 - 8
             //1 - Visable
             //2 - 
             //4 -
@@ -1698,7 +1692,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             //64 - 
             //128 - Player Bounce
 
-            //BitFlags3
+            //BitFlags2 - 8
             //1
             //2
             //4
