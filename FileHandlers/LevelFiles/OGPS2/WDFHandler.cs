@@ -100,7 +100,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         TempUnknown.HighestXYZ = StreamUtil.ReadVector3(stream);
 
                         TempUnknown.U5 = StreamUtil.ReadInt16(stream);
-                        TempUnknown.U6 = StreamUtil.ReadInt16(stream);
+                        TempUnknown.BitFlags = StreamUtil.ReadInt16(stream);
 
                         TempUnknown.U7 = StreamUtil.ReadFloat(stream);
 
@@ -322,11 +322,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                             TempUnknown.HighestXYZ = StreamUtil.ReadVector3(stream);
 
                             TempUnknown.U5 = StreamUtil.ReadInt16(stream);
-                            TempUnknown.U6 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.BitFlags = StreamUtil.ReadInt16(stream);
 
                             TempUnknown.U7 = StreamUtil.ReadFloat(stream);
 
                             TempUnknown.U8 = StreamUtil.ReadInt16(stream);
+
                             TempUnknown.U9 = StreamUtil.ReadInt16(stream);
                             TempUnknown.U10 = StreamUtil.ReadInt16(stream);
                             TempUnknown.U11 = StreamUtil.ReadInt16(stream);
@@ -527,7 +528,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public Vector3 HighestXYZ;
 
             public int U5; //16
-            public int U6; //16
+            public int BitFlags; //Bit Flags
 
             public float U7;
 

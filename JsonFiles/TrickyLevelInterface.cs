@@ -251,14 +251,14 @@ namespace SSXMultiTool
                 //SSF
                 instanceJson.U0 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U0;
                 instanceJson.PlayerBounceAmmount = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].PlayerBounce;
-                instanceJson.U2 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U2;
-                instanceJson.U22 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U22;
+                instanceJson.U2 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].BitFlags;
+                instanceJson.U22 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].BitFlags1;
 
                 //GenerateBitArray
 
                 byte[] TempBytes = new byte[2];
-                TempBytes[0] = (byte)ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U23;
-                TempBytes[1] = (byte)ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U24;
+                TempBytes[0] = (byte)ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].BitFlags2;
+                TempBytes[1] = (byte)ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].BitFlags3;
 
                 BitArray bitArray = new BitArray(TempBytes);
 
@@ -1564,8 +1564,8 @@ namespace SSXMultiTool
 
                         NewObjectProperties.U0 = Oldinstance.U0;
                         NewObjectProperties.PlayerBounce = Oldinstance.PlayerBounceAmmount;
-                        NewObjectProperties.U2 = Oldinstance.U2;
-                        NewObjectProperties.U22 = Oldinstance.U22;
+                        NewObjectProperties.BitFlags = Oldinstance.U2;
+                        NewObjectProperties.BitFlags1 = Oldinstance.U22;
 
                         //Turn Bools into U23/U24
 
@@ -1584,7 +1584,7 @@ namespace SSXMultiTool
                             U23Convert += 128;
                         }
 
-                        NewObjectProperties.U23 = U23Convert;
+                        NewObjectProperties.BitFlags2 = U23Convert;
 
                         int U24Convert = 0;
 
@@ -1598,7 +1598,7 @@ namespace SSXMultiTool
                             U24Convert += 32;
                         }
 
-                        NewObjectProperties.U24 = U24Convert;
+                        NewObjectProperties.BitFlags3 = U24Convert;
 
 
                         NewObjectProperties.U4 = Oldinstance.U4;
@@ -1615,10 +1615,10 @@ namespace SSXMultiTool
 
                             if (NewObjectProperties.U0 == TempProperties.U0 &&
                                 NewObjectProperties.PlayerBounce == TempProperties.PlayerBounce &&
-                                NewObjectProperties.U2 == TempProperties.U2 &&
-                                NewObjectProperties.U22 == TempProperties.U22 &&
-                                NewObjectProperties.U23 == TempProperties.U23 &&
-                                NewObjectProperties.U24 == TempProperties.U24 &&
+                                NewObjectProperties.BitFlags == TempProperties.BitFlags &&
+                                NewObjectProperties.BitFlags1 == TempProperties.BitFlags1 &&
+                                NewObjectProperties.BitFlags2 == TempProperties.BitFlags2 &&
+                                NewObjectProperties.BitFlags3 == TempProperties.BitFlags3 &&
                                 NewObjectProperties.U4 == TempProperties.U4 &&
                                 NewObjectProperties.PhysicsIndex == TempProperties.PhysicsIndex &&
                                 NewObjectProperties.EffectSlotIndex == TempProperties.EffectSlotIndex &&

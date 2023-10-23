@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using SSXMultiTool.FileHandlers.Textures;
 using System.IO;
 using System.Numerics;
+using System.Collections;
 
 namespace SSXMultiTool.JsonFiles
 {
@@ -241,7 +242,14 @@ namespace SSXMultiTool.JsonFiles
                     TempInstanceJson.PrefabID = TempChunk.Instances[i].PrefabID;
 
                     TempInstanceJson.U5 = TempChunk.Instances[i].U5;
-                    TempInstanceJson.U6 = TempChunk.Instances[i].U6;
+
+                    byte[] TempBytes = BitConverter.GetBytes(TempChunk.Instances[i].BitFlags);
+
+                    BitArray bitArray = new BitArray(TempBytes);
+
+                    TempInstanceJson.Visable = bitArray[0];
+                    TempInstanceJson.PlayerCollision = bitArray[5];
+                    TempInstanceJson.PlayerBounce = bitArray[7];
 
                     TempInstanceJson.U7 = TempChunk.Instances[i].U7;
 
@@ -262,7 +270,7 @@ namespace SSXMultiTool.JsonFiles
                 }
                 //}
             }
-            instanceJsonHandler.CreateJson(ExtractPath + "\\Instaces.json", true);
+            instanceJsonHandler.CreateJson(ExtractPath + "\\Instances.json", true);
             patchesJsonHandler.CreateJson(ExtractPath + "\\Patches.json", true);
 
             OldSSHHandler sshTexture = new OldSSHHandler();

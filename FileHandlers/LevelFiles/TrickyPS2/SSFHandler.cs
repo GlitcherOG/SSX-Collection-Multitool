@@ -294,10 +294,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     TempUstruct5.PlayerBounce = StreamUtil.ReadFloat(stream);
 
-                    TempUstruct5.U2 = StreamUtil.ReadUInt8(stream);
-                    TempUstruct5.U22 = StreamUtil.ReadUInt8(stream);
-                    TempUstruct5.U23 = StreamUtil.ReadUInt8(stream);
-                    TempUstruct5.U24 = StreamUtil.ReadUInt8(stream);
+                    TempUstruct5.BitFlags = StreamUtil.ReadUInt8(stream);
+                    TempUstruct5.BitFlags1 = StreamUtil.ReadUInt8(stream);
+                    TempUstruct5.BitFlags2 = StreamUtil.ReadUInt8(stream);
+                    TempUstruct5.BitFlags3 = StreamUtil.ReadUInt8(stream);
 
                     TempUstruct5.U4 = StreamUtil.ReadUInt32(stream); //-1
 
@@ -1453,10 +1453,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 StreamUtil.WriteFloat32(stream, TempUstruct5.PlayerBounce);
 
-                StreamUtil.WriteUInt8(stream, TempUstruct5.U2);
-                StreamUtil.WriteUInt8(stream, TempUstruct5.U22);
-                StreamUtil.WriteUInt8(stream, TempUstruct5.U23);
-                StreamUtil.WriteUInt8(stream, TempUstruct5.U24);
+                StreamUtil.WriteUInt8(stream, TempUstruct5.BitFlags);
+                StreamUtil.WriteUInt8(stream, TempUstruct5.BitFlags);
+                StreamUtil.WriteUInt8(stream, TempUstruct5.BitFlags2);
+                StreamUtil.WriteUInt8(stream, TempUstruct5.BitFlags3);
 
                 StreamUtil.WriteInt32(stream, TempUstruct5.U4);
 
@@ -1683,12 +1683,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float U0;
             public float PlayerBounce;
 
-            public int U2;
-            public int U22;
-            public int U23;
-            public int U24;
+            public int BitFlags;
+            public int BitFlags1;
+            public int BitFlags2;
+            public int BitFlags3;
 
-            //U23
+            //BitFlags2
             //1 - Visable
             //2 - 
             //4 -
@@ -1698,7 +1698,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             //64 - 
             //128 - Player Bounce
 
-            //U24
+            //BitFlags3
             //1
             //2
             //4

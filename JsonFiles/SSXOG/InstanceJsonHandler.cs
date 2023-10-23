@@ -62,7 +62,10 @@ namespace SSXMultiTool.JsonFiles.SSXOG
             public int PrefabID;
 
             public int U5; //16
-            public int U6; //16
+
+            public bool Visable;
+            public bool PlayerCollision;
+            public bool PlayerBounce;
 
             public float U7;
 
