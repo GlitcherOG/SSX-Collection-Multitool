@@ -102,7 +102,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         TempUnknown.U5 = StreamUtil.ReadInt16(stream);
                         TempUnknown.BitFlags = StreamUtil.ReadInt16(stream);
 
-                        TempUnknown.U7 = StreamUtil.ReadFloat(stream);
+                        TempUnknown.PlayerBounce = StreamUtil.ReadFloat(stream);
 
                         TempUnknown.U8 = StreamUtil.ReadInt16(stream);
                         TempUnknown.U9 = StreamUtil.ReadInt16(stream);
@@ -324,7 +324,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                             TempUnknown.U5 = StreamUtil.ReadInt16(stream);
                             TempUnknown.BitFlags = StreamUtil.ReadInt16(stream);
 
-                            TempUnknown.U7 = StreamUtil.ReadFloat(stream);
+                            StreamUtil.WriteFloat32(stream, 0.5f);
+                            //TempUnknown.U7 = StreamUtil.ReadFloat(stream);
 
                             TempUnknown.U8 = StreamUtil.ReadInt16(stream);
 
@@ -530,7 +531,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int U5; //16
             public int BitFlags; //Bit Flags
 
-            public float U7;
+            public float PlayerBounce;
 
             public int U8; //16
             public int U9; //16

@@ -251,7 +251,7 @@ namespace SSXMultiTool.JsonFiles
                     TempInstanceJson.PlayerCollision = bitArray[5];
                     TempInstanceJson.PlayerBounce = bitArray[7];
 
-                    TempInstanceJson.U7 = TempChunk.Instances[i].U7;
+                    TempInstanceJson.PlayerBounceValue = TempChunk.Instances[i].PlayerBounce;
 
                     TempInstanceJson.U8 = TempChunk.Instances[i].U8;
                     TempInstanceJson.U9 = TempChunk.Instances[i].U9;

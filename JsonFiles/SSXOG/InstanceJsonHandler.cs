@@ -67,7 +67,7 @@ namespace SSXMultiTool.JsonFiles.SSXOG
             public bool PlayerCollision;
             public bool PlayerBounce;
 
-            public float U7;
+            public float PlayerBounceValue;
 
             public int U8; //16
             public int U9; //16
