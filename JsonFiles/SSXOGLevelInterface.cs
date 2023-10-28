@@ -30,6 +30,9 @@ namespace SSXMultiTool.JsonFiles
             WDRHandler wdrHandler = new WDRHandler();
             wdrHandler.Load(LoadPath + ".wdr", wdxHandler.ModelOffsets);
 
+            WFXHandler wfxHandler = new WFXHandler();
+            wfxHandler.Load(LoadPath + ".wfx");
+
             SSXOGConfig ssxOGConfig = new SSXOGConfig();
             ssxOGConfig.CreateJson(ExtractPath + "\\Config.ssx");
 
@@ -253,9 +256,9 @@ namespace SSXMultiTool.JsonFiles
 
                     TempInstanceJson.PlayerBounceValue = TempChunk.Instances[i].PlayerBounce;
 
-                    TempInstanceJson.U8 = TempChunk.Instances[i].U8;
-                    TempInstanceJson.U9 = TempChunk.Instances[i].U9;
-                    TempInstanceJson.U10 = TempChunk.Instances[i].U10;
+                    TempInstanceJson.CollsionMode = TempChunk.Instances[i].CollsionMode;
+                    TempInstanceJson.CollisonModelIndex = TempChunk.Instances[i].CollisonModelIndex;
+                    TempInstanceJson.PhysicsIndex = TempChunk.Instances[i].PhysicsIndex;
                     TempInstanceJson.U11 = TempChunk.Instances[i].U11;
 
                     TempInstanceJson.U12 = TempChunk.Instances[i].U12;

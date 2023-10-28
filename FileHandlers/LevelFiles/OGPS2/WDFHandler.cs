@@ -104,9 +104,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                         TempUnknown.PlayerBounce = StreamUtil.ReadFloat(stream);
 
-                        TempUnknown.U8 = StreamUtil.ReadInt16(stream);
-                        TempUnknown.U9 = StreamUtil.ReadInt16(stream);
-                        TempUnknown.U10 = StreamUtil.ReadInt16(stream);
+                        TempUnknown.CollsionMode = StreamUtil.ReadInt16(stream);
+                        TempUnknown.CollisonModelIndex = StreamUtil.ReadInt16(stream);
+                        TempUnknown.PhysicsIndex = StreamUtil.ReadInt16(stream);
                         TempUnknown.U11 = StreamUtil.ReadInt16(stream);
 
                         TempUnknown.U12 = StreamUtil.ReadFloat(stream);
@@ -324,13 +324,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                             TempUnknown.U5 = StreamUtil.ReadInt16(stream);
                             TempUnknown.BitFlags = StreamUtil.ReadInt16(stream);
 
-                            StreamUtil.WriteFloat32(stream, 0.5f);
-                            //TempUnknown.U7 = StreamUtil.ReadFloat(stream);
+                            TempUnknown.PlayerBounce = StreamUtil.ReadFloat(stream);
 
-                            TempUnknown.U8 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.CollsionMode = StreamUtil.ReadInt16(stream);
 
-                            TempUnknown.U9 = StreamUtil.ReadInt16(stream);
-                            TempUnknown.U10 = StreamUtil.ReadInt16(stream);
+                            TempUnknown.CollisonModelIndex = StreamUtil.ReadInt16(stream);
+                            TempUnknown.PhysicsIndex = StreamUtil.ReadInt16(stream);
                             TempUnknown.U11 = StreamUtil.ReadInt16(stream);
 
                             TempUnknown.U12 = StreamUtil.ReadFloat(stream);
@@ -533,9 +532,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
             public float PlayerBounce;
 
-            public int U8; //16
-            public int U9; //16
-            public int U10; //16
+            public int CollsionMode; //16
+            public int CollisonModelIndex; //16
+            public int PhysicsIndex; //16
             public int U11; //16
 
             public float U12;

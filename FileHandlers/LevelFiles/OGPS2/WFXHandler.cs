@@ -127,9 +127,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                             NewTempStruct.struct4s.Add(TempStruct4);
                         }
 
-
-                        NewTempStruct.UByteData = StreamUtil.ReadBytes(stream, NewTempStruct.U1);
-                        NewTempStruct.UEndData = StreamUtil.ReadBytes(stream, NewTempStruct.EndAlligment);
+                        if (NewTempStruct.U1 != -1)
+                        {
+                            NewTempStruct.UByteData = StreamUtil.ReadBytes(stream, NewTempStruct.U1);
+                        }
+                        if (NewTempStruct.EndAlligment != -1)
+                        {
+                            NewTempStruct.UEndData = StreamUtil.ReadBytes(stream, NewTempStruct.EndAlligment);
+                        }
 
                         TempUStruct1.uStruct3s.Add(NewTempStruct);
                     }

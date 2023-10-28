@@ -69,9 +69,9 @@ namespace SSXMultiTool.JsonFiles.SSXOG
 
             public float PlayerBounceValue;
 
-            public int U8; //16
-            public int U9; //16
-            public int U10; //16
+            public int CollsionMode; //16
+            public int CollisonModelIndex; //16
+            public int PhysicsIndex; //16
             public int U11; //16
 
             public float U12;

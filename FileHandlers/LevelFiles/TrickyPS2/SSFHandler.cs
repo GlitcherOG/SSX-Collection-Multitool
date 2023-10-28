@@ -1461,13 +1461,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 if (TempUstruct5.CollsionMode != 3)
                 {
                     StreamUtil.WriteInt16(stream, TempUstruct5.CollisonModelIndex);
-                    StreamUtil.WriteInt16(stream, TempUstruct5.EffectSlotIndex);
                 }
                 else
                 {
                     StreamUtil.WriteInt16(stream, TempUstruct5.PhysicsIndex);
-                    StreamUtil.WriteInt16(stream, TempUstruct5.EffectSlotIndex);
                 }
+                StreamUtil.WriteInt16(stream, TempUstruct5.EffectSlotIndex);
                 StreamUtil.WriteInt16(stream, TempUstruct5.U8);
             }
 
