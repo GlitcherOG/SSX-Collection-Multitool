@@ -1,6 +1,7 @@
 ﻿using SSXMultiTool.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -26,7 +27,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
         public List<UStruct0> uStruct0s = new List<UStruct0>();
         public List<UStruct1> uStruct1s = new List<UStruct1>();
-        public List<UStruct2> uStruct2s = new List<UStruct2>();
+        public List<CollisonModelPointer> CollisonModelPointers = new List<CollisonModelPointer>();
         public List<EffectHeader> EffectHeaders = new List<EffectHeader>();
 
         public void Load(string path)
@@ -63,7 +64,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                 uStruct1s = new List<UStruct1>();
                 stream.Position = UStruct1Offset;
-                for (int i = 0; i < UStruct1Count; i++)
+                for (int i = 0; i < 0; i++)
                 {
                     var TempUStruct1 = new UStruct1();
 
@@ -144,12 +145,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     uStruct1s.Add(TempUStruct1);
                 }
 
-                uStruct2s = new List<UStruct2>();
+                CollisonModelPointers = new List<CollisonModelPointer>();
                 stream.Position = UStruct2Offset;
                 int MeshID = 0;
                 for (int i = 0; i < UStruct2Count; i++)
                 {
-                    var TempUStruct2 = new UStruct2();
+                    var TempUStruct2 = new CollisonModelPointer();
 
                     TempUStruct2.Offset = StreamUtil.ReadUInt32(stream);
                     TempUStruct2.ByteSize = StreamUtil.ReadUInt32(stream);
@@ -197,8 +198,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     }
 
                     stream.Position = TempPos;
-                    
-                    uStruct2s.Add(TempUStruct2);
+
+                    CollisonModelPointers.Add(TempUStruct2);
                 }
 
                 EffectHeaders = new List<EffectHeader>();
@@ -223,6 +224,43 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     EffectHeaders.Add(TempEffectHeader);
                 }
 
+
+            }
+
+        }
+
+        public void SaveModels(string Path)
+        {
+            int c = 0;
+            for (int a = 0; a < CollisonModelPointers.Count; a++)
+            {
+                var TempCollision = CollisonModelPointers[a];
+
+                for (int ax = 0; ax < TempCollision.Models.Count; ax++)
+                {
+                    var Data = TempCollision.Models[ax];
+
+                    string outputString = "";
+                    string output = "# Exported From SSX Using SSX Multitool Modder by GlitcherOG \n";
+
+                    outputString += "o Mesh" + c + "\n";
+                    for (int b = 0; b < Data.FaceCount; b++)
+                    {
+                        outputString += "f " + (Data.Index[3 * b] + 1) + "//" + (b + 1).ToString() + " " + (Data.Index[3 * b + 1] + 1) + "//" + (b + 1).ToString() + " " + (Data.Index[3 * b + 2] + 1) + "//" + (b + 1).ToString() + "\n";
+                    }
+
+                    for (int z = 0; z < Data.Vertices.Count; z++)
+                    {
+                        output += "v " + Data.Vertices[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Data.Vertices[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Data.Vertices[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+                    }
+                    for (int z = 0; z < Data.FaceNormals.Count; z++)
+                    {
+                        output += "vn " + Data.FaceNormals[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Data.FaceNormals[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Data.FaceNormals[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+                    }
+                    output += outputString;
+                    File.WriteAllText(Path + "/" + Data.MeshPath, output);
+                    c++;
+                }
 
             }
 
@@ -750,7 +788,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
             public List<UStruct3> uStruct3s;
         }
-        public struct UStruct2
+        public struct CollisonModelPointer
         {
             public int Offset;
             public int ByteSize;

@@ -34,22 +34,18 @@ namespace SSXMultiTool.JsonFiles
             wfxHandler.Load(LoadPath + ".wfx");
 
             SSXOGConfig ssxOGConfig = new SSXOGConfig();
-            ssxOGConfig.CreateJson(ExtractPath + "\\Config.ssx");
-
-            int Test = 0;
-            for (int y = 0; y < wdrHandler.modelHeaders.Count; y++)
-            {
-                Test += wdrHandler.modelHeaders[y].models.Count;
-            }
+            ssxOGConfig.CreateJson(ExtractPath + "\\OGConfig.ssx");
 
             Directory.CreateDirectory(ExtractPath + "\\Textures");
             Directory.CreateDirectory(ExtractPath + "\\Models");
             Directory.CreateDirectory(ExtractPath + "\\Lightmaps");
             Directory.CreateDirectory(ExtractPath + "\\Skybox");
+            Directory.CreateDirectory(ExtractPath + "\\Collision");
             Directory.CreateDirectory(ExtractPath + "\\Skybox\\Textures");
             Directory.CreateDirectory(ExtractPath + "\\Skybox\\Models");
 
             wdrHandler.ExportModels(ExtractPath + "\\Models");
+            wfxHandler.SaveModels(ExtractPath + "\\Collision");
 
             MaterialsJsonHandler materialsJsonHandler = new MaterialsJsonHandler();
             materialsJsonHandler.Materials = new List<MaterialsJsonHandler.MaterialJson>();
