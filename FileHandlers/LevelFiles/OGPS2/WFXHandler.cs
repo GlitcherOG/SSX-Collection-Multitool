@@ -64,7 +64,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                 uStruct1s = new List<UStruct1>();
                 stream.Position = UStruct1Offset;
-                for (int i = 0; i < 0; i++)
+                for (int i = 0; i < UStruct1Count; i++)
                 {
                     var TempUStruct1 = new UStruct1();
 
@@ -75,7 +75,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     TempUStruct1.uStruct3s = new List<UStruct3>();
 
                     long TempPos = stream.Position;
-                    stream.Position = TempUStruct1.ByteSize;
+                    stream.Position = TempUStruct1.Offset;
                     for (int a = 0; a < TempUStruct1.UStruct3Count; a++)
                     {
                         var NewTempStruct = new UStruct3();
@@ -117,7 +117,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                         NewTempStruct.struct4s = new List<UStruct4>();
 
-                        for (int b = 0; b < NewTempStruct.UStruct4Count; b++)
+                        for (int b = 0; b < NewTempStruct.UStruct4Count + 1; b++)
                         {
                             UStruct4 TempStruct4 = new UStruct4();
 
