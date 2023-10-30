@@ -6,7 +6,6 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media.Animation;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 {
@@ -468,7 +467,31 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             {
                 for (int x = 0; x < WDFChunks.GetLength(0); x++)
                 {
+                    MemoryStream Stream = new MemoryStream();
 
+                    var TempChunk = WDFChunks[x,y];
+
+                    StreamUtil.WriteVector3(Stream, TempChunk.U0);
+                    StreamUtil.WriteVector3(Stream, TempChunk.U1);
+                    StreamUtil.WriteVector3(Stream, TempChunk.U2);
+
+                    StreamUtil.WriteInt16(Stream, TempChunk.Instances.Count);
+                    StreamUtil.WriteInt16(Stream, TempChunk.Patches.Count);
+                    StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct3s.Count);
+                    StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct4s.Count);
+                    StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct1s.Count);
+                    StreamUtil.WriteInt16(Stream, TempChunk.U7);
+
+                    for (int i = 0; i < TempChunk.unknownStruct0s.Count; i++)
+                    {
+
+                    }
+
+                    var GridGroup = new WDXHandler.WDFGridGroup();
+                    GridGroup.Offset = (int)MainStream.Position;
+                    StreamUtil.WriteStreamIntoStream(MainStream, Stream);
+                    GridGroup.Size = (int)MainStream.Position - GridGroup.Offset;
+                    wdfGridGroup[x, y] = GridGroup;
                 }
             }
 
