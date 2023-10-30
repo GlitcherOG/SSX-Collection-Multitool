@@ -157,117 +157,117 @@ namespace SSXMultiTool.JsonFiles
 
             int PatchCount = 0;
 
-            for (int y = 0; y < wdfHandler.WDFChunks.Count; y++)
+            for (int y = 0; y < wdfHandler.WDFChunks.GetLength(1); y++)
             {
-                var TempChunk = wdfHandler.WDFChunks[y];
-                //for (int i = 0; i < length; i++)
-                //{
-                for (int i = 0; i < TempChunk.Patches.Count; i++)
+                for (int x = 0; x < wdfHandler.WDFChunks.GetLength(0); x++)
                 {
-                    PatchesJsonHandler.PatchJson patch = new PatchesJsonHandler.PatchJson();
-                    patch.PatchName = "Patch " + PatchCount;
-                    PatchCount++;
-                    patch.LightMapPoint = JsonUtil.Vector4ToArray(TempChunk.Patches[i].LightMapPoint);
-
-                    patch.UVPoints = new float[4, 2];
-
-                    patch.UVPoints[0, 0] = TempChunk.Patches[i].UVPoint1.X;
-                    patch.UVPoints[0, 1] = TempChunk.Patches[i].UVPoint1.Y;
-
-                    patch.UVPoints[1, 0] = TempChunk.Patches[i].UVPoint2.X;
-                    patch.UVPoints[1, 1] = TempChunk.Patches[i].UVPoint2.Y;
-
-                    patch.UVPoints[2, 0] = TempChunk.Patches[i].UVPoint3.X;
-                    patch.UVPoints[2, 1] = TempChunk.Patches[i].UVPoint3.Y;
-
-                    patch.UVPoints[3, 0] = TempChunk.Patches[i].UVPoint4.X;
-                    patch.UVPoints[3, 1] = TempChunk.Patches[i].UVPoint4.Y;
-
-                    BezierUtil bezierUtil = new BezierUtil();
-                    bezierUtil.ProcessedPoints[0] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R1C1);
-                    bezierUtil.ProcessedPoints[1] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R1C2);
-                    bezierUtil.ProcessedPoints[2] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R1C3);
-                    bezierUtil.ProcessedPoints[3] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R1C4);
-                    bezierUtil.ProcessedPoints[4] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R2C1);
-                    bezierUtil.ProcessedPoints[5] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R2C2);
-                    bezierUtil.ProcessedPoints[6] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R2C3);
-                    bezierUtil.ProcessedPoints[7] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R2C4);
-                    bezierUtil.ProcessedPoints[8] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R3C1);
-                    bezierUtil.ProcessedPoints[9] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R3C2);
-                    bezierUtil.ProcessedPoints[10] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R3C3);
-                    bezierUtil.ProcessedPoints[11] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R3C4);
-                    bezierUtil.ProcessedPoints[12] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R4C1);
-                    bezierUtil.ProcessedPoints[13] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R4C2);
-                    bezierUtil.ProcessedPoints[14] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R4C3);
-                    bezierUtil.ProcessedPoints[15] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R4C4);
-
-                    bezierUtil.GenerateRawPoints();
-
-                    patch.Points = new float[16, 3];
-
-                    for (int a = 0; a < 16; a++)
+                    var TempChunk = wdfHandler.WDFChunks[x, y];
+                    for (int i = 0; i < TempChunk.Patches.Count; i++)
                     {
-                        patch.Points[a, 0] = bezierUtil.RawPoints[a].X;
-                        patch.Points[a, 1] = bezierUtil.RawPoints[a].Y;
-                        patch.Points[a, 2] = bezierUtil.RawPoints[a].Z;
+                        PatchesJsonHandler.PatchJson patch = new PatchesJsonHandler.PatchJson();
+                        patch.PatchName = "Patch " + PatchCount;
+                        PatchCount++;
+                        patch.LightMapPoint = JsonUtil.Vector4ToArray(TempChunk.Patches[i].LightMapPoint);
+
+                        patch.UVPoints = new float[4, 2];
+
+                        patch.UVPoints[0, 0] = TempChunk.Patches[i].UVPoint1.X;
+                        patch.UVPoints[0, 1] = TempChunk.Patches[i].UVPoint1.Y;
+
+                        patch.UVPoints[1, 0] = TempChunk.Patches[i].UVPoint2.X;
+                        patch.UVPoints[1, 1] = TempChunk.Patches[i].UVPoint2.Y;
+
+                        patch.UVPoints[2, 0] = TempChunk.Patches[i].UVPoint3.X;
+                        patch.UVPoints[2, 1] = TempChunk.Patches[i].UVPoint3.Y;
+
+                        patch.UVPoints[3, 0] = TempChunk.Patches[i].UVPoint4.X;
+                        patch.UVPoints[3, 1] = TempChunk.Patches[i].UVPoint4.Y;
+
+                        BezierUtil bezierUtil = new BezierUtil();
+                        bezierUtil.ProcessedPoints[0] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R1C1);
+                        bezierUtil.ProcessedPoints[1] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R1C2);
+                        bezierUtil.ProcessedPoints[2] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R1C3);
+                        bezierUtil.ProcessedPoints[3] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R1C4);
+                        bezierUtil.ProcessedPoints[4] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R2C1);
+                        bezierUtil.ProcessedPoints[5] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R2C2);
+                        bezierUtil.ProcessedPoints[6] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R2C3);
+                        bezierUtil.ProcessedPoints[7] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R2C4);
+                        bezierUtil.ProcessedPoints[8] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R3C1);
+                        bezierUtil.ProcessedPoints[9] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R3C2);
+                        bezierUtil.ProcessedPoints[10] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R3C3);
+                        bezierUtil.ProcessedPoints[11] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R3C4);
+                        bezierUtil.ProcessedPoints[12] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R4C1);
+                        bezierUtil.ProcessedPoints[13] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R4C2);
+                        bezierUtil.ProcessedPoints[14] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R4C3);
+                        bezierUtil.ProcessedPoints[15] = JsonUtil.Vector4ToVector3(TempChunk.Patches[i].R4C4);
+
+                        bezierUtil.GenerateRawPoints();
+
+                        patch.Points = new float[16, 3];
+
+                        for (int a = 0; a < 16; a++)
+                        {
+                            patch.Points[a, 0] = bezierUtil.RawPoints[a].X;
+                            patch.Points[a, 1] = bezierUtil.RawPoints[a].Y;
+                            patch.Points[a, 2] = bezierUtil.RawPoints[a].Z;
+                        }
+
+                        patch.PatchStyle = TempChunk.Patches[i].PatchType;
+
+                        patch.TexturePath = wdxHandler.Materials[TempChunk.Patches[i].TextureID].TextureID.ToString("0000") + ".png";
+                        patch.LightmapID = TempChunk.Patches[i].LightmapID;
+                        patchesJsonHandler.Patches.Add(patch);
                     }
 
-                    patch.PatchStyle = TempChunk.Patches[i].PatchType;
+                    for (int i = 0; i < TempChunk.Instances.Count; i++)
+                    {
+                        var TempInstanceJson = new InstanceJsonHandler.InstanceJson();
 
-                    patch.TexturePath = wdxHandler.Materials[TempChunk.Patches[i].TextureID].TextureID.ToString("0000") + ".png";
-                    patch.LightmapID = TempChunk.Patches[i].LightmapID;
-                    patchesJsonHandler.Patches.Add(patch);
+                        TempInstanceJson.Name = mapHandler.GetInstanceName(TempChunk.Instances[i].WDFGridID, TempChunk.Instances[i].InstanceIndex);
+
+                        var OldMatrixData = TempChunk.Instances[i].matrix4X4;
+
+                        Vector3 Scale;
+                        Quaternion Rotation;
+                        Vector3 Location;
+
+                        Matrix4x4.Decompose(OldMatrixData, out Scale, out Rotation, out Location);
+                        TempInstanceJson.Location = JsonUtil.Vector3ToArray(Location);
+                        TempInstanceJson.Rotation = JsonUtil.QuaternionToArray(Rotation);
+                        TempInstanceJson.Scale = JsonUtil.Vector3ToArray(Scale);
+
+                        TempInstanceJson.U2 = TempChunk.Instances[i].U2;
+                        TempInstanceJson.U3 = TempChunk.Instances[i].U3;
+                        TempInstanceJson.PrefabID = TempChunk.Instances[i].PrefabID;
+
+                        TempInstanceJson.U5 = TempChunk.Instances[i].U5;
+
+                        byte[] TempBytes = BitConverter.GetBytes(TempChunk.Instances[i].BitFlags);
+
+                        BitArray bitArray = new BitArray(TempBytes);
+
+                        TempInstanceJson.Visable = bitArray[0];
+                        TempInstanceJson.PlayerCollision = bitArray[5];
+                        TempInstanceJson.PlayerBounce = bitArray[7];
+
+                        TempInstanceJson.PlayerBounceValue = TempChunk.Instances[i].PlayerBounce;
+
+                        TempInstanceJson.CollsionMode = TempChunk.Instances[i].CollsionMode;
+                        TempInstanceJson.CollisonModelIndex = TempChunk.Instances[i].CollisonModelIndex;
+                        TempInstanceJson.PhysicsIndex = TempChunk.Instances[i].PhysicsIndex;
+                        TempInstanceJson.U11 = TempChunk.Instances[i].U11;
+
+                        TempInstanceJson.U12 = TempChunk.Instances[i].U12;
+                        TempInstanceJson.U13 = TempChunk.Instances[i].U13;
+
+                        TempInstanceJson.U14 = TempChunk.Instances[i].U14;
+                        TempInstanceJson.U15 = TempChunk.Instances[i].U15;
+                        TempInstanceJson.U16 = TempChunk.Instances[i].U16;
+                        TempInstanceJson.U17 = TempChunk.Instances[i].U17;
+
+                        instanceJsonHandler.Instances.Add(TempInstanceJson);
+                    }
                 }
-
-                for (int i = 0; i < TempChunk.Instances.Count; i++)
-                {
-                    var TempInstanceJson = new InstanceJsonHandler.InstanceJson();
-
-                    TempInstanceJson.Name = mapHandler.GetInstanceName(TempChunk.Instances[i].WDFGridID, TempChunk.Instances[i].InstanceIndex);
-
-                    var OldMatrixData = TempChunk.Instances[i].matrix4X4;
-
-                    Vector3 Scale;
-                    Quaternion Rotation;
-                    Vector3 Location;
-
-                    Matrix4x4.Decompose(OldMatrixData, out Scale, out Rotation, out Location);
-                    TempInstanceJson.Location = JsonUtil.Vector3ToArray(Location);
-                    TempInstanceJson.Rotation = JsonUtil.QuaternionToArray(Rotation);
-                    TempInstanceJson.Scale = JsonUtil.Vector3ToArray(Scale);
-
-                    TempInstanceJson.U2 = TempChunk.Instances[i].U2;
-                    TempInstanceJson.U3 = TempChunk.Instances[i].U3;
-                    TempInstanceJson.PrefabID = TempChunk.Instances[i].PrefabID;
-
-                    TempInstanceJson.U5 = TempChunk.Instances[i].U5;
-
-                    byte[] TempBytes = BitConverter.GetBytes(TempChunk.Instances[i].BitFlags);
-
-                    BitArray bitArray = new BitArray(TempBytes);
-
-                    TempInstanceJson.Visable = bitArray[0];
-                    TempInstanceJson.PlayerCollision = bitArray[5];
-                    TempInstanceJson.PlayerBounce = bitArray[7];
-
-                    TempInstanceJson.PlayerBounceValue = TempChunk.Instances[i].PlayerBounce;
-
-                    TempInstanceJson.CollsionMode = TempChunk.Instances[i].CollsionMode;
-                    TempInstanceJson.CollisonModelIndex = TempChunk.Instances[i].CollisonModelIndex;
-                    TempInstanceJson.PhysicsIndex = TempChunk.Instances[i].PhysicsIndex;
-                    TempInstanceJson.U11 = TempChunk.Instances[i].U11;
-
-                    TempInstanceJson.U12 = TempChunk.Instances[i].U12;
-                    TempInstanceJson.U13 = TempChunk.Instances[i].U13;
-
-                    TempInstanceJson.U14 = TempChunk.Instances[i].U14;
-                    TempInstanceJson.U15 = TempChunk.Instances[i].U15;
-                    TempInstanceJson.U16 = TempChunk.Instances[i].U16;
-                    TempInstanceJson.U17 = TempChunk.Instances[i].U17;
-
-                    instanceJsonHandler.Instances.Add(TempInstanceJson);
-                }
-                //}
             }
             instanceJsonHandler.CreateJson(ExtractPath + "\\Instances.json", true);
             patchesJsonHandler.CreateJson(ExtractPath + "\\Patches.json", true);

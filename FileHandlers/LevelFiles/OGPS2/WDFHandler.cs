@@ -12,13 +12,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 {
     public class WDFHandler
     {
-        public List<WDFChunk> WDFChunks = new List<WDFChunk>();
+        public WDFChunk[,] WDFChunks = new WDFChunk[1,1];
 
         public void LoadGuess(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
-                WDFChunks = new List<WDFChunk>();
+                //WDFChunks = new List<WDFChunk>();
 
                 while(stream.Position<stream.Length)
                 {
@@ -227,7 +227,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         wdfChunk.unknownStruct3s.Add(TempUnknown);
                     }
 
-                    WDFChunks.Add(wdfChunk);
+                    //WDFChunks.Add(wdfChunk);
                 }
 
             }
@@ -237,7 +237,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
-                WDFChunks = new List<WDFChunk>();
+                WDFChunks = new WDFChunk[wdfGridGroup.GetLength(0), wdfGridGroup.GetLength(1)];
 
                 for (int y = 0; y < wdfGridGroup.GetLength(1); y++)
                 {
@@ -451,11 +451,39 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                             wdfChunk.unknownStruct3s.Add(TempUnknown);
                         }
 
-                        WDFChunks.Add(wdfChunk);
+                        WDFChunks[x,y] = wdfChunk;
                     }
 
                 }
             }
+        }
+
+        public WDXHandler.WDFGridGroup[,] Save(string path, int row, int collum)
+        {
+            WDXHandler.WDFGridGroup[,] wdfGridGroup = new WDXHandler.WDFGridGroup[row, collum];
+
+            MemoryStream MainStream = new MemoryStream();
+
+            for (int y = 0; y < WDFChunks.GetLength(1); y++)
+            {
+                for (int x = 0; x < WDFChunks.GetLength(0); x++)
+                {
+
+                }
+            }
+
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            var file = File.Create(path);
+            MainStream.Position = 0;
+            MainStream.CopyTo(file);
+            MainStream.Dispose();
+            file.Close();
+
+            return wdfGridGroup;
         }
 
         public struct WDFChunk
