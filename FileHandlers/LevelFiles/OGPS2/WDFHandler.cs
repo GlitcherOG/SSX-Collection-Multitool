@@ -484,7 +484,157 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                     for (int i = 0; i < TempChunk.unknownStruct0s.Count; i++)
                     {
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct0s[i].U0);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct0s[i].U1);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct0s[i].U2);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct0s[i].U3);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct0s[i].U4);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct0s[i].U5);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct0s[i].U6);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct0s[i].U7);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct0s[i].U8);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct0s[i].U9);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct0s[i].U10);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct0s[i].U11);
 
+                        StreamUtil.WriteVector3(Stream, TempChunk.unknownStruct0s[i].U12);
+                        StreamUtil.WriteVector3(Stream, TempChunk.unknownStruct0s[i].U13);
+                    }
+
+                    for (int i = 0; i < TempChunk.unknownStruct1s.Count; i++)
+                    {
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct1s[i].U0);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct1s[i].U1);
+                    }
+
+                    StreamUtil.AlignBy16(Stream);
+
+                    for (int i = 0; i < TempChunk.Instances.Count; i++)
+                    {
+                        StreamUtil.WriteMatrix4x4(Stream, TempChunk.Instances[i].matrix4X4);
+
+                        StreamUtil.WriteMatrix4x4(Stream, TempChunk.Instances[i].matrix4X41);
+                        StreamUtil.WriteVector4(Stream, TempChunk.Instances[i].vector40);
+                        StreamUtil.WriteVector4(Stream, TempChunk.Instances[i].vector41);
+                        StreamUtil.WriteVector4(Stream, TempChunk.Instances[i].vector42);
+                        StreamUtil.WriteVector4(Stream, TempChunk.Instances[i].vector43);
+
+                        StreamUtil.WriteInt16(Stream, TempChunk.Instances[i].WDFGridID);
+                        StreamUtil.WriteInt16(Stream, TempChunk.Instances[i].InstanceIndex);
+
+                        StreamUtil.WriteInt32(Stream, TempChunk.Instances[i].U2);
+                        StreamUtil.WriteInt32(Stream, TempChunk.Instances[i].U3);
+                        StreamUtil.WriteInt32(Stream, TempChunk.Instances[i].PrefabID);
+
+                        StreamUtil.WriteVector3(Stream, TempChunk.Instances[i].LowestXYZ);
+                        StreamUtil.WriteVector3(Stream, TempChunk.Instances[i].HighestXYZ);
+
+                        StreamUtil.WriteInt16(Stream, TempChunk.Instances[i].U5);
+                        StreamUtil.WriteInt16(Stream, TempChunk.Instances[i].BitFlags);
+
+                        StreamUtil.WriteFloat32(Stream, TempChunk.Instances[i].PlayerBounce);
+
+                        StreamUtil.WriteInt16(Stream, TempChunk.Instances[i].CollsionMode);
+
+                        StreamUtil.WriteInt16(Stream, TempChunk.Instances[i].CollisonModelIndex);
+                        StreamUtil.WriteInt16(Stream, TempChunk.Instances[i].PhysicsIndex);
+                        StreamUtil.WriteInt16(Stream, TempChunk.Instances[i].U11);
+
+                        StreamUtil.WriteFloat32(Stream, TempChunk.Instances[i].U12);
+                        StreamUtil.WriteInt32(Stream, TempChunk.Instances[i].U13);
+
+                        StreamUtil.WriteInt32(Stream, TempChunk.Instances[i].U14);
+                        StreamUtil.WriteInt32(Stream, TempChunk.Instances[i].U15);
+                        StreamUtil.WriteInt32(Stream, TempChunk.Instances[i].U16);
+                        StreamUtil.WriteInt32(Stream, TempChunk.Instances[i].U17);
+                    }
+
+                    for (int i = 0; i < TempChunk.Patches.Count; i++)
+                    {
+                        var TempPatch = TempChunk.Patches[i];
+                        StreamUtil.WriteVector4(Stream, TempPatch.LightMapPoint);
+
+                        StreamUtil.WriteVector4(Stream, TempPatch.UVPoint1);
+                        StreamUtil.WriteVector4(Stream, TempPatch.UVPoint2);
+                        StreamUtil.WriteVector4(Stream, TempPatch.UVPoint3);
+                        StreamUtil.WriteVector4(Stream, TempPatch.UVPoint4);
+
+                        StreamUtil.WriteVector4(Stream, TempPatch.R4C4);
+                        StreamUtil.WriteVector4(Stream, TempPatch.R4C3);
+                        StreamUtil.WriteVector4(Stream, TempPatch.R4C2);
+                        StreamUtil.WriteVector4(Stream, TempPatch.R4C1);
+                        StreamUtil.WriteVector4(Stream, TempPatch.R3C4);
+                        StreamUtil.WriteVector4(Stream, TempPatch.R3C3);
+                        StreamUtil.WriteVector4(Stream, TempPatch.R3C2);
+                        StreamUtil.WriteVector4(Stream, TempPatch.R3C1);
+                        StreamUtil.WriteVector4(Stream, TempPatch.R2C4);
+                        StreamUtil.WriteVector4(Stream, TempPatch.R2C3);
+                        StreamUtil.WriteVector4(Stream, TempPatch.R2C2);
+                        StreamUtil.WriteVector4(Stream, TempPatch.R2C1);
+                        StreamUtil.WriteVector4(Stream, TempPatch.R1C4);
+                        StreamUtil.WriteVector4(Stream, TempPatch.R1C3);
+                        StreamUtil.WriteVector4(Stream, TempPatch.R1C2);
+                        StreamUtil.WriteVector4(Stream, TempPatch.R1C1);
+
+                        StreamUtil.WriteVector4(Stream, TempPatch.LowestXYZ);
+                        StreamUtil.WriteVector4(Stream, TempPatch.HighestXYZ);
+
+                        StreamUtil.WriteVector4(Stream, TempPatch.Point1);
+                        StreamUtil.WriteVector4(Stream, TempPatch.Point2);
+                        StreamUtil.WriteVector4(Stream, TempPatch.Point3);
+                        StreamUtil.WriteVector4(Stream, TempPatch.Point4);
+
+                        StreamUtil.WriteInt32(Stream, TempPatch.TextureID);
+                        StreamUtil.WriteInt16(Stream, TempPatch.LightmapID); //41
+                        StreamUtil.WriteInt16(Stream, TempPatch.PatchType);
+                        StreamUtil.WriteInt16(Stream, TempPatch.U0);
+                    }
+
+                    for (int i = 0; i < TempChunk.unknownStruct4s.Count; i++)
+                    {
+                        StreamUtil.WriteMatrix4x4(Stream, TempChunk.unknownStruct4s[i].matrix4X4);
+                        StreamUtil.WriteVector4(Stream, TempChunk.unknownStruct4s[i].vector4);
+
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct4s[i].U0);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct4s[i].U1);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct4s[i].U2);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct4s[i].U3);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct4s[i].U4);
+                        StreamUtil.WriteInt16(Stream, TempChunk.unknownStruct4s[i].U5);
+
+                        StreamUtil.WriteVector3(Stream, TempChunk.unknownStruct4s[i].U6);
+                        StreamUtil.WriteVector3(Stream, TempChunk.unknownStruct4s[i].U7);
+
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct4s[i].U71);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct4s[i].U8);
+                        StreamUtil.WriteInt32(Stream, TempChunk.unknownStruct4s[i].U9);
+                    }
+
+                    for (int i = 0; i < TempChunk.unknownStruct3s.Count; i++)
+                    {
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U0);
+
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U1);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U2);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U3);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U4);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U5);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U6);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U7);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U8);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U9);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U10);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U11);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U12);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U13);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U14);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U15);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U16);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U17);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U18);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U19);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U20);
+                        StreamUtil.WriteFloat32(Stream, TempChunk.unknownStruct3s[i].U21);
                     }
 
                     var GridGroup = new WDXHandler.WDFGridGroup();
