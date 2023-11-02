@@ -134,6 +134,23 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             }
         }
 
+        public void Save(string path)
+        {
+            MemoryStream MainStream = new MemoryStream();
+
+
+
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            var file = File.Create(path);
+            MainStream.Position = 0;
+            MainStream.CopyTo(file);
+            MainStream.Dispose();
+            file.Close();
+        }
 
         public struct UStruct1
         {
