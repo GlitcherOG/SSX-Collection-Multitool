@@ -142,19 +142,98 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
         public void Save(string path)
         {
-            MemoryStream MainStream = new MemoryStream();
+            MemoryStream stream = new MemoryStream();
 
+            StreamUtil.WriteFloat32(stream, U0);
+            StreamUtil.WriteFloat32(stream, U1);
+            StreamUtil.WriteFloat32(stream, U2);
+            StreamUtil.WriteFloat32(stream, U3);
 
+            StreamUtil.WriteFloat32(stream, U4);
+            StreamUtil.WriteInt32(stream, U5);
+            StreamUtil.WriteInt32(stream, uStruct2s.Count);
+            StreamUtil.WriteInt32(stream, uStruct1s.GetLength(0));
 
+            StreamUtil.WriteInt32(stream, uStruct1s.GetLength(1));
+            StreamUtil.WriteInt32(stream, U9);
+            StreamUtil.WriteInt32(stream, U10);
+            StreamUtil.WriteInt32(stream, U11);
+
+            StreamUtil.WriteString(stream, FilePath, 64);
+
+            long TempPos = stream.Position;
+            stream.Position += uStruct1s.GetLength(1) * uStruct1s.GetLength(0) * 12;
+            long Pos = stream.Position;
+            for (int y = 0; y < uStruct1s.GetLength(1); y++)
+            {
+                for (int x = 0; x < uStruct1s.GetLength(0); x++)
+                {
+                    for (int i = 0; i < uStruct1s[x,y].ints.Count; i++)
+                    {
+                        uStruct1s[x, y].StartPos = (int)(stream.Position - Pos);
+                        StreamUtil.WriteInt32(stream, uStruct1s[x, y].ints[i]);
+                    }
+                }
+            }
+
+            Pos = stream.Position;
+            stream.Position = TempPos;
+            for (int y = 0; y < uStruct1s.GetLength(1); y++)
+            {
+                for (int x = 0; x < uStruct1s.GetLength(0); x++)
+                {
+                    StreamUtil.WriteInt32(stream, uStruct1s[x,y].ID);
+                    StreamUtil.WriteInt32(stream, uStruct1s[x, y].ints.Count);
+                    StreamUtil.WriteInt32(stream, uStruct1s[x, y].StartPos);
+                }
+            }
+            stream.Position = Pos;
+            for (int i = 0; i < uStruct2s.Count; i++)
+            {
+                StreamUtil.WriteVector3(stream, uStruct2s[i].U0);
+                StreamUtil.WriteVector3(stream, uStruct2s[i].U1);
+                StreamUtil.WriteVector3(stream, uStruct2s[i].U2);
+                StreamUtil.WriteFloat32(stream, uStruct2s[i].U3);
+                StreamUtil.WriteFloat32(stream, uStruct2s[i].U4);
+                StreamUtil.WriteInt32(stream, uStruct2s[i].U5);
+
+                StreamUtil.WriteInt32(stream, uStruct2s[i].U6);
+                StreamUtil.WriteInt32(stream, uStruct2s[i].U7);
+
+                StreamUtil.WriteInt16(stream, uStruct2s[i].U8);
+                StreamUtil.WriteInt16(stream, uStruct2s[i].U9);
+
+                StreamUtil.WriteInt32(stream, uStruct2s[i].U10);
+
+                StreamUtil.WriteInt32(stream, uStruct2s[i].U11);
+                StreamUtil.WriteInt32(stream, uStruct2s[i].U12);
+                StreamUtil.WriteInt32(stream, uStruct2s[i].U13);
+                StreamUtil.WriteInt32(stream, uStruct2s[i].U14);
+
+                StreamUtil.WriteFloat32(stream, uStruct2s[i].U15);
+                StreamUtil.WriteInt32(stream, uStruct2s[i].U16);
+                StreamUtil.WriteInt16(stream, uStruct2s[i].U17);
+                StreamUtil.WriteInt16(stream, uStruct2s[i].U18);
+                StreamUtil.WriteInt32(stream, uStruct2s[i].U19);
+
+                StreamUtil.WriteInt32(stream, uStruct2s[i].U20);
+                StreamUtil.WriteFloat32(stream, uStruct2s[i].U21);
+                StreamUtil.WriteInt32(stream, uStruct2s[i].U22);
+                StreamUtil.WriteInt32(stream, uStruct2s[i].U23);
+
+                StreamUtil.WriteInt32(stream, uStruct2s[i].U24);
+                StreamUtil.WriteInt32(stream, uStruct2s[i].U25);
+                StreamUtil.WriteFloat32(stream, uStruct2s[i].U26);
+            }
 
             if (File.Exists(path))
             {
                 File.Delete(path);
             }
             var file = File.Create(path);
-            MainStream.Position = 0;
-            MainStream.CopyTo(file);
-            MainStream.Dispose();
+            stream.Position = 0;
+            stream.CopyTo(file);
+            stream.Dispose();
             file.Close();
         }
 
