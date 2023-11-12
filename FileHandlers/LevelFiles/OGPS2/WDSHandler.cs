@@ -30,7 +30,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         public string FilePath;
         public byte[] Unused; //64 - file path lenght appears to be unused
 
-        public List<UStruct1> uStruct1s;
+        public UStruct1[,] uStruct1s;
         public List<UStruct2> uStruct2s;
 
         public void Load(string path)
@@ -58,33 +58,39 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 long Length = 64 - (stream.Position - Pos);
                 Unused = StreamUtil.ReadBytes(stream, (int)Length);
 
-                uStruct1s = new List<UStruct1>();
-                for (int i = 0; i < RowCount * CollumCount; i++)
+                uStruct1s = new UStruct1[RowCount,CollumCount];
+                for (int y = 0; y < CollumCount; y++)
                 {
-                    UStruct1 TempUstruct1 = new UStruct1();
+                    for (int x = 0; x < RowCount; x++)
+                    {
+                        UStruct1 TempUstruct1 = new UStruct1();
 
-                    TempUstruct1.ID = StreamUtil.ReadUInt32(stream);
-                    TempUstruct1.Count = StreamUtil.ReadUInt32(stream);
-                    TempUstruct1.StartPos = StreamUtil.ReadUInt32(stream);
+                        TempUstruct1.ID = StreamUtil.ReadUInt32(stream);
+                        TempUstruct1.Count = StreamUtil.ReadUInt32(stream);
+                        TempUstruct1.StartPos = StreamUtil.ReadUInt32(stream);
 
-                    TempUstruct1.ints = new List<int>();
+                        TempUstruct1.ints = new List<int>();
 
-                    uStruct1s.Add(TempUstruct1);
+                        uStruct1s[x,y] = TempUstruct1;
+                    }
                 }
 
                 Pos = stream.Position;
 
-                for (int i = 0; i < uStruct1s.Count; i++)
+                for (int y = 0; y < uStruct1s.GetLength(1); y++)
                 {
-                    var TempUStruct = uStruct1s[i];
-                    stream.Position = Pos + (4 * TempUStruct.StartPos);
-
-                    for (int a = 0; a < TempUStruct.Count; a++)
+                    for (int x = 0; x < uStruct1s.GetLength(0); x++)
                     {
-                        TempUStruct.ints.Add(StreamUtil.ReadUInt32(stream));
-                    }
+                        var TempUStruct = uStruct1s[x,y];
+                        stream.Position = Pos + (4 * TempUStruct.StartPos);
 
-                    uStruct1s[i] = TempUStruct;
+                        for (int a = 0; a < TempUStruct.Count; a++)
+                        {
+                            TempUStruct.ints.Add(StreamUtil.ReadUInt32(stream));
+                        }
+
+                        uStruct1s[x,y] = TempUStruct;
+                    }
                 }
 
                 uStruct2s = new List<UStruct2>();
