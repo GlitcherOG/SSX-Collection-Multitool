@@ -23,7 +23,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         public int GridColumnCount;
 
         public int ModelCount;
-        public int UStruct2Count;
+        public int MaterialCount;
         public int UStruct1Count;
         public int SplineCount;
 
@@ -55,7 +55,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 GridColumnCount = StreamUtil.ReadUInt32(stream);
 
                 ModelCount = StreamUtil.ReadUInt32(stream);
-                UStruct2Count = StreamUtil.ReadUInt32(stream);
+                MaterialCount = StreamUtil.ReadUInt32(stream);
                 UStruct1Count = StreamUtil.ReadUInt32(stream);
                 SplineCount = StreamUtil.ReadUInt32(stream);
 
@@ -105,7 +105,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 }
 
                 Materials = new List<Material>();
-                for (int i = 0; i < UStruct2Count; i++)
+                for (int i = 0; i < MaterialCount; i++)
                 {
                     var TempMaterial = new Material();
 
@@ -145,6 +145,98 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 }
             }
         }
+
+        public void Save(string path)
+        {
+            MemoryStream stream = new MemoryStream();
+
+            StreamUtil.WriteFloat32(stream, FormatVersion);
+            StreamUtil.WriteFloat32(stream, PS2Version);
+            StreamUtil.WriteInt32(stream, Revision);
+            StreamUtil.WriteVector3(stream, U3);
+            StreamUtil.WriteVector3(stream, U4);
+
+            StreamUtil.WriteInt32(stream, GroupSize);
+            StreamUtil.WriteInt32(stream, WDFGridGroups.GetLength(0));
+            StreamUtil.WriteInt32(stream, WDFGridGroups.GetLength(1));
+            StreamUtil.WriteInt32(stream, ModelOffsets.Count);
+            StreamUtil.WriteInt32(stream, Materials.Count);
+            StreamUtil.WriteInt32(stream, uStruct1s.Count);
+            StreamUtil.WriteInt32(stream, Splines.Count);
+
+            StreamUtil.WriteInt16(stream, U11);
+            StreamUtil.WriteInt16(stream, U12);
+            StreamUtil.WriteInt16(stream, U13);
+            StreamUtil.WriteInt16(stream, U14);
+
+            for (int i = 0; i < ModelOffsets.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, ModelOffsets[i].Offset);
+                StreamUtil.WriteInt32(stream, ModelOffsets[i].Size);
+            }
+
+            for (int y = 0; y < WDFGridGroups.GetLength(1); y++)
+            {
+                for (int x = 0; x < WDFGridGroups.GetLength(0); x++)
+                {
+                    StreamUtil.WriteInt32(stream, WDFGridGroups[x, y].Offset);
+                    StreamUtil.WriteInt32(stream, WDFGridGroups[x, y].Size);
+                }
+            }
+
+            for (int i = 0; i < uStruct1s.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, uStruct1s[i].UsedCount);
+
+                StreamUtil.WriteInt16(stream, uStruct1s[i].U0);
+                StreamUtil.WriteInt16(stream, uStruct1s[i].U1);
+                StreamUtil.WriteInt16(stream, uStruct1s[i].U2);
+                StreamUtil.WriteInt16(stream, uStruct1s[i].U3);
+                StreamUtil.WriteInt16(stream, uStruct1s[i].U4);
+                StreamUtil.WriteInt16(stream, uStruct1s[i].U5);
+                StreamUtil.WriteInt16(stream, uStruct1s[i].U6);
+                StreamUtil.WriteInt16(stream, uStruct1s[i].U7);
+            }
+
+            for (int i = 0; i < Materials.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, Materials[i].U0);
+                StreamUtil.WriteInt16(stream, Materials[i].TextureID);
+                StreamUtil.WriteInt16(stream, Materials[i].U2);
+                StreamUtil.WriteInt32(stream, Materials[i].U3);
+            }
+
+            for (int i = 0; i < Splines.Count; i++)
+            {
+                StreamUtil.WriteVector3(stream, Splines[i].vector3);
+                StreamUtil.WriteVector3(stream, Splines[i].vector31);
+
+                StreamUtil.WriteInt32(stream, Splines[i].U0);
+                StreamUtil.WriteInt32(stream, Splines[i].U1);
+                StreamUtil.WriteInt32(stream, Splines[i].U2);
+
+                StreamUtil.WriteInt16(stream, Splines[i].U3);
+                StreamUtil.WriteInt16(stream, Splines[i].U4);
+                StreamUtil.WriteInt16(stream, Splines[i].U5);
+
+                StreamUtil.WriteInt16(stream, Splines[i].U6);
+                StreamUtil.WriteInt16(stream, Splines[i].U7);
+                StreamUtil.WriteInt16(stream, Splines[i].U8);
+                StreamUtil.WriteInt16(stream, Splines[i].U9);
+                StreamUtil.WriteInt16(stream, Splines[i].U10);
+            }
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            var file = File.Create(path);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            stream.Dispose();
+            file.Close();
+        }
+
         public struct ModelOffset
         {
             public int Offset;
