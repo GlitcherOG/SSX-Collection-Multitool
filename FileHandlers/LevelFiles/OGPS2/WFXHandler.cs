@@ -5,7 +5,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,8 +19,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         public int UStruct0Offset;
         public int UStruct1Count;
         public int UStruct1Offset;
-        public int UStruct2Count;
-        public int UStruct2Offset;
+        public int CollisonModelCount;
+        public int CollisonModelOffset;
         public int EffectHeaderCount;
         public int EffectHeaderOffset;
 
@@ -40,8 +39,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 UStruct0Offset = StreamUtil.ReadUInt32(stream);
                 UStruct1Count = StreamUtil.ReadUInt32(stream);
                 UStruct1Offset = StreamUtil.ReadUInt32(stream);
-                UStruct2Count = StreamUtil.ReadUInt32(stream);
-                UStruct2Offset = StreamUtil.ReadUInt32(stream);
+                CollisonModelCount = StreamUtil.ReadUInt32(stream);
+                CollisonModelOffset = StreamUtil.ReadUInt32(stream);
                 EffectHeaderCount = StreamUtil.ReadUInt32(stream);
                 EffectHeaderOffset = StreamUtil.ReadUInt32(stream);
 
@@ -146,9 +145,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 }
 
                 CollisonModelPointers = new List<CollisonModelPointer>();
-                stream.Position = UStruct2Offset;
+                stream.Position = CollisonModelOffset;
                 int MeshID = 0;
-                for (int i = 0; i < UStruct2Count; i++)
+                for (int i = 0; i < CollisonModelCount; i++)
                 {
                     var TempUStruct2 = new CollisonModelPointer();
 
@@ -227,6 +226,36 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
             }
 
+        }
+
+        public void Save(string path)
+        {
+            MemoryStream stream = new MemoryStream();
+
+
+            stream.Position = 0;
+
+            StreamUtil.WriteFloat32(stream, U0);
+            StreamUtil.WriteFloat32(stream, U1);
+
+            StreamUtil.WriteInt32(stream, uStruct0s.Count);
+            StreamUtil.WriteInt32(stream, UStruct0Offset);
+            StreamUtil.WriteInt32(stream, uStruct1s.Count);
+            StreamUtil.WriteInt32(stream, UStruct1Offset);
+            StreamUtil.WriteInt32(stream, CollisonModelPointers.Count);
+            StreamUtil.WriteInt32(stream, CollisonModelOffset);
+            StreamUtil.WriteInt32(stream, EffectHeaders.Count);
+            StreamUtil.WriteInt32(stream, EffectHeaderOffset);
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            var file = File.Create(path);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            stream.Dispose();
+            file.Close();
         }
 
         public void SaveModels(string Path)
