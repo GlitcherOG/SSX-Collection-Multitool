@@ -232,6 +232,52 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         {
             MemoryStream stream = new MemoryStream();
 
+            stream.Position += 4 * 10;
+
+            UStruct0Offset = (int)stream.Position;
+            for (int i = 0; i < uStruct0s.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, uStruct0s[i].U0);
+                StreamUtil.WriteInt32(stream, uStruct0s[i].U1);
+                StreamUtil.WriteInt32(stream, uStruct0s[i].U2);
+                StreamUtil.WriteInt32(stream, uStruct0s[i].U3);
+                StreamUtil.WriteInt32(stream, uStruct0s[i].U4);
+                StreamUtil.WriteInt32(stream, uStruct0s[i].U5);
+                StreamUtil.WriteInt32(stream, uStruct0s[i].U6);
+            }
+
+            UStruct1Offset = (int)stream.Position;
+            stream.Position += 4 * 3 * uStruct1s.Count;
+            for (int i = 0; i < uStruct1s.Count; i++)
+            {
+
+            }
+
+            CollisonModelOffset = (int)stream.Position;
+            stream.Position = UStruct1Offset;
+            for (int i = 0; i < uStruct1s.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, uStruct1s[i].Offset);
+                StreamUtil.WriteInt32(stream, uStruct1s[i].ByteSize);
+                StreamUtil.WriteInt32(stream, uStruct1s[i].UStruct3Count);
+            }
+            stream.Position = CollisonModelOffset;
+
+            stream.Position += 4 * 3 * CollisonModelPointers.Count;
+            for (int i = 0; i < CollisonModelPointers.Count; i++)
+            {
+
+            }
+
+            long TempPos = stream.Position;
+            stream.Position = CollisonModelOffset;
+            for (int i = 0; i < CollisonModelPointers.Count; i++)
+            {
+                StreamUtil.WriteInt32(stream, CollisonModelPointers[i].Offset);
+                StreamUtil.WriteInt32(stream, CollisonModelPointers[i].ByteSize);
+                StreamUtil.WriteInt32(stream, CollisonModelPointers[i].Count);
+            }
+            stream.Position = TempPos;
 
             stream.Position = 0;
 
