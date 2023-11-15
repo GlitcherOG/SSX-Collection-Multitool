@@ -250,7 +250,55 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             stream.Position += 4 * 3 * uStruct1s.Count;
             for (int i = 0; i < uStruct1s.Count; i++)
             {
+                var TempUstruct1 = uStruct1s[i];
+                TempUstruct1.Offset = (int)stream.Position;
+                for (int a = 0; a < TempUstruct1.uStruct3s.Count; a++)
+                {
+                    StreamUtil.WriteInt32(stream, TempUstruct1.uStruct3s[a].EndAlligment);
+                    StreamUtil.WriteInt32(stream, TempUstruct1.uStruct3s[a].U1);
+                    StreamUtil.WriteInt32(stream, TempUstruct1.uStruct3s[a].U2);
+                    StreamUtil.WriteInt32(stream, TempUstruct1.uStruct3s[a].struct4s.Count-1);
 
+                    StreamUtil.WriteInt32(stream, TempUstruct1.uStruct3s[a].U4);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U5);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U6);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U7);
+
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U8);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U9);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U10);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U11);
+
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U12);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U13);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U14);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U15);
+
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U16);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U17);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U18);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U19);
+
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U20);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U21);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U22);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U23);
+
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U24);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U25);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U26);
+                    StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].U27);
+
+                    for (int b = 0; b < TempUstruct1.uStruct3s[a].struct4s.Count; b++)
+                    {
+                        StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].struct4s[b].U24);
+                        StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].struct4s[b].U25);
+                        StreamUtil.WriteInt32(stream, TempUstruct1.uStruct3s[a].struct4s[b].U26);
+                    }
+
+                }
+
+                uStruct1s[i] = TempUstruct1;
             }
 
             CollisonModelOffset = (int)stream.Position;
@@ -259,7 +307,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             {
                 StreamUtil.WriteInt32(stream, uStruct1s[i].Offset);
                 StreamUtil.WriteInt32(stream, uStruct1s[i].ByteSize);
-                StreamUtil.WriteInt32(stream, uStruct1s[i].UStruct3Count);
+                StreamUtil.WriteInt32(stream, uStruct1s[i].uStruct3s.Count);
             }
             stream.Position = CollisonModelOffset;
 
