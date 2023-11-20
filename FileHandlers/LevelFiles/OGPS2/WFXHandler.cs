@@ -291,10 +291,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                     for (int b = 0; b < TempUstruct1.uStruct3s[a].struct4s.Count; b++)
                     {
-                        StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].struct4s[b].U24);
-                        StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].struct4s[b].U25);
-                        StreamUtil.WriteInt32(stream, TempUstruct1.uStruct3s[a].struct4s[b].U26);
+                        StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].struct4s[b].U0);
+                        StreamUtil.WriteFloat32(stream, TempUstruct1.uStruct3s[a].struct4s[b].U1);
+                        StreamUtil.WriteInt32(stream, TempUstruct1.uStruct3s[a].struct4s[b].U2);
                     }
+
+
+                    StreamUtil.WriteBytes(stream, TempUstruct1.uStruct3s[a].UByteData);
+
+                    StreamUtil.WriteBytes(stream, TempUstruct1.uStruct3s[a].UEndData);
 
                 }
 
