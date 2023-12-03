@@ -1340,7 +1340,6 @@
             // 
             // MNFLoad
             // 
-            MNFLoad.Enabled = false;
             MNFLoad.Location = new Point(3, 372);
             MNFLoad.Name = "MNFLoad";
             MNFLoad.Size = new Size(75, 23);

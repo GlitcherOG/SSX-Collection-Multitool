@@ -271,6 +271,26 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         streamMatrix.Position = TempPos;
                     }
 
+                    streamMatrix.Position = Model.OffsetVertexSection;
+                    Model.Vertex = new List<VertexData>();
+                    for (int b = 0; b < Model.NumVertices; b++)
+                    {
+                        VertexData vertexData = new VertexData();
+
+                        vertexData.Vertex.X = StreamUtil.ReadUInt16(streamMatrix, true)/256f;
+                        vertexData.Vertex.Y = StreamUtil.ReadUInt16(streamMatrix, true) / 256f;
+                        vertexData.Vertex.Z = StreamUtil.ReadUInt16(streamMatrix, true) / 256f;
+
+                        vertexData.VertexNormal.X = StreamUtil.ReadUInt16(streamMatrix, true) / 256f;
+                        vertexData.VertexNormal.Y = StreamUtil.ReadUInt16(streamMatrix, true) / 256f;
+                        vertexData.VertexNormal.Z = StreamUtil.ReadUInt16(streamMatrix, true) / 256f;
+
+                        vertexData.UV.X = StreamUtil.ReadUInt16(streamMatrix, true) / 256f;
+                        vertexData.UV.Y = StreamUtil.ReadUInt16(streamMatrix, true) / 256f;
+
+                        Model.Vertex.Add(vertexData);
+                    }
+
                     modelHeaders[i] = Model;
                 }
             }
@@ -311,6 +331,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public List<Vector3> iKPoints;
             public List<MorphHeader> morphHeader;
             public List<BoneWeightHeader> boneWeightHeaders;
+            public List<VertexData> Vertex;
         }
 
         public struct MaterialData
@@ -422,6 +443,13 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public int IndexUnk0;
             public int NumIndex;
             public int IndexUnk1;
+        }
+
+        public struct VertexData
+        {
+            public Vector3 Vertex;
+            public Vector3 VertexNormal;
+            public Vector2 UV;
         }
     }
 }
