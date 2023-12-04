@@ -67,7 +67,7 @@ namespace SSXMultiTool.FileHandlers
                     fileIndex.PathIndex = StreamUtil.ReadUInt16(stream, true);
                     fileIndex.FileName = StreamUtil.ReadString(stream, NameLength-2);
 
-                    Files.Add(fileIndex);
+                    Files[i] = fileIndex;
                 }
 
                 StreamUtil.AlignBy16(stream);
@@ -85,6 +85,8 @@ namespace SSXMultiTool.FileHandlers
             public int zSize; //Unused?
             public int Size;
             public int Hash;
+
+            public bool Compressed;
 
             public int PathIndex;
             public string FileName;

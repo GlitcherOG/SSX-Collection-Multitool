@@ -419,7 +419,9 @@ namespace SSXMultiTool.FileHandlers
                     GC.Collect();
                 }
             }
+
         }
+
         public struct BIGFHeader
         {
             public string MagicWords;
