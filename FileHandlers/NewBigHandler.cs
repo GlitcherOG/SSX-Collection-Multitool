@@ -21,7 +21,9 @@ namespace SSXMultiTool.FileHandlers
         public int NumPath;
         public long FileSize;
 
-        struct FileIndex
+        public List<FileIndex> Files = new List<FileIndex>();
+
+        public struct FileIndex
         {
             public int Offset;
             public int zSize; //Unused?
@@ -51,22 +53,15 @@ namespace SSXMultiTool.FileHandlers
 
 
 
+        int hash(char[] str)
+        {
+            int hash = 5381;
 
-
-        //4 - header
-        //4 - count
-        //4 - unknown
-        //4 - path offset
-        //4 - data start from path offset
-        //2 - unknown
-        //2 - folder path count
-        //4 - unknown
-        //4 - size
-        //16 - unknown
-
-        //4 - unknown
-        //4 - unknown
-        //4 - size?
-        //4 - unknown
+            for (int i = 0; i < str.Length; i++)
+            {
+                hash = ((hash << 5) + hash) + str[i]; /* hash * 33 + c */
+            }
+            return hash;
+        }
     }
 }
