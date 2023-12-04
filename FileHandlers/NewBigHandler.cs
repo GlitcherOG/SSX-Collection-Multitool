@@ -79,6 +79,21 @@ namespace SSXMultiTool.FileHandlers
                 }
             }
         }
+
+        public void ExtractLoad(string path)
+        {
+            Load(path);
+            using (Stream stream = File.Open(path, FileMode.Open))
+            {
+                for (int i = 0; i < Files.Count; i++)
+                {
+                    stream.Position = Files[i].Offset * Aligment;
+
+                    
+                }
+            }
+        }
+
         public struct FileIndex
         {
             public int Offset;

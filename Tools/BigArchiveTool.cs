@@ -63,7 +63,7 @@ namespace SSXMultiTool
             {
                 for (int i = 0; i < newBigHandler.Files.Count; i++)
                 {
-                    string[] NewRow = { newBigHandler.Paths[newBigHandler.Files[i].PathIndex] + newBigHandler.Files[i].FileName, newBigHandler.Files[i].Offset.ToString(), newBigHandler.Files[i].zSize.ToString(), newBigHandler.Files[i].Compressed.ToString(), newBigHandler.Files[i].Size.ToString() };
+                    string[] NewRow = { newBigHandler.Paths[newBigHandler.Files[i].PathIndex]  + "/"+ newBigHandler.Files[i].FileName, newBigHandler.Files[i].Offset.ToString(), newBigHandler.Files[i].zSize.ToString(), newBigHandler.Files[i].Compressed.ToString(), newBigHandler.Files[i].Size.ToString() };
                     BigDataView.Rows.Add(NewRow);
                 }
             }
