@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -80,16 +81,59 @@ namespace SSXMultiTool.FileHandlers
             }
         }
 
-        public void ExtractLoad(string path)
+        public void ExtractLoad(string path, string extractpath)
         {
             Load(path);
             using (Stream stream = File.Open(path, FileMode.Open))
             {
                 for (int i = 0; i < Files.Count; i++)
                 {
-                    stream.Position = Files[i].Offset * Aligment;
+                    string FilePath = extractpath + "\\" + Paths[Files[i].PathIndex] + "\\" + Files[i].FileName;
 
-                    
+                    stream.Position = Files[i].Offset * 16;
+
+                    MemoryStream OutputStream = new MemoryStream();
+
+                    string ChunkedTest = StreamUtil.ReadString(stream, 8);
+
+                    stream.Position -= 8;
+
+                    if (ChunkedTest == "chunkzip")
+                    {
+                        MemoryStream InputStream = new MemoryStream();
+                        try
+                        {
+                            stream.Position += 16 * 3;
+                            StreamUtil.WriteStreamIntoStream(InputStream, stream, stream.Position, Files[i].Size - (16 * 3));
+                            var decompressor = new DeflateStream(InputStream, CompressionMode.Decompress);
+                            InputStream.Position = 0;
+                            decompressor.CopyTo(OutputStream);
+                        }
+                        catch
+                        {
+                            OutputStream = InputStream;
+                        }
+                        InputStream.Dispose();
+                    }
+                    else
+                    {
+                        StreamUtil.WriteStreamIntoStream(OutputStream, stream, stream.Position, Files[i].Size);
+                    }
+
+                    if (!Directory.Exists(Path.GetDirectoryName(extractpath + "\\" + Paths[Files[i].PathIndex] + "\\")))
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(extractpath + "\\" + Paths[Files[i].PathIndex] + "\\"));
+                    }
+
+                    if (File.Exists(FilePath))
+                    {
+                        File.Delete(FilePath);
+                    }
+                    var file = File.Create(FilePath);
+                    OutputStream.Position = 0;
+                    OutputStream.CopyTo(file);
+                    OutputStream.Dispose();
+                    file.Close();
                 }
             }
         }
@@ -123,6 +167,22 @@ namespace SSXMultiTool.FileHandlers
         //    uint64_t fileSize;          // total size of the bigfile
         //};
 
+        public struct ChunkZip
+        {
+            public string Header;
+            public int VersionNumber;
+            public int FullSize;
+
+            public int BlockSize;
+            public int NumSegments; //Chunks
+            public int Alignment;
+            public int U5;
+
+            public int U6;
+            public int U7;
+            public int ChunkSize; //CompressedSize
+            public int CompressionType; //Is Compressed?
+        }
 
 
         int hash(char[] str)

@@ -18,6 +18,7 @@ namespace SSXMultiTool
     {
         BigHandler bigHandler = new BigHandler();
         NewBigHandler newBigHandler = new NewBigHandler();
+        string path;
         public BigArchiveTool(string OpenPath = "")
         {
             InitializeComponent();
@@ -135,6 +136,7 @@ namespace SSXMultiTool
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 int Type = HeaderData(openFileDialog.FileName);
+                path = openFileDialog.FileName;
                 if (Type==0)
                 {
                     try
@@ -196,6 +198,12 @@ namespace SSXMultiTool
                     {
                         MessageBox.Show("Error Extracting Big Archive");
                     }
+                }
+                else
+                {
+                    newBigHandler.ExtractLoad(path,commonDialog.FileName);
+                    GC.Collect();
+                    MessageBox.Show("Extracted");
                 }
             }
         }

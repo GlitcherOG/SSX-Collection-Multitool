@@ -384,9 +384,9 @@ namespace SSXMultiTool.Utilities
             StreamUtil.WriteFloat32(stream, matrix4X4.M44, BigEndian);
         }
 
-        public static void WriteStreamIntoStream(Stream MainStream, Stream Input, int StartPos = -1, int Length = -1)
+        public static void WriteStreamIntoStream(Stream MainStream, Stream Input, long StartPos = -1, long Length = -1)
         {
-            if(Length ==-1)
+            if(Length == -1)
             {
                 Length = (int)Input.Length;
             }
@@ -397,7 +397,7 @@ namespace SSXMultiTool.Utilities
 
             Input.Position = StartPos;
             byte[] Buffer = new byte[Length];
-            Buffer = ReadBytes(Input, (int)Input.Length);
+            Buffer = ReadBytes(Input, (int)Length);
             WriteBytes(MainStream, Buffer);
         }
 
