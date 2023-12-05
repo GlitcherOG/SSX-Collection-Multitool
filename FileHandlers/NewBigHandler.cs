@@ -89,6 +89,12 @@ namespace SSXMultiTool.FileHandlers
                 for (int i = 0; i < Files.Count; i++)
                 {
                     string FilePath = extractpath + "\\" + Paths[Files[i].PathIndex] + "\\" + Files[i].FileName;
+
+                    if (!Directory.Exists(Path.GetDirectoryName(extractpath + "\\" + Paths[Files[i].PathIndex] + "\\")))
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(extractpath + "\\" + Paths[Files[i].PathIndex] + "\\"));
+                    }
+
                     if (File.Exists(FilePath))
                     {
                         File.Delete(FilePath);
@@ -105,9 +111,6 @@ namespace SSXMultiTool.FileHandlers
 
                         if (ChunkedTest == "chunkzip")
                         {
-                            MemoryStream InputStream = new MemoryStream();
-                            //try
-                            //{
                             ChunkZipHeader chunkZipHeader = new ChunkZipHeader();
 
                             chunkZipHeader.Header = StreamUtil.ReadString(stream, 8);
@@ -120,6 +123,7 @@ namespace SSXMultiTool.FileHandlers
 
                             for (int a = 0; a < chunkZipHeader.NumSegments; a++)
                             {
+                                MemoryStream InputStream = new MemoryStream();
                                 long OldPos = stream.Position;
                                 StreamUtil.AlignBy16(stream);
                                 long CurPos = stream.Position;
@@ -142,33 +146,39 @@ namespace SSXMultiTool.FileHandlers
                                 var decompressor = new DeflateStream(InputStream, CompressionMode.Decompress);
                                 InputStream.Position = 0;
                                 decompressor.CopyTo(OutputStream);
-                                //byte[] bytes = StreamUtil.ReadBytes(OldStream, (int)OldStream.Length);
-                                //StreamUtil.WriteBytes(OutputStream, bytes);
-                                //bytes = new byte[0];
                                 decompressor.Close();
-                                InputStream = new MemoryStream();
+                                InputStream.Close();
                             }
-                            //}
-                            //catch
-                            //{
-                            //    stream.Position = Files[i].Offset * 16;
-                            //    StreamUtil.WriteStreamIntoStream(OutputStream, stream, stream.Position, Files[i].Size);
-                            //}
-                            InputStream.Close();
                         }
                         else
                         {
                             StreamUtil.WriteStreamIntoStream(OutputStream, stream, stream.Position, Files[i].Size);
                         }
-
-                        if (!Directory.Exists(Path.GetDirectoryName(extractpath + "\\" + Paths[Files[i].PathIndex] + "\\")))
-                        {
-                            Directory.CreateDirectory(Path.GetDirectoryName(extractpath + "\\" + Paths[Files[i].PathIndex] + "\\"));
-                        }
-                        OutputStream.Dispose();
                     }
-                    GC.Collect();
+                    //GC.Collect();
                 }
+            }
+        }
+
+        public void SaveFile(string SavePath, string LoadPath)
+        {
+            string FilePath = SavePath;
+
+            if (File.Exists(FilePath))
+            {
+                File.Delete(FilePath);
+            }
+            var file = File.Create(FilePath);
+            file.Close();
+            using (Stream OutputStream = File.Open(FilePath, FileMode.Open))
+            {
+                string[] paths = Directory.GetFiles(LoadPath, "*.*", SearchOption.AllDirectories);
+
+                for (int i = 0; i < paths.Length; i++)
+                {
+                    string DataPath = paths[i].Remove(0, LoadPath.Length + 1).Replace("//", @"\").Replace("\\", @"\");
+                } 
+
             }
         }
 
