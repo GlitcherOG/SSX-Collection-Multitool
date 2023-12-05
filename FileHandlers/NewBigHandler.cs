@@ -89,51 +89,85 @@ namespace SSXMultiTool.FileHandlers
                 for (int i = 0; i < Files.Count; i++)
                 {
                     string FilePath = extractpath + "\\" + Paths[Files[i].PathIndex] + "\\" + Files[i].FileName;
-
-                    stream.Position = Files[i].Offset * 16;
-
-                    MemoryStream OutputStream = new MemoryStream();
-
-                    string ChunkedTest = StreamUtil.ReadString(stream, 8);
-
-                    stream.Position -= 8;
-
-                    if (ChunkedTest == "chunkzip")
-                    {
-                        MemoryStream InputStream = new MemoryStream();
-                        try
-                        {
-                            stream.Position += 16 * 3;
-                            StreamUtil.WriteStreamIntoStream(InputStream, stream, stream.Position, Files[i].Size - (16 * 3));
-                            var decompressor = new DeflateStream(InputStream, CompressionMode.Decompress);
-                            InputStream.Position = 0;
-                            decompressor.CopyTo(OutputStream);
-                        }
-                        catch
-                        {
-                            OutputStream = InputStream;
-                        }
-                        InputStream.Dispose();
-                    }
-                    else
-                    {
-                        StreamUtil.WriteStreamIntoStream(OutputStream, stream, stream.Position, Files[i].Size);
-                    }
-
-                    if (!Directory.Exists(Path.GetDirectoryName(extractpath + "\\" + Paths[Files[i].PathIndex] + "\\")))
-                    {
-                        Directory.CreateDirectory(Path.GetDirectoryName(extractpath + "\\" + Paths[Files[i].PathIndex] + "\\"));
-                    }
-
                     if (File.Exists(FilePath))
                     {
                         File.Delete(FilePath);
                     }
                     var file = File.Create(FilePath);
-                    OutputStream.Position = 0;
-                    OutputStream.CopyTo(file);
-                    OutputStream.Dispose();
                     file.Close();
+                    using (Stream OutputStream = File.Open(FilePath, FileMode.Open))
+                    {
+                        stream.Position = Files[i].Offset * 16;
+
+                        string ChunkedTest = StreamUtil.ReadString(stream, 8);
+
+                        stream.Position -= 8;
+
+                        if (ChunkedTest == "chunkzip")
+                        {
+                            MemoryStream InputStream = new MemoryStream();
+                            //try
+                            //{
+                            ChunkZipHeader chunkZipHeader = new ChunkZipHeader();
+
+                            chunkZipHeader.Header = StreamUtil.ReadString(stream, 8);
+                            chunkZipHeader.VersionNumber = StreamUtil.ReadUInt32(stream, true);
+                            chunkZipHeader.FullSize = StreamUtil.ReadUInt32(stream, true);
+
+                            chunkZipHeader.BlockSize = StreamUtil.ReadUInt32(stream, true);
+                            chunkZipHeader.NumSegments = StreamUtil.ReadUInt32(stream, true);
+                            chunkZipHeader.Alignment = StreamUtil.ReadUInt32(stream, true);
+
+                            for (int a = 0; a < chunkZipHeader.NumSegments; a++)
+                            {
+                                long OldPos = stream.Position;
+                                StreamUtil.AlignBy16(stream);
+                                long CurPos = stream.Position;
+
+                                if (CurPos - OldPos < 8)
+                                {
+                                    stream.Position += 8;
+                                }
+                                else
+                                {
+                                    stream.Position -= 8;
+                                }
+
+                                Chunk chunk = new Chunk();
+
+                                chunk.ChunkSize = StreamUtil.ReadUInt32(stream, true);
+                                chunk.CompressionType = StreamUtil.ReadUInt32(stream, true);
+
+                                StreamUtil.WriteStreamIntoStream(InputStream, stream, stream.Position, chunk.ChunkSize);
+                                var decompressor = new DeflateStream(InputStream, CompressionMode.Decompress);
+                                InputStream.Position = 0;
+                                decompressor.CopyTo(OutputStream);
+                                //byte[] bytes = StreamUtil.ReadBytes(OldStream, (int)OldStream.Length);
+                                //StreamUtil.WriteBytes(OutputStream, bytes);
+                                //bytes = new byte[0];
+                                decompressor.Close();
+                                InputStream = new MemoryStream();
+                            }
+                            //}
+                            //catch
+                            //{
+                            //    stream.Position = Files[i].Offset * 16;
+                            //    StreamUtil.WriteStreamIntoStream(OutputStream, stream, stream.Position, Files[i].Size);
+                            //}
+                            InputStream.Close();
+                        }
+                        else
+                        {
+                            StreamUtil.WriteStreamIntoStream(OutputStream, stream, stream.Position, Files[i].Size);
+                        }
+
+                        if (!Directory.Exists(Path.GetDirectoryName(extractpath + "\\" + Paths[Files[i].PathIndex] + "\\")))
+                        {
+                            Directory.CreateDirectory(Path.GetDirectoryName(extractpath + "\\" + Paths[Files[i].PathIndex] + "\\"));
+                        }
+                        OutputStream.Dispose();
+                    }
+                    GC.Collect();
                 }
             }
         }
@@ -167,21 +201,21 @@ namespace SSXMultiTool.FileHandlers
         //    uint64_t fileSize;          // total size of the bigfile
         //};
 
-        public struct ChunkZip
+        public struct ChunkZipHeader
         {
             public string Header;
             public int VersionNumber;
             public int FullSize;
 
             public int BlockSize;
-            public int NumSegments; //Chunks
+            public int NumSegments; 
             public int Alignment;
-            public int U5;
+        }
 
-            public int U6;
-            public int U7;
-            public int ChunkSize; //CompressedSize
-            public int CompressionType; //Is Compressed?
+        public struct Chunk
+        {
+            public int ChunkSize;
+            public int CompressionType;
         }
 
 
