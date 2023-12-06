@@ -160,8 +160,11 @@ namespace SSXMultiTool.FileHandlers
             }
         }
 
-        public void SaveFile(string SavePath, string LoadPath)
+        public void SaveFile(string SavePath, string LoadPath, bool Compressed)
         {
+            Files = new List<FileIndex>();
+            Paths = new List<string>();
+
             string FilePath = SavePath;
 
             if (File.Exists(FilePath))
@@ -174,9 +177,41 @@ namespace SSXMultiTool.FileHandlers
             {
                 string[] paths = Directory.GetFiles(LoadPath, "*.*", SearchOption.AllDirectories);
 
+                //Make Space For Header
+
+                //Gap is file count alligned by 16
+
                 for (int i = 0; i < paths.Length; i++)
                 {
-                    string DataPath = paths[i].Remove(0, LoadPath.Length + 1).Replace("//", @"\").Replace("\\", @"\");
+                    //Write File or If Compressed
+
+                    string DataPath = Path.GetFileName(paths[i]);
+                    string DataFolder = Path.GetDirectoryName(paths[i]).Remove(0, LoadPath.Length + 1).Replace("//", @"\").Replace("\\", @"\");
+
+                    if(!Paths.Contains(DataFolder))
+                    {
+                        Paths.Add(DataFolder);
+                    }
+
+                    FileIndex fileIndex = new FileIndex();
+
+                    fileIndex.FileName = DataPath;
+                    fileIndex.PathIndex = Paths.IndexOf(DataFolder);
+                    fileIndex.Hash = hash((paths[i].Remove(0, LoadPath.Length + 1).Replace("//", @"\").Replace("\\", @"\")).ToCharArray());
+                    fileIndex.Offset = (int)(OutputStream.Position / 16);
+                    if (Compressed)
+                    {
+                        fileIndex.Compressed = true;
+                        //131072
+                    }
+                    else
+                    {
+                        using (Stream InputStream = File.Open(paths[i], FileMode.Open))
+                        {
+                            fileIndex.Size = (int)InputStream.Length;
+                            InputStream.CopyTo(OutputStream);
+                        }
+                    }
                 } 
 
             }
