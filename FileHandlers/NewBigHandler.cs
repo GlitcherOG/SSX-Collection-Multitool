@@ -105,57 +105,68 @@ namespace SSXMultiTool.FileHandlers
                     {
                         stream.Position = Files[i].Offset * 16;
 
-                        string ChunkedTest = StreamUtil.ReadString(stream, 8);
-
-                        stream.Position -= 8;
-
-                        if (ChunkedTest == "chunkzip")
+                        byte[] RefpackTest = StreamUtil.ReadBytes(stream,2);
+                        stream.Position -= 2;
+                        if (RefpackTest[0] == 0x10 && RefpackTest[1] == 0xFB)
                         {
-                            ChunkZipHeader chunkZipHeader = new ChunkZipHeader();
+                            //RefpackHandler.DecompressStream(stream, OutputStream);
+                            StreamUtil.WriteBytes(OutputStream, RefpackHandler.Decompress(StreamUtil.ReadBytes(stream, Files[i].zSize)));
 
-                            chunkZipHeader.Header = StreamUtil.ReadString(stream, 8);
-                            chunkZipHeader.VersionNumber = StreamUtil.ReadUInt32(stream, true);
-                            chunkZipHeader.FullSize = StreamUtil.ReadUInt32(stream, true);
-
-                            chunkZipHeader.BlockSize = StreamUtil.ReadUInt32(stream, true);
-                            chunkZipHeader.NumSegments = StreamUtil.ReadUInt32(stream, true);
-                            chunkZipHeader.Alignment = StreamUtil.ReadUInt32(stream, true);
-
-                            for (int a = 0; a < chunkZipHeader.NumSegments; a++)
-                            {
-                                MemoryStream InputStream = new MemoryStream();
-                                long OldPos = stream.Position;
-                                StreamUtil.AlignBy16(stream);
-                                long CurPos = stream.Position;
-
-                                if (CurPos - OldPos < 8)
-                                {
-                                    stream.Position += 8;
-                                }
-                                else
-                                {
-                                    stream.Position -= 8;
-                                }
-
-                                Chunk chunk = new Chunk();
-
-                                chunk.ChunkSize = StreamUtil.ReadUInt32(stream, true);
-                                chunk.CompressionType = StreamUtil.ReadUInt32(stream, true);
-
-                                StreamUtil.WriteStreamIntoStream(InputStream, stream, stream.Position, chunk.ChunkSize);
-                                var decompressor = new DeflateStream(InputStream, CompressionMode.Decompress);
-                                InputStream.Position = 0;
-                                decompressor.CopyTo(OutputStream);
-                                decompressor.Close();
-                                InputStream.Close();
-                            }
                         }
                         else
                         {
-                            StreamUtil.WriteStreamIntoStream(OutputStream, stream, stream.Position, Files[i].Size);
+                            string ChunkedTest = StreamUtil.ReadString(stream, 8);
+
+                            stream.Position -= 8;
+
+                            if (ChunkedTest == "chunkzip")
+                            {
+                                ChunkZipHeader chunkZipHeader = new ChunkZipHeader();
+
+                                chunkZipHeader.Header = StreamUtil.ReadString(stream, 8);
+                                chunkZipHeader.VersionNumber = StreamUtil.ReadUInt32(stream, true);
+                                chunkZipHeader.FullSize = StreamUtil.ReadUInt32(stream, true);
+
+                                chunkZipHeader.BlockSize = StreamUtil.ReadUInt32(stream, true);
+                                chunkZipHeader.NumSegments = StreamUtil.ReadUInt32(stream, true);
+                                chunkZipHeader.Alignment = StreamUtil.ReadUInt32(stream, true);
+
+                                for (int a = 0; a < chunkZipHeader.NumSegments; a++)
+                                {
+                                    MemoryStream InputStream = new MemoryStream();
+                                    long OldPos = stream.Position;
+                                    StreamUtil.AlignBy16(stream);
+                                    long CurPos = stream.Position;
+
+                                    if (CurPos - OldPos < 8)
+                                    {
+                                        stream.Position += 8;
+                                    }
+                                    else
+                                    {
+                                        stream.Position -= 8;
+                                    }
+
+                                    Chunk chunk = new Chunk();
+
+                                    chunk.ChunkSize = StreamUtil.ReadUInt32(stream, true);
+                                    chunk.CompressionType = StreamUtil.ReadUInt32(stream, true);
+
+                                    StreamUtil.WriteStreamIntoStream(InputStream, stream, stream.Position, chunk.ChunkSize);
+                                    var decompressor = new DeflateStream(InputStream, CompressionMode.Decompress);
+                                    InputStream.Position = 0;
+                                    decompressor.CopyTo(OutputStream);
+                                    decompressor.Close();
+                                    InputStream.Close();
+                                }
+                            }
+                            else
+                            {
+                                StreamUtil.WriteStreamIntoStream(OutputStream, stream, stream.Position, Files[i].Size);
+                            }
                         }
                     }
-                    //GC.Collect();
+                    GC.Collect();
                 }
             }
         }
@@ -180,12 +191,12 @@ namespace SSXMultiTool.FileHandlers
                 //Make Space For Header
                 OutputStream.Position = 16 * 3;
 
-                OutputStream.Position = 16* paths.Length);
-
-                //Gap is file count alligned by 16
-                OutputStream.Position = paths.Length;
+                OutputStream.Position = 16 * paths.Length;
 
                 StreamUtil.AlignBy16(OutputStream);
+
+                NameLength = 0;
+                PathLength = 0;
 
                 for (int i = 0; i < paths.Length; i++)
                 {
@@ -194,7 +205,17 @@ namespace SSXMultiTool.FileHandlers
                     string DataPath = Path.GetFileName(paths[i]);
                     string DataFolder = Path.GetDirectoryName(paths[i]).Remove(0, LoadPath.Length + 1).Replace("//", @"\").Replace("\\", @"\");
 
-                    if(!Paths.Contains(DataFolder))
+                    if(NameLength< DataPath.Length)
+                    {
+                        NameLength = DataPath.Length;
+                    }
+
+                    if (PathLength < DataFolder.Length)
+                    {
+                        PathLength = DataFolder.Length;
+                    }
+
+                    if (!Paths.Contains(DataFolder))
                     {
                         Paths.Add(DataFolder);
                     }
@@ -204,6 +225,34 @@ namespace SSXMultiTool.FileHandlers
                     fileIndex.FileName = DataPath;
                     fileIndex.PathIndex = Paths.IndexOf(DataFolder);
                     fileIndex.Hash = hash((paths[i].Remove(0, LoadPath.Length + 1).Replace("//", @"\").Replace("\\", @"\")).ToCharArray());
+
+                    Files.Add(fileIndex);
+                }
+
+                //Make Space for paths
+                long TempNameLenght = OutputStream.Position;
+
+                for (int i = 0; i < Files.Count; i++)
+                {
+                    StreamUtil.WriteInt16(OutputStream, Files[i].PathIndex, true);
+                    StreamUtil.WriteString(OutputStream,Files[i].FileName, NameLength);
+                }
+
+                for (int i = 0; i < Paths.Count; i++)
+                {
+                    StreamUtil.WriteString(OutputStream, Paths[i], PathLength);
+                }
+
+                StreamUtil.AlignBy16(OutputStream);
+                NameHeaderSize = (int)(TempNameLenght - OutputStream.Length);
+
+                //Gap is file count alligned by 16
+                OutputStream.Position = paths.Length;
+
+                for (int i = 0; i < Files.Count; i++)
+                {
+                    var fileIndex = Files[i];
+
                     fileIndex.Offset = (int)(OutputStream.Position / 16);
                     if (Compressed)
                     {
@@ -234,8 +283,22 @@ namespace SSXMultiTool.FileHandlers
                                 }
                                 long TempPos1 = OutputStream.Position;
                                 OutputStream.Position = ChunkHeaderPos;
+
+                                long OldPos = OutputStream.Position;
+                                StreamUtil.AlignBy16(OutputStream);
+                                long CurPos = OutputStream.Position;
+
+                                if (CurPos - OldPos < 8)
+                                {
+                                    OutputStream.Position += 8;
+                                }
+                                else
+                                {
+                                    OutputStream.Position -= 8;
+                                }
+
                                 StreamUtil.WriteInt32(OutputStream, (int)(TempPos1 - ChunkHeaderPos - 8), true);
-                                StreamUtil.WriteInt32(OutputStream, 1,true);
+                                StreamUtil.WriteInt32(OutputStream, 1, true);
                                 OutputStream.Position = TempPos1;
                                 Chunks++;
                             }
@@ -244,7 +307,7 @@ namespace SSXMultiTool.FileHandlers
                         OutputStream.Position = fileIndex.Offset * 16;
 
                         StreamUtil.WriteString(OutputStream, "chunkzip");
-                        StreamUtil.WriteInt32(OutputStream, 1, true);
+                        StreamUtil.WriteInt32(OutputStream, 3, true);
                         StreamUtil.WriteInt32(OutputStream, (int)FileLenght, true);
                         StreamUtil.WriteInt32(OutputStream, 131072, true);
                         StreamUtil.WriteInt32(OutputStream, Chunks, true);
@@ -262,17 +325,79 @@ namespace SSXMultiTool.FileHandlers
                         }
                         fileIndex.Size = (int)(OutputStream.Position - (fileIndex.Offset * 16));
                     }
+                    StreamUtil.AlignBy16(OutputStream);
 
-                    Files.Add(fileIndex);
-                } 
+                    Files[i] = fileIndex;
+                }
 
+
+
+                OutputStream.Position = 0;
+                StreamUtil.WriteInt16(OutputStream, 17730, true);
+                StreamUtil.WriteInt16(OutputStream, 3, true);
+                StreamUtil.WriteInt32(OutputStream, Files.Count, true);
+                StreamUtil.WriteInt16(OutputStream, 16, true);
+                StreamUtil.WriteUInt8(OutputStream, 4);
+                StreamUtil.WriteUInt8(OutputStream, 0);
+                StreamUtil.WriteInt32(OutputStream, BaseHeaderSize, true);
+                StreamUtil.WriteInt32(OutputStream, NameHeaderSize, true);
+                StreamUtil.WriteUInt8(OutputStream, NameLength);
+                StreamUtil.WriteUInt8(OutputStream, PathLength);
+                StreamUtil.WriteInt16(OutputStream, Paths.Count, true);
+                StreamUtil.WriteInt64(OutputStream, OutputStream.Length, true);
+                Files.Sort((s1, s2) => s1.Hash.CompareTo(s2.Hash));
+                for (int i = 0; i < Files.Count; i++)
+                {
+                    StreamUtil.WriteInt32(OutputStream, Files[i].Offset, true);
+                    StreamUtil.WriteInt32(OutputStream, Files[i].zSize, true);
+                    StreamUtil.WriteInt32(OutputStream, Files[i].Size, true);
+                    StreamUtil.WriteInt32(OutputStream, Files[i].Hash, true);
+                }
+
+                //FIX PATH WRITING HERE
+                //TEST HASH GENERATION
             }
+        }
+
+        public struct BIGHeader
+        {
+            public string MagicWords;
+            public int FileSize;
+            public int FileCount;
+            public int BaseHeaderSize;
+            public byte[] Footer;
+        }
+
+        public enum BigType
+        {
+            BIGF,
+            C0FB,
+            BIG4
+        }
+
+        public struct NewBigHeader
+        {
+            public int Signature;
+            public int HeaderVersion;
+            public int FileCount;
+            public int Flags;
+            public int Aligment;
+            public int Reserved;
+            public int BaseHeaderSize;
+            public int NameHeaderSize;
+            public int NameLength;
+            public int PathLength;
+            public int NumPath;
+            public ulong FileSize;
+
+            public List<FileIndex> Files;
+            public List<string> Paths;
         }
 
         public struct FileIndex
         {
             public int Offset;
-            public int zSize; //Unused?
+            public int zSize; //Uncompressed only used for refpack
             public int Size;
             public int Hash;
 

@@ -193,6 +193,116 @@ namespace SSXMultiTool.FileHandlers
             return Output;
         }
 
+        public static bool DecompressStream(Stream stream, Stream Output)
+        {
+            byte[] Signature = new byte[2];
+
+            int first;
+            int second;
+            int third;
+            int fourth;
+
+            int proc_len; //Process Length
+            int ref_run; //Refrence Run
+
+            stream.Read(Signature, 0, 2);
+
+            if (Signature[1] != 0xFB || Signature[0] != 0x10)
+            {
+                return false;
+            }
+
+            //NOT EVEN USED SO??
+            if (Signature[0] == 0x01 && Signature[1] == 0x00)
+            {
+                stream.Position += 3;
+            }
+
+            int DecompressSize = StreamUtil.ReadInt24(stream, true);
+
+            while (true)
+            {
+                first = stream.ReadByte();
+
+                if ((first & 0x80) == 0) //Best Guess
+                {
+                    second = stream.ReadByte();
+
+                    proc_len = first & 0x03;
+
+                    StreamUtil.WriteBytes(Output, StreamUtil.ReadBytes(stream, proc_len));
+
+                    long TempPos = Output.Position - ((first & 0x60) << 3) - second - 1;
+                    ref_run = ((first >> 2) & 0x07) + 3;
+
+                    long Temp = Output.Position;
+                    Output.Position = TempPos;
+                    byte[] array = StreamUtil.ReadBytes(Output, ref_run);
+                    Output.Position = Temp;
+                    StreamUtil.WriteBytes(Output, array);
+                }
+                else if ((first & 0x40) == 0)
+                {
+                    second = stream.ReadByte();
+                    third = stream.ReadByte();
+
+                    proc_len = second >> 6;
+                    StreamUtil.WriteBytes(Output, StreamUtil.ReadBytes(stream, proc_len));
+
+                    long TempPos = Output.Position - ((second & 0x3f) << 8) - third - 1;
+                    ref_run = (first & 0x3f) + 4;
+
+                    long Temp = Output.Position;
+                    Output.Position = TempPos;
+                    byte[] array = StreamUtil.ReadBytes(Output, ref_run);
+                    Output.Position = Temp;
+                    StreamUtil.WriteBytes(Output, array);
+                }
+                else if ((first & 0x20) == 0)
+                {
+                    second = stream.ReadByte();
+                    third = stream.ReadByte();
+                    fourth = stream.ReadByte();
+
+                    proc_len = first & 0x03;
+
+                    StreamUtil.WriteBytes(Output, StreamUtil.ReadBytes(stream, proc_len));
+
+                    long TempPos = Output.Position - ((first & 0x10) << 12) - (second << 8) - third - 1;
+                    ref_run = ((first & 0x0c) << 6) + fourth + 5;
+
+                    long Temp = Output.Position;
+                    Output.Position = TempPos;
+                    byte[] array = StreamUtil.ReadBytes(Output, ref_run);
+                    Output.Position = Temp;
+                    StreamUtil.WriteBytes(Output, array);
+                }
+                else
+                {
+                    proc_len = (first & 0x1f) * 4 + 4;
+
+                    if (proc_len <= 0x70)
+                    {
+                        // no stop flag
+
+                        StreamUtil.WriteBytes(Output, StreamUtil.ReadBytes(stream, proc_len));
+
+                    }
+                    else
+                    {
+                        // has a stop flag
+                        proc_len = first & 0x3;
+
+                        StreamUtil.WriteBytes(Output, StreamUtil.ReadBytes(stream, proc_len));
+
+                        break;
+                    }
+                }
+
+            }
+            return true;
+        }
+
         //Taken from https://github.com/gibbed/Gibbed.RefPack
         public static bool Compress(byte[] input, out byte[] output, CompressionLevel? level = null)
         {
@@ -202,7 +312,7 @@ namespace SSXMultiTool.FileHandlers
             }
 
 
-            byte[] Signature = new byte[2];
+             byte[] Signature = new byte[2];
              int DecompressSize;
              int CompressSize;
 

@@ -319,6 +319,19 @@ namespace SSXMultiTool.Utilities
             stream.Write(tempByte, 0, tempByte.Length);
         }
 
+        public static void WriteInt64(Stream stream, long Int, bool BigEndian = false)
+        {
+            byte[] tempByte = new byte[8];
+            BitConverter.GetBytes(Int).CopyTo(tempByte, 0);
+
+            if (BigEndian)
+            {
+                Array.Reverse(tempByte);
+            }
+
+            stream.Write(tempByte, 0, tempByte.Length);
+        }
+
         public static void WriteFloat32(Stream stream, float Float, bool BigEndian = false)
         {
             byte[] tempByte = new byte[4];
