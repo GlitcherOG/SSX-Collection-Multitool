@@ -191,9 +191,7 @@ namespace SSXMultiTool.FileHandlers
                 //Make Space For Header
                 OutputStream.Position = 16 * 3;
 
-                OutputStream.Position = 16 * paths.Length;
-
-                StreamUtil.AlignBy16(OutputStream);
+                OutputStream.Position += 16 * paths.Length;
 
                 NameLength = 0;
                 PathLength = 0;
@@ -205,14 +203,14 @@ namespace SSXMultiTool.FileHandlers
                     string DataPath = Path.GetFileName(paths[i]);
                     string DataFolder = Path.GetDirectoryName(paths[i]).Remove(0, LoadPath.Length + 1).Replace("//", @"\").Replace("\\", @"\");
 
-                    if(NameLength< DataPath.Length)
+                    if(NameLength+2< DataPath.Length+2)
                     {
-                        NameLength = DataPath.Length;
+                        NameLength = DataPath.Length+2;
                     }
 
-                    if (PathLength < DataFolder.Length)
+                    if (PathLength+1 < DataFolder.Length+1)
                     {
-                        PathLength = DataFolder.Length;
+                        PathLength = DataFolder.Length+1;
                     }
 
                     if (!Paths.Contains(DataFolder))
@@ -224,38 +222,33 @@ namespace SSXMultiTool.FileHandlers
 
                     fileIndex.FileName = DataPath;
                     fileIndex.PathIndex = Paths.IndexOf(DataFolder);
-                    fileIndex.Hash = hash((paths[i].Remove(0, LoadPath.Length + 1).Replace("//", @"\").Replace("\\", @"\")).ToCharArray());
+                    fileIndex.Hash = hash(paths[i].Remove(0, LoadPath.Length + 1).Replace("//", @"\").Replace("\\", @"\").ToArray());
 
                     Files.Add(fileIndex);
                 }
+                //Gap is file count alligned by 16
+                OutputStream.Position += paths.Length;
+                StreamUtil.AlignBy16(OutputStream);
+
+                BaseHeaderSize = (int)OutputStream.Position;
 
                 //Make Space for paths
                 long TempNameLenght = OutputStream.Position;
 
-                for (int i = 0; i < Files.Count; i++)
-                {
-                    StreamUtil.WriteInt16(OutputStream, Files[i].PathIndex, true);
-                    StreamUtil.WriteString(OutputStream,Files[i].FileName, NameLength);
-                }
-
-                for (int i = 0; i < Paths.Count; i++)
-                {
-                    StreamUtil.WriteString(OutputStream, Paths[i], PathLength);
-                }
+                OutputStream.Position += (NameLength+2)*Files.Count + PathLength * Paths.Count;
 
                 StreamUtil.AlignBy16(OutputStream);
-                NameHeaderSize = (int)(TempNameLenght - OutputStream.Length);
-
-                //Gap is file count alligned by 16
-                OutputStream.Position = paths.Length;
+                NameHeaderSize = (int)(OutputStream.Position - TempNameLenght);
 
                 for (int i = 0; i < Files.Count; i++)
                 {
                     var fileIndex = Files[i];
 
                     fileIndex.Offset = (int)(OutputStream.Position / 16);
+
                     if (Compressed)
                     {
+                        OutputStream.Position += 16 * 3;
                         fileIndex.Compressed = true;
                         //Log Header Position
                         long FileLenght = 0;
@@ -264,26 +257,8 @@ namespace SSXMultiTool.FileHandlers
                         using (Stream InputStream = File.Open(paths[i], FileMode.Open))
                         {
                             FileLenght = InputStream.Length;
-                            while (InputStream.Position >= InputStream.Length)
+                            while (InputStream.Position < InputStream.Length)
                             {
-                                long ChunkHeaderPos = OutputStream.Position;
-                                int ReadLenght = 131072;
-                                if (InputStream.Position + ReadLenght >= InputStream.Length)
-                                {
-                                    ReadLenght = (int)(InputStream.Length - InputStream.Position);
-                                }
-
-                                using (MemoryStream TempStream = new MemoryStream())
-                                {
-                                    byte[] TempBytes = StreamUtil.ReadBytes(InputStream, ReadLenght);
-                                    StreamUtil.WriteBytes(TempStream, TempBytes);
-                                    TempStream.Position = 0;
-                                    var decompressor = new DeflateStream(TempStream, CompressionMode.Compress);
-                                    decompressor.CopyTo(OutputStream);
-                                }
-                                long TempPos1 = OutputStream.Position;
-                                OutputStream.Position = ChunkHeaderPos;
-
                                 long OldPos = OutputStream.Position;
                                 StreamUtil.AlignBy16(OutputStream);
                                 long CurPos = OutputStream.Position;
@@ -296,12 +271,31 @@ namespace SSXMultiTool.FileHandlers
                                 {
                                     OutputStream.Position -= 8;
                                 }
+                                long ChunkHeaderPos = OutputStream.Position;
+                                int ReadLenght = 131072;
+                                if (InputStream.Position + ReadLenght >= InputStream.Length)
+                                {
+                                    ReadLenght = (int)(InputStream.Length - InputStream.Position);
+                                }
+
+                                using (MemoryStream TempStream = new MemoryStream())
+                                {
+                                    byte[] TempBytes = StreamUtil.ReadBytes(InputStream, ReadLenght);
+                                    StreamUtil.WriteBytes(TempStream, TempBytes);
+                                    var decompressor = new DeflateStream(OutputStream, CompressionMode.Compress);
+                                    TempStream.Position = 0;
+                                    TempStream.CopyTo(decompressor);
+                                }
+                                long TempPos1 = OutputStream.Position;
+                                OutputStream.Position = ChunkHeaderPos;
 
                                 StreamUtil.WriteInt32(OutputStream, (int)(TempPos1 - ChunkHeaderPos - 8), true);
                                 StreamUtil.WriteInt32(OutputStream, 1, true);
                                 OutputStream.Position = TempPos1;
+
                                 Chunks++;
                             }
+                            StreamUtil.AlignBy16(OutputStream);
                         }
                         long TempPos = OutputStream.Position;
                         OutputStream.Position = fileIndex.Offset * 16;
@@ -341,11 +335,14 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteUInt8(OutputStream, 0);
                 StreamUtil.WriteInt32(OutputStream, BaseHeaderSize, true);
                 StreamUtil.WriteInt32(OutputStream, NameHeaderSize, true);
-                StreamUtil.WriteUInt8(OutputStream, NameLength);
+                StreamUtil.WriteUInt8(OutputStream, NameLength+2);
                 StreamUtil.WriteUInt8(OutputStream, PathLength);
                 StreamUtil.WriteInt16(OutputStream, Paths.Count, true);
                 StreamUtil.WriteInt64(OutputStream, OutputStream.Length, true);
-                Files.Sort((s1, s2) => s1.Hash.CompareTo(s2.Hash));
+
+                OutputStream.Position +=16;
+
+                Files.Sort((s1, s2) => ((uint)s1.Hash).CompareTo((uint)s2.Hash));
                 for (int i = 0; i < Files.Count; i++)
                 {
                     StreamUtil.WriteInt32(OutputStream, Files[i].Offset, true);
@@ -354,8 +351,23 @@ namespace SSXMultiTool.FileHandlers
                     StreamUtil.WriteInt32(OutputStream, Files[i].Hash, true);
                 }
 
-                //FIX PATH WRITING HERE
-                //TEST HASH GENERATION
+                //Gap is file count alligned by 16
+                OutputStream.Position += paths.Length;
+                StreamUtil.AlignBy16(OutputStream);
+
+                for (int i = 0; i < Files.Count; i++)
+                {
+                    StreamUtil.WriteInt16(OutputStream, Files[i].PathIndex, true);
+                    StreamUtil.WriteString(OutputStream, Files[i].FileName, NameLength);
+                }
+
+                for (int i = 0; i < Paths.Count; i++)
+                {
+                    StreamUtil.WriteString(OutputStream, Paths[i], PathLength);
+                }
+
+                //FIX Size bytes
+                //FIX HASH GENERATION
             }
         }
 
@@ -449,6 +461,26 @@ namespace SSXMultiTool.FileHandlers
             {
                 hash = ((hash << 5) + hash) + str[i]; /* hash * 33 + c */
             }
+            return hash;
+        }
+
+        public static UInt32 bxStringHash(string stringInput)
+        {
+            char[] input = stringInput.ToCharArray();
+
+            UInt32 hash = 0;
+            UInt32 high = 0;
+
+            foreach (var item in input)
+            {
+                hash = (hash << 4) + item;
+                high = hash & 0xf0000000;
+                if (high > 0)
+                    hash ^= high >> 23;
+
+                hash &= ~high;
+            }
+
             return hash;
         }
     }

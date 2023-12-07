@@ -164,6 +164,7 @@ namespace SSXMultiTool
             };
             if (commonDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
+                path = commonDialog.FileName;
                 LoadFolderPath(commonDialog.FileName);
                 if (CompressionButton.Text.Contains("True"))
                 {
@@ -227,11 +228,11 @@ namespace SSXMultiTool
                 {
                     if (CompressionButton.Text.Contains("True"))
                     {
-                        newBigHandler.SaveFile(path, openFileDialog.FileName, true);
+                        newBigHandler.SaveFile(openFileDialog.FileName, path, true);
                     }
                     else
                     {
-                        newBigHandler.SaveFile(path, openFileDialog.FileName, false);
+                        newBigHandler.SaveFile(openFileDialog.FileName, path, false);
                     }
                 }
             }
