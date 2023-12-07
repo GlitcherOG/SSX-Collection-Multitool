@@ -223,6 +223,17 @@ namespace SSXMultiTool
                     CreateBigPath(openFileDialog.FileName);
                     GC.Collect();
                 }
+                else
+                {
+                    if (CompressionButton.Text.Contains("True"))
+                    {
+                        newBigHandler.SaveFile(path, openFileDialog.FileName, true);
+                    }
+                    else
+                    {
+                        newBigHandler.SaveFile(path, openFileDialog.FileName, false);
+                    }
+                }
             }
         }
 

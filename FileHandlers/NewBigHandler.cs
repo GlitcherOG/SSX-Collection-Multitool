@@ -178,8 +178,14 @@ namespace SSXMultiTool.FileHandlers
                 string[] paths = Directory.GetFiles(LoadPath, "*.*", SearchOption.AllDirectories);
 
                 //Make Space For Header
+                OutputStream.Position = 16 * 3;
+
+                OutputStream.Position = 16* paths.Length);
 
                 //Gap is file count alligned by 16
+                OutputStream.Position = paths.Length;
+
+                StreamUtil.AlignBy16(OutputStream);
 
                 for (int i = 0; i < paths.Length; i++)
                 {
@@ -202,7 +208,50 @@ namespace SSXMultiTool.FileHandlers
                     if (Compressed)
                     {
                         fileIndex.Compressed = true;
-                        //131072
+                        //Log Header Position
+                        long FileLenght = 0;
+                        int Chunks = 0;
+
+                        using (Stream InputStream = File.Open(paths[i], FileMode.Open))
+                        {
+                            FileLenght = InputStream.Length;
+                            while (InputStream.Position >= InputStream.Length)
+                            {
+                                long ChunkHeaderPos = OutputStream.Position;
+                                int ReadLenght = 131072;
+                                if (InputStream.Position + ReadLenght >= InputStream.Length)
+                                {
+                                    ReadLenght = (int)(InputStream.Length - InputStream.Position);
+                                }
+
+                                using (MemoryStream TempStream = new MemoryStream())
+                                {
+                                    byte[] TempBytes = StreamUtil.ReadBytes(InputStream, ReadLenght);
+                                    StreamUtil.WriteBytes(TempStream, TempBytes);
+                                    TempStream.Position = 0;
+                                    var decompressor = new DeflateStream(TempStream, CompressionMode.Compress);
+                                    decompressor.CopyTo(OutputStream);
+                                }
+                                long TempPos1 = OutputStream.Position;
+                                OutputStream.Position = ChunkHeaderPos;
+                                StreamUtil.WriteInt32(OutputStream, (int)(TempPos1 - ChunkHeaderPos - 8), true);
+                                StreamUtil.WriteInt32(OutputStream, 1,true);
+                                OutputStream.Position = TempPos1;
+                                Chunks++;
+                            }
+                        }
+                        long TempPos = OutputStream.Position;
+                        OutputStream.Position = fileIndex.Offset * 16;
+
+                        StreamUtil.WriteString(OutputStream, "chunkzip");
+                        StreamUtil.WriteInt32(OutputStream, 1, true);
+                        StreamUtil.WriteInt32(OutputStream, (int)FileLenght, true);
+                        StreamUtil.WriteInt32(OutputStream, 131072, true);
+                        StreamUtil.WriteInt32(OutputStream, Chunks, true);
+                        StreamUtil.WriteInt32(OutputStream, 16, true);
+
+                        OutputStream.Position = TempPos;
+
                     }
                     else
                     {
@@ -211,7 +260,10 @@ namespace SSXMultiTool.FileHandlers
                             fileIndex.Size = (int)InputStream.Length;
                             InputStream.CopyTo(OutputStream);
                         }
+                        fileIndex.Size = (int)(OutputStream.Position - (fileIndex.Offset * 16));
                     }
+
+                    Files.Add(fileIndex);
                 } 
 
             }
