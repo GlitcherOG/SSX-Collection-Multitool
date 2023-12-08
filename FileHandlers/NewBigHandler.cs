@@ -453,13 +453,15 @@ namespace SSXMultiTool.FileHandlers
         }
 
 
-        int hash(char[] str)
+        int hash(string str) 
         {
+            char[] Array = str.ToCharArray();
+
             int hash = 5381;
 
-            for (int i = 0; i < str.Length; i++)
+            for (int i = 0; i < Array.Length; i++)
             {
-                hash = ((hash << 5) + hash) + str[i]; /* hash * 33 + c */
+                hash = ((hash << 5) + hash) + (int)Array[i]; /* hash * 33 + Array[i] */
             }
             return hash;
         }
