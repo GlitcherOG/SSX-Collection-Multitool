@@ -350,7 +350,7 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteUInt8(OutputStream, 4);
                 StreamUtil.WriteUInt8(OutputStream, 0);
                 StreamUtil.WriteInt32(OutputStream, BaseHeaderSize, true);
-                StreamUtil.WriteInt32(OutputStream, NameHeaderSize, true);
+                StreamUtil.WriteInt32(OutputStream, NameHeaderSize+16, true);
                 StreamUtil.WriteUInt8(OutputStream, NameLength+2);
                 StreamUtil.WriteUInt8(OutputStream, PathLength);
                 StreamUtil.WriteInt16(OutputStream, Paths.Count, true);
@@ -382,8 +382,8 @@ namespace SSXMultiTool.FileHandlers
                     StreamUtil.WriteString(OutputStream, Paths[i], PathLength);
                 }
 
-                //FIX Size bytes
-                //FIX HASH GENERATION
+                //Fix Name Header Size
+                //FIX Compression on if bigger
             }
         }
 
