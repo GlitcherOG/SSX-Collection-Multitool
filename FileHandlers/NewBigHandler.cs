@@ -1,4 +1,6 @@
-﻿using SSXMultiTool.Utilities;
+﻿using ICSharpCode.SharpZipLib.Zip.Compression;
+using Ionic.Zlib;
+using SSXMultiTool.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -153,7 +155,7 @@ namespace SSXMultiTool.FileHandlers
                                     chunk.CompressionType = StreamUtil.ReadUInt32(stream, true);
 
                                     StreamUtil.WriteStreamIntoStream(InputStream, stream, stream.Position, chunk.ChunkSize);
-                                    var decompressor = new DeflateStream(InputStream, CompressionMode.Decompress);
+                                    var decompressor = new System.IO.Compression.DeflateStream(InputStream, System.IO.Compression.CompressionMode.Decompress);
                                     InputStream.Position = 0;
                                     decompressor.CopyTo(OutputStream);
                                     decompressor.Close();
@@ -201,7 +203,15 @@ namespace SSXMultiTool.FileHandlers
                     //Write File or If Compressed
 
                     string DataPath = Path.GetFileName(paths[i]);
-                    string DataFolder = Path.GetDirectoryName(paths[i]).Remove(0, LoadPath.Length + 1).Replace("//", @"\").Replace("\\", @"\");
+                    string DataFolder = "";
+                    try
+                    {
+                        DataFolder = Path.GetDirectoryName(paths[i]).Remove(0, LoadPath.Length + 1).Replace("//", @"/").Replace("\\", @"/");
+                    }
+                    catch
+                    {
+                        DataFolder = "";
+                    }
 
                     if(NameLength+2< DataPath.Length+2)
                     {
@@ -222,7 +232,7 @@ namespace SSXMultiTool.FileHandlers
 
                     fileIndex.FileName = DataPath;
                     fileIndex.PathIndex = Paths.IndexOf(DataFolder);
-                    fileIndex.Hash = hash(paths[i].Remove(0, LoadPath.Length + 1).Replace("//", @"\").Replace("\\", @"\").ToArray());
+                    fileIndex.Hash = hash(DataFolder + "/"+DataPath);
 
                     Files.Add(fileIndex);
                 }
@@ -240,6 +250,7 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.AlignBy16(OutputStream);
                 NameHeaderSize = (int)(OutputStream.Position - TempNameLenght);
 
+                var decompressor = new System.IO.Compression.DeflateStream(OutputStream, System.IO.Compression.CompressionLevel.SmallestSize);
                 for (int i = 0; i < Files.Count; i++)
                 {
                     var fileIndex = Files[i];
@@ -248,7 +259,7 @@ namespace SSXMultiTool.FileHandlers
 
                     if (Compressed)
                     {
-                        OutputStream.Position += 16 * 3;
+                        OutputStream.Position += 16 * 2;
                         fileIndex.Compressed = true;
                         //Log Header Position
                         long FileLenght = 0;
@@ -272,20 +283,25 @@ namespace SSXMultiTool.FileHandlers
                                     OutputStream.Position -= 8;
                                 }
                                 long ChunkHeaderPos = OutputStream.Position;
+                                OutputStream.Position += 8;
+
                                 int ReadLenght = 131072;
                                 if (InputStream.Position + ReadLenght >= InputStream.Length)
                                 {
                                     ReadLenght = (int)(InputStream.Length - InputStream.Position);
                                 }
-
-                                using (MemoryStream TempStream = new MemoryStream())
+                                long Test = OutputStream.Position;
+                                //Sharpziplib
+                                //StreamUtil.WriteBytes(OutputStream, Compress(StreamUtil.ReadBytes(InputStream, ReadLenght)));
+                                //C# Compression
+                                //StreamUtil.WriteBytes(decompressor, StreamUtil.ReadBytes(InputStream, ReadLenght));
+                                //DotNetZip
+                                StreamUtil.WriteBytes(OutputStream, ZlibCodecCompress(StreamUtil.ReadBytes(InputStream, ReadLenght)));
+                                if (Test == OutputStream.Position)
                                 {
-                                    byte[] TempBytes = StreamUtil.ReadBytes(InputStream, ReadLenght);
-                                    StreamUtil.WriteBytes(TempStream, TempBytes);
-                                    var decompressor = new DeflateStream(OutputStream, CompressionMode.Compress);
-                                    TempStream.Position = 0;
-                                    TempStream.CopyTo(decompressor);
+                                    Console.WriteLine("");
                                 }
+
                                 long TempPos1 = OutputStream.Position;
                                 OutputStream.Position = ChunkHeaderPos;
 
@@ -298,7 +314,7 @@ namespace SSXMultiTool.FileHandlers
                             StreamUtil.AlignBy16(OutputStream);
                         }
                         long TempPos = OutputStream.Position;
-                        OutputStream.Position = fileIndex.Offset * 16;
+                        OutputStream.Position = (long)fileIndex.Offset * 16;
 
                         StreamUtil.WriteString(OutputStream, "chunkzip");
                         StreamUtil.WriteInt32(OutputStream, 3, true);
@@ -317,8 +333,8 @@ namespace SSXMultiTool.FileHandlers
                             fileIndex.Size = (int)InputStream.Length;
                             InputStream.CopyTo(OutputStream);
                         }
-                        fileIndex.Size = (int)(OutputStream.Position - (fileIndex.Offset * 16));
                     }
+                    fileIndex.Size = (int)(OutputStream.Position - (fileIndex.Offset * 16));
                     StreamUtil.AlignBy16(OutputStream);
 
                     Files[i] = fileIndex;
@@ -360,7 +376,7 @@ namespace SSXMultiTool.FileHandlers
                     StreamUtil.WriteInt16(OutputStream, Files[i].PathIndex, true);
                     StreamUtil.WriteString(OutputStream, Files[i].FileName, NameLength);
                 }
-
+                StreamUtil.AlignBy16(OutputStream);
                 for (int i = 0; i < Paths.Count; i++)
                 {
                     StreamUtil.WriteString(OutputStream, Paths[i], PathLength);
@@ -368,6 +384,71 @@ namespace SSXMultiTool.FileHandlers
 
                 //FIX Size bytes
                 //FIX HASH GENERATION
+            }
+        }
+
+        public static byte[] Compress(byte[] content)
+        {
+            //return content;
+            Deflater compressor = new Deflater();
+            compressor.SetLevel(Deflater.BEST_COMPRESSION);
+
+            compressor.SetInput(content);
+            compressor.Finish();
+
+            using (MemoryStream bos = new MemoryStream(content.Length))
+            {
+                var buf = new byte[1024];
+                while (!compressor.IsFinished)
+                {
+                    int n = compressor.Deflate(buf);
+                    bos.Write(buf, 0, n);
+                }
+                return bos.ToArray();
+            }
+        }
+
+        private byte[] ZlibCodecCompress(byte[] uncompressed)
+        {
+            int outputSize = 2048;
+            byte[] output = new Byte[outputSize];
+            int lengthToCompress = uncompressed.Length;
+
+            // If you want a ZLIB stream, set this to true.  If you want
+            // a bare DEFLATE stream, set this to false.
+            bool wantRfc1950Header = false;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                ZlibCodec compressor = new ZlibCodec();
+                compressor.InitializeDeflate(Ionic.Zlib.CompressionLevel.BestCompression, wantRfc1950Header);
+
+                compressor.InputBuffer = uncompressed;
+                compressor.AvailableBytesIn = lengthToCompress;
+                compressor.NextIn = 0;
+                compressor.OutputBuffer = output;
+
+                foreach (var f in new FlushType[] { FlushType.None, FlushType.Finish })
+                {
+                    int bytesToWrite = 0;
+                    do
+                    {
+                        compressor.AvailableBytesOut = outputSize;
+                        compressor.NextOut = 0;
+                        compressor.Deflate(f);
+
+                        bytesToWrite = outputSize - compressor.AvailableBytesOut;
+                        if (bytesToWrite > 0)
+                            ms.Write(output, 0, bytesToWrite);
+                    }
+                    while ((f == FlushType.None && (compressor.AvailableBytesIn != 0 || compressor.AvailableBytesOut == 0)) ||
+                           (f == FlushType.Finish && bytesToWrite != 0));
+                }
+
+                compressor.EndDeflate();
+
+                ms.Flush();
+                return ms.ToArray();
             }
         }
 
