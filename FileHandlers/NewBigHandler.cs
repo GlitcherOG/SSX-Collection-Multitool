@@ -3,6 +3,7 @@ using Ionic.Zlib;
 using SSXMultiTool.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -154,10 +155,20 @@ namespace SSXMultiTool.FileHandlers
                                     chunk.ChunkSize = StreamUtil.ReadUInt32(stream, true);
                                     chunk.CompressionType = StreamUtil.ReadUInt32(stream, true);
 
+                                    //byte[] Bytes = ZlibCodecDecompress(StreamUtil.ReadBytes(stream, chunk.ChunkSize));
+                                    //StreamUtil.WriteBytes(OutputStream, Bytes);
+
                                     StreamUtil.WriteStreamIntoStream(InputStream, stream, stream.Position, chunk.ChunkSize);
                                     var decompressor = new System.IO.Compression.DeflateStream(InputStream, System.IO.Compression.CompressionMode.Decompress);
                                     InputStream.Position = 0;
-                                    decompressor.CopyTo(OutputStream);
+                                    try
+                                    {
+                                        decompressor.CopyTo(OutputStream);
+                                    }
+                                    catch
+                                    {
+                                        Debug.WriteLine(FilePath);
+                                    }
                                     decompressor.Close();
                                     InputStream.Close();
                                 }
@@ -245,9 +256,14 @@ namespace SSXMultiTool.FileHandlers
                 //Make Space for paths
                 long TempNameLenght = OutputStream.Position;
 
-                OutputStream.Position += (NameLength+2)*Files.Count + PathLength * Paths.Count;
+                OutputStream.Position += (NameLength + 2) * Files.Count;
 
                 StreamUtil.AlignBy16(OutputStream);
+
+                OutputStream.Position += PathLength * Paths.Count;
+
+                StreamUtil.AlignBy16(OutputStream);
+
                 NameHeaderSize = (int)(OutputStream.Position - TempNameLenght);
 
                 var decompressor = new System.IO.Compression.DeflateStream(OutputStream, System.IO.Compression.CompressionLevel.SmallestSize);
@@ -268,6 +284,7 @@ namespace SSXMultiTool.FileHandlers
                         using (Stream InputStream = File.Open(paths[i], FileMode.Open))
                         {
                             FileLenght = InputStream.Length;
+                            bool Max = false;
                             while (InputStream.Position < InputStream.Length)
                             {
                                 long OldPos = OutputStream.Position;
@@ -290,24 +307,28 @@ namespace SSXMultiTool.FileHandlers
                                 {
                                     ReadLenght = (int)(InputStream.Length - InputStream.Position);
                                 }
-                                long Test = OutputStream.Position;
+
                                 //Sharpziplib
                                 //StreamUtil.WriteBytes(OutputStream, Compress(StreamUtil.ReadBytes(InputStream, ReadLenght)));
                                 //C# Compression
                                 //StreamUtil.WriteBytes(decompressor, StreamUtil.ReadBytes(InputStream, ReadLenght));
                                 //DotNetZip
-                                StreamUtil.WriteBytes(OutputStream, ZlibCodecCompress(StreamUtil.ReadBytes(InputStream, ReadLenght)));
-                                if (Test == OutputStream.Position)
+                                byte[] bytes = ZlibCodecCompress(StreamUtil.ReadBytes(InputStream, ReadLenght));
+
+                                if (InputStream.Position == InputStream.Length && Chunks == 0 && bytes.Length +36 > ReadLenght)
                                 {
-                                    Console.WriteLine("");
+                                    fileIndex.Compressed = false;
                                 }
+                                else
+                                {
+                                    StreamUtil.WriteBytes(OutputStream, bytes);
+                                    long TempPos1 = OutputStream.Position;
+                                    OutputStream.Position = ChunkHeaderPos;
 
-                                long TempPos1 = OutputStream.Position;
-                                OutputStream.Position = ChunkHeaderPos;
-
-                                StreamUtil.WriteInt32(OutputStream, (int)(TempPos1 - ChunkHeaderPos - 8), true);
-                                StreamUtil.WriteInt32(OutputStream, 1, true);
-                                OutputStream.Position = TempPos1;
+                                    StreamUtil.WriteInt32(OutputStream, (int)(TempPos1 - ChunkHeaderPos - 8), true);
+                                    StreamUtil.WriteInt32(OutputStream, 1, true);
+                                    OutputStream.Position = TempPos1;
+                                }
 
                                 Chunks++;
                             }
@@ -315,15 +336,24 @@ namespace SSXMultiTool.FileHandlers
                         }
                         long TempPos = OutputStream.Position;
                         OutputStream.Position = (long)fileIndex.Offset * 16;
+                        if (fileIndex.Compressed)
+                        {
+                            StreamUtil.WriteString(OutputStream, "chunkzip");
+                            StreamUtil.WriteInt32(OutputStream, 3, true);
+                            StreamUtil.WriteInt32(OutputStream, (int)FileLenght, true);
+                            StreamUtil.WriteInt32(OutputStream, 131072, true);
+                            StreamUtil.WriteInt32(OutputStream, Chunks, true);
+                            StreamUtil.WriteInt32(OutputStream, 16, true);
 
-                        StreamUtil.WriteString(OutputStream, "chunkzip");
-                        StreamUtil.WriteInt32(OutputStream, 3, true);
-                        StreamUtil.WriteInt32(OutputStream, (int)FileLenght, true);
-                        StreamUtil.WriteInt32(OutputStream, 131072, true);
-                        StreamUtil.WriteInt32(OutputStream, Chunks, true);
-                        StreamUtil.WriteInt32(OutputStream, 16, true);
-
-                        OutputStream.Position = TempPos;
+                            OutputStream.Position = TempPos;
+                        }
+                        else
+                        {
+                            using (Stream InputStream = File.Open(paths[i], FileMode.Open))
+                            {
+                                InputStream.CopyTo(OutputStream);
+                            }
+                        }
 
                     }
                     else
@@ -350,7 +380,7 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteUInt8(OutputStream, 4);
                 StreamUtil.WriteUInt8(OutputStream, 0);
                 StreamUtil.WriteInt32(OutputStream, BaseHeaderSize, true);
-                StreamUtil.WriteInt32(OutputStream, NameHeaderSize+16, true);
+                StreamUtil.WriteInt32(OutputStream, NameHeaderSize, true);
                 StreamUtil.WriteUInt8(OutputStream, NameLength+2);
                 StreamUtil.WriteUInt8(OutputStream, PathLength);
                 StreamUtil.WriteInt16(OutputStream, Paths.Count, true);
@@ -358,7 +388,7 @@ namespace SSXMultiTool.FileHandlers
 
                 OutputStream.Position +=16;
 
-                Files.Sort((s1, s2) => ((uint)s1.Hash).CompareTo((uint)s2.Hash));
+                //Files.Sort((s1, s2) => ((uint)s1.Hash).CompareTo((uint)s2.Hash));
                 for (int i = 0; i < Files.Count; i++)
                 {
                     StreamUtil.WriteInt32(OutputStream, Files[i].Offset, true);
@@ -405,6 +435,50 @@ namespace SSXMultiTool.FileHandlers
                     bos.Write(buf, 0, n);
                 }
                 return bos.ToArray();
+            }
+        }
+
+        private byte[] ZlibCodecDecompress(byte[] uncompressed)
+        {
+            int outputSize = 2048;
+            byte[] output = new Byte[outputSize];
+            int lengthToCompress = uncompressed.Length;
+
+            // If you want a ZLIB stream, set this to true.  If you want
+            // a bare DEFLATE stream, set this to false.
+            bool wantRfc1950Header = false;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                ZlibCodec compressor = new ZlibCodec();
+                compressor.InitializeInflate();
+
+                compressor.InputBuffer = uncompressed;
+                compressor.AvailableBytesIn = lengthToCompress;
+                compressor.NextIn = 0;
+                compressor.OutputBuffer = output;
+
+                foreach (var f in new FlushType[] { FlushType.None, FlushType.Finish })
+                {
+                    int bytesToWrite = 0;
+                    do
+                    {
+                        compressor.AvailableBytesOut = outputSize;
+                        compressor.NextOut = 0;
+                        compressor.Inflate(f);
+
+                        bytesToWrite = outputSize - compressor.AvailableBytesOut;
+                        if (bytesToWrite > 0)
+                            ms.Write(output, 0, bytesToWrite);
+                    }
+                    while ((f == FlushType.None && (compressor.AvailableBytesIn != 0 || compressor.AvailableBytesOut == 0)) ||
+                           (f == FlushType.Finish && bytesToWrite != 0));
+                }
+
+                compressor.EndDeflate();
+
+                ms.Flush();
+                return ms.ToArray();
             }
         }
 
