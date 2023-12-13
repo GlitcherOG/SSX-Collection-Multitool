@@ -46,6 +46,8 @@
             SSHImageButton = new Button();
             LocFileButton = new Button();
             BigArchiveButton = new Button();
+            button3 = new Button();
+            button7 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -64,13 +66,15 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(button7);
+            groupBox1.Controls.Add(button3);
             groupBox1.Controls.Add(button2);
             groupBox1.Controls.Add(SSX3ToolsButton);
             groupBox1.Controls.Add(TrickyToolsButton);
             groupBox1.Controls.Add(button1);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(411, 83);
+            groupBox1.Size = new Size(610, 83);
             groupBox1.TabIndex = 3;
             groupBox1.TabStop = false;
             groupBox1.Text = "Per Game Tools";
@@ -231,6 +235,26 @@
             BigArchiveButton.UseVisualStyleBackColor = true;
             BigArchiveButton.Click += BigArchiveButton_Click;
             // 
+            // button3
+            // 
+            button3.Enabled = false;
+            button3.Location = new Point(406, 22);
+            button3.Name = "button3";
+            button3.Size = new Size(94, 50);
+            button3.TabIndex = 4;
+            button3.Text = "SSX Blur Tools";
+            button3.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            button7.Location = new Point(506, 22);
+            button7.Name = "button7";
+            button7.Size = new Size(94, 50);
+            button7.TabIndex = 5;
+            button7.Text = "SSX 2012 Tools";
+            button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click;
+            // 
             // SSXMultitoolHubpage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -269,5 +293,7 @@
         private Button SSX3LevelButton;
         private Button button2;
         private Button AudioWindowButton;
+        private Button button7;
+        private Button button3;
     }
 }

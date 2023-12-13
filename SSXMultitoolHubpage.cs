@@ -89,5 +89,10 @@ namespace SSXMultiTool
         {
             new SSXOGProjectWindow().ShowDialog();
         }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            new SSX2012ToolsWindow().ShowDialog();
+        }
     }
 }
