@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SSXMultiTool.Utilities;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,61 +13,74 @@ namespace SSXMultiTool.FileHandlers
         public int GTFVersion;
         public int FileLenght;  //excluding header (add len_header for full length)
         public int NumTextures; // 1
-        public int TexIsNum; //0/1 (1 is normal/DXT5, dds2gtf.exe doesn't work with it) 
-        public int Unknown0; //0
-        public int HeaderLenght; //
-        public int TextureLenght;
-        public int TextureType;
-        public int NumMipmaps;
-        public int Unknown1;
-        public int Remaps;
-        public int TextureWidth;
-        public int TextureHeight;
-        public int TextureDepth;
+        public int TexIsNum; //0/1 (1 is normal/DXT5, dds2gtf.exe doesn't work with it) (int 16)
+        public int Unknown0; //0 (int 16)
+        public int HeaderLenght; //128 also offset to texture buffer
+        public int TextureLenght; //texture/pixel buffer (including mipmaps)
+        public int TextureType; // 0x86 (134) DXT1 | 0x88 (136) DXT5 (8)
+        public int NumMipmaps; //10 (8)
+        public int Unknown1; // (2, 0) or (512) (2 bytes)
+        public int Remaps; //not sure what remaps refers to
+        public int TextureWidth; //(int 16)
+        public int TextureHeight; //(int 16)
+        public int TextureDepth; //1 (int 16)
 
         public void GTFToDDS(string path)
         {
+            using (Stream stream = File.Open(path, FileMode.Open))
+            {
+                GTFVersion = StreamUtil.ReadUInt32(stream);
+                FileLenght = StreamUtil.ReadUInt32(stream);
+                NumTextures = StreamUtil.ReadUInt32(stream);
+                TexIsNum = StreamUtil.ReadUInt16(stream);
+                Unknown0 = StreamUtil.ReadUInt16(stream);
+                HeaderLenght = StreamUtil.ReadUInt32(stream);
+                TextureLenght = StreamUtil.ReadUInt32(stream);
+                TextureType = StreamUtil.ReadUInt8(stream);
+                NumMipmaps = StreamUtil.ReadUInt8(stream);
+                Unknown1 = StreamUtil.ReadUInt16(stream);
+                Remaps = StreamUtil.ReadUInt32(stream);
+                TextureWidth = StreamUtil.ReadUInt16(stream);
+                TextureHeight = StreamUtil.ReadUInt16(stream);
+                TextureDepth = StreamUtil.ReadUInt16(stream);
 
+                string DXT_Type = "";
+                if(TextureType == 0x86)
+                {
+                    DXT_Type = "DXT1";
+                }
+                else if (TextureType == 0x88)
+                {
+                    DXT_Type = "DXT5";
+                }
+
+                //            dxt_type = ""
+                //            if tex_type == 0x86:
+                //                dxt_type =  'DXT1'
+                //            elif tex_type == 0x88:
+                //                dxt_type = 'DXT5'
+                //            else:
+                //                print("Unknown type")
+                //                sys.exit()
+
+                //            if num_textures > 1:
+                //                print("Input file contains more than 1 texture. Only one can be extracted.")
+                //            elif num_textures == 0:
+                //                print("Input file has 0 textures.")
+                //                sys.exit()
+
+
+                byte[] Bytes = StreamUtil.ReadBytes(stream, TextureLenght);
+            }
         }
 
         public void DDSToGTF(string path)
         {
+            using (Stream stream = File.Open(path, FileMode.Open))
+            {
 
+            }
         }
-
-//        with open(self.in_file_path, 'rb') as f:
-//            gtf_version  = f.read(4)
-//            len_file     = get_uint32(f) # excluding header (add len_header for full length)
-//            num_textures = get_uint32(f) # 1
-//            tex_is_nm    = get_uint16(f) # 0/1 (1 is normal/DXT5, dds2gtf.exe doesn't work with it) 
-//            unk          = get_uint16(f) # 0
-//            len_header   = get_uint32(f) # 128 also offset to texture buffer
-//            len_texture  = get_uint32(f) # texture/pixel buffer (including mipmaps)
-//            tex_type     = get_uint8(f) # 0x86 (134) DXT1 | 0x88 (136) DXT5
-//            num_mipmaps  = get_uint8(f) # 10
-//            unk          = f.read(2) # (2, 0) or (512)
-//            unk_remaps   = f.read(4) # not sure what remaps refers to
-//            tex_width  = get_uint16(f)
-//            tex_height = get_uint16(f)
-//            tex_depth  = get_uint16(f) # 1
-
-//            dxt_type = ""
-//            if tex_type == 0x86:
-//                dxt_type =  'DXT1'
-//            elif tex_type == 0x88:
-//                dxt_type = 'DXT5'
-//            else:
-//                print("Unknown type")
-//                sys.exit()
-
-//            if num_textures > 1:
-//                print("Input file contains more than 1 texture. Only one can be extracted.")
-//            elif num_textures == 0:
-//                print("Input file has 0 textures.")
-//                sys.exit()
-
-//            f.seek(len_header)
-//            tex_buffer = f.read(len_texture)
 
 //# New DDS buffer
 

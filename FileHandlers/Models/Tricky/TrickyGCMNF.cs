@@ -291,6 +291,72 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         Model.Vertex.Add(vertexData);
                     }
 
+                    //for (int a = 0; a < Model.tristripHeaders.Count; a++)
+                    //{
+                    //    var TempHeader = Model.tristripHeaders[a];
+                    //    bool roatation = false;
+                    //    int Index = 2;
+                    //    TempHeader.faces = new List<Face>();
+                    //    while (true)
+                    //    {
+                    //        var NewFace = new Face();
+                    //        int Index1 = 0;
+                    //        int Index2 = 0;
+                    //        int Index3 = 0;
+                    //        //Fixes the Rotation For Exporting
+                    //        //Swap When Exporting to other formats
+                    //        //1-Clockwise
+                    //        //0-Counter Clocwise
+                    //        if (roatation)
+                    //        {
+                    //            Index1 = Index;
+                    //            Index2 = Index - 1;
+                    //            Index3 = Index - 2;
+                    //        }
+                    //        if (!roatation)
+                    //        {
+                    //            Index1 = Index - 2;
+                    //            Index2 = Index - 1;
+                    //            Index3 = Index;
+                    //        }
+
+                    //        NewFace.V1 = Model.Vertex[TempHeader.IndexList[Index1]].VertexPosition;
+                    //        NewFace.UV1 = Model.Vertex[TempHeader.IndexList[Index1]].VertexUV;
+                    //        NewFace.Normal1 = Model.Vertex[TempHeader.IndexList[Index1]].VertexNormal;
+                    //        NewFace.TangentNormal1 = Model.Vertex[TempHeader.IndexList[Index1]].VertexTangentNormal;
+                    //        NewFace.Weight1 = Model.boneWeightHeaders[Model.Vertex[TempHeader.IndexList[Index1]].WeightIndex];
+                    //        NewFace.Weight1Pos = Model.Vertex[TempHeader.IndexList[Index1]].WeightIndex;
+                    //        NewFace.MorphPoint1 = Model.Vertex[TempHeader.IndexList[Index1]].MorphData;
+
+                    //        NewFace.V2 = Model.Vertex[TempHeader.IndexList[Index2]].VertexPosition;
+                    //        NewFace.UV2 = Model.Vertex[TempHeader.IndexList[Index2]].VertexUV;
+                    //        NewFace.Normal2 = Model.Vertex[TempHeader.IndexList[Index2]].VertexNormal;
+                    //        NewFace.TangentNormal2 = Model.Vertex[TempHeader.IndexList[Index2]].VertexTangentNormal;
+                    //        NewFace.Weight2 = Model.boneWeightHeaders[Model.Vertex[TempHeader.IndexList[Index2]].WeightIndex];
+                    //        NewFace.Weight2Pos = Model.Vertex[TempHeader.IndexList[Index2]].WeightIndex;
+                    //        NewFace.MorphPoint2 = Model.Vertex[TempHeader.IndexList[Index2]].MorphData;
+
+                    //        NewFace.V3 = Model.Vertex[TempHeader.IndexList[Index3]].VertexPosition;
+                    //        NewFace.UV3 = Model.Vertex[TempHeader.IndexList[Index3]].VertexUV;
+                    //        NewFace.Normal3 = Model.Vertex[TempHeader.IndexList[Index3]].VertexNormal;
+                    //        NewFace.TangentNormal3 = Model.Vertex[TempHeader.IndexList[Index3]].VertexTangentNormal;
+                    //        NewFace.Weight3 = Model.boneWeightHeaders[Model.Vertex[TempHeader.IndexList[Index3]].WeightIndex];
+                    //        NewFace.Weight3Pos = Model.Vertex[TempHeader.IndexList[Index3]].WeightIndex;
+                    //        NewFace.MorphPoint3 = Model.Vertex[TempHeader.IndexList[Index3]].MorphData;
+
+
+                    //        TempHeader.faces.Add(NewFace);
+                    //        roatation = !roatation;
+                    //        Index++;
+                    //        if (Index >= TempHeader.IndexList.Count)
+                    //        {
+                    //            break;
+                    //        }
+                    //    }
+
+                    //    Model.tristripHeaders[a] = TempHeader;
+                    //}
+
                     modelHeaders[i] = Model;
                 }
             }
@@ -450,6 +516,55 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public Vector3 Vertex;
             public Vector3 VertexNormal;
             public Vector2 UV;
+        }
+
+        public struct Face
+        {
+            public Vector3 V1;
+            public Vector3 V2;
+            public Vector3 V3;
+
+            public int V1Pos;
+            public int V2Pos;
+            public int V3Pos;
+
+            public Vector2 UV1;
+            public Vector2 UV2;
+            public Vector2 UV3;
+
+            public int UV1Pos;
+            public int UV2Pos;
+            public int UV3Pos;
+
+            public Vector3 Normal1;
+            public Vector3 Normal2;
+            public Vector3 Normal3;
+
+            public int Normal1Pos;
+            public int Normal2Pos;
+            public int Normal3Pos;
+
+            public Vector3 TangentNormal1;
+            public Vector3 TangentNormal2;
+            public Vector3 TangentNormal3;
+
+            public int TangentNormal1Pos;
+            public int TangentNormal2Pos;
+            public int TangentNormal3Pos;
+
+            public BoneWeightHeader Weight1;
+            public BoneWeightHeader Weight2;
+            public BoneWeightHeader Weight3;
+
+            public int Weight1Pos;
+            public int Weight2Pos;
+            public int Weight3Pos;
+
+            public List<Vector3> MorphPoint1;
+            public List<Vector3> MorphPoint2;
+            public List<Vector3> MorphPoint3;
+
+            public int MaterialID;
         }
     }
 }
