@@ -72,7 +72,6 @@ namespace SSXMultiTool.FileHandlers.Textures
                 //                print("Input file has 0 textures.")
                 //                sys.exit()
 
-
                 byte[] Bytes = StreamUtil.ReadBytes(stream, TextureLenght);
             }
         }
@@ -81,7 +80,22 @@ namespace SSXMultiTool.FileHandlers.Textures
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
-
+                //DDS
+                //Random Bytes 9
+                //Heigh
+                //Width
+                //Random Bytes 2
+                //DXT1 2 Bytes
+                //Random 4 bytes
+                //Mipmaps
+                //44 random bytes
+                //4 random bytes
+                //4 random bytes
+                //utf-8 dxt type
+                //Random bytes 20
+                //Random bytes 4
+                //Random bytes 16
+                //Buffer
             }
         }
 
