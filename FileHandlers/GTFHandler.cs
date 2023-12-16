@@ -71,6 +71,7 @@ namespace SSXMultiTool.FileHandlers
 
 
                 byte[] Bytes = StreamUtil.ReadBytes(stream, TextureLenght);
+            //https://learn.microsoft.com/en-us/windows/win32/direct3ddds/dds-header
             }
         }
 

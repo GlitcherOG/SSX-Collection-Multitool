@@ -227,6 +227,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     }
 
                     streamMatrix.Position = Model.OffsetTristripSection;
+                    Model.meshHeaders = new List<MeshHeader>();
                     for (int b = 0; b < Model.NumMeshPerSkin; b++)
                     {
                         var TempTriData = new MeshHeader();
@@ -239,14 +240,14 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         TempTriData.unk2 = StreamUtil.ReadUInt32(streamMatrix, true);
 
                         long TempPos = streamMatrix.Position;
-                        stream.Position = TempTriData.OffsetSkinIndexList;
+                        streamMatrix.Position = TempTriData.OffsetSkinIndexList;
                         TempTriData.SkinIndex = new List<int>();
                         for (int c = 0; c < TempTriData.NumWeightIndices; c++)
                         {
                             TempTriData.SkinIndex.Add(StreamUtil.ReadUInt32(streamMatrix, true));
                         }
 
-                        stream.Position = TempTriData.OffsetIndexGroupList;
+                        streamMatrix.Position = TempTriData.OffsetIndexGroupList;
                         TempTriData.indexGroupHeaders = new List<IndexGroupHeader>();
                         for (int c = 0; c < TempTriData.NumIndexGroups; c++)
                         {
@@ -262,13 +263,22 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                             long TempPos1 = streamMatrix.Position;
 
+                            streamMatrix.Position = TempIndexGroup.Offset;
+
+
+
 
                             streamMatrix.Position = TempPos1;
 
                             TempTriData.indexGroupHeaders.Add(TempIndexGroup);
                         }
 
+                        //stream.Position = TempTriData.
+
+
+
                         streamMatrix.Position = TempPos;
+                        Model.meshHeaders.Add(TempTriData);
                     }
 
                     streamMatrix.Position = Model.OffsetVertexSection;
@@ -398,6 +408,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public List<MorphHeader> morphHeader;
             public List<BoneWeightHeader> boneWeightHeaders;
             public List<VertexData> Vertex;
+            public List<MeshHeader> meshHeaders;
         }
 
         public struct MaterialData
@@ -509,6 +520,25 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public int IndexUnk0;
             public int NumIndex;
             public int IndexUnk1;
+
+            public List<ShadowIndex> shadowIndices;
+            public List<Index> indices;
+        }
+
+        public struct ShadowIndex
+        {
+            public int unknown0;
+            public int Index0;
+            public int Index1;
+            public int Index2;
+        }
+
+        public struct Index
+        {
+            public int Unknown0;
+            public int Unknown1;
+            public int Unknown2;
+            public int Unknown3;
         }
 
         public struct VertexData
