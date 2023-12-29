@@ -80,6 +80,17 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         {
             List<TrickyGCMNF.Face> NewFaceList = new List<TrickyGCMNF.Face>();
 
+            for (int i = 0; i < modelHeader.meshHeaders.Count; i++)
+            {
+                var TempMesh = modelHeader.meshHeaders[i];
+                for (int a = 0; a < TempMesh.indexGroupHeaders.Count; a++)
+                {
+                    var TempIndex = TempMesh.indexGroupHeaders[a];
+
+                    NewFaceList.AddRange(TempIndex.faces);
+                }
+            }
+
             return NewFaceList;
         }
 
