@@ -26,10 +26,10 @@ namespace SSXMultiTool.FileHandlers.SSX2012
                 ID = StreamUtil.ReadInt8(stream);
 
                 entries = new List<TextEntries>();
-                for (int i = 0; i < length; i++)
-                {
+                //for (int i = 0; i < /*length*/; i++)
+                //{
 
-                }
+                //}
             }
         }
 
