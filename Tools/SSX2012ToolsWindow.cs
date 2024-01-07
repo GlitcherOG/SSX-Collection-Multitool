@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SSXMultiTool.FileHandlers.SSX2012;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,24 @@ namespace SSXMultiTool.Tools
         public SSX2012ToolsWindow()
         {
             InitializeComponent();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Vault|*.vlt|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            //openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                VaultHandler vaultHandler = new VaultHandler();
+
+                vaultHandler.Load(openFileDialog.FileName);
+            }
         }
     }
 }

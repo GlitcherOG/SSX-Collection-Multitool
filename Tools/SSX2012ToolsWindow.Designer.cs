@@ -30,8 +30,9 @@
         {
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
-            button1 = new Button();
             button2 = new Button();
+            button1 = new Button();
+            button3 = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             SuspendLayout();
@@ -48,6 +49,7 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(button3);
             tabPage1.Controls.Add(button2);
             tabPage1.Controls.Add(button1);
             tabPage1.Location = new Point(4, 24);
@@ -58,6 +60,15 @@
             tabPage1.Text = "Tools";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // button2
+            // 
+            button2.Location = new Point(6, 73);
+            button2.Name = "button2";
+            button2.Size = new Size(129, 61);
+            button2.TabIndex = 1;
+            button2.Text = "DDS > GTF";
+            button2.UseVisualStyleBackColor = true;
+            // 
             // button1
             // 
             button1.Location = new Point(6, 6);
@@ -67,14 +78,15 @@
             button1.Text = "GTF > DDS";
             button1.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // button3
             // 
-            button2.Location = new Point(6, 73);
-            button2.Name = "button2";
-            button2.Size = new Size(129, 61);
-            button2.TabIndex = 1;
-            button2.Text = "DDS > GTF";
-            button2.UseVisualStyleBackColor = true;
+            button3.Location = new Point(320, 169);
+            button3.Name = "button3";
+            button3.Size = new Size(129, 61);
+            button3.TabIndex = 2;
+            button3.Text = "Load Vault";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // SSX2012ToolsWindow
             // 
@@ -95,5 +107,6 @@
         private TabPage tabPage1;
         private Button button2;
         private Button button1;
+        private Button button3;
     }
 }
