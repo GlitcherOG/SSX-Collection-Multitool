@@ -19,6 +19,8 @@ namespace SSXMultiTool.FileHandlers.SSX2012
         public PtrNChunk ptrNChunk = new PtrNChunk();
         public EndCChunk endCChunk = new EndCChunk();
 
+        public List<string> strings = new List<string>(); 
+
         public void Load(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
@@ -79,8 +81,8 @@ namespace SSXMultiTool.FileHandlers.SSX2012
                 {
                     var NewStruct = new ExpNStruct();
 
-                    NewStruct.U0 = StreamUtil.ReadUInt32(stream, true);
-                    NewStruct.U1 = StreamUtil.ReadUInt32(stream, true);
+                    NewStruct.ExportID = StreamUtil.ReadUInt32(stream, true);
+                    NewStruct.Type = StreamUtil.ReadUInt32(stream, true);
                     NewStruct.Size = StreamUtil.ReadUInt32(stream, true);
                     NewStruct.Offset = StreamUtil.ReadUInt32(stream, true);
 
@@ -91,6 +93,14 @@ namespace SSXMultiTool.FileHandlers.SSX2012
                     stream.Position = NewStruct.Offset;
 
                     NewStruct.DatNStructs.Hash0 = StreamUtil.ReadUInt32(stream, true);
+                    if(NewStruct.DatNStructs.Hash1 == -1083517349)
+                    {
+                        var Temp = BitConverter.GetBytes(NewStruct.DatNStructs.Hash0);
+                        Array.Reverse(Temp);
+                        strings.Add("0x" + Convert.ToHexString(Temp));
+
+                    }
+
                     NewStruct.DatNStructs.Hash1 = StreamUtil.ReadUInt32(stream, true);
 
                     NewStruct.DatNStructs.U0 = StreamUtil.ReadUInt32(stream, true);
@@ -145,16 +155,16 @@ namespace SSXMultiTool.FileHandlers.SSX2012
                     PtrNStruct ptrNStruct = new PtrNStruct();
 
                     ptrNStruct.U0 = StreamUtil.ReadUInt32(stream, true);
-                    ptrNStruct.U1 = StreamUtil.ReadUInt16(stream, true);
-                    ptrNStruct.U2 = StreamUtil.ReadUInt16(stream, true);
+                    ptrNStruct.PtrType = StreamUtil.ReadUInt16(stream, true);
+                    ptrNStruct.FileIndex = StreamUtil.ReadUInt16(stream, true);
                     ptrNStruct.U3 = StreamUtil.ReadUInt32(stream, true);
 
-                    if (ptrNStruct.U2 == 0 && ptrNStruct.U1 == 0)
+                    ptrNChunk.PtrNStructs.Add(ptrNStruct);
+
+                    if (ptrNStruct.PtrType == 0)
                     {
                         break;
                     }
-
-                    ptrNChunk.PtrNStructs.Add(ptrNStruct);
                 }
 
                 StreamUtil.AlignBy16(stream);
@@ -254,8 +264,8 @@ namespace SSXMultiTool.FileHandlers.SSX2012
 
         public struct ExpNStruct
         {
-            public int U0;
-            public int U1;
+            public int ExportID; //Export ID
+            public int Type; //Type
             public int Size;
             public int Offset;
 
@@ -273,8 +283,8 @@ namespace SSXMultiTool.FileHandlers.SSX2012
         public struct PtrNStruct
         {
             public int U0;
-            public int U1;
-            public int U2;
+            public int PtrType; //0 - End Pointer, 1 - Null, 2 - PtrSetup Target, 3 - PtrDepRelative, 4 - Export
+            public int FileIndex; //0 - Vault, 1 - Bin
             public int U3;
         }
 
