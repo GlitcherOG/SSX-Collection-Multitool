@@ -488,13 +488,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             //Swap When Exporting to other formats
             //1-Clockwise
             //0-Counter Clocwise
-            if (roatation == 1)
+            if (roatation == 0)
             {
                 Index1 = Index;
                 Index2 = Index - 1;
                 Index3 = Index - 2;
             }
-            if (roatation == 0)
+            if (roatation == 1)
             {
                 Index1 = Index - 2;
                 Index2 = Index - 1;
