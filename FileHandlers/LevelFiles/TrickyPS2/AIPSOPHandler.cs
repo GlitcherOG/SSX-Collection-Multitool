@@ -226,91 +226,98 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             List<Vector4> Vectors = new List<Vector4>();
             for (int a = 1; a < PathPoints.Count; a++)
             {
-                float Distance = Vector3.Distance(PathPoints[a - 1], PathPoints[a]);
-                Vector3 Normal = PathPoints[a] - PathPoints[a - 1];
-                Normal = Vector3.Normalize(Normal);
-                Vectors.Add(new Vector4(Normal.X, Normal.Y, Normal.Z, Distance));
+                Vector3 Vector = PathPoints[a] - PathPoints[a - 1];
+                float Distance = length2D(Vector.X, Vector.Y);
+                Vector4 NewPoint = new Vector4(Vector.X / Distance, Vector.Y / Distance, Vector.Z / Distance, Distance);
+                Vectors.Add(NewPoint);
             }
 
             //Correct Vectors
-            List<Vector4> VectorPoints = new List<Vector4>();
-            for (int a = 0; a < Vectors.Count; a++)
-            {
-                float Testfloat = Vectors[a].X + Vectors[a].Y /*+ Vectors[a].Z*/;
+            //List<Vector4> VectorPoints = new List<Vector4>();
+            //for (int a = 0; a < Vectors.Count; a++)
+            //{
+            //    Vector4 vector4 = Vectors[a];
 
-                if (Testfloat >= 0)
-                {
-                    if (Vectors[a].X >= Vectors[a].Y /*&& Vectors[a].X >= Vectors[a].Z*/)
-                    {
-                        Vector4 NewVector = new Vector4();
-                        //Find X and W
+            //    //float Testfloat = Vectors[a].X + Vectors[a].Y /*+ Vectors[a].Z*/;
 
-                        NewVector.X = 1f;
-                        NewVector.Y = (Vectors[a].Y / Vectors[a].X) * NewVector.X;
-                        NewVector.Z = (Vectors[a].Z / Vectors[a].X) * NewVector.X;
+            //    //if (Testfloat >= 0)
+            //    //{
+            //    //    if (Vectors[a].X >= Vectors[a].Y /*&& Vectors[a].X >= Vectors[a].Z*/)
+            //    //    {
+            //    //        Vector4 NewVector = new Vector4();
+            //    //        //Find X and W
 
-                        NewVector.W = (Vectors[a].W * Vectors[a].X) * NewVector.X;
+            //    //        NewVector.X = 1f;
+            //    //        NewVector.Y = (Vectors[a].Y / Vectors[a].X) * NewVector.X;
+            //    //        NewVector.Z = (Vectors[a].Z / Vectors[a].X) * NewVector.X;
 
-                        VectorPoints.Add(NewVector);
-                    }
-                    else if (Vectors[a].Y >= Vectors[a].X/* && Vectors[a].Y >= Vectors[a].Z*/)
-                    {
-                        Vector4 NewVector = new Vector4();
-                        NewVector.Y = 1f;
-                        NewVector.X = (Vectors[a].X / Vectors[a].Y) * NewVector.Y;
-                        NewVector.Z = (Vectors[a].Z / Vectors[a].Y) * NewVector.Y;
+            //    //        NewVector.W = (Vectors[a].W * Vectors[a].X) * NewVector.X;
 
-                        NewVector.W = (Vectors[a].W * Vectors[a].Y) * NewVector.Y;
+            //    //        VectorPoints.Add(NewVector);
+            //    //    }
+            //    //    else if (Vectors[a].Y >= Vectors[a].X/* && Vectors[a].Y >= Vectors[a].Z*/)
+            //    //    {
+            //    //        Vector4 NewVector = new Vector4();
+            //    //        NewVector.Y = 1f;
+            //    //        NewVector.X = (Vectors[a].X / Vectors[a].Y) * NewVector.Y;
+            //    //        NewVector.Z = (Vectors[a].Z / Vectors[a].Y) * NewVector.Y;
 
-                        VectorPoints.Add(NewVector);
-                    }
-                    //else if (Vectors[a].Z >= Vectors[a].Y && Vectors[a].Z >= Vectors[a].X)
-                    //{
-                    //    Vector4 NewVector = new Vector4();
-                    //    NewVector.Z = 1f;
-                    //    NewVector.W = NewVector.Z * (Vectors[a].W/Vectors[a].Z);
-                    //    NewVector.X = (Vectors[a].X / Vectors[a].Z) * NewVector.Z;
-                    //    NewVector.Y = (Vectors[a].Y / Vectors[a].Z) * NewVector.Z;
-                    //    TempPath.VectorPoints.Add(NewVector);
-                    //}
-                }
-                else
-                {
-                    if (Vectors[a].X <= Vectors[a].Y /*&& Vectors[a].X <= Vectors[a].Z*/)
-                    {
-                        Vector4 NewVector = new Vector4();
-                        //Find X and W
-                        NewVector.X = -1f;
-                        NewVector.Y = (Vectors[a].Y / Vectors[a].X) * NewVector.X;
-                        NewVector.Z = (Vectors[a].Z / Vectors[a].X) * NewVector.X;
+            //    //        NewVector.W = (Vectors[a].W * Vectors[a].Y) * NewVector.Y;
 
-                        NewVector.W = (Vectors[a].W * Vectors[a].X) * NewVector.X;
+            //    //        VectorPoints.Add(NewVector);
+            //    //    }
+            //    //    //else if (Vectors[a].Z >= Vectors[a].Y && Vectors[a].Z >= Vectors[a].X)
+            //    //    //{
+            //    //    //    Vector4 NewVector = new Vector4();
+            //    //    //    NewVector.Z = 1f;
+            //    //    //    NewVector.W = NewVector.Z * (Vectors[a].W/Vectors[a].Z);
+            //    //    //    NewVector.X = (Vectors[a].X / Vectors[a].Z) * NewVector.Z;
+            //    //    //    NewVector.Y = (Vectors[a].Y / Vectors[a].Z) * NewVector.Z;
+            //    //    //    TempPath.VectorPoints.Add(NewVector);
+            //    //    //}
+            //    //}
+            //    //else
+            //    //{
+            //    //    if (Vectors[a].X <= Vectors[a].Y /*&& Vectors[a].X <= Vectors[a].Z*/)
+            //    //    {
+            //    //        Vector4 NewVector = new Vector4();
+            //    //        //Find X and W
+            //    //        NewVector.X = -1f;
+            //    //        NewVector.Y = (Vectors[a].Y / Vectors[a].X) * NewVector.X;
+            //    //        NewVector.Z = (Vectors[a].Z / Vectors[a].X) * NewVector.X;
 
-                        VectorPoints.Add(NewVector);
-                    }
-                    else if (Vectors[a].Y <= Vectors[a].X /*&& Vectors[a].Y <= Vectors[a].Z*/)
-                    {
-                        Vector4 NewVector = new Vector4();
-                        NewVector.Y = -1f;
-                        NewVector.X = (Vectors[a].X / Vectors[a].Y) * NewVector.Y;
-                        NewVector.Z = (Vectors[a].Z / Vectors[a].Y) * NewVector.Y;
+            //    //        NewVector.W = (Vectors[a].W * Vectors[a].X) * NewVector.X;
 
-                        NewVector.W = (Vectors[a].W * Vectors[a].Y) * NewVector.Y;
+            //    //        VectorPoints.Add(NewVector);
+            //    //    }
+            //    //    else if (Vectors[a].Y <= Vectors[a].X /*&& Vectors[a].Y <= Vectors[a].Z*/)
+            //    //    {
+            //    //        Vector4 NewVector = new Vector4();
+            //    //        NewVector.Y = -1f;
+            //    //        NewVector.X = (Vectors[a].X / Vectors[a].Y) * NewVector.Y;
+            //    //        NewVector.Z = (Vectors[a].Z / Vectors[a].Y) * NewVector.Y;
 
-                        VectorPoints.Add(NewVector);
-                    }
-                    //else if (Vectors[a].Z <= Vectors[a].Y && Vectors[a].Z <= Vectors[a].X)
-                    //{
-                    //    Vector4 NewVector = new Vector4();
-                    //    NewVector.Z = -1f;
-                    //    NewVector.W = NewVector.Z * (Vectors[a].W/Vectors[a].Z);
-                    //    NewVector.X = (Vectors[a].X / Vectors[a].Z) * NewVector.Z;
-                    //    NewVector.Y = (Vectors[a].Y / Vectors[a].Z) * NewVector.Z;
-                    //    TempPath.VectorPoints.Add(NewVector);
-                    //}
-                }
-            }
-            return VectorPoints;
+            //    //        NewVector.W = (Vectors[a].W * Vectors[a].Y) * NewVector.Y;
+
+            //    //        VectorPoints.Add(NewVector);
+            //    //    }
+            //    //    //else if (Vectors[a].Z <= Vectors[a].Y && Vectors[a].Z <= Vectors[a].X)
+            //    //    //{
+            //    //    //    Vector4 NewVector = new Vector4();
+            //    //    //    NewVector.Z = -1f;
+            //    //    //    NewVector.W = NewVector.Z * (Vectors[a].W/Vectors[a].Z);
+            //    //    //    NewVector.X = (Vectors[a].X / Vectors[a].Z) * NewVector.Z;
+            //    //    //    NewVector.Y = (Vectors[a].Y / Vectors[a].Z) * NewVector.Z;
+            //    //    //    TempPath.VectorPoints.Add(NewVector);
+            //    //    //}
+            //    //}
+            //}
+            return Vectors;
+        }
+
+        public static float length2D(float x, float y)
+        {
+            return MathF.Sqrt((float)(Math.Pow(x,2) + Math.Pow(y,2)));
         }
 
         public struct TypeA
