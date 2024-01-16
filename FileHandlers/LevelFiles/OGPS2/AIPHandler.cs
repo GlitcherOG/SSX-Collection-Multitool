@@ -1,19 +1,13 @@
 ﻿using SSXMultiTool.Utilities;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 {
     public class AIPHandler
     {
-        public int Count0;
-        public int Count1;
+        public int PathACount;
+        public int PathBCount;
         public int U2;
         public int U3;
 
@@ -26,15 +20,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         public int U9;
         public int U10;
 
-        List<PathData> pathDatas = new List<PathData>();
-        List<PathData> pathDatas1 = new List<PathData>();
+        public List<PathData> PathAs = new List<PathData>();
+        public List<PathData> PathBs = new List<PathData>();
 
         public void Load(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
-                Count0 = StreamUtil.ReadUInt32(stream);
-                Count1 = StreamUtil.ReadUInt32(stream);
+                PathACount = StreamUtil.ReadUInt32(stream);
+                PathBCount = StreamUtil.ReadUInt32(stream);
                 U2 = StreamUtil.ReadUInt32(stream);
                 U3 = StreamUtil.ReadUInt32(stream);
 
@@ -47,9 +41,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 U9 = StreamUtil.ReadUInt32(stream);
                 U10 = StreamUtil.ReadUInt32(stream);
 
-                pathDatas = new List<PathData>(); //AI Path?
+                PathAs = new List<PathData>(); //RaceLine Path
 
-                for (int i = 0; i < Count0; i++)
+                for (int i = 0; i < PathACount; i++)
                 {
                     var TempPathData = new PathData();
 
@@ -57,9 +51,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     TempPathData.PointCount = StreamUtil.ReadUInt32(stream);
                     TempPathData.PathEventCount = StreamUtil.ReadUInt32(stream);
 
-                    TempPathData.Pos1 = StreamUtil.ReadVector3(stream); //Path Pos
-                    TempPathData.Pos2 = StreamUtil.ReadVector3(stream); //BBoxMin
-                    TempPathData.Pos3 = StreamUtil.ReadVector3(stream); //BBoxMax
+                    TempPathData.PathPos = StreamUtil.ReadVector3(stream); //Path Pos
+                    TempPathData.BBoxMin = StreamUtil.ReadVector3(stream); //BBoxMin
+                    TempPathData.BBoxMax = StreamUtil.ReadVector3(stream); //BBoxMax
 
                     TempPathData.VectorPoints = new List<Vector4>();
                     for (int a = 0; a < TempPathData.PointCount; a++)
@@ -80,12 +74,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         TempPathData.PathEvents.Add(TempEvent);
                     }
 
-                    pathDatas.Add(TempPathData);
+                    PathAs.Add(TempPathData);
                 }
 
-                pathDatas1 = new List<PathData>(); //RaceLine Path
+                PathBs = new List<PathData>(); //AI Path
 
-                for (int i = 0; i < Count1; i++)
+                for (int i = 0; i < PathBCount; i++)
                 {
                     var TempPathData = new PathData();
 
@@ -93,9 +87,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     TempPathData.PointCount = StreamUtil.ReadUInt32(stream);
                     TempPathData.PathEventCount = StreamUtil.ReadUInt32(stream);
 
-                    TempPathData.Pos1 = StreamUtil.ReadVector3(stream);
-                    TempPathData.Pos2 = StreamUtil.ReadVector3(stream);
-                    TempPathData.Pos3 = StreamUtil.ReadVector3(stream);
+                    TempPathData.PathPos = StreamUtil.ReadVector3(stream);
+                    TempPathData.BBoxMin = StreamUtil.ReadVector3(stream);
+                    TempPathData.BBoxMax = StreamUtil.ReadVector3(stream);
 
                     TempPathData.VectorPoints = new List<Vector4>();
                     for (int a = 0; a < TempPathData.PointCount; a++)
@@ -116,7 +110,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         TempPathData.PathEvents.Add(TempEvent);
                     }
 
-                    pathDatas1.Add(TempPathData);
+                    PathBs.Add(TempPathData);
                 }
 
             }
@@ -128,9 +122,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int PointCount;
             public int PathEventCount;
 
-            public Vector3 Pos1;
-            public Vector3 Pos2;
-            public Vector3 Pos3;
+            public Vector3 PathPos;
+            public Vector3 BBoxMin;
+            public Vector3 BBoxMax;
 
             public List<Vector4> VectorPoints;
             public List<PathEvent> PathEvents;

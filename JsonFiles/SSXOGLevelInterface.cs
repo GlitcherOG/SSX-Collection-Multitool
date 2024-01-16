@@ -33,8 +33,8 @@ namespace SSXMultiTool.JsonFiles
             WFXHandler wfxHandler = new WFXHandler();
             wfxHandler.Load(LoadPath + ".wfx");
 
-            SSXOGConfig ssxOGConfig = new SSXOGConfig();
-            ssxOGConfig.CreateJson(ExtractPath + "\\OGConfig.ssx");
+            AIPHandler aipHandler = new AIPHandler();
+            aipHandler.Load(LoadPath + ".aip");
 
             Directory.CreateDirectory(ExtractPath + "\\Textures");
             Directory.CreateDirectory(ExtractPath + "\\Models");
@@ -272,6 +272,96 @@ namespace SSXMultiTool.JsonFiles
             instanceJsonHandler.CreateJson(ExtractPath + "\\Instances.json", true);
             patchesJsonHandler.CreateJson(ExtractPath + "\\Patches.json", true);
 
+
+            #region AIP
+            AIPJsonHandler aipJsonHandler = new AIPJsonHandler();
+            aipJsonHandler.U2 = aipHandler.U2;
+            aipJsonHandler.U3 = aipHandler.U3;
+            aipJsonHandler.U4 = aipHandler.U4;
+            aipJsonHandler.U5 = aipHandler.U5;
+            aipJsonHandler.U6 = aipHandler.U6;
+            aipJsonHandler.U7 = aipHandler.U7;
+            aipJsonHandler.U8 = aipHandler.U8;
+            aipJsonHandler.U9 = aipHandler.U9;
+            aipJsonHandler.U10 = aipHandler.U10;
+
+            aipJsonHandler.PathAs = new List<AIPJsonHandler.PathData>();
+            aipJsonHandler.PathBs = new List<AIPJsonHandler.PathData>();
+
+            for (int i = 0; i < aipHandler.PathAs.Count; i++)
+            {
+                var TempPath = aipHandler.PathAs[i];
+                AIPJsonHandler.PathData NewPath = new AIPJsonHandler.PathData();
+
+                NewPath.U0 = TempPath.U0;
+                NewPath.PathPos = JsonUtil.Vector3ToArray(TempPath.PathPos);
+
+                NewPath.PathPoints = new float[aipHandler.PathAs[i].VectorPoints.Count, 3];
+                for (int a = 0; a < aipHandler.PathAs[i].VectorPoints.Count; a++)
+                {
+                    NewPath.PathPoints[a, 0] = aipHandler.PathAs[i].VectorPoints[a].X * aipHandler.PathAs[i].VectorPoints[a].W;
+                    NewPath.PathPoints[a, 1] = aipHandler.PathAs[i].VectorPoints[a].Y * aipHandler.PathAs[i].VectorPoints[a].W;
+                    NewPath.PathPoints[a, 2] = aipHandler.PathAs[i].VectorPoints[a].Z * aipHandler.PathAs[i].VectorPoints[a].W;
+                    if (a != 0)
+                    {
+                        NewPath.PathPoints[a, 0] += NewPath.PathPoints[a - 1, 0];
+                        NewPath.PathPoints[a, 1] += NewPath.PathPoints[a - 1, 1];
+                        NewPath.PathPoints[a, 2] += NewPath.PathPoints[a - 1, 2];
+                    }
+                }
+
+                NewPath.PathEvents = new List<AIPJsonHandler.PathEvent>();
+                for (int a = 0; a < aipHandler.PathAs[i].PathEvents.Count; a++)
+                {
+                    var NewStruct = new AIPJsonHandler.PathEvent();
+                    NewStruct.U0 = aipHandler.PathAs[i].PathEvents[a].U0;
+                    NewStruct.U1 = aipHandler.PathAs[i].PathEvents[a].U1;
+                    NewStruct.U2 = aipHandler.PathAs[i].PathEvents[a].U2;
+                    NewStruct.U3 = aipHandler.PathAs[i].PathEvents[a].U3;
+                    NewPath.PathEvents.Add(NewStruct);
+                }
+                aipJsonHandler.PathAs.Add(NewPath);
+            }
+
+            for (int i = 0; i < aipHandler.PathBs.Count; i++)
+            {
+                var TempPath = aipHandler.PathBs[i];
+                AIPJsonHandler.PathData NewPath = new AIPJsonHandler.PathData();
+
+                NewPath.U0 = TempPath.U0;
+                NewPath.PathPos = JsonUtil.Vector3ToArray(TempPath.PathPos);
+
+                NewPath.PathPoints = new float[aipHandler.PathBs[i].VectorPoints.Count, 3];
+                for (int a = 0; a < aipHandler.PathBs[i].VectorPoints.Count; a++)
+                {
+                    NewPath.PathPoints[a, 0] = aipHandler.PathBs[i].VectorPoints[a].X * aipHandler.PathBs[i].VectorPoints[a].W;
+                    NewPath.PathPoints[a, 1] = aipHandler.PathBs[i].VectorPoints[a].Y * aipHandler.PathBs[i].VectorPoints[a].W;
+                    NewPath.PathPoints[a, 2] = aipHandler.PathBs[i].VectorPoints[a].Z * aipHandler.PathBs[i].VectorPoints[a].W;
+                    if (a != 0)
+                    {
+                        NewPath.PathPoints[a, 0] += NewPath.PathPoints[a - 1, 0];
+                        NewPath.PathPoints[a, 1] += NewPath.PathPoints[a - 1, 1];
+                        NewPath.PathPoints[a, 2] += NewPath.PathPoints[a - 1, 2];
+                    }
+                }
+
+                NewPath.PathEvents = new List<AIPJsonHandler.PathEvent>();
+                for (int a = 0; a < aipHandler.PathBs[i].PathEvents.Count; a++)
+                {
+                    var NewStruct = new AIPJsonHandler.PathEvent();
+                    NewStruct.U0 = aipHandler.PathBs[i].PathEvents[a].U0;
+                    NewStruct.U1 = aipHandler.PathBs[i].PathEvents[a].U1;
+                    NewStruct.U2 = aipHandler.PathBs[i].PathEvents[a].U2;
+                    NewStruct.U3 = aipHandler.PathBs[i].PathEvents[a].U3;
+                    NewPath.PathEvents.Add(NewStruct);
+                }
+                aipJsonHandler.PathBs.Add(NewPath);
+            }
+
+            aipJsonHandler.CreateJson(ExtractPath + "\\AIP.json", true);
+            #endregion
+
+            #region Textures
             OldSSHHandler sshTexture = new OldSSHHandler();
             sshTexture.LoadSSH(LoadPath + ".ssh");
 
@@ -298,7 +388,10 @@ namespace SSXMultiTool.JsonFiles
                 //sshTextureLight.BrightenBitmap(i);
                 sshTextureLight.BMPOneExtract(ExtractPath + "\\Lightmaps\\" + i.ToString("0000") + ".png", i);
             }
+            #endregion
 
+            SSXOGConfig ssxOGConfig = new SSXOGConfig();
+            ssxOGConfig.CreateJson(ExtractPath + "\\OGConfig.ssx");
         }
 
     }
