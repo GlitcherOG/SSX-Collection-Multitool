@@ -35,7 +35,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
         public List<ModelOffset> ModelOffsets = new List<ModelOffset>();
         public WDFGridGroup[,] WDFGridGroups = new WDFGridGroup[1,1];
-        public List<UStruct1> uStruct1s = new List<UStruct1>();
+        public List<UStruct1> uStruct1s = new List<UStruct1>(); //Effects?
         public List<Material> Materials = new List<Material>();
         public List<Spline> Splines = new List<Spline>();
 
