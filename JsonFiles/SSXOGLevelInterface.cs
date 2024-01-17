@@ -27,12 +27,14 @@ namespace SSXMultiTool.JsonFiles
             MapHandler mapHandler = new MapHandler();
             mapHandler.Load(LoadPath + ".map");
 
+            //Done
             WDRHandler wdrHandler = new WDRHandler();
             wdrHandler.Load(LoadPath + ".wdr", wdxHandler.ModelOffsets);
 
             WFXHandler wfxHandler = new WFXHandler();
             wfxHandler.Load(LoadPath + ".wfx");
 
+            //Done
             AIPHandler aipHandler = new AIPHandler();
             aipHandler.Load(LoadPath + ".aip");
 

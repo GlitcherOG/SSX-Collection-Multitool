@@ -15,8 +15,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
     {
         public float U0;
         public float U1;
-        public int UStruct0Count;
-        public int UStruct0Offset;
+        public int EffectSlotsCount;
+        public int EffectSlotsOffset;
         public int UStruct1Count;
         public int UStruct1Offset;
         public int CollisonModelCount;
@@ -24,7 +24,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         public int EffectHeaderCount;
         public int EffectHeaderOffset;
 
-        public List<UStruct0> uStruct0s = new List<UStruct0>();
+        public List<EffectSlot> EffectSlots = new List<EffectSlot>();
         public List<UStruct1> uStruct1s = new List<UStruct1>();
         public List<CollisonModelPointer> CollisonModelPointers = new List<CollisonModelPointer>();
         public List<EffectHeader> EffectHeaders = new List<EffectHeader>();
@@ -35,8 +35,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             {
                 U0 = StreamUtil.ReadFloat(stream);
                 U1 = StreamUtil.ReadFloat(stream);
-                UStruct0Count = StreamUtil.ReadUInt32(stream);
-                UStruct0Offset = StreamUtil.ReadUInt32(stream);
+                EffectSlotsCount = StreamUtil.ReadUInt32(stream);
+                EffectSlotsOffset = StreamUtil.ReadUInt32(stream);
                 UStruct1Count = StreamUtil.ReadUInt32(stream);
                 UStruct1Offset = StreamUtil.ReadUInt32(stream);
                 CollisonModelCount = StreamUtil.ReadUInt32(stream);
@@ -44,21 +44,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 EffectHeaderCount = StreamUtil.ReadUInt32(stream);
                 EffectHeaderOffset = StreamUtil.ReadUInt32(stream);
 
-                uStruct0s = new List<UStruct0>();
-                stream.Position = UStruct0Offset;
-                for (int i = 0; i < UStruct0Count; i++)
+                EffectSlots = new List<EffectSlot>();
+                stream.Position = EffectSlotsOffset;
+                for (int i = 0; i < EffectSlotsCount; i++)
                 {
-                    var TempUstruct0 = new UStruct0();
+                    var TempUstruct0 = new EffectSlot();
 
-                    TempUstruct0.U0 = StreamUtil.ReadUInt32(stream);
-                    TempUstruct0.U1 = StreamUtil.ReadUInt32(stream);
-                    TempUstruct0.U2 = StreamUtil.ReadUInt32(stream);
-                    TempUstruct0.U3 = StreamUtil.ReadUInt32(stream);
-                    TempUstruct0.U4 = StreamUtil.ReadUInt32(stream);
-                    TempUstruct0.U5 = StreamUtil.ReadUInt32(stream);
-                    TempUstruct0.U6 = StreamUtil.ReadUInt32(stream);
+                    TempUstruct0.Slot1 = StreamUtil.ReadUInt32(stream);
+                    TempUstruct0.Slot2 = StreamUtil.ReadUInt32(stream);
+                    TempUstruct0.Slot3 = StreamUtil.ReadUInt32(stream);
+                    TempUstruct0.Slot4 = StreamUtil.ReadUInt32(stream);
+                    TempUstruct0.Slot5 = StreamUtil.ReadUInt32(stream);
+                    TempUstruct0.Slot6 = StreamUtil.ReadUInt32(stream);
+                    TempUstruct0.Slot7 = StreamUtil.ReadUInt32(stream);
 
-                    uStruct0s.Add(TempUstruct0);
+                    EffectSlots.Add(TempUstruct0);
                 }
 
                 uStruct1s = new List<UStruct1>();
@@ -234,16 +234,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
             stream.Position += 4 * 10;
 
-            UStruct0Offset = (int)stream.Position;
-            for (int i = 0; i < uStruct0s.Count; i++)
+            EffectSlotsOffset = (int)stream.Position;
+            for (int i = 0; i < EffectSlots.Count; i++)
             {
-                StreamUtil.WriteInt32(stream, uStruct0s[i].U0);
-                StreamUtil.WriteInt32(stream, uStruct0s[i].U1);
-                StreamUtil.WriteInt32(stream, uStruct0s[i].U2);
-                StreamUtil.WriteInt32(stream, uStruct0s[i].U3);
-                StreamUtil.WriteInt32(stream, uStruct0s[i].U4);
-                StreamUtil.WriteInt32(stream, uStruct0s[i].U5);
-                StreamUtil.WriteInt32(stream, uStruct0s[i].U6);
+                StreamUtil.WriteInt32(stream, EffectSlots[i].Slot1);
+                StreamUtil.WriteInt32(stream, EffectSlots[i].Slot2);
+                StreamUtil.WriteInt32(stream, EffectSlots[i].Slot3);
+                StreamUtil.WriteInt32(stream, EffectSlots[i].Slot4);
+                StreamUtil.WriteInt32(stream, EffectSlots[i].Slot5);
+                StreamUtil.WriteInt32(stream, EffectSlots[i].Slot6);
+                StreamUtil.WriteInt32(stream, EffectSlots[i].Slot7);
             }
 
             UStruct1Offset = (int)stream.Position;
@@ -337,8 +337,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             StreamUtil.WriteFloat32(stream, U0);
             StreamUtil.WriteFloat32(stream, U1);
 
-            StreamUtil.WriteInt32(stream, uStruct0s.Count);
-            StreamUtil.WriteInt32(stream, UStruct0Offset);
+            StreamUtil.WriteInt32(stream, EffectSlots.Count);
+            StreamUtil.WriteInt32(stream, EffectSlotsOffset);
             StreamUtil.WriteInt32(stream, uStruct1s.Count);
             StreamUtil.WriteInt32(stream, UStruct1Offset);
             StreamUtil.WriteInt32(stream, CollisonModelPointers.Count);
@@ -897,15 +897,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             return TempEffect;
         }
 
-        public struct UStruct0
+        public struct EffectSlot
         {
-            public int U0;
-            public int U1;
-            public int U2;
-            public int U3;
-            public int U4;
-            public int U5;
-            public int U6;
+            public int Slot1;
+            public int Slot2;
+            public int Slot3;
+            public int Slot4;
+            public int Slot5;
+            public int Slot6;
+            public int Slot7;
         }
 
         public struct UStruct1
