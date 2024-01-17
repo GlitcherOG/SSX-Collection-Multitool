@@ -272,6 +272,32 @@ namespace SSXMultiTool.JsonFiles
             instanceJsonHandler.CreateJson(ExtractPath + "\\Instances.json", true);
             patchesJsonHandler.CreateJson(ExtractPath + "\\Patches.json", true);
 
+            SplinesJsonHandler splinesJsonHandler = new SplinesJsonHandler();
+            splinesJsonHandler.Splines = new List<SplinesJsonHandler.SplineJson>();
+
+            for (int i = 0; i < wdxHandler.Splines.Count; i++)
+            {
+                var NewSpline = new SplinesJsonHandler.SplineJson();
+
+                NewSpline.vector3 = JsonUtil.Vector3ToArray(wdxHandler.Splines[i].vector3);
+                NewSpline.vector31 = JsonUtil.Vector3ToArray(wdxHandler.Splines[i].vector31);
+
+                NewSpline.U0 = wdxHandler.Splines[i].U0;
+                NewSpline.U1 = wdxHandler.Splines[i].U1;
+                NewSpline.U2 = wdxHandler.Splines[i].U2;
+
+                NewSpline.U3 = wdxHandler.Splines[i].U3;
+                NewSpline.U4 = wdxHandler.Splines[i].U4;
+                NewSpline.U5 = wdxHandler.Splines[i].U5;
+                NewSpline.U6 = wdxHandler.Splines[i].U6;
+                NewSpline.U7 = wdxHandler.Splines[i].U7;
+                NewSpline.U8 = wdxHandler.Splines[i].U8;
+                NewSpline.U9 = wdxHandler.Splines[i].U9;
+                NewSpline.U10 = wdxHandler.Splines[i].U10;
+
+                splinesJsonHandler.Splines.Add(NewSpline);
+            }
+            splinesJsonHandler.CreateJson(ExtractPath + "\\Splines.json", true);
 
             #region AIP
             AIPJsonHandler aipJsonHandler = new AIPJsonHandler();
