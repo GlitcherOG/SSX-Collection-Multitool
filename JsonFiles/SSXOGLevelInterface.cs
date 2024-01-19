@@ -281,8 +281,7 @@ namespace SSXMultiTool.JsonFiles
             {
                 var NewSpline = new SplinesJsonHandler.SplineJson();
 
-                NewSpline.vector3 = JsonUtil.Vector3ToArray(wdxHandler.Splines[i].vector3);
-                NewSpline.vector31 = JsonUtil.Vector3ToArray(wdxHandler.Splines[i].vector31);
+                NewSpline.SplineName = mapHandler.Splines[i].Name;
 
                 NewSpline.U0 = wdxHandler.Splines[i].U0;
                 NewSpline.U1 = wdxHandler.Splines[i].U1;
@@ -290,10 +289,7 @@ namespace SSXMultiTool.JsonFiles
 
                 NewSpline.U3 = wdxHandler.Splines[i].U3;
                 NewSpline.U4 = wdxHandler.Splines[i].U4;
-                NewSpline.U5 = wdxHandler.Splines[i].U5;
                 NewSpline.U6 = wdxHandler.Splines[i].U6;
-                NewSpline.WDFChunkID = wdxHandler.Splines[i].WDFChunkID;
-                NewSpline.SegmentIndex = wdxHandler.Splines[i].SegmentIndex;
                 NewSpline.U9 = wdxHandler.Splines[i].U9;
                 NewSpline.U10 = wdxHandler.Splines[i].U10;
 

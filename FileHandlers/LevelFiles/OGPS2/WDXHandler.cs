@@ -124,8 +124,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 {
                     var TempSpline = new Spline();
 
-                    TempSpline.vector3 = StreamUtil.ReadVector3(stream);
-                    TempSpline.vector31 = StreamUtil.ReadVector3(stream);
+                    TempSpline.LowestXYZ = StreamUtil.ReadVector3(stream);
+                    TempSpline.HighestXYZ = StreamUtil.ReadVector3(stream);
 
                     TempSpline.U0 = StreamUtil.ReadUInt32(stream);
                     TempSpline.U1 = StreamUtil.ReadUInt32(stream);
@@ -133,7 +133,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                     TempSpline.U3 = StreamUtil.ReadUInt16(stream);
                     TempSpline.U4 = StreamUtil.ReadUInt16(stream);
-                    TempSpline.U5 = StreamUtil.ReadUInt16(stream);
+                    TempSpline.SegmentCount = StreamUtil.ReadUInt16(stream);
 
                     TempSpline.U6 = StreamUtil.ReadUInt16(stream);
                     TempSpline.WDFChunkID = StreamUtil.ReadUInt16(stream);
@@ -208,8 +208,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
             for (int i = 0; i < Splines.Count; i++)
             {
-                StreamUtil.WriteVector3(stream, Splines[i].vector3);
-                StreamUtil.WriteVector3(stream, Splines[i].vector31);
+                StreamUtil.WriteVector3(stream, Splines[i].LowestXYZ);
+                StreamUtil.WriteVector3(stream, Splines[i].HighestXYZ);
 
                 StreamUtil.WriteInt32(stream, Splines[i].U0);
                 StreamUtil.WriteInt32(stream, Splines[i].U1);
@@ -217,7 +217,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                 StreamUtil.WriteInt16(stream, Splines[i].U3);
                 StreamUtil.WriteInt16(stream, Splines[i].U4);
-                StreamUtil.WriteInt16(stream, Splines[i].U5);
+                StreamUtil.WriteInt16(stream, Splines[i].SegmentCount);
 
                 StreamUtil.WriteInt16(stream, Splines[i].U6);
                 StreamUtil.WriteInt16(stream, Splines[i].WDFChunkID);
@@ -274,8 +274,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
         public struct Spline
         {
-            public Vector3 vector3;
-            public Vector3 vector31;
+            public Vector3 LowestXYZ;
+            public Vector3 HighestXYZ;
 
             public int U0;
             public int U1;
@@ -284,7 +284,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             //16
             public int U3;
             public int U4;
-            public int U5;
+            public int SegmentCount;
             public int U6;
             public int WDFChunkID;
             public int SegmentIndex;

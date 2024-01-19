@@ -43,8 +43,7 @@ namespace SSXMultiTool.JsonFiles.SSXOG
 
         public struct SplineJson
         {
-            public float[] vector3;
-            public float[] vector31;
+            public string SplineName;
 
             public int U0;
             public int U1;
@@ -53,12 +52,28 @@ namespace SSXMultiTool.JsonFiles.SSXOG
             //16
             public int U3;
             public int U4;
-            public int U5;
             public int U6;
-            public int WDFChunkID;
-            public int SegmentIndex;
             public int U9;
             public int U10;
+
+            public List<SplineSegment> splineSegments;
+        }
+
+        public struct SplineSegment
+        {
+            public float[] Point1;
+            public float[] Point2;
+            public float[] Point3;
+            public float[] Point4;
+
+            public float U0;
+            public float U1;
+            public float U2;
+            public float U3;
+
+
+            public int U4;
+
         }
     }
 }
