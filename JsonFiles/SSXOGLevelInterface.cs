@@ -22,7 +22,7 @@ namespace SSXMultiTool.JsonFiles
             wdxHandler.Load(LoadPath + ".wdx");
 
             WDFHandler wdfHandler = new WDFHandler();
-            wdfHandler.Load(LoadPath + ".wdf",wdxHandler.WDFGridGroups);
+            wdfHandler.Load(LoadPath + ".wdf", wdxHandler.WDFGridGroups);
 
             MapHandler mapHandler = new MapHandler();
             mapHandler.Load(LoadPath + ".map");
@@ -58,7 +58,7 @@ namespace SSXMultiTool.JsonFiles
                 TempMaterialJson.MaterialName = "Material " + i.ToString();
 
                 TempMaterialJson.U0 = wdxHandler.Materials[i].U0;
-                TempMaterialJson.TexturePath =  wdxHandler.Materials[i].TextureID.ToString("0000") + ".png";
+                TempMaterialJson.TexturePath = wdxHandler.Materials[i].TextureID.ToString("0000") + ".png";
                 TempMaterialJson.U2 = wdxHandler.Materials[i].U2;
                 TempMaterialJson.U3 = wdxHandler.Materials[i].U3;
 
@@ -94,7 +94,7 @@ namespace SSXMultiTool.JsonFiles
 
                     TempObjectHeader.U16 = wdrHandler.modelHeaders[i].models[a].U16;
 
-                    if(wdrHandler.modelHeaders[i].models[a].matrixData != null)
+                    if (wdrHandler.modelHeaders[i].models[a].matrixData != null)
                     {
                         var TempMatrixData = new PrefabJsonHandler.MatrixData();
 
@@ -276,7 +276,6 @@ namespace SSXMultiTool.JsonFiles
 
             SplinesJsonHandler splinesJsonHandler = new SplinesJsonHandler();
             splinesJsonHandler.Splines = new List<SplinesJsonHandler.SplineJson>();
-
             for (int i = 0; i < wdxHandler.Splines.Count; i++)
             {
                 var NewSpline = new SplinesJsonHandler.SplineJson();
@@ -293,8 +292,92 @@ namespace SSXMultiTool.JsonFiles
                 NewSpline.U9 = wdxHandler.Splines[i].U9;
                 NewSpline.U10 = wdxHandler.Splines[i].U10;
 
+                NewSpline.Segments = new List<SplinesJsonHandler.SplineSegment>();
+
+                int CurrentChunkX = wdxHandler.Splines[i].WDFChunkID % wdfHandler.WDFChunks.GetLength(0);
+                int CurrentChunkY = wdxHandler.Splines[i].WDFChunkID / wdfHandler.WDFChunks.GetLength(0);
+                int CurrentSegment = wdxHandler.Splines[i].SegmentIndex;
+
+                for (int a = 0; a < wdxHandler.Splines[i].SegmentCount; a++)
+                {
+                    var OldSegment = wdfHandler.WDFChunks[CurrentChunkX, CurrentChunkY].SplineSegments[CurrentSegment];
+                    OldSegment.Loaded = true;
+                    wdfHandler.WDFChunks[CurrentChunkX, CurrentChunkY].SplineSegments[CurrentSegment] = OldSegment;
+                    CurrentChunkX = OldSegment.NextWDFChunkID % wdfHandler.WDFChunks.GetLength(0);
+                    CurrentChunkY = OldSegment.NextWDFChunkID / wdfHandler.WDFChunks.GetLength(0);
+                    CurrentSegment = OldSegment.NextSegmentID;
+
+
+                    SplinesJsonHandler.SplineSegment NewSegment = new SplinesJsonHandler.SplineSegment();
+
+                    BezierUtil bezierUtil = new BezierUtil();
+                    bezierUtil.ProcessedPoints[0] = JsonUtil.Vector4ToVector3(OldSegment.ControlPoint);
+                    bezierUtil.ProcessedPoints[1] = JsonUtil.Vector4ToVector3(OldSegment.Point2);
+                    bezierUtil.ProcessedPoints[2] = JsonUtil.Vector4ToVector3(OldSegment.Point3);
+                    bezierUtil.ProcessedPoints[3] = JsonUtil.Vector4ToVector3(OldSegment.Point4);
+
+                    bezierUtil.GenerateRawPoints();
+
+                    NewSegment.Point1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[0]);
+                    NewSegment.Point2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[1]);
+                    NewSegment.Point3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[2]);
+                    NewSegment.Point4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[3]);
+
+                    NewSegment.U0 = OldSegment.U0;
+                    NewSegment.U1 = OldSegment.U1;
+                    NewSegment.U2 = OldSegment.U2;
+                    NewSegment.U3 = OldSegment.U3;
+
+                    NewSegment.U4 = OldSegment.U4;
+
+                    NewSpline.Segments.Add(NewSegment);
+                }
+
                 splinesJsonHandler.Splines.Add(NewSpline);
             }
+
+            splinesJsonHandler.SegmentsData = new List<SplinesJsonHandler.SplineSegment>();
+
+            for (int y = 0; y < wdfHandler.WDFChunks.GetLength(1); y++)
+            {
+                for (int x = 0; x < wdfHandler.WDFChunks.GetLength(0); x++)
+                {
+                    var TempChunk = wdfHandler.WDFChunks[x, y];
+                    for (int i = 0; i < TempChunk.SplineSegments.Count; i++)
+                    {
+                        var OldSegment = TempChunk.SplineSegments[i];
+                        if (OldSegment.Loaded == false)
+                        {
+
+                            SplinesJsonHandler.SplineSegment NewSegment = new SplinesJsonHandler.SplineSegment();
+
+                            BezierUtil bezierUtil = new BezierUtil();
+                            bezierUtil.ProcessedPoints[0] = JsonUtil.Vector4ToVector3(OldSegment.ControlPoint);
+                            bezierUtil.ProcessedPoints[1] = JsonUtil.Vector4ToVector3(OldSegment.Point2);
+                            bezierUtil.ProcessedPoints[2] = JsonUtil.Vector4ToVector3(OldSegment.Point3);
+                            bezierUtil.ProcessedPoints[3] = JsonUtil.Vector4ToVector3(OldSegment.Point4);
+
+                            bezierUtil.GenerateRawPoints();
+
+                            NewSegment.Point1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[0]);
+                            NewSegment.Point2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[1]);
+                            NewSegment.Point3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[2]);
+                            NewSegment.Point4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[3]);
+
+                            NewSegment.U0 = OldSegment.U0;
+                            NewSegment.U1 = OldSegment.U1;
+                            NewSegment.U2 = OldSegment.U2;
+                            NewSegment.U3 = OldSegment.U3;
+
+                            NewSegment.U4 = OldSegment.U4;
+
+                            splinesJsonHandler.SegmentsData.Add(NewSegment);
+                        }
+                    }
+                }
+            }
+
+
             splinesJsonHandler.CreateJson(ExtractPath + "\\Splines.json", true);
 
             #region AIP

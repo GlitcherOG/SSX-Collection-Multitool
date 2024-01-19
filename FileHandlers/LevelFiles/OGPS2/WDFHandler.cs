@@ -240,6 +240,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
         public void Load(string path, WDXHandler.WDFGridGroup[,] wdfGridGroup)
         {
+            int segments = 0;
             int Temp = -1;
             using (Stream stream = File.Open(path, FileMode.Open))
             {
@@ -402,6 +403,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         wdfChunk.SplineSegments = new List<SplineSegment>();
                         for (int i = 0; i < wdfChunk.SplineSegmentCount; i++)
                         {
+                            segments++;
                             var TempUnknown = new SplineSegment();
 
                             TempUnknown.Point4 = StreamUtil.ReadVector4(stream);
@@ -840,6 +842,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
         public struct SplineSegment
         {
+            public bool Loaded;
+
             public Vector4 Point4;
             public Vector4 Point3;
             public Vector4 Point2;

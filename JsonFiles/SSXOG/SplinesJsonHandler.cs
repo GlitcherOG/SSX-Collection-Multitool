@@ -11,6 +11,8 @@ namespace SSXMultiTool.JsonFiles.SSXOG
     public class SplinesJsonHandler
     {
         public List<SplineJson> Splines = new List<SplineJson>();
+
+        public List<SplineSegment> SegmentsData = new List<SplineSegment>();
         public void CreateJson(string path, bool Inline = false)
         {
             var TempFormating = Formatting.None;
@@ -56,7 +58,7 @@ namespace SSXMultiTool.JsonFiles.SSXOG
             public int U9;
             public int U10;
 
-            public List<SplineSegment> splineSegments;
+            public List<SplineSegment> Segments;
         }
 
         public struct SplineSegment
