@@ -136,8 +136,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     TempSpline.U5 = StreamUtil.ReadUInt16(stream);
 
                     TempSpline.U6 = StreamUtil.ReadUInt16(stream);
-                    TempSpline.U7 = StreamUtil.ReadUInt16(stream);
-                    TempSpline.U8 = StreamUtil.ReadUInt16(stream);
+                    TempSpline.WDFChunkID = StreamUtil.ReadUInt16(stream);
+                    TempSpline.SegmentIndex = StreamUtil.ReadUInt16(stream);
                     TempSpline.U9 = StreamUtil.ReadUInt16(stream);
                     TempSpline.U10 = StreamUtil.ReadUInt16(stream);
 
@@ -220,8 +220,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 StreamUtil.WriteInt16(stream, Splines[i].U5);
 
                 StreamUtil.WriteInt16(stream, Splines[i].U6);
-                StreamUtil.WriteInt16(stream, Splines[i].U7);
-                StreamUtil.WriteInt16(stream, Splines[i].U8);
+                StreamUtil.WriteInt16(stream, Splines[i].WDFChunkID);
+                StreamUtil.WriteInt16(stream, Splines[i].SegmentIndex);
                 StreamUtil.WriteInt16(stream, Splines[i].U9);
                 StreamUtil.WriteInt16(stream, Splines[i].U10);
             }
@@ -286,8 +286,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public int U4;
             public int U5;
             public int U6;
-            public int U7;
-            public int U8;
+            public int WDFChunkID;
+            public int SegmentIndex;
             public int U9;
             public int U10;
         }

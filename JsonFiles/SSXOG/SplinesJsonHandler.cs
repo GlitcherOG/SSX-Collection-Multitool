@@ -55,8 +55,8 @@ namespace SSXMultiTool.JsonFiles.SSXOG
             public int U4;
             public int U5;
             public int U6;
-            public int U7;
-            public int U8;
+            public int WDFChunkID;
+            public int SegmentIndex;
             public int U9;
             public int U10;
         }

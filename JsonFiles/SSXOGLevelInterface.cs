@@ -292,8 +292,8 @@ namespace SSXMultiTool.JsonFiles
                 NewSpline.U4 = wdxHandler.Splines[i].U4;
                 NewSpline.U5 = wdxHandler.Splines[i].U5;
                 NewSpline.U6 = wdxHandler.Splines[i].U6;
-                NewSpline.U7 = wdxHandler.Splines[i].U7;
-                NewSpline.U8 = wdxHandler.Splines[i].U8;
+                NewSpline.WDFChunkID = wdxHandler.Splines[i].WDFChunkID;
+                NewSpline.SegmentIndex = wdxHandler.Splines[i].SegmentIndex;
                 NewSpline.U9 = wdxHandler.Splines[i].U9;
                 NewSpline.U10 = wdxHandler.Splines[i].U10;
 
