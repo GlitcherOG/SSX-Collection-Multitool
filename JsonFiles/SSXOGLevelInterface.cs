@@ -255,7 +255,18 @@ namespace SSXMultiTool.JsonFiles
                         TempInstanceJson.PlayerBounceValue = TempChunk.Instances[i].PlayerBounce;
 
                         TempInstanceJson.CollsionMode = TempChunk.Instances[i].CollsionMode;
-                        TempInstanceJson.CollisonModelIndex = TempChunk.Instances[i].CollisonModelIndex;
+
+                        int CollsionPos = TempChunk.Instances[i].CollisonModelIndex;
+                        if (CollsionPos != -1 /*&& TempChunk.Instances[i].CollsionMode != 3*/)
+                        {
+                            TempInstanceJson.CollsionModelPaths = new string[wfxHandler.CollisonModelPointers[CollsionPos].Models.Count];
+
+                            for (int a = 0; a < TempInstanceJson.CollsionModelPaths.Length; a++)
+                            {
+                                TempInstanceJson.CollsionModelPaths[a] = wfxHandler.CollisonModelPointers[CollsionPos].Models[a].MeshPath;
+                            }
+                        }
+
                         TempInstanceJson.PhysicsIndex = TempChunk.Instances[i].PhysicsIndex;
                         TempInstanceJson.U11 = TempChunk.Instances[i].U11;
 

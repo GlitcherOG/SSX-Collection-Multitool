@@ -70,7 +70,7 @@ namespace SSXMultiTool.JsonFiles.SSXOG
             public float PlayerBounceValue;
 
             public int CollsionMode; //16
-            public int CollisonModelIndex; //16
+            public string[] CollsionModelPaths;
             public int PhysicsIndex; //16
             public int U11; //16
 

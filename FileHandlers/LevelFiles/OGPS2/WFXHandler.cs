@@ -374,7 +374,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     outputString += "o Mesh" + c + "\n";
                     for (int b = 0; b < Data.FaceCount; b++)
                     {
-                        outputString += "f " + (Data.Index[3 * b] + 1) + "//" + (b + 1).ToString() + " " + (Data.Index[3 * b + 1] + 1) + "//" + (b + 1).ToString() + " " + (Data.Index[3 * b + 2] + 1) + "//" + (b + 1).ToString() + "\n";
+                        outputString += "f " + (Data.Index[3 * b + 2] + 1) + "//" + (b + 1).ToString() + " " + (Data.Index[3 * b + 1] + 1) + "//" + (b + 1).ToString() + " " + (Data.Index[3 * b] + 1) + "//" + (b + 1).ToString() + "\n";
                     }
 
                     for (int z = 0; z < Data.Vertices.Count; z++)
