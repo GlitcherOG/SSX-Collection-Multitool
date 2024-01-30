@@ -106,8 +106,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 List<int> ints = new List<int>();
                 int a = 0;
                 int splitCount = 1;
-
-                int IDCount = 0;
                 while (true)
                 {
                     if (stream.Position >= stream.Length - 1)
@@ -133,39 +131,52 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                         while (memoryStream.Position < memoryStream.Length)
                         {
-                            //MemoryStream memoryStream1 = new MemoryStream();
+                            MemoryStream memoryStream1 = new MemoryStream();
                             int ID = StreamUtil.ReadUInt8(memoryStream);
                             int ChunkSize = StreamUtil.ReadInt24(memoryStream);
                             int RID = StreamUtil.ReadUInt32(memoryStream);
 
                             byte[] NewData = StreamUtil.ReadBytes(memoryStream, ChunkSize);
-
-                            if(ID==2)
+                            StreamUtil.WriteBytes(memoryStream1, NewData);
+                            if (ID==2)
                             {
-                                WorldMDR worldMDR = new WorldMDR();
+                                //WorldMDR worldMDR = new WorldMDR();
 
-                                worldMDR.LoadData(NewData);
-                                worldMDR.SaveModel(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".glb");
+                                //worldMDR.LoadData(NewData);
+                                //worldMDR.SaveModel(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".glb");
+                            }
+                            else if (ID==20)
+                            {
+                                //var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".bnk");
+                                //memoryStream1.Position = 0;
+                                //memoryStream1.CopyTo(file);
+                                //memoryStream1.Dispose();
+                                //memoryStream1 = new MemoryStream();
+                                //file.Close();
+                            }
+                            else if (ID == 9)
+                            {
+                                //var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".shps");
+                                //memoryStream1.Position = 0;
+                                //memoryStream1.CopyTo(file);
+                                //memoryStream1.Dispose();
+                                //memoryStream1 = new MemoryStream();
+                                //file.Close();
+                            }
+                            else
+                            {
+                                var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + "-" + a + ".bin" + ID);
+                                memoryStream1.Position = 0;
+                                memoryStream1.CopyTo(file);
+                                memoryStream1.Dispose();
+                                memoryStream1 = new MemoryStream();
+                                file.Close();
                             }
 
                             FilePos++;
                         }
-
-
-                        //var file = File.Create(extractPath +"//" + sdbHandler.locations[ChunkID].Name + "//" + a + " " + splitCount + " " + IDCount + ".bin");
-                        //memoryStream.Position = 0;
-                        //memoryStream.CopyTo(file);
-                        //memoryStream.Dispose();
-                        //memoryStream = new MemoryStream();
-                        //file.Close();
-
-                        ////Directory.CreateDirectory(extractPath + "//" + a);
-
-                        //a++;
-                        //splitCount = 1;
+                        a++;
                     }
-                    //IDCount = 0;
-                    //splitCount++;
                 }
             }
         }
