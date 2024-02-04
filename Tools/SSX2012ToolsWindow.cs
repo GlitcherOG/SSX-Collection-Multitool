@@ -1,4 +1,5 @@
-﻿using SSXMultiTool.FileHandlers.SSX2012;
+﻿using SSXMultiTool.FileHandlers.Models.SSX2012;
+using SSXMultiTool.FileHandlers.SSX2012;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,6 +34,24 @@ namespace SSXMultiTool.Tools
                 VaultHandler vaultHandler = new VaultHandler();
 
                 vaultHandler.Load(openFileDialog.FileName);
+            }
+        }
+
+        private void CharacterLoad_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "GEOM|*.geom|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            //openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                GEOMHandler geomHandler = new GEOMHandler();
+
+                geomHandler.Load(openFileDialog.FileName);
             }
         }
     }

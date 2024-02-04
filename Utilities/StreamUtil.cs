@@ -151,6 +151,17 @@ namespace SSXMultiTool.Utilities
             return BitConverter.ToSingle(tempByte, 0);
         }
 
+        public static float ReadHalfFloat(Stream stream, bool BigEndian = false)
+        {
+            byte[] tempByte = new byte[2];
+            stream.Read(tempByte, 0, tempByte.Length);
+
+            if (BigEndian)
+                Array.Reverse(tempByte);
+
+            return (float)BitConverter.ToHalf(tempByte, 0);
+        }
+
         public static Color ReadColour(Stream stream)
         {
             int R = stream.ReadByte();
