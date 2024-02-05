@@ -52,6 +52,18 @@ namespace SSXMultiTool.Tools
                 GEOMHandler geomHandler = new GEOMHandler();
 
                 geomHandler.Load(openFileDialog.FileName);
+
+                SaveFileDialog openFileDialog1 = new SaveFileDialog
+                {
+                    Filter = "Model File (*.obj)|*.obj|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    geomHandler.ExportModels(openFileDialog1.FileName);
+                }
+
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using SSXMultiTool.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -19,6 +20,9 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
         public GEOMStruct geomStruct = new GEOMStruct();
         public VFMTStruct vfmtStruct = new VFMTStruct();
         public STRMStruct strmStruct = new STRMStruct();
+        public INDXStruct indxStruct = new INDXStruct();
+
+        public List<Faces> faces = new List<Faces>();
 
         public void Load(string path)
         {
@@ -40,7 +44,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
 
                 vfmtStruct.VFMTMagic = StreamUtil.ReadString(stream, 4);
                 vfmtStruct.CharSize = StreamUtil.ReadUInt32(stream, true);
-                vfmtStruct.TextString = StreamUtil.ReadString(stream, vfmtStruct.CharSize+1);
+                vfmtStruct.TextString = StreamUtil.ReadString(stream, vfmtStruct.CharSize + 1);
                 vfmtStruct.U0 = StreamUtil.ReadUInt32(stream, true);
 
                 strmStruct = new STRMStruct();
@@ -63,13 +67,149 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
                     Vertice.Normal.Z = StreamUtil.ReadHalfFloat(stream, true);
                     Vertice.U2 = StreamUtil.ReadUInt16(stream, true);
                     Vertice.UV.X = StreamUtil.ReadHalfFloat(stream, true);
-                    Vertice.UV.Y = StreamUtil.ReadHalfFloat(stream, true);
+                    Vertice.UV.Y = 1 - StreamUtil.ReadHalfFloat(stream, true);
                     Vertice.U3 = StreamUtil.ReadUInt32(stream, true);
 
                     strmStruct.vectors.Add(Vertice);
                 }
 
+                strmStruct.U4 = StreamUtil.ReadUInt32(stream, true);
+
+                indxStruct = new INDXStruct();
+                indxStruct.INDXMagic = StreamUtil.ReadString(stream, 4);
+                indxStruct.U0 = StreamUtil.ReadUInt8(stream);
+                indxStruct.U1 = StreamUtil.ReadUInt32(stream, true);
+                indxStruct.IndexCount = StreamUtil.ReadUInt32(stream, true);
+                indxStruct.IndexMode = StreamUtil.ReadString(stream, 4);
+
+                indxStruct.Indexs = new List<int>();
+                if (indxStruct.IndexMode == "ID16")
+                {
+                    for (int i = 0; i < indxStruct.IndexCount; i++)
+                    {
+                        indxStruct.Indexs.Add(StreamUtil.ReadUInt16(stream, true));
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Unknown Index Mode");
+                    return;
+                }
+                indxStruct.U2 = StreamUtil.ReadUInt32(stream, true);
+                indxStruct.U3 = StreamUtil.ReadUInt32(stream, true);
             }
+            GenerateFaces();
+        }
+
+        public void GenerateFaces()
+        {
+            faces = new List<Faces>();
+
+            for (int i = 0; i < indxStruct.Indexs.Count/3; i++)
+            {
+                Faces NewFace = new Faces();
+
+                NewFace.V1 = strmStruct.vectors[indxStruct.Indexs[i * 3]];
+                NewFace.V2 = strmStruct.vectors[indxStruct.Indexs[i * 3 + 1]];
+                NewFace.V3 = strmStruct.vectors[indxStruct.Indexs[i * 3 + 2]];
+
+                faces.Add(NewFace);
+            }
+        }
+
+        public void ExportModels(string path)
+        {
+            string outputString = "";
+            string output = "# Exported From SSX Using SSX Multitool Modder by GlitcherOG \n";
+
+            List<Vector3> vertices = new List<Vector3>();
+            List<Vector3> Normals = new List<Vector3>();
+            List<Vector2> UV = new List<Vector2>();
+            outputString += "o Mesh 0\n";
+            for (int b = 0; b < faces.Count; b++)
+            {
+                var Face = faces[b];
+
+                //Vertices
+                if (!vertices.Contains(Face.V1.Position))
+                {
+                    vertices.Add(Face.V1.Position);
+                }
+                int VPos1 = vertices.IndexOf(Face.V1.Position) + 1;
+
+                if (!vertices.Contains(Face.V2.Position))
+                {
+                    vertices.Add(Face.V2.Position);
+                }
+                int VPos2 = vertices.IndexOf(Face.V2.Position) + 1;
+
+                if (!vertices.Contains(Face.V3.Position))
+                {
+                    vertices.Add(Face.V3.Position);
+                }
+                int VPos3 = vertices.IndexOf(Face.V3.Position) + 1;
+
+                //UVs
+                if (!UV.Contains(Face.V1.UV))
+                {
+                    UV.Add(Face.V1.UV);
+                }
+                int UPos1 = UV.IndexOf(Face.V1.UV) + 1;
+
+                if (!UV.Contains(Face.V2.UV))
+                {
+                    UV.Add(Face.V2.UV);
+                }
+                int UPos2 = UV.IndexOf(Face.V2.UV) + 1;
+
+                if (!UV.Contains(Face.V3.UV))
+                {
+                    UV.Add(Face.V3.UV);
+                }
+                int UPos3 = UV.IndexOf(Face.V3.UV) + 1;
+
+                ////Normals
+                //if (!Normals.Contains(Face.Normal1))
+                //{
+                //    Normals.Add(Face.Normal1);
+                //}
+                //int NPos1 = Normals.IndexOf(Face.Normal1) + 1;
+
+                //if (!Normals.Contains(Face.Normal2))
+                //{
+                //    Normals.Add(Face.Normal2);
+                //}
+                //int NPos2 = Normals.IndexOf(Face.Normal2) + 1;
+
+                //if (!Normals.Contains(Face.Normal3))
+                //{
+                //    Normals.Add(Face.Normal3);
+                //}
+                //int NPos3 = Normals.IndexOf(Face.Normal3) + 1;
+
+                outputString += "f " + VPos1.ToString() + "/" + UPos1.ToString() + /*"/" + NPos1.ToString() +*/ " " + VPos2.ToString() + "/" + UPos2.ToString() + /*"/" + NPos2.ToString() +*/ " " + VPos3.ToString() + "/" + UPos3.ToString() + /*"/" + NPos3.ToString() +*/ "\n";
+            }
+
+            for (int z = 0; z < vertices.Count; z++)
+            {
+                output += "v " + vertices[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + vertices[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + vertices[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+            }
+            for (int z = 0; z < UV.Count; z++)
+            {
+                output += "vt " + UV[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + (-UV[z].Y).ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+            }
+            //for (int z = 0; z < Normals.Count; z++)
+            //{
+            //    output += "vn " + Normals[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Normals[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Normals[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+            //}
+            output += outputString;
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            File.AppendAllText(path, output);
         }
 
         public struct GEOMStruct
@@ -99,6 +239,8 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
             public int U3;
 
             public List<Vertices> vectors;
+
+            public int U4;
         }
         public struct Vertices
         {
@@ -147,6 +289,13 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
             public int U11;
             public int U12;
             public int U13;
+        }
+
+        public struct Faces
+        {
+            public Vertices V1;
+            public Vertices V2;
+            public Vertices V3;
         }
     }
 }
