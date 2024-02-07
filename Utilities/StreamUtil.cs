@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Numerics;
+using System.Collections;
 
 namespace SSXMultiTool.Utilities
 {
@@ -76,6 +77,44 @@ namespace SSXMultiTool.Utilities
             byte[] tempByte = new byte[2];
             stream.Read(tempByte, 0, tempByte.Length);
             return ByteUtil.BytesToBitConvert(tempByte, 4, 15);
+        }
+
+        public static int ReadIntCustom(Stream stream, int bytesCount, int Bits, int StartBit, bool BigEndian = false)
+        {
+            byte[] tempByte = new byte[bytesCount];
+            stream.Read(tempByte, 0, tempByte.Length);
+            //if (BigEndian)
+            //    Array.Reverse(tempByte);
+
+            int Value = ByteUtil.BytesToBitConvert(tempByte, StartBit, StartBit + Bits-1);
+
+            if ((Value) >= IntPow(2, (Bits - 1)))
+            {
+                Value -= IntPow(2, (Bits - 1)) * 2;
+            }
+
+            //BitArray myBA5 = new BitArray(tempByte);
+            //if (myBA5[StartBit]==true)
+            //{
+            //    myBA5[StartBit] = false;
+            //    Value -= 2 ^ Bits; 
+            //}
+
+
+            return Value;
+        }
+
+        static int IntPow(int x, int pow)
+        {
+            int ret = 1;
+            while (pow != 0)
+            {
+                if ((pow & 1) == 1)
+                    ret *= x;
+                x *= x;
+                pow >>= 1;
+            }
+            return ret;
         }
 
         public static int ReadInt16(Stream stream, bool BigEndian = false)

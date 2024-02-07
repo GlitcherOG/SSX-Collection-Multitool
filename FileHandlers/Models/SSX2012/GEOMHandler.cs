@@ -62,10 +62,16 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
 
                     Vertice.Position = StreamUtil.ReadVector3(stream, true);
                     Vertice.U1 = StreamUtil.ReadUInt32(stream, true);
-                    Vertice.Normal.X = StreamUtil.ReadHalfFloat(stream, true);
-                    Vertice.Normal.Y = StreamUtil.ReadHalfFloat(stream, true);
-                    Vertice.Normal.Z = StreamUtil.ReadHalfFloat(stream, true);
-                    Vertice.U2 = StreamUtil.ReadUInt16(stream, true);
+                    Vertice.Normal.X = StreamUtil.ReadIntCustom(stream,4,10,0, true);
+                    stream.Position -= 4;
+                    Vertice.Normal.Y = StreamUtil.ReadIntCustom(stream, 4, 10, 10, true);
+                    stream.Position -= 4;
+                    Vertice.Normal.Z = StreamUtil.ReadIntCustom(stream, 4, 10, 20, true);
+                    Vertice.UnknownVector3.X = StreamUtil.ReadIntCustom(stream, 4, 10, 0, true);
+                    stream.Position -= 4;
+                    Vertice.UnknownVector3.Y = StreamUtil.ReadIntCustom(stream, 4, 10, 10, true);
+                    stream.Position -= 4;
+                    Vertice.UnknownVector3.Z = StreamUtil.ReadIntCustom(stream, 4, 10, 20, true);
                     Vertice.UV.X = StreamUtil.ReadHalfFloat(stream, true);
                     Vertice.UV.Y = 1 - StreamUtil.ReadHalfFloat(stream, true);
                     Vertice.U3 = StreamUtil.ReadUInt32(stream, true);
@@ -247,7 +253,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
             public Vector3 Position;
             public int U1;
             public Vector3 Normal;
-            public int U2;
+            public Vector3 UnknownVector3;
             public Vector2 UV;
             public int U3;
         }

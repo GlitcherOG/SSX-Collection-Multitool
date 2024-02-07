@@ -40,6 +40,34 @@ namespace SSXMultiTool.Utilities
             return Number;
         }
 
+        public static byte[] FlipBytes(byte[] bytes)
+        {
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                byte[] tempbyte = new byte[1];
+
+                tempbyte[0] = bytes[i];
+
+                var bits = new BitArray(tempbyte);
+
+                int length = bits.Length;
+                int mid = (length / 2);
+
+                for (int a = 0; a < mid; a++)
+                {
+                    bool bit = bits[a];
+                    bits[i] = bits[length - a - 1];
+                    bits[length - a - 1] = bit;
+                }
+
+                bits.CopyTo(tempbyte, 0);
+
+                bytes[i] = tempbyte[0];
+            }
+
+            return bytes;
+        }
+
         public static int BitConbineConvert(byte OneByte, byte TwoByte, int StartPoint = 0, int Length = 4, int Inset=4)
         {
             byte[] arrayOne = new byte[1] { OneByte };
