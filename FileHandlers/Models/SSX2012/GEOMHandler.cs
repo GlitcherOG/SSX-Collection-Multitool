@@ -1,5 +1,6 @@
 ﻿using SSXMultiTool.Utilities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -56,22 +57,39 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
                 strmStruct.U3 = StreamUtil.ReadUInt32(stream, true);
 
                 strmStruct.vectors = new List<Vertices>();
+
+                bool[] Testbools = new bool[32];
+
                 for (int i = 0; i < strmStruct.NumVertices; i++)
                 {
                     var Vertice = new Vertices();
 
                     Vertice.Position = StreamUtil.ReadVector3(stream, true);
                     Vertice.U1 = StreamUtil.ReadUInt32(stream, true);
-                    Vertice.Normal.X = StreamUtil.ReadIntCustom(stream,4,10,0, true);
+
+                    //var TempBytes = StreamUtil.ReadBytes(stream, 4);
+
+                    //Array.Reverse(TempBytes);
+                    //var bits = new BitArray(TempBytes);
+
+                    //for (int a = 0; a < bits.Count; a++)
+                    //{
+                    //    if (bits[a]==true)
+                    //    {
+                    //        Testbools[a] = true;
+                    //    }
+                    //}
+
+                    Vertice.Normal.X = StreamUtil.ReadIntCustom(stream, 4, 10, 0, true)/512f;
                     stream.Position -= 4;
-                    Vertice.Normal.Y = StreamUtil.ReadIntCustom(stream, 4, 10, 10, true);
+                    Vertice.Normal.Y = StreamUtil.ReadIntCustom(stream, 4, 10, 10, true) / 512f;
                     stream.Position -= 4;
-                    Vertice.Normal.Z = StreamUtil.ReadIntCustom(stream, 4, 10, 20, true);
-                    Vertice.UnknownVector3.X = StreamUtil.ReadIntCustom(stream, 4, 10, 0, true);
+                    Vertice.Normal.Z = StreamUtil.ReadIntCustom(stream, 4, 10, 20, true) / 512f;
+                    Vertice.TangentNormal.X = StreamUtil.ReadIntCustom(stream, 4, 10, 0, true) / 512f;
                     stream.Position -= 4;
-                    Vertice.UnknownVector3.Y = StreamUtil.ReadIntCustom(stream, 4, 10, 10, true);
+                    Vertice.TangentNormal.Y = StreamUtil.ReadIntCustom(stream, 4, 10, 10, true) / 512f;
                     stream.Position -= 4;
-                    Vertice.UnknownVector3.Z = StreamUtil.ReadIntCustom(stream, 4, 10, 20, true);
+                    Vertice.TangentNormal.Z = StreamUtil.ReadIntCustom(stream, 4, 10, 20, true) / 512f;
                     Vertice.UV.X = StreamUtil.ReadHalfFloat(stream, true);
                     Vertice.UV.Y = 1 - StreamUtil.ReadHalfFloat(stream, true);
                     Vertice.U3 = StreamUtil.ReadUInt32(stream, true);
@@ -174,26 +192,26 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
                 }
                 int UPos3 = UV.IndexOf(Face.V3.UV) + 1;
 
-                ////Normals
-                //if (!Normals.Contains(Face.Normal1))
-                //{
-                //    Normals.Add(Face.Normal1);
-                //}
-                //int NPos1 = Normals.IndexOf(Face.Normal1) + 1;
+                //Normals
+                if (!Normals.Contains(Face.V1.Normal))
+                {
+                    Normals.Add(Face.V1.Normal);
+                }
+                int NPos1 = Normals.IndexOf(Face.V1.Normal) + 1;
 
-                //if (!Normals.Contains(Face.Normal2))
-                //{
-                //    Normals.Add(Face.Normal2);
-                //}
-                //int NPos2 = Normals.IndexOf(Face.Normal2) + 1;
+                if (!Normals.Contains(Face.V2.Normal))
+                {
+                    Normals.Add(Face.V2.Normal);
+                }
+                int NPos2 = Normals.IndexOf(Face.V2.Normal) + 1;
 
-                //if (!Normals.Contains(Face.Normal3))
-                //{
-                //    Normals.Add(Face.Normal3);
-                //}
-                //int NPos3 = Normals.IndexOf(Face.Normal3) + 1;
+                if (!Normals.Contains(Face.V3.Normal))
+                {
+                    Normals.Add(Face.V3.Normal);
+                }
+                int NPos3 = Normals.IndexOf(Face.V3.Normal) + 1;
 
-                outputString += "f " + VPos1.ToString() + "/" + UPos1.ToString() + /*"/" + NPos1.ToString() +*/ " " + VPos2.ToString() + "/" + UPos2.ToString() + /*"/" + NPos2.ToString() +*/ " " + VPos3.ToString() + "/" + UPos3.ToString() + /*"/" + NPos3.ToString() +*/ "\n";
+                outputString += "f " + VPos1.ToString() + "/" + UPos1.ToString() + "/" + NPos1.ToString() + " " + VPos2.ToString() + "/" + UPos2.ToString() + "/" + NPos2.ToString() + " " + VPos3.ToString() + "/" + UPos3.ToString() + "/" + NPos3.ToString() + "\n";
             }
 
             for (int z = 0; z < vertices.Count; z++)
@@ -253,7 +271,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
             public Vector3 Position;
             public int U1;
             public Vector3 Normal;
-            public Vector3 UnknownVector3;
+            public Vector3 TangentNormal;
             public Vector2 UV;
             public int U3;
         }
