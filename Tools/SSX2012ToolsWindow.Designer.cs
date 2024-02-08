@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             tabControl1 = new TabControl();
+            tabPage2 = new TabPage();
+            CharacterLoad = new Button();
             tabPage1 = new TabPage();
             button3 = new Button();
             button2 = new Button();
             button1 = new Button();
-            tabPage2 = new TabPage();
-            CharacterLoad = new Button();
             tabControl1.SuspendLayout();
-            tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
+            tabPage1.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -50,6 +50,26 @@
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(776, 426);
             tabControl1.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            tabPage2.Controls.Add(CharacterLoad);
+            tabPage2.Location = new Point(4, 24);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Size = new Size(768, 398);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "Character Models";
+            tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // CharacterLoad
+            // 
+            CharacterLoad.Location = new Point(3, 326);
+            CharacterLoad.Name = "CharacterLoad";
+            CharacterLoad.Size = new Size(123, 69);
+            CharacterLoad.TabIndex = 0;
+            CharacterLoad.Text = "Load";
+            CharacterLoad.UseVisualStyleBackColor = true;
+            CharacterLoad.Click += CharacterLoad_Click;
             // 
             // tabPage1
             // 
@@ -92,26 +112,6 @@
             button1.Text = "GTF > DDS";
             button1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
-            // 
-            tabPage2.Controls.Add(CharacterLoad);
-            tabPage2.Location = new Point(4, 24);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Size = new Size(768, 398);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "Character Models";
-            tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // CharacterLoad
-            // 
-            CharacterLoad.Location = new Point(29, 315);
-            CharacterLoad.Name = "CharacterLoad";
-            CharacterLoad.Size = new Size(123, 69);
-            CharacterLoad.TabIndex = 0;
-            CharacterLoad.Text = "Load";
-            CharacterLoad.UseVisualStyleBackColor = true;
-            CharacterLoad.Click += CharacterLoad_Click;
-            // 
             // SSX2012ToolsWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -121,8 +121,8 @@
             Name = "SSX2012ToolsWindow";
             Text = "SSX2012ToolsWindow";
             tabControl1.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
             ResumeLayout(false);
         }
 

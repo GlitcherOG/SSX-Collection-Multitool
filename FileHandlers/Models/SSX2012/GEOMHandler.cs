@@ -66,20 +66,6 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
 
                     Vertice.Position = StreamUtil.ReadVector3(stream, true);
                     Vertice.U1 = StreamUtil.ReadUInt32(stream, true);
-
-                    //var TempBytes = StreamUtil.ReadBytes(stream, 4);
-
-                    //Array.Reverse(TempBytes);
-                    //var bits = new BitArray(TempBytes);
-
-                    //for (int a = 0; a < bits.Count; a++)
-                    //{
-                    //    if (bits[a]==true)
-                    //    {
-                    //        Testbools[a] = true;
-                    //    }
-                    //}
-
                     Vertice.Normal.X = StreamUtil.ReadIntCustom(stream, 4, 10, 0, true)/512f;
                     stream.Position -= 4;
                     Vertice.Normal.Y = StreamUtil.ReadIntCustom(stream, 4, 10, 10, true) / 512f;

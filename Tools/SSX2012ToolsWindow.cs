@@ -41,7 +41,7 @@ namespace SSXMultiTool.Tools
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "GEOM|*.geom|All files (*.*)|*.*",
+                Filter = "GEOM,CRSF|*.geom;*.crsf|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };
@@ -49,21 +49,29 @@ namespace SSXMultiTool.Tools
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                GEOMHandler geomHandler = new GEOMHandler();
-
-                geomHandler.Load(openFileDialog.FileName);
-
-                SaveFileDialog openFileDialog1 = new SaveFileDialog
+                if (openFileDialog.FileName.Contains(".geom"))
                 {
-                    Filter = "Model File (*.obj)|*.obj|All files (*.*)|*.*",
-                    FilterIndex = 1,
-                    RestoreDirectory = false
-                };
-                if (openFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    geomHandler.ExportModels(openFileDialog1.FileName);
+                    GEOMHandler geomHandler = new GEOMHandler();
+
+                    geomHandler.Load(openFileDialog.FileName);
+
+                    SaveFileDialog openFileDialog1 = new SaveFileDialog
+                    {
+                        Filter = "Model File (*.obj)|*.obj|All files (*.*)|*.*",
+                        FilterIndex = 1,
+                        RestoreDirectory = false
+                    };
+                    if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        geomHandler.ExportModels(openFileDialog1.FileName);
+                    }
                 }
+                if (openFileDialog.FileName.Contains(".crsf"))
+                {
+                    CRSFHandler cRSFHandler = new CRSFHandler();
 
+                    cRSFHandler.Load(openFileDialog.FileName);
+                }
             }
         }
     }
