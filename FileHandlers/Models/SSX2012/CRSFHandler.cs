@@ -104,7 +104,6 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
             public int VertexCount;
 
             public List<WeightStruct> weightStructs;
-
         }
 
         public struct WeightStruct
