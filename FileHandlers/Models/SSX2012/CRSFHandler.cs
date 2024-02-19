@@ -121,6 +121,11 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
                         fpofStruct.faceBones.Add(NewFaceBone);
                     }
                 }
+
+                if(Test == "SGRF")
+                {
+
+                }
             }
         }
 
@@ -180,6 +185,56 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
             public float U1;
             public float U2;
             public float U3;
+        }
+
+        public struct SGRFStruct
+        {
+            public string Magic;
+            public int U0;
+            public int Size;
+
+            public List<SGNode> SGNodeGroup;
+            public List<SGNode> SGNodeTransform;
+            public List<SGNode> SGNodeJoint;
+        } 
+
+        public struct TransformData
+        {
+            public int Type;
+            public int U0;
+            public int TransformNameSize;
+            public string TransformName;
+            public float X;
+            public float Y;
+            public float Z;
+        }
+
+        public struct SGNode
+        {
+            //SGNodeGroup
+            public int U0;
+            public int NodeSize;
+            public string NodeType;
+            public int U1;
+            public int NameSize;
+            public string Name; //3 for base, 2 for base
+            public int U2; 
+            public int U3;
+
+            //SGNodeTransform
+            public int U4;
+            public List<TransformData> transformDatas;
+            public int U5; //8
+            public int U6;
+            public int U7;
+            public Matrix4x4 matrix;
+
+            //SGNodeJoint
+            public int U8;
+            public Matrix4x4 matrix1;
+            public Matrix4x4 matrix2;
+            public Matrix4x4 matrix3;
+            public int U9;
         }
     }
 }
