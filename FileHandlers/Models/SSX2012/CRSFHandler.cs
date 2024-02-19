@@ -18,6 +18,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
 
         public WEITStruct weitStruct = new WEITStruct();
         public SkelStruct skelStruct = new SkelStruct();
+        public FPOFStruct fpofStruct = new FPOFStruct();
 
         public void Load(string path)
         {
@@ -89,6 +90,37 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
                     skelStruct.boneDatas[i] = boneData;
                 }
 
+                StreamUtil.AlignBy16(stream);
+
+                string Test = StreamUtil.ReadString(stream, 4);
+                if(Test=="FPOF")
+                {
+                    stream.Position -= 4;
+                    fpofStruct = new FPOFStruct();
+
+                    fpofStruct.FPOFMagic = StreamUtil.ReadString(stream, 4);
+
+                    fpofStruct.U0 = StreamUtil.ReadUInt32(stream, true);
+                    fpofStruct.U1 = StreamUtil.ReadUInt32(stream, true);
+                    fpofStruct.U2 = StreamUtil.ReadUInt32(stream, true);
+                    fpofStruct.FacePoseCount = StreamUtil.ReadUInt32(stream, true);
+
+                    fpofStruct.faceBones = new List<FaceBone>();
+
+                    for (int i = 0; i < fpofStruct.FacePoseCount; i++)
+                    {
+                        var NewFaceBone = new FaceBone();
+
+                        NewFaceBone.NameCount = StreamUtil.ReadUInt32(stream, true);
+                        NewFaceBone.Name = StreamUtil.ReadString(stream, NewFaceBone.NameCount+1);
+                        NewFaceBone.U0 = StreamUtil.ReadFloat(stream, true);
+                        NewFaceBone.U1 = StreamUtil.ReadFloat(stream, true);
+                        NewFaceBone.U2 = StreamUtil.ReadFloat(stream, true);
+                        NewFaceBone.U3 = StreamUtil.ReadFloat(stream, true);
+
+                        fpofStruct.faceBones.Add(NewFaceBone);
+                    }
+                }
             }
         }
 
@@ -128,6 +160,26 @@ namespace SSXMultiTool.FileHandlers.Models.SSX2012
             public int BoneNameSize;
             public string BoneName;
             public Matrix4x4 matrix;
+        }
+
+        public struct FPOFStruct
+        {
+            public string FPOFMagic;
+            public int U0;
+            public int U1;
+            public int U2;
+            public int FacePoseCount;
+            public List<FaceBone> faceBones;
+        }
+
+        public struct FaceBone
+        {
+            public int NameCount;
+            public string Name;
+            public float U0;
+            public float U1;
+            public float U2;
+            public float U3;
         }
     }
 }
