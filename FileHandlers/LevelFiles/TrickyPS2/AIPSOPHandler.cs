@@ -226,7 +226,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             List<Vector4> Vectors = new List<Vector4>();
             for (int a = 1; a < PathPoints.Count; a++)
             {
-                Vector3 Vector = PathPoints[a] - PathPoints[a - 1];
+                Vector3 Vector = PathPoints[a] /*- PathPoints[a - 1]*/;
                 float Distance = length2D(Vector.X, Vector.Y);
                 Vector4 NewPoint = new Vector4(Vector.X / Distance, Vector.Y / Distance, Vector.Z / Distance, Distance);
                 Vectors.Add(NewPoint);

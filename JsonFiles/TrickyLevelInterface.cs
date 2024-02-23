@@ -728,12 +728,12 @@ namespace SSXMultiTool
                         NewAIPath.PathPoints[a, 0] = aip.AIPath.PathAs[i].VectorPoints[a].X * aip.AIPath.PathAs[i].VectorPoints[a].W;
                         NewAIPath.PathPoints[a, 1] = aip.AIPath.PathAs[i].VectorPoints[a].Y * aip.AIPath.PathAs[i].VectorPoints[a].W;
                         NewAIPath.PathPoints[a, 2] = aip.AIPath.PathAs[i].VectorPoints[a].Z * aip.AIPath.PathAs[i].VectorPoints[a].W;
-                        if (a != 0)
-                        {
-                            NewAIPath.PathPoints[a, 0] += NewAIPath.PathPoints[a-1, 0];
-                            NewAIPath.PathPoints[a, 1] += NewAIPath.PathPoints[a-1, 1];
-                            NewAIPath.PathPoints[a, 2] += NewAIPath.PathPoints[a-1, 2];
-                        }
+                        //if (a != 0)
+                        //{
+                        //    NewAIPath.PathPoints[a, 0] += NewAIPath.PathPoints[a-1, 0];
+                        //    NewAIPath.PathPoints[a, 1] += NewAIPath.PathPoints[a-1, 1];
+                        //    NewAIPath.PathPoints[a, 2] += NewAIPath.PathPoints[a-1, 2];
+                        //}
                     }
 
                     NewAIPath.PathEvents = new List<AIPSOPJsonHandler.PathEvent>();
@@ -768,12 +768,12 @@ namespace SSXMultiTool
                         NewAIPath.PathPoints[a, 0] = aip.RaceLine.PathBs[i].VectorPoints[a].X * aip.RaceLine.PathBs[i].VectorPoints[a].W;
                         NewAIPath.PathPoints[a, 1] = aip.RaceLine.PathBs[i].VectorPoints[a].Y * aip.RaceLine.PathBs[i].VectorPoints[a].W;
                         NewAIPath.PathPoints[a, 2] = aip.RaceLine.PathBs[i].VectorPoints[a].Z * aip.RaceLine.PathBs[i].VectorPoints[a].W;
-                        if (a != 0)
-                        {
-                            NewAIPath.PathPoints[a, 0] += NewAIPath.PathPoints[a - 1, 0];
-                            NewAIPath.PathPoints[a, 1] += NewAIPath.PathPoints[a - 1, 1];
-                            NewAIPath.PathPoints[a, 2] += NewAIPath.PathPoints[a - 1, 2];
-                        }
+                        //if (a != 0)
+                        //{
+                        //    NewAIPath.PathPoints[a, 0] += NewAIPath.PathPoints[a - 1, 0];
+                        //    NewAIPath.PathPoints[a, 1] += NewAIPath.PathPoints[a - 1, 1];
+                        //    NewAIPath.PathPoints[a, 2] += NewAIPath.PathPoints[a - 1, 2];
+                        //}
                     }
 
                     NewAIPath.PathEvents = new List<AIPSOPJsonHandler.PathEvent>();
@@ -818,12 +818,12 @@ namespace SSXMultiTool
                         NewAIPath.PathPoints[a, 0] = sop.AIPath.PathAs[i].VectorPoints[a].X * sop.AIPath.PathAs[i].VectorPoints[a].W;
                         NewAIPath.PathPoints[a, 1] = sop.AIPath.PathAs[i].VectorPoints[a].Y * sop.AIPath.PathAs[i].VectorPoints[a].W;
                         NewAIPath.PathPoints[a, 2] = sop.AIPath.PathAs[i].VectorPoints[a].Z * sop.AIPath.PathAs[i].VectorPoints[a].W;
-                        if (a != 0)
-                        {
-                            NewAIPath.PathPoints[a, 0] += NewAIPath.PathPoints[a - 1, 0];
-                            NewAIPath.PathPoints[a, 1] += NewAIPath.PathPoints[a - 1, 1];
-                            NewAIPath.PathPoints[a, 2] += NewAIPath.PathPoints[a - 1, 2];
-                        }
+                        //if (a != 0)
+                        //{
+                        //    NewAIPath.PathPoints[a, 0] += NewAIPath.PathPoints[a - 1, 0];
+                        //    NewAIPath.PathPoints[a, 1] += NewAIPath.PathPoints[a - 1, 1];
+                        //    NewAIPath.PathPoints[a, 2] += NewAIPath.PathPoints[a - 1, 2];
+                        //}
                     }
 
                     NewAIPath.PathEvents = new List<AIPSOPJsonHandler.PathEvent>();
@@ -855,12 +855,12 @@ namespace SSXMultiTool
                         NewAIPath.PathPoints[a, 0] = sop.RaceLine.PathBs[i].VectorPoints[a].X * sop.RaceLine.PathBs[i].VectorPoints[a].W;
                         NewAIPath.PathPoints[a, 1] = sop.RaceLine.PathBs[i].VectorPoints[a].Y * sop.RaceLine.PathBs[i].VectorPoints[a].W;
                         NewAIPath.PathPoints[a, 2] = sop.RaceLine.PathBs[i].VectorPoints[a].Z * sop.RaceLine.PathBs[i].VectorPoints[a].W;
-                        if (a != 0)
-                        {
-                            NewAIPath.PathPoints[a, 0] += NewAIPath.PathPoints[a - 1, 0];
-                            NewAIPath.PathPoints[a, 1] += NewAIPath.PathPoints[a - 1, 1];
-                            NewAIPath.PathPoints[a, 2] += NewAIPath.PathPoints[a - 1, 2];
-                        }
+                        //if (a != 0)
+                        //{
+                        //    NewAIPath.PathPoints[a, 0] += NewAIPath.PathPoints[a - 1, 0];
+                        //    NewAIPath.PathPoints[a, 1] += NewAIPath.PathPoints[a - 1, 1];
+                        //    NewAIPath.PathPoints[a, 2] += NewAIPath.PathPoints[a - 1, 2];
+                        //}
                     }
 
                     NewAIPath.PathEvents = new List<AIPSOPJsonHandler.PathEvent>();
