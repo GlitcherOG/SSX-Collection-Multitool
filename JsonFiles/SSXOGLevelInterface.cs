@@ -432,10 +432,10 @@ namespace SSXMultiTool.JsonFiles
                 for (int a = 0; a < aipHandler.PathAs[i].PathEvents.Count; a++)
                 {
                     var NewStruct = new AIPJsonHandler.PathEvent();
-                    NewStruct.U0 = aipHandler.PathAs[i].PathEvents[a].U0;
-                    NewStruct.U1 = aipHandler.PathAs[i].PathEvents[a].U1;
-                    NewStruct.U2 = aipHandler.PathAs[i].PathEvents[a].U2;
-                    NewStruct.U3 = aipHandler.PathAs[i].PathEvents[a].U3;
+                    NewStruct.EventType = aipHandler.PathAs[i].PathEvents[a].EventType;
+                    NewStruct.EventValue = aipHandler.PathAs[i].PathEvents[a].EventValue;
+                    NewStruct.EventStart = aipHandler.PathAs[i].PathEvents[a].EventStart;
+                    NewStruct.EventEnd = aipHandler.PathAs[i].PathEvents[a].EventEnd;
                     NewPath.PathEvents.Add(NewStruct);
                 }
                 aipJsonHandler.PathAs.Add(NewPath);
@@ -467,10 +467,10 @@ namespace SSXMultiTool.JsonFiles
                 for (int a = 0; a < aipHandler.PathBs[i].PathEvents.Count; a++)
                 {
                     var NewStruct = new AIPJsonHandler.PathEvent();
-                    NewStruct.U0 = aipHandler.PathBs[i].PathEvents[a].U0;
-                    NewStruct.U1 = aipHandler.PathBs[i].PathEvents[a].U1;
-                    NewStruct.U2 = aipHandler.PathBs[i].PathEvents[a].U2;
-                    NewStruct.U3 = aipHandler.PathBs[i].PathEvents[a].U3;
+                    NewStruct.EventType = aipHandler.PathBs[i].PathEvents[a].EventType;
+                    NewStruct.EventValue = aipHandler.PathBs[i].PathEvents[a].EventValue;
+                    NewStruct.EventStart = aipHandler.PathBs[i].PathEvents[a].EventStart;
+                    NewStruct.EventEnd = aipHandler.PathBs[i].PathEvents[a].EventEnd;
                     NewPath.PathEvents.Add(NewStruct);
                 }
                 aipJsonHandler.PathBs.Add(NewPath);

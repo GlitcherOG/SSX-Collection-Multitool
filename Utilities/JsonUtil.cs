@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
+using System.Buffers;
 
 namespace SSXMultiTool.Utilities
 {
@@ -46,6 +47,20 @@ namespace SSXMultiTool.Utilities
         public static Vector3 ArrayToVector3(float[] floats)
         {
             return new Vector3(floats[0], floats[1], floats[2]);
+        }
+
+        public static Vector3 Array2DToVector3(float[,] floats, int ArrayPos)
+        {
+            return new Vector3(floats[ArrayPos, 0], floats[ArrayPos,1], floats[ArrayPos,2]);
+        }
+
+        public static float[,] Vector3ToArray2D(float[,] floats, Vector3 vector3, int ArrayPos)
+        {
+            floats[ArrayPos, 0] = vector3.X;
+            floats[ArrayPos, 1] = vector3.Y;
+            floats[ArrayPos, 2] = vector3.Z;
+
+            return floats;
         }
 
         public static float[] Vector2ToArray(Vector2 vector3)

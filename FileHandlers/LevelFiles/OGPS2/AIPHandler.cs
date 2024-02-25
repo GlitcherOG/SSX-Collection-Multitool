@@ -66,10 +66,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     {
                         var TempEvent = new PathEvent();
 
-                        TempEvent.U0 = StreamUtil.ReadUInt32(stream);
-                        TempEvent.U1 = StreamUtil.ReadUInt32(stream);
-                        TempEvent.U2 = StreamUtil.ReadFloat(stream);
-                        TempEvent.U3 = StreamUtil.ReadFloat(stream);
+                        TempEvent.EventType = StreamUtil.ReadUInt32(stream);
+                        TempEvent.EventValue = StreamUtil.ReadUInt32(stream);
+                        TempEvent.EventStart = StreamUtil.ReadFloat(stream);
+                        TempEvent.EventEnd = StreamUtil.ReadFloat(stream);
 
                         TempPathData.PathEvents.Add(TempEvent);
                     }
@@ -102,10 +102,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     {
                         var TempEvent = new PathEvent();
 
-                        TempEvent.U0 = StreamUtil.ReadUInt32(stream);
-                        TempEvent.U1 = StreamUtil.ReadUInt32(stream);
-                        TempEvent.U2 = StreamUtil.ReadFloat(stream);
-                        TempEvent.U3 = StreamUtil.ReadFloat(stream);
+                        TempEvent.EventType = StreamUtil.ReadUInt32(stream);
+                        TempEvent.EventValue = StreamUtil.ReadUInt32(stream);
+                        TempEvent.EventStart = StreamUtil.ReadFloat(stream);
+                        TempEvent.EventEnd = StreamUtil.ReadFloat(stream);
 
                         TempPathData.PathEvents.Add(TempEvent);
                     }
@@ -132,10 +132,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
         public struct PathEvent
         {
-            public int U0;
-            public int U1;
-            public float U2;
-            public float U3;
+            public int EventType;
+            public int EventValue;
+            public float EventStart;
+            public float EventEnd;
         }
     }
 }

@@ -134,9 +134,7 @@ namespace SSXMultiTool
 
                 for (int a= 0; a < 16; a++)
                 {
-                    patch.Points[a, 0] = bezierUtil.RawPoints[a].X;
-                    patch.Points[a, 1] = bezierUtil.RawPoints[a].Y;
-                    patch.Points[a, 2] = bezierUtil.RawPoints[a].Z;
+                    patch.Points = JsonUtil.Vector3ToArray2D(patch.Points, bezierUtil.RawPoints[a], a);
                 }
 
                 patch.PatchStyle = pbdHandler.Patches[i].PatchStyle;
@@ -454,10 +452,12 @@ namespace SSXMultiTool
 
                     bezierUtil.GenerateRawPoints();
 
-                    segmentJson.Point1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[0]);
-                    segmentJson.Point2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[1]);
-                    segmentJson.Point3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[2]);
-                    segmentJson.Point4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[3]);
+                    segmentJson.Points = new float[4, 3];
+
+                    for (int b = 0; b < 4; b++)
+                    {
+                        segmentJson.Points = JsonUtil.Vector3ToArray2D(segmentJson.Points, bezierUtil.RawPoints[b], b);
+                    }
 
                     segmentJson.U0 = pbdHandler.splinesSegments[a].U0;
                     segmentJson.U1 = pbdHandler.splinesSegments[a].U1;
@@ -1219,9 +1219,7 @@ namespace SSXMultiTool
 
                     for (int a = 0; a < 16; a++)
                     {
-                        bezierUtil.RawPoints[a].X = ImportPatch.Points[a, 0];
-                        bezierUtil.RawPoints[a].Y = ImportPatch.Points[a, 1];
-                        bezierUtil.RawPoints[a].Z = ImportPatch.Points[a, 2];
+                        bezierUtil.RawPoints[a] = JsonUtil.Array2DToVector3(ImportPatch.Points, a);
                     }
 
                     bezierUtil.GenerateProcessedPoints();
@@ -1335,8 +1333,8 @@ namespace SSXMultiTool
                     spline.Unknown1 = 0;
                     spline.Unknown2 = -1;
 
-                    Vector3 HighestXYZSpline = JsonUtil.ArrayToVector3(TempSpline.Segments[0].Point1);
-                    Vector3 LowestXYZSpline = JsonUtil.ArrayToVector3(TempSpline.Segments[0].Point1);
+                    Vector3 HighestXYZSpline = JsonUtil.Array2DToVector3(TempSpline.Segments[0].Points, 0);
+                    Vector3 LowestXYZSpline = JsonUtil.Array2DToVector3(TempSpline.Segments[0].Points, 0);
                     float PreviousSegmentDiffrence = 0f;
                     for (int a = 0; a < TempSpline.Segments.Count; a++)
                     {
@@ -1344,10 +1342,10 @@ namespace SSXMultiTool
                         var TempSegment = TempSpline.Segments[a];
                         BezierUtil bezierUtil = new BezierUtil();
 
-                        bezierUtil.RawPoints[0] = JsonUtil.ArrayToVector3(TempSegment.Point1);
-                        bezierUtil.RawPoints[1] = JsonUtil.ArrayToVector3(TempSegment.Point2);
-                        bezierUtil.RawPoints[2] = JsonUtil.ArrayToVector3(TempSegment.Point3);
-                        bezierUtil.RawPoints[3] = JsonUtil.ArrayToVector3(TempSegment.Point4);
+                        bezierUtil.RawPoints[0] = JsonUtil.Array2DToVector3(TempSpline.Segments[0].Points, 0);
+                        bezierUtil.RawPoints[1] = JsonUtil.Array2DToVector3(TempSpline.Segments[0].Points, 1);
+                        bezierUtil.RawPoints[2] = JsonUtil.Array2DToVector3(TempSpline.Segments[0].Points, 2);
+                        bezierUtil.RawPoints[3] = JsonUtil.Array2DToVector3(TempSpline.Segments[0].Points, 3);
 
                         bezierUtil.GenerateProcessedPoints();
 
