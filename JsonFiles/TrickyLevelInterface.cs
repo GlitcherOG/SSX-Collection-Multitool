@@ -740,10 +740,10 @@ namespace SSXMultiTool
                     for (int a = 0; a < aip.AIPath.PathAs[i].PathEvents.Count; a++)
                     {
                         var NewStruct = new AIPSOPJsonHandler.PathEvent();
-                        NewStruct.U0 = aip.AIPath.PathAs[i].PathEvents[a].U0;
-                        NewStruct.U1 = aip.AIPath.PathAs[i].PathEvents[a].U1;
-                        NewStruct.U2 = aip.AIPath.PathAs[i].PathEvents[a].U2;
-                        NewStruct.U3 = aip.AIPath.PathAs[i].PathEvents[a].U3;
+                        NewStruct.EventType = aip.AIPath.PathAs[i].PathEvents[a].EventType;
+                        NewStruct.EventValue = aip.AIPath.PathAs[i].PathEvents[a].EventValue;
+                        NewStruct.EventStart = aip.AIPath.PathAs[i].PathEvents[a].EventStart;
+                        NewStruct.EventEnd = aip.AIPath.PathAs[i].PathEvents[a].EventEnd;
                         NewAIPath.PathEvents.Add(NewStruct);
                     }
                     aipJson.AIPaths.Add(NewAIPath);
@@ -780,10 +780,10 @@ namespace SSXMultiTool
                     for (int a = 0; a < aip.RaceLine.PathBs[i].PathEvents.Count; a++)
                     {
                         var NewStruct = new AIPSOPJsonHandler.PathEvent();
-                        NewStruct.U0 = aip.RaceLine.PathBs[i].PathEvents[a].U0;
-                        NewStruct.U1 = aip.RaceLine.PathBs[i].PathEvents[a].U1;
-                        NewStruct.U2 = aip.RaceLine.PathBs[i].PathEvents[a].U2;
-                        NewStruct.U3 = aip.RaceLine.PathBs[i].PathEvents[a].U3;
+                        NewStruct.EventType = aip.RaceLine.PathBs[i].PathEvents[a].EventType;
+                        NewStruct.EventValue = aip.RaceLine.PathBs[i].PathEvents[a].EventValue;
+                        NewStruct.EventStart = aip.RaceLine.PathBs[i].PathEvents[a].EventStart;
+                        NewStruct.EventEnd = aip.RaceLine.PathBs[i].PathEvents[a].EventEnd;
                         NewAIPath.PathEvents.Add(NewStruct);
                     }
                     aipJson.RaceLines.Add(NewAIPath);
@@ -830,10 +830,10 @@ namespace SSXMultiTool
                     for (int a = 0; a < sop.AIPath.PathAs[i].PathEvents.Count; a++)
                     {
                         var NewStruct = new AIPSOPJsonHandler.PathEvent();
-                        NewStruct.U0 = sop.AIPath.PathAs[i].PathEvents[a].U0;
-                        NewStruct.U1 = sop.AIPath.PathAs[i].PathEvents[a].U1;
-                        NewStruct.U2 = sop.AIPath.PathAs[i].PathEvents[a].U2;
-                        NewStruct.U3 = sop.AIPath.PathAs[i].PathEvents[a].U3;
+                        NewStruct.EventType = sop.AIPath.PathAs[i].PathEvents[a].EventType;
+                        NewStruct.EventValue = sop.AIPath.PathAs[i].PathEvents[a].EventValue;
+                        NewStruct.EventStart = sop.AIPath.PathAs[i].PathEvents[a].EventStart;
+                        NewStruct.EventEnd = sop.AIPath.PathAs[i].PathEvents[a].EventEnd;
                         NewAIPath.PathEvents.Add(NewStruct);
                     }
                     sopJson.AIPaths.Add(NewAIPath);
@@ -867,10 +867,10 @@ namespace SSXMultiTool
                     for (int a = 0; a < sop.RaceLine.PathBs[i].PathEvents.Count; a++)
                     {
                         var NewStruct = new AIPSOPJsonHandler.PathEvent();
-                        NewStruct.U0 = sop.RaceLine.PathBs[i].PathEvents[a].U0;
-                        NewStruct.U1 = sop.RaceLine.PathBs[i].PathEvents[a].U1;
-                        NewStruct.U2 = sop.RaceLine.PathBs[i].PathEvents[a].U2;
-                        NewStruct.U3 = sop.RaceLine.PathBs[i].PathEvents[a].U3;
+                        NewStruct.EventType = sop.RaceLine.PathBs[i].PathEvents[a].EventType;
+                        NewStruct.EventValue = sop.RaceLine.PathBs[i].PathEvents[a].EventValue;
+                        NewStruct.EventStart = sop.RaceLine.PathBs[i].PathEvents[a].EventStart;
+                        NewStruct.EventEnd = sop.RaceLine.PathBs[i].PathEvents[a].EventEnd;
                         NewAIPath.PathEvents.Add(NewStruct);
                     }
                     sopJson.RaceLines.Add(NewAIPath);
@@ -2157,10 +2157,10 @@ namespace SSXMultiTool
                     for (int a = 0; a < aip.AIPaths[i].PathEvents.Count; a++)
                     {
                         var NewStruct = new AIPSOPHandler.PathEvent();
-                        NewStruct.U0 = aip.AIPaths[i].PathEvents[a].U0;
-                        NewStruct.U1 = aip.AIPaths[i].PathEvents[a].U1;
-                        NewStruct.U2 = aip.AIPaths[i].PathEvents[a].U2;
-                        NewStruct.U3 = aip.AIPaths[i].PathEvents[a].U3;
+                        NewStruct.EventType = aip.AIPaths[i].PathEvents[a].EventType;
+                        NewStruct.EventValue = aip.AIPaths[i].PathEvents[a].EventValue;
+                        NewStruct.EventStart = aip.AIPaths[i].PathEvents[a].EventStart;
+                        NewStruct.EventEnd = aip.AIPaths[i].PathEvents[a].EventEnd;
                         NewAIPATH.PathEvents.Add(NewStruct);
                     }
 
@@ -2202,10 +2202,10 @@ namespace SSXMultiTool
                     for (int a = 0; a < aip.RaceLines[i].PathEvents.Count; a++)
                     {
                         var NewStruct = new AIPSOPHandler.PathEvent();
-                        NewStruct.U0 = aip.RaceLines[i].PathEvents[a].U0;
-                        NewStruct.U1 = aip.RaceLines[i].PathEvents[a].U1;
-                        NewStruct.U2 = aip.RaceLines[i].PathEvents[a].U2;
-                        NewStruct.U3 = aip.RaceLines[i].PathEvents[a].U3;
+                        NewStruct.EventType = aip.RaceLines[i].PathEvents[a].EventType;
+                        NewStruct.EventValue = aip.RaceLines[i].PathEvents[a].EventValue;
+                        NewStruct.EventStart = aip.RaceLines[i].PathEvents[a].EventStart;
+                        NewStruct.EventEnd = aip.RaceLines[i].PathEvents[a].EventEnd;
                         NewAIPATH.PathEvents.Add(NewStruct);
                     }
 
@@ -2261,10 +2261,10 @@ namespace SSXMultiTool
                     for (int a = 0; a < sop.AIPaths[i].PathEvents.Count; a++)
                     {
                         var NewStruct = new AIPSOPHandler.PathEvent();
-                        NewStruct.U0 = sop.AIPaths[i].PathEvents[a].U0;
-                        NewStruct.U1 = sop.AIPaths[i].PathEvents[a].U1;
-                        NewStruct.U2 = sop.AIPaths[i].PathEvents[a].U2;
-                        NewStruct.U3 = sop.AIPaths[i].PathEvents[a].U3;
+                        NewStruct.EventType = sop.AIPaths[i].PathEvents[a].EventType;
+                        NewStruct.EventValue = sop.AIPaths[i].PathEvents[a].EventValue;
+                        NewStruct.EventStart = sop.AIPaths[i].PathEvents[a].EventStart;
+                        NewStruct.EventEnd = sop.AIPaths[i].PathEvents[a].EventEnd;
                         NewAIPATH.PathEvents.Add(NewStruct);
                     }
 
@@ -2306,10 +2306,10 @@ namespace SSXMultiTool
                     for (int a = 0; a < sop.RaceLines[i].PathEvents.Count; a++)
                     {
                         var NewStruct = new AIPSOPHandler.PathEvent();
-                        NewStruct.U0 = sop.RaceLines[i].PathEvents[a].U0;
-                        NewStruct.U1 = sop.RaceLines[i].PathEvents[a].U1;
-                        NewStruct.U2 = sop.RaceLines[i].PathEvents[a].U2;
-                        NewStruct.U3 = sop.RaceLines[i].PathEvents[a].U3;
+                        NewStruct.EventType = sop.RaceLines[i].PathEvents[a].EventType;
+                        NewStruct.EventValue = sop.RaceLines[i].PathEvents[a].EventValue;
+                        NewStruct.EventStart = sop.RaceLines[i].PathEvents[a].EventStart;
+                        NewStruct.EventEnd = sop.RaceLines[i].PathEvents[a].EventEnd;
                         NewAIPATH.PathEvents.Add(NewStruct);
                     }
 

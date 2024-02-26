@@ -68,10 +68,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     for (int a = 0; a < NewPath.UCount; a++)
                     {
                         var NewUStrcut = new PathEvent();
-                        NewUStrcut.U0 = StreamUtil.ReadUInt32(stream);
-                        NewUStrcut.U1 = StreamUtil.ReadUInt32(stream);
-                        NewUStrcut.U2 = StreamUtil.ReadFloat(stream);
-                        NewUStrcut.U3 = StreamUtil.ReadFloat(stream);
+                        NewUStrcut.EventType = StreamUtil.ReadUInt32(stream);
+                        NewUStrcut.EventValue = StreamUtil.ReadUInt32(stream);
+                        NewUStrcut.EventStart = StreamUtil.ReadFloat(stream);
+                        NewUStrcut.EventEnd = StreamUtil.ReadFloat(stream);
                         NewPath.PathEvents.Add(NewUStrcut);
                     }
 
@@ -111,10 +111,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     for (int a = 0; a < NewPath.UCount; a++)
                     {
                         var NewUStrcut = new PathEvent();
-                        NewUStrcut.U0 = StreamUtil.ReadUInt32(stream);
-                        NewUStrcut.U1 = StreamUtil.ReadUInt32(stream);
-                        NewUStrcut.U2 = StreamUtil.ReadFloat(stream);
-                        NewUStrcut.U3 = StreamUtil.ReadFloat(stream);
+                        NewUStrcut.EventType = StreamUtil.ReadUInt32(stream);
+                        NewUStrcut.EventValue = StreamUtil.ReadUInt32(stream);
+                        NewUStrcut.EventStart = StreamUtil.ReadFloat(stream);
+                        NewUStrcut.EventEnd = StreamUtil.ReadFloat(stream);
                         NewPath.PathEvents.Add(NewUStrcut);
                     }
 
@@ -159,10 +159,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 for (int a = 0; a < AIPath.PathAs[i].PathEvents.Count; a++)
                 {
-                    StreamUtil.WriteInt32(stream, AIPath.PathAs[i].PathEvents[a].U0);
-                    StreamUtil.WriteInt32(stream, AIPath.PathAs[i].PathEvents[a].U1);
-                    StreamUtil.WriteFloat32(stream, AIPath.PathAs[i].PathEvents[a].U2);
-                    StreamUtil.WriteFloat32(stream, AIPath.PathAs[i].PathEvents[a].U3);
+                    StreamUtil.WriteInt32(stream, AIPath.PathAs[i].PathEvents[a].EventType);
+                    StreamUtil.WriteInt32(stream, AIPath.PathAs[i].PathEvents[a].EventValue);
+                    StreamUtil.WriteFloat32(stream, AIPath.PathAs[i].PathEvents[a].EventStart);
+                    StreamUtil.WriteFloat32(stream, AIPath.PathAs[i].PathEvents[a].EventEnd);
                 }
             }
 
@@ -193,10 +193,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 for (int a = 0; a < RaceLine.PathBs[i].PathEvents.Count; a++)
                 {
-                    StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].PathEvents[a].U0);
-                    StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].PathEvents[a].U1);
-                    StreamUtil.WriteFloat32(stream, RaceLine.PathBs[i].PathEvents[a].U2);
-                    StreamUtil.WriteFloat32(stream, RaceLine.PathBs[i].PathEvents[a].U3);
+                    StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].PathEvents[a].EventType);
+                    StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].PathEvents[a].EventValue);
+                    StreamUtil.WriteFloat32(stream, RaceLine.PathBs[i].PathEvents[a].EventStart);
+                    StreamUtil.WriteFloat32(stream, RaceLine.PathBs[i].PathEvents[a].EventEnd);
                 }
             }
             long TempPos = stream.Position;
@@ -353,10 +353,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public struct PathEvent
         {
-            public int U0;
-            public int U1;
-            public float U2;
-            public float U3;
+            public int EventType;
+            public int EventValue;
+            public float EventStart;
+            public float EventEnd;
         }
 
         public struct TypeB

@@ -61,10 +61,10 @@ namespace SSXMultiTool.JsonFiles.Tricky
         [System.Serializable]
         public struct PathEvent
         {
-            public int U0;
-            public int U1;
-            public float U2;
-            public float U3;
+            public int EventType;
+            public int EventValue;
+            public float EventStart;
+            public float EventEnd;
         }
 
         [System.Serializable]
