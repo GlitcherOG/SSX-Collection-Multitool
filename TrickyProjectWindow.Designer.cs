@@ -96,6 +96,7 @@
             ConsoleLogCheck = new CheckBox();
             JSONInlineCheck = new CheckBox();
             button1 = new Button();
+            RebuildNoPathButton = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -444,11 +445,11 @@
             // RebuildButton
             // 
             RebuildButton.Enabled = false;
-            RebuildButton.Location = new Point(671, 415);
+            RebuildButton.Location = new Point(565, 415);
             RebuildButton.Name = "RebuildButton";
-            RebuildButton.Size = new Size(117, 23);
+            RebuildButton.Size = new Size(100, 23);
             RebuildButton.TabIndex = 43;
-            RebuildButton.Text = "Build Level";
+            RebuildButton.Text = "Build Level To";
             RebuildButton.UseVisualStyleBackColor = true;
             RebuildButton.Click += RebuildButton_Click;
             // 
@@ -465,7 +466,7 @@
             // SaveConfig
             // 
             SaveConfig.Enabled = false;
-            SaveConfig.Location = new Point(568, 415);
+            SaveConfig.Location = new Point(462, 415);
             SaveConfig.Name = "SaveConfig";
             SaveConfig.Size = new Size(97, 23);
             SaveConfig.TabIndex = 45;
@@ -789,11 +790,23 @@
             button1.Text = "New Project";
             button1.UseVisualStyleBackColor = true;
             // 
+            // RebuildNoPathButton
+            // 
+            RebuildNoPathButton.Enabled = false;
+            RebuildNoPathButton.Location = new Point(671, 415);
+            RebuildNoPathButton.Name = "RebuildNoPathButton";
+            RebuildNoPathButton.Size = new Size(117, 23);
+            RebuildNoPathButton.TabIndex = 54;
+            RebuildNoPathButton.Text = "Build Level";
+            RebuildNoPathButton.UseVisualStyleBackColor = true;
+            RebuildNoPathButton.Click += RebuildNoPathButton_Click;
+            // 
             // TrickyProjectWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 442);
+            Controls.Add(RebuildNoPathButton);
             Controls.Add(button1);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
@@ -906,5 +919,6 @@
         private Label label5;
         private ComboBox LTGMode;
         private CheckBox ConsoleLogCheck;
+        private Button RebuildNoPathButton;
     }
 }

@@ -20,7 +20,6 @@ namespace SSXMultiTool.JsonFiles.Tricky
         public string Vertical = "";
         public string Length = "";
         public string Description = "";
-        public string BuildPath = "";
 
         //BuildSettings
         public bool BuildUniLightmap;
@@ -36,6 +35,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
         public bool BuildAIPGenerate;
         public bool BuildSOPGenerate;
         public int BuildLTGGenerateMode;
+        public string BuildPath = "";
 
         //If BBox Is all Zeros it will generate a new one
         public float[,] BBox = new float[2,3];

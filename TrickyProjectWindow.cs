@@ -81,7 +81,8 @@ namespace SSXMultiTool
         }
         TrickyLevelInterface trickyLevelInterface = new TrickyLevelInterface();
         SSXTrickyConfig trickyConfig = new SSXTrickyConfig();
-        public string ProjectPath;
+        public string ProjectPath = "";
+        public string BuildPath = "";
         void ExtractFiles(string StartPath, string ExportPath)
         {
             Console.WriteLine("Begining Level Extraction...");
@@ -160,6 +161,8 @@ namespace SSXMultiTool
                     {
                         ConsoleWindow.GenerateConsole();
                     }
+                    SaveConfig_Click(sender, e);
+
                     this.Text = "Tricky Project Window (Building...)";
                     trickyLevelInterface = new TrickyLevelInterface();
                     trickyLevelInterface.Unilightmap = UnlitCheckbox.Checked;
@@ -175,7 +178,7 @@ namespace SSXMultiTool
                     trickyLevelInterface.AIPGenerate = GenAIP.Checked;
                     trickyLevelInterface.SOPGenerate = GenSOP.Checked;
                     trickyLevelInterface.LTGGenerateMode = LTGMode.SelectedIndex;
-
+                    BuildPath = openFileDialog.FileName;
 
                     if (openFileDialog.FileName.ToLower().Contains(".big"))
                     {
@@ -209,6 +212,67 @@ namespace SSXMultiTool
             }
         }
 
+        private void RebuildNoPathButton_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(ProjectPath + "/ConfigTricky.ssx"))
+            {
+                if(BuildPath=="")
+                {
+                    RebuildButton_Click(sender, e);
+                    return;
+                }
+
+                if (ConsoleLogCheck.Checked)
+                {
+                    ConsoleWindow.GenerateConsole();
+                }
+
+                SaveConfig_Click(sender, e);
+
+                this.Text = "Tricky Project Window (Building...)";
+                trickyLevelInterface = new TrickyLevelInterface();
+                trickyLevelInterface.Unilightmap = UnlitCheckbox.Checked;
+                trickyLevelInterface.PBDGenerate = GenPBD.Checked;
+                trickyLevelInterface.SSHGenerate = GenSSH.Checked;
+                trickyLevelInterface.LSSHGenerate = GenLSSH.Checked;
+                trickyLevelInterface.LTGGenerate = GenLTG.Checked;
+                trickyLevelInterface.MAPGenerate = GenMAP.Checked;
+                trickyLevelInterface.SkyPBDGenerate = GenSkyPBD.Checked;
+                trickyLevelInterface.SkySSHGenerate = GenSkySSH.Checked;
+                trickyLevelInterface.ADLGenerate = GenADL.Checked;
+                trickyLevelInterface.SSFGenerate = GenSSF.Checked;
+                trickyLevelInterface.AIPGenerate = GenAIP.Checked;
+                trickyLevelInterface.SOPGenerate = GenSOP.Checked;
+                trickyLevelInterface.LTGGenerateMode = LTGMode.SelectedIndex;
+
+
+                if (BuildPath.Contains(".big"))
+                {
+                    Directory.CreateDirectory(Application.StartupPath + "\\TempExtract");
+                    Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\Data");
+                    Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\data\\models");
+                    string InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(BuildPath.ToLower()).Substring(0, Path.GetFileName(BuildPath).Length - 3) + "map";
+                    trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, InputPath);
+                    BigHandler bigHandler = new BigHandler();
+                    bigHandler.LoadFolderC0FB(Application.StartupPath + "\\TempExtract");
+                    bigHandler.CompressBuild = true;
+                    bigHandler.BuildBig(BuildPath);
+                    Directory.Delete(Application.StartupPath + "\\TempExtract", true);
+                }
+                else
+                {
+                    trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, BuildPath);
+                }
+                this.Text = "Tricky Project Window (Building Done)";
+                //FlashWindow.Flash(this);
+                //MessageBox.Show("Level Built");
+                if (ConsoleLogCheck.Checked)
+                {
+                    ConsoleWindow.CloseConsole();
+                }
+            }
+        }
+
         private void LoadProject_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -236,10 +300,12 @@ namespace SSXMultiTool
                     GenAIP.Checked = trickyConfig.BuildAIPGenerate;
                     GenSOP.Checked = trickyConfig.BuildSOPGenerate;
                     LTGMode.SelectedIndex = trickyConfig.BuildLTGGenerateMode;
+                    BuildPath = trickyConfig.BuildPath;
 
                     trickyLevelInterface = new TrickyLevelInterface();
                     SaveConfig.Enabled = true;
                     RebuildButton.Enabled = true;
+                    RebuildNoPathButton.Enabled = true;
                     ProjectPath = Path.GetDirectoryName(openFileDialog.FileName);
 
                     trickyLevelInterface.LoadAndVerifyFiles(ProjectPath);
@@ -276,6 +342,7 @@ namespace SSXMultiTool
             trickyConfig.BuildAIPGenerate = GenAIP.Checked;
             trickyConfig.BuildSOPGenerate = GenSOP.Checked;
             trickyConfig.BuildLTGGenerateMode = LTGMode.SelectedIndex;
+            trickyConfig.BuildPath = BuildPath;
 
             trickyConfig.CreateJson(ProjectPath + "/ConfigTricky.ssx");
         }
@@ -284,5 +351,6 @@ namespace SSXMultiTool
         {
 
         }
+
     }
 }
