@@ -1771,7 +1771,6 @@
             button1.TabIndex = 1;
             button1.Text = "Test";
             button1.UseVisualStyleBackColor = true;
-            button1.Visible = false;
             button1.Click += button1_Click;
             // 
             // ELFLdrSetup

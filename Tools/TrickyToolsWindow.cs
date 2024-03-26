@@ -1330,37 +1330,37 @@ namespace SSXMultiTool
 
         private void button1_Click(object sender, EventArgs e)
         {
-            CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
-            {
-                IsFolderPicker = true,
-                Title = "Select Alf Folder",
-            };
-            if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                string[] NewFiles = Directory.GetFiles(openFileDialog1.FileName, "*.afl", SearchOption.AllDirectories);
-
-                for (int i = 0; i < NewFiles.Length; i++)
-                {
-                    aflHandler aflHandler = new aflHandler();
-
-                    aflHandler.Load(NewFiles[i]);
-                }
-            }
-
-
-
-            //OpenFileDialog openFileDialog = new OpenFileDialog
+            //CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
             //{
-            //    Filter = "Anim File (*.afl)|*.afl|All files (*.*)|*.*",
-            //    FilterIndex = 1,
-            //    RestoreDirectory = false
+            //    IsFolderPicker = true,
+            //    Title = "Select Alf Folder",
             //};
-            //if (openFileDialog.ShowDialog() == DialogResult.OK)
+            //if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
             //{
-            //    aflHandler aflHandler = new aflHandler();
+            //    string[] NewFiles = Directory.GetFiles(openFileDialog1.FileName, "*.afl", SearchOption.AllDirectories);
 
-            //    aflHandler.Load(openFileDialog.FileName);
+            //    for (int i = 0; i < NewFiles.Length; i++)
+            //    {
+            //        aflHandler aflHandler = new aflHandler();
+
+            //        aflHandler.Load(NewFiles[i]);
+            //    }
             //}
+
+
+
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Anim File (*.afl)|*.afl|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                aflHandler aflHandler = new aflHandler();
+
+                aflHandler.Load(openFileDialog.FileName);
+            }
         }
     }
 }
