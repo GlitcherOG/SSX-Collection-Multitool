@@ -22,6 +22,21 @@ namespace SSXMultiTool.JsonFiles.Tricky
         public string Description = "";
         public string BuildPath = "";
 
+        //BuildSettings
+        public bool BuildUniLightmap;
+        public bool BuildPBDGenerate;
+        public bool BuildSSHGenerate;
+        public bool BuildLSSHGenerate;
+        public bool BuildLTGGenerate;
+        public bool BuildMAPGenerate;
+        public bool BuildSkyPBDGenerate;
+        public bool BuildSkySSHGenerate;
+        public bool BuildADLGenerate;
+        public bool BuildSSFGenerate;
+        public bool BuildAIPGenerate;
+        public bool BuildSOPGenerate;
+        public int BuildLTGGenerateMode;
+
         //If BBox Is all Zeros it will generate a new one
         public float[,] BBox = new float[2,3];
 

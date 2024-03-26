@@ -89,6 +89,21 @@ namespace SSXMultiTool
             SaveConfig.Enabled = true;
             RebuildButton.Enabled = true;
             trickyConfig = new SSXTrickyConfig();
+
+            trickyConfig.BuildUniLightmap = UnlitCheckbox.Checked;
+            trickyConfig.BuildPBDGenerate = GenPBD.Checked;
+            trickyConfig.BuildSSHGenerate = GenSSH.Checked;
+            trickyConfig.BuildLSSHGenerate = GenLSSH.Checked;
+            trickyConfig.BuildLTGGenerate = GenLTG.Checked;
+            trickyConfig.BuildMAPGenerate = GenMAP.Checked;
+            trickyConfig.BuildSkyPBDGenerate = GenSkyPBD.Checked;
+            trickyConfig.BuildSkySSHGenerate = GenSkySSH.Checked;
+            trickyConfig.BuildADLGenerate = GenADL.Checked;
+            trickyConfig.BuildSSFGenerate = GenSSF.Checked;
+            trickyConfig.BuildAIPGenerate = GenAIP.Checked;
+            trickyConfig.BuildSOPGenerate = GenSOP.Checked;
+            trickyConfig.BuildLTGGenerateMode = LTGMode.SelectedIndex;
+
             trickyConfig.CreateJson(ExportPath + "/ConfigTricky.ssx");
             trickyLevelInterface.LoadAndVerifyFiles(ProjectPath);
             UpdateText();
@@ -198,8 +213,23 @@ namespace SSXMultiTool
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 trickyConfig = SSXTrickyConfig.Load(openFileDialog.FileName);
+
                 if (trickyConfig.Version == 2)
                 {
+                    UnlitCheckbox.Checked = trickyConfig.BuildUniLightmap;
+                    GenPBD.Checked = trickyConfig.BuildPBDGenerate;
+                    GenSSH.Checked = trickyConfig.BuildSSHGenerate;
+                    GenLSSH.Checked = trickyConfig.BuildLSSHGenerate;
+                    GenLTG.Checked = trickyConfig.BuildLTGGenerate;
+                    GenMAP.Checked = trickyConfig.BuildMAPGenerate;
+                    GenSkyPBD.Checked = trickyConfig.BuildSkyPBDGenerate;
+                    GenSkySSH.Checked = trickyConfig.BuildSkySSHGenerate;
+                    GenADL.Checked = trickyConfig.BuildADLGenerate;
+                    GenSSF.Checked = trickyConfig.BuildSSFGenerate;
+                    GenAIP.Checked = trickyConfig.BuildAIPGenerate;
+                    GenSOP.Checked = trickyConfig.BuildSOPGenerate;
+                    LTGMode.SelectedIndex = trickyConfig.BuildLTGGenerateMode;
+
                     trickyLevelInterface = new TrickyLevelInterface();
                     SaveConfig.Enabled = true;
                     RebuildButton.Enabled = true;
@@ -225,6 +255,21 @@ namespace SSXMultiTool
             trickyConfig.Vertical = VerticalDropTextbox.Text;
             trickyConfig.Length = CourseLengthTextbox.Text;
             trickyConfig.Description = DescriptionTextbox.Text;
+
+            trickyConfig.BuildUniLightmap = UnlitCheckbox.Checked;
+            trickyConfig.BuildPBDGenerate = GenPBD.Checked;
+            trickyConfig.BuildSSHGenerate = GenSSH.Checked;
+            trickyConfig.BuildLSSHGenerate = GenLSSH.Checked;
+            trickyConfig.BuildLTGGenerate = GenLTG.Checked;
+            trickyConfig.BuildMAPGenerate = GenMAP.Checked;
+            trickyConfig.BuildSkyPBDGenerate = GenSkyPBD.Checked;
+            trickyConfig.BuildSkySSHGenerate = GenSkySSH.Checked;
+            trickyConfig.BuildADLGenerate = GenADL.Checked;
+            trickyConfig.BuildSSFGenerate = GenSSF.Checked;
+            trickyConfig.BuildAIPGenerate = GenAIP.Checked;
+            trickyConfig.BuildSOPGenerate = GenSOP.Checked;
+            trickyConfig.BuildLTGGenerateMode = LTGMode.SelectedIndex;
+
             trickyConfig.CreateJson(ProjectPath + "/ConfigTricky.ssx");
         }
 
