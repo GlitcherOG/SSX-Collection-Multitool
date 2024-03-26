@@ -93,6 +93,7 @@
             GenLTG = new CheckBox();
             GenPBD = new CheckBox();
             groupBox5 = new GroupBox();
+            ConsoleLogCheck = new CheckBox();
             JSONInlineCheck = new CheckBox();
             button1 = new Button();
             groupBox1.SuspendLayout();
@@ -747,13 +748,26 @@
             // 
             // groupBox5
             // 
+            groupBox5.Controls.Add(ConsoleLogCheck);
             groupBox5.Controls.Add(JSONInlineCheck);
-            groupBox5.Location = new Point(12, 365);
+            groupBox5.Location = new Point(12, 338);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(199, 44);
+            groupBox5.Size = new Size(199, 71);
             groupBox5.TabIndex = 52;
             groupBox5.TabStop = false;
-            groupBox5.Text = "Extract Settings";
+            groupBox5.Text = "Extra Settings";
+            // 
+            // ConsoleLogCheck
+            // 
+            ConsoleLogCheck.AutoSize = true;
+            ConsoleLogCheck.Checked = true;
+            ConsoleLogCheck.CheckState = CheckState.Checked;
+            ConsoleLogCheck.Location = new Point(11, 46);
+            ConsoleLogCheck.Name = "ConsoleLogCheck";
+            ConsoleLogCheck.Size = new Size(92, 19);
+            ConsoleLogCheck.TabIndex = 51;
+            ConsoleLogCheck.Text = "Console Log";
+            ConsoleLogCheck.UseVisualStyleBackColor = true;
             // 
             // JSONInlineCheck
             // 
@@ -891,5 +905,6 @@
         private CheckBox GenSkyPBD;
         private Label label5;
         private ComboBox LTGMode;
+        private CheckBox ConsoleLogCheck;
     }
 }

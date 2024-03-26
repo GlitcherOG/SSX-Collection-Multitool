@@ -7,6 +7,7 @@ using SSXMultiTool.JsonFiles;
 using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.FileHandlers.Models;
 using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
+using SSXMultiTool.Utilities;
 
 namespace SSXMultiTool
 {
@@ -36,6 +37,10 @@ namespace SSXMultiTool
                 {
                     if (Directory.GetFiles(commonDialog.FileName).Count() != 1)
                     {
+                        if(ConsoleLogCheck.Checked)
+                        {
+                            ConsoleWindow.GenerateConsole();
+                        }
                         if (openFileDialog.FileName.ToLower().Contains(".big"))
                         {
                             BigHandler bigHandler = new BigHandler();
@@ -58,6 +63,10 @@ namespace SSXMultiTool
                             ExtractFiles(openFileDialog.FileName, commonDialog.FileName);
                             MessageBox.Show("Level Extracted");
                         }
+                        if (ConsoleLogCheck.Checked)
+                        {
+                            ConsoleWindow.CloseConsole();
+                        }
                     }
                     else
                     {
@@ -71,6 +80,7 @@ namespace SSXMultiTool
         public string ProjectPath;
         void ExtractFiles(string StartPath, string ExportPath)
         {
+            Console.WriteLine("Begining Level Extraction...");
             string LoadPath = StartPath.Substring(0, StartPath.Length - 4);
             trickyLevelInterface = new TrickyLevelInterface();
             trickyLevelInterface.InlineExporting = JSONInlineCheck.Checked;
@@ -79,7 +89,7 @@ namespace SSXMultiTool
             SaveConfig.Enabled = true;
             RebuildButton.Enabled = true;
             trickyConfig = new SSXTrickyConfig();
-            trickyConfig.CreateJson(ExportPath + "/TrickyConfig.ssx");
+            trickyConfig.CreateJson(ExportPath + "/ConfigTricky.ssx");
             trickyLevelInterface.LoadAndVerifyFiles(ProjectPath);
             UpdateText();
         }
@@ -117,7 +127,7 @@ namespace SSXMultiTool
 
         private void RebuildButton_Click(object sender, EventArgs e)
         {
-            if (File.Exists(ProjectPath + "/trickyConfig.ssx"))
+            if (File.Exists(ProjectPath + "/ConfigTricky.ssx"))
             {
                 SaveFileDialog openFileDialog = new SaveFileDialog
                 {
@@ -127,6 +137,10 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
+                    if (ConsoleLogCheck.Checked)
+                    {
+                        ConsoleWindow.GenerateConsole();
+                    }
                     trickyLevelInterface = new TrickyLevelInterface();
                     trickyLevelInterface.Unilightmap = UnlitCheckbox.Checked;
                     trickyLevelInterface.PBDGenerate = GenPBD.Checked;
@@ -161,6 +175,10 @@ namespace SSXMultiTool
                         trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, openFileDialog.FileName);
                     }
                     MessageBox.Show("Level Built");
+                    if (ConsoleLogCheck.Checked)
+                    {
+                        ConsoleWindow.CloseConsole();
+                    }
                 }
             }
             else
@@ -207,7 +225,7 @@ namespace SSXMultiTool
             trickyConfig.Vertical = VerticalDropTextbox.Text;
             trickyConfig.Length = CourseLengthTextbox.Text;
             trickyConfig.Description = DescriptionTextbox.Text;
-            trickyConfig.CreateJson(ProjectPath + "/trickyConfig.ssx");
+            trickyConfig.CreateJson(ProjectPath + "/ConfigTricky.ssx");
         }
 
         private void PatchesTitleLabel_Click(object sender, EventArgs e)
