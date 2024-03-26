@@ -37,10 +37,12 @@ namespace SSXMultiTool
                 {
                     if (Directory.GetFiles(commonDialog.FileName).Count() != 1)
                     {
-                        if(ConsoleLogCheck.Checked)
+                        if (ConsoleLogCheck.Checked)
                         {
                             ConsoleWindow.GenerateConsole();
+
                         }
+                        this.Text = "Tricky Project Window (Extracting...)";
                         if (openFileDialog.FileName.ToLower().Contains(".big"))
                         {
                             BigHandler bigHandler = new BigHandler();
@@ -50,7 +52,7 @@ namespace SSXMultiTool
                             if (strings.Length != 0)
                             {
                                 ExtractFiles(strings[0], commonDialog.FileName);
-                                MessageBox.Show("Level Extracted");
+                                this.Text = "Tricky Project Window (Extracting Done)";
                             }
                             else
                             {
@@ -61,8 +63,10 @@ namespace SSXMultiTool
                         else
                         {
                             ExtractFiles(openFileDialog.FileName, commonDialog.FileName);
-                            MessageBox.Show("Level Extracted");
+                            //MessageBox.Show("Level Extracted");
                         }
+                        this.Text = "Tricky Project Window (Extracting Done)";
+                        //FlashWindow.Flash(this, 5);
                         if (ConsoleLogCheck.Checked)
                         {
                             ConsoleWindow.CloseConsole();
@@ -156,6 +160,7 @@ namespace SSXMultiTool
                     {
                         ConsoleWindow.GenerateConsole();
                     }
+                    this.Text = "Tricky Project Window (Building...)";
                     trickyLevelInterface = new TrickyLevelInterface();
                     trickyLevelInterface.Unilightmap = UnlitCheckbox.Checked;
                     trickyLevelInterface.PBDGenerate = GenPBD.Checked;
@@ -189,7 +194,9 @@ namespace SSXMultiTool
                     {
                         trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, openFileDialog.FileName);
                     }
-                    MessageBox.Show("Level Built");
+                    this.Text = "Tricky Project Window (Building Done)";
+                    //FlashWindow.Flash(this);
+                    //MessageBox.Show("Level Built");
                     if (ConsoleLogCheck.Checked)
                     {
                         ConsoleWindow.CloseConsole();
