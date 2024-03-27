@@ -58,8 +58,6 @@ namespace SSXMultiTool
         public MaterialJsonHandler SkyMaterialJson = new MaterialJsonHandler();
         public PrefabJsonHandler SkyPrefabJsonHandler = new PrefabJsonHandler();
 
-
-
         public void ExtractTrickyLevelFiles(string LoadPath, string ExportPath)
         {
             Console.WriteLine("Loading ADL File");
@@ -97,7 +95,7 @@ namespace SSXMultiTool
             patchPoints = new PatchesJsonHandler();
             for (int i = 0; i < pbdHandler.Patches.Count; i++)
             {
-                Console.WriteLine("Converting Patch to JSON Format " + (i + 1) + "/" + pbdHandler.Patches.Count);
+                Console.WriteLine("Patch: " + (i + 1) + "/" + pbdHandler.Patches.Count + " " + mapHandler.Patchs[i].Name);
                 PatchesJsonHandler.PatchJson patch = new PatchesJsonHandler.PatchJson();
                 patch.PatchName = mapHandler.Patchs[i].Name;
 
@@ -162,7 +160,7 @@ namespace SSXMultiTool
             instancesJson = new InstanceJsonHandler();
             for (int i = 0; i < pbdHandler.Instances.Count; i++)
             {
-                Console.WriteLine("Converting Instace to JSON Format " + (i + 1) + "/" + pbdHandler.Instances.Count);
+                Console.WriteLine("Instance: " + (i + 1) + "/" + pbdHandler.Instances.Count + " " + mapHandler.InternalInstances[i].Name);
 
                 InstanceJsonHandler.InstanceJson instanceJson = new InstanceJsonHandler.InstanceJson();
                 instanceJson.InstanceName = mapHandler.InternalInstances[i].Name;
@@ -300,7 +298,7 @@ namespace SSXMultiTool
             particleInstanceJson = new ParticleInstanceJsonHandler();
             for (int i = 0; i < pbdHandler.particleInstances.Count; i++)
             {
-                Console.WriteLine("Converting Particle Instace to JSON Format " + (i + 1) + "/" + pbdHandler.particleInstances.Count);
+                Console.WriteLine("Particle Instance: " + (i + 1) + "/" + pbdHandler.particleInstances.Count + " " + mapHandler.ParticleInstances[i].Name);
                 ParticleInstanceJsonHandler.ParticleJson TempParticle = new ParticleInstanceJsonHandler.ParticleJson();
                 TempParticle.ParticleName = mapHandler.ParticleInstances[i].Name;
 
@@ -329,7 +327,7 @@ namespace SSXMultiTool
             materialJson = new MaterialJsonHandler();
             for (int i = 0; i < pbdHandler.materials.Count; i++)
             {
-                Console.WriteLine("Converting Material to JSON Format " + (i + 1) + "/" + pbdHandler.materials.Count);
+                Console.WriteLine("Material: " + (i + 1) + "/" + pbdHandler.materials.Count + " " + mapHandler.Materials[i].Name);
                 MaterialJsonHandler.MaterialsJson TempMaterial = new MaterialJsonHandler.MaterialsJson();
                 TempMaterial.MaterialName = mapHandler.Materials[i].Name;
 
@@ -372,7 +370,7 @@ namespace SSXMultiTool
             lightJsonHandler = new LightJsonHandler();
             for (int i = 0; i < pbdHandler.lights.Count; i++)
             {
-                Console.WriteLine("Converting Lights to JSON Format " + (i + 1) + "/" + pbdHandler.lights.Count);
+                Console.WriteLine("Light: " + (i + 1) + "/" + pbdHandler.lights.Count + " " + mapHandler.Lights[i].Name);
 
                 LightJsonHandler.LightJson TempLight = new LightJsonHandler.LightJson();
                 TempLight.LightName = mapHandler.Lights[i].Name;
@@ -444,7 +442,7 @@ namespace SSXMultiTool
             splineJsonHandler = new SplineJsonHandler();
             for (int i = 0; i < pbdHandler.splines.Count; i++)
             {
-                Console.WriteLine("Converting Spline to JSON Format " + (i + 1) + "/" + pbdHandler.splines.Count);
+                Console.WriteLine("Spline: " + (i + 1) + "/" + pbdHandler.splines.Count + " " + mapHandler.Splines[i].Name);
 
                 SplineJsonHandler.SplineJson TempSpline = new SplineJsonHandler.SplineJson();
                 TempSpline.SplineName = mapHandler.Splines[i].Name;
@@ -490,7 +488,7 @@ namespace SSXMultiTool
             prefabJsonHandler = new PrefabJsonHandler();
             for (int i = 0; i < pbdHandler.PrefabData.Count; i++)
             {
-                Console.WriteLine("Converting Prefabs to JSON Format " + (i + 1) + "/" + pbdHandler.PrefabData.Count);
+                Console.WriteLine("Prefabs: " + (i + 1) + "/" + pbdHandler.PrefabData.Count + " " + mapHandler.Models[i].Name);
                 PrefabJsonHandler.PrefabJson TempModel = new PrefabJsonHandler.PrefabJson();
                 TempModel.PrefabName = mapHandler.Models[i].Name;
                 TempModel.Unknown3 = pbdHandler.PrefabData[i].Unknown3;
@@ -583,7 +581,7 @@ namespace SSXMultiTool
             particleModelJsonHandler = new ParticleModelJsonHandler();
             for (int i = 0; i < pbdHandler.particleModels.Count; i++)
             {
-                Console.WriteLine("Converting Particle Model to JSON Format " + (i + 1) + "/" + pbdHandler.particleModels.Count);
+                Console.WriteLine("Particle Model: " + (i + 1) + "/" + pbdHandler.particleModels.Count + " " + mapHandler.particelModels[i].Name);
 
                 ParticleModelJsonHandler.ParticleModelJson TempParticleModel = new ParticleModelJsonHandler.ParticleModelJson();
                 TempParticleModel.ParticleModelName = mapHandler.particelModels[i].Name;
@@ -622,7 +620,7 @@ namespace SSXMultiTool
             cameraJSONHandler = new CameraJSONHandler();
             for (int i = 0; i < pbdHandler.Cameras.Count; i++)
             {
-                Console.WriteLine("Converting Camera to JSON Format " + (i + 1) + "/" + pbdHandler.Cameras.Count);
+                Console.WriteLine("Camera: " + (i + 1) + "/" + pbdHandler.Cameras.Count + " " + mapHandler.Cameras[i].Name);
 
                 var TempCamera = pbdHandler.Cameras[i];
                 var NewCamera = new CameraJSONHandler.CameraInstance();
@@ -730,7 +728,7 @@ namespace SSXMultiTool
                 aipJson.AIPaths = new List<AIPSOPJsonHandler.PathA>();
                 for (int i = 0; i < aip.AIPath.PathAs.Count; i++)
                 {
-                    Console.WriteLine("Converting Decoding AI Paths to JSON Format " + (i + 1) + "/" + aip.AIPath.PathAs.Count);
+                    Console.WriteLine("AI Paths: " + (i + 1) + "/" + aip.AIPath.PathAs.Count);
                     var NewAIPath = new AIPSOPJsonHandler.PathA();
                     NewAIPath.Type = aip.AIPath.PathAs[i].Type;
                     NewAIPath.U1 = aip.AIPath.PathAs[i].U1;
@@ -773,7 +771,7 @@ namespace SSXMultiTool
                 aipJson.RaceLines = new List<AIPSOPJsonHandler.PathB>();
                 for (int i = 0; i < aip.RaceLine.PathBs.Count; i++)
                 {
-                    Console.WriteLine("Converting Decoding Race Line Paths to JSON Format " + (i + 1) + "/" + aip.RaceLine.PathBs.Count);
+                    Console.WriteLine("Race Line Paths: " + (i + 1) + "/" + aip.RaceLine.PathBs.Count);
 
                     var NewAIPath = new AIPSOPJsonHandler.PathB();
                     NewAIPath.Type = aip.RaceLine.PathBs[i].Type;
@@ -823,7 +821,7 @@ namespace SSXMultiTool
                 sopJson.AIPaths = new List<AIPSOPJsonHandler.PathA>();
                 for (int i = 0; i < sop.AIPath.PathAs.Count; i++)
                 {
-                    Console.WriteLine("Converting Decoding AI Paths to JSON Format " +(i+1)+ "/" + sop.AIPath.PathAs.Count);
+                    Console.WriteLine("SOP AI Paths: " +(i+1)+ "/" + sop.AIPath.PathAs.Count);
 
                     var NewAIPath = new AIPSOPJsonHandler.PathA();
                     NewAIPath.Type = sop.AIPath.PathAs[i].Type;
@@ -867,7 +865,7 @@ namespace SSXMultiTool
                 sopJson.RaceLines = new List<AIPSOPJsonHandler.PathB>();
                 for (int i = 0; i < sop.RaceLine.PathBs.Count; i++)
                 {
-                    Console.WriteLine("Converting Decoding Race Line Paths to JSON Format " + (i + 1) + "/" + sop.RaceLine.PathBs.Count);
+                    Console.WriteLine("SOP Race Line Paths: " + (i + 1) + "/" + sop.RaceLine.PathBs.Count);
 
                     var NewAIPath = new AIPSOPJsonHandler.PathB();
                     NewAIPath.Type = sop.RaceLine.PathBs[i].Type;
@@ -913,7 +911,7 @@ namespace SSXMultiTool
 
             for (int i = 0; i < ssfHandler.EffectSlots.Count; i++)
             {
-                Console.WriteLine("Converting Effect Slots to JSON Format " + (i + 1) + "/" + ssfHandler.EffectSlots.Count);
+                Console.WriteLine("Effect Slots: " + (i + 1) + "/" + ssfHandler.EffectSlots.Count);
                 var TempEffectSlot = new SSFJsonHandler.EffectSlotJson();
 
                 TempEffectSlot.EffectSlotName = "EffectSlot " + i;
@@ -930,7 +928,7 @@ namespace SSXMultiTool
             ssfJsonHandler.EffectHeaders = new List<SSFJsonHandler.EffectHeaderStruct>();
             for (int i = 0; i < ssfHandler.EffectHeaders.Count; i++)
             {
-                Console.WriteLine("Converting Effect Headers to JSON Format " + (i + 1) + "/" + ssfHandler.EffectHeaders.Count);
+                Console.WriteLine("Effect Headers: " + (i + 1) + "/" + ssfHandler.EffectHeaders.Count);
 
 
                 var NewEffectHeader = new SSFJsonHandler.EffectHeaderStruct();
@@ -950,7 +948,7 @@ namespace SSXMultiTool
             ssfJsonHandler.Functions = new List<SSFJsonHandler.Function>();
             for (int i = 0; i < ssfHandler.Functions.Count; i++)
             {
-                Console.WriteLine("Converting Effect Functions to JSON Format " + (i + 1) + "/" + ssfHandler.Functions.Count);
+                Console.WriteLine("Effect Functions: " + (i + 1) + "/" + ssfHandler.Functions.Count);
 
                 var NewFunction = new SSFJsonHandler.Function();
                 NewFunction.FunctionName = ssfHandler.Functions[i].FunctionName;
@@ -969,7 +967,7 @@ namespace SSXMultiTool
             ssfJsonHandler.PhysicsHeaders = new List<SSFJsonHandler.PhysicsHeader>();
             for (int i = 0; i < ssfHandler.PhysicsHeaders.Count; i++)
             {
-                Console.WriteLine("Converting Physics to JSON Format " + (i + 1) + "/" + ssfHandler.PhysicsHeaders.Count);
+                Console.WriteLine("Physics: " + (i + 1) + "/" + ssfHandler.PhysicsHeaders.Count);
 
                 var NewPhysicsHeader = new SSFJsonHandler.PhysicsHeader();
                 NewPhysicsHeader.PhysicsName = "Physics Header " + i;
@@ -1047,7 +1045,7 @@ namespace SSXMultiTool
 
             for (int i = 0; i < TextureHandler.sshImages.Count; i++)
             {
-                Console.WriteLine("Extracting Textures " + (i + 1) + "/" + TextureHandler.sshImages.Count);
+                Console.WriteLine("Textures: " + (i + 1) + "/" + TextureHandler.sshImages.Count);
                 TextureHandler.BrightenBitmap(i);
                 TextureHandler.BMPOneExtract(ExportPath + "\\Textures\\" + TextureHandler.sshImages[i].shortname + ".png", i);
             }
@@ -1070,7 +1068,7 @@ namespace SSXMultiTool
                 SkyMaterialJson = new MaterialJsonHandler();
                 for (int i = 0; i < skypbdHandler.materials.Count; i++)
                 {
-                    Console.WriteLine("Converting Skybox Materials to JSON Format " + (i + 1) + "/" + skypbdHandler.materials.Count);
+                    Console.WriteLine("Skybox Materials: " + (i + 1) + "/" + skypbdHandler.materials.Count);
                     MaterialJsonHandler.MaterialsJson TempMaterial = new MaterialJsonHandler.MaterialsJson();
 
                     TempMaterial.TexturePath = SkyboxHandler.sshImages[skypbdHandler.materials[i].TextureID].shortname + ".png";
@@ -1101,7 +1099,7 @@ namespace SSXMultiTool
                 SkyPrefabJsonHandler = new PrefabJsonHandler();
                 for (int i = 0; i < skypbdHandler.PrefabData.Count; i++)
                 {
-                    Console.WriteLine("Converting Skybox Prefabs to JSON Format " + (i + 1) + "/" + skypbdHandler.PrefabData.Count);
+                    Console.WriteLine("Skybox Prefabs: " + (i + 1) + "/" + skypbdHandler.PrefabData.Count);
                     PrefabJsonHandler.PrefabJson TempModel = new PrefabJsonHandler.PrefabJson();
  
                     TempModel.Unknown3 = skypbdHandler.PrefabData[i].Unknown3;
@@ -1193,7 +1191,7 @@ namespace SSXMultiTool
 
                 for (int i = 0; i < SkyboxHandler.sshImages.Count; i++)
                 {
-                    Console.WriteLine("Extracting Skybox Textures " + (i + 1) + "/" + SkyboxHandler.sshImages.Count);
+                    Console.WriteLine("Skybox Textures: " + (i + 1) + "/" + SkyboxHandler.sshImages.Count);
                     SkyboxHandler.BrightenBitmap(i);
                     SkyboxHandler.BMPOneExtract(ExportPath + "\\Skybox\\Textures\\" + SkyboxHandler.sshImages[i].shortname + ".png", i);
                 }
@@ -1205,7 +1203,7 @@ namespace SSXMultiTool
 
                 for (int i = 0; i < LightmapHandler.sshImages.Count; i++)
                 {
-                    Console.WriteLine("Extracting Lightmap Textures " + (i + 1) + "/" + LightmapHandler.sshImages.Count);
+                    Console.WriteLine("Lightmap Textures: " + (i + 1) + "/" + LightmapHandler.sshImages.Count);
                     LightmapHandler.BrightenBitmap(i);
                     LightmapHandler.BMPOneExtract(ExportPath + "\\Lightmaps\\" + LightmapHandler.sshImages[i].shortname + ".png", i);
                 }
@@ -1215,7 +1213,7 @@ namespace SSXMultiTool
                 LightmapHandler.LoadSSH(LoadPath.Substring(0, LoadPath.Length - 1) + "_L.ssh");
                 for (int i = 0; i < LightmapHandler.sshImages.Count; i++)
                 {
-                    Console.WriteLine("Extracting Lightmap Textures " + (i+1) + "/" + LightmapHandler.sshImages.Count);
+                    Console.WriteLine("Lightmap Textures: " + (i+1) + "/" + LightmapHandler.sshImages.Count);
                     LightmapHandler.BrightenBitmap(i);
                     LightmapHandler.BMPOneExtract(ExportPath + "\\Lightmaps\\" + LightmapHandler.sshImages[i].shortname + ".png", i);
                 }
@@ -1252,7 +1250,7 @@ namespace SSXMultiTool
                 mapHandler.Patchs = new List<LinkerItem>();
                 for (int i = 0; i < patchPoints.Patches.Count; i++)
                 {
-                    Console.WriteLine("Encoding Patch To Tricky Format " +(i+1)+ "/" + patchPoints.Patches.Count);
+                    Console.WriteLine("Patch: " +(i+1)+ "/" + patchPoints.Patches.Count + " " + patchPoints.Patches[i].PatchName);
                     Patch patch = new Patch();
                     var ImportPatch = patchPoints.Patches[i];
                     patch.LightMapPoint = JsonUtil.ArrayToVector4(ImportPatch.LightMapPoint);
@@ -1373,7 +1371,7 @@ namespace SSXMultiTool
                 int SegmentPos = 0;
                 for (int i = 0; i < splineJsonHandler.Splines.Count; i++)
                 {
-                    Console.WriteLine("Encoding Spline To Tricky Format " +(i+1)+ "/" + splineJsonHandler.Splines.Count);
+                    Console.WriteLine("Spline: " +(i+1)+ "/" + splineJsonHandler.Splines.Count + " " + splineJsonHandler.Splines[i].SplineName);
                     var TempSpline = splineJsonHandler.Splines[i];
                     Spline spline = new Spline();
                     spline.SplineSegmentPosition = SegmentPos;
@@ -1482,7 +1480,7 @@ namespace SSXMultiTool
                 ssfHandler.InstanceState = new List<int>();
                 for (int i = 0; i < instancesJson.Instances.Count; i++)
                 {
-                    Console.WriteLine("Encoding Instance To Tricky Format " +(i+1)+ "/" + instancesJson.Instances.Count);
+                    Console.WriteLine("Instance: " +(i+1)+ "/" + instancesJson.Instances.Count + " " + instancesJson.Instances[i].InstanceName);
                     var Oldinstance = instancesJson.Instances[i];
                     Instance NewInstance = new Instance();
 
@@ -1703,7 +1701,7 @@ namespace SSXMultiTool
                 pbdHandler.particleInstances = new List<ParticleInstance>();
                 for (int i = 0; i < particleInstanceJson.Particles.Count; i++)
                 {
-                    Console.WriteLine("Encoding Particle Instance To Tricky Format " +(i+1)+ "/" + particleInstanceJson.Particles.Count);
+                    Console.WriteLine("Particle Instance: " +(i+1)+ "/" + particleInstanceJson.Particles.Count + " " + particleInstanceJson.Particles[i].ParticleName);
                     ParticleInstance TempParticle = new ParticleInstance();
 
                     Matrix4x4 scale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(particleInstanceJson.Particles[i].Scale));
@@ -1737,7 +1735,7 @@ namespace SSXMultiTool
                 pbdHandler.materialBlocks = new List<MaterialBlock>();
                 for (int i = 0; i < prefabJsonHandler.Prefabs.Count; i++)
                 {
-                    Console.WriteLine("Unpacking Materials Animations from Prefabs " +(i+1)+ "/" + prefabJsonHandler.Prefabs.Count);
+                    Console.WriteLine("Materials Animations: " +(i+1)+ "/" + prefabJsonHandler.Prefabs.Count);
                     var TempPrefab = prefabJsonHandler.Prefabs[i];
                     var NewMaterialBlock = new MaterialBlock();
 
@@ -1766,7 +1764,7 @@ namespace SSXMultiTool
                 mapHandler.Models = new List<LinkerItem>();
                 for (int i = 0; i < prefabJsonHandler.Prefabs.Count; i++)
                 {
-                    Console.WriteLine("Encoding Prefabs To Tricky Format " +(i+1)+ "/" + prefabJsonHandler.Prefabs.Count);
+                    Console.WriteLine("Prefabs: " +(i+1)+ "/" + prefabJsonHandler.Prefabs.Count + " " + prefabJsonHandler.Prefabs[i].PrefabName);
                     var NewPrefab = new Prefabs();
                     var TempPrefab = prefabJsonHandler.Prefabs[i];
                     NewPrefab.MaterialBlockID = i;
@@ -1881,7 +1879,7 @@ namespace SSXMultiTool
                 mapHandler.Materials = new List<LinkerItem>();
                 for (int i = 0; i < materialJson.Materials.Count; i++)
                 {
-                    Console.WriteLine("Encoding Materials To Tricky Format " +(i+1)+ "/" + prefabJsonHandler.Prefabs.Count);
+                    Console.WriteLine("Materials: " +(i+1)+ "/" + prefabJsonHandler.Prefabs.Count + " " + materialJson.Materials[i].MaterialName);
 
                     var NewMaterial = new TrickyMaterial();
 
@@ -1974,7 +1972,7 @@ namespace SSXMultiTool
                 pbdHandler.hashData.LightsHash = new List<HashDataUnknown>();
                 for (int i = 0; i < lightJsonHandler.Lights.Count; i++)
                 {
-                    Console.WriteLine("Encoding Lights To Tricky Format " +(i+1)+ "/" + lightJsonHandler.Lights.Count);
+                    Console.WriteLine("Light: " +(i+1)+ "/" + lightJsonHandler.Lights.Count + " " + lightJsonHandler.Lights[i].LightName);
 
                     Light TempLight = new Light();
                     TempLight.Type = lightJsonHandler.Lights[i].Type;
@@ -2015,7 +2013,7 @@ namespace SSXMultiTool
                 mapHandler.particelModels = new List<LinkerItem>();
                 for (int i = 0; i < particleModelJsonHandler.ParticlePrefabs.Count; i++)
                 {
-                    Console.WriteLine("Encoding Particle Models To Tricky Format " +(i+1)+ "/" + particleModelJsonHandler.ParticlePrefabs.Count);
+                    Console.WriteLine("Particle Model: " +(i+1)+ "/" + particleModelJsonHandler.ParticlePrefabs.Count + " " + particleModelJsonHandler.ParticlePrefabs[i].ParticleModelName);
 
                     var ParticleModel = new ParticlePrefab();
 
@@ -2065,7 +2063,7 @@ namespace SSXMultiTool
                 mapHandler.Cameras = new List<LinkerItem>();
                 for (int i = 0; i < cameraJSONHandler.Cameras.Count; i++)
                 {
-                    Console.WriteLine("Encoding Cameras To Tricky Format " +(i+1)+ "/" + cameraJSONHandler.Cameras.Count);
+                    Console.WriteLine("Camera: " +(i+1)+ "/" + cameraJSONHandler.Cameras.Count + " " + cameraJSONHandler.Cameras[i].CameraName);
 
                     var TempCamera = cameraJSONHandler.Cameras[i];
                     var NewCameraInstance = new CameraInstance();
@@ -2190,7 +2188,7 @@ namespace SSXMultiTool
                 aipHandler.AIPath.PathAs = new List<AIPSOPHandler.PathA>();
                 for (int i = 0; i < aip.AIPaths.Count; i++)
                 {
-                    Console.WriteLine("Encoding AI Paths To Tricky Format " +(i+1)+ "/" + aip.AIPaths.Count);
+                    Console.WriteLine("AI Paths: " +(i+1)+ "/" + aip.AIPaths.Count);
                     var NewAIPATH = new AIPSOPHandler.PathA();
 
                     NewAIPATH.Type = aip.AIPaths[i].Type;
@@ -2239,7 +2237,7 @@ namespace SSXMultiTool
                 aipHandler.RaceLine.U0 = 1;
                 for (int i = 0; i < aip.RaceLines.Count; i++)
                 {
-                    Console.WriteLine("Encoding Race Line Paths To Tricky Format " +(i+1)+ "/" + aip.RaceLines.Count);
+                    Console.WriteLine("Race Line Paths: " +(i+1)+ "/" + aip.RaceLines.Count);
                     var NewAIPATH = new AIPSOPHandler.PathB();
 
                     NewAIPATH.Type = aip.RaceLines[i].Type;
@@ -2296,7 +2294,7 @@ namespace SSXMultiTool
                 sopHandler.AIPath.PathAs = new List<AIPSOPHandler.PathA>();
                 for (int i = 0; i < sop.AIPaths.Count; i++)
                 {
-                    Console.WriteLine("Encoding AI Paths To Tricky Format " +(i+1)+ "/" + sop.AIPaths.Count);
+                    Console.WriteLine("SOP AI Paths: " +(i+1)+ "/" + sop.AIPaths.Count);
                     var NewAIPATH = new AIPSOPHandler.PathA();
 
                     NewAIPATH.Type = sop.AIPaths[i].Type;
@@ -2345,7 +2343,7 @@ namespace SSXMultiTool
                 sopHandler.RaceLine.U0 = 1;
                 for (int i = 0; i < sop.RaceLines.Count; i++)
                 {
-                    Console.WriteLine("Encoding Race Line Paths To Tricky Format " +(i+1)+ "/" + sop.RaceLines.Count);
+                    Console.WriteLine("SOP Race Line Paths: " +(i+1)+ "/" + sop.RaceLines.Count);
 
                     var NewAIPATH = new AIPSOPHandler.PathB();
 
@@ -2399,7 +2397,7 @@ namespace SSXMultiTool
 
                 for (int i = 0; i < ImageFiles.Count; i++)
                 {
-                    Console.WriteLine("Encoding Textures to Tricky Format " +(i+1)+ "/" + ImageFiles.Count);
+                    Console.WriteLine("Textures: " +(i+1)+ "/" + ImageFiles.Count);
                     TextureHandler.AddImage();
                     TextureHandler.LoadSingle(LoadPath + "/Textures/" + ImageFiles[i], i);
                     TextureHandler.DarkenImage(i);
@@ -2419,7 +2417,7 @@ namespace SSXMultiTool
                 //Effect Slot
                 for (int i = 0; i < ssfJsonHandler.EffectSlots.Count; i++)
                 {
-                    Console.WriteLine("Encoding Effect Slots to Tricky Format " +(i+1)+ "/" + ssfJsonHandler.EffectSlots.Count);
+                    Console.WriteLine("Effect Slots: " +(i+1)+ "/" + ssfJsonHandler.EffectSlots.Count +" " + ssfJsonHandler.EffectSlots[i].EffectSlotName);
                     var NewEffectSlot = new SSFHandler.EffectSlot();
                     NewEffectSlot.Slot1 = ssfJsonHandler.EffectSlots[i].PersistantEffectSlot;
                     NewEffectSlot.Slot2 = ssfJsonHandler.EffectSlots[i].CollisionEffectSlot;
@@ -2436,7 +2434,7 @@ namespace SSXMultiTool
                 ssfHandler.PhysicsHeaders = new List<SSFHandler.PhysicsHeader>();
                 for (int i = 0; i < ssfJsonHandler.PhysicsHeaders.Count; i++)
                 {
-                    Console.WriteLine("Encoding Physics to Tricky Format " +(i+1)+ "/" + ssfJsonHandler.PhysicsHeaders.Count);
+                    Console.WriteLine("Physics: " +(i+1)+ "/" + ssfJsonHandler.PhysicsHeaders.Count + " " + ssfJsonHandler.PhysicsHeaders[i].PhysicsName);
                     var NewPhysicsHeader = new SSFHandler.PhysicsHeader();
                     NewPhysicsHeader.PhysicsDatas = new List<SSFHandler.PhysicsData>();
 
@@ -2497,7 +2495,7 @@ namespace SSXMultiTool
                 ssfHandler.EffectHeaders = new List<SSFHandler.EffectHeaderStruct>();
                 for (int i = 0; i < ssfJsonHandler.EffectHeaders.Count; i++)
                 {
-                    Console.WriteLine("Encoding Effect Headers to Tricky Format " +(i+1)+ "/" + ssfJsonHandler.EffectHeaders.Count);
+                    Console.WriteLine("Effect Headers: " +(i+1)+ "/" + ssfJsonHandler.EffectHeaders.Count +" " + ssfJsonHandler.EffectHeaders[i].EffectName);
                     var NewEffectHeader = new SSFHandler.EffectHeaderStruct();
 
                     NewEffectHeader.Effects = new List<SSFHandler.Effect>();
@@ -2515,7 +2513,7 @@ namespace SSXMultiTool
                 ssfHandler.Functions = new List<SSFHandler.Function>();
                 for (int i = 0; i < ssfJsonHandler.Functions.Count; i++)
                 {
-                    Console.WriteLine("Encoding Functions to Tricky Format " +(i+1)+ "/" + ssfJsonHandler.Functions.Count);
+                    Console.WriteLine("Effect Functions: " +(i+1)+ "/" + ssfJsonHandler.Functions.Count + " " + ssfJsonHandler.Functions[i].FunctionName);
 
                     var NewEffectHeader = new SSFHandler.Function();
                     NewEffectHeader.FunctionName = ssfJsonHandler.Functions[i].FunctionName;
@@ -2550,7 +2548,7 @@ namespace SSXMultiTool
 
                 for (int i = 0; i < SkyMaterialJson.Materials.Count; i++)
                 {
-                    Console.WriteLine("Encoding Skybox Materials to Tricky Format " +(i+1)+ "/" + SkyMaterialJson.Materials.Count);
+                    Console.WriteLine("Skybox Materials: " +(i+1)+ "/" + SkyMaterialJson.Materials.Count);
 
                     var NewMaterial = new TrickyMaterial();
 
@@ -2595,7 +2593,7 @@ namespace SSXMultiTool
                 skyboxpbdHander.materialBlocks = new List<MaterialBlock>();
                 for (int i = 0; i < SkyPrefabJsonHandler.Prefabs.Count; i++)
                 {
-                    Console.WriteLine("Unpacking Materials Animations " +(i+1)+ "/" + SkyPrefabJsonHandler.Prefabs.Count);
+                    Console.WriteLine("Skybox Materials Animations: " +(i+1)+ "/" + SkyPrefabJsonHandler.Prefabs.Count);
 
                     var TempPrefab = SkyPrefabJsonHandler.Prefabs[i];
                     var NewMaterialBlock = new MaterialBlock();
@@ -2624,7 +2622,7 @@ namespace SSXMultiTool
                 skyboxpbdHander.PrefabData = new List<Prefabs>();
                 for (int i = 0; i < SkyPrefabJsonHandler.Prefabs.Count; i++)
                 {
-                    Console.WriteLine("Encoding Skybox Prefabs to Tricky Format " +(i+1)+ "/" + SkyPrefabJsonHandler.Prefabs.Count);
+                    Console.WriteLine("Skybox Prefabs: " +(i+1)+ "/" + SkyPrefabJsonHandler.Prefabs.Count);
 
                     var NewPrefab = new Prefabs();
                     var TempPrefab = SkyPrefabJsonHandler.Prefabs[i];
@@ -2741,7 +2739,7 @@ namespace SSXMultiTool
 
                     for (int i = 0; i < SkyboxImageFiles.Count; i++)
                     {
-                        Console.WriteLine("Encoding Skybox Textures to Tricky Format " + (i+1) + "/" + SkyboxImageFiles.Count);
+                        Console.WriteLine("Skybox Textures: " + (i+1) + "/" + SkyboxImageFiles.Count);
                         SkyboxHandler.AddImage();
                         SkyboxHandler.LoadSingle(LoadPath + "/Skybox/Textures/" + SkyboxImageFiles[i], i);
                         SkyboxHandler.DarkenImage(i);
@@ -2767,7 +2765,7 @@ namespace SSXMultiTool
                     string[] LightmapFiles = Directory.GetFiles(LoadPath + "/Lightmaps", "*.png");
                     for (int i = 0; i < LightmapFiles.Length; i++)
                     {
-                        Console.WriteLine("Encoding Lightmap Textures to Tricky Format " +(i+1)+ "/" + LightmapFiles.Length);
+                        Console.WriteLine("Lightmap Textures: " +(i+1)+ "/" + LightmapFiles.Length);
                         LightmapHandler.AddImage(64, 5);
                         LightmapHandler.LoadSingle(LightmapFiles[i], i);
                         LightmapHandler.DarkenImage(i);
