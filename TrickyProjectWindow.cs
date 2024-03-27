@@ -93,6 +93,7 @@ namespace SSXMultiTool
             ProjectPath = ExportPath;
             SaveConfig.Enabled = true;
             RebuildButton.Enabled = true;
+            RebuildNoPathButton.Enabled = true;
             trickyConfig = new SSXTrickyConfig();
 
             trickyConfig.BuildUniLightmap = UnlitCheckbox.Checked;
