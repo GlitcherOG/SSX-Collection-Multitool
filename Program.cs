@@ -1,3 +1,4 @@
+using SSXMultiTool.JsonFiles.Tricky;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -75,46 +76,32 @@ namespace SSXMultiTool
             }
             else
             {
-                if (args[1].ToLower() == "build")
+                if (args[1].ToLower() == "TrickyBuild")
                 {
                     if (Directory.Exists(args[2]))
                     {
                         try
                         {
-                            TrickyLevelInterface trickyLevelInterface = new TrickyLevelInterface();
-                            trickyLevelInterface.BuildTrickyLevelFiles(args[2], args[3]);
-                            if (args[4].ToLower() == "run")
-                            {
-                                if (File.Exists(args[5]))
-                                {
-                                    ProcessStartInfo startInfo = new ProcessStartInfo();
-                                    startInfo.FileName = args[5];
-                                    string path = args[6];
+                            SSXTrickyConfig config = new SSXTrickyConfig();
+                            config = SSXTrickyConfig.Load(args[2]+ "/ConfigTricky.ssx");
 
-                                    if (File.Exists(path))
-                                    {
-                                        if (path.ToLower().Contains(".iso"))
-                                        {
-                                            startInfo.Arguments = "\"" + path + "\"";
-                                        }
-                                        else if (path.ToLower().Contains(".elf"))
-                                        {
-                                            startInfo.Arguments = "-elf \"" + path + "\"";
-                                        }
-                                    }
-                                    else
-                                    {
-                                        MessageBox.Show("No .Elf or ISO Path set");
-                                    }
-                                    Process.Start(startInfo);
+                            if (args.Length < 3)
+                            {
+                                if (config.BuildPath != "")
+                                {
+                                    TrickyLevelInterface trickyLevelInterface = new TrickyLevelInterface();
+                                    trickyLevelInterface.BuildTrickyLevelFiles(args[2], config.BuildPath);
+                                    MessageBox.Show("Level Built");
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Unknown Emulator Path");
+                                    MessageBox.Show("Please Build Project Once to Set Build Path or provide a build path");
                                 }
                             }
                             else
                             {
+                                TrickyLevelInterface trickyLevelInterface = new TrickyLevelInterface();
+                                trickyLevelInterface.BuildTrickyLevelFiles(args[2], args[3]);
                                 MessageBox.Show("Level Built");
                             }
                         }

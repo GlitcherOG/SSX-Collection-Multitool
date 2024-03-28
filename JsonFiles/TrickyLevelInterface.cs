@@ -37,7 +37,7 @@ namespace SSXMultiTool
 
         public bool Unilightmap;
 
-        public int LTGGenerateMode = 0;
+        public int LTGGenerateMode = 1;
         //0 - Centre
         //1 - Origin
 
