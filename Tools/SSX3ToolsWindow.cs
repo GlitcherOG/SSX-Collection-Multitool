@@ -1168,5 +1168,10 @@ namespace SSXMultiTool
 
 
         #endregion
+
+        private void MorphScaleNumber_ValueChanged(object sender, EventArgs e)
+        {
+            SSX3PS2MPF.Scale = (float)MorphScaleNumber.Value;
+        }
     }
 }
