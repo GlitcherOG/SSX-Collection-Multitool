@@ -166,17 +166,17 @@ namespace SSXMultiTool.Tools
                         MessageBox.Show("Failed to Load File");
                     }
 
-                    try
+                    //try
                     {
                         modelCombiner.NormalAverage = ImportAverageNormal.Checked;
                         modelCombiner.UpdateBones = BoneUpdateCheck.Checked;
                         modelCombiner.StartRegenMesh(TempCombiner, MpfModelList.SelectedIndex);
                         UpdateData();
                     }
-                    catch
-                    {
-                        MessageBox.Show("Failed to Convert File");
-                    }
+                    //catch
+                    //{
+                    //    MessageBox.Show("Failed to Convert File");
+                    //}
                 }
             }
         }

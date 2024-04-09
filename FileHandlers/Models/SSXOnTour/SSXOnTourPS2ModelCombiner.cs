@@ -395,9 +395,9 @@ namespace SSXMultiTool.FileHandlers.Models.OnTour
 
                         for (int b = modelHandlers.ModelList[MeshID].MorphHeaderList.Count; b < modelHandlers.ModelList[MeshID].MorphHeaderList.Count + modelHandlers.ModelList[MeshID].AltMorphList.Count; b++)
                         {
-                            AltMorphList1.Add(TempFace.AltMorphPoint1[b]);
-                            AltMorphList2.Add(TempFace.AltMorphPoint2[b]);
-                            AltMorphList3.Add(TempFace.AltMorphPoint3[b]);
+                            AltMorphList1.Add(TempFace.MorphPoint1[b]);
+                            AltMorphList2.Add(TempFace.MorphPoint2[b]);
+                            AltMorphList3.Add(TempFace.MorphPoint3[b]);
 
                             AltNormalList1.Add(TempFace.AltMorphNormal1[b]);
                             AltNormalList2.Add(TempFace.AltMorphNormal2[b]);
@@ -557,6 +557,7 @@ namespace SSXMultiTool.FileHandlers.Models.OnTour
             {
                 var TempReMesh = ssx3ModelCombiner.reassignedMesh[i];
                 TempReMesh.MorphTargetCount = modelHandlers.ModelList[MeshID].MorphCount;
+                TempReMesh.AltMorphTargetCount = modelHandlers.ModelList[MeshID].AltMorphCount;
                 SSXOnTourMPF.MPFHeader TempTrickyMesh = modelHandlers.ModelList[MeshID];
 
                 TempTrickyMesh.TriangleCount = ssx3ModelCombiner.reassignedMesh[i].faces.Count;
@@ -664,7 +665,7 @@ namespace SSXMultiTool.FileHandlers.Models.OnTour
                                     }
                                     else if (AltMorph)
                                     {
-                                        if (!AltMorphPointsEqual(TempReMesh.faces[a].MorphPoint1, TempReMesh.faces[a].AltMorphNormal1, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
+                                        if (!AltMorphPointsEqual(TempReMesh.faces[a].AltMorphPoint1, TempReMesh.faces[a].AltMorphNormal1, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
                                         {
 
                                         }
@@ -682,7 +683,7 @@ namespace SSXMultiTool.FileHandlers.Models.OnTour
                                 }
                                 else if (AltMorph)
                                 {
-                                    if (!AltMorphPointsEqual(TempReMesh.faces[a].MorphPoint1, TempReMesh.faces[a].AltMorphNormal1, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
+                                    if (!AltMorphPointsEqual(TempReMesh.faces[a].AltMorphPoint2, TempReMesh.faces[a].AltMorphNormal1, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
                                     {
 
                                     }
@@ -751,7 +752,7 @@ namespace SSXMultiTool.FileHandlers.Models.OnTour
                                     }
                                     else if (AltMorph)
                                     {
-                                        if (!AltMorphPointsEqual(TempReMesh.faces[a].MorphPoint2, TempReMesh.faces[a].AltMorphNormal2, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
+                                        if (!AltMorphPointsEqual(TempReMesh.faces[a].AltMorphPoint2, TempReMesh.faces[a].AltMorphNormal2, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
                                         {
 
                                         }
@@ -769,7 +770,7 @@ namespace SSXMultiTool.FileHandlers.Models.OnTour
                                 }
                                 else if (AltMorph)
                                 {
-                                    if (!AltMorphPointsEqual(TempReMesh.faces[a].MorphPoint2, TempReMesh.faces[a].AltMorphNormal2, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
+                                    if (!AltMorphPointsEqual(TempReMesh.faces[a].AltMorphPoint2, TempReMesh.faces[a].AltMorphNormal2, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
                                     {
 
                                     }
@@ -838,7 +839,7 @@ namespace SSXMultiTool.FileHandlers.Models.OnTour
                                     }
                                     else if (AltMorph)
                                     {
-                                        if (!AltMorphPointsEqual(TempReMesh.faces[a].MorphPoint3, TempReMesh.faces[a].AltMorphNormal3, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
+                                        if (!AltMorphPointsEqual(TempReMesh.faces[a].AltMorphPoint3, TempReMesh.faces[a].AltMorphNormal3, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
                                         {
 
                                         }
@@ -856,7 +857,7 @@ namespace SSXMultiTool.FileHandlers.Models.OnTour
                                 }
                                 else if (AltMorph)
                                 {
-                                    if (!AltMorphPointsEqual(TempReMesh.faces[a].MorphPoint3, TempReMesh.faces[a].AltMorphNormal3, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
+                                    if (!AltMorphPointsEqual(TempReMesh.faces[a].AltMorphPoint3, TempReMesh.faces[a].AltMorphNormal3, VectorPoint[TempID].AltMorph, VectorPoint[TempID].AltNormals))
                                     {
 
                                     }
