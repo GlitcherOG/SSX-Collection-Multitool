@@ -195,10 +195,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         {
                             var TempMorphData = new MorphData();
 
-                            TempMorphData.Morph = StreamUtil.ReadVector3(streamMatrix, true);
-                            TempMorphData.VertexIndex = StreamUtil.ReadUInt16(streamMatrix, true);
-                            TempMorphData.U1 = StreamUtil.ReadUInt8(streamMatrix);
-                            TempMorphData.U2 = StreamUtil.ReadUInt8(streamMatrix);
+                            TempMorphData.VertexIndex = StreamUtil.ReadUInt32(streamMatrix, true);
+                            TempMorphData.Morph = StreamUtil.ReadVector3(streamMatrix, true) * 100f;
                             TempMorph.MorphDataList.Add(TempMorphData);
                         }
                         streamMatrix.Position = TempPos;
@@ -348,29 +346,31 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     {
                         var MorphHeader = Model.morphHeader[a];
 
+                        for (int b = 0; b < Model.Vertex.Count; b++)
+                        {
+                            var VertexData = Model.Vertex[b];
+
+                            if(a == 0)
+                            {
+                                VertexData.morphDatas = new List<Vector3>();
+                            }
+
+                            VertexData.morphDatas.Add(new Vector3(0, 0, 0));
+
+                            Model.Vertex[b] = VertexData;
+                        }
+
                         for (int b = 0; b < MorphHeader.MorphDataList.Count; b++)
                         {
                             var MorphData = MorphHeader.MorphDataList[b];
 
                             var VertexData = Model.Vertex[MorphData.VertexIndex];
 
-                            VertexData.morphDatas.Add(MorphData.Morph);
+                            VertexData.morphDatas[a] = MorphData.Morph;
 
                             Model.Vertex[MorphData.VertexIndex] = VertexData;
                         }
 
-                        for (int b = 0; b < Model.Vertex.Count; b++)
-                        {
-                            var VertexData = Model.Vertex[b];
-
-                            if(VertexData.morphDatas.Count!=b+1)
-                            {
-                                VertexData.morphDatas.Add(new Vector3(0, 0, 0));
-                            }
-                            VertexData.morphDatas = new List<Vector3>();
-
-                            Model.Vertex[b] = VertexData;
-                        }
                     }
 
                     for (int a = 0; a < Model.meshHeaders.Count; a++)
@@ -416,21 +416,22 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                                     NewFace.Normal1 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index1].Index0].VertexNormal;
                                     NewFace.Weight1 = Model.boneWeightHeaders[TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index1].WeightIndex]];
                                     NewFace.Weight1Pos = TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index1].WeightIndex];
-                                    //NewFace.MorphPoint1 = Model.Vertex[TempHeader.IndexList[Index1]].MorphData;
+                                    NewFace.MorphPoint1 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index1].Index0].morphDatas;
 
                                     NewFace.V2 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index2].Index0].Vertex;
                                     NewFace.UV2 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index2].Index0].UV;
                                     NewFace.Normal2 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index2].Index0].VertexNormal;
                                     NewFace.Weight2 = Model.boneWeightHeaders[TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index2].WeightIndex]];
                                     NewFace.Weight2Pos = TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index2].WeightIndex];
-                                    //NewFace.MorphPoint2 = Model.Vertex[TempHeader.IndexList[Index2]].MorphData;
+                                    NewFace.MorphPoint2 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index2].Index0].morphDatas;
 
                                     NewFace.V3 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index3].Index0].Vertex;
                                     NewFace.UV3 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index3].Index0].UV;
                                     NewFace.Normal3 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index3].Index0].VertexNormal;
                                     NewFace.Weight3 = Model.boneWeightHeaders[TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index3].WeightIndex]];
                                     NewFace.Weight3Pos = TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index3].WeightIndex];
-                                    //NewFace.MorphPoint3 = Model.Vertex[TempHeader.IndexList[Index3]].MorphData;
+                                    NewFace.MorphPoint3 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index3].Index0].morphDatas;
+
                                     TempIndexGroup.faces.Add(NewFace);
                                     roatation = !roatation;
                                     Index++;
@@ -461,6 +462,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                                     NewFace.Weight3 = Model.boneWeightHeaders[TempHeader.WeightIndex[TempIndexGroup.indexGroup.shadowIndices[Index3].WeightIndex]];
                                     NewFace.Weight3Pos = TempHeader.WeightIndex[TempIndexGroup.indexGroup.shadowIndices[Index3].WeightIndex];
                                     //NewFace.MorphPoint3 = Model.Vertex[TempHeader.IndexList[Index3]].MorphData;
+
                                     TempIndexGroup.faces.Add(NewFace);
                                     roatation = !roatation;
                                     Index++;
@@ -570,10 +572,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
         public struct MorphData
         {
-            public Vector3 Morph;
             public int VertexIndex;
-            public int U1;
-            public int U2;
+            public Vector3 Morph;
         }
 
         public struct BoneWeightHeader

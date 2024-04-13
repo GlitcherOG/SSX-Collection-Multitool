@@ -17,6 +17,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public int FileStart;
         public List<MPFModelHeader> ModelList = new List<MPFModelHeader>();
 
+        public float MorphScale = 12f;
         public void load(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
@@ -382,9 +383,9 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                                     for (int dcb = 0; dcb < TempMorphKey.MorphPointDataCount; dcb++)
                                     {
                                         var TempPoint = new Vector3();
-                                        TempPoint.X = (StreamUtil.ReadInt8(streamMatrix) / 12f);
-                                        TempPoint.Y = (StreamUtil.ReadInt8(streamMatrix) / 12f);
-                                        TempPoint.Z = (StreamUtil.ReadInt8(streamMatrix) / 12f);
+                                        TempPoint.X = (StreamUtil.ReadInt8(streamMatrix) / MorphScale);
+                                        TempPoint.Y = (StreamUtil.ReadInt8(streamMatrix) / MorphScale);
+                                        TempPoint.Z = (StreamUtil.ReadInt8(streamMatrix) / MorphScale);
                                         TempMorphKey.morphData.Add(TempPoint);
                                     }
                                     StreamUtil.AlignBy16(streamMatrix);
@@ -933,9 +934,9 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                                     for (int d = 0; d < TempMorphList.morphData.Count; d++)
                                     {
-                                        StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.morphData[d].X * 12f));
-                                        StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.morphData[d].Y * 12f));
-                                        StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.morphData[d].Z * 12f));
+                                        StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.morphData[d].X * MorphScale));
+                                        StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.morphData[d].Y * MorphScale));
+                                        StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.morphData[d].Z * MorphScale));
                                     }
                                     StreamUtil.AlignBy16(ModelStream);
 
