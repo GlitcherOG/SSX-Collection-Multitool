@@ -137,6 +137,16 @@
             MXFExport = new Button();
             MXFLoad = new Button();
             tabPage5 = new TabPage();
+            label37 = new Label();
+            label38 = new Label();
+            groupBox13 = new GroupBox();
+            checkBox1 = new CheckBox();
+            checkBox2 = new CheckBox();
+            MNFMeshPartsList = new ListBox();
+            button2 = new Button();
+            button3 = new Button();
+            MNFModelsList = new ListBox();
+            MNFExtract = new Button();
             label36 = new Label();
             MNFLoad = new Button();
             tabPage4 = new TabPage();
@@ -199,6 +209,7 @@
             groupBox11.SuspendLayout();
             groupBox12.SuspendLayout();
             tabPage5.SuspendLayout();
+            groupBox13.SuspendLayout();
             tabPage4.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox8.SuspendLayout();
@@ -1320,6 +1331,14 @@
             // 
             // tabPage5
             // 
+            tabPage5.Controls.Add(label37);
+            tabPage5.Controls.Add(label38);
+            tabPage5.Controls.Add(groupBox13);
+            tabPage5.Controls.Add(MNFMeshPartsList);
+            tabPage5.Controls.Add(button2);
+            tabPage5.Controls.Add(button3);
+            tabPage5.Controls.Add(MNFModelsList);
+            tabPage5.Controls.Add(MNFExtract);
             tabPage5.Controls.Add(label36);
             tabPage5.Controls.Add(MNFLoad);
             tabPage5.Location = new Point(4, 24);
@@ -1328,6 +1347,105 @@
             tabPage5.TabIndex = 4;
             tabPage5.Text = "Tricky MNF (Models)";
             tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // label37
+            // 
+            label37.AutoSize = true;
+            label37.Location = new Point(6, 193);
+            label37.Name = "label37";
+            label37.Size = new Size(65, 15);
+            label37.TabIndex = 36;
+            label37.Text = "Mesh Parts";
+            // 
+            // label38
+            // 
+            label38.AutoSize = true;
+            label38.Location = new Point(6, 5);
+            label38.Name = "label38";
+            label38.Size = new Size(46, 15);
+            label38.TabIndex = 35;
+            label38.Text = "Models";
+            // 
+            // groupBox13
+            // 
+            groupBox13.Controls.Add(checkBox1);
+            groupBox13.Controls.Add(checkBox2);
+            groupBox13.Location = new Point(204, 284);
+            groupBox13.Name = "groupBox13";
+            groupBox13.Size = new Size(156, 78);
+            groupBox13.TabIndex = 34;
+            groupBox13.TabStop = false;
+            groupBox13.Text = "Import Settings";
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(6, 47);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(131, 19);
+            checkBox1.TabIndex = 1;
+            checkBox1.Text = "Update Bones (WIP)";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            checkBox2.AutoSize = true;
+            checkBox2.Location = new Point(6, 22);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size = new Size(117, 19);
+            checkBox2.TabIndex = 0;
+            checkBox2.Text = "Average Normals";
+            checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // MNFMeshPartsList
+            // 
+            MNFMeshPartsList.FormattingEnabled = true;
+            MNFMeshPartsList.ItemHeight = 15;
+            MNFMeshPartsList.Location = new Point(6, 210);
+            MNFMeshPartsList.Name = "MNFMeshPartsList";
+            MNFMeshPartsList.Size = new Size(192, 184);
+            MNFMeshPartsList.TabIndex = 33;
+            // 
+            // button2
+            // 
+            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            button2.Location = new Point(285, 368);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 32;
+            button2.Text = "Import Model";
+            button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            button3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            button3.Location = new Point(687, 368);
+            button3.Name = "button3";
+            button3.Size = new Size(75, 23);
+            button3.TabIndex = 31;
+            button3.Text = "Save MNF";
+            button3.UseVisualStyleBackColor = true;
+            // 
+            // MNFModelsList
+            // 
+            MNFModelsList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            MNFModelsList.FormattingEnabled = true;
+            MNFModelsList.ItemHeight = 15;
+            MNFModelsList.Location = new Point(6, 21);
+            MNFModelsList.Name = "MNFModelsList";
+            MNFModelsList.Size = new Size(192, 169);
+            MNFModelsList.TabIndex = 30;
+            // 
+            // MNFExtract
+            // 
+            MNFExtract.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            MNFExtract.Location = new Point(606, 368);
+            MNFExtract.Name = "MNFExtract";
+            MNFExtract.Size = new Size(75, 23);
+            MNFExtract.TabIndex = 29;
+            MNFExtract.Text = "Extract";
+            MNFExtract.UseVisualStyleBackColor = true;
+            MNFExtract.Click += MNFExtract_Click;
             // 
             // label36
             // 
@@ -1340,7 +1458,7 @@
             // 
             // MNFLoad
             // 
-            MNFLoad.Location = new Point(3, 372);
+            MNFLoad.Location = new Point(204, 368);
             MNFLoad.Name = "MNFLoad";
             MNFLoad.Size = new Size(75, 23);
             MNFLoad.TabIndex = 1;
@@ -1821,6 +1939,8 @@
             groupBox12.PerformLayout();
             tabPage5.ResumeLayout(false);
             tabPage5.PerformLayout();
+            groupBox13.ResumeLayout(false);
+            groupBox13.PerformLayout();
             tabPage4.ResumeLayout(false);
             groupBox6.ResumeLayout(false);
             groupBox8.ResumeLayout(false);
@@ -1995,5 +2115,15 @@
         private NumericUpDown hdrAligmentMode;
         private Label label35;
         private Label label36;
+        private Label label37;
+        private Label label38;
+        private GroupBox groupBox13;
+        private CheckBox checkBox1;
+        private CheckBox checkBox2;
+        private ListBox MNFMeshPartsList;
+        private Button button2;
+        private Button button3;
+        private ListBox MNFModelsList;
+        private Button MNFExtract;
     }
 }

@@ -25,8 +25,6 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 OffsetModelHeader = StreamUtil.ReadInt16(stream, true);
                 OffsetModelData = StreamUtil.ReadUInt32(stream, true);
 
-                bool Shadow = false;
-
                 modelHeaders = new List<ModelHeader>();
                 for (int i = 0; i < NumModels; i++)
                 {
@@ -77,6 +75,13 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 //Read Matrix
                 for (int i = 0; i < modelHeaders.Count; i++)
                 {
+                    bool Shadow = false;
+
+                    if (modelHeaders[i].ModelName.ToLower().Contains("shdw"))
+                    {
+                        Shadow = true;
+                    }
+
                     Stream streamMatrix = new MemoryStream();
                     var Model = modelHeaders[i];
                     streamMatrix.Write(modelHeaders[i].Matrix, 0, modelHeaders[i].Matrix.Length);
@@ -293,8 +298,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                                 {
                                     ShadowIndex shadowIndex = new ShadowIndex();
 
-                                    shadowIndex.Unknown0 = StreamUtil.ReadUInt16(streamMatrix, true);
-                                    shadowIndex.Unknown1 = StreamUtil.ReadUInt16(streamMatrix, true);
+                                    shadowIndex.Index = StreamUtil.ReadUInt16(streamMatrix, true);
+                                    shadowIndex.WeightIndex = StreamUtil.ReadUInt16(streamMatrix, true)/3;
 
                                     TempIndexGroup.indexGroup.shadowIndices.Add(shadowIndex);
                                 }
@@ -339,12 +344,13 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     for (int a = 0; a < Model.meshHeaders.Count; a++)
                     {
                         var TempHeader = Model.meshHeaders[a];
-                        bool roatation = false;
-                        int Index = 2;
 
                         for (int b = 0; b < TempHeader.indexGroupHeaders.Count; b++)
                         {
                             var TempIndexGroup = TempHeader.indexGroupHeaders[b];
+
+                            bool roatation = false;
+                            int Index = 2;
 
                             TempIndexGroup.faces = new List<Face>();
                             while (true)
@@ -371,35 +377,65 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                                 }
 
 
-
-                                NewFace.V1 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index1].Index0].Vertex;
-                                NewFace.UV1 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index1].Index0].UV;
-                                NewFace.Normal1 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index1].Index0].VertexNormal;
-                                //NewFace.Weight1 = Model.boneWeightHeaders[Model.Vertex[TempHeader.IndexList[Index1]].WeightIndex];
-                                //NewFace.Weight1Pos = Model.Vertex[TempHeader.IndexList[Index1]].WeightIndex;
-                                //NewFace.MorphPoint1 = Model.Vertex[TempHeader.IndexList[Index1]].MorphData;
-
-                                NewFace.V2 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index2].Index0].Vertex;
-                                NewFace.UV2 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index2].Index0].UV;
-                                NewFace.Normal2 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index2].Index0].VertexNormal;
-                                //NewFace.Weight2 = Model.boneWeightHeaders[Model.Vertex[TempHeader.IndexList[Index2]].WeightIndex];
-                                //NewFace.Weight2Pos = Model.Vertex[TempHeader.IndexList[Index2]].WeightIndex;
-                                //NewFace.MorphPoint2 = Model.Vertex[TempHeader.IndexList[Index2]].MorphData;
-
-                                NewFace.V3 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index3].Index0].Vertex;
-                                NewFace.UV3 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index3].Index0].UV;
-                                NewFace.Normal3 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index3].Index0].VertexNormal;
-                                //NewFace.Weight3 = Model.boneWeightHeaders[Model.Vertex[TempHeader.IndexList[Index3]].WeightIndex];
-                                //NewFace.Weight3Pos = Model.Vertex[TempHeader.IndexList[Index3]].WeightIndex;
-                                //NewFace.MorphPoint3 = Model.Vertex[TempHeader.IndexList[Index3]].MorphData;
-
-
-                                TempIndexGroup.faces.Add(NewFace);
-                                roatation = !roatation;
-                                Index++;
-                                if (Index >= TempIndexGroup.indexGroup.indices.Count)
+                                if (!Shadow)
                                 {
-                                    break;
+                                    NewFace.V1 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index1].Index0].Vertex;
+                                    NewFace.UV1 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index1].Index0].UV;
+                                    NewFace.Normal1 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index1].Index0].VertexNormal;
+                                    NewFace.Weight1 = Model.boneWeightHeaders[TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index1].WeightIndex]];
+                                    NewFace.Weight1Pos = TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index1].WeightIndex];
+                                    //NewFace.MorphPoint1 = Model.Vertex[TempHeader.IndexList[Index1]].MorphData;
+
+                                    NewFace.V2 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index2].Index0].Vertex;
+                                    NewFace.UV2 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index2].Index0].UV;
+                                    NewFace.Normal2 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index2].Index0].VertexNormal;
+                                    NewFace.Weight2 = Model.boneWeightHeaders[TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index2].WeightIndex]];
+                                    NewFace.Weight2Pos = TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index2].WeightIndex];
+                                    //NewFace.MorphPoint2 = Model.Vertex[TempHeader.IndexList[Index2]].MorphData;
+
+                                    NewFace.V3 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index3].Index0].Vertex;
+                                    NewFace.UV3 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index3].Index0].UV;
+                                    NewFace.Normal3 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index3].Index0].VertexNormal;
+                                    NewFace.Weight3 = Model.boneWeightHeaders[TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index3].WeightIndex]];
+                                    NewFace.Weight3Pos = TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index3].WeightIndex];
+                                    //NewFace.MorphPoint3 = Model.Vertex[TempHeader.IndexList[Index3]].MorphData;
+                                    TempIndexGroup.faces.Add(NewFace);
+                                    roatation = !roatation;
+                                    Index++;
+                                    if (Index >= TempIndexGroup.indexGroup.indices.Count)
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    NewFace.V1 = Model.Vertex[TempIndexGroup.indexGroup.shadowIndices[Index1].Index].Vertex;
+                                    NewFace.UV1 = Model.Vertex[TempIndexGroup.indexGroup.shadowIndices[Index1].Index].UV;
+                                    NewFace.Normal1 = Model.Vertex[TempIndexGroup.indexGroup.shadowIndices[Index1].Index].VertexNormal;
+                                    NewFace.Weight1 = Model.boneWeightHeaders[TempHeader.WeightIndex[TempIndexGroup.indexGroup.shadowIndices[Index1].WeightIndex]];
+                                    NewFace.Weight1Pos = TempHeader.WeightIndex[TempIndexGroup.indexGroup.shadowIndices[Index1].WeightIndex];
+                                    //NewFace.MorphPoint1 = Model.Vertex[TempHeader.IndexList[Index1]].MorphData;
+
+                                    NewFace.V2 = Model.Vertex[TempIndexGroup.indexGroup.shadowIndices[Index2].Index].Vertex;
+                                    NewFace.UV2 = Model.Vertex[TempIndexGroup.indexGroup.shadowIndices[Index2].Index].UV;
+                                    NewFace.Normal2 = Model.Vertex[TempIndexGroup.indexGroup.shadowIndices[Index2].Index].VertexNormal;
+                                    NewFace.Weight2 = Model.boneWeightHeaders[TempHeader.WeightIndex[TempIndexGroup.indexGroup.shadowIndices[Index2].WeightIndex]];
+                                    NewFace.Weight2Pos = TempHeader.WeightIndex[TempIndexGroup.indexGroup.shadowIndices[Index2].WeightIndex];
+                                    //NewFace.MorphPoint2 = Model.Vertex[TempHeader.IndexList[Index2]].MorphData;
+
+                                    NewFace.V3 = Model.Vertex[TempIndexGroup.indexGroup.shadowIndices[Index3].Index].Vertex;
+                                    NewFace.UV3 = Model.Vertex[TempIndexGroup.indexGroup.shadowIndices[Index3].Index].UV;
+                                    NewFace.Normal3 = Model.Vertex[TempIndexGroup.indexGroup.shadowIndices[Index3].Index].VertexNormal;
+                                    NewFace.Weight3 = Model.boneWeightHeaders[TempHeader.WeightIndex[TempIndexGroup.indexGroup.shadowIndices[Index3].WeightIndex]];
+                                    NewFace.Weight3Pos = TempHeader.WeightIndex[TempIndexGroup.indexGroup.shadowIndices[Index3].WeightIndex];
+                                    //NewFace.MorphPoint3 = Model.Vertex[TempHeader.IndexList[Index3]].MorphData;
+                                    TempIndexGroup.faces.Add(NewFace);
+                                    roatation = !roatation;
+                                    Index++;
+                                    if (Index >= TempIndexGroup.indexGroup.shadowIndices.Count)
+                                    {
+                                        break;
+                                    }
                                 }
                             }
 
@@ -579,8 +615,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
         public struct ShadowIndex
         {
-            public int Unknown0;
-            public int Unknown1;
+            public int Index;
+            public int WeightIndex;
         }
 
         public struct VertexData

@@ -579,6 +579,153 @@ namespace SSXMultiTool.FileHandlers
             model.SaveGLB(Output);
         }
 
+        public static void SaveTrickyGCglTF(string Output, TrickyGCModelCombiner Handler)
+        {
+            var scene = new SharpGLTF.Scenes.SceneBuilder();
+
+            List<MaterialBuilder> materialBuilders = new List<MaterialBuilder>();
+            for (int i = 0; i < Handler.materials.Count; i++)
+            {
+                var TempVar = Handler.materials[i];
+                var material1 = new MaterialBuilder(TempVar.MainTexture)
+                .WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
+                materialBuilders.Add(material1);
+            }
+            var bindings = new List<SharpGLTF.Scenes.NodeBuilder>();
+            SharpGLTF.Scenes.NodeBuilder Binding = new SharpGLTF.Scenes.NodeBuilder();
+            for (int i = 0; i < Handler.bones.Count; i++)
+            {
+                if (Handler.bones[i].ParentBone == -1)
+                {
+                    Binding = new SharpGLTF.Scenes.NodeBuilder();
+                }
+                else
+                {
+                    Binding = bindings[Handler.bones[i].ParentBone];
+                }
+                Binding = Binding.CreateNode(Handler.bones[i].BoneName);
+                float tempX = Handler.bones[i].Radians.X;
+                float tempY = Handler.bones[i].Radians.Y;
+                float tempZ = Handler.bones[i].Radians.Z;
+
+                Binding.WithLocalRotation(MathUtil.ToQuaternion(new Vector3(-tempX, -tempY, -tempZ)));
+                Binding.WithLocalTranslation(Handler.bones[i].Position);
+
+                bindings.Add(Binding);
+            }
+
+            for (int i = 0; i < Handler.reassignedMesh.Count; i++)
+            {
+                List<PointMorph> pointMorphs = new List<PointMorph>();
+                var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1, VertexJoints4>(Handler.reassignedMesh[i].MeshName);
+
+                var TristripTemp = Handler.reassignedMesh[i];
+                for (int b = 0; b < TristripTemp.faces.Count; b++)
+                {
+                    var Face = TristripTemp.faces[b];
+
+                    VertexPositionNormal TempPos1 = new VertexPositionNormal();
+                    TempPos1.Position = Face.V1;
+                    TempPos1.Normal = Face.Normal1;
+
+                    VertexPositionNormal TempPos2 = new VertexPositionNormal();
+                    TempPos2.Position = Face.V2;
+                    TempPos2.Normal = Face.Normal2;
+
+                    VertexPositionNormal TempPos3 = new VertexPositionNormal();
+                    TempPos3.Position = Face.V3;
+                    TempPos3.Normal = Face.Normal3;
+
+                    VertexTexture1 TempTexture1 = new VertexTexture1();
+                    TempTexture1.TexCoord.X = (float)Face.UV1.X;
+                    TempTexture1.TexCoord.Y = (float)Face.UV1.Y;
+
+                    VertexTexture1 TempTexture2 = new VertexTexture1();
+                    TempTexture2.TexCoord.X = (float)Face.UV2.X;
+                    TempTexture2.TexCoord.Y = (float)Face.UV2.Y;
+
+                    VertexTexture1 TempTexture3 = new VertexTexture1();
+                    TempTexture3.TexCoord.X = (float)Face.UV3.X;
+                    TempTexture3.TexCoord.Y = (float)Face.UV3.Y;
+
+                    (int Temp, float TempFloat)[] bindings1 = new (int Temp, float TempFloat)[1];
+
+                    VertexJoints4 TempBinding1 = new VertexJoints4();
+                    bindings1 = new (int Temp, float TempFloat)[Face.Weight1.boneWeights.Count];
+                    for (int ia = 0; ia < Face.Weight1.boneWeights.Count; ia++)
+                    {
+                        bindings1[ia] = (Face.Weight1.boneWeights[ia].BoneID, Face.Weight1.boneWeights[ia].Weight);
+                    }
+                    TempBinding1.SetBindings(bindings1);
+
+                    VertexJoints4 TempBinding2 = new VertexJoints4();
+                    bindings1 = new (int Temp, float TempFloat)[Face.Weight2.boneWeights.Count];
+                    for (int ia = 0; ia < Face.Weight2.boneWeights.Count; ia++)
+                    {
+                        bindings1[ia] = (Face.Weight2.boneWeights[ia].BoneID, Face.Weight2.boneWeights[ia].Weight);
+                    }
+                    TempBinding2.SetBindings(bindings1);
+
+                    VertexJoints4 TempBinding3 = new VertexJoints4();
+                    bindings1 = new (int Temp, float TempFloat)[Face.Weight3.boneWeights.Count];
+                    for (int ia = 0; ia < Face.Weight3.boneWeights.Count; ia++)
+                    {
+                        bindings1[ia] = (Face.Weight3.boneWeights[ia].BoneID, Face.Weight3.boneWeights[ia].Weight);
+                    }
+                    TempBinding3.SetBindings(bindings1);
+
+                    mesh.UsePrimitive(materialBuilders[Face.MaterialID]).AddTriangle((TempPos1, TempTexture1, TempBinding1), (TempPos2, TempTexture2, TempBinding2), (TempPos3, TempTexture3, TempBinding3));
+
+                    if (Handler.reassignedMesh[i].MorphTargetCount != 0)
+                    {
+                        if (!pointMorphs.Contains(GeneratePointMorph(TempPos1.Position, Face.MorphPoint1)))
+                        {
+                            pointMorphs.Add(GeneratePointMorph(TempPos1.Position, Face.MorphPoint1));
+                        }
+                        if (!pointMorphs.Contains(GeneratePointMorph(TempPos2.Position, Face.MorphPoint2)))
+                        {
+                            pointMorphs.Add(GeneratePointMorph(TempPos2.Position, Face.MorphPoint2));
+                        }
+                        if (!pointMorphs.Contains(GeneratePointMorph(TempPos3.Position, Face.MorphPoint3)))
+                        {
+                            pointMorphs.Add(GeneratePointMorph(TempPos3.Position, Face.MorphPoint3));
+                        }
+                    }
+                }
+
+                //for (int c = 0; c < Handler.reassignedMesh[i].MorphTargetCount; c++)
+                //{
+                //    var morphTargetBuilder = mesh.UseMorphTarget(c);
+                //    foreach (var vertexPosition in morphTargetBuilder.Vertices)
+                //    {
+                //        for (int d = 0; d < pointMorphs.Count; d++)
+                //        {
+                //            if (pointMorphs[d].Point == vertexPosition.Position)
+                //            {
+                //                var NewVertexPosition = vertexPosition;
+                //                NewVertexPosition.Position += pointMorphs[d].MorphPoints[c];
+                //                morphTargetBuilder.SetVertex(vertexPosition, NewVertexPosition);
+                //            }
+                //        }
+                //    }
+                //}
+
+                scene.AddSkinnedMesh(mesh, Matrix4x4.CreateFromYawPitchRoll(0, 0/*-1.5708f*/, 0), bindings.ToArray());
+            }
+            if (Handler.reassignedMesh[0].IKPoints != null)
+            {
+                for (int i = 0; i < Handler.reassignedMesh[0].IKPoints.Count; i++)
+                {
+                    var Temp = new SharpGLTF.Scenes.NodeBuilder("IKPoint " + i.ToString());
+                    Temp.WithLocalTranslation(Handler.reassignedMesh[0].IKPoints[i]);
+                    scene.AddNode(Temp);
+                }
+            }
+            // save the model in different formats
+            var model = scene.ToGltf2();
+            model.SaveGLB(Output);
+        }
+
         public static void SaveSSX3Glft(string Output, SSX3PS2ModelCombiner Handler)
         {
             var scene = new SharpGLTF.Scenes.SceneBuilder();
