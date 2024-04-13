@@ -320,13 +320,15 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     {
                         VertexData vertexData = new VertexData();
 
-                        vertexData.Vertex.X = StreamUtil.ReadUInt16(streamMatrix, true)/256f;
-                        vertexData.Vertex.Y = StreamUtil.ReadUInt16(streamMatrix, true) / 256f;
-                        vertexData.Vertex.Z = StreamUtil.ReadUInt16(streamMatrix, true) / 256f;
+                        //127.5 Probably but ill keep this at here
+                        vertexData.Vertex.X = StreamUtil.ReadInt16(streamMatrix, true) / 127f;
+                        vertexData.Vertex.Y = StreamUtil.ReadInt16(streamMatrix, true) / 127f;
+                        vertexData.Vertex.Z = StreamUtil.ReadInt16(streamMatrix, true) / 127f;
 
-                        vertexData.VertexNormal.X = StreamUtil.ReadUInt16(streamMatrix, true) / 256f;
-                        vertexData.VertexNormal.Y = StreamUtil.ReadUInt16(streamMatrix, true) / 256f;
-                        vertexData.VertexNormal.Z = StreamUtil.ReadUInt16(streamMatrix, true) / 256f;
+                        //16383.5 Probably but ill keep this at here
+                        vertexData.VertexNormal.X = StreamUtil.ReadInt16(streamMatrix, true) / 16384f;
+                        vertexData.VertexNormal.Y = StreamUtil.ReadInt16(streamMatrix, true) / 16384f;
+                        vertexData.VertexNormal.Z = StreamUtil.ReadInt16(streamMatrix, true) / 16384f;
 
                         vertexData.UV.X = StreamUtil.ReadUInt16(streamMatrix, true) / 65535f;
                         vertexData.UV.Y = StreamUtil.ReadUInt16(streamMatrix, true) / 65535f;

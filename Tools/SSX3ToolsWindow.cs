@@ -22,6 +22,7 @@ namespace SSXMultiTool
         public SSX3ToolsWindow()
         {
             InitializeComponent();
+            MorphScaleNumber.Value = (decimal)SSX3PS2MPF.MorphScale;
         }
 
         #region CharDB File

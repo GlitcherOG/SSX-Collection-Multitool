@@ -1749,7 +1749,7 @@
             MorphScaleNumber.Name = "MorphScaleNumber";
             MorphScaleNumber.Size = new Size(81, 23);
             MorphScaleNumber.TabIndex = 44;
-            MorphScaleNumber.Value = new decimal(new int[] { 25, 0, 0, 65536 });
+            MorphScaleNumber.Value = new decimal(new int[] { 45, 0, 0, 65536 });
             MorphScaleNumber.ValueChanged += MorphScaleNumber_ValueChanged;
             // 
             // groupBox1
