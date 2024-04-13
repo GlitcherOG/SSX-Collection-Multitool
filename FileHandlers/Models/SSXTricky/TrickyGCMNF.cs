@@ -154,9 +154,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         TempBoneData.BoneID = StreamUtil.ReadInt16(streamMatrix, true);
                         TempBoneData.Position = StreamUtil.ReadVector3(streamMatrix, true);
                         TempBoneData.Radians = StreamUtil.ReadVector3(streamMatrix, true);
-                        TempBoneData.XRadian2 = StreamUtil.ReadFloat(streamMatrix, true);
-                        TempBoneData.YRadian2 = StreamUtil.ReadFloat(streamMatrix, true);
-                        TempBoneData.ZRadian2 = StreamUtil.ReadFloat(streamMatrix, true);
+                        TempBoneData.Radians2 = StreamUtil.ReadVector3(streamMatrix, true);
 
                         TempBoneData.UnknownFloat1 = StreamUtil.ReadFloat(streamMatrix, true);
                         TempBoneData.UnknownFloat2 = StreamUtil.ReadFloat(streamMatrix, true);
@@ -311,10 +309,6 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                             TempTriData.indexGroupHeaders.Add(TempIndexGroup);
                         }
 
-                        //stream.Position = TempTriData.
-
-
-
                         streamMatrix.Position = TempPos;
                         Model.meshHeaders.Add(TempTriData);
                     }
@@ -339,6 +333,44 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         vertexData.UV.Y = StreamUtil.ReadUInt16(streamMatrix, true) / 65535f;
 
                         Model.Vertex.Add(vertexData);
+                    }
+
+                    for (int a = 0; a < Model.Vertex.Count; a++)
+                    {
+                        var VertexData = Model.Vertex[a];
+
+                        VertexData.morphDatas = new List<Vector3>();
+
+                        Model.Vertex[a] = VertexData;
+                    }
+
+                    for (int a = 0; a < Model.morphHeader.Count; a++)
+                    {
+                        var MorphHeader = Model.morphHeader[a];
+
+                        for (int b = 0; b < MorphHeader.MorphDataList.Count; b++)
+                        {
+                            var MorphData = MorphHeader.MorphDataList[b];
+
+                            var VertexData = Model.Vertex[MorphData.VertexIndex];
+
+                            VertexData.morphDatas.Add(MorphData.Morph);
+
+                            Model.Vertex[MorphData.VertexIndex] = VertexData;
+                        }
+
+                        for (int b = 0; b < Model.Vertex.Count; b++)
+                        {
+                            var VertexData = Model.Vertex[b];
+
+                            if(VertexData.morphDatas.Count!=b+1)
+                            {
+                                VertexData.morphDatas.Add(new Vector3(0, 0, 0));
+                            }
+                            VertexData.morphDatas = new List<Vector3>();
+
+                            Model.Vertex[b] = VertexData;
+                        }
                     }
 
                     for (int a = 0; a < Model.meshHeaders.Count; a++)
@@ -513,9 +545,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public Vector3 Position;
             public Vector3 Radians;
 
-            public float XRadian2;
-            public float YRadian2;
-            public float ZRadian2;
+            public Vector3 Radians2;
 
             public float UnknownFloat1;
             public float UnknownFloat2;
@@ -624,6 +654,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public Vector3 Vertex;
             public Vector3 VertexNormal;
             public Vector2 UV;
+
+            public List<Vector3> morphDatas;
         }
 
         public struct Face

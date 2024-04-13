@@ -157,9 +157,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         TempBoneData.BoneID = StreamUtil.ReadInt16(streamMatrix);
                         TempBoneData.Position = StreamUtil.ReadVector3(streamMatrix);
                         TempBoneData.Radians = StreamUtil.ReadVector3(streamMatrix);
-                        TempBoneData.XRadian2 = StreamUtil.ReadFloat(streamMatrix);
-                        TempBoneData.YRadian2 = StreamUtil.ReadFloat(streamMatrix);
-                        TempBoneData.ZRadian2 = StreamUtil.ReadFloat(streamMatrix);
+                        TempBoneData.Radians2 = StreamUtil.ReadVector3(streamMatrix);
 
                         TempBoneData.UnknownFloat1 = StreamUtil.ReadFloat(streamMatrix);
                         TempBoneData.UnknownFloat2 = StreamUtil.ReadFloat(streamMatrix);
@@ -521,9 +519,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                             StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Position);
 
                             StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Radians);
-                            StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].XRadian2);
-                            StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].YRadian2);
-                            StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].ZRadian2);
+                            StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Radians2);
 
                             StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat1);
                             StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat2);
@@ -841,9 +837,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public Vector3 Position;
             public Vector3 Radians;
 
-            public float XRadian2;
-            public float YRadian2;
-            public float ZRadian2;
+            public Vector3 Radians2;
 
             public float UnknownFloat1;
             public float UnknownFloat2;

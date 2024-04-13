@@ -693,22 +693,22 @@ namespace SSXMultiTool.FileHandlers
                     }
                 }
 
-                //for (int c = 0; c < Handler.reassignedMesh[i].MorphTargetCount; c++)
-                //{
-                //    var morphTargetBuilder = mesh.UseMorphTarget(c);
-                //    foreach (var vertexPosition in morphTargetBuilder.Vertices)
-                //    {
-                //        for (int d = 0; d < pointMorphs.Count; d++)
-                //        {
-                //            if (pointMorphs[d].Point == vertexPosition.Position)
-                //            {
-                //                var NewVertexPosition = vertexPosition;
-                //                NewVertexPosition.Position += pointMorphs[d].MorphPoints[c];
-                //                morphTargetBuilder.SetVertex(vertexPosition, NewVertexPosition);
-                //            }
-                //        }
-                //    }
-                //}
+                for (int c = 0; c < Handler.reassignedMesh[i].MorphTargetCount; c++)
+                {
+                    var morphTargetBuilder = mesh.UseMorphTarget(c);
+                    foreach (var vertexPosition in morphTargetBuilder.Vertices)
+                    {
+                        for (int d = 0; d < pointMorphs.Count; d++)
+                        {
+                            if (pointMorphs[d].Point == vertexPosition.Position)
+                            {
+                                var NewVertexPosition = vertexPosition;
+                                NewVertexPosition.Position += pointMorphs[d].MorphPoints[c];
+                                morphTargetBuilder.SetVertex(vertexPosition, NewVertexPosition);
+                            }
+                        }
+                    }
+                }
 
                 scene.AddSkinnedMesh(mesh, Matrix4x4.CreateFromYawPitchRoll(0, 0/*-1.5708f*/, 0), bindings.ToArray());
             }
