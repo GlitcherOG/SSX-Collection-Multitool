@@ -243,10 +243,10 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                         long TempPos = streamMatrix.Position;
                         streamMatrix.Position = TempTriData.OffsetSkinIndexList;
-                        TempTriData.SkinIndex = new List<int>();
+                        TempTriData.WeightIndex = new List<int>();
                         for (int c = 0; c < TempTriData.NumWeightIndices; c++)
                         {
-                            TempTriData.SkinIndex.Add(StreamUtil.ReadUInt32(streamMatrix, true));
+                            TempTriData.WeightIndex.Add(StreamUtil.ReadUInt32(streamMatrix, true));
                         }
 
                         streamMatrix.Position = TempTriData.OffsetIndexGroupList;
@@ -282,7 +282,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                                 {
                                     Index shadowIndex = new Index();
 
-                                    shadowIndex.unknown0 = StreamUtil.ReadUInt8(streamMatrix);
+                                    shadowIndex.WeightIndex = (StreamUtil.ReadUInt8(streamMatrix) - 30) / 3;
                                     shadowIndex.Index0 = StreamUtil.ReadUInt16(streamMatrix, true);
                                     shadowIndex.Index1 = StreamUtil.ReadUInt16(streamMatrix, true);
                                     shadowIndex.Index2 = StreamUtil.ReadUInt16(streamMatrix, true);
@@ -539,7 +539,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public int unk1;
             public int unk2;
 
-            public List<int> SkinIndex;
+            public List<int> WeightIndex;
             public List<IndexGroupHeader> indexGroupHeaders;
         }
 
@@ -571,7 +571,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
         public struct Index
         {
-            public int unknown0;
+            public int WeightIndex;
             public int Index0;
             public int Index1;
             public int Index2;
