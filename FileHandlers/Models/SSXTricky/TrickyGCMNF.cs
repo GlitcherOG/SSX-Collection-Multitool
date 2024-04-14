@@ -317,6 +317,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     {
                         VertexData vertexData = new VertexData();
 
+                        vertexData.morphDatas = new List<Vector3>();
+
                         //127.5 Probably but ill keep this at here
                         vertexData.Vertex.X = StreamUtil.ReadInt16(streamMatrix, true) / 127f;
                         vertexData.Vertex.Y = StreamUtil.ReadInt16(streamMatrix, true) / 127f;
@@ -333,44 +335,29 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         Model.Vertex.Add(vertexData);
                     }
 
+                    //Add Morph Lists To VertexData
                     for (int a = 0; a < Model.Vertex.Count; a++)
                     {
                         var VertexData = Model.Vertex[a];
-
-                        VertexData.morphDatas = new List<Vector3>();
-
+                        for (int b = 0; b < Model.NumMorphs; b++)
+                        {
+                            VertexData.morphDatas.Add(new Vector3());
+                        }
                         Model.Vertex[a] = VertexData;
                     }
 
+                    //Add Morph to VertexData
                     for (int a = 0; a < Model.morphHeader.Count; a++)
                     {
                         var MorphHeader = Model.morphHeader[a];
 
-                        for (int b = 0; b < Model.Vertex.Count; b++)
-                        {
-                            var VertexData = Model.Vertex[b];
-
-                            if(a == 0)
-                            {
-                                VertexData.morphDatas = new List<Vector3>();
-                            }
-
-                            VertexData.morphDatas.Add(new Vector3(0, 0, 0));
-
-                            Model.Vertex[b] = VertexData;
-                        }
-
                         for (int b = 0; b < MorphHeader.MorphDataList.Count; b++)
                         {
                             var MorphData = MorphHeader.MorphDataList[b];
-
                             var VertexData = Model.Vertex[MorphData.VertexIndex];
-
                             VertexData.morphDatas[a] = MorphData.Morph;
-
                             Model.Vertex[MorphData.VertexIndex] = VertexData;
                         }
-
                     }
 
                     for (int a = 0; a < Model.meshHeaders.Count; a++)
