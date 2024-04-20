@@ -212,8 +212,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                         BoneWeight.WeightCount = StreamUtil.ReadUInt32(streamMatrix, true);
                         BoneWeight.WeightListOffset = StreamUtil.ReadUInt32(streamMatrix, true);
-                        BoneWeight.Unknown1 = StreamUtil.ReadUInt16(streamMatrix, true);
-                        BoneWeight.Unknown2 = StreamUtil.ReadUInt16(streamMatrix, true);
+                        BoneWeight.Unknown1 = StreamUtil.ReadUInt16(streamMatrix, true); //19
+                        BoneWeight.Unknown2 = StreamUtil.ReadUInt16(streamMatrix, true); //0
                         BoneWeight.boneWeights = new List<BoneWeight>();
                         int TempPos = (int)streamMatrix.Position;
                         streamMatrix.Position = BoneWeight.WeightListOffset;
@@ -239,7 +239,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         TempTriData.OffsetSkinIndexList = StreamUtil.ReadUInt32(streamMatrix, true);
                         TempTriData.OffsetIndexGroupList = StreamUtil.ReadUInt32(streamMatrix, true);
                         TempTriData.unk0 = StreamUtil.ReadInt16(streamMatrix, true);
-                        TempTriData.unk1 = StreamUtil.ReadUInt8(streamMatrix);
+                        TempTriData.unk1 = StreamUtil.ReadUInt8(streamMatrix); //Shadow or not?
                         TempTriData.unk2 = StreamUtil.ReadUInt8(streamMatrix);
 
                         long TempPos = streamMatrix.Position;
