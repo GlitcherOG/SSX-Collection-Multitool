@@ -1529,6 +1529,223 @@ namespace SSXMultiTool.FileHandlers
             return trickyModelCombiner;
         }
 
+        public static TrickyGCModelCombiner LoadTrickyGCGlft(string Path)
+        {
+            TrickyGCModelCombiner trickyModelCombiner = new TrickyGCModelCombiner();
+            trickyModelCombiner.materials = new List<TrickyGCMNF.MaterialData>();
+            trickyModelCombiner.reassignedMesh = new List<TrickyGCModelCombiner.ReassignedMesh>();
+            var Scene = SharpGLTF.Scenes.SceneBuilder.LoadDefaultScene(Path);
+            var Instances = Scene.Instances.ToArray();
+
+            //Read All Instances Looking for IK Point
+            List<Vector3> IKPoints = new List<Vector3>();
+            int IkCount = 0;
+            for (int i = 0; i < Instances.Length; i++)
+            {
+                if (Instances[i].Name != null)
+                {
+                    if (Instances[i].Name.ToLower().Contains("ikpoint"))
+                    {
+                        IkCount += 1;
+                    }
+                }
+            }
+
+            for (int a = 0; a < IkCount; a++)
+            {
+                for (int i = 0; i < Instances.Length; i++)
+                {
+                    if (Instances[i].Name != null)
+                    {
+                        if (Instances[i].Name.ToLower() == ("ikpoint " + a))
+                        {
+                            IKPoints.Add(Instances[i].Content.GetPoseWorldMatrix().Translation);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //Read Bones Building List
+            List<TrickyGCMNF.BoneData> boneDatas = new List<TrickyGCMNF.BoneData>();
+            var Ampatures = Scene.FindArmatures();
+
+            for (int a = 0; a < Ampatures[0].VisualChildren.Count; a++)
+            {
+                if (Ampatures[0].VisualChildren[a].Name.ToLower() == "hips")
+                {
+                    var StartBone = Ampatures[0].VisualChildren[a];
+                    boneDatas = ReturnBoneAndChildrenTrickyGC(StartBone, true);
+                }
+                else if (Ampatures[0].VisualChildren[a].Name.ToLower() == "board")
+                {
+                    var StartBone = Ampatures[0].VisualChildren[a];
+                    boneDatas = ReturnBoneAndChildrenTrickyGC(StartBone, true);
+                }
+            }
+
+            trickyModelCombiner.bones = boneDatas;
+
+            for (int i = 0; i < Instances.Length; i++)
+            {
+                if (Instances[i].Content.GetType().Name == "SkinnedTransformer")
+                {
+                    var GLFTMesh = Instances[i].Content.GetGeometryAsset();
+                    var SkinnedMesh = (SharpGLTF.Scenes.SkinnedTransformer)Instances[i].Content;
+                    TrickyGCModelCombiner.ReassignedMesh reassignedMesh = new TrickyGCModelCombiner.ReassignedMesh();
+                    reassignedMesh.IKPoints = IKPoints;
+                    reassignedMesh.MeshName = GLFTMesh.Name;
+                    reassignedMesh.faces = new List<TrickyGCMNF.Face>();
+
+                    var JointBindings = SkinnedMesh.GetJointBindings();
+                    var MaterialArray = GLFTMesh.Primitives.ToArray();
+                    for (int a = 0; a < MaterialArray.Length; a++)
+                    {
+                        //Build New Material With Primitive Name
+                        trickyModelCombiner.materials = MakeNewMaterialTrickyGC(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
+
+                        int MatID = FindMaterialIDTrickyGC(trickyModelCombiner.materials, MaterialArray[a].Material.Name);
+
+                        //Build Vertex List
+                        List<VertexDataTrickyGC> VertexList = new List<VertexDataTrickyGC>();
+                        var OldVertexList = MaterialArray[a].Vertices.ToArray();
+                        int MorphTargetsCount = MaterialArray[a].MorphTargets.Count;
+
+                        for (int b = 0; b < OldVertexList.Length; b++)
+                        {
+                            var NewVertex = new VertexDataTrickyGC();
+
+                            var TempGeo = OldVertexList[b].GetGeometry();
+                            var TempSkinning = OldVertexList[b].GetSkinning();
+                            var TempMaterial = OldVertexList[b].GetMaterial();
+
+                            //Get Postion Normal and UV
+                            NewVertex.Position = TempGeo.GetPosition();
+
+                            Vector3 TempNormal;
+                            if (TempGeo.TryGetNormal(out TempNormal))
+                            {
+                                NewVertex.Normal = TempNormal;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Must Contain Normals");
+                                return null;
+                            }
+
+                            Vector4 TempTangent;
+                            if (TempGeo.TryGetTangent(out TempTangent))
+                            {
+                                NewVertex.Tangent = TempTangent;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Must Contain Tangents");
+                                return null;
+                            }
+
+                            try
+                            {
+                                NewVertex.UV = TempMaterial.GetTexCoord(0);
+                            }
+                            catch
+                            {
+                                NewVertex.UV = new Vector2();
+                            }
+
+                            //Get Weights
+                            NewVertex.weightHeader = new TrickyGCMNF.BoneWeightHeader();
+                            NewVertex.weightHeader.Unknown2 = 19;
+                            NewVertex.weightHeader.boneWeights = new List<TrickyGCMNF.BoneWeight>();
+
+                            for (int d = 0; d < TempSkinning.MaxBindings; d++)
+                            {
+                                var BindingList = TempSkinning.GetBinding(d);
+                                if (BindingList.Weight != 0)
+                                {
+                                    TrickyGCMNF.BoneWeight TempWeight = new TrickyGCMNF.BoneWeight();
+                                    TempWeight.BoneID = BindingList.Index;
+                                    TempWeight.Weight = (int)(BindingList.Weight * 100f);
+                                    TempWeight.BoneName = JointBindings[BindingList.Index].Joint.Name;
+                                    NewVertex.weightHeader.boneWeights.Add(TempWeight);
+                                }
+                            }
+
+                            //Correct Weights
+                            int Count = 0;
+                            for (int d = 0; d < NewVertex.weightHeader.boneWeights.Count; d++)
+                            {
+                                Count += NewVertex.weightHeader.boneWeights[d].Weight;
+                            }
+
+                            if (Count != 100)
+                            {
+                                var TempWeight = NewVertex.weightHeader.boneWeights[0];
+                                if (Count > 100)
+                                {
+                                    TempWeight.Weight -= Count - 100;
+                                }
+                                else if (Count < 100)
+                                {
+                                    TempWeight.Weight += 100 - Count;
+                                }
+                                NewVertex.weightHeader.boneWeights[0] = TempWeight;
+                            }
+
+                            //Add Morph Data
+                            NewVertex.MorphPoints = new List<Vector3>();
+                            for (int d = 0; d < MorphTargetsCount; d++)
+                            {
+                                NewVertex.MorphPoints.Add(MaterialArray[a].MorphTargets[d].GetVertex(b).GetGeometry().GetPosition() - NewVertex.Position);
+                            }
+
+                            VertexList.Add(NewVertex);
+                        }
+
+                        //Build Faces
+                        var TriangleList = MaterialArray[a].Triangles;
+                        for (int b = 0; b < TriangleList.Count; b++)
+                        {
+                            TrickyGCMNF.Face TempFace = new TrickyGCMNF.Face();
+                            var FaceTri = TriangleList[b];
+
+                            var TempPoint = VertexList[FaceTri.A];
+
+                            TempFace.V1 = TempPoint.Position;
+                            TempFace.Normal1 = TempPoint.Normal;
+                            TempFace.UV1 = TempPoint.UV;
+                            TempFace.Weight1 = TempPoint.weightHeader;
+                            TempFace.MorphPoint1 = TempPoint.MorphPoints;
+
+                            TempPoint = VertexList[FaceTri.B];
+
+                            TempFace.V2 = TempPoint.Position;
+                            TempFace.Normal2 = TempPoint.Normal;
+                            TempFace.UV2 = TempPoint.UV;
+                            TempFace.Weight2 = TempPoint.weightHeader;
+                            TempFace.MorphPoint2 = TempPoint.MorphPoints;
+
+                            TempPoint = VertexList[FaceTri.C];
+
+                            TempFace.V3 = TempPoint.Position;
+                            TempFace.Normal3 = TempPoint.Normal;
+                            TempFace.UV3 = TempPoint.UV;
+                            TempFace.Weight3 = TempPoint.weightHeader;
+                            TempFace.MorphPoint3 = TempPoint.MorphPoints;
+
+                            TempFace.MaterialID = MatID;
+
+                            reassignedMesh.faces.Add(TempFace);
+                        }
+                    }
+
+                    trickyModelCombiner.reassignedMesh.Add(reassignedMesh);
+                }
+            }
+
+            return trickyModelCombiner;
+        }
+
         public static SSX3PS2ModelCombiner LoadSSX3Glft(string Path)
         {
             SSX3PS2ModelCombiner trickyModelCombiner = new SSX3PS2ModelCombiner();
@@ -1932,6 +2149,27 @@ namespace SSXMultiTool.FileHandlers
             return materials;
         }
 
+        static List<TrickyGCMNF.MaterialData> MakeNewMaterialTrickyGC(List<TrickyGCMNF.MaterialData> materials, string name)
+        {
+            bool test = false;
+            for (int i = 0; i < materials.Count; i++)
+            {
+                if (materials[i].MainTexture == name)
+                {
+                    test = true;
+                    break;
+                }
+            }
+            if (!test)
+            {
+                TrickyGCMNF.MaterialData newmat = new TrickyGCMNF.MaterialData();
+                newmat.MainTexture = name;
+                materials.Add(newmat);
+            }
+
+            return materials;
+        }
+
         static List<SSX3PS2MPF.MaterialData> MakeNewMaterialSSX3(List<SSX3PS2MPF.MaterialData> materials, string name)
         {
             bool test = false;
@@ -1998,6 +2236,18 @@ namespace SSXMultiTool.FileHandlers
             return -1;
         }
 
+        static int FindMaterialIDTrickyGC(List<TrickyGCMNF.MaterialData> materials, string name)
+        {
+            for (int i = 0; i < materials.Count; i++)
+            {
+                if (materials[i].MainTexture == name)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
         static int FindMaterialIDSSX3(List<SSX3PS2MPF.MaterialData> materials, string name)
         {
             for (int i = 0; i < materials.Count; i++)
@@ -2040,6 +2290,17 @@ namespace SSXMultiTool.FileHandlers
             public Vector4 Tangent;
 
             public TrickyXboxMXF.BoneWeightHeader weightHeader;
+            public List<Vector3> MorphPoints;
+        }
+
+        struct VertexDataTrickyGC
+        {
+            public Vector3 Position;
+            public Vector3 Normal;
+            public Vector2 UV;
+            public Vector4 Tangent;
+
+            public TrickyGCMNF.BoneWeightHeader weightHeader;
             public List<Vector3> MorphPoints;
         }
 
@@ -2109,6 +2370,31 @@ namespace SSXMultiTool.FileHandlers
             for (int i = 0; i < nodeBuilder.VisualChildren.Count; i++)
             {
                 boneDatas.AddRange(ReturnBoneAndChildrenTrickyXbox(nodeBuilder.VisualChildren[i], false));
+            }
+
+            return boneDatas;
+        }
+
+        public static List<TrickyGCMNF.BoneData> ReturnBoneAndChildrenTrickyGC(SharpGLTF.Scenes.NodeBuilder nodeBuilder, bool startBone)
+        {
+            List<TrickyGCMNF.BoneData> boneDatas = new List<TrickyGCMNF.BoneData>();
+            var TempBoneData = new TrickyGCMNF.BoneData();
+
+            TempBoneData.BoneName = nodeBuilder.Name;
+            TempBoneData.Position = nodeBuilder.LocalTransform.Translation;
+            if (nodeBuilder.Parent != null)
+            {
+                TempBoneData.parentName = nodeBuilder.Parent.Name;
+            }
+            Quaternion quaternion = nodeBuilder.LocalTransform.GetDecomposed().Rotation;
+            Vector3 radians = MathUtil.ToEulerAngles(quaternion);
+            TempBoneData.Radians = radians;
+
+            boneDatas.Add(TempBoneData);
+
+            for (int i = 0; i < nodeBuilder.VisualChildren.Count; i++)
+            {
+                boneDatas.AddRange(ReturnBoneAndChildrenTrickyGC(nodeBuilder.VisualChildren[i], false));
             }
 
             return boneDatas;
