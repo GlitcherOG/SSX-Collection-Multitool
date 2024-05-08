@@ -337,7 +337,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             }
             else if (Head != null && Body != null)
             {
-                StartRegenMeshCharacter(trickyModelCombiner, Selected);
+                //StartRegenMeshCharacter(trickyModelCombiner, Selected);
             }
             else
             {
@@ -529,7 +529,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         {
 
                         }
-                        else if (!UVEqual(ReassignedMesh.faces[a].UV1, VectorPoint[TempID].VertexUV))
+                        else if (!UVEqual(ReassignedMesh.faces[a].UV1, VectorPoint[TempID].UV))
                         {
 
                         }
@@ -537,7 +537,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         {
                             if (ReassignedMesh.MorphTargetCount != 0)
                             {
-                                if (!MorphPointsEqual(ReassignedMesh.faces[a].MorphPoint1, VectorPoint[TempID].MorphData))
+                                if (!MorphPointsEqual(ReassignedMesh.faces[a].MorphPoint1, VectorPoint[TempID].morphDatas))
                                 {
 
                                 }
@@ -587,7 +587,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         {
 
                         }
-                        else if (!UVEqual(ReassignedMesh.faces[a].UV2, VectorPoint[TempID].VertexUV))
+                        else if (!UVEqual(ReassignedMesh.faces[a].UV2, VectorPoint[TempID].UV))
                         {
 
                         }
@@ -595,7 +595,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         {
                             if (ReassignedMesh.MorphTargetCount != 0)
                             {
-                                if (!MorphPointsEqual(ReassignedMesh.faces[a].MorphPoint2, VectorPoint[TempID].MorphData))
+                                if (!MorphPointsEqual(ReassignedMesh.faces[a].MorphPoint2, VectorPoint[TempID].morphDatas))
                                 {
 
                                 }
@@ -645,7 +645,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         {
 
                         }
-                        else if (!UVEqual(ReassignedMesh.faces[a].UV3, VectorPoint[TempID].VertexUV))
+                        else if (!UVEqual(ReassignedMesh.faces[a].UV3, VectorPoint[TempID].UV))
                         {
 
                         }
@@ -653,7 +653,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         {
                             if (ReassignedMesh.MorphTargetCount != 0)
                             {
-                                if (!MorphPointsEqual(ReassignedMesh.faces[a].MorphPoint3, VectorPoint[TempID].MorphData))
+                                if (!MorphPointsEqual(ReassignedMesh.faces[a].MorphPoint3, VectorPoint[TempID].morphDatas))
                                 {
 
                                 }
@@ -712,43 +712,43 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 return;
             }
 
-            //Correct to one gaint tristrip for each material
-            List<TrickyXboxMXF.TristripHeader> NewTristripsHeaders = new List<TrickyXboxMXF.TristripHeader>();
-            for (int i = 0; i < indiceTristrips.Count; i++)
-            {
-                bool TestTristrip = false;
-                for (int a = 0; a < NewTristripsHeaders.Count; a++)
-                {
-                    if (NewTristripsHeaders[a].MaterialIndex0 == VectorPoint[indiceTristrips[i].Indices[0]].MaterialID)
-                    {
-                        TestTristrip = true;
-                        //Add 1 or 2 of previous face and 1 of next face
+            ////Correct to one gaint tristrip for each material
+            //List<TrickyXboxMXF.TristripHeader> NewTristripsHeaders = new List<TrickyXboxMXF.TristripHeader>();
+            //for (int i = 0; i < indiceTristrips.Count; i++)
+            //{
+            //    bool TestTristrip = false;
+            //    for (int a = 0; a < NewTristripsHeaders.Count; a++)
+            //    {
+            //        if (NewTristripsHeaders[a].MaterialIndex0 == VectorPoint[indiceTristrips[i].Indices[0]].MaterialID)
+            //        {
+            //            TestTristrip = true;
+            //            //Add 1 or 2 of previous face and 1 of next face
 
-                        if (NewTristripsHeaders[a].IndexList.Count % 2 == 1)
-                        {
-                            NewTristripsHeaders[a].IndexList.Add(NewTristripsHeaders[a].IndexList[NewTristripsHeaders[a].IndexList.Count - 1]);
-                        }
+            //            if (NewTristripsHeaders[a].IndexList.Count % 2 == 1)
+            //            {
+            //                NewTristripsHeaders[a].IndexList.Add(NewTristripsHeaders[a].IndexList[NewTristripsHeaders[a].IndexList.Count - 1]);
+            //            }
 
-                        NewTristripsHeaders[a].IndexList.Add(NewTristripsHeaders[a].IndexList[NewTristripsHeaders[a].IndexList.Count - 1]);
-                        NewTristripsHeaders[a].IndexList.Add(indiceTristrips[i].Indices[0]);
-                        NewTristripsHeaders[a].IndexList.AddRange(indiceTristrips[i].Indices);
-                    }
-                }
+            //            NewTristripsHeaders[a].IndexList.Add(NewTristripsHeaders[a].IndexList[NewTristripsHeaders[a].IndexList.Count - 1]);
+            //            NewTristripsHeaders[a].IndexList.Add(indiceTristrips[i].Indices[0]);
+            //            NewTristripsHeaders[a].IndexList.AddRange(indiceTristrips[i].Indices);
+            //        }
+            //    }
 
-                if (!TestTristrip)
-                {
-                    TrickyXboxMXF.TristripHeader NewTristrip = new TrickyXboxMXF.TristripHeader();
-                    NewTristrip.IndexList = new List<int>();
-                    NewTristrip.IndexList.AddRange(indiceTristrips[i].Indices);
-                    NewTristrip.MaterialIndex0 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
-                    NewTristrip.MaterialIndex1 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
-                    NewTristrip.MaterialIndex2 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
-                    NewTristrip.MaterialIndex3 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
-                    NewTristrip.MaterialIndex4 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
-                    NewTristripsHeaders.Add(NewTristrip);
-                }
+            //    if (!TestTristrip)
+            //    {
+            //        TrickyXboxMXF.TristripHeader NewTristrip = new TrickyXboxMXF.TristripHeader();
+            //        NewTristrip.IndexList = new List<int>();
+            //        NewTristrip.IndexList.AddRange(indiceTristrips[i].Indices);
+            //        NewTristrip.MaterialIndex0 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
+            //        NewTristrip.MaterialIndex1 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
+            //        NewTristrip.MaterialIndex2 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
+            //        NewTristrip.MaterialIndex3 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
+            //        NewTristrip.MaterialIndex4 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
+            //        NewTristripsHeaders.Add(NewTristrip);
+            //    }
 
-            }
+            //}
 
             //set data to mxf
             //TempTrickyMesh.vertexDatas = VectorPoint;
@@ -770,41 +770,41 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             return new TrickyXboxMXF.BoneData();
         }
 
-        static TrickyXboxMXF.VertexData GenerateVectorPoint(TrickyGCMNF.Face face, int Vertice)
+        static TrickyGCMNF.VertexData GenerateVectorPoint(TrickyGCMNF.Face face, int Vertice)
         {
             TrickyGCMNF.VertexData vectorPoint = new TrickyGCMNF.VertexData();
             vectorPoint.MaterialID = face.MaterialID;
             if (Vertice == 1)
             {
-                vectorPoint.VertexPosition = face.V1;
+                vectorPoint.Vertex = face.V1;
                 vectorPoint.VertexNormal = face.Normal1;
-                vectorPoint.VertexUV = face.UV1;
+                vectorPoint.UV = face.UV1;
                 vectorPoint.WeightIndex = face.Weight1Pos;
-                vectorPoint.MorphData = face.MorphPoint1;
+                vectorPoint.morphDatas = face.MorphPoint1;
             }
 
             if (Vertice == 2)
             {
-                vectorPoint.VertexPosition = face.V2;
+                vectorPoint.Vertex = face.V2;
                 vectorPoint.VertexNormal = face.Normal2;
-                vectorPoint.VertexUV = face.UV2;
+                vectorPoint.UV = face.UV2;
                 vectorPoint.WeightIndex = face.Weight2Pos;
-                vectorPoint.MorphData = face.MorphPoint2;
+                vectorPoint.morphDatas = face.MorphPoint2;
             }
 
             if (Vertice == 3)
             {
-                vectorPoint.VertexPosition = face.V3;
+                vectorPoint.Vertex = face.V3;
                 vectorPoint.VertexNormal = face.Normal3;
-                vectorPoint.VertexUV = face.UV3;
+                vectorPoint.UV = face.UV3;
                 vectorPoint.WeightIndex = face.Weight3Pos;
-                vectorPoint.MorphData = face.MorphPoint3;
+                vectorPoint.morphDatas = face.MorphPoint3;
             }
 
-            vectorPoint.Unknown1 = 1;
-            vectorPoint.Unknown2 = 0;
-            vectorPoint.Unknown3 = 1;
-            vectorPoint.Unknown4 = -1;
+            //vectorPoint.Unknown1 = 1;
+            //vectorPoint.Unknown2 = 0;
+            //vectorPoint.Unknown3 = 1;
+            //vectorPoint.Unknown4 = -1;
 
             return vectorPoint;
         }

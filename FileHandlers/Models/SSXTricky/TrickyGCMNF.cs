@@ -642,6 +642,9 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public Vector3 VertexNormal;
             public Vector2 UV;
 
+            public int MaterialID;
+            public int WeightIndex;
+
             public List<Vector3> morphDatas;
         }
 
