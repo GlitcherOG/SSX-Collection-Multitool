@@ -537,7 +537,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         {
                             if (ReassignedMesh.MorphTargetCount != 0)
                             {
-                                if (!MorphPointsEqual(ReassignedMesh.faces[a].MorphPoint1, VectorPoint[TempID].morphDatas))
+                                if (!MorphPointsEqual(ReassignedMesh.faces[a].MorphPoint1, VectorPoint[TempID].MorphDatas))
                                 {
 
                                 }
@@ -595,7 +595,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         {
                             if (ReassignedMesh.MorphTargetCount != 0)
                             {
-                                if (!MorphPointsEqual(ReassignedMesh.faces[a].MorphPoint2, VectorPoint[TempID].morphDatas))
+                                if (!MorphPointsEqual(ReassignedMesh.faces[a].MorphPoint2, VectorPoint[TempID].MorphDatas))
                                 {
 
                                 }
@@ -653,7 +653,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         {
                             if (ReassignedMesh.MorphTargetCount != 0)
                             {
-                                if (!MorphPointsEqual(ReassignedMesh.faces[a].MorphPoint3, VectorPoint[TempID].morphDatas))
+                                if (!MorphPointsEqual(ReassignedMesh.faces[a].MorphPoint3, VectorPoint[TempID].MorphDatas))
                                 {
 
                                 }
@@ -675,6 +675,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                 indiceFaces.Add(TempFace);
             }
+
+
 
             ////Once in Vertex List Send Morph Data To MorphList
             //List<TrickyGCMNF.MorphHeader> NewMorphHeader = new List<TrickyGCMNF.MorphHeader>();
@@ -712,43 +714,18 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 return;
             }
 
-            ////Correct to one gaint tristrip for each material
-            //List<TrickyXboxMXF.TristripHeader> NewTristripsHeaders = new List<TrickyXboxMXF.TristripHeader>();
-            //for (int i = 0; i < indiceTristrips.Count; i++)
-            //{
-            //    bool TestTristrip = false;
-            //    for (int a = 0; a < NewTristripsHeaders.Count; a++)
-            //    {
-            //        if (NewTristripsHeaders[a].MaterialIndex0 == VectorPoint[indiceTristrips[i].Indices[0]].MaterialID)
-            //        {
-            //            TestTristrip = true;
-            //            //Add 1 or 2 of previous face and 1 of next face
+            //Generate Morph Header Data
 
-            //            if (NewTristripsHeaders[a].IndexList.Count % 2 == 1)
-            //            {
-            //                NewTristripsHeaders[a].IndexList.Add(NewTristripsHeaders[a].IndexList[NewTristripsHeaders[a].IndexList.Count - 1]);
-            //            }
+            //For each tristrip check material number
+            //if material number has data in the mesh header list go on to the next
+            //If none found generate a new header
+            TempTrickyMesh.meshHeaders = new List<TrickyGCMNF.MeshHeader>();
 
-            //            NewTristripsHeaders[a].IndexList.Add(NewTristripsHeaders[a].IndexList[NewTristripsHeaders[a].IndexList.Count - 1]);
-            //            NewTristripsHeaders[a].IndexList.Add(indiceTristrips[i].Indices[0]);
-            //            NewTristripsHeaders[a].IndexList.AddRange(indiceTristrips[i].Indices);
-            //        }
-            //    }
+            for (int i = 0; i < indiceTristrips.Count; i++)
+            {
 
-            //    if (!TestTristrip)
-            //    {
-            //        TrickyXboxMXF.TristripHeader NewTristrip = new TrickyXboxMXF.TristripHeader();
-            //        NewTristrip.IndexList = new List<int>();
-            //        NewTristrip.IndexList.AddRange(indiceTristrips[i].Indices);
-            //        NewTristrip.MaterialIndex0 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
-            //        NewTristrip.MaterialIndex1 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
-            //        NewTristrip.MaterialIndex2 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
-            //        NewTristrip.MaterialIndex3 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
-            //        NewTristrip.MaterialIndex4 = VectorPoint[indiceTristrips[i].Indices[0]].MaterialID;
-            //        NewTristripsHeaders.Add(NewTristrip);
-            //    }
+            }
 
-            //}
 
             //set data to mxf
             //TempTrickyMesh.vertexDatas = VectorPoint;
@@ -780,7 +757,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 vectorPoint.VertexNormal = face.Normal1;
                 vectorPoint.UV = face.UV1;
                 vectorPoint.WeightIndex = face.Weight1Pos;
-                vectorPoint.morphDatas = face.MorphPoint1;
+                vectorPoint.MorphDatas = face.MorphPoint1;
             }
 
             if (Vertice == 2)
@@ -789,7 +766,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 vectorPoint.VertexNormal = face.Normal2;
                 vectorPoint.UV = face.UV2;
                 vectorPoint.WeightIndex = face.Weight2Pos;
-                vectorPoint.morphDatas = face.MorphPoint2;
+                vectorPoint.MorphDatas = face.MorphPoint2;
             }
 
             if (Vertice == 3)
@@ -798,7 +775,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 vectorPoint.VertexNormal = face.Normal3;
                 vectorPoint.UV = face.UV3;
                 vectorPoint.WeightIndex = face.Weight3Pos;
-                vectorPoint.morphDatas = face.MorphPoint3;
+                vectorPoint.MorphDatas = face.MorphPoint3;
             }
 
             //vectorPoint.Unknown1 = 1;

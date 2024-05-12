@@ -317,7 +317,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     {
                         VertexData vertexData = new VertexData();
 
-                        vertexData.morphDatas = new List<Vector3>();
+                        vertexData.MorphDatas = new List<Vector3>();
 
                         //127.5 Probably but ill keep this at here
                         vertexData.Vertex.X = StreamUtil.ReadInt16(streamMatrix, true) / 127f;
@@ -341,7 +341,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         var VertexData = Model.Vertex[a];
                         for (int b = 0; b < Model.NumMorphs; b++)
                         {
-                            VertexData.morphDatas.Add(new Vector3());
+                            VertexData.MorphDatas.Add(new Vector3());
                         }
                         Model.Vertex[a] = VertexData;
                     }
@@ -355,7 +355,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         {
                             var MorphData = MorphHeader.MorphDataList[b];
                             var VertexData = Model.Vertex[MorphData.VertexIndex];
-                            VertexData.morphDatas[a] = MorphData.Morph;
+                            VertexData.MorphDatas[a] = MorphData.Morph;
                             Model.Vertex[MorphData.VertexIndex] = VertexData;
                         }
                     }
@@ -403,21 +403,21 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                                     NewFace.Normal1 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index1].Index0].VertexNormal;
                                     NewFace.Weight1 = Model.boneWeightHeaders[TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index1].WeightIndex]];
                                     NewFace.Weight1Pos = TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index1].WeightIndex];
-                                    NewFace.MorphPoint1 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index1].Index0].morphDatas;
+                                    NewFace.MorphPoint1 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index1].Index0].MorphDatas;
 
                                     NewFace.V2 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index2].Index0].Vertex;
                                     NewFace.UV2 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index2].Index0].UV;
                                     NewFace.Normal2 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index2].Index0].VertexNormal;
                                     NewFace.Weight2 = Model.boneWeightHeaders[TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index2].WeightIndex]];
                                     NewFace.Weight2Pos = TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index2].WeightIndex];
-                                    NewFace.MorphPoint2 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index2].Index0].morphDatas;
+                                    NewFace.MorphPoint2 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index2].Index0].MorphDatas;
 
                                     NewFace.V3 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index3].Index0].Vertex;
                                     NewFace.UV3 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index3].Index0].UV;
                                     NewFace.Normal3 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index3].Index0].VertexNormal;
                                     NewFace.Weight3 = Model.boneWeightHeaders[TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index3].WeightIndex]];
                                     NewFace.Weight3Pos = TempHeader.WeightIndex[TempIndexGroup.indexGroup.indices[Index3].WeightIndex];
-                                    NewFace.MorphPoint3 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index3].Index0].morphDatas;
+                                    NewFace.MorphPoint3 = Model.Vertex[TempIndexGroup.indexGroup.indices[Index3].Index0].MorphDatas;
 
                                     TempIndexGroup.faces.Add(NewFace);
                                     roatation = !roatation;
@@ -644,8 +644,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
             public int MaterialID;
             public int WeightIndex;
-
-            public List<Vector3> morphDatas;
+            public List<Vector3> MorphDatas;
         }
 
         public struct Face
