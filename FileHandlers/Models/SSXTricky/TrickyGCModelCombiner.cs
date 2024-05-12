@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -723,7 +724,42 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
             for (int i = 0; i < indiceTristrips.Count; i++)
             {
+                int MaterialID = indiceTristrips[i].MaterialID;
 
+                int HeaderID = -1;
+
+                for (int a = 0; a < TempTrickyMesh.meshHeaders.Count; a++)
+                {
+                    bool Added = false;
+                    for (int b = 0; b < TempTrickyMesh.meshHeaders[a].indexGroupHeaders.Count; b++)
+                    {
+                        if (TempTrickyMesh.meshHeaders[a].indexGroupHeaders[b].MatIndex1 == MaterialID)
+                        {
+                            Added = true;
+                            break;
+                        }
+                    }
+                    if(!Added)
+                    {
+                        HeaderID = a;
+                        break;
+                    }
+                }
+
+                if (HeaderID == -1)
+                {
+                    HeaderID = TempTrickyMesh.meshHeaders.Count;
+                    TrickyGCMNF.MeshHeader NewHeader = new TrickyGCMNF.MeshHeader();
+                    NewHeader.indexGroupHeaders = new List<TrickyGCMNF.IndexGroupHeader>();
+                    NewHeader.WeightIndex = new List<int>();
+                    TempTrickyMesh.meshHeaders.Add(NewHeader);
+                }
+
+                var TempHeader = TempTrickyMesh.meshHeaders[HeaderID];
+
+                //Generate New Index List with Weight List
+
+                TempTrickyMesh.meshHeaders[HeaderID] = TempHeader;
             }
 
 
