@@ -6,6 +6,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 
 namespace SSXMultiTool.FileHandlers.Models.Tricky
 {
@@ -469,6 +470,34 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     modelHeaders[i] = Model;
                 }
             }
+        }
+
+        public void Save(string path)
+        {
+            MemoryStream stream = new MemoryStream();
+            
+
+            stream.Position = 0;
+
+            StreamUtil.WriteBytes(stream, Version);
+            StreamUtil.WriteInt16(stream, modelHeaders.Count);
+            StreamUtil.WriteInt16(stream, OffsetModelHeader);
+            StreamUtil.WriteInt32(stream, OffsetModelData);
+
+            for (int i = 0; i < modelHeaders.Count; i++)
+            {
+
+            }
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            var file = File.Create(path);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            stream.Dispose();
+            file.Close();
         }
 
         public struct ModelHeader

@@ -759,6 +759,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                 //Generate New Index List with Weight List
 
+                //Add Index List
+
                 TempTrickyMesh.meshHeaders[HeaderID] = TempHeader;
             }
 
