@@ -83,22 +83,16 @@ namespace SSXMultiTool.Utilities
         {
             byte[] tempByte = new byte[bytesCount];
             stream.Read(tempByte, 0, tempByte.Length);
+
             //if (BigEndian)
             //    Array.Reverse(tempByte);
 
-            int Value = ByteUtil.BytesToBitConvert(tempByte, StartBit, StartBit + Bits-1);
+            int Value = ByteUtil.BytesToBitConvert(tempByte, StartBit, StartBit + Bits - 1);
 
             if ((Value) >= IntPow(2, (Bits - 1)))
             {
                 Value -= IntPow(2, (Bits - 1)) * 2;
             }
-
-            //BitArray myBA5 = new BitArray(tempByte);
-            //if (myBA5[StartBit]==true)
-            //{
-            //    myBA5[StartBit] = false;
-            //    Value -= 2 ^ Bits; 
-            //}
 
 
             return Value;

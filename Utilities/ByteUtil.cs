@@ -24,7 +24,7 @@ namespace SSXMultiTool.Utilities
             }
             return Number;
         }
-
+        
         public static int BytesToBitConvert(byte[] Byte, int Start, int End)
         {
             byte[] array =  Byte;

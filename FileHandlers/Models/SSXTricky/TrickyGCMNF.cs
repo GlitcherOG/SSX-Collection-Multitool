@@ -475,17 +475,53 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         public void Save(string path)
         {
             MemoryStream stream = new MemoryStream();
-            
+
+            for (int i = 0; i < length; i++)
+            {
+
+            }
+
+
 
             stream.Position = 0;
 
             StreamUtil.WriteBytes(stream, Version);
-            StreamUtil.WriteInt16(stream, modelHeaders.Count);
-            StreamUtil.WriteInt16(stream, OffsetModelHeader);
-            StreamUtil.WriteInt32(stream, OffsetModelData);
+            StreamUtil.WriteInt16(stream, modelHeaders.Count, true);
+            StreamUtil.WriteInt16(stream, OffsetModelHeader, true);
+            StreamUtil.WriteInt32(stream, OffsetModelData, true);
 
             for (int i = 0; i < modelHeaders.Count; i++)
             {
+                var TempModel = modelHeaders[i];
+
+                StreamUtil.WriteString(stream, TempModel.ModelName, 16);
+                StreamUtil.WriteInt32(stream, TempModel.ModelOffset, true);
+                StreamUtil.WriteInt32(stream, TempModel.ModelSize, true);
+                StreamUtil.WriteInt32(stream, TempModel.Unused0, true);
+                StreamUtil.WriteInt32(stream, TempModel.Unused1, true);
+
+                StreamUtil.WriteInt32(stream, TempModel.OffsetMateralList, true);
+                StreamUtil.WriteInt32(stream, TempModel.OffsetBoneData, true);
+                StreamUtil.WriteInt32(stream, TempModel.OffsetIKPointList, true);
+                StreamUtil.WriteInt32(stream, TempModel.OffsetMorphList, true);
+
+                StreamUtil.WriteInt32(stream, TempModel.OffsetSkinningSection, true);
+                StreamUtil.WriteInt32(stream, TempModel.OffsetTristripSection, true);
+                StreamUtil.WriteInt32(stream, TempModel.Unused2, true);
+                StreamUtil.WriteInt32(stream, TempModel.OffsetVertexSection, true);
+
+                stream.Position += 290;
+
+                StreamUtil.WriteInt16(stream, TempModel.boneDatas.Count, true);
+                StreamUtil.WriteInt16(stream, TempModel.morphHeader.Count, true);
+                StreamUtil.WriteInt16(stream, TempModel.materialDatas.Count, true);
+                StreamUtil.WriteInt16(stream, TempModel.iKPoints.Count, true);
+
+                StreamUtil.WriteInt16(stream, TempModel.boneWeightHeaders.Count, true);
+                StreamUtil.WriteInt16(stream, TempModel.meshHeaders.Count, true);
+                StreamUtil.WriteInt16(stream, TempModel.Unknown3, true);
+                StreamUtil.WriteInt16(stream, TempModel.Vertex.Count, true);
+                StreamUtil.WriteInt16(stream, TempModel.FileID, true);
 
             }
 
