@@ -7,6 +7,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Shapes;
+using static SSXMultiTool.FileHandlers.LevelFiles.OGPS2.WDRHandler;
 
 namespace SSXMultiTool.FileHandlers.Models.Tricky
 {
@@ -476,9 +477,95 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
         {
             MemoryStream stream = new MemoryStream();
 
-            for (int i = 0; i < length; i++)
-            {
+            OffsetModelData = 12 + modelHeaders.Count * 372;
 
+            stream.Position = OffsetModelData;
+
+            for (int i = 0; i < modelHeaders.Count; i++)
+            {
+                var Model = modelHeaders[i];
+
+                Model.ModelOffset = (int)(OffsetModelData - stream.Position);
+
+                MemoryStream ModelStream = new MemoryStream();
+
+                Model.OffsetMateralList = (int)ModelStream.Position;
+                for (int a = 0; a < Model.materialDatas.Count; a++)
+                {
+                    StreamUtil.WriteString(ModelStream, Model.materialDatas[a].MainTexture, 4);
+
+                    if (Model.materialDatas[a].Texture1 != "")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture1, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
+                    if (Model.materialDatas[a].Texture2 != "")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture2, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
+                    if (Model.materialDatas[a].Texture3 != "")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture3, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
+                    if (Model.materialDatas[a].Texture4 != "")
+                    {
+                        StreamUtil.WriteString(ModelStream, Model.materialDatas[a].Texture4, 4);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteBytes(ModelStream, new byte[] { 0x00, 0x20, 0x20, 0x20 });
+                    }
+
+
+                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].FactorFloat);
+                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].Unused1Float);
+                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].Unused2Float);
+                }
+
+                Model.OffsetBoneData = (int)ModelStream.Position;
+                for (int a = 0; a < Model.boneDatas.Count; a++)
+                {
+                    StreamUtil.WriteString(ModelStream, Model.boneDatas[a].BoneName, 16);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].ParentFileID);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].ParentBone);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].Unknown2);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].BoneID);
+
+                    StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Position);
+
+                    StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Radians);
+                    StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Radians2);
+
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat1);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat2);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat3);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat4);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat5);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat6);
+                }
+
+                Model.OffsetIKPointList = (int)ModelStream.Position;
+                for (int a = 0; a < Model.iKPoints.Count; a++)
+                {
+                    StreamUtil.WriteVector3(ModelStream, Model.iKPoints[a]);
+                    ModelStream.Position += 4;
+                }
+
+                modelHeaders[i] = Model;
             }
 
 
