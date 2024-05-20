@@ -756,18 +756,41 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 }
 
                 var TempHeader = TempTrickyMesh.meshHeaders[HeaderID];
+                TrickyGCMNF.IndexGroupHeader indexGroupHeader = new TrickyGCMNF.IndexGroupHeader();
+                indexGroupHeader.MatIndex0 = MaterialID;
+                indexGroupHeader.MatIndex1 = MaterialID;
+                indexGroupHeader.MatIndex2 = MaterialID;
+                indexGroupHeader.MatIndex3 = MaterialID;
+                indexGroupHeader.MatIndex4 = MaterialID;
+                TrickyGCMNF.IndexGroup indexGroup = new TrickyGCMNF.IndexGroup();
 
+                indexGroup.indices = new List<TrickyGCMNF.Index>();
+                indexGroup.shadowIndices = new List<TrickyGCMNF.ShadowIndex>();
+                
                 //Generate New Index List with Weight List
-
                 //Add Index List
+                for (int a = 0; a < indiceTristrips[i].Indices.Count; a++)
+                {
+                    TrickyGCMNF.Index TrickyIndex = new TrickyGCMNF.Index();
+                    if (!TempHeader.WeightIndex.Contains(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex))
+                    {
+                        TempHeader.WeightIndex.Add(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex);
+                    }
+                    TrickyIndex.WeightIndex = TempHeader.WeightIndex.IndexOf(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex);
 
+                    TrickyIndex.Index0 = indiceTristrips[i].Indices[a];
+                    TrickyIndex.Index1 = indiceTristrips[i].Indices[a];
+                    TrickyIndex.Index2 = indiceTristrips[i].Indices[a];
+                }
+                indexGroupHeader.indexGroup = indexGroup;
+
+                TempHeader.indexGroupHeaders.Add(indexGroupHeader);
                 TempTrickyMesh.meshHeaders[HeaderID] = TempHeader;
             }
 
 
             //set data to mxf
-            //TempTrickyMesh.vertexDatas = VectorPoint;
-            //TempTrickyMesh.tristripHeaders = NewTristripsHeaders;
+            TempTrickyMesh.Vertex = VectorPoint;
 
             Board.modelHeaders[Selected] = TempTrickyMesh;
         }
