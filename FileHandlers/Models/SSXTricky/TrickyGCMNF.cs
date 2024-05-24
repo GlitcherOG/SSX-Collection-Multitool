@@ -289,7 +289,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                                     shadowIndex.Index0 = StreamUtil.ReadUInt16(streamMatrix, true);
                                     shadowIndex.Index1 = StreamUtil.ReadUInt16(streamMatrix, true);
                                     shadowIndex.Index2 = StreamUtil.ReadUInt16(streamMatrix, true);
-                                    streamMatrix.Position += 1;
+                                    shadowIndex.Unk0 = StreamUtil.ReadUInt8(streamMatrix);
                                     TempIndexGroup.indexGroup.indices.Add(shadowIndex);
                                 }
                                 else
@@ -619,6 +619,17 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 }
 
                 //MeshHeader
+                ModelStream.Position = Model.OffsetTristripSection;
+
+                ModelStream.Position += 4 * 5;
+
+                //3920 - Header
+
+                //4400 - Weight
+
+                //5332 - Index Group Header
+
+                //5760 - Index Groups
 
                 //Vertex Data
                 Model.OffsetVertexSection = (int)ModelStream.Position;
@@ -851,6 +862,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             public int Index0;
             public int Index1;
             public int Index2;
+            public int Unk0;
         }
 
         public struct ShadowIndex
