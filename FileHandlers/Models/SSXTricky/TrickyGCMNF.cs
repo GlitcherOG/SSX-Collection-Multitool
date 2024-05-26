@@ -485,6 +485,13 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             {
                 var Model = modelHeaders[i];
 
+                bool Shadow = false;
+
+                if (modelHeaders[i].ModelName.ToLower().Contains("shdw"))
+                {
+                    Shadow = true;
+                }
+
                 Model.ModelOffset = (int)(OffsetModelData - stream.Position);
 
                 MemoryStream ModelStream = new MemoryStream();
@@ -621,18 +628,131 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 //MeshHeader
                 ModelStream.Position = Model.OffsetTristripSection;
 
-                ModelStream.Position += 4 * 5;
+                ModelStream.Position += 4 * 5 * Model.meshHeaders.Count;
 
-                //3920 - Header
+                //Write Weights
+                for (int a = 0; a < Model.meshHeaders.Count; a++)
+                {
+                    var TempMeshHeader = Model.meshHeaders[a];
 
-                //4400 - Weight
+                    TempMeshHeader.OffsetSkinIndexList = (int)ModelStream.Position;
 
-                //5332 - Index Group Header
+                    for (int b = 0; b < TempMeshHeader.WeightIndex.Count; b++)
+                    {
+                        StreamUtil.WriteInt32(ModelStream, TempMeshHeader.WeightIndex[b]);
+                    }
 
-                //5760 - Index Groups
+                    Model.meshHeaders[a] = TempMeshHeader;
+                }
+
+                long IndexGroupHeaderPos = ModelStream.Position;
+
+                for (int a = 0; a < Model.meshHeaders.Count; a++)
+                {
+                    var TempHeader = Model.meshHeaders[a];
+
+                    TempHeader.OffsetIndexGroupList = (int)ModelStream.Position;
+
+                    ModelStream.Position += 4 * 4 * Model.meshHeaders[a].indexGroupHeaders.Count;
+
+                    Model.meshHeaders[a] = TempHeader;
+                }
+
+                //Write IndexGroups
+                for (int a = 0; a < Model.meshHeaders.Count; a++)
+                {
+                    var TempMeshHeader = Model.meshHeaders[a];
+
+                    //TempMeshHeader.OffsetIndexGroupList = (int)ModelStream.Position;
+
+                    for (int b = 0; b < TempMeshHeader.indexGroupHeaders.Count; b++)
+                    {
+                        var TempHeader = TempMeshHeader.indexGroupHeaders[b];
+                        var TempGroup = TempHeader.indexGroup;
+
+                        TempHeader.Offset = (int)ModelStream.Position;
+
+                        StreamUtil.WriteUInt8(ModelStream, TempGroup.IndexUnk0);
+                        StreamUtil.WriteInt16(ModelStream, TempGroup.indices.Count);
+                        StreamUtil.WriteUInt8(ModelStream, TempGroup.IndexUnk1);
+
+                        if (!Shadow)
+                        {
+                            for (int c = 0; c < TempGroup.indices.Count; c++)
+                            {
+                                StreamUtil.WriteUInt8(ModelStream, TempGroup.indices[c].WeightIndex * 3 + 30);
+                                StreamUtil.WriteInt16(ModelStream, TempGroup.indices[c].Index0);
+                                StreamUtil.WriteInt16(ModelStream, TempGroup.indices[c].Index1);
+                                StreamUtil.WriteInt16(ModelStream, TempGroup.indices[c].Index2);
+                                StreamUtil.WriteUInt8(ModelStream, TempGroup.indices[c].Unk0);
+                            }
+                        }
+                        else
+                        {
+                            for (int c = 0; c < TempGroup.shadowIndices.Count; c++)
+                            {
+                                StreamUtil.WriteInt16(ModelStream, TempGroup.shadowIndices[c].Index);
+                                StreamUtil.WriteInt16(ModelStream, TempGroup.shadowIndices[c].WeightIndex);
+                            }
+                        }
+
+                        TempHeader.indexGroup = TempGroup;
+                        TempMeshHeader.indexGroupHeaders[b] = TempHeader;
+                    }
+
+                    Model.meshHeaders[a] = TempMeshHeader;
+                }
+
+                Model.OffsetVertexSection = (int)ModelStream.Position;
+
+                //Write IndexGroupHeaders
+                for (int a = 0; a < Model.meshHeaders.Count; a++)
+                {
+                    var TempHeader = Model.meshHeaders[a];
+
+                    ModelStream.Position = TempHeader.OffsetIndexGroupList;
+
+                    for (int b = 0; b < TempHeader.indexGroupHeaders.Count; b++)
+                    {
+                        var TempGroupHeader = TempHeader.indexGroupHeaders[b];
+
+                        StreamUtil.WriteInt32(ModelStream, TempGroupHeader.Offset);
+                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.ByteLength);
+                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.MatIndex0);
+                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.MatIndex1);
+                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.MatIndex2);
+                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.MatIndex3);
+                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.MatIndex0);
+                    }
+
+                }
+
+                //Write Header
+                ModelStream.Position = Model.OffsetTristripSection;
+
+                for (int a = 0; a < Model.meshHeaders.Count; a++)
+                {
+                    var TempHeader = Model.meshHeaders[a];
+
+                    StreamUtil.WriteInt32(ModelStream, TempHeader.WeightIndex.Count);
+                    StreamUtil.WriteInt32(ModelStream, TempHeader.indexGroupHeaders.Count);
+                    StreamUtil.WriteInt32(ModelStream, TempHeader.OffsetSkinIndexList);
+                    StreamUtil.WriteInt32(ModelStream, TempHeader.OffsetIndexGroupList);
+                    StreamUtil.WriteInt16(ModelStream, TempHeader.unk0);
+                    StreamUtil.WriteUInt8(ModelStream, TempHeader.unk1);
+                    StreamUtil.WriteUInt8(ModelStream, TempHeader.unk2);
+                }
+
+                //3920 - Header - Done
+
+                //4400 - Weight - Done
+
+                //5332 - Index Group Header - Done
+
+                //5760 - Index Groups - Done
 
                 //Vertex Data
-                Model.OffsetVertexSection = (int)ModelStream.Position;
+                ModelStream.Position = Model.OffsetVertexSection;
                 for (int a = 0; a < Model.Vertex.Count; a++)
                 {
                     StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].Vertex.X * 127f));
@@ -647,6 +767,12 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].UV.Y * 65535f));
                 }
 
+                ModelStream.Position = 0;
+                Model.ModelSize = (int)ModelStream.Length;
+                Model.ModelOffset = (int)(stream.Position - OffsetModelData);
+                StreamUtil.WriteStreamIntoStream(stream, ModelStream);
+                ModelStream.Dispose();
+                ModelStream.Close();
                 modelHeaders[i] = Model;
             }
 
@@ -847,7 +973,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
         public struct IndexGroup
         {
-            public int OffsetStrip;
+            //public int OffsetStrip;
             public int IndexUnk0;
             public int NumIndex;
             public int IndexUnk1;
