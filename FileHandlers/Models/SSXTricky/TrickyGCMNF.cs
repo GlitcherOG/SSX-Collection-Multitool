@@ -138,9 +138,9 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                             TempMat.Texture4 = "";
                         }
 
-                        TempMat.FactorFloat = StreamUtil.ReadFloat(streamMatrix);
-                        TempMat.Unused1Float = StreamUtil.ReadFloat(streamMatrix);
-                        TempMat.Unused2Float = StreamUtil.ReadFloat(streamMatrix);
+                        TempMat.FactorFloat = StreamUtil.ReadFloat(streamMatrix, true);
+                        TempMat.Unused1Float = StreamUtil.ReadFloat(streamMatrix, true);
+                        TempMat.Unused2Float = StreamUtil.ReadFloat(streamMatrix, true);
                         Model.materialDatas.Add(TempMat);
                     }
 
@@ -538,37 +538,37 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     }
 
 
-                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].FactorFloat);
-                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].Unused1Float);
-                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].Unused2Float);
+                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].FactorFloat, true);
+                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].Unused1Float, true);
+                    StreamUtil.WriteFloat32(ModelStream, Model.materialDatas[a].Unused2Float, true);
                 }
 
                 Model.OffsetBoneData = (int)ModelStream.Position;
                 for (int a = 0; a < Model.boneDatas.Count; a++)
                 {
                     StreamUtil.WriteString(ModelStream, Model.boneDatas[a].BoneName, 16);
-                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].ParentFileID);
-                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].ParentBone);
-                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].Unknown2);
-                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].BoneID);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].ParentFileID, true);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].ParentBone, true);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].Unknown2, true);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneDatas[a].BoneID, true);
 
-                    StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Position);
+                    StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Position, true);
 
-                    StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Radians);
-                    StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Radians2);
+                    StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Radians, true);
+                    StreamUtil.WriteVector3(ModelStream, Model.boneDatas[a].Radians2, true);
 
-                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat1);
-                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat2);
-                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat3);
-                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat4);
-                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat5);
-                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat6);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat1, true);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat2, true);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat3, true);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat4, true);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat5, true);
+                    StreamUtil.WriteFloat32(ModelStream, Model.boneDatas[a].UnknownFloat6, true);
                 }
 
                 Model.OffsetIKPointList = (int)ModelStream.Position;
                 for (int a = 0; a < Model.iKPoints.Count; a++)
                 {
-                    StreamUtil.WriteVector3(ModelStream, Model.iKPoints[a]);
+                    StreamUtil.WriteVector3(ModelStream, Model.iKPoints[a], true);
                     ModelStream.Position += 4;
                 }
 
@@ -583,8 +583,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     TempMorph.OffsetMorphDataList = (int)ModelStream.Position;
                     for (int b = 0; b < TempMorph.MorphDataList.Count; b++)
                     {
-                        StreamUtil.WriteVector3(ModelStream, TempMorph.MorphDataList[b].Morph);
-                        StreamUtil.WriteInt32(ModelStream, TempMorph.MorphDataList[b].VertexIndex);
+                        StreamUtil.WriteVector3(ModelStream, TempMorph.MorphDataList[b].Morph, true);
+                        StreamUtil.WriteInt32(ModelStream, TempMorph.MorphDataList[b].VertexIndex, true);
                     }
                     Model.morphHeader[a] = TempMorph;
                 }
@@ -594,8 +594,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                 for (int a = 0; a < Model.morphHeader.Count; a++)
                 {
-                    StreamUtil.WriteInt32(ModelStream, Model.morphHeader[a].MorphDataList.Count);
-                    StreamUtil.WriteInt32(ModelStream, Model.morphHeader[a].OffsetMorphDataList);
+                    StreamUtil.WriteInt32(ModelStream, Model.morphHeader[a].MorphDataList.Count, true);
+                    StreamUtil.WriteInt32(ModelStream, Model.morphHeader[a].OffsetMorphDataList, true);
                 }
 
                 //Weight
@@ -607,7 +607,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     TempMorph.WeightListOffset = (int)ModelStream.Position;
                     for (int b = 0; b < TempMorph.boneWeights.Count; b++)
                     {
-                        StreamUtil.WriteInt16(ModelStream, TempMorph.boneWeights[b].Weight);
+                        StreamUtil.WriteInt16(ModelStream, TempMorph.boneWeights[b].Weight, true);
                         StreamUtil.WriteUInt8(ModelStream, TempMorph.boneWeights[b].BoneID);
                         StreamUtil.WriteUInt8(ModelStream, TempMorph.boneWeights[b].FileID);
                     }
@@ -619,10 +619,10 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                 for (int a = 0; a < Model.boneWeightHeaders.Count; a++)
                 {
-                    StreamUtil.WriteInt32(ModelStream, Model.boneWeightHeaders[a].boneWeights.Count);
-                    StreamUtil.WriteInt32(ModelStream, Model.boneWeightHeaders[a].WeightListOffset);
-                    StreamUtil.WriteInt16(ModelStream, Model.boneWeightHeaders[a].Unknown1);
-                    StreamUtil.WriteInt16(ModelStream, Model.boneWeightHeaders[a].Unknown2);
+                    StreamUtil.WriteInt32(ModelStream, Model.boneWeightHeaders[a].boneWeights.Count, true);
+                    StreamUtil.WriteInt32(ModelStream, Model.boneWeightHeaders[a].WeightListOffset, true);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneWeightHeaders[a].Unknown1, true);
+                    StreamUtil.WriteInt16(ModelStream, Model.boneWeightHeaders[a].Unknown2, true);
                 }
 
                 //MeshHeader
@@ -639,7 +639,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                     for (int b = 0; b < TempMeshHeader.WeightIndex.Count; b++)
                     {
-                        StreamUtil.WriteInt32(ModelStream, TempMeshHeader.WeightIndex[b]);
+                        StreamUtil.WriteInt32(ModelStream, TempMeshHeader.WeightIndex[b], true);
                     }
 
                     Model.meshHeaders[a] = TempMeshHeader;
@@ -658,6 +658,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     Model.meshHeaders[a] = TempHeader;
                 }
 
+                StreamUtil.AlignBy(ModelStream,32);
+
                 //Write IndexGroups
                 for (int a = 0; a < Model.meshHeaders.Count; a++)
                 {
@@ -673,7 +675,14 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         TempHeader.Offset = (int)ModelStream.Position;
 
                         StreamUtil.WriteUInt8(ModelStream, TempGroup.IndexUnk0);
-                        StreamUtil.WriteInt16(ModelStream, TempGroup.indices.Count);
+                        if (!Shadow)
+                        {
+                            StreamUtil.WriteInt16(ModelStream, TempGroup.indices.Count, true);
+                        }
+                        else
+                        {
+                            StreamUtil.WriteInt16(ModelStream, TempGroup.shadowIndices.Count, true);
+                        }
                         StreamUtil.WriteUInt8(ModelStream, TempGroup.IndexUnk1);
 
                         if (!Shadow)
@@ -681,9 +690,9 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                             for (int c = 0; c < TempGroup.indices.Count; c++)
                             {
                                 StreamUtil.WriteUInt8(ModelStream, TempGroup.indices[c].WeightIndex * 3 + 30);
-                                StreamUtil.WriteInt16(ModelStream, TempGroup.indices[c].Index0);
-                                StreamUtil.WriteInt16(ModelStream, TempGroup.indices[c].Index1);
-                                StreamUtil.WriteInt16(ModelStream, TempGroup.indices[c].Index2);
+                                StreamUtil.WriteInt16(ModelStream, TempGroup.indices[c].Index0, true);
+                                StreamUtil.WriteInt16(ModelStream, TempGroup.indices[c].Index1, true);
+                                StreamUtil.WriteInt16(ModelStream, TempGroup.indices[c].Index2, true);
                                 StreamUtil.WriteUInt8(ModelStream, TempGroup.indices[c].Unk0);
                             }
                         }
@@ -691,8 +700,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         {
                             for (int c = 0; c < TempGroup.shadowIndices.Count; c++)
                             {
-                                StreamUtil.WriteInt16(ModelStream, TempGroup.shadowIndices[c].Index);
-                                StreamUtil.WriteInt16(ModelStream, TempGroup.shadowIndices[c].WeightIndex);
+                                StreamUtil.WriteInt16(ModelStream, TempGroup.shadowIndices[c].Index, true);
+                                StreamUtil.WriteInt16(ModelStream, TempGroup.shadowIndices[c].WeightIndex*3, true);
                             }
                         }
 
@@ -702,6 +711,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                     Model.meshHeaders[a] = TempMeshHeader;
                 }
+
+                StreamUtil.AlignBy(ModelStream, 32);
 
                 Model.OffsetVertexSection = (int)ModelStream.Position;
 
@@ -716,13 +727,13 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     {
                         var TempGroupHeader = TempHeader.indexGroupHeaders[b];
 
-                        StreamUtil.WriteInt32(ModelStream, TempGroupHeader.Offset);
-                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.ByteLength);
-                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.MatIndex0);
-                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.MatIndex1);
-                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.MatIndex2);
-                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.MatIndex3);
-                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.MatIndex0);
+                        StreamUtil.WriteInt32(ModelStream, TempGroupHeader.Offset, true);
+                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.ByteLength, true);
+                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.MatIndex0, true);
+                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.MatIndex1, true);
+                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.MatIndex2, true);
+                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.MatIndex3, true);
+                        StreamUtil.WriteInt16(ModelStream, TempGroupHeader.MatIndex4, true);
                     }
 
                 }
@@ -734,11 +745,11 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 {
                     var TempHeader = Model.meshHeaders[a];
 
-                    StreamUtil.WriteInt32(ModelStream, TempHeader.WeightIndex.Count);
-                    StreamUtil.WriteInt32(ModelStream, TempHeader.indexGroupHeaders.Count);
-                    StreamUtil.WriteInt32(ModelStream, TempHeader.OffsetSkinIndexList);
-                    StreamUtil.WriteInt32(ModelStream, TempHeader.OffsetIndexGroupList);
-                    StreamUtil.WriteInt16(ModelStream, TempHeader.unk0);
+                    StreamUtil.WriteInt32(ModelStream, TempHeader.WeightIndex.Count, true);
+                    StreamUtil.WriteInt32(ModelStream, TempHeader.indexGroupHeaders.Count, true);
+                    StreamUtil.WriteInt32(ModelStream, TempHeader.OffsetSkinIndexList, true);
+                    StreamUtil.WriteInt32(ModelStream, TempHeader.OffsetIndexGroupList, true);
+                    StreamUtil.WriteInt16(ModelStream, TempHeader.unk0, true);
                     StreamUtil.WriteUInt8(ModelStream, TempHeader.unk1);
                     StreamUtil.WriteUInt8(ModelStream, TempHeader.unk2);
                 }
@@ -755,16 +766,16 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 ModelStream.Position = Model.OffsetVertexSection;
                 for (int a = 0; a < Model.Vertex.Count; a++)
                 {
-                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].Vertex.X * 127f));
-                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].Vertex.Y * 127f));
-                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].Vertex.Z * 127f));
+                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].Vertex.X * 127f), true);
+                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].Vertex.Y * 127f), true);
+                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].Vertex.Z * 127f), true);
 
-                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].VertexNormal.X * 16384f));
-                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].VertexNormal.Y * 16384f));
-                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].VertexNormal.Z * 16384f));
+                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].VertexNormal.X * 16384f), true);
+                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].VertexNormal.Y * 16384f), true);
+                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].VertexNormal.Z * 16384f), true);
 
-                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].UV.X * 65535f));
-                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].UV.Y * 65535f));
+                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].UV.X * 65535f), true);
+                    StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].UV.Y * 65535f), true);
                 }
 
                 ModelStream.Position = 0;

@@ -1327,7 +1327,7 @@ namespace SSXMultiTool
             {
                 trickyGCMNF = new TrickyGCMNF();
                 trickyGCMNF.Load(openFileDialog.FileName);
-
+                trickyGCMNF.Save(openFileDialog.FileName + "1");
                 //if (MpfHeaderChecker.DetectFileType(openFileDialog.FileName) != 1)
                 //{
                 //    MessageBox.Show(MpfHeaderChecker.TypeErrorMessage(MpfHeaderChecker.DetectFileType(openFileDialog.FileName)));
