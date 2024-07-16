@@ -205,7 +205,6 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         Model.morphHeader.Add(TempMorph);
 
                     }
-
                     streamMatrix.Position = Model.OffsetSkinningSection;
                     Model.boneWeightHeaders = new List<BoneWeightHeader>();
                     for (int b = 0; b < Model.NumSkinningHeaders; b++)
@@ -763,6 +762,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 //5760 - Index Groups - Done
 
                 //Vertex Data
+
                 ModelStream.Position = Model.OffsetVertexSection;
                 for (int a = 0; a < Model.Vertex.Count; a++)
                 {
