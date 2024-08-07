@@ -61,18 +61,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                 U12.Add(StreamUtil.ReadUInt32(stream));
             }
 
-            U13 = StreamUtil.ReadUInt32(stream);
-
             UnknownS1s = new List<UnknownS1>();
 
             for (int i = 0; i < U1Count; i++)
             {
                 UnknownS1 TempS1 = new UnknownS1();
 
+                TempS1.U0 = StreamUtil.ReadUInt32(stream);
                 TempS1.U1Offset = StreamUtil.ReadUInt32(stream);
                 TempS1.U2Offset = StreamUtil.ReadUInt32(stream);
                 TempS1.MatrixOffset = StreamUtil.ReadUInt32(stream);
-                TempS1.U4 = StreamUtil.ReadUInt32(stream);
 
                 long TempPos = stream.Position;
 
@@ -137,22 +135,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                     stream.Position = TempS1.U2Offset;
                     UnknownS3 TempS3 = new UnknownS3();
                     TempS3.U0 = StreamUtil.ReadVector3(stream);
-                    TempS3.U2 = StreamUtil.ReadVector3(stream);
+                    TempS3.U1 = StreamUtil.ReadVector3(stream);
 
+                    TempS3.U2 = StreamUtil.ReadUInt32(stream);
                     TempS3.U3 = StreamUtil.ReadUInt32(stream);
                     TempS3.U4 = StreamUtil.ReadUInt32(stream);
                     TempS3.U5 = StreamUtil.ReadUInt32(stream);
+
                     TempS3.U6 = StreamUtil.ReadUInt32(stream);
-
-                    TempS3.U7 = StreamUtil.ReadUInt32(stream);
-                    TempS3.U8 = StreamUtil.ReadUInt32(stream);
-                    TempS3.U9 = StreamUtil.ReadUInt32(stream);
-                    TempS3.U10 = StreamUtil.ReadUInt32(stream);
-
-                    TempS3.U11 = StreamUtil.ReadUInt32(stream);
-                    TempS3.U12 = StreamUtil.ReadUInt32(stream);
-                    TempS3.U13 = StreamUtil.ReadUInt32(stream);
-                    TempS3.U14 = StreamUtil.ReadUInt32(stream);
 
                     TempS1.unknownS3 = TempS3;
                 }
@@ -484,10 +474,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
         public struct UnknownS1
         {
+            public int U0;
             public int U1Offset;
             public int U2Offset;
             public int MatrixOffset;
-            public int U4;
 
             public Matrix4x4 matrix4X4;
             public UnknownS2 unknownS2;
@@ -510,22 +500,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public struct UnknownS3
         {
             public Vector3 U0;
-            public Vector3 U2; //?
+            public Vector3 U1; //?
 
+            public int U2;
             public int U3;
             public int U4;
             public int U5;
             public int U6;
-
-            public int U7;
-            public int U8;
-            public int U9;
-            public int U10;
-
-            public int U11;
-            public int U12;
-            public int U13;
-            public int U14;
         }
 
         public struct UnknownS5
