@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SSXMultiTool.Utilities;
 using SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData;
+using System.Diagnostics;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 {
@@ -100,6 +101,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
         public void LoadAndExtractSSBFromSBD(string path, string extractPath, SDBHandler sdbHandler)
         {
+            ConsoleWindow.GenerateConsole();
             using (Stream stream = File.Open(path, FileMode.Open))
             {
                 MemoryStream memoryStream = new MemoryStream();
@@ -138,11 +140,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                             byte[] NewData = StreamUtil.ReadBytes(memoryStream, ChunkSize);
                             StreamUtil.WriteBytes(memoryStream1, NewData);
-                            if (ID==2)
-                            {
-                                WorldMDR worldMDR = new WorldMDR();
 
-                                worldMDR.LoadData(NewData);
+                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + "." +ID);
+
+                            if (ID == 2)
+                            {
+                                var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".mdr");
+                                memoryStream1.Position = 0;
+                                memoryStream1.CopyTo(file);
+                                memoryStream1.Dispose();
+                                memoryStream1 = new MemoryStream();
+                                file.Close();
+
+                                //WorldMDR worldMDR = new WorldMDR();
+
+                                //worldMDR.LoadData(NewData);
                                 //worldMDR.SaveModel(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".glb");
                             }
                             else if (ID==20)

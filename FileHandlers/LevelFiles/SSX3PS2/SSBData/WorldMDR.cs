@@ -76,7 +76,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
                 long TempPos = stream.Position;
 
-                if(TempS1.U1Offset >0)
+                if(TempS1.U1Offset > 0)
                 {
                     stream.Position = TempS1.U1Offset;
 
