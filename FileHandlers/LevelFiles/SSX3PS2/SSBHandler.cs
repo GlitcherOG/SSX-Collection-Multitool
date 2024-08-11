@@ -141,49 +141,47 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             byte[] NewData = StreamUtil.ReadBytes(memoryStream, ChunkSize);
                             StreamUtil.WriteBytes(memoryStream1, NewData);
 
-                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + "." +ID);
-
                             if (ID == 2)
                             {
-                                var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".mdr");
-                                memoryStream1.Position = 0;
-                                memoryStream1.CopyTo(file);
-                                memoryStream1.Dispose();
-                                memoryStream1 = new MemoryStream();
-                                file.Close();
+                                //var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".mdr");
+                                //memoryStream1.Position = 0;
+                                //memoryStream1.CopyTo(file);
+                                //memoryStream1.Dispose();
+                                //memoryStream1 = new MemoryStream();
+                                //file.Close();
+                                Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + "." + ID);
+                                WorldMDR worldMDR = new WorldMDR();
 
-                                //WorldMDR worldMDR = new WorldMDR();
-
-                                //worldMDR.LoadData(NewData);
-                                //worldMDR.SaveModel(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".glb");
+                                worldMDR.LoadData(NewData);
+                                worldMDR.SaveModel(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".glb");
                             }
-                            else if (ID==20)
-                            {
-                                var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".bnk");
-                                memoryStream1.Position = 0;
-                                memoryStream1.CopyTo(file);
-                                memoryStream1.Dispose();
-                                memoryStream1 = new MemoryStream();
-                                file.Close();
-                            }
-                            else if (ID == 9)
-                            {
-                                var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".shps");
-                                memoryStream1.Position = 0;
-                                memoryStream1.CopyTo(file);
-                                memoryStream1.Dispose();
-                                memoryStream1 = new MemoryStream();
-                                file.Close();
-                            }
-                            else
-                            {
-                                var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + "-" + a + ".bin" + ID);
-                                memoryStream1.Position = 0;
-                                memoryStream1.CopyTo(file);
-                                memoryStream1.Dispose();
-                                memoryStream1 = new MemoryStream();
-                                file.Close();
-                            }
+                            //else if (ID==20)
+                            //{
+                            //    var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".bnk");
+                            //    memoryStream1.Position = 0;
+                            //    memoryStream1.CopyTo(file);
+                            //    memoryStream1.Dispose();
+                            //    memoryStream1 = new MemoryStream();
+                            //    file.Close();
+                            //}
+                            //else if (ID == 9)
+                            //{
+                            //    var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".shps");
+                            //    memoryStream1.Position = 0;
+                            //    memoryStream1.CopyTo(file);
+                            //    memoryStream1.Dispose();
+                            //    memoryStream1 = new MemoryStream();
+                            //    file.Close();
+                            //}
+                            //else
+                            //{
+                            //    var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + "-" + a + ".bin" + ID);
+                            //    memoryStream1.Position = 0;
+                            //    memoryStream1.CopyTo(file);
+                            //    memoryStream1.Dispose();
+                            //    memoryStream1 = new MemoryStream();
+                            //    file.Close();
+                            //}
 
                             FilePos++;
                         }

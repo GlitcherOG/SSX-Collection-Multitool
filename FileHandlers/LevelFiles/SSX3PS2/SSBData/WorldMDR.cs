@@ -25,7 +25,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public float U8;
         public float U9;
 
-        public int U10Offset;
+        public int ModelDataOffset;
         public int U11Count;
 
         public List<int> U12 = new List<int>();
@@ -51,7 +51,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             U8 = StreamUtil.ReadFloat(stream);
             U9 = StreamUtil.ReadFloat(stream);
 
-            U10Offset = StreamUtil.ReadUInt32(stream);
+            ModelDataOffset = StreamUtil.ReadUInt32(stream);
             U11Count = StreamUtil.ReadUInt32(stream);
 
             U12 = new List<int>();
@@ -85,36 +85,41 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                     TempS2.ArrayCount = StreamUtil.ReadUInt32(stream);
                     TempS2.ArrayOffset = StreamUtil.ReadUInt32(stream);
 
-                    TempS2.unknownS5 = new List<UnknownS5>();
+                    TempS2.ModelHeaderOffset = new List<ModelDataHeaderStruct>();
                     stream.Position = TempS2.ArrayOffset;
                     for (int a = 0; a < TempS2.ArrayCount; a++)
                     {
-                        UnknownS5 TempS5 = new UnknownS5();
+                        ModelDataHeaderStruct TempS5 = new ModelDataHeaderStruct();
 
-                        TempS5.Offset = StreamUtil.ReadUInt32(stream);
+                        TempS5.HeaderOffset = StreamUtil.ReadUInt32(stream);
 
                         long TempPos1 = stream.Position;
 
-                        stream.Position = TempS5.Offset;
+                        stream.Position = TempS5.HeaderOffset;
 
-                        TempS5.unknownS6 = new UnknownS6();
+                        TempS5.U0 = StreamUtil.ReadInt16(stream);
+                        TempS5.U1 = StreamUtil.ReadInt16(stream);
+                        TempS5.ModelDataOffset = StreamUtil.ReadInt24(stream);
+                        TempS5.U4 = StreamUtil.ReadInt8(stream);
 
-                        TempS5.unknownS6.U0 = StreamUtil.ReadInt16(stream);
-                        TempS5.unknownS6.U1 = StreamUtil.ReadInt16(stream);
-                        TempS5.unknownS6.U3Offset = StreamUtil.ReadUInt32(stream);
+                        TempS5.ModelOffsetHeaders = new List<ModelData>();
 
-                        TempS5.unknownS6.ModelOffsetHeaders = new List<ModelOffsetHeader>();
-
-                        stream.Position = TempS5.unknownS6.U3Offset + U10Offset;
+                        stream.Position = TempS5.ModelDataOffset + ModelDataOffset;
 
                         while (true)
                         {
-                            ModelOffsetHeader TempS7 = new ModelOffsetHeader();
+                            ModelData TempS7 = new ModelData();
 
                             TempS7.LineCount = StreamUtil.ReadInt24(stream);
                             TempS7.U1 = StreamUtil.ReadUInt8(stream);
-                            TempS7.ModelOffset = StreamUtil.ReadUInt32(stream);
-                            TempS5.unknownS6.ModelOffsetHeaders.Add(TempS7);
+                            TempS7.ModelOffset = StreamUtil.ReadInt24(stream);
+                            TempS7.U2 = StreamUtil.ReadUInt8(stream);
+                            if (TempS7.U2 != 0)
+                            {
+                                Console.WriteLine(TempS7.U2 + " Detected");
+                                return;
+                            }
+                            TempS5.ModelOffsetHeaders.Add(TempS7);
 
                             StreamUtil.AlignBy16(stream);
 
@@ -124,7 +129,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                             }
                         }
                         stream.Position = TempPos1;
-                        TempS2.unknownS5.Add(TempS5);
+                        TempS2.ModelHeaderOffset.Add(TempS5);
                     }
 
                     TempS1.unknownS2 = TempS2;
@@ -164,29 +169,30 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             {
                 var S1 = UnknownS1s[i];
 
-                if(S1.U1Offset>0)
+                if (S1.U1Offset > 0)
                 {
-                    for (int a = 0; a < S1.unknownS2.unknownS5.Count; a++)
+                    for (int a = 0; a < S1.unknownS2.ModelHeaderOffset.Count; a++)
                     {
-                        var S5 = S1.unknownS2.unknownS5[a];
+                        var ModelHeader = S1.unknownS2.ModelHeaderOffset[a];
+                        bool HeaderStart = false;
                         bool Normal = false;
-                        for (int b = 0; b < S5.unknownS6.ModelOffsetHeaders.Count - 1; b++)
+                        for (int b = 0; b < ModelHeader.ModelOffsetHeaders.Count - 1; b++)
                         {
-                            var ModelOffsetHeader = S5.unknownS6.ModelOffsetHeaders[b];
+                            var ModelOffsetHeader = ModelHeader.ModelOffsetHeaders[b];
 
                             if (ModelOffsetHeader.ModelOffset > 0)
                             {
+                                stream.Position = ModelOffsetHeader.ModelOffset + ModelDataOffset;
 
-                                stream.Position = ModelOffsetHeader.ModelOffset + U10Offset;
-                                int Temp = StreamUtil.ReadUInt32(stream);
-                                if (Temp == 16777473)
+                                if(HeaderStart==false)
                                 {
-                                    //Unknown if used
-                                    stream.Position += 32 - 4;
-                                }
-                                else
-                                {
-                                    stream.Position -= 4;
+                                    ModelHeader.U00 = StreamUtil.ReadInt32(stream);
+                                    ModelHeader.U01 = StreamUtil.ReadInt32(stream);
+                                    ModelHeader.U02 = StreamUtil.ReadInt32(stream);
+                                    ModelHeader.U03 = StreamUtil.ReadInt32(stream);
+
+                                    ModelHeader.U04 = StreamUtil.ReadVector4(stream);
+                                    HeaderStart = true;
                                 }
 
                                 if (!Normal)
@@ -271,10 +277,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                                 Normal = !Normal;
                             }
 
-                            S5.unknownS6.ModelOffsetHeaders[b] = ModelOffsetHeader;
+                            ModelHeader.ModelOffsetHeaders[b] = ModelOffsetHeader;
                         }
 
-                        S1.unknownS2.unknownS5[a] = S5;
+                        S1.unknownS2.ModelHeaderOffset[a] = ModelHeader;
                     }
                 }
 
@@ -293,33 +299,32 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
                 if (S1.U1Offset > 0)
                 {
-                    for (int a = 0; a < S1.unknownS2.unknownS5.Count; a++)
+                    for (int a = 0; a < S1.unknownS2.ModelHeaderOffset.Count; a++)
                     {
-                        var S5 = S1.unknownS2.unknownS5[a];
-
-                        for (int b = 0; b < (S5.unknownS6.ModelOffsetHeaders.Count-1)/2; b++)
+                        var S5 = S1.unknownS2.ModelHeaderOffset[a];
+                        Rotation = false;
+                        for (int b = 0; b < S5.ModelOffsetHeaders.Count/2; b++)
                         {
                             int VerticesUVID = b * 2;
                             int NormalID = b * 2 +1;
 
-                            var VerticesUV = S5.unknownS6.ModelOffsetHeaders[VerticesUVID];
-                            var Normal = S5.unknownS6.ModelOffsetHeaders[NormalID];
+                            var VerticesUV = S5.ModelOffsetHeaders[VerticesUVID];
+                            var Normal = S5.ModelOffsetHeaders[NormalID];
 
                             S1.modelFaces.AddRange(GenerateFaces(VerticesUV.modelVandUVData, Normal.modelNormalData));
 
                         }
 
-                        S1.unknownS2.unknownS5[a] = S5;
+                        S1.unknownS2.ModelHeaderOffset[a] = S5;
                     }
                 }
-
-
 
                 UnknownS1s[i] = S1;
             }
 
 
         }
+        bool Rotation = false;
         public List<ModelFace> GenerateFaces(ModelVandUVData ModelData, ModelNormalData modelNormalData)
         {
             //Increment Strips
@@ -419,6 +424,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
         public void SaveModel(string Path)
         {
+
             var scene = new SharpGLTF.Scenes.SceneBuilder();
 
                 var material1 = new MaterialBuilder("TempMat")
@@ -429,6 +435,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             {
                 var s1 = UnknownS1s[i];
                 var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1>(i.ToString());
+
+                if (s1.modelFaces == null)
+                {
+                    return;
+                }
 
                 for (int a = 0; a < s1.modelFaces.Count; a++)
                 {
@@ -494,7 +505,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             public int ArrayCount;
             public int ArrayOffset;
 
-            public List<UnknownS5> unknownS5;
+            public List<ModelDataHeaderStruct> ModelHeaderOffset;
         }
 
         public struct UnknownS3
@@ -509,26 +520,32 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             public int U6;
         }
 
-        public struct UnknownS5
+        public struct ModelDataHeaderStruct
         {
-            public int Offset;
-            public UnknownS6 unknownS6;
-        }
+            public int HeaderOffset;
 
-        public struct UnknownS6
-        {
             public int U0;
             public int U1;
-            public int U3Offset;
+            public int ModelDataOffset;
+            public int U4;
 
-            public List <ModelOffsetHeader> ModelOffsetHeaders;
+            //Main Header Object
+            public int U00;
+            public int U01;
+            public int U02;
+            public int U03;
+
+            public Vector4 U04;
+
+            public List <ModelData> ModelOffsetHeaders;
         }
 
-        public struct ModelOffsetHeader
+        public struct ModelData
         {
             public int LineCount;
             public int U1;
-            public long ModelOffset;
+            public int ModelOffset;
+            public int U2;
 
             public ModelVandUVData modelVandUVData;
             public ModelNormalData modelNormalData;
