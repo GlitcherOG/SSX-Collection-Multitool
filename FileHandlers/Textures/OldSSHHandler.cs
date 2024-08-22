@@ -385,7 +385,7 @@ namespace SSXMultiTool.FileHandlers.Textures
         {
             for (int i = 0; i < sshImages.Count; i++)
             {
-                sshImages[i].bitmap.Save(path + "\\" + sshImages[i].shortname + ".png", ImageFormat.Png);
+                sshImages[i].bitmap.Save(path + "\\" + sshImages[i].shortname + i + ".png", ImageFormat.Png);
             }
         }
 
