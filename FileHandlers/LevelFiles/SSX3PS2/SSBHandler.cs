@@ -149,7 +149,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 //memoryStream1.Dispose();
                                 //memoryStream1 = new MemoryStream();
                                 //file.Close();
-                                Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + "." + ID);
+                                Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".glb");
                                 WorldMDR worldMDR = new WorldMDR();
 
                                 worldMDR.LoadData(NewData);
@@ -173,6 +173,20 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             //    memoryStream1 = new MemoryStream();
                             //    file.Close();
                             //}
+                            else if (ID == 10)
+                            {
+                                //var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".shps");
+                                //memoryStream1.Position = 0;
+                                //memoryStream1.CopyTo(file);
+                                //memoryStream1.Dispose();
+                                //memoryStream1 = new MemoryStream();
+                                //file.Close();
+                                Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".png");
+                                WorldOldSSH worldOldSSH = new WorldOldSSH();
+
+                                worldOldSSH.Load(NewData);
+                                worldOldSSH.SaveImage(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".png");
+                            }
                             //else
                             //{
                             //    var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + "-" + a + ".bin" + ID);
