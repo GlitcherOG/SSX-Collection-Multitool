@@ -16,7 +16,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
             
         All IDS
         0 - Unknown
-        2 - WorldMDR (Def Contains Model Info)
+        2 - WorldMDR
         3 - Unknown
         4 - Unknown
         5 - 
@@ -24,7 +24,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         7 -
         8 -
         9 - Shape
-        10 - 
+        10 - Shape Lightmaps
         11 - 
         12 - 
         13 - 
@@ -108,6 +108,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 List<int> ints = new List<int>();
                 int a = 0;
                 int splitCount = 1;
+                int FilePos = 0;
                 while (true)
                 {
                     if (stream.Position >= stream.Length - 1)
@@ -123,13 +124,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                     DecompressedData = RefpackHandler.Decompress(Data);
                     StreamUtil.WriteBytes(memoryStream, DecompressedData);
-
                     if (MagicWords.ToUpper() == "CEND")
                     {
                         int ChunkID = sdbHandler.FindLocationChunk(a);
                         Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name);
                         memoryStream.Position = 0;
-                        int FilePos = 0;
 
                         while (memoryStream.Position < memoryStream.Length)
                         {
