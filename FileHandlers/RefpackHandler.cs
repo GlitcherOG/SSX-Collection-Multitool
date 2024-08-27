@@ -42,7 +42,7 @@ namespace SSXMultiTool.FileHandlers
             return DecompressSize;
         }
 
-        public static byte[] Decompress(byte[] Matrix)
+        public static byte[] Decompress(byte[] Matrix, bool bypass = false, int BypassSize = 0)
         {
             byte[] Signature = new byte[2];
             int DecompressSize;
@@ -66,23 +66,30 @@ namespace SSXMultiTool.FileHandlers
                 return null;
             }
 
-            stream.Read(Signature, 0, 2);
-
-            if (Signature[1] != 0xFB || Signature[0] != 0x10)
+            if (!bypass)
             {
-                stream.Dispose();
-                stream.Close();
-                return Matrix;
+                stream.Read(Signature, 0, 2);
+
+                if (Signature[1] != 0xFB || Signature[0] != 0x10)
+                {
+                    stream.Dispose();
+                    stream.Close();
+                    return Matrix;
+                }
+
+
+                //NOT EVEN USED SO??
+                if (Signature[0] == 0x01 && Signature[1] == 0x00)
+                {
+                    stream.Position += 3;
+                }
+
+                DecompressSize = StreamUtil.ReadInt24(stream, true);
             }
-
-
-            //NOT EVEN USED SO??
-            if (Signature[0] == 0x01 && Signature[1] == 0x00)
+            else
             {
-                stream.Position+=3;
+                DecompressSize = BypassSize;
             }
-
-            DecompressSize = StreamUtil.ReadInt24(stream, true);
 
             Output = new byte[DecompressSize];
 

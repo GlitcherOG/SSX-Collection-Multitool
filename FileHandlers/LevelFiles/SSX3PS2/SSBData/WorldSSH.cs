@@ -10,7 +10,7 @@ using System.Windows.Shapes;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
-    public class WorldOldSSH
+    public class WorldSSH
     {
         public byte MatrixFormat;
         public int Size;
@@ -61,7 +61,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
             if (Size != 0)
             {
-                RealSize = Size - 16;
+                RealSize = Size - 0x80;
             }
             else
             {
@@ -72,16 +72,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                 }
             }
 
+            stream.Position = 0x80;
+
             //Read Matrix
             var tempByte = new byte[RealSize];
             stream.Read(tempByte, 0, tempByte.Length);
             Matrix = tempByte;
 
-            //Decompress
-            if (MatrixFormat == 130)
-            {
-                Matrix = RefpackHandler.Decompress(Matrix);
-            }
+            //Matrix = RefpackHandler.Decompress(Matrix, true, Width * Height);
 
             //Split Image Into Proper Bytes
             if (MatrixFormat == 1)
@@ -99,7 +97,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             }
 
             //INDEXED COLOUR
-            if (MatrixFormat == 2 || MatrixFormat == 1 || MatrixFormat == 130)
+            if (MatrixFormat == 2 || MatrixFormat == 1)
             {
                 int Spos = (int)stream.Position;
                 bool find = false;
@@ -111,7 +109,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                         find = true;
                     }
                 }
-                SSHColourTable sshTable = new SSHColourTable();
+                sshTable = new SSHColourTable();
 
                 sshTable.Size = StreamUtil.ReadInt24(stream);
 
@@ -131,7 +129,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                     tempSize = sshTable.Total;
                 }
 
-                stream.Position = Spos + 15;
+                stream.Position = Spos + 0x7F;
 
                 for (int a = 0; a < tempSize; a++)
                 {
@@ -216,21 +214,17 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                 }
             }
             else
-            if (MatrixFormat == 2 || MatrixFormat == 130)
+            if (MatrixFormat == 2)
             {
-                //if (LXPos == 2)
-                //{
-                //    Matrix = ByteUtil.ByteArraySwap(Matrix, tempImageHeader);
-                //}
                 for (int y = 0; y < Height; y++)
                 {
                     for (int x = 0; x < Width; x++)
                     {
                         int colorPos = Matrix[post];
-                        if (sshTable.Format != 0)
-                        {
-                            colorPos = ByteUtil.ByteBitSwitch(colorPos);
-                        }
+                        //if (sshTable.Format != 0)
+                        //{
+                            //colorPos = ByteUtil.ByteBitSwitch(colorPos);
+                        //}
 
                         if (MetalBin)
                         {
