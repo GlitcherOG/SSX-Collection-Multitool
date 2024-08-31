@@ -286,8 +286,8 @@ namespace SSXMultiTool
                 tempEntry.menuOrder = (int)BoltMenuOrder.Value;
                 tempEntry.unkownInt5 = (int)BoltUnkown7.Value;
                 tempEntry.weight = (int)BoltFillBar.Value;
-                tempEntry.cost = (int)BoltCost.Value;
-                tempEntry.unkownInt8 = (int)BoltUnkown8.Value;
+                tempEntry.Cost = (int)BoltCost.Value;
+                tempEntry.FileID = (int)BoltFileID.Value;
 
                 tempEntry.SpecialID = (int)BoltSpecialOne.Value;
                 tempEntry.SpecialID2 = (int)BoltSpecialTwo.Value;
@@ -347,8 +347,8 @@ namespace SSXMultiTool
                 BoltMenuOrder.Value = boltPS2.characters[Index1].entries[Index].menuOrder;
                 BoltUnkown7.Value = boltPS2.characters[Index1].entries[Index].unkownInt5;
                 BoltFillBar.Value = boltPS2.characters[Index1].entries[Index].weight;
-                BoltCost.Value = boltPS2.characters[Index1].entries[Index].cost;
-                BoltUnkown8.Value = boltPS2.characters[Index1].entries[Index].unkownInt8;
+                BoltCost.Value = boltPS2.characters[Index1].entries[Index].Cost;
+                BoltFileID.Value = boltPS2.characters[Index1].entries[Index].FileID;
 
                 BoltSpecialOne.Value = boltPS2.characters[Index1].entries[Index].SpecialID;
                 BoltSpecialTwo.Value = boltPS2.characters[Index1].entries[Index].SpecialID2;
@@ -1173,6 +1173,11 @@ namespace SSXMultiTool
         private void MorphScaleNumber_ValueChanged(object sender, EventArgs e)
         {
             SSX3PS2MPF.MorphScale = (float)MorphScaleNumber.Value;
+        }
+
+        private void label24_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

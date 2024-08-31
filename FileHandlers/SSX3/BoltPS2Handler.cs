@@ -51,8 +51,8 @@ namespace SSXMultiTool.FileHandlers
                     temp1.unkownInt5 = stream.ReadByte(); //12
                     
                     temp1.weight = StreamUtil.ReadInt16(stream); //13-14
-                    temp1.cost = StreamUtil.ReadInt16(stream); //15-16
-                    temp1.unkownInt8 = stream.ReadByte(); //17
+                    temp1.Cost = StreamUtil.ReadInt16(stream); //15-16
+                    temp1.FileID = stream.ReadByte(); //17
                     temp1.SpecialID = stream.ReadByte(); //18
                     temp1.SpecialID2 = stream.ReadByte(); //19
                     temp1.SpecialID3 = stream.ReadByte(); //20
@@ -247,9 +247,9 @@ namespace SSXMultiTool.FileHandlers
                     stream.WriteByte((byte)TempEntry.unkownInt5);
 
                     StreamUtil.WriteInt16(stream, TempEntry.weight);
-                    StreamUtil.WriteInt16(stream, TempEntry.cost);
+                    StreamUtil.WriteInt16(stream, TempEntry.Cost);
 
-                    stream.WriteByte((byte)TempEntry.unkownInt8);
+                    stream.WriteByte((byte)TempEntry.FileID);
                     stream.WriteByte((byte)TempEntry.SpecialID);
                     stream.WriteByte((byte)TempEntry.SpecialID2);
                     stream.WriteByte((byte)TempEntry.SpecialID3);
@@ -365,8 +365,8 @@ namespace SSXMultiTool.FileHandlers
         public int menuOrder;
         public int unkownInt5;
         public int weight;
-        public int cost;
-        public int unkownInt8;
+        public int Cost;
+        public int FileID;
 
         public int SpecialID;
         public int SpecialID2;

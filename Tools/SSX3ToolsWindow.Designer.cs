@@ -138,7 +138,7 @@
             label26 = new Label();
             BoltSpecialOne = new NumericUpDown();
             label25 = new Label();
-            BoltUnkown8 = new NumericUpDown();
+            BoltFileID = new NumericUpDown();
             label24 = new Label();
             BoltCost = new NumericUpDown();
             label23 = new Label();
@@ -294,7 +294,7 @@
             ((System.ComponentModel.ISupportInitialize)BoltSpecialThree).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltSpecialTwo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltSpecialOne).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkown8).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)BoltFileID).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltCost).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltFillBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltUnkown7).BeginInit();
@@ -1218,7 +1218,7 @@
             tabPage3.Controls.Add(label26);
             tabPage3.Controls.Add(BoltSpecialOne);
             tabPage3.Controls.Add(label25);
-            tabPage3.Controls.Add(BoltUnkown8);
+            tabPage3.Controls.Add(BoltFileID);
             tabPage3.Controls.Add(label24);
             tabPage3.Controls.Add(BoltCost);
             tabPage3.Controls.Add(label23);
@@ -1488,22 +1488,23 @@
             label25.TabIndex = 26;
             label25.Text = "Special FX Type";
             // 
-            // BoltUnkown8
+            // BoltFileID
             // 
-            BoltUnkown8.Location = new Point(283, 205);
-            BoltUnkown8.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltUnkown8.Name = "BoltUnkown8";
-            BoltUnkown8.Size = new Size(120, 23);
-            BoltUnkown8.TabIndex = 25;
+            BoltFileID.Location = new Point(283, 205);
+            BoltFileID.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
+            BoltFileID.Name = "BoltFileID";
+            BoltFileID.Size = new Size(120, 23);
+            BoltFileID.TabIndex = 25;
             // 
             // label24
             // 
             label24.AutoSize = true;
             label24.Location = new Point(283, 187);
             label24.Name = "label24";
-            label24.Size = new Size(60, 15);
+            label24.Size = new Size(39, 15);
             label24.TabIndex = 24;
-            label24.Text = "Unkown 8";
+            label24.Text = "File ID";
+            label24.Click += label24_Click;
             // 
             // BoltCost
             // 
@@ -2829,7 +2830,7 @@
             ((System.ComponentModel.ISupportInitialize)BoltSpecialThree).EndInit();
             ((System.ComponentModel.ISupportInitialize)BoltSpecialTwo).EndInit();
             ((System.ComponentModel.ISupportInitialize)BoltSpecialOne).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltUnkown8).EndInit();
+            ((System.ComponentModel.ISupportInitialize)BoltFileID).EndInit();
             ((System.ComponentModel.ISupportInitialize)BoltCost).EndInit();
             ((System.ComponentModel.ISupportInitialize)BoltFillBar).EndInit();
             ((System.ComponentModel.ISupportInitialize)BoltUnkown7).EndInit();
@@ -2933,7 +2934,7 @@
         private Label label26;
         private NumericUpDown BoltSpecialOne;
         private Label label25;
-        private NumericUpDown BoltUnkown8;
+        private NumericUpDown BoltFileID;
         private Label label24;
         private NumericUpDown BoltCost;
         private Label label23;
