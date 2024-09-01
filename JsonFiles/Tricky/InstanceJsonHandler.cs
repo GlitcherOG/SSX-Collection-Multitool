@@ -51,13 +51,16 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public float[] Rotation;
             public float[] Scale;
 
-            public float[] LightingVector;
-            public float[] LightingRotation;
+            public float[] LightVector1;
+            public float[] LightVector2;
+            public float[] LightVector3;
+            public float[] AmbentLightVector;
 
-            public float[] Unknown9;
-            public float[] Unknown10;
-            public float[] Unknown11;
-            public float[] RGBA;
+            public float[] LightColour1;
+            public float[] LightColour2;
+            public float[] LightColour3;
+            public float[] AmbentLightColour;
+
             public int ModelID;
             public int PrevInstance;
             public int NextInstance;

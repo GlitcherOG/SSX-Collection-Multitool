@@ -174,25 +174,18 @@ namespace SSXMultiTool
                 instanceJson.Rotation = JsonUtil.QuaternionToArray(Rotation);
                 instanceJson.Scale = JsonUtil.Vector3ToArray(Scale);
 
-                Vector3 LightingScale;
-                Quaternion LightingRotation;
-                Vector3 LightingLocation;
+                var TempMatrix = pbdHandler.Instances[i].lightingMatrix4x4;
 
-                Matrix4x4.Decompose(pbdHandler.Instances[i].lightingMatrix4x4, out LightingScale, out LightingRotation, out LightingLocation);
+                instanceJson.LightVector1 = new float[] { TempMatrix.M11, TempMatrix.M21, TempMatrix.M31, TempMatrix.M41 };
+                instanceJson.LightVector2 = new float[] { TempMatrix.M12, TempMatrix.M22, TempMatrix.M32, TempMatrix.M42 };
+                instanceJson.LightVector3 = new float[] { TempMatrix.M13, TempMatrix.M23, TempMatrix.M33, TempMatrix.M43 };
+                instanceJson.AmbentLightVector = new float[] { TempMatrix.M14, TempMatrix.M24, TempMatrix.M34, TempMatrix.M44 };
 
-                if(LightingRotation!=new Quaternion(0,0,0,1))
-                {
-                    Console.WriteLine("");
-                }
+                instanceJson.LightColour1 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].LightColour1);
+                instanceJson.LightColour2 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].LightColour2);
+                instanceJson.LightColour3 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].LightColour3);
+                instanceJson.AmbentLightColour = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].AmbentLightColour);
 
-                instanceJson.LightingVector = JsonUtil.Vector3ToArray(LightingScale);
-                instanceJson.LightingRotation = JsonUtil.QuaternionToArray(LightingRotation);
-
-
-                instanceJson.Unknown9 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown9);
-                instanceJson.Unknown10 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown10);
-                instanceJson.Unknown11 = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].Unknown11);
-                instanceJson.RGBA = JsonUtil.Vector4ToArray(pbdHandler.Instances[i].RGBA);
                 instanceJson.ModelID = pbdHandler.Instances[i].ModelID;
                 instanceJson.PrevInstance = pbdHandler.Instances[i].PrevInstance;
                 instanceJson.NextInstance = pbdHandler.Instances[i].NextInstance;
@@ -1490,16 +1483,35 @@ namespace SSXMultiTool
                     matrix4X4.Translation = JsonUtil.ArrayToVector3(Oldinstance.Location);
 
                     NewInstance.matrix4X4 = matrix4X4;
-                   
-                    Matrix4x4 Lscale = Matrix4x4.CreateScale(JsonUtil.ArrayToVector3(Oldinstance.LightingVector));
-                    Matrix4x4 LRotation = Matrix4x4.CreateFromQuaternion(JsonUtil.ArrayToQuaternion(Oldinstance.LightingRotation));
-                    Matrix4x4 Lmatrix4X4 = Matrix4x4.Multiply(Lscale, LRotation);
+
+                    Matrix4x4 Lmatrix4X4 = new Matrix4x4();
+
+                    Lmatrix4X4.M11 = Oldinstance.LightVector1[0];
+                    Lmatrix4X4.M21 = Oldinstance.LightVector1[1];
+                    Lmatrix4X4.M31 = Oldinstance.LightVector1[2];
+                    Lmatrix4X4.M41 = Oldinstance.LightVector1[3];
+
+                    Lmatrix4X4.M12 = Oldinstance.LightVector2[0];
+                    Lmatrix4X4.M22 = Oldinstance.LightVector2[1];
+                    Lmatrix4X4.M32 = Oldinstance.LightVector2[2];
+                    Lmatrix4X4.M42 = Oldinstance.LightVector2[3];
+
+                    Lmatrix4X4.M13 = Oldinstance.LightVector3[0];
+                    Lmatrix4X4.M23 = Oldinstance.LightVector3[1];
+                    Lmatrix4X4.M33 = Oldinstance.LightVector3[2];
+                    Lmatrix4X4.M43 = Oldinstance.LightVector3[3];
+
+                    Lmatrix4X4.M14 = Oldinstance.AmbentLightVector[0];
+                    Lmatrix4X4.M24 = Oldinstance.AmbentLightVector[1];
+                    Lmatrix4X4.M34 = Oldinstance.AmbentLightVector[2];
+                    Lmatrix4X4.M44 = Oldinstance.AmbentLightVector[3];
+
                     NewInstance.lightingMatrix4x4 = Lmatrix4X4;
 
-                    NewInstance.Unknown9 = JsonUtil.ArrayToVector4(Oldinstance.Unknown9);
-                    NewInstance.Unknown10 = JsonUtil.ArrayToVector4(Oldinstance.Unknown10);
-                    NewInstance.Unknown11 = JsonUtil.ArrayToVector4(Oldinstance.Unknown11);
-                    NewInstance.RGBA = JsonUtil.ArrayToVector4(Oldinstance.RGBA);
+                    NewInstance.LightColour1 = JsonUtil.ArrayToVector4(Oldinstance.LightColour1);
+                    NewInstance.LightColour2 = JsonUtil.ArrayToVector4(Oldinstance.LightColour2);
+                    NewInstance.LightColour3 = JsonUtil.ArrayToVector4(Oldinstance.LightColour3);
+                    NewInstance.AmbentLightColour = JsonUtil.ArrayToVector4(Oldinstance.AmbentLightColour);
 
                     NewInstance.ModelID = Oldinstance.ModelID;
                     NewInstance.PrevInstance = Oldinstance.PrevInstance;

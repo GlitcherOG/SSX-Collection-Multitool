@@ -176,10 +176,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     var TempInstance = new Instance();
                     TempInstance.matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
                     TempInstance.lightingMatrix4x4 = StreamUtil.ReadMatrix4x4(stream);
-                    TempInstance.Unknown9 = StreamUtil.ReadVector4(stream);
-                    TempInstance.Unknown10 = StreamUtil.ReadVector4(stream);
-                    TempInstance.Unknown11 = StreamUtil.ReadVector4(stream);
-                    TempInstance.RGBA = StreamUtil.ReadVector4(stream);
+
+                    TempInstance.LightColour1 = StreamUtil.ReadVector4(stream);
+                    TempInstance.LightColour2 = StreamUtil.ReadVector4(stream);
+                    TempInstance.LightColour3 = StreamUtil.ReadVector4(stream);
+                    TempInstance.AmbentLightColour = StreamUtil.ReadVector4(stream);
+
                     TempInstance.ModelID = StreamUtil.ReadUInt32(stream);
                     TempInstance.PrevInstance = StreamUtil.ReadUInt32(stream);
                     TempInstance.NextInstance = StreamUtil.ReadUInt32(stream);
@@ -900,10 +902,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 var TempInstance = Instances[i];
                 StreamUtil.WriteMatrix4x4(stream, TempInstance.matrix4X4);
                 StreamUtil.WriteMatrix4x4(stream, TempInstance.lightingMatrix4x4);
-                StreamUtil.WriteVector4(stream, TempInstance.Unknown9);
-                StreamUtil.WriteVector4(stream, TempInstance.Unknown10);
-                StreamUtil.WriteVector4(stream, TempInstance.Unknown11);
-                StreamUtil.WriteVector4(stream, TempInstance.RGBA);
+                StreamUtil.WriteVector4(stream, TempInstance.LightColour1);
+                StreamUtil.WriteVector4(stream, TempInstance.LightColour2);
+                StreamUtil.WriteVector4(stream, TempInstance.LightColour3);
+                StreamUtil.WriteVector4(stream, TempInstance.AmbentLightColour);
 
                 StreamUtil.WriteInt32(stream, TempInstance.ModelID);
                 StreamUtil.WriteInt32(stream, TempInstance.PrevInstance);
@@ -2254,15 +2256,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     {
         public Matrix4x4 matrix4X4;
         public Matrix4x4 lightingMatrix4x4;
-        //public Vector4 Unknown5;
-        //public Vector4 Unknown6;
-        //public Vector4 Unknown7;
-        //public Vector4 Unknown8;
 
-        public Vector4 Unknown9;
-        public Vector4 Unknown10;
-        public Vector4 Unknown11;
-        public Vector4 RGBA;
+        public Vector4 LightColour1;
+        public Vector4 LightColour2;
+        public Vector4 LightColour3;
+        public Vector4 AmbentLightColour;
 
         public int ModelID;
         public int PrevInstance;
