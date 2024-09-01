@@ -31,6 +31,7 @@
             charnumericUpDown5 = new NumericUpDown();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            label91 = new Label();
             charcomboBox1 = new ComboBox();
             chartextBox0 = new TextBox();
             label90 = new Label();
@@ -167,6 +168,8 @@
             label13 = new Label();
             BoltCharacter = new ComboBox();
             tabPage5 = new TabPage();
+            label92 = new Label();
+            MpfModelName = new TextBox();
             MorphScaleLabel = new Label();
             MorphScaleNumber = new NumericUpDown();
             groupBox1 = new GroupBox();
@@ -270,7 +273,6 @@
             tabPage4 = new TabPage();
             LoadLUI = new Button();
             BiglessStore = new Button();
-            label91 = new Label();
             ((System.ComponentModel.ISupportInitialize)charnumericUpDown5).BeginInit();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -401,11 +403,20 @@
             tabPage1.Text = "Character Database";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // label91
+            // 
+            label91.AutoSize = true;
+            label91.Location = new Point(494, 479);
+            label91.Name = "label91";
+            label91.Size = new Size(96, 15);
+            label91.TabIndex = 32;
+            label91.Text = "Load/Save Mode";
+            // 
             // charcomboBox1
             // 
             charcomboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             charcomboBox1.FormattingEnabled = true;
-            charcomboBox1.Items.AddRange(new object[] { "Standard", "Japanese/Korea", "Cheat Characters Japanse/Korea" });
+            charcomboBox1.Items.AddRange(new object[] { "Standard", "Japanese/Korea", "Cheat Characters Japanese/Korea" });
             charcomboBox1.Location = new Point(495, 497);
             charcomboBox1.Name = "charcomboBox1";
             charcomboBox1.Size = new Size(200, 23);
@@ -1745,6 +1756,8 @@
             // 
             // tabPage5
             // 
+            tabPage5.Controls.Add(label92);
+            tabPage5.Controls.Add(MpfModelName);
             tabPage5.Controls.Add(MorphScaleLabel);
             tabPage5.Controls.Add(MorphScaleNumber);
             tabPage5.Controls.Add(groupBox1);
@@ -1767,6 +1780,23 @@
             tabPage5.TabIndex = 4;
             tabPage5.Text = "SSX 3 MPF(Models)";
             tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // label92
+            // 
+            label92.AutoSize = true;
+            label92.Location = new Point(211, 7);
+            label92.Name = "label92";
+            label92.Size = new Size(76, 15);
+            label92.TabIndex = 19;
+            label92.Text = "Model Name";
+            // 
+            // MpfModelName
+            // 
+            MpfModelName.Location = new Point(211, 28);
+            MpfModelName.Name = "MpfModelName";
+            MpfModelName.Size = new Size(192, 23);
+            MpfModelName.TabIndex = 44;
+            MpfModelName.TextChanged += MpfModelName_TextChanged;
             // 
             // MorphScaleLabel
             // 
@@ -1854,7 +1884,7 @@
             groupBox4.Controls.Add(VerticeCount);
             groupBox4.Controls.Add(MeshChunks);
             groupBox4.Controls.Add(label79);
-            groupBox4.Location = new Point(209, 94);
+            groupBox4.Location = new Point(209, 126);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(462, 93);
             groupBox4.TabIndex = 27;
@@ -1988,7 +2018,7 @@
             groupBox3.Controls.Add(MatMainTexture);
             groupBox3.Controls.Add(label73);
             groupBox3.Controls.Add(MaterialList);
-            groupBox3.Location = new Point(677, 25);
+            groupBox3.Location = new Point(677, 7);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(254, 218);
             groupBox3.TabIndex = 26;
@@ -2164,7 +2194,7 @@
             groupBox2.Controls.Add(label64);
             groupBox2.Controls.Add(label65);
             groupBox2.Controls.Add(IkCount);
-            groupBox2.Location = new Point(209, 25);
+            groupBox2.Location = new Point(209, 57);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(462, 63);
             groupBox2.TabIndex = 25;
@@ -2282,7 +2312,7 @@
             // MPFWarningLabel
             // 
             MPFWarningLabel.AutoSize = true;
-            MPFWarningLabel.Location = new Point(215, 204);
+            MPFWarningLabel.Location = new Point(215, 236);
             MPFWarningLabel.Name = "MPFWarningLabel";
             MPFWarningLabel.Size = new Size(36, 15);
             MPFWarningLabel.TabIndex = 13;
@@ -2291,11 +2321,12 @@
             // label59
             // 
             label59.AutoSize = true;
-            label59.Location = new Point(215, 189);
+            label59.Location = new Point(215, 221);
             label59.Name = "label59";
             label59.Size = new Size(52, 15);
             label59.TabIndex = 12;
             label59.Text = "Warning";
+            label59.Click += label59_Click;
             // 
             // MpfExport
             // 
@@ -2827,15 +2858,6 @@
             BiglessStore.UseVisualStyleBackColor = true;
             BiglessStore.Click += BiglessStore_Click;
             // 
-            // label91
-            // 
-            label91.AutoSize = true;
-            label91.Location = new Point(494, 479);
-            label91.Name = "label91";
-            label91.Size = new Size(96, 15);
-            label91.TabIndex = 32;
-            label91.Text = "Load/Save Mode";
-            // 
             // SSX3ToolsWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -3165,5 +3187,7 @@
         private Label label90;
         private ComboBox charcomboBox1;
         private Label label91;
+        private Label label92;
+        private TextBox MpfModelName;
     }
 }

@@ -561,6 +561,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                MessageBox.Show("Warning Unable to be loaded in game");
                 ssx3ModelCombiner.SaveMPF(openFileDialog.FileName, false);
             }
         }
@@ -685,6 +686,7 @@ namespace SSXMultiTool
             {
                 var TempModel = ssx3ModelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex];
 
+                MpfModelName.Text = TempModel.ModelName;
                 FileID.Text = TempModel.FileID.ToString();
                 BoneCount.Text = TempModel.BoneCount.ToString();
                 MaterialCount.Text = TempModel.MaterialCount.ToString();
@@ -1179,6 +1181,25 @@ namespace SSXMultiTool
         }
 
         private void label24_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MpfModelName_TextChanged(object sender, EventArgs e)
+        {
+            if (MpfModelList.SelectedIndex != -1)
+            {
+                var TempModel = ssx3ModelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex];
+
+                TempModel.ModelName = MpfModelName.Text;
+
+                ssx3ModelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex] = TempModel;
+
+                MpfModelList.Items[MpfModelList.SelectedIndex] = TempModel.ModelName;
+            }
+        }
+
+        private void label59_Click(object sender, EventArgs e)
         {
 
         }
