@@ -49,6 +49,20 @@ namespace SSXMultiTool.Utilities
             }
         }
 
+        public static string ReadString16(Stream stream, int Length, bool FixNull = true)
+        {
+            byte[] tempByte = new byte[Length];
+            stream.Read(tempByte, 0, tempByte.Length);
+            if (FixNull)
+            {
+                return Encoding.Unicode.GetString(tempByte).Replace("\0", "");
+            }
+            else
+            {
+                return Encoding.Unicode.GetString(tempByte);
+            }
+        }
+
         public static byte[] ReadBytes(Stream stream, int Length, bool BigEndian = false)
         {
             byte[] tempByte = new byte[Length];
@@ -308,6 +322,34 @@ namespace SSXMultiTool.Utilities
                 for (int i = 0; i < Length; i++)
                 {
                     if(tempByte.Length==i || String == "")
+                    {
+                        break;
+                    }
+                    tempByte1[i] = tempByte[i];
+                }
+                tempByte = tempByte1;
+            }
+
+
+            stream.Write(tempByte, 0, tempByte.Length);
+        }
+
+        public static void WriteString16(Stream stream, string String, int Length = 0)
+        {
+            if (String == null)
+            {
+                String = "";
+            }
+            int tempLength = String.Length;
+            byte[] tempByte = new byte[tempLength*2];
+            Encoding.Unicode.GetBytes(String).CopyTo(tempByte, 0);
+
+            if (Length != 0)
+            {
+                byte[] tempByte1 = new byte[Length];
+                for (int i = 0; i < Length; i++)
+                {
+                    if (tempByte.Length == i || String == "")
                     {
                         break;
                     }

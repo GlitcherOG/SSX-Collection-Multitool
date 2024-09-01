@@ -31,6 +31,9 @@
             charnumericUpDown5 = new NumericUpDown();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            charcomboBox1 = new ComboBox();
+            chartextBox0 = new TextBox();
+            label90 = new Label();
             charLoad = new Button();
             charSaveAs = new Button();
             charSave = new Button();
@@ -267,6 +270,7 @@
             tabPage4 = new TabPage();
             LoadLUI = new Button();
             BiglessStore = new Button();
+            label91 = new Label();
             ((System.ComponentModel.ISupportInitialize)charnumericUpDown5).BeginInit();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -332,7 +336,7 @@
             // 
             // charnumericUpDown5
             // 
-            charnumericUpDown5.Location = new Point(642, 156);
+            charnumericUpDown5.Location = new Point(642, 199);
             charnumericUpDown5.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             charnumericUpDown5.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
             charnumericUpDown5.Name = "charnumericUpDown5";
@@ -357,6 +361,10 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(label91);
+            tabPage1.Controls.Add(charcomboBox1);
+            tabPage1.Controls.Add(chartextBox0);
+            tabPage1.Controls.Add(label90);
             tabPage1.Controls.Add(charLoad);
             tabPage1.Controls.Add(charSaveAs);
             tabPage1.Controls.Add(charSave);
@@ -393,6 +401,34 @@
             tabPage1.Text = "Character Database";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // charcomboBox1
+            // 
+            charcomboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            charcomboBox1.FormattingEnabled = true;
+            charcomboBox1.Items.AddRange(new object[] { "Standard", "Japanese/Korea", "Cheat Characters Japanse/Korea" });
+            charcomboBox1.Location = new Point(495, 497);
+            charcomboBox1.Name = "charcomboBox1";
+            charcomboBox1.Size = new Size(200, 23);
+            charcomboBox1.TabIndex = 31;
+            // 
+            // chartextBox0
+            // 
+            chartextBox0.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            chartextBox0.Location = new Point(241, 24);
+            chartextBox0.MaxLength = 31;
+            chartextBox0.Name = "chartextBox0";
+            chartextBox0.Size = new Size(694, 23);
+            chartextBox0.TabIndex = 29;
+            // 
+            // label90
+            // 
+            label90.AutoSize = true;
+            label90.Location = new Point(241, 6);
+            label90.Name = "label90";
+            label90.Size = new Size(201, 15);
+            label90.TabIndex = 28;
+            label90.Text = "English Name (Japanese/Korea Only)";
+            // 
             // charLoad
             // 
             charLoad.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
@@ -428,7 +464,7 @@
             // 
             // charnumericUpDown6
             // 
-            charnumericUpDown6.Location = new Point(726, 156);
+            charnumericUpDown6.Location = new Point(726, 199);
             charnumericUpDown6.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             charnumericUpDown6.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
             charnumericUpDown6.Name = "charnumericUpDown6";
@@ -439,7 +475,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(726, 138);
+            label12.Location = new Point(726, 181);
             label12.Name = "label12";
             label12.Size = new Size(50, 15);
             label12.TabIndex = 23;
@@ -448,7 +484,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(642, 138);
+            label11.Location = new Point(642, 181);
             label11.Name = "label11";
             label11.Size = new Size(28, 15);
             label11.TabIndex = 21;
@@ -456,7 +492,7 @@
             // 
             // charnumericUpDown3
             // 
-            charnumericUpDown3.Location = new Point(560, 156);
+            charnumericUpDown3.Location = new Point(560, 199);
             charnumericUpDown3.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             charnumericUpDown3.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
             charnumericUpDown3.Name = "charnumericUpDown3";
@@ -467,7 +503,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(560, 138);
+            label10.Location = new Point(560, 181);
             label10.Name = "label10";
             label10.Size = new Size(64, 15);
             label10.TabIndex = 19;
@@ -475,7 +511,7 @@
             // 
             // charnumericUpDown4
             // 
-            charnumericUpDown4.Location = new Point(478, 156);
+            charnumericUpDown4.Location = new Point(478, 199);
             charnumericUpDown4.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             charnumericUpDown4.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
             charnumericUpDown4.Name = "charnumericUpDown4";
@@ -486,7 +522,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(478, 138);
+            label9.Location = new Point(478, 181);
             label9.Name = "label9";
             label9.Size = new Size(45, 15);
             label9.TabIndex = 17;
@@ -494,7 +530,7 @@
             // 
             // charnumericUpDown2
             // 
-            charnumericUpDown2.Location = new Point(392, 156);
+            charnumericUpDown2.Location = new Point(392, 199);
             charnumericUpDown2.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             charnumericUpDown2.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
             charnumericUpDown2.Name = "charnumericUpDown2";
@@ -505,7 +541,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(392, 138);
+            label8.Location = new Point(392, 181);
             label8.Name = "label8";
             label8.Size = new Size(42, 15);
             label8.TabIndex = 15;
@@ -513,7 +549,7 @@
             // 
             // charnumericUpDown1
             // 
-            charnumericUpDown1.Location = new Point(241, 156);
+            charnumericUpDown1.Location = new Point(241, 199);
             charnumericUpDown1.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             charnumericUpDown1.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
             charnumericUpDown1.Name = "charnumericUpDown1";
@@ -524,7 +560,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(241, 138);
+            label7.Location = new Point(241, 181);
             label7.Name = "label7";
             label7.Size = new Size(75, 15);
             label7.TabIndex = 13;
@@ -533,7 +569,7 @@
             // chartextBox6
             // 
             chartextBox6.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            chartextBox6.Location = new Point(241, 289);
+            chartextBox6.Location = new Point(241, 332);
             chartextBox6.MaxLength = 15;
             chartextBox6.Name = "chartextBox6";
             chartextBox6.Size = new Size(694, 23);
@@ -543,7 +579,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(241, 271);
+            label6.Location = new Point(241, 314);
             label6.Name = "label6";
             label6.Size = new Size(65, 15);
             label6.TabIndex = 11;
@@ -552,7 +588,7 @@
             // chartextBox5
             // 
             chartextBox5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            chartextBox5.Location = new Point(241, 245);
+            chartextBox5.Location = new Point(241, 288);
             chartextBox5.MaxLength = 15;
             chartextBox5.Name = "chartextBox5";
             chartextBox5.Size = new Size(694, 23);
@@ -562,7 +598,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(241, 227);
+            label5.Location = new Point(241, 270);
             label5.Name = "label5";
             label5.Size = new Size(43, 15);
             label5.TabIndex = 9;
@@ -571,7 +607,7 @@
             // chartextBox4
             // 
             chartextBox4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            chartextBox4.Location = new Point(241, 200);
+            chartextBox4.Location = new Point(241, 243);
             chartextBox4.MaxLength = 15;
             chartextBox4.Name = "chartextBox4";
             chartextBox4.Size = new Size(694, 23);
@@ -581,7 +617,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(241, 182);
+            label4.Location = new Point(241, 225);
             label4.Name = "label4";
             label4.Size = new Size(65, 15);
             label4.TabIndex = 7;
@@ -590,7 +626,7 @@
             // chartextBox3
             // 
             chartextBox3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            chartextBox3.Location = new Point(241, 112);
+            chartextBox3.Location = new Point(241, 155);
             chartextBox3.MaxLength = 15;
             chartextBox3.Name = "chartextBox3";
             chartextBox3.Size = new Size(694, 23);
@@ -601,7 +637,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(241, 94);
+            label3.Location = new Point(241, 137);
             label3.Name = "label3";
             label3.Size = new Size(61, 15);
             label3.TabIndex = 5;
@@ -610,7 +646,7 @@
             // chartextBox2
             // 
             chartextBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            chartextBox2.Location = new Point(241, 68);
+            chartextBox2.Location = new Point(241, 111);
             chartextBox2.MaxLength = 15;
             chartextBox2.Name = "chartextBox2";
             chartextBox2.Size = new Size(694, 23);
@@ -621,7 +657,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(241, 50);
+            label2.Location = new Point(241, 93);
             label2.Name = "label2";
             label2.Size = new Size(80, 15);
             label2.TabIndex = 3;
@@ -630,7 +666,7 @@
             // chartextBox1
             // 
             chartextBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            chartextBox1.Location = new Point(241, 24);
+            chartextBox1.Location = new Point(241, 67);
             chartextBox1.MaxLength = 31;
             chartextBox1.Name = "chartextBox1";
             chartextBox1.Size = new Size(694, 23);
@@ -641,7 +677,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(241, 6);
+            label1.Location = new Point(241, 49);
             label1.Name = "label1";
             label1.Size = new Size(69, 15);
             label1.TabIndex = 1;
@@ -2791,6 +2827,15 @@
             BiglessStore.UseVisualStyleBackColor = true;
             BiglessStore.Click += BiglessStore_Click;
             // 
+            // label91
+            // 
+            label91.AutoSize = true;
+            label91.Location = new Point(494, 479);
+            label91.Name = "label91";
+            label91.Size = new Size(96, 15);
+            label91.TabIndex = 32;
+            label91.Text = "Load/Save Mode";
+            // 
             // SSX3ToolsWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -3116,5 +3161,9 @@
         private global::System.Windows.Forms.Label label89;
         private Label MorphScaleLabel;
         private NumericUpDown MorphScaleNumber;
+        private TextBox chartextBox0;
+        private Label label90;
+        private ComboBox charcomboBox1;
+        private Label label91;
     }
 }

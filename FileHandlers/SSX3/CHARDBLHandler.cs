@@ -13,7 +13,7 @@ namespace SSXMultiTool.FileHandlers
         public List<CharDB> charDBs = new List<CharDB>();
         string charPath;
 
-        public void LoadCharFile(string path)
+        public void LoadCharFile(string path, int Mode)
         {
             charPath = path;
             charDBs = new List<CharDB>();
@@ -23,35 +23,73 @@ namespace SSXMultiTool.FileHandlers
                 {
                     CharDB temp = new CharDB();
 
-                    temp.LongName = StreamUtil.ReadString(stream, 32);
+                    if (Mode == 0)
+                    {
+                        temp.LongName = StreamUtil.ReadString(stream, 32);
 
-                    temp.FirstName = StreamUtil.ReadString(stream, 16);
+                        temp.FirstName = StreamUtil.ReadString(stream, 16);
 
-                    temp.NickName = StreamUtil.ReadString(stream, 16);
+                        temp.NickName = StreamUtil.ReadString(stream, 16);
 
-                    temp.Unkown1 = StreamUtil.ReadUInt32(stream);
+                        temp.Unkown1 = StreamUtil.ReadUInt32(stream);
 
-                    temp.Stance = StreamUtil.ReadUInt32(stream);
+                        temp.Stance = StreamUtil.ReadUInt32(stream);
 
-                    temp.ModelSize = StreamUtil.ReadUInt32(stream);
+                        temp.ModelSize = StreamUtil.ReadUInt32(stream);
 
-                    temp.BloodType = StreamUtil.ReadString(stream, 16);
+                        temp.BloodType = StreamUtil.ReadString(stream, 16);
 
-                    temp.Gender = StreamUtil.ReadUInt32(stream);
+                        temp.Gender = StreamUtil.ReadUInt32(stream);
 
-                    temp.Age = StreamUtil.ReadUInt32(stream);
+                        temp.Age = StreamUtil.ReadUInt32(stream);
 
-                    temp.Height = StreamUtil.ReadString(stream, 16);
+                        temp.Height = StreamUtil.ReadString(stream, 16);
 
-                    temp.Nationality = StreamUtil.ReadString(stream, 16);
+                        temp.Nationality = StreamUtil.ReadString(stream, 16);
 
-                    temp.Position = StreamUtil.ReadUInt32(stream);
+                        temp.Position = StreamUtil.ReadUInt32(stream);
+                    }
+                    else if (Mode == 1)
+                    {
+                        temp.FirstNameEnglish = StreamUtil.ReadString(stream, 16);
+
+                        temp.LongName = StreamUtil.ReadString16(stream, 32);
+
+                        temp.FirstName = StreamUtil.ReadString16(stream, 16);
+
+                        temp.NickName = StreamUtil.ReadString16(stream, 16);
+
+                        temp.Unkown1 = StreamUtil.ReadUInt32(stream);
+
+                        temp.Stance = StreamUtil.ReadUInt32(stream);
+
+                        temp.ModelSize = StreamUtil.ReadUInt32(stream);
+
+                        temp.BloodType = StreamUtil.ReadString(stream, 16);
+
+                        temp.Gender = StreamUtil.ReadUInt32(stream);
+
+                        temp.Age = StreamUtil.ReadUInt32(stream);
+
+                        temp.Height = StreamUtil.ReadString(stream, 16);
+
+                        temp.Nationality = StreamUtil.ReadString(stream, 16);
+
+                        temp.Position = StreamUtil.ReadUInt32(stream);
+                    }
+                    else
+                    {
+                        temp.FirstNameEnglish = StreamUtil.ReadString(stream, 8);
+
+                        temp.LongName = StreamUtil.ReadString16(stream, 24);
+                    }
+
                     charDBs.Add(temp);
                 }
             }
         }
 
-        public void SaveCharFile(string path = null)
+        public void SaveCharFile(string path = null, int Mode = 0)
         {
             if(path == null)
             {
@@ -60,29 +98,66 @@ namespace SSXMultiTool.FileHandlers
             Stream stream = new MemoryStream();
             for (int i = 0; i < charDBs.Count; i++)
             {
-                StreamUtil.WriteString(stream, charDBs[i].LongName, 32);
+                if (Mode == 0)
+                {
+                    StreamUtil.WriteString(stream, charDBs[i].LongName, 32);
 
-                StreamUtil.WriteString(stream, charDBs[i].FirstName, 16);
+                    StreamUtil.WriteString(stream, charDBs[i].FirstName, 16);
 
-                StreamUtil.WriteString(stream, charDBs[i].NickName, 16);
+                    StreamUtil.WriteString(stream, charDBs[i].NickName, 16);
 
-                StreamUtil.WriteInt32(stream, charDBs[i].Unkown1);
+                    StreamUtil.WriteInt32(stream, charDBs[i].Unkown1);
 
-                StreamUtil.WriteInt32(stream, charDBs[i].Stance);
+                    StreamUtil.WriteInt32(stream, charDBs[i].Stance);
 
-                StreamUtil.WriteInt32(stream, charDBs[i].ModelSize);
+                    StreamUtil.WriteInt32(stream, charDBs[i].ModelSize);
 
-                StreamUtil.WriteString(stream, charDBs[i].BloodType, 16);
+                    StreamUtil.WriteString(stream, charDBs[i].BloodType, 16);
 
-                StreamUtil.WriteInt32(stream, charDBs[i].Gender);
+                    StreamUtil.WriteInt32(stream, charDBs[i].Gender);
 
-                StreamUtil.WriteInt32(stream, charDBs[i].Age);
+                    StreamUtil.WriteInt32(stream, charDBs[i].Age);
 
-                StreamUtil.WriteString(stream, charDBs[i].Height, 16);
+                    StreamUtil.WriteString(stream, charDBs[i].Height, 16);
 
-                StreamUtil.WriteString(stream, charDBs[i].Nationality, 16);
+                    StreamUtil.WriteString(stream, charDBs[i].Nationality, 16);
 
-                StreamUtil.WriteInt32(stream, charDBs[i].Position);
+                    StreamUtil.WriteInt32(stream, charDBs[i].Position);
+                }
+                else if (Mode == 1)
+                {
+                    StreamUtil.WriteString(stream, charDBs[i].FirstNameEnglish, 16);
+
+                    StreamUtil.WriteString16(stream, charDBs[i].LongName, 32);
+
+                    StreamUtil.WriteString16(stream, charDBs[i].FirstName, 16);
+
+                    StreamUtil.WriteString16(stream, charDBs[i].NickName, 16);
+
+                    StreamUtil.WriteInt32(stream, charDBs[i].Unkown1);
+
+                    StreamUtil.WriteInt32(stream, charDBs[i].Stance);
+
+                    StreamUtil.WriteInt32(stream, charDBs[i].ModelSize);
+
+                    StreamUtil.WriteString(stream, charDBs[i].BloodType, 16);
+
+                    StreamUtil.WriteInt32(stream, charDBs[i].Gender);
+
+                    StreamUtil.WriteInt32(stream, charDBs[i].Age);
+
+                    StreamUtil.WriteString(stream, charDBs[i].Height, 16);
+
+                    StreamUtil.WriteString(stream, charDBs[i].Nationality, 16);
+
+                    StreamUtil.WriteInt32(stream, charDBs[i].Position);
+                }
+                else if (Mode == 2)
+                {
+                    StreamUtil.WriteString(stream, charDBs[i].FirstNameEnglish, 8);
+
+                    StreamUtil.WriteString16(stream, charDBs[i].LongName, 24);
+                }    
             }
 
             if (File.Exists(path))
@@ -95,8 +170,9 @@ namespace SSXMultiTool.FileHandlers
             file.Close();
         }
     }
-    struct CharDB
+    public struct CharDB
     {
+        public string FirstNameEnglish;
         public string LongName;
         public string FirstName;
         public string NickName;

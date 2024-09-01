@@ -22,6 +22,7 @@ namespace SSXMultiTool
         public SSX3ToolsWindow()
         {
             InitializeComponent();
+            charcomboBox1.SelectedIndex = 0;
             MorphScaleNumber.Value = (decimal)SSX3PS2MPF.MorphScale;
         }
 
@@ -32,7 +33,7 @@ namespace SSXMultiTool
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Character DBL|CHARDB.DBL|DataBase List (*.DBL)|*.DBL|All files (*.*)|*.*",
+                Filter = "Character DBL|CHARDB.DBL|Cheat Character DBL|CHCHARDB.DBL|DataBase List (*.DBL)|*.DBL|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };
@@ -41,7 +42,7 @@ namespace SSXMultiTool
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 charBox1.Items.Clear();
-                charHandler.LoadCharFile(openFileDialog.FileName);
+                charHandler.LoadCharFile(openFileDialog.FileName, charcomboBox1.SelectedIndex);
                 for (int i = 0; i < charHandler.charDBs.Count; i++)
                 {
                     charBox1.Items.Add(charHandler.charDBs[i].LongName);
@@ -55,6 +56,7 @@ namespace SSXMultiTool
             {
                 CharDB temp = new CharDB
                 {
+                    FirstNameEnglish = chartextBox0.Text,
                     LongName = chartextBox1.Text,
                     FirstName = chartextBox2.Text,
                     NickName = chartextBox3.Text,
@@ -80,6 +82,7 @@ namespace SSXMultiTool
             {
                 DisableUpdate = true;
                 CharDB temp = charHandler.charDBs[charBox1.SelectedIndex];
+                chartextBox0.Text = temp.FirstNameEnglish;
                 chartextBox1.Text = temp.LongName;
                 chartextBox2.Text = temp.FirstName;
                 chartextBox3.Text = temp.NickName;
@@ -107,13 +110,13 @@ namespace SSXMultiTool
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                charHandler.SaveCharFile(openFileDialog.FileName);
+                charHandler.SaveCharFile(openFileDialog.FileName, charcomboBox1.SelectedIndex);
             }
         }
 
         private void charSave_Click(object sender, EventArgs e)
         {
-            charHandler.SaveCharFile();
+            charHandler.SaveCharFile(null, charcomboBox1.SelectedIndex);
         }
         #endregion
 
