@@ -45,6 +45,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
         [System.Serializable]
         public struct PathA
         {
+            public string Name;
+
             public int Type;
             public int U1;
             public int U2;
@@ -70,6 +72,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
         [System.Serializable]
         public struct PathB
         {
+            public string Name;
+
             public int Type;
             public int U0;
             public int U1;
