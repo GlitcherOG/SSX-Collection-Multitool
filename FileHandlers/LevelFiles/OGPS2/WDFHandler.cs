@@ -81,11 +81,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                         TempUnknown.matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
 
-                        TempUnknown.matrix4X41 = StreamUtil.ReadMatrix4x4(stream);
-                        TempUnknown.vector40 = StreamUtil.ReadVector4(stream);
-                        TempUnknown.vector41 = StreamUtil.ReadVector4(stream);
-                        TempUnknown.vector42 = StreamUtil.ReadVector4(stream);
-                        TempUnknown.vector43 = StreamUtil.ReadVector4(stream);
+                        TempUnknown.lightingMatrix4x4 = StreamUtil.ReadMatrix4x4(stream);
+
+                        TempUnknown.LightColour1 = StreamUtil.ReadVector4(stream);
+                        TempUnknown.LightColour2 = StreamUtil.ReadVector4(stream);
+                        TempUnknown.LightColour3 = StreamUtil.ReadVector4(stream);
+                        TempUnknown.AmbentLightColour = StreamUtil.ReadVector4(stream);
 
                         TempUnknown.WDFGridID = StreamUtil.ReadInt16(stream);
                         TempUnknown.InstanceIndex = StreamUtil.ReadInt16(stream);
@@ -310,46 +311,47 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                         for (int i = 0; i < wdfChunk.InstanceCount; i++)
                         {
-                            var TempUnknown = new Instance();
+                            var TempInstance = new Instance();
 
-                            TempUnknown.matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
+                            TempInstance.matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
 
-                            TempUnknown.matrix4X41 = StreamUtil.ReadMatrix4x4(stream);
-                            TempUnknown.vector40 = StreamUtil.ReadVector4(stream);
-                            TempUnknown.vector41 = StreamUtil.ReadVector4(stream);
-                            TempUnknown.vector42 = StreamUtil.ReadVector4(stream);
-                            TempUnknown.vector43 = StreamUtil.ReadVector4(stream);
+                            TempInstance.lightingMatrix4x4 = StreamUtil.ReadMatrix4x4(stream);
 
-                            TempUnknown.WDFGridID = StreamUtil.ReadInt16(stream);
-                            TempUnknown.InstanceIndex = StreamUtil.ReadInt16(stream);
+                            TempInstance.LightColour1 = StreamUtil.ReadVector4(stream);
+                            TempInstance.LightColour2 = StreamUtil.ReadVector4(stream);
+                            TempInstance.LightColour3 = StreamUtil.ReadVector4(stream);
+                            TempInstance.AmbentLightColour = StreamUtil.ReadVector4(stream);
 
-                            TempUnknown.U2 = StreamUtil.ReadUInt32(stream);
-                            TempUnknown.U3 = StreamUtil.ReadUInt32(stream);
-                            TempUnknown.PrefabID = StreamUtil.ReadUInt32(stream);
+                            TempInstance.WDFGridID = StreamUtil.ReadInt16(stream);
+                            TempInstance.InstanceIndex = StreamUtil.ReadInt16(stream);
 
-                            TempUnknown.LowestXYZ = StreamUtil.ReadVector3(stream);
-                            TempUnknown.HighestXYZ = StreamUtil.ReadVector3(stream);
+                            TempInstance.U2 = StreamUtil.ReadUInt32(stream);
+                            TempInstance.U3 = StreamUtil.ReadUInt32(stream);
+                            TempInstance.PrefabID = StreamUtil.ReadUInt32(stream);
 
-                            TempUnknown.U5 = StreamUtil.ReadInt16(stream);
-                            TempUnknown.BitFlags = StreamUtil.ReadInt16(stream);
+                            TempInstance.LowestXYZ = StreamUtil.ReadVector3(stream);
+                            TempInstance.HighestXYZ = StreamUtil.ReadVector3(stream);
 
-                            TempUnknown.PlayerBounce = StreamUtil.ReadFloat(stream);
+                            TempInstance.U5 = StreamUtil.ReadInt16(stream);
+                            TempInstance.BitFlags = StreamUtil.ReadInt16(stream);
 
-                            TempUnknown.CollsionMode = StreamUtil.ReadInt16(stream);
+                            TempInstance.PlayerBounce = StreamUtil.ReadFloat(stream);
 
-                            TempUnknown.CollisonModelIndex = StreamUtil.ReadInt16(stream);
-                            TempUnknown.PhysicsIndex = StreamUtil.ReadInt16(stream);
-                            TempUnknown.U11 = StreamUtil.ReadInt16(stream);
+                            TempInstance.CollsionMode = StreamUtil.ReadInt16(stream);
 
-                            TempUnknown.U12 = StreamUtil.ReadFloat(stream);
-                            TempUnknown.U13 = StreamUtil.ReadUInt32(stream);
+                            TempInstance.CollisonModelIndex = StreamUtil.ReadInt16(stream);
+                            TempInstance.PhysicsIndex = StreamUtil.ReadInt16(stream);
+                            TempInstance.U11 = StreamUtil.ReadInt16(stream);
 
-                            TempUnknown.U14 = StreamUtil.ReadUInt32(stream);
-                            TempUnknown.U15 = StreamUtil.ReadUInt32(stream);
-                            TempUnknown.U16 = StreamUtil.ReadUInt32(stream);
-                            TempUnknown.U17 = StreamUtil.ReadUInt32(stream);
+                            TempInstance.U12 = StreamUtil.ReadFloat(stream);
+                            TempInstance.U13 = StreamUtil.ReadUInt32(stream);
 
-                            wdfChunk.Instances.Add(TempUnknown);
+                            TempInstance.U14 = StreamUtil.ReadUInt32(stream);
+                            TempInstance.U15 = StreamUtil.ReadUInt32(stream);
+                            TempInstance.U16 = StreamUtil.ReadUInt32(stream);
+                            TempInstance.U17 = StreamUtil.ReadUInt32(stream);
+
+                            wdfChunk.Instances.Add(TempInstance);
                         }
 
                         wdfChunk.Patches = new List<Patch>();
@@ -732,11 +734,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
             public Matrix4x4 matrix4X4;
 
             //Colour Data ?
-            public Matrix4x4 matrix4X41;
-            public Vector4 vector40;
-            public Vector4 vector41;
-            public Vector4 vector42;
-            public Vector4 vector43;
+            public Matrix4x4 lightingMatrix4x4;
+
+            public Vector4 LightColour1;
+            public Vector4 LightColour2;
+            public Vector4 LightColour3;
+            public Vector4 AmbentLightColour;
 
             public int WDFGridID; //16
             public int InstanceIndex; //16

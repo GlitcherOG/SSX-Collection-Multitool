@@ -238,6 +238,18 @@ namespace SSXMultiTool.JsonFiles
                         TempInstanceJson.Rotation = JsonUtil.QuaternionToArray(Rotation);
                         TempInstanceJson.Scale = JsonUtil.Vector3ToArray(Scale);
 
+                        var TempMatrix = TempChunk.Instances[i].lightingMatrix4x4;
+
+                        TempInstanceJson.LightVector1 = new float[] { TempMatrix.M11, TempMatrix.M21, TempMatrix.M31, TempMatrix.M41 };
+                        TempInstanceJson.LightVector2 = new float[] { TempMatrix.M12, TempMatrix.M22, TempMatrix.M32, TempMatrix.M42 };
+                        TempInstanceJson.LightVector3 = new float[] { TempMatrix.M13, TempMatrix.M23, TempMatrix.M33, TempMatrix.M43 };
+                        TempInstanceJson.AmbentLightVector = new float[] { TempMatrix.M14, TempMatrix.M24, TempMatrix.M34, TempMatrix.M44 };
+
+                        TempInstanceJson.LightColour1 = JsonUtil.Vector4ToArray(TempChunk.Instances[i].LightColour1);
+                        TempInstanceJson.LightColour2 = JsonUtil.Vector4ToArray(TempChunk.Instances[i].LightColour2);
+                        TempInstanceJson.LightColour3 = JsonUtil.Vector4ToArray(TempChunk.Instances[i].LightColour3);
+                        TempInstanceJson.AmbentLightColour = JsonUtil.Vector4ToArray(TempChunk.Instances[i].AmbentLightColour);
+
                         TempInstanceJson.U2 = TempChunk.Instances[i].U2;
                         TempInstanceJson.U3 = TempChunk.Instances[i].U3;
                         TempInstanceJson.PrefabID = TempChunk.Instances[i].PrefabID;

@@ -47,12 +47,15 @@ namespace SSXMultiTool.JsonFiles.SSXOG
             public float[] Rotation;
             public float[] Scale;
 
-            //Colour Data ?
-            //public Matrix4x4 matrix4X41;
-            //public Vector4 vector40;
-            //public Vector4 vector41;
-            //public Vector4 vector42;
-            //public Vector4 vector43;
+            public float[] LightVector1;
+            public float[] LightVector2;
+            public float[] LightVector3;
+            public float[] AmbentLightVector;
+
+            public float[] LightColour1;
+            public float[] LightColour2;
+            public float[] LightColour3;
+            public float[] AmbentLightColour;
 
             //public int WDFGridID; //16
             //public int InstanceIndex; //16
