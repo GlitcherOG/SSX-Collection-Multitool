@@ -582,8 +582,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     TempMorph.OffsetMorphDataList = (int)ModelStream.Position;
                     for (int b = 0; b < TempMorph.MorphDataList.Count; b++)
                     {
-                        StreamUtil.WriteVector3(ModelStream, TempMorph.MorphDataList[b].Morph, true);
                         StreamUtil.WriteInt32(ModelStream, TempMorph.MorphDataList[b].VertexIndex, true);
+                        StreamUtil.WriteVector3(ModelStream, (TempMorph.MorphDataList[b].Morph/100f), true);
                     }
                     Model.morphHeader[a] = TempMorph;
                 }
@@ -645,7 +645,6 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 }
 
                 long IndexGroupHeaderPos = ModelStream.Position;
-
                 for (int a = 0; a < Model.meshHeaders.Count; a++)
                 {
                     var TempHeader = Model.meshHeaders[a];
@@ -657,8 +656,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     Model.meshHeaders[a] = TempHeader;
                 }
 
-                StreamUtil.AlignBy(ModelStream,32);
-
+                StreamUtil.AlignBy(ModelStream,32,0,false);
                 //Write IndexGroups
                 for (int a = 0; a < Model.meshHeaders.Count; a++)
                 {
@@ -703,6 +701,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                                 StreamUtil.WriteInt16(ModelStream, TempGroup.shadowIndices[c].WeightIndex*3, true);
                             }
                         }
+                        StreamUtil.AlignBy(ModelStream, 32);
 
                         TempHeader.indexGroup = TempGroup;
                         TempMeshHeader.indexGroupHeaders[b] = TempHeader;
@@ -739,7 +738,6 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                 //Write Header
                 ModelStream.Position = Model.OffsetTristripSection;
-
                 for (int a = 0; a < Model.meshHeaders.Count; a++)
                 {
                     var TempHeader = Model.meshHeaders[a];
@@ -764,6 +762,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 //Vertex Data
 
                 ModelStream.Position = Model.OffsetVertexSection;
+
                 for (int a = 0; a < Model.Vertex.Count; a++)
                 {
                     StreamUtil.WriteInt16(ModelStream, (int)(Model.Vertex[a].Vertex.X * 127f), true);

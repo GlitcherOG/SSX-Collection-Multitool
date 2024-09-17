@@ -1425,5 +1425,10 @@ namespace SSXMultiTool
                 aflHandler.Load(openFileDialog.FileName);
             }
         }
+
+        private void MNFSave_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

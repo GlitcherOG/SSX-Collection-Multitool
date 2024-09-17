@@ -522,7 +522,7 @@ namespace SSXMultiTool.Utilities
             }
         }
 
-        public static void AlignBy(Stream stream, int Alignment, long StartLoc = 0)
+        public static void AlignBy(Stream stream, int Alignment, long StartLoc = 0, bool BypassCheck = false)
         {
             long StreamPos = stream.Position;
 
@@ -534,7 +534,7 @@ namespace SSXMultiTool.Utilities
 
             long Num = Alignment - ((int)StreamPos % Alignment);
 
-            if (Num != Alignment)
+            if (Num != Alignment && !BypassCheck)
             {
                 stream.Position += Num;
             }

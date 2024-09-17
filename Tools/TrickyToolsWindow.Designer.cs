@@ -144,7 +144,7 @@
             checkBox2 = new CheckBox();
             MNFMeshPartsList = new ListBox();
             button2 = new Button();
-            button3 = new Button();
+            MNFSave = new Button();
             MNFModelsList = new ListBox();
             MNFExtract = new Button();
             label36 = new Label();
@@ -1336,7 +1336,7 @@
             tabPage5.Controls.Add(groupBox13);
             tabPage5.Controls.Add(MNFMeshPartsList);
             tabPage5.Controls.Add(button2);
-            tabPage5.Controls.Add(button3);
+            tabPage5.Controls.Add(MNFSave);
             tabPage5.Controls.Add(MNFModelsList);
             tabPage5.Controls.Add(MNFExtract);
             tabPage5.Controls.Add(label36);
@@ -1416,15 +1416,16 @@
             button2.Text = "Import Model";
             button2.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // MNFSave
             // 
-            button3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            button3.Location = new Point(687, 368);
-            button3.Name = "button3";
-            button3.Size = new Size(75, 23);
-            button3.TabIndex = 31;
-            button3.Text = "Save MNF";
-            button3.UseVisualStyleBackColor = true;
+            MNFSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            MNFSave.Location = new Point(687, 368);
+            MNFSave.Name = "MNFSave";
+            MNFSave.Size = new Size(75, 23);
+            MNFSave.TabIndex = 31;
+            MNFSave.Text = "Save MNF";
+            MNFSave.UseVisualStyleBackColor = true;
+            MNFSave.Click += MNFSave_Click;
             // 
             // MNFModelsList
             // 
@@ -2122,7 +2123,7 @@
         private CheckBox checkBox2;
         private ListBox MNFMeshPartsList;
         private Button button2;
-        private Button button3;
+        private Button MNFSave;
         private ListBox MNFModelsList;
         private Button MNFExtract;
     }
