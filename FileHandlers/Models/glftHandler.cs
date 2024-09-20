@@ -1841,7 +1841,7 @@ namespace SSXMultiTool.FileHandlers
                                 {
                                     SSX3PS2MPF.BoneWeight TempWeight = new SSX3PS2MPF.BoneWeight();
                                     TempWeight.BoneID = BindingList.Index;
-                                    TempWeight.Weight = (int)(BindingList.Weight * 100f);
+                                    TempWeight.Weight = (int)(Math.Round((BindingList.Weight * 100f) / 5f) * 5f);
                                     TempWeight.boneName = JointBindings[BindingList.Index].Joint.Name;
                                     NewVertex.weightHeader.BoneWeightList.Add(TempWeight);
                                 }
