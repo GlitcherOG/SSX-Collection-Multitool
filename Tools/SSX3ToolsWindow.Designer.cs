@@ -2839,7 +2839,8 @@
             // 
             // LoadLUI
             // 
-            LoadLUI.Location = new Point(693, 439);
+            LoadLUI.Enabled = false;
+            LoadLUI.Location = new Point(843, 27);
             LoadLUI.Name = "LoadLUI";
             LoadLUI.Size = new Size(75, 23);
             LoadLUI.TabIndex = 1;

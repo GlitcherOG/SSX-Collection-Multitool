@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SSXMultitoolHubpage));
             button1 = new Button();
             groupBox1 = new GroupBox();
+            button7 = new Button();
+            button3 = new Button();
             button2 = new Button();
             SSX3ToolsButton = new Button();
             TrickyToolsButton = new Button();
@@ -46,8 +48,6 @@
             SSHImageButton = new Button();
             LocFileButton = new Button();
             BigArchiveButton = new Button();
-            button3 = new Button();
-            button7 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -78,6 +78,27 @@
             groupBox1.TabIndex = 3;
             groupBox1.TabStop = false;
             groupBox1.Text = "Per Game Tools";
+            // 
+            // button7
+            // 
+            button7.Enabled = false;
+            button7.Location = new Point(506, 22);
+            button7.Name = "button7";
+            button7.Size = new Size(94, 50);
+            button7.TabIndex = 5;
+            button7.Text = "SSX 2012 Tools";
+            button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click;
+            // 
+            // button3
+            // 
+            button3.Enabled = false;
+            button3.Location = new Point(406, 22);
+            button3.Name = "button3";
+            button3.Size = new Size(94, 50);
+            button3.TabIndex = 4;
+            button3.Text = "SSX Blur Tools";
+            button3.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
@@ -164,6 +185,7 @@
             // 
             // SSX3LevelButton
             // 
+            SSX3LevelButton.Enabled = false;
             SSX3LevelButton.Location = new Point(206, 22);
             SSX3LevelButton.Name = "SSX3LevelButton";
             SSX3LevelButton.Size = new Size(94, 50);
@@ -234,26 +256,6 @@
             BigArchiveButton.Text = "Big Archive";
             BigArchiveButton.UseVisualStyleBackColor = true;
             BigArchiveButton.Click += BigArchiveButton_Click;
-            // 
-            // button3
-            // 
-            button3.Enabled = false;
-            button3.Location = new Point(406, 22);
-            button3.Name = "button3";
-            button3.Size = new Size(94, 50);
-            button3.TabIndex = 4;
-            button3.Text = "SSX Blur Tools";
-            button3.UseVisualStyleBackColor = true;
-            // 
-            // button7
-            // 
-            button7.Location = new Point(506, 22);
-            button7.Name = "button7";
-            button7.Size = new Size(94, 50);
-            button7.TabIndex = 5;
-            button7.Text = "SSX 2012 Tools";
-            button7.UseVisualStyleBackColor = true;
-            button7.Click += button7_Click;
             // 
             // SSXMultitoolHubpage
             // 

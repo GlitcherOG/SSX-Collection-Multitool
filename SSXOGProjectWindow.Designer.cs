@@ -37,7 +37,7 @@
             button1.Name = "button1";
             button1.Size = new Size(98, 44);
             button1.TabIndex = 0;
-            button1.Text = "Load Level";
+            button1.Text = "Load and Extract Level";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 

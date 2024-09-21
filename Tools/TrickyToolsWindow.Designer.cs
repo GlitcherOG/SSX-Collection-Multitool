@@ -1370,6 +1370,7 @@
             // 
             groupBox13.Controls.Add(checkBox1);
             groupBox13.Controls.Add(checkBox2);
+            groupBox13.Enabled = false;
             groupBox13.Location = new Point(204, 284);
             groupBox13.Name = "groupBox13";
             groupBox13.Size = new Size(156, 78);
@@ -1409,6 +1410,7 @@
             // button2
             // 
             button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            button2.Enabled = false;
             button2.Location = new Point(285, 368);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
@@ -1419,6 +1421,7 @@
             // MNFSave
             // 
             MNFSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            MNFSave.Enabled = false;
             MNFSave.Location = new Point(687, 368);
             MNFSave.Name = "MNFSave";
             MNFSave.Size = new Size(75, 23);
@@ -1451,7 +1454,7 @@
             // label36
             // 
             label36.AutoSize = true;
-            label36.Location = new Point(331, 176);
+            label36.Location = new Point(204, 21);
             label36.Name = "label36";
             label36.Size = new Size(80, 15);
             label36.TabIndex = 2;
@@ -1884,12 +1887,14 @@
             // 
             // button1
             // 
+            button1.Enabled = false;
             button1.Location = new Point(174, 282);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 1;
             button1.Text = "Test";
             button1.UseVisualStyleBackColor = true;
+            button1.Visible = false;
             button1.Click += button1_Click;
             // 
             // ELFLdrSetup
