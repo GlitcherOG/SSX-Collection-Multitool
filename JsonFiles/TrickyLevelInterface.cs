@@ -1373,10 +1373,10 @@ namespace SSXMultiTool
                         var TempSegment = TempSpline.Segments[a];
                         BezierUtil bezierUtil = new BezierUtil();
 
-                        bezierUtil.RawPoints[0] = JsonUtil.Array2DToVector3(TempSpline.Segments[0].Points, 0);
-                        bezierUtil.RawPoints[1] = JsonUtil.Array2DToVector3(TempSpline.Segments[0].Points, 1);
-                        bezierUtil.RawPoints[2] = JsonUtil.Array2DToVector3(TempSpline.Segments[0].Points, 2);
-                        bezierUtil.RawPoints[3] = JsonUtil.Array2DToVector3(TempSpline.Segments[0].Points, 3);
+                        bezierUtil.RawPoints[0] = JsonUtil.Array2DToVector3(TempSegment.Points, 0);
+                        bezierUtil.RawPoints[1] = JsonUtil.Array2DToVector3(TempSegment.Points, 1);
+                        bezierUtil.RawPoints[2] = JsonUtil.Array2DToVector3(TempSegment.Points, 2);
+                        bezierUtil.RawPoints[3] = JsonUtil.Array2DToVector3(TempSegment.Points, 3);
 
                         bezierUtil.GenerateProcessedPoints();
 
