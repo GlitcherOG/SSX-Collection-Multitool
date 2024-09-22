@@ -338,7 +338,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             }
             else if (Head != null && Body != null)
             {
-                StartRegenMeshCharacter(trickyModelCombiner, Selected);
+                MessageBox.Show("Characters Currently Unsupported");
+                //StartRegenMeshCharacter(trickyModelCombiner, Selected);
             }
             else
             {

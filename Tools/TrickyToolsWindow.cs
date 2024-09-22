@@ -1148,11 +1148,11 @@ namespace SSXMultiTool
 
                     trickyGCMNF = trickyGCModel.Body;
 
-                    trickyGCMNF.Save(Path + "body.mxf");
+                    trickyGCMNF.Save(Path + "body.mnf");
 
                     trickyGCMNF = trickyGCModel.Head;
 
-                    trickyGCMNF.Save(Path + "head.mxf");
+                    trickyGCMNF.Save(Path + "head.mnf");
                 }
             }
         }
@@ -1183,18 +1183,18 @@ namespace SSXMultiTool
                         }
                         if (TempCombiner != null)
                         {
-                            //try
-                            //{
+                            try
+                            {
                                 trickyGCModel.NormalAverage = ImportAverageNormalMNF.Checked;
                                 trickyGCModel.BoneUpdate = BoneUpdateCheckMNF.Checked;
                                 trickyGCModel.StartRegenMesh(TempCombiner, MNFModelsList.SelectedIndex);
 
                                 UpdateDataGC();
-                            //}
-                            //catch
-                            //{
-                            //    MessageBox.Show("Failed to Convert File");
-                            //}
+                            }
+                            catch
+                            {
+                                MessageBox.Show("Failed to Convert File");
+                            }
                         }
                     }
                 }
