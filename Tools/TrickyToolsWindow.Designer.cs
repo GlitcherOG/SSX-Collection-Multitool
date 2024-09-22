@@ -140,10 +140,10 @@
             label37 = new Label();
             label38 = new Label();
             groupBox13 = new GroupBox();
-            checkBox1 = new CheckBox();
-            checkBox2 = new CheckBox();
+            BoneUpdateCheckMNF = new CheckBox();
+            ImportAverageNormalMNF = new CheckBox();
             MNFMeshPartsList = new ListBox();
-            button2 = new Button();
+            MNFImport = new Button();
             MNFSave = new Button();
             MNFModelsList = new ListBox();
             MNFExtract = new Button();
@@ -1335,7 +1335,7 @@
             tabPage5.Controls.Add(label38);
             tabPage5.Controls.Add(groupBox13);
             tabPage5.Controls.Add(MNFMeshPartsList);
-            tabPage5.Controls.Add(button2);
+            tabPage5.Controls.Add(MNFImport);
             tabPage5.Controls.Add(MNFSave);
             tabPage5.Controls.Add(MNFModelsList);
             tabPage5.Controls.Add(MNFExtract);
@@ -1368,8 +1368,8 @@
             // 
             // groupBox13
             // 
-            groupBox13.Controls.Add(checkBox1);
-            groupBox13.Controls.Add(checkBox2);
+            groupBox13.Controls.Add(BoneUpdateCheckMNF);
+            groupBox13.Controls.Add(ImportAverageNormalMNF);
             groupBox13.Enabled = false;
             groupBox13.Location = new Point(204, 284);
             groupBox13.Name = "groupBox13";
@@ -1378,25 +1378,25 @@
             groupBox13.TabStop = false;
             groupBox13.Text = "Import Settings";
             // 
-            // checkBox1
+            // BoneUpdateCheckMNF
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(6, 47);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(131, 19);
-            checkBox1.TabIndex = 1;
-            checkBox1.Text = "Update Bones (WIP)";
-            checkBox1.UseVisualStyleBackColor = true;
+            BoneUpdateCheckMNF.AutoSize = true;
+            BoneUpdateCheckMNF.Location = new Point(6, 47);
+            BoneUpdateCheckMNF.Name = "BoneUpdateCheckMNF";
+            BoneUpdateCheckMNF.Size = new Size(131, 19);
+            BoneUpdateCheckMNF.TabIndex = 1;
+            BoneUpdateCheckMNF.Text = "Update Bones (WIP)";
+            BoneUpdateCheckMNF.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // ImportAverageNormalMNF
             // 
-            checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(6, 22);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(117, 19);
-            checkBox2.TabIndex = 0;
-            checkBox2.Text = "Average Normals";
-            checkBox2.UseVisualStyleBackColor = true;
+            ImportAverageNormalMNF.AutoSize = true;
+            ImportAverageNormalMNF.Location = new Point(6, 22);
+            ImportAverageNormalMNF.Name = "ImportAverageNormalMNF";
+            ImportAverageNormalMNF.Size = new Size(117, 19);
+            ImportAverageNormalMNF.TabIndex = 0;
+            ImportAverageNormalMNF.Text = "Average Normals";
+            ImportAverageNormalMNF.UseVisualStyleBackColor = true;
             // 
             // MNFMeshPartsList
             // 
@@ -1407,21 +1407,20 @@
             MNFMeshPartsList.Size = new Size(192, 184);
             MNFMeshPartsList.TabIndex = 33;
             // 
-            // button2
+            // MNFImport
             // 
-            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            button2.Enabled = false;
-            button2.Location = new Point(285, 368);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 32;
-            button2.Text = "Import Model";
-            button2.UseVisualStyleBackColor = true;
+            MNFImport.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            MNFImport.Location = new Point(285, 368);
+            MNFImport.Name = "MNFImport";
+            MNFImport.Size = new Size(75, 23);
+            MNFImport.TabIndex = 32;
+            MNFImport.Text = "Import Model";
+            MNFImport.UseVisualStyleBackColor = true;
+            MNFImport.Click += MNFImport_Click;
             // 
             // MNFSave
             // 
             MNFSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            MNFSave.Enabled = false;
             MNFSave.Location = new Point(687, 368);
             MNFSave.Name = "MNFSave";
             MNFSave.Size = new Size(75, 23);
@@ -2124,10 +2123,10 @@
         private Label label37;
         private Label label38;
         private GroupBox groupBox13;
-        private CheckBox checkBox1;
-        private CheckBox checkBox2;
+        private CheckBox BoneUpdateCheckMNF;
+        private CheckBox ImportAverageNormalMNF;
         private ListBox MNFMeshPartsList;
-        private Button button2;
+        private Button MNFImport;
         private Button MNFSave;
         private ListBox MNFModelsList;
         private Button MNFExtract;

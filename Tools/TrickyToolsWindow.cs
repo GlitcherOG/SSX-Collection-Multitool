@@ -975,6 +975,163 @@ namespace SSXMultiTool
         }
         #endregion
 
+        #region Tricky GC Models
+        TrickyGCMNF trickyGCMNF = new TrickyGCMNF();
+        TrickyGCModelCombiner trickyGCModel = new TrickyGCModelCombiner();
+
+        private void MNFLoad_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "MNF Model File (*.mnf)|*.mnf|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                trickyGCMNF = new TrickyGCMNF();
+                trickyGCMNF.Load(openFileDialog.FileName);
+                //trickyGCMNF.Save(openFileDialog.FileName + "1");
+                //if (MpfHeaderChecker.DetectFileType(openFileDialog.FileName) != 1)
+                //{
+                //    MessageBox.Show(MpfHeaderChecker.TypeErrorMessage(MpfHeaderChecker.DetectFileType(openFileDialog.FileName)));
+                //    return;
+                //}
+
+                int Type = trickyGCModel.DectectModelType(trickyGCMNF);
+
+                if ((Type == 0 && trickyGCModel.Head != null) || (Type == 1 && trickyGCModel.Body != null))
+                {
+                    MNFModelsList.Items.Clear();
+                    MNFModelsList.Items.Add("Character 3000");
+                    MNFModelsList.Items.Add("Character 1500");
+                    MNFModelsList.Items.Add("Character 750");
+                    MNFModelsList.Items.Add("Character Shadow 750");
+                }
+                else
+                {
+                    if (trickyGCModel.Body == null)
+                    {
+                        MNFModelsList.Items.Clear();
+                        MNFModelsList.Items.Add("Please Load Matching Body File");
+                    }
+                    else if (trickyGCModel.Head == null)
+                    {
+                        MNFModelsList.Items.Clear();
+                        MNFModelsList.Items.Add("Please Load Matching Head File");
+                    }
+                    //UpdateDataPS2();
+                }
+
+                if (Type == 2)
+                {
+                    MNFModelsList.Items.Clear();
+                    for (int i = 0; i < trickyGCMNF.modelHeaders.Count; i++)
+                    {
+                        MNFModelsList.Items.Add(trickyGCMNF.modelHeaders[i].ModelName);
+                    }
+                    //UpdateDataPS2();
+                }
+
+            }
+        }
+
+        private void MNFExtract_Click(object sender, EventArgs e)
+        {
+            if (MNFModelsList.SelectedIndex != -1)
+            {
+                SaveFileDialog openFileDialog = new SaveFileDialog
+                {
+                    Filter = "gltf File (*.glb)|*.glb|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    trickyGCModel.StartReassignMesh(MNFModelsList.SelectedIndex);
+
+                    glftHandler.SaveTrickyGCglTF(openFileDialog.FileName, trickyGCModel);
+                }
+            }
+        }
+
+        private void MNFSave_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog openFileDialog = new SaveFileDialog
+            {
+                Filter = "Model File (*.mnf)|*.mnf|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (trickyGCModel.Board != null)
+                {
+                    trickyGCMNF = trickyGCModel.Board;
+
+                    trickyGCMNF.Save(openFileDialog.FileName);
+                }
+                else if (trickyGCModel.Body != null && trickyGCModel.Head != null)
+                {
+                    string Path = openFileDialog.FileName.Remove(openFileDialog.FileName.Length - 8, 8);
+
+                    trickyGCMNF = trickyGCModel.Body;
+
+                    trickyGCMNF.Save(Path + "body.mxf");
+
+                    trickyGCMNF = trickyGCModel.Head;
+
+                    trickyGCMNF.Save(Path + "head.mxf");
+                }
+            }
+        }
+
+        private void MNFImport_Click(object sender, EventArgs e)
+        {
+            if (MNFModelsList.SelectedIndex != -1)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "gltf File (*.glb)|*.glb|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if ((trickyGCModel.Board != null) || (trickyGCModel.Head != null && trickyGCModel.Body != null))
+                    {
+                        TrickyGCModelCombiner TempCombiner = null;
+
+                        try
+                        {
+                            TempCombiner = glftHandler.LoadTrickyGCGlft(openFileDialog.FileName);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Failed to Load File");
+                        }
+                        if (TempCombiner != null)
+                        {
+                            try
+                            {
+                                trickyGCModel.NormalAverage = ImportAverageNormalMNF.Checked;
+                                trickyGCModel.BoneUpdate = BoneUpdateCheckMNF.Checked;
+                                trickyGCModel.StartRegenMesh(TempCombiner, MNFModelsList.SelectedIndex);
+
+                                //UpdateDataXbox();
+                            }
+                            catch
+                            {
+                                MessageBox.Show("Failed to Convert File");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
+
         private bool CheckSX()
         {
             string StringPath = Application.StartupPath;
@@ -1311,86 +1468,6 @@ namespace SSXMultiTool
                 DisableUpdate = false;
             }
         }
-
-        TrickyGCMNF trickyGCMNF = new TrickyGCMNF();
-        TrickyGCModelCombiner trickyGCModel = new TrickyGCModelCombiner();
-
-        private void MNFLoad_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                Filter = "MNF Model File (*.mnf)|*.mnf|All files (*.*)|*.*",
-                FilterIndex = 1,
-                RestoreDirectory = false
-            };
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                trickyGCMNF = new TrickyGCMNF();
-                trickyGCMNF.Load(openFileDialog.FileName);
-                //trickyGCMNF.Save(openFileDialog.FileName + "1");
-                //if (MpfHeaderChecker.DetectFileType(openFileDialog.FileName) != 1)
-                //{
-                //    MessageBox.Show(MpfHeaderChecker.TypeErrorMessage(MpfHeaderChecker.DetectFileType(openFileDialog.FileName)));
-                //    return;
-                //}
-
-                int Type = trickyGCModel.DectectModelType(trickyGCMNF);
-
-                if ((Type == 0 && trickyGCModel.Head != null) || (Type == 1 && trickyGCModel.Body != null))
-                {
-                    MNFModelsList.Items.Clear();
-                    MNFModelsList.Items.Add("Character 3000");
-                    MNFModelsList.Items.Add("Character 1500");
-                    MNFModelsList.Items.Add("Character 750");
-                    MNFModelsList.Items.Add("Character Shadow 750");
-                }
-                else
-                {
-                    if (trickyGCModel.Body == null)
-                    {
-                        MNFModelsList.Items.Clear();
-                        MNFModelsList.Items.Add("Please Load Matching Body File");
-                    }
-                    else if (trickyGCModel.Head == null)
-                    {
-                        MNFModelsList.Items.Clear();
-                        MNFModelsList.Items.Add("Please Load Matching Head File");
-                    }
-                    //UpdateDataPS2();
-                }
-
-                if (Type == 2)
-                {
-                    MNFModelsList.Items.Clear();
-                    for (int i = 0; i < trickyGCMNF.modelHeaders.Count; i++)
-                    {
-                        MNFModelsList.Items.Add(trickyGCMNF.modelHeaders[i].ModelName);
-                    }
-                    //UpdateDataPS2();
-                }
-
-            }
-        }
-
-        private void MNFExtract_Click(object sender, EventArgs e)
-        {
-            if (MNFModelsList.SelectedIndex != -1)
-            {
-                SaveFileDialog openFileDialog = new SaveFileDialog
-                {
-                    Filter = "gltf File (*.glb)|*.glb|All files (*.*)|*.*",
-                    FilterIndex = 1,
-                    RestoreDirectory = false
-                };
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    trickyGCModel.StartReassignMesh(MNFModelsList.SelectedIndex);
-
-                    glftHandler.SaveTrickyGCglTF(openFileDialog.FileName, trickyGCModel);
-                }
-            }
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             //CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
@@ -1424,11 +1501,6 @@ namespace SSXMultiTool
 
                 aflHandler.Load(openFileDialog.FileName);
             }
-        }
-
-        private void MNFSave_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

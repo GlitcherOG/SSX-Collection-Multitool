@@ -59,7 +59,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     NewModelHeader.NumMeshPerSkin = StreamUtil.ReadUInt16(stream, true);
                     NewModelHeader.Unknown3 = StreamUtil.ReadUInt16(stream, true);
                     NewModelHeader.NumVertices = StreamUtil.ReadUInt16(stream, true);
-                    NewModelHeader.FileID = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.FileID = StreamUtil.ReadUInt16(stream, false);
 
                     modelHeaders.Add(NewModelHeader);
                 }
@@ -670,8 +670,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                         var TempGroup = TempHeader.indexGroup;
 
                         TempHeader.Offset = (int)ModelStream.Position;
-
-                        StreamUtil.WriteUInt8(ModelStream, TempGroup.IndexUnk0);
+                        StreamUtil.WriteUInt8(ModelStream, 153);
+                        //StreamUtil.WriteUInt8(ModelStream, TempGroup.IndexUnk0);
                         if (!Shadow)
                         {
                             StreamUtil.WriteInt16(ModelStream, TempGroup.indices.Count, true);
@@ -702,6 +702,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                             }
                         }
                         StreamUtil.AlignBy(ModelStream, 32);
+                        TempHeader.ByteLength = (int)ModelStream.Position - TempHeader.Offset;
 
                         TempHeader.indexGroup = TempGroup;
                         TempMeshHeader.indexGroupHeaders[b] = TempHeader;
@@ -826,7 +827,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 StreamUtil.WriteInt16(stream, TempModel.meshHeaders.Count, true);
                 StreamUtil.WriteInt16(stream, TempModel.Unknown3, true);
                 StreamUtil.WriteInt16(stream, TempModel.Vertex.Count, true);
-                StreamUtil.WriteInt16(stream, TempModel.FileID, true);
+                StreamUtil.WriteInt16(stream, TempModel.FileID, false);
 
             }
 

@@ -677,33 +677,29 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 indiceFaces.Add(TempFace);
             }
 
+            //Once in Vertex List Send Morph Data To MorphList
+            List<TrickyGCMNF.MorphHeader> NewMorphHeader = new List<TrickyGCMNF.MorphHeader>();
+            for (int i = 0; i < ReassignedMesh.MorphTargetCount; i++)
+            {
+                var TempMorphHeader = new TrickyGCMNF.MorphHeader();
+                TempMorphHeader.MorphDataList = new List<TrickyGCMNF.MorphData>();
+                NewMorphHeader.Add(TempMorphHeader);
+            }
 
-
-            ////Once in Vertex List Send Morph Data To MorphList
-            //List<TrickyGCMNF.MorphHeader> NewMorphHeader = new List<TrickyGCMNF.MorphHeader>();
-            //for (int i = 0; i < ReassignedMesh.MorphTargetCount; i++)
-            //{
-            //    var TempMorphHeader = new TrickyGCMNF.MorphHeader();
-            //    TempMorphHeader.MorphDataList = new List<TrickyGCMNF.MorphData>();
-            //    NewMorphHeader.Add(TempMorphHeader);
-            //}
-
-            //for (int i = 0; i < NewMorphHeader.Count; i++)
-            //{
-            //    for (int a = 0; a < VectorPoint.Count; a++)
-            //    {
-            //        if (VectorPoint[a].MorphData[i] != Vector3.Zero)
-            //        {
-            //            TrickyGCMNF.MorphData TempMorphData = new TrickyGCMNF.MorphData();
-            //            TempMorphData.Morph = VectorPoint[a].MorphData[i];
-            //            TempMorphData.VertexIndex = a;
-            //            TempMorphData.U1 = 16;
-            //            TempMorphData.U2 = 16;
-            //            NewMorphHeader[i].MorphDataList.Add(TempMorphData);
-            //        }
-            //    }
-            //}
-            //TempTrickyMesh.morphHeader = NewMorphHeader;
+            for (int i = 0; i < NewMorphHeader.Count; i++)
+            {
+                for (int a = 0; a < VectorPoint.Count; a++)
+                {
+                    if (VectorPoint[a].MorphDatas[i] != Vector3.Zero)
+                    {
+                        TrickyGCMNF.MorphData TempMorphData = new TrickyGCMNF.MorphData();
+                        TempMorphData.Morph = VectorPoint[a].MorphDatas[i];
+                        TempMorphData.VertexIndex = a;
+                        NewMorphHeader[i].MorphDataList.Add(TempMorphData);
+                    }
+                }
+            }
+            TempTrickyMesh.morphHeader = NewMorphHeader;
 
             indiceFaces = TristripGenerator.NeighbourPriority(indiceFaces);
 
@@ -781,6 +777,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     TrickyIndex.Index0 = indiceTristrips[i].Indices[a];
                     TrickyIndex.Index1 = indiceTristrips[i].Indices[a];
                     TrickyIndex.Index2 = indiceTristrips[i].Indices[a];
+                    indexGroup.indices.Add(TrickyIndex);
                 }
                 indexGroupHeader.indexGroup = indexGroup;
 

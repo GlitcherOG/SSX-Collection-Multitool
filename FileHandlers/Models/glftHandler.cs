@@ -1633,17 +1633,6 @@ namespace SSXMultiTool.FileHandlers
                                 return null;
                             }
 
-                            Vector4 TempTangent;
-                            if (TempGeo.TryGetTangent(out TempTangent))
-                            {
-                                NewVertex.Tangent = TempTangent;
-                            }
-                            else
-                            {
-                                MessageBox.Show("Must Contain Tangents");
-                                return null;
-                            }
-
                             try
                             {
                                 NewVertex.UV = TempMaterial.GetTexCoord(0);
@@ -2298,7 +2287,6 @@ namespace SSXMultiTool.FileHandlers
             public Vector3 Position;
             public Vector3 Normal;
             public Vector2 UV;
-            public Vector4 Tangent;
 
             public TrickyGCMNF.BoneWeightHeader weightHeader;
             public List<Vector3> MorphPoints;
