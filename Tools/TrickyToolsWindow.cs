@@ -1020,7 +1020,7 @@ namespace SSXMultiTool
                         MNFModelsList.Items.Clear();
                         MNFModelsList.Items.Add("Please Load Matching Head File");
                     }
-                    //UpdateDataPS2();
+                    UpdateDataGC();
                 }
 
                 if (Type == 2)
@@ -1030,7 +1030,7 @@ namespace SSXMultiTool
                     {
                         MNFModelsList.Items.Add(trickyGCMNF.modelHeaders[i].ModelName);
                     }
-                    //UpdateDataPS2();
+                    UpdateDataGC();
                 }
 
             }
@@ -1052,6 +1052,78 @@ namespace SSXMultiTool
 
                     glftHandler.SaveTrickyGCglTF(openFileDialog.FileName, trickyGCModel);
                 }
+            }
+        }
+
+        void UpdateDataGC(TrickyGCMNF.ModelHeader? modelHeader = null)
+        {
+            if (modelHeader != null)
+            {
+                FileIDGC.Text = modelHeader.Value.FileID.ToString();
+                BonesGC.Text = modelHeader.Value.boneDatas.Count.ToString();
+                MaterialsGC.Text = modelHeader.Value.materialDatas.Count.ToString();
+                IKGC.Text = modelHeader.Value.iKPoints.Count.ToString();
+                ShapeKeyGC.Text = modelHeader.Value.NumMorphs.ToString();
+                WeightGC.Text = modelHeader.Value.boneWeightHeaders.Count.ToString();
+
+                MaterialGroupsGC.Text = modelHeader.Value.meshHeaders.Count.ToString();
+                //TristripGC.Text = trickyXboxModel.TristripCount(modelHeader.Value).ToString();
+                VerticeGC.Text = modelHeader.Value.Vertex.Count.ToString();
+
+                MaterialListMNF.Items.Clear();
+                MNFUpdateMaterialXbox();
+                for (int i = 0; i < modelHeader.Value.materialDatas.Count; i++)
+                {
+                    MaterialListMNF.Items.Add(modelHeader.Value.materialDatas[i].MainTexture);
+                }
+            }
+            else
+            {
+                //Modle Header Info
+                FileIDGC.Text = "0";
+                BonesGC.Text = "0";
+                MaterialsGC.Text = "0";
+                IKGC.Text = "0";
+                ShapeKeyGC.Text = "0";
+                WeightGC.Text = "0";
+
+                MaterialGroupsGC.Text = "0";
+                TristripGC.Text = "0";
+                VerticeGC.Text = "0";
+
+                ////Material Items
+                MaterialListMNF.Items.Clear();
+                MNFUpdateMaterialXbox();
+            }
+        }
+
+        void MNFUpdateMaterialXbox(TrickyGCMNF.ModelHeader? modelHeader = null)
+        {
+            if (MaterialListMNF.SelectedIndex != -1 && modelHeader != null)
+            {
+                MatDisableUpdate = true;
+                MatMainTextureMNF.Text = modelHeader.Value.materialDatas[MaterialListMNF.SelectedIndex].MainTexture;
+                MatTextureFlag1MNF.Text = modelHeader.Value.materialDatas[MaterialListMNF.SelectedIndex].Texture1;
+                MatTextureFlag2MNF.Text = modelHeader.Value.materialDatas[MaterialListMNF.SelectedIndex].Texture2;
+                MatTextureFlag3MNF.Text = modelHeader.Value.materialDatas[MaterialListMNF.SelectedIndex].Texture3;
+                MatTextureFlag4MNF.Text = modelHeader.Value.materialDatas[MaterialListMNF.SelectedIndex].Texture4;
+                MatFlagFactorMNF.Value = (decimal)modelHeader.Value.materialDatas[MaterialListMNF.SelectedIndex].FactorFloat;
+                MatUnknown1MNF.Value = (decimal)modelHeader.Value.materialDatas[MaterialListMNF.SelectedIndex].Unused1Float;
+                MatUnknown2MNF.Value = (decimal)modelHeader.Value.materialDatas[MaterialListMNF.SelectedIndex].Unused2Float;
+                MatDisableUpdate = false;
+            }
+            else
+            {
+                MatDisableUpdate = true;
+                MatMainTextureMNF.Text = "";
+                MatTextureFlag1MNF.Text = "";
+                MatTextureFlag2MNF.Text = "";
+                MatTextureFlag3MNF.Text = "";
+                MatTextureFlag4MNF.Text = "";
+                MatFlagFactorMNF.Value = 0;
+                MatUnknown1MNF.Value = 0;
+                MatUnknown2MNF.Value = 0;
+                MatDisableUpdate = false;
             }
         }
 
@@ -1118,7 +1190,7 @@ namespace SSXMultiTool
                                 trickyGCModel.BoneUpdate = BoneUpdateCheckMNF.Checked;
                                 trickyGCModel.StartRegenMesh(TempCombiner, MNFModelsList.SelectedIndex);
 
-                                //UpdateDataXbox();
+                                UpdateDataGC();
                             }
                             catch
                             {
@@ -1127,6 +1199,219 @@ namespace SSXMultiTool
                         }
                     }
                 }
+            }
+        }
+
+        private void MNFModelsList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (MNFModelsList.SelectedIndex != -1)
+            {
+                if (trickyGCModel.Board != null)
+                {
+                    UpdateDataGC(trickyGCModel.Board.modelHeaders[MNFModelsList.SelectedIndex]);
+                }
+                else
+                {
+                    UpdateDataGC();
+                }
+                RegeneratePartListGC();
+            }
+        }
+
+        void RegeneratePartListGC()
+        {
+            MNFMeshPartsList.Items.Clear();
+            int MeshID = MNFModelsList.SelectedIndex;
+            if (trickyGCModel.Body != null && trickyGCModel.Head != null)
+            {
+                for (int i = 0; i < trickyGCModel.Body.modelHeaders.Count; i++)
+                {
+                    if ((MeshID == 0 && trickyGCModel.Body.modelHeaders[i].ModelName.Contains("3000")) ||
+                        (MeshID == 1 && trickyGCModel.Body.modelHeaders[i].ModelName.Contains("1500")) ||
+                        (MeshID == 2 && trickyGCModel.Body.modelHeaders[i].ModelName.Contains("750") && !trickyGCModel.Body.modelHeaders[i].ModelName.ToLower().Contains("shdw")) ||
+                        (MeshID == 3 && trickyGCModel.Body.modelHeaders[i].ModelName.ToLower().Contains("shdw")))
+                    {
+                        MNFMeshPartsList.Items.Add(trickyGCModel.Body.modelHeaders[i].ModelName);
+                    }
+                }
+
+                //Head
+                for (int i = 0; i < trickyGCModel.Head.modelHeaders.Count; i++)
+                {
+                    if ((MeshID == 0 && trickyGCModel.Head.modelHeaders[i].ModelName.Contains("3000")) ||
+                        (MeshID == 1 && trickyGCModel.Head.modelHeaders[i].ModelName.Contains("1500")) ||
+                        (MeshID == 2 && trickyGCModel.Head.modelHeaders[i].ModelName.Contains("750") && !trickyGCModel.Head.modelHeaders[i].ModelName.ToLower().Contains("shdw")) ||
+                        (MeshID == 3 && trickyGCModel.Head.modelHeaders[i].ModelName.ToLower().Contains("shdw")))
+                    {
+
+                        MNFMeshPartsList.Items.Add(trickyGCModel.Head.modelHeaders[i].ModelName);
+                    }
+                }
+            }
+        }
+
+        private void MaterialListMNF_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (MaterialListMNF.SelectedIndex != -1 && MaterialListMNF.SelectedIndex != -1)
+            {
+                if (trickyGCModel.Board != null)
+                {
+                    MNFUpdateMaterialXbox(trickyGCModel.Board.modelHeaders[MNFModelsList.SelectedIndex]);
+                }
+                else if (trickyGCModel.Body != null && trickyGCModel.Head != null)
+                {
+                    string LookingFor = MNFMeshPartsList.Items[MNFMeshPartsList.SelectedIndex].ToString();
+                    int MeshID = -1;
+                    for (int i = 0; i < trickyGCModel.Body.modelHeaders.Count; i++)
+                    {
+                        if (LookingFor == trickyGCModel.Body.modelHeaders[i].ModelName)
+                        {
+                            MeshID = i;
+                            MNFUpdateMaterialXbox(trickyGCModel.Body.modelHeaders[i]);
+                            break;
+                        }
+                    }
+
+                    if (MeshID == -1)
+                    {
+                        //Head
+                        for (int i = 0; i < trickyGCModel.Head.modelHeaders.Count; i++)
+                        {
+                            if (LookingFor == trickyGCModel.Head.modelHeaders[i].ModelName)
+                            {
+                                MeshID = i;
+                                MNFUpdateMaterialXbox(trickyGCModel.Head.modelHeaders[i]);
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    MNFUpdateMaterialXbox();
+                }
+            }
+        }
+
+        private void MNFUpdateMat(object sender, EventArgs e)
+        {
+            if (MaterialListMNF.SelectedIndex != -1 && !MatDisableUpdate)
+            {
+                MatDisableUpdate = true;
+
+                TrickyGCMNF.MaterialData TempMat = new TrickyGCMNF.MaterialData();
+                //Load Material
+                if (trickyGCModel.Board != null)
+                {
+                    TempMat = trickyGCModel.Board.modelHeaders[MNFModelsList.SelectedIndex].materialDatas[MaterialListMNF.SelectedIndex];
+                }
+                else if (trickyGCModel.Head != null && trickyGCModel.Body != null)
+                {
+                    string LookingFor = MNFMeshPartsList.Items[MNFMeshPartsList.SelectedIndex].ToString();
+                    int MeshID = -1;
+                    for (int i = 0; i < trickyGCModel.Body.modelHeaders.Count; i++)
+                    {
+                        if (LookingFor == trickyGCModel.Body.modelHeaders[i].ModelName)
+                        {
+                            MeshID = i;
+                            TempMat = trickyGCModel.Body.modelHeaders[i].materialDatas[MaterialListMNF.SelectedIndex];
+                            break;
+                        }
+                    }
+
+                    if (MeshID == -1)
+                    {
+                        //Head
+                        for (int i = 0; i < trickyGCModel.Head.modelHeaders.Count; i++)
+                        {
+                            if (LookingFor == trickyGCModel.Head.modelHeaders[i].ModelName)
+                            {
+                                MeshID = i;
+                                TempMat = trickyGCModel.Head.modelHeaders[i].materialDatas[MaterialListMNF.SelectedIndex];
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                TempMat.MainTexture = MatMainTextureMNF.Text;
+                TempMat.Texture1 = MatTextureFlag1MNF.Text;
+                TempMat.Texture2 = MatTextureFlag2MNF.Text;
+                TempMat.Texture3 = MatTextureFlag3MNF.Text;
+                TempMat.Texture4 = MatTextureFlag4MNF.Text;
+                TempMat.FactorFloat = (float)MatFlagFactorMNF.Value;
+                TempMat.Unused1Float = (float)MatUnknown1MNF.Value;
+                TempMat.Unused2Float = (float)MatUnknown2MNF.Value;
+
+                if (trickyGCModel.Board != null)
+                {
+                    trickyGCModel.Board.modelHeaders[MNFModelsList.SelectedIndex].materialDatas[MaterialListMNF.SelectedIndex] = TempMat;
+                }
+                else if (trickyGCModel.Head != null && trickyGCModel.Body != null)
+                {
+                    string LookingFor = MNFMeshPartsList.Items[MNFMeshPartsList.SelectedIndex].ToString();
+                    int MeshID = -1;
+                    for (int i = 0; i < trickyGCModel.Body.modelHeaders.Count; i++)
+                    {
+                        if (LookingFor == trickyGCModel.Body.modelHeaders[i].ModelName)
+                        {
+                            MeshID = i;
+                            trickyGCModel.Body.modelHeaders[i].materialDatas[MaterialListMNF.SelectedIndex] = TempMat;
+                            break;
+                        }
+                    }
+
+                    if (MeshID == -1)
+                    {
+                        //Head
+                        for (int i = 0; i < trickyGCModel.Head.modelHeaders.Count; i++)
+                        {
+                            if (LookingFor == trickyGCModel.Head.modelHeaders[i].ModelName)
+                            {
+                                trickyGCModel.Head.modelHeaders[i].materialDatas[MaterialListMNF.SelectedIndex] = TempMat;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+
+                //Save Material
+
+                MatDisableUpdate = false;
+            }
+        }
+
+        private void MNFMeshPartsList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (MNFMeshPartsList.SelectedIndex != -1)
+            {
+                string LookingFor = MNFMeshPartsList.Items[MNFMeshPartsList.SelectedIndex].ToString();
+                int MeshID = -1;
+
+                for (int i = 0; i < trickyGCModel.Body.modelHeaders.Count; i++)
+                {
+                    if (LookingFor == trickyGCModel.Body.modelHeaders[i].ModelName)
+                    {
+                        MeshID = i;
+                        UpdateDataGC(trickyGCModel.Body.modelHeaders[i]);
+                        break;
+                    }
+                }
+
+                if (MeshID == -1)
+                {
+                    //Head
+                    for (int i = 0; i < trickyGCModel.Head.modelHeaders.Count; i++)
+                    {
+                        if (LookingFor == trickyGCModel.Head.modelHeaders[i].ModelName)
+                        {
+                            MeshID = i;
+                            UpdateDataGC(trickyGCModel.Head.modelHeaders[i]);
+                        }
+                    }
+                }
+
             }
         }
         #endregion

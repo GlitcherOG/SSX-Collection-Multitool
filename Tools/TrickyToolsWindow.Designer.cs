@@ -137,6 +137,44 @@
             MXFExport = new Button();
             MXFLoad = new Button();
             tabPage5 = new TabPage();
+            groupBox14 = new GroupBox();
+            label36 = new Label();
+            MaterialGroupsGC = new Label();
+            label42 = new Label();
+            TristripGC = new Label();
+            label45 = new Label();
+            VerticeGC = new Label();
+            groupBox15 = new GroupBox();
+            label56 = new Label();
+            MatUnknown2MNF = new NumericUpDown();
+            label58 = new Label();
+            MatUnknown1MNF = new NumericUpDown();
+            label60 = new Label();
+            MatFlagFactorMNF = new NumericUpDown();
+            MatTextureFlag4MNF = new TextBox();
+            label62 = new Label();
+            MatTextureFlag3MNF = new TextBox();
+            label63 = new Label();
+            MatTextureFlag2MNF = new TextBox();
+            label66 = new Label();
+            MatTextureFlag1MNF = new TextBox();
+            label67 = new Label();
+            MatMainTextureMNF = new TextBox();
+            label68 = new Label();
+            MaterialListMNF = new ListBox();
+            groupBox16 = new GroupBox();
+            label69 = new Label();
+            WeightGC = new Label();
+            label71 = new Label();
+            FileIDGC = new Label();
+            label73 = new Label();
+            BonesGC = new Label();
+            label75 = new Label();
+            ShapeKeyGC = new Label();
+            MaterialsGC = new Label();
+            label78 = new Label();
+            label79 = new Label();
+            IKGC = new Label();
             label37 = new Label();
             label38 = new Label();
             groupBox13 = new GroupBox();
@@ -147,7 +185,6 @@
             MNFSave = new Button();
             MNFModelsList = new ListBox();
             MNFExtract = new Button();
-            label36 = new Label();
             MNFLoad = new Button();
             tabPage4 = new TabPage();
             groupBox6 = new GroupBox();
@@ -209,6 +246,12 @@
             groupBox11.SuspendLayout();
             groupBox12.SuspendLayout();
             tabPage5.SuspendLayout();
+            groupBox14.SuspendLayout();
+            groupBox15.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)MatUnknown2MNF).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)MatUnknown1MNF).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)MatFlagFactorMNF).BeginInit();
+            groupBox16.SuspendLayout();
             groupBox13.SuspendLayout();
             tabPage4.SuspendLayout();
             groupBox6.SuspendLayout();
@@ -1331,6 +1374,9 @@
             // 
             // tabPage5
             // 
+            tabPage5.Controls.Add(groupBox14);
+            tabPage5.Controls.Add(groupBox15);
+            tabPage5.Controls.Add(groupBox16);
             tabPage5.Controls.Add(label37);
             tabPage5.Controls.Add(label38);
             tabPage5.Controls.Add(groupBox13);
@@ -1339,7 +1385,6 @@
             tabPage5.Controls.Add(MNFSave);
             tabPage5.Controls.Add(MNFModelsList);
             tabPage5.Controls.Add(MNFExtract);
-            tabPage5.Controls.Add(label36);
             tabPage5.Controls.Add(MNFLoad);
             tabPage5.Location = new Point(4, 24);
             tabPage5.Name = "tabPage5";
@@ -1347,6 +1392,382 @@
             tabPage5.TabIndex = 4;
             tabPage5.Text = "Tricky MNF (Models)";
             tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // groupBox14
+            // 
+            groupBox14.Controls.Add(label36);
+            groupBox14.Controls.Add(MaterialGroupsGC);
+            groupBox14.Controls.Add(label42);
+            groupBox14.Controls.Add(TristripGC);
+            groupBox14.Controls.Add(label45);
+            groupBox14.Controls.Add(VerticeGC);
+            groupBox14.Location = new Point(204, 99);
+            groupBox14.Name = "groupBox14";
+            groupBox14.Size = new Size(292, 65);
+            groupBox14.TabIndex = 39;
+            groupBox14.TabStop = false;
+            groupBox14.Text = "Model Data";
+            // 
+            // label36
+            // 
+            label36.AutoSize = true;
+            label36.Location = new Point(6, 19);
+            label36.Name = "label36";
+            label36.Size = new Size(91, 15);
+            label36.TabIndex = 13;
+            label36.Text = "Material Groups";
+            // 
+            // MaterialGroupsGC
+            // 
+            MaterialGroupsGC.AutoSize = true;
+            MaterialGroupsGC.Location = new Point(6, 34);
+            MaterialGroupsGC.Name = "MaterialGroupsGC";
+            MaterialGroupsGC.Size = new Size(13, 15);
+            MaterialGroupsGC.TabIndex = 14;
+            MaterialGroupsGC.Text = "0";
+            // 
+            // label42
+            // 
+            label42.AutoSize = true;
+            label42.Location = new Point(103, 19);
+            label42.Name = "label42";
+            label42.Size = new Size(78, 15);
+            label42.TabIndex = 6;
+            label42.Text = "Tristrip Count";
+            // 
+            // TristripGC
+            // 
+            TristripGC.AutoSize = true;
+            TristripGC.Location = new Point(103, 34);
+            TristripGC.Name = "TristripGC";
+            TristripGC.Size = new Size(13, 15);
+            TristripGC.TabIndex = 7;
+            TristripGC.Text = "0";
+            // 
+            // label45
+            // 
+            label45.AutoSize = true;
+            label45.Location = new Point(187, 19);
+            label45.Name = "label45";
+            label45.Size = new Size(78, 15);
+            label45.TabIndex = 8;
+            label45.Text = "Vertice Count";
+            // 
+            // VerticeGC
+            // 
+            VerticeGC.AutoSize = true;
+            VerticeGC.Location = new Point(187, 34);
+            VerticeGC.Name = "VerticeGC";
+            VerticeGC.Size = new Size(13, 15);
+            VerticeGC.TabIndex = 9;
+            VerticeGC.Text = "0";
+            // 
+            // groupBox15
+            // 
+            groupBox15.Controls.Add(label56);
+            groupBox15.Controls.Add(MatUnknown2MNF);
+            groupBox15.Controls.Add(label58);
+            groupBox15.Controls.Add(MatUnknown1MNF);
+            groupBox15.Controls.Add(label60);
+            groupBox15.Controls.Add(MatFlagFactorMNF);
+            groupBox15.Controls.Add(MatTextureFlag4MNF);
+            groupBox15.Controls.Add(label62);
+            groupBox15.Controls.Add(MatTextureFlag3MNF);
+            groupBox15.Controls.Add(label63);
+            groupBox15.Controls.Add(MatTextureFlag2MNF);
+            groupBox15.Controls.Add(label66);
+            groupBox15.Controls.Add(MatTextureFlag1MNF);
+            groupBox15.Controls.Add(label67);
+            groupBox15.Controls.Add(MatMainTextureMNF);
+            groupBox15.Controls.Add(label68);
+            groupBox15.Controls.Add(MaterialListMNF);
+            groupBox15.Location = new Point(502, 5);
+            groupBox15.Name = "groupBox15";
+            groupBox15.Size = new Size(254, 218);
+            groupBox15.TabIndex = 38;
+            groupBox15.TabStop = false;
+            groupBox15.Text = "Material Settings";
+            // 
+            // label56
+            // 
+            label56.AutoSize = true;
+            label56.Location = new Point(167, 164);
+            label56.Name = "label56";
+            label56.Size = new Size(67, 15);
+            label56.TabIndex = 43;
+            label56.Text = "Unknown 2";
+            // 
+            // MatUnknown2MNF
+            // 
+            MatUnknown2MNF.DecimalPlaces = 6;
+            MatUnknown2MNF.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            MatUnknown2MNF.Location = new Point(167, 183);
+            MatUnknown2MNF.Name = "MatUnknown2MNF";
+            MatUnknown2MNF.Size = new Size(81, 23);
+            MatUnknown2MNF.TabIndex = 42;
+            MatUnknown2MNF.ValueChanged += MNFUpdateMat;
+            // 
+            // label58
+            // 
+            label58.AutoSize = true;
+            label58.Location = new Point(82, 164);
+            label58.Name = "label58";
+            label58.Size = new Size(67, 15);
+            label58.TabIndex = 41;
+            label58.Text = "Unknown 1";
+            // 
+            // MatUnknown1MNF
+            // 
+            MatUnknown1MNF.DecimalPlaces = 6;
+            MatUnknown1MNF.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            MatUnknown1MNF.Location = new Point(82, 183);
+            MatUnknown1MNF.Name = "MatUnknown1MNF";
+            MatUnknown1MNF.Size = new Size(81, 23);
+            MatUnknown1MNF.TabIndex = 40;
+            MatUnknown1MNF.ValueChanged += MNFUpdateMat;
+            // 
+            // label60
+            // 
+            label60.AutoSize = true;
+            label60.Location = new Point(167, 117);
+            label60.Name = "label60";
+            label60.Size = new Size(65, 15);
+            label60.TabIndex = 39;
+            label60.Text = "Flag Factor";
+            // 
+            // MatFlagFactorMNF
+            // 
+            MatFlagFactorMNF.DecimalPlaces = 6;
+            MatFlagFactorMNF.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            MatFlagFactorMNF.Location = new Point(167, 136);
+            MatFlagFactorMNF.Name = "MatFlagFactorMNF";
+            MatFlagFactorMNF.Size = new Size(81, 23);
+            MatFlagFactorMNF.TabIndex = 38;
+            MatFlagFactorMNF.ValueChanged += MNFUpdateMat;
+            // 
+            // MatTextureFlag4MNF
+            // 
+            MatTextureFlag4MNF.Location = new Point(82, 135);
+            MatTextureFlag4MNF.Name = "MatTextureFlag4MNF";
+            MatTextureFlag4MNF.Size = new Size(79, 23);
+            MatTextureFlag4MNF.TabIndex = 37;
+            MatTextureFlag4MNF.TextChanged += MNFUpdateMat;
+            // 
+            // label62
+            // 
+            label62.AutoSize = true;
+            label62.Location = new Point(82, 117);
+            label62.Name = "label62";
+            label62.Size = new Size(79, 15);
+            label62.TabIndex = 36;
+            label62.Text = "Texture Flag 4";
+            // 
+            // MatTextureFlag3MNF
+            // 
+            MatTextureFlag3MNF.Location = new Point(169, 86);
+            MatTextureFlag3MNF.Name = "MatTextureFlag3MNF";
+            MatTextureFlag3MNF.Size = new Size(79, 23);
+            MatTextureFlag3MNF.TabIndex = 35;
+            MatTextureFlag3MNF.TextChanged += MNFUpdateMat;
+            // 
+            // label63
+            // 
+            label63.AutoSize = true;
+            label63.Location = new Point(169, 68);
+            label63.Name = "label63";
+            label63.Size = new Size(79, 15);
+            label63.TabIndex = 34;
+            label63.Text = "Texture Flag 3";
+            // 
+            // MatTextureFlag2MNF
+            // 
+            MatTextureFlag2MNF.Location = new Point(82, 86);
+            MatTextureFlag2MNF.Name = "MatTextureFlag2MNF";
+            MatTextureFlag2MNF.Size = new Size(79, 23);
+            MatTextureFlag2MNF.TabIndex = 33;
+            MatTextureFlag2MNF.TextChanged += MNFUpdateMat;
+            // 
+            // label66
+            // 
+            label66.AutoSize = true;
+            label66.Location = new Point(82, 68);
+            label66.Name = "label66";
+            label66.Size = new Size(79, 15);
+            label66.TabIndex = 32;
+            label66.Text = "Texture Flag 2";
+            // 
+            // MatTextureFlag1MNF
+            // 
+            MatTextureFlag1MNF.Location = new Point(169, 40);
+            MatTextureFlag1MNF.Name = "MatTextureFlag1MNF";
+            MatTextureFlag1MNF.Size = new Size(79, 23);
+            MatTextureFlag1MNF.TabIndex = 31;
+            MatTextureFlag1MNF.TextChanged += MNFUpdateMat;
+            // 
+            // label67
+            // 
+            label67.AutoSize = true;
+            label67.Location = new Point(169, 22);
+            label67.Name = "label67";
+            label67.Size = new Size(79, 15);
+            label67.TabIndex = 30;
+            label67.Text = "Texture Flag 1";
+            // 
+            // MatMainTextureMNF
+            // 
+            MatMainTextureMNF.Location = new Point(82, 40);
+            MatMainTextureMNF.Name = "MatMainTextureMNF";
+            MatMainTextureMNF.Size = new Size(79, 23);
+            MatMainTextureMNF.TabIndex = 29;
+            MatMainTextureMNF.TextChanged += MNFUpdateMat;
+            // 
+            // label68
+            // 
+            label68.AutoSize = true;
+            label68.Location = new Point(82, 22);
+            label68.Name = "label68";
+            label68.Size = new Size(75, 15);
+            label68.TabIndex = 28;
+            label68.Text = "Main Texture";
+            // 
+            // MaterialListMNF
+            // 
+            MaterialListMNF.FormattingEnabled = true;
+            MaterialListMNF.ItemHeight = 15;
+            MaterialListMNF.Location = new Point(6, 22);
+            MaterialListMNF.Name = "MaterialListMNF";
+            MaterialListMNF.Size = new Size(70, 184);
+            MaterialListMNF.TabIndex = 27;
+            MaterialListMNF.SelectedIndexChanged += MaterialListMNF_SelectedIndexChanged;
+            // 
+            // groupBox16
+            // 
+            groupBox16.Controls.Add(label69);
+            groupBox16.Controls.Add(WeightGC);
+            groupBox16.Controls.Add(label71);
+            groupBox16.Controls.Add(FileIDGC);
+            groupBox16.Controls.Add(label73);
+            groupBox16.Controls.Add(BonesGC);
+            groupBox16.Controls.Add(label75);
+            groupBox16.Controls.Add(ShapeKeyGC);
+            groupBox16.Controls.Add(MaterialsGC);
+            groupBox16.Controls.Add(label78);
+            groupBox16.Controls.Add(label79);
+            groupBox16.Controls.Add(IKGC);
+            groupBox16.Location = new Point(204, 5);
+            groupBox16.Name = "groupBox16";
+            groupBox16.Size = new Size(292, 88);
+            groupBox16.TabIndex = 37;
+            groupBox16.TabStop = false;
+            groupBox16.Text = "Model Header Info";
+            // 
+            // label69
+            // 
+            label69.AutoSize = true;
+            label69.Location = new Point(6, 53);
+            label69.Name = "label69";
+            label69.Size = new Size(50, 15);
+            label69.TabIndex = 24;
+            label69.Text = "Weights";
+            // 
+            // WeightGC
+            // 
+            WeightGC.AutoSize = true;
+            WeightGC.Location = new Point(6, 68);
+            WeightGC.Name = "WeightGC";
+            WeightGC.Size = new Size(13, 15);
+            WeightGC.TabIndex = 25;
+            WeightGC.Text = "0";
+            // 
+            // label71
+            // 
+            label71.AutoSize = true;
+            label71.Location = new Point(6, 19);
+            label71.Name = "label71";
+            label71.Size = new Size(39, 15);
+            label71.TabIndex = 22;
+            label71.Text = "File ID";
+            // 
+            // FileIDGC
+            // 
+            FileIDGC.AutoSize = true;
+            FileIDGC.Location = new Point(6, 34);
+            FileIDGC.Name = "FileIDGC";
+            FileIDGC.Size = new Size(13, 15);
+            FileIDGC.TabIndex = 23;
+            FileIDGC.Text = "0";
+            // 
+            // label73
+            // 
+            label73.AutoSize = true;
+            label73.Location = new Point(51, 19);
+            label73.Name = "label73";
+            label73.Size = new Size(39, 15);
+            label73.TabIndex = 13;
+            label73.Text = "Bones";
+            // 
+            // BonesGC
+            // 
+            BonesGC.AutoSize = true;
+            BonesGC.Location = new Point(51, 34);
+            BonesGC.Name = "BonesGC";
+            BonesGC.Size = new Size(13, 15);
+            BonesGC.TabIndex = 14;
+            BonesGC.Text = "0";
+            // 
+            // label75
+            // 
+            label75.AutoSize = true;
+            label75.Location = new Point(96, 19);
+            label75.Name = "label75";
+            label75.Size = new Size(55, 15);
+            label75.TabIndex = 15;
+            label75.Text = "Materials";
+            // 
+            // ShapeKeyGC
+            // 
+            ShapeKeyGC.AutoSize = true;
+            ShapeKeyGC.Location = new Point(216, 34);
+            ShapeKeyGC.Name = "ShapeKeyGC";
+            ShapeKeyGC.Size = new Size(13, 15);
+            ShapeKeyGC.TabIndex = 20;
+            ShapeKeyGC.Text = "0";
+            // 
+            // MaterialsGC
+            // 
+            MaterialsGC.AutoSize = true;
+            MaterialsGC.Location = new Point(96, 34);
+            MaterialsGC.Name = "MaterialsGC";
+            MaterialsGC.Size = new Size(13, 15);
+            MaterialsGC.TabIndex = 16;
+            MaterialsGC.Text = "0";
+            // 
+            // label78
+            // 
+            label78.AutoSize = true;
+            label78.Location = new Point(216, 19);
+            label78.Name = "label78";
+            label78.Size = new Size(66, 15);
+            label78.TabIndex = 19;
+            label78.Text = "Shape Keys";
+            // 
+            // label79
+            // 
+            label79.AutoSize = true;
+            label79.Location = new Point(157, 19);
+            label79.Name = "label79";
+            label79.Size = new Size(53, 15);
+            label79.TabIndex = 17;
+            label79.Text = "IK Points";
+            // 
+            // IKGC
+            // 
+            IKGC.AutoSize = true;
+            IKGC.Location = new Point(157, 34);
+            IKGC.Name = "IKGC";
+            IKGC.Size = new Size(13, 15);
+            IKGC.TabIndex = 18;
+            IKGC.Text = "0";
             // 
             // label37
             // 
@@ -1406,6 +1827,7 @@
             MNFMeshPartsList.Name = "MNFMeshPartsList";
             MNFMeshPartsList.Size = new Size(192, 184);
             MNFMeshPartsList.TabIndex = 33;
+            MNFMeshPartsList.SelectedIndexChanged += MNFMeshPartsList_SelectedIndexChanged;
             // 
             // MNFImport
             // 
@@ -1438,6 +1860,7 @@
             MNFModelsList.Name = "MNFModelsList";
             MNFModelsList.Size = new Size(192, 169);
             MNFModelsList.TabIndex = 30;
+            MNFModelsList.SelectedIndexChanged += MNFModelsList_SelectedIndexChanged;
             // 
             // MNFExtract
             // 
@@ -1449,15 +1872,6 @@
             MNFExtract.Text = "Extract";
             MNFExtract.UseVisualStyleBackColor = true;
             MNFExtract.Click += MNFExtract_Click;
-            // 
-            // label36
-            // 
-            label36.AutoSize = true;
-            label36.Location = new Point(204, 21);
-            label36.Name = "label36";
-            label36.Size = new Size(80, 15);
-            label36.TabIndex = 2;
-            label36.Text = "Coming Soon";
             // 
             // MNFLoad
             // 
@@ -1944,6 +2358,15 @@
             groupBox12.PerformLayout();
             tabPage5.ResumeLayout(false);
             tabPage5.PerformLayout();
+            groupBox14.ResumeLayout(false);
+            groupBox14.PerformLayout();
+            groupBox15.ResumeLayout(false);
+            groupBox15.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)MatUnknown2MNF).EndInit();
+            ((System.ComponentModel.ISupportInitialize)MatUnknown1MNF).EndInit();
+            ((System.ComponentModel.ISupportInitialize)MatFlagFactorMNF).EndInit();
+            groupBox16.ResumeLayout(false);
+            groupBox16.PerformLayout();
             groupBox13.ResumeLayout(false);
             groupBox13.PerformLayout();
             tabPage4.ResumeLayout(false);
@@ -2119,7 +2542,6 @@
         private Label label12;
         private NumericUpDown hdrAligmentMode;
         private Label label35;
-        private Label label36;
         private Label label37;
         private Label label38;
         private GroupBox groupBox13;
@@ -2130,5 +2552,43 @@
         private Button MNFSave;
         private ListBox MNFModelsList;
         private Button MNFExtract;
+        private GroupBox groupBox14;
+        private Label label36;
+        private Label MaterialGroupsGC;
+        private Label label42;
+        private Label TristripGC;
+        private Label label45;
+        private Label VerticeGC;
+        private GroupBox groupBox15;
+        private Label label56;
+        private NumericUpDown MatUnknown2MNF;
+        private Label label58;
+        private NumericUpDown MatUnknown1MNF;
+        private Label label60;
+        private NumericUpDown MatFlagFactorMNF;
+        private TextBox MatTextureFlag4MNF;
+        private Label label62;
+        private TextBox MatTextureFlag3MNF;
+        private Label label63;
+        private TextBox MatTextureFlag2MNF;
+        private Label label66;
+        private TextBox MatTextureFlag1MNF;
+        private Label label67;
+        private TextBox MatMainTextureMNF;
+        private Label label68;
+        private ListBox MaterialListMNF;
+        private GroupBox groupBox16;
+        private Label label69;
+        private Label WeightGC;
+        private Label label71;
+        private Label FileIDGC;
+        private Label label73;
+        private Label BonesGC;
+        private Label label75;
+        private Label ShapeKeyGC;
+        private Label MaterialsGC;
+        private Label label78;
+        private Label label79;
+        private Label IKGC;
     }
 }
