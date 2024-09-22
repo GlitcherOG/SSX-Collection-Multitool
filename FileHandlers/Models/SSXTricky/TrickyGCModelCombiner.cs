@@ -360,6 +360,13 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 return;
             }
 
+            bool Shadow = false;
+
+            if (Board.modelHeaders[Selected].ModelName.ToLower().Contains("shdw"))
+            {
+                Shadow = true;
+            }
+
             var TempTrickyMesh = Board.modelHeaders[Selected];
 
             ReassignedMesh ReassignedMesh = new ReassignedMesh();
@@ -767,17 +774,32 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 //Add Index List
                 for (int a = 0; a < indiceTristrips[i].Indices.Count; a++)
                 {
-                    TrickyGCMNF.Index TrickyIndex = new TrickyGCMNF.Index();
-                    if (!TempHeader.WeightIndex.Contains(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex))
+                    if (!Shadow)
                     {
-                        TempHeader.WeightIndex.Add(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex);
-                    }
-                    TrickyIndex.WeightIndex = TempHeader.WeightIndex.IndexOf(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex);
+                        TrickyGCMNF.Index TrickyIndex = new TrickyGCMNF.Index();
+                        if (!TempHeader.WeightIndex.Contains(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex))
+                        {
+                            TempHeader.WeightIndex.Add(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex);
+                        }
+                        TrickyIndex.WeightIndex = TempHeader.WeightIndex.IndexOf(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex);
 
-                    TrickyIndex.Index0 = indiceTristrips[i].Indices[a];
-                    TrickyIndex.Index1 = indiceTristrips[i].Indices[a];
-                    TrickyIndex.Index2 = indiceTristrips[i].Indices[a];
-                    indexGroup.indices.Add(TrickyIndex);
+                        TrickyIndex.Index0 = indiceTristrips[i].Indices[a];
+                        TrickyIndex.Index1 = indiceTristrips[i].Indices[a];
+                        TrickyIndex.Index2 = indiceTristrips[i].Indices[a];
+                        indexGroup.indices.Add(TrickyIndex);
+                    }
+                    else
+                    {
+                        TrickyGCMNF.ShadowIndex TrickyIndex = new TrickyGCMNF.ShadowIndex();
+                        if (!TempHeader.WeightIndex.Contains(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex))
+                        {
+                            TempHeader.WeightIndex.Add(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex);
+                        }
+                        TrickyIndex.WeightIndex = TempHeader.WeightIndex.IndexOf(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex);
+
+                        TrickyIndex.Index = indiceTristrips[i].Indices[a];
+                        indexGroup.shadowIndices.Add(TrickyIndex);
+                    }
                 }
                 indexGroupHeader.indexGroup = indexGroup;
 

@@ -537,7 +537,6 @@ namespace SSXMultiTool
         }
         #endregion
 
-
         #region Tricky Xbox Models
         TrickyXboxMXF xboxMXF = new TrickyXboxMXF();
         TrickyXboxModelCombiner trickyXboxModel = new TrickyXboxModelCombiner();
