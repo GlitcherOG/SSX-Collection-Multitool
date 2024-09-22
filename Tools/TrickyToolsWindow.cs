@@ -1183,18 +1183,18 @@ namespace SSXMultiTool
                         }
                         if (TempCombiner != null)
                         {
-                            try
-                            {
+                            //try
+                            //{
                                 trickyGCModel.NormalAverage = ImportAverageNormalMNF.Checked;
                                 trickyGCModel.BoneUpdate = BoneUpdateCheckMNF.Checked;
                                 trickyGCModel.StartRegenMesh(TempCombiner, MNFModelsList.SelectedIndex);
 
                                 UpdateDataGC();
-                            }
-                            catch
-                            {
-                                MessageBox.Show("Failed to Convert File");
-                            }
+                            //}
+                            //catch
+                            //{
+                            //    MessageBox.Show("Failed to Convert File");
+                            //}
                         }
                     }
                 }
