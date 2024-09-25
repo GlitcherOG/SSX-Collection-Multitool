@@ -492,7 +492,6 @@ namespace SSXMultiTool
                         for (int b = 0; b < pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets.Count; b++)
                         {
                             var TempMeshHeader = new PrefabJsonHandler.MeshHeader();
-                            TempMeshHeader.MeshID = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID;
                             TempMeshHeader.MeshPath = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID + ".obj";
                             TempMeshHeader.MaterialID = pbdHandler.materialBlocks[pbdHandler.PrefabData[i].MaterialBlockID].ints[pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MaterialBlockPos];
 
@@ -1103,7 +1102,6 @@ namespace SSXMultiTool
                             for (int b = 0; b < skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets.Count; b++)
                             {
                                 var TempMeshHeader = new PrefabJsonHandler.MeshHeader();
-                                TempMeshHeader.MeshID = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID;
                                 TempMeshHeader.MeshPath = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID + ".obj";
                                 TempMeshHeader.MaterialID = skypbdHandler.materialBlocks[skypbdHandler.PrefabData[i].MaterialBlockID].ints[skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MaterialBlockPos];
 
@@ -1812,7 +1810,6 @@ namespace SSXMultiTool
                             for (int b = 0; b < TempObject.MeshData.Count; b++)
                             {
                                 var NewMeshOffset = new MeshOffsets();
-                                NewMeshOffset.MeshID = TempObject.MeshData[b].MeshID;
                                 NewMeshOffset.MaterialBlockPos = TempObject.MeshData[b].MaterialID;
                                 NewMeshOffset.MeshPath = TempObject.MeshData[b].MeshPath;
                                 NewObjectData.MeshOffsets.Add(NewMeshOffset);
@@ -2671,7 +2668,6 @@ namespace SSXMultiTool
                             for (int b = 0; b < TempObject.MeshData.Count; b++)
                             {
                                 var NewMeshOffset = new MeshOffsets();
-                                NewMeshOffset.MeshID = TempObject.MeshData[b].MeshID;
                                 NewMeshOffset.MaterialBlockPos = TempObject.MeshData[b].MaterialID;
                                 NewMeshOffset.MeshPath = TempObject.MeshData[b].MeshPath;
                                 NewObjectData.MeshOffsets.Add(NewMeshOffset);

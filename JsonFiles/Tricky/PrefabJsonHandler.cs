@@ -68,7 +68,6 @@ namespace SSXMultiTool.JsonFiles.Tricky
         public struct MeshHeader
         {
             public string MeshPath;
-            public int MeshID;
             public int MaterialID;
         }
         [Serializable]
