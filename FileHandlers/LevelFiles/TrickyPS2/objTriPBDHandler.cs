@@ -159,7 +159,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     string[] splitLine = Lines[a].Split(' ');
                     Vector2 vector2 = new Vector2();
                     vector2.X = float.Parse(splitLine[1], CultureInfo.InvariantCulture.NumberFormat);
-                    vector2.Y = -float.Parse(splitLine[2], CultureInfo.InvariantCulture.NumberFormat);
+                    vector2.Y = 1-float.Parse(splitLine[2], CultureInfo.InvariantCulture.NumberFormat);
                     TextureCords.Add(vector2);
                 }
 

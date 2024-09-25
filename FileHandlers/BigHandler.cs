@@ -154,7 +154,7 @@ namespace SSXMultiTool.FileHandlers
                         {
                             Directory.CreateDirectory(Path.GetDirectoryName(path + "//" + bigFiles[i].path));
                         }
-                        var file = File.Create(path + "//" + bigFiles[i].path);
+                        var file = File.Create(Path.Combine(path + "//" + bigFiles[i].path));
                         stream1.Position = 0;
                         stream1.CopyTo(file);
                         file.Close();

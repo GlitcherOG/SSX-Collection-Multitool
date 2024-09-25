@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Numerics;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using Microsoft.Toolkit.HighPerformance.Helpers;
 using SSXMultiTool.Utilities;
-using static SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2.SSFHandler;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 {
@@ -303,11 +292,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     if (TempUstruct5.CollsionMode != 3)
                     {
+                        TempUstruct5.PhysicsIndex = -1;
                         TempUstruct5.CollisonModelIndex = StreamUtil.ReadInt16(stream);
                         TempUstruct5.EffectSlotIndex = StreamUtil.ReadInt16(stream);
                     }
                     else
                     {
+                        TempUstruct5.CollisonModelIndex = -1;
                         TempUstruct5.PhysicsIndex = StreamUtil.ReadInt16(stream);
                         TempUstruct5.EffectSlotIndex = StreamUtil.ReadInt16(stream);
                     }
