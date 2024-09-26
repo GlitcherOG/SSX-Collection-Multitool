@@ -90,7 +90,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public bool Unknown241;
             public bool UVScroll;
 
-            public int U4;
+            public int SurfaceType;
             public int CollsionMode;
             public string[] CollsionModelPaths;
             public int EffectSlotIndex;

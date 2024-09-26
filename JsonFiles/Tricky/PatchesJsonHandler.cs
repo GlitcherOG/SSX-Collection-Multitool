@@ -51,7 +51,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public float[,] UVPoints;
             public float[,] Points;
 
-            public int PatchStyle;
+            public int SurfaceType;
             public bool TrickOnlyPatch;
             public string TexturePath;
             public int LightmapID;

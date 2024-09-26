@@ -152,7 +152,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     patch.Point3 = StreamUtil.ReadVector4(stream);
                     patch.Point4 = StreamUtil.ReadVector4(stream);
 
-                    patch.PatchStyle = StreamUtil.ReadUInt32(stream);
+                    patch.SurfaceType = StreamUtil.ReadUInt32(stream);
                     patch.Unknown2 = StreamUtil.ReadInt16(stream);
                     patch.PatchVisablity = StreamUtil.ReadInt16(stream);
                     patch.TextureAssigment = StreamUtil.ReadInt16(stream);
@@ -885,7 +885,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteVector4(stream, TempPatch.Point3);
                 StreamUtil.WriteVector4(stream, TempPatch.Point4);
 
-                StreamUtil.WriteInt32(stream, TempPatch.PatchStyle);
+                StreamUtil.WriteInt32(stream, TempPatch.SurfaceType);
                 StreamUtil.WriteInt16(stream, TempPatch.Unknown2); //41
                 StreamUtil.WriteInt16(stream, TempPatch.PatchVisablity);
                 StreamUtil.WriteInt16(stream, TempPatch.TextureAssigment);
@@ -2241,7 +2241,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         //16 - Standard Sand
         //17 - No Collidion
         //18 - Show Off Ramp/Metal
-        public int PatchStyle; //Type
+        public int SurfaceType; //Type
 
         public int Unknown2;
         public int PatchVisablity;

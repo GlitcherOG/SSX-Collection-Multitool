@@ -286,7 +286,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempUstruct5.U2 = StreamUtil.ReadUInt16(stream);
                     TempUstruct5.BitFlags = StreamUtil.ReadUInt16(stream);
 
-                    TempUstruct5.U4 = StreamUtil.ReadUInt32(stream); //-1
+                    TempUstruct5.SurfaceType = StreamUtil.ReadUInt32(stream); //-1
 
                     TempUstruct5.CollsionMode = StreamUtil.ReadInt16(stream);
 
@@ -1445,7 +1445,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt16(stream, TempUstruct5.U2);
                 StreamUtil.WriteInt16(stream, TempUstruct5.BitFlags);
 
-                StreamUtil.WriteInt32(stream, TempUstruct5.U4);
+                StreamUtil.WriteInt32(stream, TempUstruct5.SurfaceType);
 
                 StreamUtil.WriteInt16(stream, TempUstruct5.CollsionMode);
 
@@ -1692,7 +1692,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             //64
             //128
 
-            public int U4;
+            public int SurfaceType;
             public int CollsionMode;
             public int CollisonModelIndex;
             public int EffectSlotIndex;

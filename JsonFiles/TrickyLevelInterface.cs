@@ -134,7 +134,7 @@ namespace SSXMultiTool
                     patch.Points = JsonUtil.Vector3ToArray2D(patch.Points, bezierUtil.RawPoints[a], a);
                 }
 
-                patch.PatchStyle = pbdHandler.Patches[i].PatchStyle;
+                patch.SurfaceType = pbdHandler.Patches[i].SurfaceType;
 
                 if (pbdHandler.Patches[i].PatchVisablity<0)
                 {
@@ -258,7 +258,7 @@ namespace SSXMultiTool
                 instanceJson.UVScroll  = bitArray[13];
 
 
-                instanceJson.U4 = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].U4;
+                instanceJson.SurfaceType = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].SurfaceType;
                 instanceJson.CollsionMode = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].CollsionMode;
                 instanceJson.EffectSlotIndex = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].EffectSlotIndex;
                 instanceJson.PhysicsIndex = ssfHandler.ObjectProperties[ssfHandler.InstanceState[i]].PhysicsIndex;
@@ -1311,7 +1311,7 @@ namespace SSXMultiTool
                     patch.Point3 = JsonUtil.Vector3ToVector4(bezierUtil.RawPoints[3]);
                     patch.Point4 = JsonUtil.Vector3ToVector4(bezierUtil.RawPoints[15]);
 
-                    patch.PatchStyle = ImportPatch.PatchStyle;
+                    patch.SurfaceType = ImportPatch.SurfaceType;
                     patch.Unknown2 = 41;
                     if (ImportPatch.TrickOnlyPatch)
                     {
@@ -1639,7 +1639,7 @@ namespace SSXMultiTool
 
                         NewObjectProperties.BitFlags = U23Convert;
 
-                        NewObjectProperties.U4 = Oldinstance.U4;
+                        NewObjectProperties.SurfaceType = Oldinstance.SurfaceType;
                         NewObjectProperties.PhysicsIndex = Oldinstance.PhysicsIndex;
                         NewObjectProperties.EffectSlotIndex = Oldinstance.EffectSlotIndex;
                         NewObjectProperties.U8 = Oldinstance.U8;
@@ -1655,7 +1655,7 @@ namespace SSXMultiTool
                                 NewObjectProperties.PlayerBounce == TempProperties.PlayerBounce &&
                                 NewObjectProperties.U2 == TempProperties.U2 &&
                                 NewObjectProperties.BitFlags == TempProperties.BitFlags &&
-                                NewObjectProperties.U4 == TempProperties.U4 &&
+                                NewObjectProperties.SurfaceType == TempProperties.SurfaceType &&
                                 NewObjectProperties.PhysicsIndex == TempProperties.PhysicsIndex &&
                                 NewObjectProperties.EffectSlotIndex == TempProperties.EffectSlotIndex &&
                                 NewObjectProperties.U8 == TempProperties.U8 &&
