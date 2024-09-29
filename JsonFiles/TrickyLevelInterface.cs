@@ -1085,7 +1085,9 @@ namespace SSXMultiTool
                 {
                     Console.WriteLine("Skybox Prefabs: " + (i + 1) + "/" + skypbdHandler.PrefabData.Count);
                     PrefabJsonHandler.PrefabJson TempModel = new PrefabJsonHandler.PrefabJson();
- 
+
+                    TempModel.PrefabName = "Skybox Prefab " + i;
+
                     TempModel.Unknown3 = skypbdHandler.PrefabData[i].Unknown3;
                     TempModel.AnimTime = skypbdHandler.PrefabData[i].AnimTime;
                     TempModel.PrefabObjects = new();
