@@ -150,11 +150,15 @@ namespace SSXMultiTool.FileHandlers
                         }
                         stream1.Write(temp, 0, temp.Length);
 
-                        if (!Directory.Exists(Path.GetDirectoryName(path + "//" + bigFiles[i].path)))
+                        string WritePath = path + "//" + bigFiles[i].path;
+
+                        WritePath = WritePath.Replace("../", "..");
+
+                        if (!Directory.Exists(Path.GetDirectoryName(WritePath)))
                         {
-                            Directory.CreateDirectory(Path.GetDirectoryName(path + "//" + bigFiles[i].path));
+                            Directory.CreateDirectory(Path.GetDirectoryName(WritePath));
                         }
-                        var file = File.Create(Path.Combine(path + "//" + bigFiles[i].path));
+                        var file = File.Create(WritePath);
                         stream1.Position = 0;
                         stream1.CopyTo(file);
                         file.Close();
@@ -320,7 +324,7 @@ namespace SSXMultiTool.FileHandlers
 
 
                 //Write Path
-                StreamUtil.WriteNullString(stream, bigFiles[i].path);
+                StreamUtil.WriteNullString(stream, bigFiles[i].path.Replace("..", "../"));
             }
 
             //Write Footer
@@ -386,7 +390,7 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteInt24(stream, bigFiles[i].size, true);
 
                 //Write Path
-                StreamUtil.WriteNullString(stream, bigFiles[i].path.Replace(@"\",@"/"));
+                StreamUtil.WriteNullString(stream, bigFiles[i].path.Replace("..", "../"));
             }
 
             //Set File start offset

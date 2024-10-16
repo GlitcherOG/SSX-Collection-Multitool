@@ -41,6 +41,8 @@
             toolStripLabel1 = new ToolStripLabel();
             toolStripSeparator2 = new ToolStripSeparator();
             CompressionButton = new ToolStripButton();
+            toolStripSeparator3 = new ToolStripSeparator();
+            toolStripButton1 = new ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)BigDataView).BeginInit();
             toolStrip1.SuspendLayout();
             SuspendLayout();
@@ -63,7 +65,7 @@
             // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButton1, BigTypeCombobox, toolStripLabel1, toolStripSeparator2, CompressionButton });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButton1, BigTypeCombobox, toolStripLabel1, toolStripSeparator3, CompressionButton, toolStripSeparator2, toolStripButton1 });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(800, 25);
@@ -147,6 +149,22 @@
             CompressionButton.Text = "Compressed Build: False";
             CompressionButton.Click += CompressionButton_Click;
             // 
+            // toolStripSeparator3
+            // 
+            toolStripSeparator3.Alignment = ToolStripItemAlignment.Right;
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new Size(6, 25);
+            // 
+            // toolStripButton1
+            // 
+            toolStripButton1.Alignment = ToolStripItemAlignment.Right;
+            toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripButton1.Image = (Image)resources.GetObject("toolStripButton1.Image");
+            toolStripButton1.ImageTransparentColor = Color.Magenta;
+            toolStripButton1.Name = "toolStripButton1";
+            toolStripButton1.Size = new Size(98, 22);
+            toolStripButton1.Text = "toolStripButton1";
+            // 
             // BigArchiveTool
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -177,5 +195,7 @@
         private ToolStripLabel toolStripLabel1;
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripButton CompressionButton;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripButton toolStripButton1;
     }
 }
