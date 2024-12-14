@@ -740,6 +740,19 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             //If none found generate a new header
             TempTrickyMesh.meshHeaders = new List<TrickyGCMNF.MeshHeader>();
 
+            //TODO: 10 Weights Per meshHeader
+            //theres a max of 10 weights per meshHeader group
+            var newIndiceTristrips = new List<TristripGenerator.IndiceTristrip>();
+            for (int i = 0; i < indiceTristrips.Count; i++)
+            {
+                var newHeader = new TristripGenerator.IndiceTristrip();
+
+                
+
+
+            }
+
+
             for (int i = 0; i < indiceTristrips.Count; i++)
             {
                 int MaterialID = indiceTristrips[i].MaterialID;
