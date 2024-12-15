@@ -1180,11 +1180,6 @@ namespace SSXMultiTool
             SSX3PS2MPF.MorphScale = (float)MorphScaleNumber.Value;
         }
 
-        private void label24_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void MpfModelName_TextChanged(object sender, EventArgs e)
         {
             if (MpfModelList.SelectedIndex != -1)
@@ -1199,9 +1194,20 @@ namespace SSXMultiTool
             }
         }
 
-        private void label59_Click(object sender, EventArgs e)
+        SSX3GCMNF mnfModelHandler = new SSX3GCMNF();
+        private void MNFLoad_Click(object sender, EventArgs e)
         {
-
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Model File (*.mnf)|*.mnf|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                mnfModelHandler.load(openFileDialog.FileName);
+                mnfModelHandler.SaveDecompressedData(openFileDialog.FileName + ".data");
+            }
         }
     }
 }

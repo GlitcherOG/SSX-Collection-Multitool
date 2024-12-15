@@ -273,6 +273,8 @@
             tabPage4 = new TabPage();
             LoadLUI = new Button();
             BiglessStore = new Button();
+            tabPage7 = new TabPage();
+            MNFLoad = new Button();
             ((System.ComponentModel.ISupportInitialize)charnumericUpDown5).BeginInit();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -334,6 +336,7 @@
             ((System.ComponentModel.ISupportInitialize)hdrU1).BeginInit();
             groupBox5.SuspendLayout();
             tabPage4.SuspendLayout();
+            tabPage7.SuspendLayout();
             SuspendLayout();
             // 
             // charnumericUpDown5
@@ -353,6 +356,7 @@
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
             tabControl1.Controls.Add(tabPage5);
+            tabControl1.Controls.Add(tabPage7);
             tabControl1.Controls.Add(tabPage6);
             tabControl1.Controls.Add(tabPage4);
             tabControl1.Location = new Point(12, 12);
@@ -1551,7 +1555,6 @@
             label24.Size = new Size(39, 15);
             label24.TabIndex = 24;
             label24.Text = "File ID";
-            label24.Click += label24_Click;
             // 
             // BoltCost
             // 
@@ -2326,7 +2329,6 @@
             label59.Size = new Size(52, 15);
             label59.TabIndex = 12;
             label59.Text = "Warning";
-            label59.Click += label59_Click;
             // 
             // MpfExport
             // 
@@ -2859,6 +2861,26 @@
             BiglessStore.UseVisualStyleBackColor = true;
             BiglessStore.Click += BiglessStore_Click;
             // 
+            // tabPage7
+            // 
+            tabPage7.Controls.Add(MNFLoad);
+            tabPage7.Location = new Point(4, 24);
+            tabPage7.Name = "tabPage7";
+            tabPage7.Size = new Size(941, 528);
+            tabPage7.TabIndex = 6;
+            tabPage7.Text = "SSX 3 MNF(Models)";
+            tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // MNFLoad
+            // 
+            MNFLoad.Location = new Point(380, 218);
+            MNFLoad.Name = "MNFLoad";
+            MNFLoad.Size = new Size(75, 23);
+            MNFLoad.TabIndex = 0;
+            MNFLoad.Text = "Load";
+            MNFLoad.UseVisualStyleBackColor = true;
+            MNFLoad.Click += MNFLoad_Click;
+            // 
             // SSX3ToolsWindow
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -2940,6 +2962,7 @@
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
             tabPage4.ResumeLayout(false);
+            tabPage7.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -3190,5 +3213,7 @@
         private Label label91;
         private Label label92;
         private TextBox MpfModelName;
+        private TabPage tabPage7;
+        private Button MNFLoad;
     }
 }
