@@ -1,64 +1,133 @@
-﻿using System;
+﻿using SSXMultiTool.Utilities;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 
 namespace SSXMultiTool.FileHandlers.Models.SSX3
 {
     public class SSX3GCMNF
     {
-        public byte[] magicWords = new byte[4];
+        public byte[] Version;
         public int NumModels;
-        public int HeaderSize;
-        public int DataOffset;
-        public List<MPFModelHeader> ModelList = new List<MPFModelHeader>();
+        public int OffsetModelHeader;
+        public int OffsetModelData;
+        public List<ModelHeader> modelHeaders = new List<ModelHeader>();
 
         public void load(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
+                Version = StreamUtil.ReadBytes(stream, 4);
+                NumModels = StreamUtil.ReadInt16(stream, true);
+                OffsetModelHeader = StreamUtil.ReadInt16(stream, true);
+                OffsetModelData = StreamUtil.ReadUInt32(stream, true);
 
+                modelHeaders = new List<ModelHeader>();
+                for (int i = 0; i < NumModels; i++)
+                {
+                    var NewModelHeader = new ModelHeader();
+
+                    NewModelHeader.ModelName = StreamUtil.ReadString(stream, 16);
+                    NewModelHeader.ModelOffset = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.ModelSize = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetBoneData = StreamUtil.ReadUInt32(stream, true);
+
+                    NewModelHeader.OffsetSkinningSection = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.U1 = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.U2 = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.U3 = StreamUtil.ReadUInt32(stream, true);
+
+                    NewModelHeader.OffsetTristripSection = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetVertexSection = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetMateralList = StreamUtil.ReadUInt32(stream, true);
+
+                    stream.Position += 24;
+
+                    NewModelHeader.NumTristrip = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumVertices = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumBones = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumMorphs = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumWeight = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.U4 = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumMaterials = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.FileID = StreamUtil.ReadUInt16(stream, false);
+
+                    modelHeaders.Add(NewModelHeader);
+                }
+
+                //Read Data Into Matrix
+                int StartPos = OffsetModelData;
+                for (int i = 0; i < modelHeaders.Count; i++)
+                {
+                    stream.Position = StartPos + modelHeaders[i].ModelOffset;
+                    ModelHeader modelHandler = modelHeaders[i];
+                    modelHandler.Matrix = StreamUtil.ReadBytes(stream, modelHeaders[i].ModelSize);
+                    modelHeaders[i] = modelHandler;
+                }
             }
         }
 
-        public struct MPFModelHeader
+        public void SaveDecompressedData(string path)
         {
-            //Main Header
+            MemoryStream stream = new MemoryStream();
+
+            for (int i = 0; i < modelHeaders.Count; i++)
+            {
+                var TempModel = modelHeaders[i];
+
+                StreamUtil.WriteBytes(stream, TempModel.Matrix);
+            }
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            var file = File.Create(path);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            stream.Dispose();
+            file.Close();
+        }
+
+        public struct ModelHeader
+        {
             public string ModelName;
-            public int DataOffset;
-            public int EntrySize;
-            public int BoneOffset;
-            public int UnusedIKPointOffset; //Weight Info (IK Points?)
-            public int MaterialGroupOffset;
-            public int MeshDataOffset;
-            public int MaterialOffset;
-            public int MorphIDOffset;
-            public int WeightRefrenceOffset;
-            public int BoneWeightOffset;
+            public int ModelOffset;
+            public int ModelSize;
+            public int OffsetBoneData;
+            public int OffsetSkinningSection;
 
-            //Counts
-            public int WeightCount;
-            public int WeightRefrenceCount;
-            public int MaterialGroupCount;
-            public int BoneCount;
-            public int MaterialCount;
-            public int UnusedIKPointCount; //IK Point Count??
-            public int MorphKeyCount;
+            public int U1;
+            public int U2;
+            public int U3;
+
+            public int OffsetTristripSection;
+            public int OffsetVertexSection;
+            public int OffsetMateralList;
+
+            public int NumTristrip;
+            public int NumVertices;
+            public int NumBones;
+            public int NumMorphs;
+            public int NumWeight;
+            public int U4;
+            public int NumMaterials;
             public int FileID;
-            public int TriangleCount; //Possibly Some Kind of Face Ammount Used in Store as Well
-
-
-            public List<MaterialData> MaterialList;
-            public List<BoneData> BoneList;
-            public List<int> MorphKeyIDList;
-            public List<BoneWeightHeader> BoneWeightHeaderList;
-            public List<WeightRefList> WeightRefrenceLists;
-            public List<MaterialGroup> MaterialGroupList;
 
             public byte[] Matrix;
+
+            public List<MaterialData> materialDatas;
+            public List<BoneData> boneDatas;
+            public List<Vector3> iKPoints;
+            public List<MorphHeader> morphHeader;
+            public List<BoneWeightHeader> boneWeightHeaders;
+            public List<VertexData> Vertex;
+            public List<MeshHeader> meshHeaders;
         }
 
         public struct MaterialData
@@ -79,34 +148,49 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
             public string BoneName;
             public int ParentFileID;
             public int ParentBone;
-            public int Unknown1;
+            public int Unknown2;
             public int BoneID;
 
-            public int Unknown2;
-            public int Unknown3;
-            public int Unknown4;
-            public int Unknown5;
+            public Vector3 Position;
+            public Vector3 Radians;
 
-            public int Unknown6; //Padding
+            public Vector3 Radians2;
 
-            public Vector4 Position;
-            public Quaternion Rotation;
-            public Vector4 Unknown;
+            public float UnknownFloat1;
+            public float UnknownFloat2;
+            public float UnknownFloat3;
+            public float UnknownFloat4;
+            public float UnknownFloat5;
+            public float UnknownFloat6;
 
             public int FileID;
             public int BonePos;
 
             public string parentName;
-            public Matrix4x4 WorldMatrix;
+        }
+
+        public struct MorphHeader
+        {
+            public int NumMorphData;
+            public int OffsetMorphDataList;
+
+            public List<MorphData> MorphDataList;
+        }
+
+        public struct MorphData
+        {
+            public int VertexIndex;
+            public Vector3 Morph;
         }
 
         public struct BoneWeightHeader
         {
             public int WeightCount;
-            public int WeightOffset;
-            public int Unknown;
+            public int WeightListOffset;
+            public int Unknown1; //0
+            public int Unknown2; //19
 
-            public List<BoneWeight> BoneWeightList;
+            public List<BoneWeight> boneWeights;
         }
 
         public struct BoneWeight
@@ -115,77 +199,77 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
             public int BoneID;
             public int FileID;
 
-            public string boneName;
+            public string BoneName;
         }
 
-        public struct WeightRefList
+        public struct MeshHeader
         {
-            public int ListCount;
+            public int NumWeightIndices;
+            public int NumIndexGroups;
+            public int OffsetSkinIndexList;
+            public int OffsetIndexGroupList;
+            public int unk0;
+            public int unk1;
+            public int unk2;
+
+            public List<int> WeightIndex;
+            public List<IndexGroupHeader> indexGroupHeaders;
+        }
+
+        public struct IndexGroupHeader
+        {
             public int Offset;
+            public int ByteLength;
+            public int MatIndex0;
+            public int MatIndex1;
+            public int MatIndex2;
+            public int MatIndex3;
+            public int MatIndex4;
 
-            public List<int> WeightIDs;
+            public List<Face> faces;
+
+            public IndexGroup indexGroup;
         }
 
-        public struct MaterialGroup
+        public struct IndexGroup
         {
-            public int Type; //1 - Standard, 17 - Shadow, 256 - Morph
-            public int Material;
-            public int Unknown;
-            public int WeightRefGroupCount;
-            public int WeightRefGroupOffset;
+            //public int OffsetStrip;
+            public int IndexUnk0;
+            public int NumIndex;
+            public int IndexUnk1;
 
-            public List<WeightRefGroup> WeightRefList;
+            public List<ShadowIndex> shadowIndices;
+            public List<Index> indices;
         }
 
-        public struct WeightRefGroup
+        public struct Index
         {
-            public int MorphMeshOffset;
-            public int MorphMeshCount;
-
-            public List<MorphMeshGroup> MorphMeshGroupList;
-
-            public List<int> weights;
+            public int WeightIndex;
+            public int Index0;
+            public int Index1;
+            public int Index2;
+            public int Unk0;
         }
 
-        public struct MorphMeshGroup
+        public struct ShadowIndex
         {
-            public int MeshOffset;
-            public int MorphOffset;
-
-            public int WeightRefID;
-            public List<MeshChunk> MeshChunkList;
-            public List<MorphKey> MorphDataList;
+            public int Index;
+            public int WeightIndex;
         }
 
-        public struct MeshChunk
+        public struct VertexData
         {
-            public int StripCount;
-            public int Unknown1;
-            public int Unknown2;
-            public int VertexCount;
+            public Vector3 Vertex;
+            public Vector3 VertexNormal;
+            public Vector2 UV;
 
-            public int WeightRefID;
-
-            public List<int> Strips;
-            public List<Vector4> UV;
-            public List<Vector3> UVNormals;
-            public List<Vector3> Vertices;
-            public List<int> Weights;
-
-            public List<Face> Faces;
-
-
-            public int MatieralID;
-            public bool Grouped;
-
-            public List<int> weightsInts;
-            public List<MorphKey> MorphKeys;
+            public int MaterialID;
+            public int WeightIndex;
+            public List<Vector3> MorphDatas;
         }
 
         public struct Face
         {
-            public bool tristripped;
-
             public Vector3 V1;
             public Vector3 V2;
             public Vector3 V3;
@@ -194,9 +278,9 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
             public int V2Pos;
             public int V3Pos;
 
-            public Vector4 UV1;
-            public Vector4 UV2;
-            public Vector4 UV3;
+            public Vector2 UV1;
+            public Vector2 UV2;
+            public Vector2 UV3;
 
             public int UV1Pos;
             public int UV2Pos;
@@ -223,19 +307,6 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
             public List<Vector3> MorphPoint3;
 
             public int MaterialID;
-        }
-
-        public struct MorphKey
-        {
-            public int MorphPointCount;
-            public int ListAmmount;
-            public List<MorphData> MorphDataList;
-        }
-
-        public struct MorphData
-        {
-            public Vector3 vector3;
-            public int ID;
         }
     }
 }
