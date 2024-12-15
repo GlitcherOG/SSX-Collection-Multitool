@@ -1195,6 +1195,8 @@ namespace SSXMultiTool
         }
 
         SSX3GCMNF mnfModelHandler = new SSX3GCMNF();
+        SSX3GCModelCombiner SSX3GCModelCombiner = new SSX3GCModelCombiner();
+
         private void MNFLoad_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -1207,6 +1209,21 @@ namespace SSXMultiTool
             {
                 mnfModelHandler.load(openFileDialog.FileName);
                 mnfModelHandler.SaveDecompressedData(openFileDialog.FileName + ".data");
+
+                SSX3GCModelCombiner.AddFile(mnfModelHandler);
+
+                SaveFileDialog openFileDialog1 = new SaveFileDialog
+                {
+                    Filter = "Model File (*.glb)|*.glb|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    SSX3GCModelCombiner.MeshReassigned(0);
+
+                    glftHandler.SaveSSX3GCGlft(openFileDialog1.FileName, SSX3GCModelCombiner);
+                }
             }
         }
     }

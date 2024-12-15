@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SSXMultiTool.FileHandlers.Models.SSX3
 {
-    internal class SSX3GCModelCombiner
+    public class SSX3GCModelCombiner
     {
         public SSX3GCMNF? modelHandlers = null;
         public List<SSX3GCMNF.BoneData> boneDatasOrg = new List<SSX3GCMNF.BoneData>();
@@ -54,7 +54,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
             var TempModel = modelHandlers.modelHeaders[MeshID];
             materials = TempModel.materialDatas;
             var TempMesh = new ReassignedMesh();
-            if (TempMesh.MeshName.ToLower().Contains("shdw"))
+            if (TempModel.ModelName.ToLower().Contains("shdw"))
             {
                 TempMesh.ShadowModel = true;
             }

@@ -453,6 +453,8 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
 
                         Model.meshHeaders[a] = TempHeader;
                     }
+
+                    modelHeaders[i] = Model;
                 }
             }
         }
