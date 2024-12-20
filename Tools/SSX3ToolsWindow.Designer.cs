@@ -231,6 +231,8 @@
             MPFSaveDecompressed = new Button();
             MPFLoad = new Button();
             ModelListLabel = new Label();
+            tabPage7 = new TabPage();
+            MNFLoad = new Button();
             tabPage6 = new TabPage();
             groupBox6 = new GroupBox();
             groupBox8 = new GroupBox();
@@ -273,8 +275,68 @@
             tabPage4 = new TabPage();
             LoadLUI = new Button();
             BiglessStore = new Button();
-            tabPage7 = new TabPage();
-            MNFLoad = new Button();
+            label93 = new Label();
+            textBox1 = new TextBox();
+            label94 = new Label();
+            numericUpDown1 = new NumericUpDown();
+            groupBox9 = new GroupBox();
+            label95 = new Label();
+            comboBox1 = new ComboBox();
+            checkBox1 = new CheckBox();
+            checkBox2 = new CheckBox();
+            groupBox10 = new GroupBox();
+            label96 = new Label();
+            label97 = new Label();
+            label98 = new Label();
+            label99 = new Label();
+            label100 = new Label();
+            label101 = new Label();
+            label102 = new Label();
+            label103 = new Label();
+            label104 = new Label();
+            label105 = new Label();
+            label106 = new Label();
+            label107 = new Label();
+            groupBox11 = new GroupBox();
+            label108 = new Label();
+            numericUpDown2 = new NumericUpDown();
+            label109 = new Label();
+            numericUpDown3 = new NumericUpDown();
+            label110 = new Label();
+            numericUpDown4 = new NumericUpDown();
+            textBox2 = new TextBox();
+            label111 = new Label();
+            textBox3 = new TextBox();
+            label112 = new Label();
+            textBox4 = new TextBox();
+            label113 = new Label();
+            textBox5 = new TextBox();
+            label114 = new Label();
+            textBox6 = new TextBox();
+            label115 = new Label();
+            listBox1 = new ListBox();
+            groupBox12 = new GroupBox();
+            label116 = new Label();
+            label117 = new Label();
+            label118 = new Label();
+            label119 = new Label();
+            label120 = new Label();
+            label121 = new Label();
+            label122 = new Label();
+            label123 = new Label();
+            label124 = new Label();
+            label125 = new Label();
+            label126 = new Label();
+            label127 = new Label();
+            label128 = new Label();
+            label129 = new Label();
+            button4 = new Button();
+            button5 = new Button();
+            button6 = new Button();
+            button7 = new Button();
+            listBox2 = new ListBox();
+            button8 = new Button();
+            label130 = new Label();
             ((System.ComponentModel.ISupportInitialize)charnumericUpDown5).BeginInit();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -323,6 +385,7 @@
             ((System.ComponentModel.ISupportInitialize)MatUnknown1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)MatFlagFactor).BeginInit();
             groupBox2.SuspendLayout();
+            tabPage7.SuspendLayout();
             tabPage6.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox8.SuspendLayout();
@@ -336,7 +399,14 @@
             ((System.ComponentModel.ISupportInitialize)hdrU1).BeginInit();
             groupBox5.SuspendLayout();
             tabPage4.SuspendLayout();
-            tabPage7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            groupBox9.SuspendLayout();
+            groupBox10.SuspendLayout();
+            groupBox11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown4).BeginInit();
+            groupBox12.SuspendLayout();
             SuspendLayout();
             // 
             // charnumericUpDown5
@@ -2410,6 +2480,43 @@
             ModelListLabel.Text = "Model List";
             ModelListLabel.Click += ModelListLabel_Click;
             // 
+            // tabPage7
+            // 
+            tabPage7.Controls.Add(label93);
+            tabPage7.Controls.Add(textBox1);
+            tabPage7.Controls.Add(label94);
+            tabPage7.Controls.Add(numericUpDown1);
+            tabPage7.Controls.Add(groupBox9);
+            tabPage7.Controls.Add(groupBox10);
+            tabPage7.Controls.Add(groupBox11);
+            tabPage7.Controls.Add(groupBox12);
+            tabPage7.Controls.Add(label128);
+            tabPage7.Controls.Add(label129);
+            tabPage7.Controls.Add(button4);
+            tabPage7.Controls.Add(button5);
+            tabPage7.Controls.Add(button6);
+            tabPage7.Controls.Add(button7);
+            tabPage7.Controls.Add(listBox2);
+            tabPage7.Controls.Add(button8);
+            tabPage7.Controls.Add(label130);
+            tabPage7.Controls.Add(MNFLoad);
+            tabPage7.Location = new Point(4, 24);
+            tabPage7.Name = "tabPage7";
+            tabPage7.Size = new Size(941, 528);
+            tabPage7.TabIndex = 6;
+            tabPage7.Text = "SSX 3 MNF(Models)";
+            tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // MNFLoad
+            // 
+            MNFLoad.Location = new Point(207, 500);
+            MNFLoad.Name = "MNFLoad";
+            MNFLoad.Size = new Size(75, 23);
+            MNFLoad.TabIndex = 0;
+            MNFLoad.Text = "Load";
+            MNFLoad.UseVisualStyleBackColor = true;
+            MNFLoad.Click += MNFLoad_Click;
+            // 
             // tabPage6
             // 
             tabPage6.Controls.Add(groupBox6);
@@ -2861,25 +2968,603 @@
             BiglessStore.UseVisualStyleBackColor = true;
             BiglessStore.Click += BiglessStore_Click;
             // 
-            // tabPage7
+            // label93
             // 
-            tabPage7.Controls.Add(MNFLoad);
-            tabPage7.Location = new Point(4, 24);
-            tabPage7.Name = "tabPage7";
-            tabPage7.Size = new Size(941, 528);
-            tabPage7.TabIndex = 6;
-            tabPage7.Text = "SSX 3 MNF(Models)";
-            tabPage7.UseVisualStyleBackColor = true;
+            label93.AutoSize = true;
+            label93.Location = new Point(209, 5);
+            label93.Name = "label93";
+            label93.Size = new Size(76, 15);
+            label93.TabIndex = 55;
+            label93.Text = "Model Name";
             // 
-            // MNFLoad
+            // textBox1
             // 
-            MNFLoad.Location = new Point(380, 218);
-            MNFLoad.Name = "MNFLoad";
-            MNFLoad.Size = new Size(75, 23);
-            MNFLoad.TabIndex = 0;
-            MNFLoad.Text = "Load";
-            MNFLoad.UseVisualStyleBackColor = true;
-            MNFLoad.Click += MNFLoad_Click;
+            textBox1.Location = new Point(209, 26);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(192, 23);
+            textBox1.TabIndex = 62;
+            // 
+            // label94
+            // 
+            label94.AutoSize = true;
+            label94.Location = new Point(780, 413);
+            label94.Name = "label94";
+            label94.Size = new Size(73, 15);
+            label94.TabIndex = 61;
+            label94.Text = "Morph Scale";
+            // 
+            // numericUpDown1
+            // 
+            numericUpDown1.DecimalPlaces = 6;
+            numericUpDown1.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            numericUpDown1.Location = new Point(780, 431);
+            numericUpDown1.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new Size(81, 23);
+            numericUpDown1.TabIndex = 60;
+            numericUpDown1.Value = new decimal(new int[] { 45, 0, 0, 65536 });
+            // 
+            // groupBox9
+            // 
+            groupBox9.Controls.Add(label95);
+            groupBox9.Controls.Add(comboBox1);
+            groupBox9.Controls.Add(checkBox1);
+            groupBox9.Controls.Add(checkBox2);
+            groupBox9.Location = new Point(203, 416);
+            groupBox9.Name = "groupBox9";
+            groupBox9.Size = new Size(292, 78);
+            groupBox9.TabIndex = 59;
+            groupBox9.TabStop = false;
+            groupBox9.Text = "Import Settings";
+            // 
+            // label95
+            // 
+            label95.AutoSize = true;
+            label95.Location = new Point(149, 23);
+            label95.Name = "label95";
+            label95.Size = new Size(87, 15);
+            label95.TabIndex = 3;
+            label95.Text = "Tristrip Method";
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "Nvida Tristrip" });
+            comboBox1.Location = new Point(149, 41);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(121, 23);
+            comboBox1.TabIndex = 2;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(6, 47);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(131, 19);
+            checkBox1.TabIndex = 1;
+            checkBox1.Text = "Update Bones (WIP)";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            checkBox2.AutoSize = true;
+            checkBox2.Location = new Point(6, 22);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size = new Size(117, 19);
+            checkBox2.TabIndex = 0;
+            checkBox2.Text = "Average Normals";
+            checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox10
+            // 
+            groupBox10.Controls.Add(label96);
+            groupBox10.Controls.Add(label97);
+            groupBox10.Controls.Add(label98);
+            groupBox10.Controls.Add(label99);
+            groupBox10.Controls.Add(label100);
+            groupBox10.Controls.Add(label101);
+            groupBox10.Controls.Add(label102);
+            groupBox10.Controls.Add(label103);
+            groupBox10.Controls.Add(label104);
+            groupBox10.Controls.Add(label105);
+            groupBox10.Controls.Add(label106);
+            groupBox10.Controls.Add(label107);
+            groupBox10.Location = new Point(207, 124);
+            groupBox10.Name = "groupBox10";
+            groupBox10.Size = new Size(462, 93);
+            groupBox10.TabIndex = 58;
+            groupBox10.TabStop = false;
+            groupBox10.Text = "Model Data";
+            // 
+            // label96
+            // 
+            label96.AutoSize = true;
+            label96.Location = new Point(6, 50);
+            label96.Name = "label96";
+            label96.Size = new Size(84, 15);
+            label96.TabIndex = 17;
+            label96.Text = "Morph Groups";
+            // 
+            // label97
+            // 
+            label97.AutoSize = true;
+            label97.Location = new Point(6, 65);
+            label97.Name = "label97";
+            label97.Size = new Size(13, 15);
+            label97.TabIndex = 18;
+            label97.Text = "0";
+            // 
+            // label98
+            // 
+            label98.AutoSize = true;
+            label98.Location = new Point(355, 19);
+            label98.Name = "label98";
+            label98.Size = new Size(86, 15);
+            label98.TabIndex = 15;
+            label98.Text = "Weight Groups";
+            // 
+            // label99
+            // 
+            label99.AutoSize = true;
+            label99.Location = new Point(355, 34);
+            label99.Name = "label99";
+            label99.Size = new Size(13, 15);
+            label99.TabIndex = 16;
+            label99.Text = "0";
+            // 
+            // label100
+            // 
+            label100.AutoSize = true;
+            label100.Location = new Point(265, 19);
+            label100.Name = "label100";
+            label100.Size = new Size(91, 15);
+            label100.TabIndex = 13;
+            label100.Text = "Material Groups";
+            // 
+            // label101
+            // 
+            label101.AutoSize = true;
+            label101.Location = new Point(265, 34);
+            label101.Name = "label101";
+            label101.Size = new Size(13, 15);
+            label101.TabIndex = 14;
+            label101.Text = "0";
+            // 
+            // label102
+            // 
+            label102.AutoSize = true;
+            label102.Location = new Point(6, 19);
+            label102.Name = "label102";
+            label102.Size = new Size(78, 15);
+            label102.TabIndex = 6;
+            label102.Text = "Tristrip Count";
+            // 
+            // label103
+            // 
+            label103.AutoSize = true;
+            label103.Location = new Point(6, 34);
+            label103.Name = "label103";
+            label103.Size = new Size(13, 15);
+            label103.TabIndex = 7;
+            label103.Text = "0";
+            // 
+            // label104
+            // 
+            label104.AutoSize = true;
+            label104.Location = new Point(96, 19);
+            label104.Name = "label104";
+            label104.Size = new Size(78, 15);
+            label104.TabIndex = 8;
+            label104.Text = "Vertice Count";
+            // 
+            // label105
+            // 
+            label105.AutoSize = true;
+            label105.Location = new Point(96, 34);
+            label105.Name = "label105";
+            label105.Size = new Size(13, 15);
+            label105.TabIndex = 9;
+            label105.Text = "0";
+            // 
+            // label106
+            // 
+            label106.AutoSize = true;
+            label106.Location = new Point(180, 34);
+            label106.Name = "label106";
+            label106.Size = new Size(13, 15);
+            label106.TabIndex = 12;
+            label106.Text = "0";
+            // 
+            // label107
+            // 
+            label107.AutoSize = true;
+            label107.Location = new Point(180, 19);
+            label107.Name = "label107";
+            label107.Size = new Size(79, 15);
+            label107.TabIndex = 11;
+            label107.Text = "Mesh Chunks";
+            // 
+            // groupBox11
+            // 
+            groupBox11.Controls.Add(label108);
+            groupBox11.Controls.Add(numericUpDown2);
+            groupBox11.Controls.Add(label109);
+            groupBox11.Controls.Add(numericUpDown3);
+            groupBox11.Controls.Add(label110);
+            groupBox11.Controls.Add(numericUpDown4);
+            groupBox11.Controls.Add(textBox2);
+            groupBox11.Controls.Add(label111);
+            groupBox11.Controls.Add(textBox3);
+            groupBox11.Controls.Add(label112);
+            groupBox11.Controls.Add(textBox4);
+            groupBox11.Controls.Add(label113);
+            groupBox11.Controls.Add(textBox5);
+            groupBox11.Controls.Add(label114);
+            groupBox11.Controls.Add(textBox6);
+            groupBox11.Controls.Add(label115);
+            groupBox11.Controls.Add(listBox1);
+            groupBox11.Location = new Point(675, 5);
+            groupBox11.Name = "groupBox11";
+            groupBox11.Size = new Size(254, 218);
+            groupBox11.TabIndex = 57;
+            groupBox11.TabStop = false;
+            groupBox11.Text = "Material Settings";
+            // 
+            // label108
+            // 
+            label108.AutoSize = true;
+            label108.Location = new Point(167, 164);
+            label108.Name = "label108";
+            label108.Size = new Size(67, 15);
+            label108.TabIndex = 43;
+            label108.Text = "Unknown 2";
+            // 
+            // numericUpDown2
+            // 
+            numericUpDown2.DecimalPlaces = 6;
+            numericUpDown2.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            numericUpDown2.Location = new Point(167, 183);
+            numericUpDown2.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
+            numericUpDown2.Name = "numericUpDown2";
+            numericUpDown2.Size = new Size(81, 23);
+            numericUpDown2.TabIndex = 42;
+            // 
+            // label109
+            // 
+            label109.AutoSize = true;
+            label109.Location = new Point(82, 164);
+            label109.Name = "label109";
+            label109.Size = new Size(67, 15);
+            label109.TabIndex = 41;
+            label109.Text = "Unknown 1";
+            // 
+            // numericUpDown3
+            // 
+            numericUpDown3.DecimalPlaces = 6;
+            numericUpDown3.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            numericUpDown3.Location = new Point(82, 183);
+            numericUpDown3.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
+            numericUpDown3.Name = "numericUpDown3";
+            numericUpDown3.Size = new Size(81, 23);
+            numericUpDown3.TabIndex = 40;
+            // 
+            // label110
+            // 
+            label110.AutoSize = true;
+            label110.Location = new Point(167, 117);
+            label110.Name = "label110";
+            label110.Size = new Size(65, 15);
+            label110.TabIndex = 39;
+            label110.Text = "Flag Factor";
+            // 
+            // numericUpDown4
+            // 
+            numericUpDown4.DecimalPlaces = 6;
+            numericUpDown4.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            numericUpDown4.Location = new Point(167, 136);
+            numericUpDown4.Minimum = new decimal(new int[] { 100, 0, 0, int.MinValue });
+            numericUpDown4.Name = "numericUpDown4";
+            numericUpDown4.Size = new Size(81, 23);
+            numericUpDown4.TabIndex = 38;
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(82, 135);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(79, 23);
+            textBox2.TabIndex = 37;
+            // 
+            // label111
+            // 
+            label111.AutoSize = true;
+            label111.Location = new Point(82, 117);
+            label111.Name = "label111";
+            label111.Size = new Size(79, 15);
+            label111.TabIndex = 36;
+            label111.Text = "Texture Flag 4";
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(169, 86);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(79, 23);
+            textBox3.TabIndex = 35;
+            // 
+            // label112
+            // 
+            label112.AutoSize = true;
+            label112.Location = new Point(169, 68);
+            label112.Name = "label112";
+            label112.Size = new Size(79, 15);
+            label112.TabIndex = 34;
+            label112.Text = "Texture Flag 3";
+            // 
+            // textBox4
+            // 
+            textBox4.Location = new Point(82, 86);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(79, 23);
+            textBox4.TabIndex = 33;
+            // 
+            // label113
+            // 
+            label113.AutoSize = true;
+            label113.Location = new Point(82, 68);
+            label113.Name = "label113";
+            label113.Size = new Size(79, 15);
+            label113.TabIndex = 32;
+            label113.Text = "Texture Flag 2";
+            // 
+            // textBox5
+            // 
+            textBox5.Location = new Point(169, 40);
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(79, 23);
+            textBox5.TabIndex = 31;
+            // 
+            // label114
+            // 
+            label114.AutoSize = true;
+            label114.Location = new Point(169, 22);
+            label114.Name = "label114";
+            label114.Size = new Size(79, 15);
+            label114.TabIndex = 30;
+            label114.Text = "Texture Flag 1";
+            // 
+            // textBox6
+            // 
+            textBox6.Location = new Point(82, 40);
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(79, 23);
+            textBox6.TabIndex = 29;
+            // 
+            // label115
+            // 
+            label115.AutoSize = true;
+            label115.Location = new Point(82, 22);
+            label115.Name = "label115";
+            label115.Size = new Size(75, 15);
+            label115.TabIndex = 28;
+            label115.Text = "Main Texture";
+            // 
+            // listBox1
+            // 
+            listBox1.FormattingEnabled = true;
+            listBox1.ItemHeight = 15;
+            listBox1.Location = new Point(6, 22);
+            listBox1.Name = "listBox1";
+            listBox1.Size = new Size(70, 184);
+            listBox1.TabIndex = 27;
+            // 
+            // groupBox12
+            // 
+            groupBox12.Controls.Add(label116);
+            groupBox12.Controls.Add(label117);
+            groupBox12.Controls.Add(label118);
+            groupBox12.Controls.Add(label119);
+            groupBox12.Controls.Add(label120);
+            groupBox12.Controls.Add(label121);
+            groupBox12.Controls.Add(label122);
+            groupBox12.Controls.Add(label123);
+            groupBox12.Controls.Add(label124);
+            groupBox12.Controls.Add(label125);
+            groupBox12.Controls.Add(label126);
+            groupBox12.Controls.Add(label127);
+            groupBox12.Location = new Point(207, 55);
+            groupBox12.Name = "groupBox12";
+            groupBox12.Size = new Size(462, 63);
+            groupBox12.TabIndex = 56;
+            groupBox12.TabStop = false;
+            groupBox12.Text = "Model Header Info";
+            // 
+            // label116
+            // 
+            label116.AutoSize = true;
+            label116.Location = new Point(288, 19);
+            label116.Name = "label116";
+            label116.Size = new Size(50, 15);
+            label116.TabIndex = 24;
+            label116.Text = "Weights";
+            // 
+            // label117
+            // 
+            label117.AutoSize = true;
+            label117.Location = new Point(288, 34);
+            label117.Name = "label117";
+            label117.Size = new Size(13, 15);
+            label117.TabIndex = 25;
+            label117.Text = "0";
+            // 
+            // label118
+            // 
+            label118.AutoSize = true;
+            label118.Location = new Point(6, 19);
+            label118.Name = "label118";
+            label118.Size = new Size(39, 15);
+            label118.TabIndex = 22;
+            label118.Text = "File ID";
+            // 
+            // label119
+            // 
+            label119.AutoSize = true;
+            label119.Location = new Point(6, 34);
+            label119.Name = "label119";
+            label119.Size = new Size(13, 15);
+            label119.TabIndex = 23;
+            label119.Text = "0";
+            // 
+            // label120
+            // 
+            label120.AutoSize = true;
+            label120.Location = new Point(51, 19);
+            label120.Name = "label120";
+            label120.Size = new Size(39, 15);
+            label120.TabIndex = 13;
+            label120.Text = "Bones";
+            // 
+            // label121
+            // 
+            label121.AutoSize = true;
+            label121.Location = new Point(51, 34);
+            label121.Name = "label121";
+            label121.Size = new Size(13, 15);
+            label121.TabIndex = 14;
+            label121.Text = "0";
+            // 
+            // label122
+            // 
+            label122.AutoSize = true;
+            label122.Location = new Point(96, 19);
+            label122.Name = "label122";
+            label122.Size = new Size(55, 15);
+            label122.TabIndex = 15;
+            label122.Text = "Materials";
+            // 
+            // label123
+            // 
+            label123.AutoSize = true;
+            label123.Location = new Point(216, 34);
+            label123.Name = "label123";
+            label123.Size = new Size(13, 15);
+            label123.TabIndex = 20;
+            label123.Text = "0";
+            // 
+            // label124
+            // 
+            label124.AutoSize = true;
+            label124.Location = new Point(96, 34);
+            label124.Name = "label124";
+            label124.Size = new Size(13, 15);
+            label124.TabIndex = 16;
+            label124.Text = "0";
+            // 
+            // label125
+            // 
+            label125.AutoSize = true;
+            label125.Location = new Point(216, 19);
+            label125.Name = "label125";
+            label125.Size = new Size(66, 15);
+            label125.TabIndex = 19;
+            label125.Text = "Shape Keys";
+            // 
+            // label126
+            // 
+            label126.AutoSize = true;
+            label126.Location = new Point(157, 19);
+            label126.Name = "label126";
+            label126.Size = new Size(53, 15);
+            label126.TabIndex = 17;
+            label126.Text = "IK Points";
+            // 
+            // label127
+            // 
+            label127.AutoSize = true;
+            label127.Location = new Point(157, 34);
+            label127.Name = "label127";
+            label127.Size = new Size(13, 15);
+            label127.TabIndex = 18;
+            label127.Text = "0";
+            // 
+            // label128
+            // 
+            label128.AutoSize = true;
+            label128.Location = new Point(213, 234);
+            label128.Name = "label128";
+            label128.Size = new Size(36, 15);
+            label128.TabIndex = 54;
+            label128.Text = "None";
+            // 
+            // label129
+            // 
+            label129.AutoSize = true;
+            label129.Location = new Point(213, 219);
+            label129.Name = "label129";
+            label129.Size = new Size(52, 15);
+            label129.TabIndex = 53;
+            label129.Text = "Warning";
+            // 
+            // button4
+            // 
+            button4.Location = new Point(780, 500);
+            button4.Name = "button4";
+            button4.Size = new Size(77, 23);
+            button4.TabIndex = 52;
+            button4.Text = "Export";
+            button4.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            button5.Location = new Point(365, 500);
+            button5.Name = "button5";
+            button5.Size = new Size(66, 23);
+            button5.TabIndex = 51;
+            button5.Text = "Import";
+            button5.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            button6.Location = new Point(863, 500);
+            button6.Name = "button6";
+            button6.Size = new Size(73, 23);
+            button6.TabIndex = 50;
+            button6.Text = "Save";
+            button6.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            button7.Location = new Point(284, 500);
+            button7.Name = "button7";
+            button7.Size = new Size(75, 23);
+            button7.TabIndex = 49;
+            button7.Text = "Bone Load";
+            button7.UseVisualStyleBackColor = true;
+            // 
+            // listBox2
+            // 
+            listBox2.FormattingEnabled = true;
+            listBox2.ItemHeight = 15;
+            listBox2.Location = new Point(5, 23);
+            listBox2.Name = "listBox2";
+            listBox2.Size = new Size(196, 499);
+            listBox2.TabIndex = 47;
+            // 
+            // button8
+            // 
+            button8.Location = new Point(780, 471);
+            button8.Name = "button8";
+            button8.Size = new Size(156, 23);
+            button8.TabIndex = 46;
+            button8.Text = "Save Decompressed";
+            button8.UseVisualStyleBackColor = true;
+            // 
+            // label130
+            // 
+            label130.AutoSize = true;
+            label130.Location = new Point(5, 5);
+            label130.Name = "label130";
+            label130.Size = new Size(62, 15);
+            label130.TabIndex = 48;
+            label130.Text = "Model List";
             // 
             // SSX3ToolsWindow
             // 
@@ -2946,6 +3631,8 @@
             ((System.ComponentModel.ISupportInitialize)MatFlagFactor).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            tabPage7.ResumeLayout(false);
+            tabPage7.PerformLayout();
             tabPage6.ResumeLayout(false);
             groupBox6.ResumeLayout(false);
             groupBox8.ResumeLayout(false);
@@ -2962,7 +3649,18 @@
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
             tabPage4.ResumeLayout(false);
-            tabPage7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            groupBox9.ResumeLayout(false);
+            groupBox9.PerformLayout();
+            groupBox10.ResumeLayout(false);
+            groupBox10.PerformLayout();
+            groupBox11.ResumeLayout(false);
+            groupBox11.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown4).EndInit();
+            groupBox12.ResumeLayout(false);
+            groupBox12.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -3215,5 +3913,67 @@
         private TextBox MpfModelName;
         private TabPage tabPage7;
         private Button MNFLoad;
+        private Label label93;
+        private TextBox textBox1;
+        private Label label94;
+        private NumericUpDown numericUpDown1;
+        private GroupBox groupBox9;
+        private Label label95;
+        private ComboBox comboBox1;
+        private CheckBox checkBox1;
+        private CheckBox checkBox2;
+        private GroupBox groupBox10;
+        private Label label96;
+        private Label label97;
+        private Label label98;
+        private Label label99;
+        private Label label100;
+        private Label label101;
+        private Label label102;
+        private Label label103;
+        private Label label104;
+        private Label label105;
+        private Label label106;
+        private Label label107;
+        private GroupBox groupBox11;
+        private Label label108;
+        private NumericUpDown numericUpDown2;
+        private Label label109;
+        private NumericUpDown numericUpDown3;
+        private Label label110;
+        private NumericUpDown numericUpDown4;
+        private TextBox textBox2;
+        private Label label111;
+        private TextBox textBox3;
+        private Label label112;
+        private TextBox textBox4;
+        private Label label113;
+        private TextBox textBox5;
+        private Label label114;
+        private TextBox textBox6;
+        private Label label115;
+        private ListBox listBox1;
+        private GroupBox groupBox12;
+        private Label label116;
+        private Label label117;
+        private Label label118;
+        private Label label119;
+        private Label label120;
+        private Label label121;
+        private Label label122;
+        private Label label123;
+        private Label label124;
+        private Label label125;
+        private Label label126;
+        private Label label127;
+        private Label label128;
+        private Label label129;
+        private Button button4;
+        private Button button5;
+        private Button button6;
+        private Button button7;
+        private ListBox listBox2;
+        private Button button8;
+        private Label label130;
     }
 }
