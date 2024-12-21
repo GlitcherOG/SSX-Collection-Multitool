@@ -933,11 +933,8 @@ namespace SSXMultiTool.FileHandlers
                     Binding = bindings[Handler.boneDatas[i].ParentBone];
                 }
                 Binding = Binding.CreateNode(Handler.boneDatas[i].BoneName);
-                float tempX = Handler.boneDatas[i].Radians.X;
-                float tempY = Handler.boneDatas[i].Radians.Y;
-                float tempZ = Handler.boneDatas[i].Radians.Z;
 
-                Binding.WithLocalRotation(MathUtil.ToQuaternion(new Vector3(-tempX, -tempY, -tempZ)));
+                Binding.WithLocalRotation(Handler.boneDatas[i].Rotation);
                 Binding.WithLocalTranslation(new Vector3(Handler.boneDatas[i].Position.X, Handler.boneDatas[i].Position.Y, Handler.boneDatas[i].Position.Z));
 
                 Binding.LocalMatrix = Binding.LocalMatrix;
