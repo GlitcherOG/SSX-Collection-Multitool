@@ -38,9 +38,9 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
                     NewModelHeader.OffsetBoneData = StreamUtil.ReadUInt32(stream, true);
 
                     NewModelHeader.OffsetMorphID = StreamUtil.ReadUInt32(stream, true);
-                    NewModelHeader.OffsetSkinningSection = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetMorphData = StreamUtil.ReadUInt32(stream, true);
                     NewModelHeader.U2 = StreamUtil.ReadUInt32(stream, true);
-                    NewModelHeader.U3 = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetSkinningSection = StreamUtil.ReadUInt32(stream, true);
 
                     NewModelHeader.OffsetTristripSection = StreamUtil.ReadUInt32(stream, true);
                     NewModelHeader.OffsetVertexSection = StreamUtil.ReadUInt32(stream, true);
@@ -515,11 +515,11 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
             public int ModelOffset;
             public int ModelSize;
             public int OffsetBoneData;
-            public int OffsetMorphID;
 
-            public int OffsetSkinningSection;
+            public int OffsetMorphID;
+            public int OffsetMorphData;
             public int U2;
-            public int U3;
+            public int OffsetSkinningSection;
 
             public int OffsetTristripSection;
             public int OffsetVertexSection;

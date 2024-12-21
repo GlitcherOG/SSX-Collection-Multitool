@@ -701,10 +701,10 @@ namespace SSXMultiTool
                 WeightGroupCount.Text = ssx3ModelCombiner.WeigthRefCount(TempModel).ToString();
                 MorphGroupCount.Text = ssx3ModelCombiner.MorphGroupCount(TempModel).ToString();
 
-                MaterialList.Items.Clear();
+                MPFMaterialList.Items.Clear();
                 for (int i = 0; i < TempModel.MaterialList.Count; i++)
                 {
-                    MaterialList.Items.Add(TempModel.MaterialList[i].MainTexture);
+                    MPFMaterialList.Items.Add(TempModel.MaterialList[i].MainTexture);
                 }
             }
             else
@@ -722,7 +722,7 @@ namespace SSXMultiTool
                 MaterialGroupCount.Text = "0";
                 WeightGroupCount.Text = "0";
                 MorphGroupCount.Text = "0";
-                MaterialList.Items.Clear();
+                MPFMaterialList.Items.Clear();
             }
         }
 
@@ -776,10 +776,10 @@ namespace SSXMultiTool
 
         private void MaterialList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (MaterialList.SelectedIndex != -1 && !DisableUpdate)
+            if (MPFMaterialList.SelectedIndex != -1 && !DisableUpdate)
             {
                 DisableUpdate = true;
-                var TempModel = ssx3ModelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex].MaterialList[MaterialList.SelectedIndex];
+                var TempModel = ssx3ModelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex].MaterialList[MPFMaterialList.SelectedIndex];
                 MatMainTexture.Text = TempModel.MainTexture;
                 MatTextureFlag1.Text = TempModel.Texture1;
                 MatTextureFlag2.Text = TempModel.Texture2;
@@ -796,11 +796,11 @@ namespace SSXMultiTool
 
         private void MatUpdate(object sender, EventArgs e)
         {
-            if (!DisableUpdate && MaterialList.SelectedIndex != -1)
+            if (!DisableUpdate && MPFMaterialList.SelectedIndex != -1)
             {
                 DisableUpdate = true;
                 var TempModel = ssx3ModelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex];
-                var TempMaterial = TempModel.MaterialList[MaterialList.SelectedIndex];
+                var TempMaterial = TempModel.MaterialList[MPFMaterialList.SelectedIndex];
 
                 TempMaterial.MainTexture = MatMainTexture.Text;
                 TempMaterial.Texture1 = MatTextureFlag1.Text;
@@ -812,9 +812,9 @@ namespace SSXMultiTool
                 TempMaterial.Unused1Float = (float)MatUnknown1.Value;
                 TempMaterial.Unused2Float = (float)MatUnknown2.Value;
 
-                MaterialList.Items[MaterialList.SelectedIndex] = TempMaterial.MainTexture;
+                MPFMaterialList.Items[MPFMaterialList.SelectedIndex] = TempMaterial.MainTexture;
 
-                TempModel.MaterialList[MaterialList.SelectedIndex] = TempMaterial;
+                TempModel.MaterialList[MPFMaterialList.SelectedIndex] = TempMaterial;
                 ssx3ModelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex] = TempModel;
 
                 DisableUpdate = false;
@@ -1207,22 +1207,60 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                mnfModelHandler.load(openFileDialog.FileName);
-                mnfModelHandler.SaveDecompressedData(openFileDialog.FileName + ".data");
+                mnfModelHandler = new SSX3GCMNF();
+                SSX3GCModelCombiner = new SSX3GCModelCombiner();
 
+                mnfModelHandler.load(openFileDialog.FileName);
                 SSX3GCModelCombiner.AddFile(mnfModelHandler);
 
-                SaveFileDialog openFileDialog1 = new SaveFileDialog
+                MNFWarningLabel.Text = SSX3GCModelCombiner.CheckBones(0);
+
+                MNFModelList.Items.Clear();
+                for (int i = 0; i < mnfModelHandler.modelHeaders.Count; i++)
+                {
+                    MNFModelList.Items.Add(mnfModelHandler.modelHeaders[i].ModelName);
+                }
+            }
+        }
+
+        private void MnfBoneLoad_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Model File (*.mnf)|*.mnf|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                mnfModelHandler = new SSX3GCMNF();
+                mnfModelHandler.load(openFileDialog.FileName);
+                SSX3GCModelCombiner.AddBones(mnfModelHandler);
+
+                MNFWarningLabel.Text = SSX3GCModelCombiner.CheckBones(0);
+            }
+        }
+
+        private void MnfExport_Click(object sender, EventArgs e)
+        {
+            if (MNFModelList.SelectedIndex != -1)
+            {
+                if (SSX3GCModelCombiner.CheckBones(MNFModelList.SelectedIndex) != "")
+                {
+                    MessageBox.Show(SSX3GCModelCombiner.CheckBones(MNFModelList.SelectedIndex));
+                    return;
+                }
+                SaveFileDialog openFileDialog = new SaveFileDialog
                 {
                     Filter = "Model File (*.glb)|*.glb|All files (*.*)|*.*",
                     FilterIndex = 1,
                     RestoreDirectory = false
                 };
-                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    SSX3GCModelCombiner.MeshReassigned(0);
+                    SSX3GCModelCombiner.MeshReassigned(MNFModelList.SelectedIndex);
 
-                    glftHandler.SaveSSX3GCGlft(openFileDialog1.FileName, SSX3GCModelCombiner);
+                    glftHandler.SaveSSX3GCGlft(openFileDialog.FileName, SSX3GCModelCombiner);
                 }
             }
         }

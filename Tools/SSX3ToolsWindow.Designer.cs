@@ -207,7 +207,7 @@
             label72 = new Label();
             MatMainTexture = new TextBox();
             label73 = new Label();
-            MaterialList = new ListBox();
+            MPFMaterialList = new ListBox();
             groupBox2 = new GroupBox();
             label60 = new Label();
             MpfWeights = new Label();
@@ -233,7 +233,7 @@
             ModelListLabel = new Label();
             tabPage7 = new TabPage();
             label93 = new Label();
-            textBox1 = new TextBox();
+            MnfModelName = new TextBox();
             label94 = new Label();
             numericUpDown1 = new NumericUpDown();
             groupBox9 = new GroupBox();
@@ -271,7 +271,7 @@
             label114 = new Label();
             textBox6 = new TextBox();
             label115 = new Label();
-            listBox1 = new ListBox();
+            MNFMaterialList = new ListBox();
             groupBox12 = new GroupBox();
             label116 = new Label();
             label117 = new Label();
@@ -285,14 +285,14 @@
             label125 = new Label();
             label126 = new Label();
             label127 = new Label();
-            label128 = new Label();
+            MNFWarningLabel = new Label();
             label129 = new Label();
-            button4 = new Button();
-            button5 = new Button();
-            button6 = new Button();
-            button7 = new Button();
+            MnfExport = new Button();
+            MnfImport = new Button();
+            MnfSaveCompressed = new Button();
+            MnfBoneLoad = new Button();
             MNFModelList = new ListBox();
-            button8 = new Button();
+            MNFSaveDecompressed = new Button();
             label130 = new Label();
             MNFLoad = new Button();
             tabPage6 = new TabPage();
@@ -2090,7 +2090,7 @@
             groupBox3.Controls.Add(label72);
             groupBox3.Controls.Add(MatMainTexture);
             groupBox3.Controls.Add(label73);
-            groupBox3.Controls.Add(MaterialList);
+            groupBox3.Controls.Add(MPFMaterialList);
             groupBox3.Location = new Point(677, 7);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(254, 218);
@@ -2243,15 +2243,15 @@
             label73.TabIndex = 28;
             label73.Text = "Main Texture";
             // 
-            // MaterialList
+            // MPFMaterialList
             // 
-            MaterialList.FormattingEnabled = true;
-            MaterialList.ItemHeight = 15;
-            MaterialList.Location = new Point(6, 22);
-            MaterialList.Name = "MaterialList";
-            MaterialList.Size = new Size(70, 184);
-            MaterialList.TabIndex = 27;
-            MaterialList.SelectedIndexChanged += MaterialList_SelectedIndexChanged;
+            MPFMaterialList.FormattingEnabled = true;
+            MPFMaterialList.ItemHeight = 15;
+            MPFMaterialList.Location = new Point(6, 22);
+            MPFMaterialList.Name = "MPFMaterialList";
+            MPFMaterialList.Size = new Size(70, 184);
+            MPFMaterialList.TabIndex = 27;
+            MPFMaterialList.SelectedIndexChanged += MaterialList_SelectedIndexChanged;
             // 
             // groupBox2
             // 
@@ -2483,21 +2483,21 @@
             // tabPage7
             // 
             tabPage7.Controls.Add(label93);
-            tabPage7.Controls.Add(textBox1);
+            tabPage7.Controls.Add(MnfModelName);
             tabPage7.Controls.Add(label94);
             tabPage7.Controls.Add(numericUpDown1);
             tabPage7.Controls.Add(groupBox9);
             tabPage7.Controls.Add(groupBox10);
             tabPage7.Controls.Add(groupBox11);
             tabPage7.Controls.Add(groupBox12);
-            tabPage7.Controls.Add(label128);
+            tabPage7.Controls.Add(MNFWarningLabel);
             tabPage7.Controls.Add(label129);
-            tabPage7.Controls.Add(button4);
-            tabPage7.Controls.Add(button5);
-            tabPage7.Controls.Add(button6);
-            tabPage7.Controls.Add(button7);
+            tabPage7.Controls.Add(MnfExport);
+            tabPage7.Controls.Add(MnfImport);
+            tabPage7.Controls.Add(MnfSaveCompressed);
+            tabPage7.Controls.Add(MnfBoneLoad);
             tabPage7.Controls.Add(MNFModelList);
-            tabPage7.Controls.Add(button8);
+            tabPage7.Controls.Add(MNFSaveDecompressed);
             tabPage7.Controls.Add(label130);
             tabPage7.Controls.Add(MNFLoad);
             tabPage7.Location = new Point(4, 24);
@@ -2516,12 +2516,12 @@
             label93.TabIndex = 55;
             label93.Text = "Model Name";
             // 
-            // textBox1
+            // MnfModelName
             // 
-            textBox1.Location = new Point(209, 26);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(192, 23);
-            textBox1.TabIndex = 62;
+            MnfModelName.Location = new Point(209, 26);
+            MnfModelName.Name = "MnfModelName";
+            MnfModelName.Size = new Size(192, 23);
+            MnfModelName.TabIndex = 62;
             // 
             // label94
             // 
@@ -2741,7 +2741,7 @@
             groupBox11.Controls.Add(label114);
             groupBox11.Controls.Add(textBox6);
             groupBox11.Controls.Add(label115);
-            groupBox11.Controls.Add(listBox1);
+            groupBox11.Controls.Add(MNFMaterialList);
             groupBox11.Location = new Point(675, 5);
             groupBox11.Name = "groupBox11";
             groupBox11.Size = new Size(254, 218);
@@ -2886,14 +2886,14 @@
             label115.TabIndex = 28;
             label115.Text = "Main Texture";
             // 
-            // listBox1
+            // MNFMaterialList
             // 
-            listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 15;
-            listBox1.Location = new Point(6, 22);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(70, 184);
-            listBox1.TabIndex = 27;
+            MNFMaterialList.FormattingEnabled = true;
+            MNFMaterialList.ItemHeight = 15;
+            MNFMaterialList.Location = new Point(6, 22);
+            MNFMaterialList.Name = "MNFMaterialList";
+            MNFMaterialList.Size = new Size(70, 184);
+            MNFMaterialList.TabIndex = 27;
             // 
             // groupBox12
             // 
@@ -3024,14 +3024,14 @@
             label127.TabIndex = 18;
             label127.Text = "0";
             // 
-            // label128
+            // MNFWarningLabel
             // 
-            label128.AutoSize = true;
-            label128.Location = new Point(213, 234);
-            label128.Name = "label128";
-            label128.Size = new Size(36, 15);
-            label128.TabIndex = 54;
-            label128.Text = "None";
+            MNFWarningLabel.AutoSize = true;
+            MNFWarningLabel.Location = new Point(213, 234);
+            MNFWarningLabel.Name = "MNFWarningLabel";
+            MNFWarningLabel.Size = new Size(36, 15);
+            MNFWarningLabel.TabIndex = 54;
+            MNFWarningLabel.Text = "None";
             // 
             // label129
             // 
@@ -3042,41 +3042,43 @@
             label129.TabIndex = 53;
             label129.Text = "Warning";
             // 
-            // button4
+            // MnfExport
             // 
-            button4.Location = new Point(780, 500);
-            button4.Name = "button4";
-            button4.Size = new Size(77, 23);
-            button4.TabIndex = 52;
-            button4.Text = "Export";
-            button4.UseVisualStyleBackColor = true;
+            MnfExport.Location = new Point(780, 500);
+            MnfExport.Name = "MnfExport";
+            MnfExport.Size = new Size(77, 23);
+            MnfExport.TabIndex = 52;
+            MnfExport.Text = "Export";
+            MnfExport.UseVisualStyleBackColor = true;
+            MnfExport.Click += MnfExport_Click;
             // 
-            // button5
+            // MnfImport
             // 
-            button5.Location = new Point(365, 500);
-            button5.Name = "button5";
-            button5.Size = new Size(66, 23);
-            button5.TabIndex = 51;
-            button5.Text = "Import";
-            button5.UseVisualStyleBackColor = true;
+            MnfImport.Location = new Point(365, 500);
+            MnfImport.Name = "MnfImport";
+            MnfImport.Size = new Size(66, 23);
+            MnfImport.TabIndex = 51;
+            MnfImport.Text = "Import";
+            MnfImport.UseVisualStyleBackColor = true;
             // 
-            // button6
+            // MnfSaveCompressed
             // 
-            button6.Location = new Point(863, 500);
-            button6.Name = "button6";
-            button6.Size = new Size(73, 23);
-            button6.TabIndex = 50;
-            button6.Text = "Save";
-            button6.UseVisualStyleBackColor = true;
+            MnfSaveCompressed.Location = new Point(863, 500);
+            MnfSaveCompressed.Name = "MnfSaveCompressed";
+            MnfSaveCompressed.Size = new Size(73, 23);
+            MnfSaveCompressed.TabIndex = 50;
+            MnfSaveCompressed.Text = "Save";
+            MnfSaveCompressed.UseVisualStyleBackColor = true;
             // 
-            // button7
+            // MnfBoneLoad
             // 
-            button7.Location = new Point(284, 500);
-            button7.Name = "button7";
-            button7.Size = new Size(75, 23);
-            button7.TabIndex = 49;
-            button7.Text = "Bone Load";
-            button7.UseVisualStyleBackColor = true;
+            MnfBoneLoad.Location = new Point(284, 500);
+            MnfBoneLoad.Name = "MnfBoneLoad";
+            MnfBoneLoad.Size = new Size(75, 23);
+            MnfBoneLoad.TabIndex = 49;
+            MnfBoneLoad.Text = "Bone Load";
+            MnfBoneLoad.UseVisualStyleBackColor = true;
+            MnfBoneLoad.Click += MnfBoneLoad_Click;
             // 
             // MNFModelList
             // 
@@ -3087,14 +3089,14 @@
             MNFModelList.Size = new Size(196, 499);
             MNFModelList.TabIndex = 47;
             // 
-            // button8
+            // MNFSaveDecompressed
             // 
-            button8.Location = new Point(780, 471);
-            button8.Name = "button8";
-            button8.Size = new Size(156, 23);
-            button8.TabIndex = 46;
-            button8.Text = "Save Decompressed";
-            button8.UseVisualStyleBackColor = true;
+            MNFSaveDecompressed.Location = new Point(780, 471);
+            MNFSaveDecompressed.Name = "MNFSaveDecompressed";
+            MNFSaveDecompressed.Size = new Size(156, 23);
+            MNFSaveDecompressed.TabIndex = 46;
+            MNFSaveDecompressed.Text = "Save Decompressed";
+            MNFSaveDecompressed.UseVisualStyleBackColor = true;
             // 
             // label130
             // 
@@ -3843,7 +3845,7 @@
         private Label label72;
         private TextBox MatMainTexture;
         private Label label73;
-        private ListBox MaterialList;
+        private ListBox MPFMaterialList;
         private GroupBox groupBox4;
         private Label label74;
         private Label MorphGroupCount;
@@ -3914,7 +3916,7 @@
         private TabPage tabPage7;
         private Button MNFLoad;
         private Label label93;
-        private TextBox textBox1;
+        private TextBox MnfModelName;
         private Label label94;
         private NumericUpDown numericUpDown1;
         private GroupBox groupBox9;
@@ -3952,7 +3954,7 @@
         private Label label114;
         private TextBox textBox6;
         private Label label115;
-        private ListBox listBox1;
+        private ListBox MNFMaterialList;
         private GroupBox groupBox12;
         private Label label116;
         private Label label117;
@@ -3966,14 +3968,14 @@
         private Label label125;
         private Label label126;
         private Label label127;
-        private Label label128;
+        private Label MNFWarningLabel;
         private Label label129;
-        private Button button4;
-        private Button button5;
-        private Button button6;
-        private Button button7;
+        private Button MnfExport;
+        private Button MnfImport;
+        private Button MnfSaveCompressed;
+        private Button MnfBoneLoad;
         private ListBox MNFModelList;
-        private Button button8;
+        private Button MNFSaveDecompressed;
         private Label label130;
     }
 }
