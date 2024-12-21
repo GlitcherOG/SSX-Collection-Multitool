@@ -37,7 +37,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
                     NewModelHeader.ModelSize = StreamUtil.ReadUInt32(stream, true);
                     NewModelHeader.OffsetBoneData = StreamUtil.ReadUInt32(stream, true);
 
-                    NewModelHeader.OffsetMorphSection = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetMorphID = StreamUtil.ReadUInt32(stream, true);
                     NewModelHeader.OffsetSkinningSection = StreamUtil.ReadUInt32(stream, true);
                     NewModelHeader.U2 = StreamUtil.ReadUInt32(stream, true);
                     NewModelHeader.U3 = StreamUtil.ReadUInt32(stream, true);
@@ -167,30 +167,57 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
                         Model.boneDatas.Add(TempBoneData);
                     }
 
-                    //streamMatrix.Position = Model.OffsetMorphList;
+                    streamMatrix.Position = Model.OffsetMorphID;
                     Model.morphHeader = new List<MorphHeader>();
-                    //for (int a = 0; a < Model.NumMorphs; a++)
-                    //{
-                    //    var TempMorph = new MorphHeader();
+                    for (int a = 0; a < Model.NumMorphs; a++)
+                    {
+                        var TempMorph = new MorphHeader();
 
-                    //    TempMorph.NumMorphData = StreamUtil.ReadUInt32(streamMatrix, true);
-                    //    TempMorph.OffsetMorphDataList = StreamUtil.ReadUInt32(streamMatrix, true);
+                        TempMorph.MorphID = StreamUtil.ReadUInt32(streamMatrix, true);
 
-                    //    TempMorph.MorphDataList = new List<MorphData>();
-                    //    int TempPos = (int)streamMatrix.Position;
-                    //    streamMatrix.Position = TempMorph.OffsetMorphDataList;
-                    //    for (int b = 0; b < TempMorph.NumMorphData; b++)
-                    //    {
-                    //        var TempMorphData = new MorphData();
+                        Model.morphHeader.Add(TempMorph);
+                    }
 
-                    //        TempMorphData.VertexIndex = StreamUtil.ReadUInt32(streamMatrix, true);
-                    //        TempMorphData.Morph = StreamUtil.ReadVector3(streamMatrix, true) * 100f;
-                    //        TempMorph.MorphDataList.Add(TempMorphData);
-                    //    }
-                    //    streamMatrix.Position = TempPos;
-                    //    Model.morphHeader.Add(TempMorph);
+                    //streamMatrix.Position = Model.OffsetMorphSection;
+                    for (int a = 0; a < Model.morphHeader.Count; a++)
+                    {
+                        var TempMorph = Model.morphHeader[a];
 
-                    //}
+                        TempMorph.NumMorphData = StreamUtil.ReadUInt32(streamMatrix, true);
+                        TempMorph.U0 = StreamUtil.ReadUInt32(streamMatrix, true);
+                        TempMorph.OffsetMorphDataList = StreamUtil.ReadUInt32(streamMatrix, true);
+                        TempMorph.OffsetMorphVertexIndex = StreamUtil.ReadUInt32(streamMatrix, true);
+
+                        TempMorph.MorphDataList = new List<MorphData>();
+                        int TempPos = (int)streamMatrix.Position;
+
+                        streamMatrix.Position = TempMorph.OffsetMorphVertexIndex;
+                        for (int b = 0; b < TempMorph.NumMorphData; b++)
+                        {
+                            var TempMorphData = new MorphData();
+
+                            TempMorphData.VertexIndex = StreamUtil.ReadUInt16(streamMatrix, true);
+
+                            TempMorph.MorphDataList.Add(TempMorphData);
+                        }
+
+                        streamMatrix.Position = TempMorph.OffsetMorphDataList;
+
+                        for (int b = 0; b < TempMorph.NumMorphData; b++)
+                        {
+                            var TempMorphData = TempMorph.MorphDataList[b];
+
+                            TempMorphData.Morph.X = StreamUtil.ReadInt8(streamMatrix);
+                            TempMorphData.Morph.Y = StreamUtil.ReadInt8(streamMatrix);
+                            TempMorphData.Morph.Z = StreamUtil.ReadInt8(streamMatrix);
+
+                            TempMorph.MorphDataList[b] = TempMorphData;
+                        }
+
+
+                        streamMatrix.Position = TempPos;
+                        Model.morphHeader[a] = TempMorph;
+                    }
 
                     streamMatrix.Position = Model.OffsetSkinningSection;
                     Model.boneWeightHeaders = new List<BoneWeightHeader>();
@@ -488,7 +515,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
             public int ModelOffset;
             public int ModelSize;
             public int OffsetBoneData;
-            public int OffsetMorphSection;
+            public int OffsetMorphID;
 
             public int OffsetSkinningSection;
             public int U2;
@@ -559,8 +586,12 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
 
         public struct MorphHeader
         {
+            public int MorphID;
+
             public int NumMorphData;
+            public int U0;
             public int OffsetMorphDataList;
+            public int OffsetMorphVertexIndex;
 
             public List<MorphData> MorphDataList;
         }
