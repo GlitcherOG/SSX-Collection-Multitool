@@ -61,30 +61,6 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
 
             boneDatas = new List<SSX3GCMNF.BoneData>();
             boneDatas.AddRange(boneDatasOrg);
-            //for (int i = 0; i < boneDatasOrg.Count; i++)
-            //{
-            //    var NewBone = new SSX3GCMNF.BoneData();
-
-            //    NewBone.BoneName = boneDatasOrg[i].BoneName;
-            //    NewBone.ParentFileID = boneDatasOrg[i].ParentFileID;
-            //    NewBone.ParentBone = boneDatasOrg[i].ParentBone;
-            //    NewBone.Unknown1 = boneDatasOrg[i].Unknown1;
-            //    NewBone.BoneID = boneDatasOrg[i].BoneID;
-
-            //    NewBone.Unknown2 = boneDatasOrg[i].Unknown2;
-            //    NewBone.Unknown3 = boneDatasOrg[i].Unknown3;
-            //    NewBone.Unknown4 = boneDatasOrg[i].Unknown4;
-            //    NewBone.Unknown5 = boneDatasOrg[i].Unknown5;
-            //    NewBone.Unknown6 = boneDatasOrg[i].Unknown6;
-
-            //    NewBone.Position = boneDatasOrg[i].Position;
-            //    NewBone.Rotation = boneDatasOrg[i].Rotation;
-            //    NewBone.Unknown = boneDatasOrg[i].Unknown;
-
-            //    NewBone.FileID = boneDatasOrg[i].FileID;
-            //    NewBone.BonePos = boneDatasOrg[i].BonePos;
-            //    boneDatas.Add(NewBone);
-            //}
 
             TempMesh.MorphTargetCount = TempModel.NumMorphs;
             ReshuffleBones();

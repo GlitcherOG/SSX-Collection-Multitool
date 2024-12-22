@@ -743,13 +743,42 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             //TODO: 10 Weights Per meshHeader
             //theres a max of 10 weights per meshHeader group
             var newIndiceTristrips = new List<TristripGenerator.IndiceTristrip>();
+
+            int StartPoint = 0;
             for (int i = 0; i < indiceTristrips.Count; i++)
             {
                 var newHeader = new TristripGenerator.IndiceTristrip();
+                newHeader.Indices = new List<int>();
+                newHeader.MaterialID = indiceTristrips[i].MaterialID;
+                bool Done = false;
 
-                
+                List<int> WeightList = new List<int>();
+                for (int a = StartPoint; a < indiceTristrips[i].Indices.Count; a++)
+                {
+                    if(WeightList.Count==10 && !WeightList.Contains(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex))
+                    {
+                        break;
+                    }
 
+                    newHeader.Indices.Add(indiceTristrips[i].Indices[a]);
 
+                    if (!WeightList.Contains(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex))
+                    {
+                        WeightList.Add(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex);
+                    }
+
+                    if (a== indiceTristrips[i].Indices.Count-1)
+                    {
+                        Done = true;
+                    }
+                    StartPoint = a;
+                }
+
+                newIndiceTristrips.Add(newHeader);
+                if(Done==false)
+                {
+                    i--;
+                }
             }
 
 
