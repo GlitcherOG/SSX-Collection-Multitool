@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static SSXMultiTool.FileHandlers.Models.TristripGenerator;
 
 namespace SSXMultiTool.FileHandlers.Models.Tricky
 {
@@ -352,8 +353,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             }
             else if (Head != null && Body != null)
             {
-                MessageBox.Show("Characters Currently Unsupported");
-                //StartRegenMeshCharacter(trickyModelCombiner, Selected);
+                //MessageBox.Show("Characters Currently Unsupported");
+                StartRegenMeshCharacter(trickyModelCombiner, Selected);
             }
             else
             {
