@@ -740,48 +740,6 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             //If none found generate a new header
             TempTrickyMesh.meshHeaders = new List<TrickyGCMNF.MeshHeader>();
 
-            //TODO: 10 Weights Per meshHeader
-            //theres a max of 10 weights per meshHeader group
-            var newIndiceTristrips = new List<TristripGenerator.IndiceTristrip>();
-
-            int StartPoint = 0;
-            for (int i = 0; i < indiceTristrips.Count; i++)
-            {
-                var newHeader = new TristripGenerator.IndiceTristrip();
-                newHeader.Indices = new List<int>();
-                newHeader.MaterialID = indiceTristrips[i].MaterialID;
-                bool Done = false;
-
-                List<int> WeightList = new List<int>();
-                for (int a = StartPoint; a < indiceTristrips[i].Indices.Count; a++)
-                {
-                    if(WeightList.Count==10 && !WeightList.Contains(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex))
-                    {
-                        break;
-                    }
-
-                    newHeader.Indices.Add(indiceTristrips[i].Indices[a]);
-
-                    if (!WeightList.Contains(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex))
-                    {
-                        WeightList.Add(VectorPoint[indiceTristrips[i].Indices[a]].WeightIndex);
-                    }
-
-                    if (a== indiceTristrips[i].Indices.Count-1)
-                    {
-                        Done = true;
-                    }
-                    StartPoint = a;
-                }
-
-                newIndiceTristrips.Add(newHeader);
-                if(Done==false)
-                {
-                    i--;
-                }
-            }
-
-
             for (int i = 0; i < indiceTristrips.Count; i++)
             {
                 int MaterialID = indiceTristrips[i].MaterialID;
@@ -1398,6 +1356,47 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 //if material number has data in the mesh header list go on to the next
                 //If none found generate a new header
                 TempTrickyMesh.meshHeaders = new List<TrickyGCMNF.MeshHeader>();
+
+                //TODO: 10 Weights Per meshHeader
+                //theres a max of 10 weights per meshHeader group
+                var newIndiceTristrips = new List<TristripGenerator.IndiceTristrip>();
+
+                int StartPoint = 0;
+                for (int z = 0; z < indiceTristrips.Count; z++)
+                {
+                    var newHeader = new TristripGenerator.IndiceTristrip();
+                    newHeader.Indices = new List<int>();
+                    newHeader.MaterialID = indiceTristrips[z].MaterialID;
+                    bool Done = false;
+
+                    List<int> WeightList = new List<int>();
+                    for (int a = StartPoint; a < indiceTristrips[z].Indices.Count; a++)
+                    {
+                        if (WeightList.Count == 10 && !WeightList.Contains(VectorPoint[indiceTristrips[z].Indices[a]].WeightIndex))
+                        {
+                            break;
+                        }
+
+                        newHeader.Indices.Add(indiceTristrips[z].Indices[a]);
+
+                        if (!WeightList.Contains(VectorPoint[indiceTristrips[z].Indices[a]].WeightIndex))
+                        {
+                            WeightList.Add(VectorPoint[indiceTristrips[z].Indices[a]].WeightIndex);
+                        }
+
+                        if (a == indiceTristrips[z].Indices.Count - 1)
+                        {
+                            Done = true;
+                        }
+                        StartPoint = a;
+                    }
+
+                    newIndiceTristrips.Add(newHeader);
+                    if (Done == false)
+                    {
+                        z--;
+                    }
+                }
 
                 for (int z = 0; z < indiceTristrips.Count; z++)
                 {
