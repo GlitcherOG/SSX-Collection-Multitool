@@ -286,7 +286,7 @@ namespace SSXMultiTool
             {
                 trickyConfig = SSXTrickyConfig.Load(openFileDialog.FileName);
 
-                if (trickyConfig.Version == 2)
+                if (trickyConfig.Version == 3)
                 {
                     UnlitLightmapCheckbox.Checked = trickyConfig.BuildUniLightmap;
                     GenPBD.Checked = trickyConfig.BuildPBDGenerate;
