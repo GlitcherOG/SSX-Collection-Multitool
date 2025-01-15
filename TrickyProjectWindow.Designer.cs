@@ -77,8 +77,10 @@
             label3 = new Label();
             SkyMat = new Label();
             SkyModel = new Label();
-            UnlitCheckbox = new CheckBox();
+            UnlitLightmapCheckbox = new CheckBox();
             groupBox4 = new GroupBox();
+            GenLightingCheckbox = new CheckBox();
+            UnlitInstancesCheckbox = new CheckBox();
             LTGMode = new ComboBox();
             label5 = new Label();
             GenSOP = new CheckBox();
@@ -563,18 +565,20 @@
             SkyModel.TabIndex = 6;
             SkyModel.Text = "0";
             // 
-            // UnlitCheckbox
+            // UnlitLightmapCheckbox
             // 
-            UnlitCheckbox.AutoSize = true;
-            UnlitCheckbox.Location = new Point(11, 22);
-            UnlitCheckbox.Name = "UnlitCheckbox";
-            UnlitCheckbox.Size = new Size(155, 19);
-            UnlitCheckbox.TabIndex = 50;
-            UnlitCheckbox.Text = "Generate Unlit Lightmap";
-            UnlitCheckbox.UseVisualStyleBackColor = true;
+            UnlitLightmapCheckbox.AutoSize = true;
+            UnlitLightmapCheckbox.Location = new Point(14, 95);
+            UnlitLightmapCheckbox.Name = "UnlitLightmapCheckbox";
+            UnlitLightmapCheckbox.Size = new Size(155, 19);
+            UnlitLightmapCheckbox.TabIndex = 50;
+            UnlitLightmapCheckbox.Text = "Generate Unlit Lightmap";
+            UnlitLightmapCheckbox.UseVisualStyleBackColor = true;
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(GenLightingCheckbox);
+            groupBox4.Controls.Add(UnlitInstancesCheckbox);
             groupBox4.Controls.Add(LTGMode);
             groupBox4.Controls.Add(label5);
             groupBox4.Controls.Add(GenSOP);
@@ -588,7 +592,7 @@
             groupBox4.Controls.Add(GenSSH);
             groupBox4.Controls.Add(GenLTG);
             groupBox4.Controls.Add(GenPBD);
-            groupBox4.Controls.Add(UnlitCheckbox);
+            groupBox4.Controls.Add(UnlitLightmapCheckbox);
             groupBox4.Location = new Point(219, 251);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(569, 158);
@@ -596,12 +600,33 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "Build Settings";
             // 
+            // GenLightingCheckbox
+            // 
+            GenLightingCheckbox.AutoSize = true;
+            GenLightingCheckbox.Location = new Point(14, 70);
+            GenLightingCheckbox.Name = "GenLightingCheckbox";
+            GenLightingCheckbox.Size = new Size(152, 19);
+            GenLightingCheckbox.TabIndex = 65;
+            GenLightingCheckbox.Text = "Generate Lighting (WIP)";
+            GenLightingCheckbox.UseVisualStyleBackColor = true;
+            GenLightingCheckbox.CheckedChanged += GenLightingCheckbox_CheckedChanged;
+            // 
+            // UnlitInstancesCheckbox
+            // 
+            UnlitInstancesCheckbox.AutoSize = true;
+            UnlitInstancesCheckbox.Location = new Point(14, 120);
+            UnlitInstancesCheckbox.Name = "UnlitInstancesCheckbox";
+            UnlitInstancesCheckbox.Size = new Size(153, 19);
+            UnlitInstancesCheckbox.TabIndex = 64;
+            UnlitInstancesCheckbox.Text = "Generate Unlit Instances";
+            UnlitInstancesCheckbox.UseVisualStyleBackColor = true;
+            // 
             // LTGMode
             // 
             LTGMode.DropDownStyle = ComboBoxStyle.DropDownList;
             LTGMode.FormattingEnabled = true;
             LTGMode.Items.AddRange(new object[] { "Center Mode", "Origin Mode" });
-            LTGMode.Location = new Point(11, 62);
+            LTGMode.Location = new Point(11, 41);
             LTGMode.Name = "LTGMode";
             LTGMode.Size = new Size(155, 23);
             LTGMode.TabIndex = 63;
@@ -609,11 +634,12 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(11, 44);
+            label5.Location = new Point(11, 23);
             label5.Name = "label5";
             label5.Size = new Size(102, 15);
             label5.TabIndex = 62;
             label5.Text = "LTG Rebuild Mode";
+            label5.Click += label5_Click;
             // 
             // GenSOP
             // 
@@ -900,7 +926,7 @@
         private Label label3;
         private Label SkyMat;
         private Label SkyModel;
-        private CheckBox UnlitCheckbox;
+        private CheckBox UnlitLightmapCheckbox;
         private GroupBox groupBox4;
         private GroupBox groupBox5;
         private CheckBox JSONInlineCheck;
@@ -920,5 +946,7 @@
         private ComboBox LTGMode;
         private CheckBox ConsoleLogCheck;
         private Button RebuildNoPathButton;
+        private CheckBox GenLightingCheckbox;
+        private CheckBox UnlitInstancesCheckbox;
     }
 }

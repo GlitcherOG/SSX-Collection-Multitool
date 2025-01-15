@@ -96,7 +96,7 @@ namespace SSXMultiTool
             RebuildNoPathButton.Enabled = true;
             trickyConfig = new SSXTrickyConfig();
 
-            trickyConfig.BuildUniLightmap = UnlitCheckbox.Checked;
+            trickyConfig.BuildUniLightmap = UnlitLightmapCheckbox.Checked;
             trickyConfig.BuildPBDGenerate = GenPBD.Checked;
             trickyConfig.BuildSSHGenerate = GenSSH.Checked;
             trickyConfig.BuildLSSHGenerate = GenLSSH.Checked;
@@ -166,7 +166,7 @@ namespace SSXMultiTool
 
                     this.Text = "Tricky Project Window (Building...)";
                     trickyLevelInterface = new TrickyLevelInterface();
-                    trickyLevelInterface.Unilightmap = UnlitCheckbox.Checked;
+                    trickyLevelInterface.Unilightmap = UnlitLightmapCheckbox.Checked;
                     trickyLevelInterface.PBDGenerate = GenPBD.Checked;
                     trickyLevelInterface.SSHGenerate = GenSSH.Checked;
                     trickyLevelInterface.LSSHGenerate = GenLSSH.Checked;
@@ -217,7 +217,7 @@ namespace SSXMultiTool
         {
             if (File.Exists(ProjectPath + "/ConfigTricky.ssx"))
             {
-                if(BuildPath=="")
+                if (BuildPath == "")
                 {
                     RebuildButton_Click(sender, e);
                     return;
@@ -232,7 +232,7 @@ namespace SSXMultiTool
 
                 this.Text = "Tricky Project Window (Building...)";
                 trickyLevelInterface = new TrickyLevelInterface();
-                trickyLevelInterface.Unilightmap = UnlitCheckbox.Checked;
+                trickyLevelInterface.Unilightmap = UnlitLightmapCheckbox.Checked;
                 trickyLevelInterface.PBDGenerate = GenPBD.Checked;
                 trickyLevelInterface.SSHGenerate = GenSSH.Checked;
                 trickyLevelInterface.LSSHGenerate = GenLSSH.Checked;
@@ -288,7 +288,7 @@ namespace SSXMultiTool
 
                 if (trickyConfig.Version == 2)
                 {
-                    UnlitCheckbox.Checked = trickyConfig.BuildUniLightmap;
+                    UnlitLightmapCheckbox.Checked = trickyConfig.BuildUniLightmap;
                     GenPBD.Checked = trickyConfig.BuildPBDGenerate;
                     GenSSH.Checked = trickyConfig.BuildSSHGenerate;
                     GenLSSH.Checked = trickyConfig.BuildLSSHGenerate;
@@ -330,7 +330,7 @@ namespace SSXMultiTool
             trickyConfig.Length = CourseLengthTextbox.Text;
             trickyConfig.Description = DescriptionTextbox.Text;
 
-            trickyConfig.BuildUniLightmap = UnlitCheckbox.Checked;
+            trickyConfig.BuildUniLightmap = UnlitLightmapCheckbox.Checked;
             trickyConfig.BuildPBDGenerate = GenPBD.Checked;
             trickyConfig.BuildSSHGenerate = GenSSH.Checked;
             trickyConfig.BuildLSSHGenerate = GenLSSH.Checked;
@@ -353,5 +353,23 @@ namespace SSXMultiTool
 
         }
 
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void GenLightingCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if(GenLightingCheckbox.Checked)
+            {
+                UnlitLightmapCheckbox.Enabled = false;
+                UnlitInstancesCheckbox.Enabled = false;
+            }
+            else
+            {
+                UnlitLightmapCheckbox.Enabled = true;
+                UnlitInstancesCheckbox.Enabled = true;
+            }
+        }
     }
 }
