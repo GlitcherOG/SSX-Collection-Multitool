@@ -415,6 +415,30 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
             return LightmapHandler;
         }
+
+        public static PBDHandler GenerateUnilitObjects(PBDHandler handler)
+        {
+            var PBDHandlerInstances = handler.Instances;
+
+            for (int i = 0; i < PBDHandlerInstances.Count; i++)
+            {
+                var TempInstance = PBDHandlerInstances[i];
+
+                TempInstance.LightColour1 = new Vector4(0, 0, 0, 0);
+                TempInstance.LightColour2 = new Vector4(0,0,0,0);
+                TempInstance.LightColour3 = new Vector4(0,0,0,0);
+                TempInstance.AmbentLightColour = new Vector4(255f, 255f, 255f, 128f);
+
+                TempInstance.LightVector1 = new Vector4(0, 0, 0, 0);
+                TempInstance.LightVector2 = new Vector4(0, 0, 0, 0);
+                TempInstance.LightVector3 = new Vector4(0, 0, 0, 0);
+                TempInstance.AmbentLightVector = new Vector4(0, 0, 0, 0);
+
+                PBDHandlerInstances[i] = TempInstance;
+            }
+
+            return handler;
+        }
     }
 
 

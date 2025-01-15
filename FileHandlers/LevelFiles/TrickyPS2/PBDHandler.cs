@@ -175,7 +175,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 {
                     var TempInstance = new Instance();
                     TempInstance.matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
-                    TempInstance.lightingMatrix4x4 = StreamUtil.ReadMatrix4x4(stream);
+
+                    var TempMatrix = StreamUtil.ReadMatrix4x4(stream);
+
+                    TempInstance.LightVector1 = new Vector4 ( TempMatrix.M11, TempMatrix.M21, TempMatrix.M31, TempMatrix.M41 );
+                    TempInstance.LightVector2 = new Vector4(TempMatrix.M12, TempMatrix.M22, TempMatrix.M32, TempMatrix.M42);
+                    TempInstance.LightVector3 = new Vector4( TempMatrix.M13, TempMatrix.M23, TempMatrix.M33, TempMatrix.M43 );
+                    TempInstance.AmbentLightVector = new Vector4( TempMatrix.M14, TempMatrix.M24, TempMatrix.M34, TempMatrix.M44 );
 
                     TempInstance.LightColour1 = StreamUtil.ReadVector4(stream);
                     TempInstance.LightColour2 = StreamUtil.ReadVector4(stream);
@@ -901,7 +907,31 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             {
                 var TempInstance = Instances[i];
                 StreamUtil.WriteMatrix4x4(stream, TempInstance.matrix4X4);
-                StreamUtil.WriteMatrix4x4(stream, TempInstance.lightingMatrix4x4);
+
+                Matrix4x4 Lmatrix4X4 = new Matrix4x4();
+
+                Lmatrix4X4.M11 = TempInstance.LightVector1[0];
+                Lmatrix4X4.M21 = TempInstance.LightVector1[1];
+                Lmatrix4X4.M31 = TempInstance.LightVector1[2];
+                Lmatrix4X4.M41 = TempInstance.LightVector1[3];
+
+                Lmatrix4X4.M12 = TempInstance.LightVector2[0];
+                Lmatrix4X4.M22 = TempInstance.LightVector2[1];
+                Lmatrix4X4.M32 = TempInstance.LightVector2[2];
+                Lmatrix4X4.M42 = TempInstance.LightVector2[3];
+
+                Lmatrix4X4.M13 = TempInstance.LightVector3[0];
+                Lmatrix4X4.M23 = TempInstance.LightVector3[1];
+                Lmatrix4X4.M33 = TempInstance.LightVector3[2];
+                Lmatrix4X4.M43 = TempInstance.LightVector3[3];
+
+                Lmatrix4X4.M14 = TempInstance.AmbentLightVector[0];
+                Lmatrix4X4.M24 = TempInstance.AmbentLightVector[1];
+                Lmatrix4X4.M34 = TempInstance.AmbentLightVector[2];
+                Lmatrix4X4.M44 = TempInstance.AmbentLightVector[3];
+
+
+                StreamUtil.WriteMatrix4x4(stream, Lmatrix4X4);
                 StreamUtil.WriteVector4(stream, TempInstance.LightColour1);
                 StreamUtil.WriteVector4(stream, TempInstance.LightColour2);
                 StreamUtil.WriteVector4(stream, TempInstance.LightColour3);
@@ -2255,7 +2285,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     public struct Instance
     {
         public Matrix4x4 matrix4X4;
-        public Matrix4x4 lightingMatrix4x4;
+
+        public Vector4 LightVector1;
+        public Vector4 LightVector2;
+        public Vector4 LightVector3;
+        public Vector4 AmbentLightVector; //Not really this but labled this for the moment
 
         public Vector4 LightColour1;
         public Vector4 LightColour2;
