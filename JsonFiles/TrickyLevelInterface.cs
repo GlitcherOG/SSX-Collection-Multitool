@@ -185,7 +185,7 @@ namespace SSXMultiTool
                 instanceJson.UnknownInt26 = pbdHandler.Instances[i].UnknownInt26;
                 instanceJson.UnknownInt27 = pbdHandler.Instances[i].UnknownInt27;
                 instanceJson.UnknownInt28 = pbdHandler.Instances[i].UnknownInt28;
-                instanceJson.ModelID2 = pbdHandler.Instances[i].ModelID2;
+                //instanceJson.ModelID2 = pbdHandler.Instances[i].ModelID2;
                 instanceJson.UnknownInt30 = pbdHandler.Instances[i].UnknownInt30;
                 instanceJson.UnknownInt31 = pbdHandler.Instances[i].UnknownInt31;
                 instanceJson.UnknownInt32 = pbdHandler.Instances[i].UnknownInt32;
@@ -1512,7 +1512,7 @@ namespace SSXMultiTool
                     NewInstance.UnknownInt26 = Oldinstance.UnknownInt26;
                     NewInstance.UnknownInt27 = Oldinstance.UnknownInt27;
                     NewInstance.UnknownInt28 = Oldinstance.UnknownInt28;
-                    NewInstance.ModelID2 = Oldinstance.ModelID2;
+                    NewInstance.ModelID2 = Oldinstance.ModelID;
                     NewInstance.UnknownInt30 = Oldinstance.UnknownInt30;
                     NewInstance.UnknownInt31 = Oldinstance.UnknownInt31;
                     NewInstance.UnknownInt32 = Oldinstance.UnknownInt32;

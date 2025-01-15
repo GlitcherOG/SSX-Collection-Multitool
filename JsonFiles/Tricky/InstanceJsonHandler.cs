@@ -68,7 +68,6 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int UnknownInt26;
             public int UnknownInt27;
             public int UnknownInt28;
-            public int ModelID2;
             public int UnknownInt30;
             public int UnknownInt31;
             public int UnknownInt32;
