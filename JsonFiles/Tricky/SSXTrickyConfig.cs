@@ -22,7 +22,9 @@ namespace SSXMultiTool.JsonFiles.Tricky
         public string Description = "";
 
         //BuildSettings
+        public bool BuildLighting;
         public bool BuildUniLightmap;
+        public bool BuildUniInstance;
         public bool BuildPBDGenerate;
         public bool BuildSSHGenerate;
         public bool BuildLSSHGenerate;
