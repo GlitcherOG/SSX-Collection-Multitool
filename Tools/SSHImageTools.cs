@@ -448,5 +448,29 @@ namespace SSXMultiTool
                 sshHandler.sshImages[ImageList.SelectedIndex] = SSHImage;
             }
         }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog openFileDialog = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+            };
+            if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string[] AllSSHFiles = Directory.GetFiles(openFileDialog.FileName,"*.ssh");
+
+                for (int i = 0; i < AllSSHFiles.Length; i++)
+                {
+                    string FileName = Path.GetFileName(AllSSHFiles[i]).Replace(".ssh", "");
+
+                    sshHandler = new OldSSHHandler();
+                    sshHandler.LoadSSH(AllSSHFiles[i]);
+
+                    Directory.CreateDirectory(openFileDialog.FileName + "\\" +FileName);
+
+                    sshHandler.BMPExtract(openFileDialog.FileName + "\\" + FileName);
+                }
+            }
+        }
     }
 }

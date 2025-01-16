@@ -33,7 +33,7 @@
             toolStrip1 = new ToolStrip();
             toolStripDropDownButton1 = new ToolStripDropDownButton();
             LoadSSHButton = new ToolStripMenuItem();
-            LoadFolderButton = new ToolStripMenuItem();
+            LoadPNGFolderButton = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             ExportAllButton = new ToolStripMenuItem();
             SaveSSHButton = new ToolStripMenuItem();
@@ -78,6 +78,7 @@
             ImageRemoveButton = new Button();
             ReplaceImageButton = new Button();
             ExportImageButton = new Button();
+            toolStripMenuItem1 = new ToolStripMenuItem();
             toolStrip1.SuspendLayout();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -110,7 +111,7 @@
             // toolStripDropDownButton1
             // 
             toolStripDropDownButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { LoadSSHButton, LoadFolderButton, toolStripSeparator1, ExportAllButton, SaveSSHButton });
+            toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { LoadSSHButton, LoadPNGFolderButton, toolStripMenuItem1, toolStripSeparator1, ExportAllButton, SaveSSHButton });
             toolStripDropDownButton1.Image = (Image)resources.GetObject("toolStripDropDownButton1.Image");
             toolStripDropDownButton1.ImageTransparentColor = Color.Magenta;
             toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -120,33 +121,33 @@
             // LoadSSHButton
             // 
             LoadSSHButton.Name = "LoadSSHButton";
-            LoadSSHButton.Size = new Size(167, 22);
+            LoadSSHButton.Size = new Size(180, 22);
             LoadSSHButton.Text = "Load .SSH";
             LoadSSHButton.Click += LoadSSHButton_Click;
             // 
-            // LoadFolderButton
+            // LoadPNGFolderButton
             // 
-            LoadFolderButton.Name = "LoadFolderButton";
-            LoadFolderButton.Size = new Size(167, 22);
-            LoadFolderButton.Text = "Load Folder";
-            LoadFolderButton.Click += LoadFolderButton_Click;
+            LoadPNGFolderButton.Name = "LoadPNGFolderButton";
+            LoadPNGFolderButton.Size = new Size(180, 22);
+            LoadPNGFolderButton.Text = "Load PNG Folder";
+            LoadPNGFolderButton.Click += LoadFolderButton_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(164, 6);
+            toolStripSeparator1.Size = new Size(177, 6);
             // 
             // ExportAllButton
             // 
             ExportAllButton.Name = "ExportAllButton";
-            ExportAllButton.Size = new Size(167, 22);
+            ExportAllButton.Size = new Size(180, 22);
             ExportAllButton.Text = "Export All To PNG";
             ExportAllButton.Click += ExportAllButton_Click;
             // 
             // SaveSSHButton
             // 
             SaveSSHButton.Name = "SaveSSHButton";
-            SaveSSHButton.Size = new Size(167, 22);
+            SaveSSHButton.Size = new Size(180, 22);
             SaveSSHButton.Text = "Save .SSH";
             SaveSSHButton.Click += SaveSSHButton_Click;
             // 
@@ -587,6 +588,13 @@
             ExportImageButton.UseVisualStyleBackColor = true;
             ExportImageButton.Click += ExportImageButton_Click;
             // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(180, 22);
+            toolStripMenuItem1.Text = "Load Export Folder";
+            toolStripMenuItem1.Click += toolStripMenuItem1_Click;
+            // 
             // SSHImageTools
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -628,7 +636,7 @@
         private ToolStrip toolStrip1;
         private ToolStripDropDownButton toolStripDropDownButton1;
         private ToolStripMenuItem LoadSSHButton;
-        private ToolStripMenuItem LoadFolderButton;
+        private ToolStripMenuItem LoadPNGFolderButton;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem ExportAllButton;
         private ToolStripMenuItem SaveSSHButton;
@@ -673,5 +681,6 @@
         private Button ExportImageButton;
         private NumericUpDown YAxisNum;
         private NumericUpDown XAxisNum;
+        private ToolStripMenuItem toolStripMenuItem1;
     }
 }
