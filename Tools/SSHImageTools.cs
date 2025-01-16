@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using SSXMultiTool.FileHandlers.Textures;
+using SSXMultiTool.Utilities;
 
 namespace SSXMultiTool
 {
@@ -458,9 +459,11 @@ namespace SSXMultiTool
             if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 string[] AllSSHFiles = Directory.GetFiles(openFileDialog.FileName,"*.ssh");
-
+                ConsoleWindow.GenerateConsole();
                 for (int i = 0; i < AllSSHFiles.Length; i++)
                 {
+                    Console.WriteLine("Extracting " + Path.GetFileName(AllSSHFiles[i]));
+
                     string FileName = Path.GetFileName(AllSSHFiles[i]).Replace(".ssh", "");
 
                     sshHandler = new OldSSHHandler();
@@ -469,7 +472,10 @@ namespace SSXMultiTool
                     Directory.CreateDirectory(openFileDialog.FileName + "\\" +FileName);
 
                     sshHandler.BMPExtract(openFileDialog.FileName + "\\" + FileName);
+
+                    GC.Collect();
                 }
+                ConsoleWindow.CloseConsole();
             }
         }
     }
