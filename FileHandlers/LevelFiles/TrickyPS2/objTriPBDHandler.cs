@@ -144,9 +144,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 //    }
                 //}
 
+                string[] splitLine = Lines[a].Split(' ');
+                var Check = splitLine.ToList();
+                Check.Remove("");
+                splitLine = Check.ToArray();
+
                 if (Lines[a].StartsWith("v "))
                 {
-                    string[] splitLine = Lines[a].Split(' ');
                     Vector3 vector3 = new Vector3();
                     vector3.X = float.Parse(splitLine[1], CultureInfo.InvariantCulture.NumberFormat);
                     vector3.Y = float.Parse(splitLine[2], CultureInfo.InvariantCulture.NumberFormat);
@@ -156,7 +160,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 if (Lines[a].StartsWith("vt "))
                 {
-                    string[] splitLine = Lines[a].Split(' ');
                     Vector2 vector2 = new Vector2();
                     vector2.X = float.Parse(splitLine[1], CultureInfo.InvariantCulture.NumberFormat);
                     vector2.Y = 1-float.Parse(splitLine[2], CultureInfo.InvariantCulture.NumberFormat);
@@ -165,7 +168,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 if (Lines[a].StartsWith("vn "))
                 {
-                    string[] splitLine = Lines[a].Split(' ');
                     Vector3 vector3 = new Vector3();
                     vector3.X = float.Parse(splitLine[1], CultureInfo.InvariantCulture.NumberFormat);
                     vector3.Y = float.Parse(splitLine[2], CultureInfo.InvariantCulture.NumberFormat);
@@ -175,7 +177,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 if (Lines[a].StartsWith("f "))
                 {
-                    string[] splitLine = Lines[a].Split(' ');
                     Faces faces = new Faces();
 
                     string[] SplitPoint = splitLine[1].Split('/');
