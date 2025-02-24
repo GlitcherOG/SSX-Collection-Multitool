@@ -570,9 +570,9 @@
             UnlitLightmapCheckbox.AutoSize = true;
             UnlitLightmapCheckbox.Location = new Point(14, 95);
             UnlitLightmapCheckbox.Name = "UnlitLightmapCheckbox";
-            UnlitLightmapCheckbox.Size = new Size(155, 19);
+            UnlitLightmapCheckbox.Size = new Size(181, 19);
             UnlitLightmapCheckbox.TabIndex = 50;
-            UnlitLightmapCheckbox.Text = "Generate Unlit Lightmap";
+            UnlitLightmapCheckbox.Text = "Generate Fullbright Lightmap";
             UnlitLightmapCheckbox.UseVisualStyleBackColor = true;
             // 
             // groupBox4
@@ -616,9 +616,9 @@
             UnlitInstancesCheckbox.AutoSize = true;
             UnlitInstancesCheckbox.Location = new Point(14, 120);
             UnlitInstancesCheckbox.Name = "UnlitInstancesCheckbox";
-            UnlitInstancesCheckbox.Size = new Size(153, 19);
+            UnlitInstancesCheckbox.Size = new Size(179, 19);
             UnlitInstancesCheckbox.TabIndex = 64;
-            UnlitInstancesCheckbox.Text = "Generate Unlit Instances";
+            UnlitInstancesCheckbox.Text = "Generate Fullbright Instances";
             UnlitInstancesCheckbox.UseVisualStyleBackColor = true;
             // 
             // LTGMode

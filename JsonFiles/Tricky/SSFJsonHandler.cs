@@ -1184,7 +1184,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public float U1;
             public float U2;
             public float U3;
-            public int U4;
+            public float U4;
             public float U5;
             public int U6;
             public int U7;
@@ -1359,7 +1359,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
         public struct Type3
         {
             public int U0;
-            public int U1;
+            public float U1;
         }
 
         public struct Type5

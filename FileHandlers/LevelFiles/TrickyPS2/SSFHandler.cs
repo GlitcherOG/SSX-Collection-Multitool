@@ -521,7 +521,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     NewSubType.U1 = StreamUtil.ReadFloat(stream);
                     NewSubType.U2 = StreamUtil.ReadFloat(stream);
                     NewSubType.U3 = StreamUtil.ReadFloat(stream);
-                    NewSubType.U4 = StreamUtil.ReadUInt32(stream);
+                    NewSubType.U4 = StreamUtil.ReadFloat(stream);
                     NewSubType.U5 = StreamUtil.ReadFloat(stream);
                     NewSubType.U6 = StreamUtil.ReadUInt32(stream);
                     NewSubType.U7 = StreamUtil.ReadUInt32(stream);
@@ -745,7 +745,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 var NewMainType = new Type3();
 
                 NewMainType.U0 = StreamUtil.ReadUInt32(stream);
-                NewMainType.U1 = StreamUtil.ReadUInt32(stream);
+                NewMainType.U1 = StreamUtil.ReadFloat(stream);
 
                 NewEffect.type3 = NewMainType;
             }
@@ -970,7 +970,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub256.Value.U1);
                     StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub256.Value.U2);
                     StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub256.Value.U3);
-                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub256.Value.U4);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub256.Value.U4);
                     StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub256.Value.U5);
                     StreamUtil.WriteInt32(stream, Type0Temp.type0Sub256.Value.U6);
                     StreamUtil.WriteInt32(stream, Type0Temp.type0Sub256.Value.U7);
@@ -1166,7 +1166,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             else if (EffectData.MainType == 3)
             {
                 StreamUtil.WriteInt32(stream, EffectData.type3.Value.U0);
-                StreamUtil.WriteInt32(stream, EffectData.type3.Value.U1);
+                StreamUtil.WriteFloat32(stream, EffectData.type3.Value.U1);
             }
             else if (EffectData.MainType == 4)
             {
@@ -1927,7 +1927,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float U1;
             public float U2;
             public float U3;
-            public int U4;
+            public float U4;
             public float U5;
             public int U6;
             public int U7;
@@ -2102,7 +2102,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public struct Type3
         {
             public int U0;
-            public int U1;
+            public float U1;
         }
 
         public struct Type5
