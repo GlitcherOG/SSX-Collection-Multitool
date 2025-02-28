@@ -228,6 +228,7 @@
             tabPage2 = new TabPage();
             button1 = new Button();
             ELFLdrSetup = new Button();
+            button2 = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -2289,6 +2290,7 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(button2);
             tabPage2.Controls.Add(button1);
             tabPage2.Controls.Add(ELFLdrSetup);
             tabPage2.Location = new Point(4, 24);
@@ -2319,6 +2321,16 @@
             ELFLdrSetup.Text = "Setup For ELFLdr";
             ELFLdrSetup.UseVisualStyleBackColor = true;
             ELFLdrSetup.Click += ELFLdrSetup_Click;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(318, 163);
+            button2.Name = "button2";
+            button2.Size = new Size(132, 72);
+            button2.TabIndex = 2;
+            button2.Text = "OG To Tricky";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click_1;
             // 
             // TrickyToolsWindow
             // 
@@ -2590,5 +2602,6 @@
         private Label label78;
         private Label label79;
         private Label IKGC;
+        private Button button2;
     }
 }

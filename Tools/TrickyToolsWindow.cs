@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.IO;
 using SSXMultiTool.FileHandlers.Models.Tricky;
 using NAudio.Wave;
+using SSXMultiTool.FileHandlers.LevelFiles.Converters;
 
 namespace SSXMultiTool
 {
@@ -1784,6 +1785,29 @@ namespace SSXMultiTool
                 aflHandler aflHandler = new aflHandler();
 
                 aflHandler.Load(openFileDialog.FileName);
+            }
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Map File (*.map)|*.map|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                SaveFileDialog openFileDialog1 = new SaveFileDialog
+                {
+                    Filter = "Map File (*.map,*.big)|*.map;*.big|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    SSXOGToTricky.Convert(openFileDialog.FileName.Substring(0, openFileDialog.FileName.Length - 4), openFileDialog1.FileName.Substring(0, openFileDialog1.FileName.Length - 4));
+                }
             }
         }
     }

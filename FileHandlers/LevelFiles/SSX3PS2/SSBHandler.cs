@@ -26,7 +26,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         9 - Shape
         10 - Old Shape Lightmaps
         11 - 
-        12 - 
+        12 - Patches
         13 - 
         14 - 
         15 - 
