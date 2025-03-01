@@ -19,7 +19,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         0 - Unknown
         1 - Patches
         2 - WorldMDR
-        3 - Unknown
+        3 - Instance?
         4 - Unknown
         5 - 
         6 -
