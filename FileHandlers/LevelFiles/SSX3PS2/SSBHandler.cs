@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using SSXMultiTool.Utilities;
 using SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData;
 using System.Diagnostics;
+using SSXMultiTool.JsonFiles.SSX3;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 {
@@ -16,6 +17,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
             
         All IDS
         0 - Unknown
+        1 - Patches
         2 - WorldMDR
         3 - Unknown
         4 - Unknown
@@ -26,7 +28,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         9 - Shape
         10 - Old Shape Lightmaps
         11 - 
-        12 - Patches
+        12 - Collision?
         13 - 
         14 - 
         15 - 
@@ -98,12 +100,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 }
             }
         }
-
         public void LoadAndExtractSSBFromSBD(string path, string extractPath, SDBHandler sdbHandler)
         {
             ConsoleWindow.GenerateConsole();
             using (Stream stream = File.Open(path, FileMode.Open))
             {
+                PatchesJsonHandler patchesJsonHandler = new PatchesJsonHandler();
+
                 MemoryStream memoryStream = new MemoryStream();
                 List<int> ints = new List<int>();
                 int a = 0;
@@ -128,6 +131,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     {
                         int ChunkID = sdbHandler.FindLocationChunk(a);
                         Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name);
+                        Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Textures");
+                        Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Models");
+                        Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Sounds");
+                        Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Lightmaps");
                         memoryStream.Position = 0;
 
                         while (memoryStream.Position < memoryStream.Length)
@@ -140,7 +147,22 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             byte[] NewData = StreamUtil.ReadBytes(memoryStream, ChunkSize);
                             StreamUtil.WriteBytes(memoryStream1, NewData);
 
-                            if (ID == 2)
+                            if (ID == 1)
+                            {
+                                //var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".patch");
+                                //memoryStream1.Position = 0;
+                                //memoryStream1.CopyTo(file);
+                                //memoryStream1.Dispose();
+                                //memoryStream1 = new MemoryStream();
+                                //file.Close();
+
+                                WorldPatch worldPatch = new WorldPatch();
+                                memoryStream1.Position = 0;
+                                worldPatch.LoadPatch(memoryStream1);
+
+                                patchesJsonHandler.Patches.Add(worldPatch.ToJSON());
+                            }
+                            else if (ID == 2)
                             {
                                 //var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".mdr");
                                 //memoryStream1.Position = 0;
@@ -148,21 +170,22 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 //memoryStream1.Dispose();
                                 //memoryStream1 = new MemoryStream();
                                 //file.Close();
-                                Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".glb");
+                                Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Models//" + FilePos + ".glb");
                                 WorldMDR worldMDR = new WorldMDR();
 
                                 worldMDR.LoadData(NewData);
-                                worldMDR.SaveModel(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".glb");
+                                worldMDR.SaveModel(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Models//" + FilePos + ".glb");
                             }
-                            //else if (ID==20)
-                            //{
-                            //    var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".bnk");
-                            //    memoryStream1.Position = 0;
-                            //    memoryStream1.CopyTo(file);
-                            //    memoryStream1.Dispose();
-                            //    memoryStream1 = new MemoryStream();
-                            //    file.Close();
-                            //}
+                            else if (ID == 20)
+                            {
+                                Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Sounds//" + FilePos + ".bnk");
+                                var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Sounds//" + FilePos + ".bnk");
+                                memoryStream1.Position = 0;
+                                memoryStream1.CopyTo(file);
+                                memoryStream1.Dispose();
+                                memoryStream1 = new MemoryStream();
+                                file.Close();
+                            }
                             else if (ID == 9)
                             {
                                 //var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".shps");
@@ -172,11 +195,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 //memoryStream1 = new MemoryStream();
                                 //file.Close();
 
-                                Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".png1");
+                                Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Textures//" + FilePos + ".png");
                                 WorldSSH worldOldSSH = new WorldSSH();
 
                                 worldOldSSH.Load(NewData);
-                                worldOldSSH.SaveImage(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".png");
+                                worldOldSSH.SaveImage(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Textures//" + FilePos + ".png");
 
                             }
                             else if (ID == 10)
@@ -187,25 +210,33 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 //memoryStream1.Dispose();
                                 //memoryStream1 = new MemoryStream();
                                 //file.Close();
-                                Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".png");
+                                Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Lightmaps//" + FilePos + ".png");
                                 WorldOldSSH worldOldSSH = new WorldOldSSH();
 
                                 worldOldSSH.Load(NewData);
-                                worldOldSSH.SaveImage(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".png");
+                                worldOldSSH.SaveImage(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Lightmaps//" + FilePos + ".png");
                             }
-                            //else
-                            //{
-                            //    var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + "-" + a + ".bin" + ID);
-                            //    memoryStream1.Position = 0;
-                            //    memoryStream1.CopyTo(file);
-                            //    memoryStream1.Dispose();
-                            //    memoryStream1 = new MemoryStream();
-                            //    file.Close();
-                            //}
+                            else
+                            {
+                                Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".bin" + ID);
+                                var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".bin" + ID);
+                                memoryStream1.Position = 0;
+                                memoryStream1.CopyTo(file);
+                                memoryStream1.Dispose();
+                                memoryStream1 = new MemoryStream();
+                                file.Close();
+                            }
 
                             FilePos++;
                         }
+                        int TempChunkID = sdbHandler.FindLocationChunk(a+1);
+                        if (TempChunkID != ChunkID)
+                        {
+                            patchesJsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Patches.json");
+                            patchesJsonHandler = new PatchesJsonHandler();
+                        }
                         a++;
+                        memoryStream = new MemoryStream();
                     }
                 }
             }
