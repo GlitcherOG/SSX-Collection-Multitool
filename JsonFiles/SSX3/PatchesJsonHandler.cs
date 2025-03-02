@@ -45,8 +45,6 @@ namespace SSXMultiTool.JsonFiles.SSX3
         [Serializable]
         public struct PatchJson
         {
-            public string PatchName;
-
             public int U0;
             public int U1;
             public int U2;
@@ -59,8 +57,7 @@ namespace SSXMultiTool.JsonFiles.SSX3
             public float[,] Points;
 
             public float[] U7;
-            public int U8;
-            public int U9;
+            public int RID;
             public int U10;
             public int U11;
 

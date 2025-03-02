@@ -12,8 +12,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
     public class WorldPatch
     {
-        public int RID;
-
         public int U0;
         public int U1;
         public int U2;
@@ -45,8 +43,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public Vector4 R1C1;
 
         public Vector4 U7;
-        public int U8;
-        public int U9;
+        public int ID;
         public int U10;
         public int U11;
 
@@ -67,10 +64,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public int U18;
         public int U19;
 
-        public void LoadPatch(Stream stream, int _RID)
+        public void LoadPatch(Stream stream)
         {
-            RID = _RID;
-
             U0 = StreamUtil.ReadInt32(stream);
             U1 = StreamUtil.ReadInt32(stream);
             U2 = StreamUtil.ReadInt16(stream);
@@ -102,8 +97,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             R1C1 = StreamUtil.ReadVector4(stream);
 
             U7 = StreamUtil.ReadVector4(stream);
-            U8 = StreamUtil.ReadInt16(stream);
-            U9 = StreamUtil.ReadInt16(stream);
+            ID = StreamUtil.ReadInt32(stream);
             U10 = StreamUtil.ReadInt16(stream);
             U11 = StreamUtil.ReadInt16(stream);
 
@@ -128,8 +122,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public PatchesJsonHandler.PatchJson ToJSON()
         {
             PatchesJsonHandler.PatchJson patchJson = new PatchesJsonHandler.PatchJson();
-
-            patchJson.PatchName = RID.ToString();
 
             patchJson.U1 = U1;
             patchJson.U2 = U2;
@@ -182,8 +174,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             }
 
             patchJson.U7 = JsonUtil.Vector4ToArray(U7);
-            patchJson.U8 = U8;
-            patchJson.U9 = U9;
+            patchJson.RID = ID;
+
             patchJson.U10 = U10;
             patchJson.U11 = U11;
             patchJson.U12 = U12;

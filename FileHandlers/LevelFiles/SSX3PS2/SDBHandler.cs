@@ -147,6 +147,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
         public int FindLocationChunk(int ID)
         {
+            if(locations.Count==1)
+            {
+                return 0;
+            }
+
+
             for (int i = 0; i < locations.Count; i++)
             {
                 int EndPos = locations[i].posChunks;
