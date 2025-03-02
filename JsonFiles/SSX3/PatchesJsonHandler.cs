@@ -47,14 +47,31 @@ namespace SSXMultiTool.JsonFiles.SSX3
         {
             public string PatchName;
 
+            public int U0;
+            public int U1;
+            public int U2;
+            public int U3;
+            public int U4;
+            public int U5;
+
             public float[] LightMapPoint;
             public float[,] UVPoints;
             public float[,] Points;
 
-            public int SurfaceType;
-            public bool TrickOnlyPatch;
-            public string TexturePath;
-            public int LightmapID;
+            public float[] U7;
+            public int U8;
+            public int U9;
+            public int U10;
+            public int U11;
+
+            public int U12;
+            public int U13;
+            public int U14;
+            public int U15;
+            public int U16;
+            public int U17;
+            public int U18;
+            public int U19;
         }
     }
 }

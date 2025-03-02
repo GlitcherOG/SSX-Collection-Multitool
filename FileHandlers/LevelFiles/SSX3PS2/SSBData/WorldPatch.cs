@@ -12,6 +12,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
     public class WorldPatch
     {
+        public int RID;
+
         public int U0;
         public int U1;
         public int U2;
@@ -65,8 +67,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public int U18;
         public int U19;
 
-        public void LoadPatch(Stream stream)
+        public void LoadPatch(Stream stream, int _RID)
         {
+            RID = _RID;
+
             U0 = StreamUtil.ReadInt32(stream);
             U1 = StreamUtil.ReadInt32(stream);
             U2 = StreamUtil.ReadInt16(stream);
@@ -125,8 +129,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         {
             PatchesJsonHandler.PatchJson patchJson = new PatchesJsonHandler.PatchJson();
 
-            patchJson.PatchName = "Unknown";
-            patchJson.TexturePath = "0000.png";
+            patchJson.PatchName = RID.ToString();
+
+            patchJson.U1 = U1;
+            patchJson.U2 = U2;
+            patchJson.U3 = U3;
+            patchJson.U4 = U4;
+            patchJson.U5 = U5;
+
+            //patchJson.TexturePath = "0000.png";
 
             patchJson.LightMapPoint = JsonUtil.Vector4ToArray(Lightmap);
             patchJson.UVPoints = new float[4, 2];
@@ -169,6 +180,20 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             {
                 patchJson.Points = JsonUtil.Vector3ToArray2D(patchJson.Points, bezierUtil.RawPoints[a], a);
             }
+
+            patchJson.U7 = JsonUtil.Vector4ToArray(U7);
+            patchJson.U8 = U8;
+            patchJson.U9 = U9;
+            patchJson.U10 = U10;
+            patchJson.U11 = U11;
+            patchJson.U12 = U12;
+            patchJson.U13 = U13;
+            patchJson.U14 = U14;
+            patchJson.U15 = U15;
+            patchJson.U16 = U16;
+            patchJson.U17 = U17;
+            patchJson.U18 = U18;
+            patchJson.U19 = U19;
 
             return patchJson;
         }

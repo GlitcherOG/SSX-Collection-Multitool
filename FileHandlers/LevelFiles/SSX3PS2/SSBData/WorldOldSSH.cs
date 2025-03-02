@@ -98,6 +98,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                 Matrix = tempByte;
             }
 
+            sshTable.colorTable = new List<Color>();
+
             //INDEXED COLOUR
             if (MatrixFormat == 2 || MatrixFormat == 1 || MatrixFormat == 130)
             {
