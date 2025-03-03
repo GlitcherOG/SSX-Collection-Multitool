@@ -43,7 +43,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public Vector4 R1C1;
 
         public Vector4 U7;
-        public int ID;
+        public int TrackID;
+        public int RID;
         public int U10;
         public int U11;
 
@@ -97,7 +98,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             R1C1 = StreamUtil.ReadVector4(stream);
 
             U7 = StreamUtil.ReadVector4(stream);
-            ID = StreamUtil.ReadInt32(stream);
+            TrackID = StreamUtil.ReadUInt8(stream);
+            RID = StreamUtil.ReadInt24(stream);
             U10 = StreamUtil.ReadInt16(stream);
             U11 = StreamUtil.ReadInt16(stream);
 
@@ -174,7 +176,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             }
 
             patchJson.U7 = JsonUtil.Vector4ToArray(U7);
-            patchJson.RID = ID;
+
+            patchJson.TrackID = TrackID;
+            patchJson.RID = RID;
 
             patchJson.U10 = U10;
             patchJson.U11 = U11;
