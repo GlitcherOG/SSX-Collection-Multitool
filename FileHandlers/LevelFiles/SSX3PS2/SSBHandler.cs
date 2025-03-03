@@ -114,7 +114,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 int splitCount = 1;
                 int FilePos = 0;
                 int ChunkID = -1;
-
+                Directory.CreateDirectory(extractPath + "//Textures");
+                Directory.CreateDirectory(extractPath + "//Lightmaps");
                 while (true)
                 {
                     if (stream.Position >= stream.Length - 1)
@@ -156,12 +157,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                             if (ID == 1)
                             {
-                                var file = File.Create(ExtractPath + Path + ".patch");
-                                memoryStream1.Position = 0;
-                                memoryStream1.CopyTo(file);
-                                memoryStream1.Dispose();
-                                memoryStream1 = new MemoryStream();
-                                file.Close();
+                                //var file = File.Create(ExtractPath + Path + ".patch");
+                                //memoryStream1.Position = 0;
+                                //memoryStream1.CopyTo(file);
+                                //memoryStream1.Dispose();
+                                //memoryStream1 = new MemoryStream();
+                                //file.Close();
 
                                 WorldPatch worldPatch = new WorldPatch();
                                 memoryStream1.Position = 0;
@@ -198,6 +199,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                                 worldOldSSH.Load(NewData);
                                 worldOldSSH.SaveImage(ExtractPath + "//Textures//" + Path + ".png");
+                                worldOldSSH.SaveImage(extractPath + "//Textures//" + RID + ".png");
 
                             }
                             else if (ID == 10)
@@ -207,6 +209,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                                 worldOldSSH.Load(NewData);
                                 worldOldSSH.SaveImage(ExtractPath + "//Lightmaps//" + Path + ".png");
+                                worldOldSSH.SaveImage(extractPath + "//Lightmaps//" + RID + ".png");
                             }
                             else if (ID == 14)
                             {
@@ -228,16 +231,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 memoryStream1 = new MemoryStream();
                                 file.Close();
                             }
-                            else
-                            {
-                                Console.WriteLine(ExtractPath + Path + ".bin" + ID);
-                                var file = File.Create(ExtractPath + Path + ".bin" + ID);
-                                memoryStream1.Position = 0;
-                                memoryStream1.CopyTo(file);
-                                memoryStream1.Dispose();
-                                memoryStream1 = new MemoryStream();
-                                file.Close();
-                            }
+                            //else
+                            //{
+                            //    Console.WriteLine(ExtractPath + Path + ".bin" + ID);
+                            //    var file = File.Create(ExtractPath + Path + ".bin" + ID);
+                            //    memoryStream1.Position = 0;
+                            //    memoryStream1.CopyTo(file);
+                            //    memoryStream1.Dispose();
+                            //    memoryStream1 = new MemoryStream();
+                            //    file.Close();
+                            //}
 
                             FilePos++;
                         }

@@ -56,8 +56,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public Vector3 BBoxMin;
         public Vector3 BBoxMax;
 
-        public int U12;
-        public int U13;
+        public int TextureRID;
+        public int LightmapRID;
         public int U14;
         public int U15;
         public int U16;
@@ -111,8 +111,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             BBoxMin = StreamUtil.ReadVector3(stream);
             BBoxMax = StreamUtil.ReadVector3(stream);
 
-            U12 = StreamUtil.ReadInt16(stream);
-            U13 = StreamUtil.ReadInt16(stream);
+            TextureRID = StreamUtil.ReadInt16(stream);
+            LightmapRID = StreamUtil.ReadInt16(stream);
             U14 = StreamUtil.ReadInt16(stream);
             U15 = StreamUtil.ReadInt16(stream);
             U16 = StreamUtil.ReadInt16(stream);
@@ -182,8 +182,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
             patchJson.U10 = U10;
             patchJson.U11 = U11;
-            patchJson.U12 = U12;
-            patchJson.U13 = U13;
+            patchJson.TextureRID = TextureRID;
+            patchJson.LightmapRID = LightmapRID;
             patchJson.U14 = U14;
             patchJson.U15 = U15;
             patchJson.U16 = U16;

@@ -62,8 +62,8 @@ namespace SSXMultiTool.JsonFiles.SSX3
             public int U10;
             public int U11;
 
-            public int U12;
-            public int U13;
+            public int TextureRID;
+            public int LightmapRID;
             public int U14;
             public int U15;
             public int U16;
