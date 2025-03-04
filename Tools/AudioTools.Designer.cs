@@ -48,6 +48,7 @@
             BnkWavExtract = new Button();
             BnkLoadFile = new Button();
             NewLoadTest = new Button();
+            button1 = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             SuspendLayout();
@@ -63,6 +64,7 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(button1);
             tabPage1.Controls.Add(BnkTotalSamples);
             tabPage1.Controls.Add(BnkSample);
             tabPage1.Controls.Add(BnkFileSize);
@@ -261,6 +263,16 @@
             NewLoadTest.Visible = false;
             NewLoadTest.Click += NewLoadTest_Click;
             // 
+            // button1
+            // 
+            button1.Location = new Point(482, 369);
+            button1.Name = "button1";
+            button1.Size = new Size(90, 23);
+            button1.TabIndex = 17;
+            button1.Text = "Extract Wav";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // AudioTools
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -298,5 +310,6 @@
         private Label BnkFileSize;
         private Label BnkTime;
         private Button NewLoadTest;
+        private Button button1;
     }
 }

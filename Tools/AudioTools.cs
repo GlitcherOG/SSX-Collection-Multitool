@@ -16,6 +16,7 @@ using NAudio.Wave;
 using SSXMultiTool.FileHandlers;
 using SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2;
 using SSXMultiTool.FileHandlers.Audio;
+using Microsoft.Toolkit.HighPerformance;
 
 namespace SSXMultiTool.Tools
 {
@@ -48,7 +49,7 @@ namespace SSXMultiTool.Tools
                     {
                         Directory.CreateDirectory(Application.StartupPath + "/TempAudio");
                         File.Copy(openFileDialog.FileName, Application.StartupPath + "/TempAudio/Audio.bnk");
-                        File.Copy(Application.StartupPath + "/sx.exe", Application.StartupPath + "/TempAudio/sx.exe");
+                        File.Copy(Application.StartupPath + "/sx_2002.exe", Application.StartupPath + "/TempAudio/sx.exe");
 
                         Process cmd = new Process();
                         cmd.StartInfo.FileName = "cmd.exe";
@@ -301,6 +302,80 @@ namespace SSXMultiTool.Tools
                 EAAudioHandler audioHandler = new EAAudioHandler();
 
                 audioHandler.Load(openFileDialog.FileName);
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (CheckSX())
+            {
+                CommonOpenFileDialog openFileDialog = new CommonOpenFileDialog
+                {
+                    IsFolderPicker = true,
+                    Title = "Select Extract Folder",
+                };
+                if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
+                {
+                    var BNKFiles = Directory.GetFiles(openFileDialog.FileName, "*.bnk");
+
+                    Directory.CreateDirectory(Application.StartupPath + "/TempAudio");
+                    for (int a = 0; a < BNKFiles.Length; a++)
+                    {
+                        File.Copy(BNKFiles[a], Application.StartupPath + "/TempAudio/Audio.bnk");
+                        File.Copy(Application.StartupPath + "/sx.exe", Application.StartupPath + "/TempAudio/sx.exe");
+
+                        Process cmd = new Process();
+                        cmd.StartInfo.FileName = "cmd.exe";
+                        cmd.StartInfo.RedirectStandardInput = true;
+                        cmd.StartInfo.RedirectStandardOutput = true;
+                        cmd.StartInfo.CreateNoWindow = true;
+                        cmd.StartInfo.UseShellExecute = false;
+                        cmd.Start();
+
+                        FileInfo f = new FileInfo(Application.StartupPath);
+                        string drive = Path.GetPathRoot(f.FullName.Substring(0, 2));
+
+                        cmd.StandardInput.WriteLine(drive);
+                        cmd.StandardInput.WriteLine("cd " + Application.StartupPath + "/TempAudio");
+                        cmd.StandardInput.WriteLine("sx.exe -wave -s16l_int -playlocmaincpu Audio.bnk -onetomany -=*");
+                        cmd.StandardInput.Flush();
+                        cmd.StandardInput.Close();
+                        cmd.WaitForExit();
+
+                        //Run Command
+
+                        File.Delete(Application.StartupPath + "/TempAudio/sx.exe");
+                        File.Delete(Application.StartupPath + "/TempAudio/Audio.bnk");
+                        string[] Files = Directory.GetFiles(Application.StartupPath + "/TempAudio");
+
+                        int[] FileNumbers = new int[Files.Length];
+
+                        for (int i = 0; i < FileNumbers.Length; i++)
+                        {
+                            var temp = Files[i].Split(".");
+                            FileNumbers[i] = int.Parse(temp[temp.Length - 1]);
+                        }
+                        Array.Sort(FileNumbers);
+
+                        Directory.CreateDirectory(BNKFiles[a].Replace(".bnk", "/"));
+
+                        for (int i = 0; i < FileNumbers.Length; i++)
+                        {
+                            File.Copy(Application.StartupPath + "/TempAudio/." + FileNumbers[i], BNKFiles[a].Replace(".bnk","/") + "/" + $"{FileNumbers[i]:000}" + ".wav", true);
+                            File.Delete(Application.StartupPath + "/TempAudio/." + FileNumbers[i]);
+                        }
+
+                        while (Directory.GetFiles(Application.StartupPath + "/TempAudio").Length != 0)
+                        {
+
+                        }
+                    }
+
+                    Directory.Delete(Application.StartupPath + "/TempAudio", true);
+
+                    MessageBox.Show("Audio Extracted");
+                }
+
             }
         }
     }

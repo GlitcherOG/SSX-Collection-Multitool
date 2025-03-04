@@ -209,7 +209,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                                 worldOldSSH.Load(NewData);
                                 worldOldSSH.SaveImage(ExtractPath + "//Lightmaps//" + Path + ".png");
-                                worldOldSSH.SaveImage(extractPath + "//Lightmaps//" + RID + ".png");
+                                worldOldSSH.SaveImage(extractPath + "//Lightmaps//" + RID.ToString().PadLeft(4, '0') + ".png");
                             }
                             else if (ID == 14)
                             {
