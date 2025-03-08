@@ -24,8 +24,13 @@ namespace SSXMultiTool.JsonFiles
             WDFHandler wdfHandler = new WDFHandler();
             wdfHandler.Load(LoadPath + ".wdf", wdxHandler.WDFGridGroups);
 
+            bool MapExists = false;
             MapHandler mapHandler = new MapHandler();
-            mapHandler.Load(LoadPath + ".map");
+            if(File.Exists(LoadPath + ".map"))
+            {
+                mapHandler.Load(LoadPath + ".map");
+                MapExists = true;
+            }
 
             //Done
             WDRHandler wdrHandler = new WDRHandler();
@@ -34,9 +39,14 @@ namespace SSXMultiTool.JsonFiles
             WFXHandler wfxHandler = new WFXHandler();
             wfxHandler.Load(LoadPath + ".wfx");
 
+            bool AIPExists = false;
             //Done
             AIPHandler aipHandler = new AIPHandler();
-            aipHandler.Load(LoadPath + ".aip");
+            if (File.Exists(LoadPath + ".aip"))
+            {
+                aipHandler.Load(LoadPath + ".aip");
+                AIPExists = true;
+            }
 
             Directory.CreateDirectory(ExtractPath + "\\Textures");
             Directory.CreateDirectory(ExtractPath + "\\Models");
@@ -225,7 +235,14 @@ namespace SSXMultiTool.JsonFiles
                     {
                         var TempInstanceJson = new InstanceJsonHandler.InstanceJson();
 
-                        TempInstanceJson.Name = mapHandler.GetInstanceName(TempChunk.Instances[i].WDFGridID, TempChunk.Instances[i].InstanceIndex);
+                        if(MapExists)
+                        {
+                            TempInstanceJson.Name = mapHandler.GetInstanceName(TempChunk.Instances[i].WDFGridID, TempChunk.Instances[i].InstanceIndex);
+                        }
+                        else
+                        {
+                            TempInstanceJson.Name = i.ToString();
+                        }
 
                         var OldMatrixData = TempChunk.Instances[i].matrix4X4;
 
@@ -303,7 +320,14 @@ namespace SSXMultiTool.JsonFiles
             {
                 var NewSpline = new SplinesJsonHandler.SplineJson();
 
-                NewSpline.SplineName = mapHandler.Splines[i].Name;
+                if (MapExists)
+                {
+                    NewSpline.SplineName = mapHandler.Splines[i].Name;
+                }
+                else
+                {
+                    NewSpline.SplineName = i.ToString();
+                }
 
                 NewSpline.U0 = wdxHandler.Splines[i].U0;
                 NewSpline.U1 = wdxHandler.Splines[i].U1;
@@ -405,89 +429,92 @@ namespace SSXMultiTool.JsonFiles
 
             #region AIP
             AIPJsonHandler aipJsonHandler = new AIPJsonHandler();
-            aipJsonHandler.U2 = aipHandler.U2;
-            aipJsonHandler.U3 = aipHandler.U3;
-            aipJsonHandler.U4 = aipHandler.U4;
-            aipJsonHandler.U5 = aipHandler.U5;
-            aipJsonHandler.U6 = aipHandler.U6;
-            aipJsonHandler.U7 = aipHandler.U7;
-            aipJsonHandler.U8 = aipHandler.U8;
-            aipJsonHandler.U9 = aipHandler.U9;
-            aipJsonHandler.U10 = aipHandler.U10;
-
-            aipJsonHandler.PathAs = new List<AIPJsonHandler.PathData>();
-            aipJsonHandler.PathBs = new List<AIPJsonHandler.PathData>();
-
-            for (int i = 0; i < aipHandler.PathAs.Count; i++)
+            if (AIPExists)
             {
-                var TempPath = aipHandler.PathAs[i];
-                AIPJsonHandler.PathData NewPath = new AIPJsonHandler.PathData();
+                aipJsonHandler.U2 = aipHandler.U2;
+                aipJsonHandler.U3 = aipHandler.U3;
+                aipJsonHandler.U4 = aipHandler.U4;
+                aipJsonHandler.U5 = aipHandler.U5;
+                aipJsonHandler.U6 = aipHandler.U6;
+                aipJsonHandler.U7 = aipHandler.U7;
+                aipJsonHandler.U8 = aipHandler.U8;
+                aipJsonHandler.U9 = aipHandler.U9;
+                aipJsonHandler.U10 = aipHandler.U10;
 
-                NewPath.U0 = TempPath.U0;
-                NewPath.PathPos = JsonUtil.Vector3ToArray(TempPath.PathPos);
+                aipJsonHandler.PathAs = new List<AIPJsonHandler.PathData>();
+                aipJsonHandler.PathBs = new List<AIPJsonHandler.PathData>();
 
-                NewPath.PathPoints = new float[aipHandler.PathAs[i].VectorPoints.Count, 3];
-                for (int a = 0; a < aipHandler.PathAs[i].VectorPoints.Count; a++)
+                for (int i = 0; i < aipHandler.PathAs.Count; i++)
                 {
-                    NewPath.PathPoints[a, 0] = aipHandler.PathAs[i].VectorPoints[a].X * aipHandler.PathAs[i].VectorPoints[a].W;
-                    NewPath.PathPoints[a, 1] = aipHandler.PathAs[i].VectorPoints[a].Y * aipHandler.PathAs[i].VectorPoints[a].W;
-                    NewPath.PathPoints[a, 2] = aipHandler.PathAs[i].VectorPoints[a].Z * aipHandler.PathAs[i].VectorPoints[a].W;
-                    if (a != 0)
+                    var TempPath = aipHandler.PathAs[i];
+                    AIPJsonHandler.PathData NewPath = new AIPJsonHandler.PathData();
+
+                    NewPath.U0 = TempPath.U0;
+                    NewPath.PathPos = JsonUtil.Vector3ToArray(TempPath.PathPos);
+
+                    NewPath.PathPoints = new float[aipHandler.PathAs[i].VectorPoints.Count, 3];
+                    for (int a = 0; a < aipHandler.PathAs[i].VectorPoints.Count; a++)
                     {
-                        NewPath.PathPoints[a, 0] += NewPath.PathPoints[a - 1, 0];
-                        NewPath.PathPoints[a, 1] += NewPath.PathPoints[a - 1, 1];
-                        NewPath.PathPoints[a, 2] += NewPath.PathPoints[a - 1, 2];
+                        NewPath.PathPoints[a, 0] = aipHandler.PathAs[i].VectorPoints[a].X * aipHandler.PathAs[i].VectorPoints[a].W;
+                        NewPath.PathPoints[a, 1] = aipHandler.PathAs[i].VectorPoints[a].Y * aipHandler.PathAs[i].VectorPoints[a].W;
+                        NewPath.PathPoints[a, 2] = aipHandler.PathAs[i].VectorPoints[a].Z * aipHandler.PathAs[i].VectorPoints[a].W;
+                        if (a != 0)
+                        {
+                            NewPath.PathPoints[a, 0] += NewPath.PathPoints[a - 1, 0];
+                            NewPath.PathPoints[a, 1] += NewPath.PathPoints[a - 1, 1];
+                            NewPath.PathPoints[a, 2] += NewPath.PathPoints[a - 1, 2];
+                        }
                     }
-                }
 
-                NewPath.PathEvents = new List<AIPJsonHandler.PathEvent>();
-                for (int a = 0; a < aipHandler.PathAs[i].PathEvents.Count; a++)
-                {
-                    var NewStruct = new AIPJsonHandler.PathEvent();
-                    NewStruct.EventType = aipHandler.PathAs[i].PathEvents[a].EventType;
-                    NewStruct.EventValue = aipHandler.PathAs[i].PathEvents[a].EventValue;
-                    NewStruct.EventStart = aipHandler.PathAs[i].PathEvents[a].EventStart;
-                    NewStruct.EventEnd = aipHandler.PathAs[i].PathEvents[a].EventEnd;
-                    NewPath.PathEvents.Add(NewStruct);
-                }
-                aipJsonHandler.PathAs.Add(NewPath);
-            }
-
-            for (int i = 0; i < aipHandler.PathBs.Count; i++)
-            {
-                var TempPath = aipHandler.PathBs[i];
-                AIPJsonHandler.PathData NewPath = new AIPJsonHandler.PathData();
-
-                NewPath.U0 = TempPath.U0;
-                NewPath.PathPos = JsonUtil.Vector3ToArray(TempPath.PathPos);
-
-                NewPath.PathPoints = new float[aipHandler.PathBs[i].VectorPoints.Count, 3];
-                for (int a = 0; a < aipHandler.PathBs[i].VectorPoints.Count; a++)
-                {
-                    NewPath.PathPoints[a, 0] = aipHandler.PathBs[i].VectorPoints[a].X * aipHandler.PathBs[i].VectorPoints[a].W;
-                    NewPath.PathPoints[a, 1] = aipHandler.PathBs[i].VectorPoints[a].Y * aipHandler.PathBs[i].VectorPoints[a].W;
-                    NewPath.PathPoints[a, 2] = aipHandler.PathBs[i].VectorPoints[a].Z * aipHandler.PathBs[i].VectorPoints[a].W;
-                    if (a != 0)
+                    NewPath.PathEvents = new List<AIPJsonHandler.PathEvent>();
+                    for (int a = 0; a < aipHandler.PathAs[i].PathEvents.Count; a++)
                     {
-                        NewPath.PathPoints[a, 0] += NewPath.PathPoints[a - 1, 0];
-                        NewPath.PathPoints[a, 1] += NewPath.PathPoints[a - 1, 1];
-                        NewPath.PathPoints[a, 2] += NewPath.PathPoints[a - 1, 2];
+                        var NewStruct = new AIPJsonHandler.PathEvent();
+                        NewStruct.EventType = aipHandler.PathAs[i].PathEvents[a].EventType;
+                        NewStruct.EventValue = aipHandler.PathAs[i].PathEvents[a].EventValue;
+                        NewStruct.EventStart = aipHandler.PathAs[i].PathEvents[a].EventStart;
+                        NewStruct.EventEnd = aipHandler.PathAs[i].PathEvents[a].EventEnd;
+                        NewPath.PathEvents.Add(NewStruct);
                     }
+                    aipJsonHandler.PathAs.Add(NewPath);
                 }
 
-                NewPath.PathEvents = new List<AIPJsonHandler.PathEvent>();
-                for (int a = 0; a < aipHandler.PathBs[i].PathEvents.Count; a++)
+                for (int i = 0; i < aipHandler.PathBs.Count; i++)
                 {
-                    var NewStruct = new AIPJsonHandler.PathEvent();
-                    NewStruct.EventType = aipHandler.PathBs[i].PathEvents[a].EventType;
-                    NewStruct.EventValue = aipHandler.PathBs[i].PathEvents[a].EventValue;
-                    NewStruct.EventStart = aipHandler.PathBs[i].PathEvents[a].EventStart;
-                    NewStruct.EventEnd = aipHandler.PathBs[i].PathEvents[a].EventEnd;
-                    NewPath.PathEvents.Add(NewStruct);
-                }
-                aipJsonHandler.PathBs.Add(NewPath);
-            }
+                    var TempPath = aipHandler.PathBs[i];
+                    AIPJsonHandler.PathData NewPath = new AIPJsonHandler.PathData();
 
+                    NewPath.U0 = TempPath.U0;
+                    NewPath.PathPos = JsonUtil.Vector3ToArray(TempPath.PathPos);
+
+                    NewPath.PathPoints = new float[aipHandler.PathBs[i].VectorPoints.Count, 3];
+                    for (int a = 0; a < aipHandler.PathBs[i].VectorPoints.Count; a++)
+                    {
+                        NewPath.PathPoints[a, 0] = aipHandler.PathBs[i].VectorPoints[a].X * aipHandler.PathBs[i].VectorPoints[a].W;
+                        NewPath.PathPoints[a, 1] = aipHandler.PathBs[i].VectorPoints[a].Y * aipHandler.PathBs[i].VectorPoints[a].W;
+                        NewPath.PathPoints[a, 2] = aipHandler.PathBs[i].VectorPoints[a].Z * aipHandler.PathBs[i].VectorPoints[a].W;
+                        if (a != 0)
+                        {
+                            NewPath.PathPoints[a, 0] += NewPath.PathPoints[a - 1, 0];
+                            NewPath.PathPoints[a, 1] += NewPath.PathPoints[a - 1, 1];
+                            NewPath.PathPoints[a, 2] += NewPath.PathPoints[a - 1, 2];
+                        }
+                    }
+
+                    NewPath.PathEvents = new List<AIPJsonHandler.PathEvent>();
+                    for (int a = 0; a < aipHandler.PathBs[i].PathEvents.Count; a++)
+                    {
+                        var NewStruct = new AIPJsonHandler.PathEvent();
+                        NewStruct.EventType = aipHandler.PathBs[i].PathEvents[a].EventType;
+                        NewStruct.EventValue = aipHandler.PathBs[i].PathEvents[a].EventValue;
+                        NewStruct.EventStart = aipHandler.PathBs[i].PathEvents[a].EventStart;
+                        NewStruct.EventEnd = aipHandler.PathBs[i].PathEvents[a].EventEnd;
+                        NewPath.PathEvents.Add(NewStruct);
+                    }
+                    aipJsonHandler.PathBs.Add(NewPath);
+                }
+
+            }
             aipJsonHandler.CreateJson(ExtractPath + "\\AIP.json", true);
             #endregion
 
@@ -501,24 +528,27 @@ namespace SSXMultiTool.JsonFiles
                 sshTexture.BMPOneExtract(ExtractPath + "\\Textures\\" + i.ToString("0000") + ".png", i);
             }
 
-            OldSSHHandler sshTextureSky = new OldSSHHandler();
-            sshTextureSky.LoadSSH(LoadPath + "_sky.ssh");
-
-            for (int i = 0; i < sshTextureSky.sshImages.Count; i++)
+            if (MapExists)
             {
-                sshTextureSky.BrightenBitmap(i);
-                sshTextureSky.BMPOneExtract(ExtractPath + "\\Skybox\\Textures\\" + i.ToString("0000") + ".png", i);
-            }
+                OldSSHHandler sshTextureSky = new OldSSHHandler();
+                sshTextureSky.LoadSSH(LoadPath + "_sky.ssh");
 
-            OldSSHHandler sshTextureLight = new OldSSHHandler();
-            sshTextureLight.LoadSSH(LoadPath + "l.ssh");
+                for (int i = 0; i < sshTextureSky.sshImages.Count; i++)
+                {
+                    sshTextureSky.BrightenBitmap(i);
+                    sshTextureSky.BMPOneExtract(ExtractPath + "\\Skybox\\Textures\\" + i.ToString("0000") + ".png", i);
+                }
 
-            for (int i = 0; i < sshTextureLight.sshImages.Count; i++)
-            {
-                //sshTextureLight.BrightenBitmap(i);
-                sshTextureLight.BMPOneExtract(ExtractPath + "\\Lightmaps\\" + i.ToString("0000") + ".png", i);
+                OldSSHHandler sshTextureLight = new OldSSHHandler();
+                sshTextureLight.LoadSSH(LoadPath + "l.ssh");
+
+                for (int i = 0; i < sshTextureLight.sshImages.Count; i++)
+                {
+                    //sshTextureLight.BrightenBitmap(i);
+                    sshTextureLight.BMPOneExtract(ExtractPath + "\\Lightmaps\\" + i.ToString("0000") + ".png", i);
+                }
+                #endregion
             }
-            #endregion
 
             SSXOGConfig ssxOGConfig = new SSXOGConfig();
             ssxOGConfig.CreateJson(ExtractPath + "\\OGConfig.ssx");
