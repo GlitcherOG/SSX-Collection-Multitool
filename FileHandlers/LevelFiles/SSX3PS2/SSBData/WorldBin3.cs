@@ -23,6 +23,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public Vector3 V0;
         public Vector3 V1;
         public Vector3 V2;
+        public float U31;
 
         public int TrackID;
         public int RID;
@@ -51,6 +52,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             V0 = StreamUtil.ReadVector3(stream);
             V1 = StreamUtil.ReadVector3(stream);
             V2 = StreamUtil.ReadVector3(stream);
+            U31 = StreamUtil.ReadFloat(stream);
 
             TrackID = StreamUtil.ReadInt8(stream);
             RID = StreamUtil.ReadInt24(stream);
@@ -91,6 +93,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             bin3File.V0 = JsonUtil.Vector3ToArray(V0);
             bin3File.V1 = JsonUtil.Vector3ToArray(V1);
             bin3File.V2 = JsonUtil.Vector3ToArray(V2);
+            bin3File.U31 = U31;
 
             bin3File.TrackID = TrackID;
             bin3File.RID = RID;

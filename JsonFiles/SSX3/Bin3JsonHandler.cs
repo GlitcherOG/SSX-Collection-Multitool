@@ -57,6 +57,7 @@ namespace SSXMultiTool.JsonFiles.SSX3
             public float[] V0;
             public float[] V1;
             public float[] V2;
+            public float U31;
 
             public int TrackID;
             public int RID;
