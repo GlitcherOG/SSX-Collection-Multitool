@@ -107,6 +107,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
             using (Stream stream = File.Open(path, FileMode.Open))
             {
                 PatchesJsonHandler patchesJsonHandler = new PatchesJsonHandler();
+                Bin0JsonHandler bin0JsonHandler = new Bin0JsonHandler();
 
                 MemoryStream memoryStream = new MemoryStream();
                 List<int> ints = new List<int>();
@@ -156,6 +157,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             string Path = RID + "-" + TrackID + "-" + FilePos;
 
                             if (ID == 1)
+                            {
+                                //var file = File.Create(ExtractPath + Path + ".patch");
+                                //memoryStream1.Position = 0;
+                                //memoryStream1.CopyTo(file);
+                                //memoryStream1.Dispose();
+                                //memoryStream1 = new MemoryStream();
+                                //file.Close();
+
+                                WorldBin0 worldbin0 = new WorldBin0();
+                                memoryStream1.Position = 0;
+                                worldbin0.LoadData(memoryStream1);
+
+                                bin0JsonHandler.bin0Files.Add(worldbin0.ToJSON());
+                            }
+                            else if (ID == 0)
                             {
                                 //var file = File.Create(ExtractPath + Path + ".patch");
                                 //memoryStream1.Position = 0;
@@ -249,6 +265,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                         {
                             Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Patches.json");
                             patchesJsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Patches.json");
+                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin0.json");
+                            bin0JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin0.json");
+                            bin0JsonHandler = new Bin0JsonHandler();
                             patchesJsonHandler = new PatchesJsonHandler();
                         }
                         a++;

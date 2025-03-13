@@ -16,6 +16,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public int NumAIPaths;
         public List<AIPath> aiPaths = new List<AIPath>();
 
+        public int Unk0;
+        
+
         public void LoadData(byte[] bytes)
         {
             MemoryStream stream = new MemoryStream();
