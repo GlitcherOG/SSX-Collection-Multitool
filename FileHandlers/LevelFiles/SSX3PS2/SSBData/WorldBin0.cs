@@ -11,6 +11,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
     public class WorldBin0
     {
+        public int TrackID;
+        public int RID;
+
         public int U0;
         public int U1;
         public int U2;
@@ -24,7 +27,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public int U10;
 
 
-        public void LoadData(Stream stream)
+        public void LoadData(Stream stream, int TrackID, int RID)
         {
             U0 = StreamUtil.ReadInt16(stream);
             U1 = StreamUtil.ReadInt16(stream);

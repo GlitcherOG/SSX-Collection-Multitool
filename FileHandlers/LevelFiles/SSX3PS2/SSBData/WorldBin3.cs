@@ -1,0 +1,113 @@
+﻿using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
+using SSXMultiTool.JsonFiles.SSX3;
+using SSXMultiTool.Utilities;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Documents;
+
+namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
+{
+    public class WorldBin3
+    {
+        public int U0;
+        public int U1;
+        public int U2;
+        public int U3;
+
+        public Matrix4x4 matrix4X4 = new Matrix4x4();
+        public Vector3 V0;
+        public Vector3 V1;
+        public Vector3 V2;
+
+        public int TrackID;
+        public int RID;
+        public int U4;
+
+        public int UTrackID;
+        public int URID;
+
+        public float U5;
+        public int U6;
+        public int U7;
+
+        public int U8;
+        public int U9;
+        public int U10;
+        public int U11;
+
+        public void LoadData(Stream stream)
+        {
+            U0 = StreamUtil.ReadInt32(stream);
+            U1 = StreamUtil.ReadInt32(stream);
+            U2 = StreamUtil.ReadInt32(stream);
+            U3 = StreamUtil.ReadInt32(stream);
+
+            matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
+            V0 = StreamUtil.ReadVector3(stream);
+            V1 = StreamUtil.ReadVector3(stream);
+            V2 = StreamUtil.ReadVector3(stream);
+
+            TrackID = StreamUtil.ReadInt8(stream);
+            RID = StreamUtil.ReadInt24(stream);
+            U4 = StreamUtil.ReadInt32(stream);
+
+            UTrackID = StreamUtil.ReadInt8(stream);
+            URID = StreamUtil.ReadInt24(stream);
+            U5 = StreamUtil.ReadFloat(stream);
+            U6 = StreamUtil.ReadInt32(stream);
+            U7 = StreamUtil.ReadInt32(stream);
+
+            U8 = StreamUtil.ReadInt32(stream);
+            U9 = StreamUtil.ReadInt32(stream);
+            U10 = StreamUtil.ReadInt32(stream);
+            U11 = StreamUtil.ReadInt32(stream);
+
+            //READ MODEL DATA
+        }
+
+        public Bin3JsonHandler.Bin3File ToJSON()
+        {
+            Bin3JsonHandler.Bin3File bin3File = new Bin3JsonHandler.Bin3File();
+
+            bin3File.U0 = U0;
+            bin3File.U1 = U1;
+            bin3File.U2 = U2;
+            bin3File.U3 = U3;
+
+            Vector3 Scale;
+            Quaternion Rotation;
+            Vector3 Location;
+
+            Matrix4x4.Decompose(matrix4X4, out Scale, out Rotation, out Location);
+            bin3File.Position = JsonUtil.Vector3ToArray(Location);
+            bin3File.Rotation = JsonUtil.QuaternionToArray(Rotation);
+            bin3File.Scale = JsonUtil.Vector3ToArray(Scale);
+
+            bin3File.V0 = JsonUtil.Vector3ToArray(V0);
+            bin3File.V1 = JsonUtil.Vector3ToArray(V1);
+            bin3File.V2 = JsonUtil.Vector3ToArray(V2);
+
+            bin3File.TrackID = TrackID;
+            bin3File.RID = RID;
+            bin3File.U4 = U4;
+
+            bin3File.UTrackID = UTrackID;
+            bin3File.URID = URID;
+            bin3File.U5 = U5;
+            bin3File.U6 = U6;
+            bin3File.U7 = U7;
+
+            bin3File.U8 = U8;
+            bin3File.U9 = U9;
+            bin3File.U10 = U10;
+            bin3File.U11 = U11;
+
+            return bin3File;
+        }
+    }
+}
