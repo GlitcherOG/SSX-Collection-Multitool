@@ -24,7 +24,6 @@ namespace SSXMultiTool.FileHandlers
         {
             var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1, VertexJoints4>(modelHeader.FileName);
             //Make Materials
-
             List<MaterialBuilder> materialBuilders = new List<MaterialBuilder>();
 
             for (int i = 0; i < modelHeader.materialDataList.Count; i++)

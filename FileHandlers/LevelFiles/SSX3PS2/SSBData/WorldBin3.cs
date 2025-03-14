@@ -20,10 +20,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public int U3;
 
         public Matrix4x4 matrix4X4 = new Matrix4x4();
-        public Vector3 V0;
+        public Vector4 V0;
         public Vector3 V1;
         public Vector3 V2;
-        public float U31;
 
         public int TrackID;
         public int RID;
@@ -40,6 +39,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public int U9;
         public int U10;
         public int U11;
+        public int U12;
 
         public void LoadData(Stream stream)
         {
@@ -49,10 +49,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             U3 = StreamUtil.ReadInt32(stream);
 
             matrix4X4 = StreamUtil.ReadMatrix4x4(stream);
-            V0 = StreamUtil.ReadVector3(stream);
+            V0 = StreamUtil.ReadVector4(stream);
             V1 = StreamUtil.ReadVector3(stream);
             V2 = StreamUtil.ReadVector3(stream);
-            U31 = StreamUtil.ReadFloat(stream);
 
             TrackID = StreamUtil.ReadInt8(stream);
             RID = StreamUtil.ReadInt24(stream);
@@ -64,10 +63,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             U6 = StreamUtil.ReadInt32(stream);
             U7 = StreamUtil.ReadInt32(stream);
 
-            U8 = StreamUtil.ReadInt32(stream);
-            U9 = StreamUtil.ReadInt32(stream);
+            U8 = StreamUtil.ReadInt16(stream);
+            U9 = StreamUtil.ReadInt16(stream);
             U10 = StreamUtil.ReadInt32(stream);
             U11 = StreamUtil.ReadInt32(stream);
+            U12 = StreamUtil.ReadInt32(stream);
 
             //READ MODEL DATA
         }
@@ -90,10 +90,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             bin3File.Rotation = JsonUtil.QuaternionToArray(Rotation);
             bin3File.Scale = JsonUtil.Vector3ToArray(Scale);
 
-            bin3File.V0 = JsonUtil.Vector3ToArray(V0);
+            bin3File.V0 = JsonUtil.Vector4ToArray(V0);
             bin3File.V1 = JsonUtil.Vector3ToArray(V1);
             bin3File.V2 = JsonUtil.Vector3ToArray(V2);
-            bin3File.U31 = U31;
 
             bin3File.TrackID = TrackID;
             bin3File.RID = RID;
@@ -109,6 +108,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             bin3File.U9 = U9;
             bin3File.U10 = U10;
             bin3File.U11 = U11;
+            bin3File.U12 = U12;
 
             return bin3File;
         }

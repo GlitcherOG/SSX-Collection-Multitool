@@ -74,6 +74,7 @@ namespace SSXMultiTool.JsonFiles.SSX3
             public int U9;
             public int U10;
             public int U11;
+            public int U12;
         }
     }
 }

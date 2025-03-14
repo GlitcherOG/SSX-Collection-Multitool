@@ -1,5 +1,5 @@
 ﻿using ICSharpCode.SharpZipLib.Zip.Compression;
-using Ionic.Zlib;
+//using Ionic.Zlib;
 using SSXMultiTool.Utilities;
 using System;
 using System.Collections.Generic;
@@ -309,11 +309,11 @@ namespace SSXMultiTool.FileHandlers
                                 }
 
                                 //Sharpziplib
-                                //StreamUtil.WriteBytes(OutputStream, Compress(StreamUtil.ReadBytes(InputStream, ReadLenght)));
+                                byte[] bytes = Compress(StreamUtil.ReadBytes(InputStream, ReadLenght));
                                 //C# Compression
                                 //StreamUtil.WriteBytes(decompressor, StreamUtil.ReadBytes(InputStream, ReadLenght));
                                 //DotNetZip
-                                byte[] bytes = ZlibCodecCompress(StreamUtil.ReadBytes(InputStream, ReadLenght));
+                                //byte[] bytes = ZlibCodecCompress(StreamUtil.ReadBytes(InputStream, ReadLenght));
 
                                 if (InputStream.Position == InputStream.Length && Chunks == 0 && bytes.Length +36 > ReadLenght)
                                 {
@@ -438,93 +438,93 @@ namespace SSXMultiTool.FileHandlers
             }
         }
 
-        private byte[] ZlibCodecDecompress(byte[] uncompressed)
-        {
-            int outputSize = 2048;
-            byte[] output = new Byte[outputSize];
-            int lengthToCompress = uncompressed.Length;
+        //private byte[] ZlibCodecDecompress(byte[] uncompressed)
+        //{
+        //    int outputSize = 2048;
+        //    byte[] output = new Byte[outputSize];
+        //    int lengthToCompress = uncompressed.Length;
 
-            // If you want a ZLIB stream, set this to true.  If you want
-            // a bare DEFLATE stream, set this to false.
-            bool wantRfc1950Header = false;
+        //    // If you want a ZLIB stream, set this to true.  If you want
+        //    // a bare DEFLATE stream, set this to false.
+        //    bool wantRfc1950Header = false;
 
-            using (MemoryStream ms = new MemoryStream())
-            {
-                ZlibCodec compressor = new ZlibCodec();
-                compressor.InitializeInflate();
+        //    using (MemoryStream ms = new MemoryStream())
+        //    {
+        //        ZlibCodec compressor = new ZlibCodec();
+        //        compressor.InitializeInflate();
 
-                compressor.InputBuffer = uncompressed;
-                compressor.AvailableBytesIn = lengthToCompress;
-                compressor.NextIn = 0;
-                compressor.OutputBuffer = output;
+        //        compressor.InputBuffer = uncompressed;
+        //        compressor.AvailableBytesIn = lengthToCompress;
+        //        compressor.NextIn = 0;
+        //        compressor.OutputBuffer = output;
 
-                foreach (var f in new FlushType[] { FlushType.None, FlushType.Finish })
-                {
-                    int bytesToWrite = 0;
-                    do
-                    {
-                        compressor.AvailableBytesOut = outputSize;
-                        compressor.NextOut = 0;
-                        compressor.Inflate(f);
+        //        foreach (var f in new FlushType[] { FlushType.None, FlushType.Finish })
+        //        {
+        //            int bytesToWrite = 0;
+        //            do
+        //            {
+        //                compressor.AvailableBytesOut = outputSize;
+        //                compressor.NextOut = 0;
+        //                compressor.Inflate(f);
 
-                        bytesToWrite = outputSize - compressor.AvailableBytesOut;
-                        if (bytesToWrite > 0)
-                            ms.Write(output, 0, bytesToWrite);
-                    }
-                    while ((f == FlushType.None && (compressor.AvailableBytesIn != 0 || compressor.AvailableBytesOut == 0)) ||
-                           (f == FlushType.Finish && bytesToWrite != 0));
-                }
+        //                bytesToWrite = outputSize - compressor.AvailableBytesOut;
+        //                if (bytesToWrite > 0)
+        //                    ms.Write(output, 0, bytesToWrite);
+        //            }
+        //            while ((f == FlushType.None && (compressor.AvailableBytesIn != 0 || compressor.AvailableBytesOut == 0)) ||
+        //                   (f == FlushType.Finish && bytesToWrite != 0));
+        //        }
 
-                compressor.EndDeflate();
+        //        compressor.EndDeflate();
 
-                ms.Flush();
-                return ms.ToArray();
-            }
-        }
+        //        ms.Flush();
+        //        return ms.ToArray();
+        //    }
+        //}
 
-        private byte[] ZlibCodecCompress(byte[] uncompressed)
-        {
-            int outputSize = 2048;
-            byte[] output = new Byte[outputSize];
-            int lengthToCompress = uncompressed.Length;
+        //private byte[] ZlibCodecCompress(byte[] uncompressed)
+        //{
+        //    int outputSize = 2048;
+        //    byte[] output = new Byte[outputSize];
+        //    int lengthToCompress = uncompressed.Length;
 
-            // If you want a ZLIB stream, set this to true.  If you want
-            // a bare DEFLATE stream, set this to false.
-            bool wantRfc1950Header = false;
+        //    // If you want a ZLIB stream, set this to true.  If you want
+        //    // a bare DEFLATE stream, set this to false.
+        //    bool wantRfc1950Header = false;
 
-            using (MemoryStream ms = new MemoryStream())
-            {
-                ZlibCodec compressor = new ZlibCodec();
-                compressor.InitializeDeflate(Ionic.Zlib.CompressionLevel.BestCompression, wantRfc1950Header);
+        //    using (MemoryStream ms = new MemoryStream())
+        //    {
+        //        ZlibCodec compressor = new ZlibCodec();
+        //        compressor.InitializeDeflate(Ionic.Zlib.CompressionLevel.BestCompression, wantRfc1950Header);
 
-                compressor.InputBuffer = uncompressed;
-                compressor.AvailableBytesIn = lengthToCompress;
-                compressor.NextIn = 0;
-                compressor.OutputBuffer = output;
+        //        compressor.InputBuffer = uncompressed;
+        //        compressor.AvailableBytesIn = lengthToCompress;
+        //        compressor.NextIn = 0;
+        //        compressor.OutputBuffer = output;
 
-                foreach (var f in new FlushType[] { FlushType.None, FlushType.Finish })
-                {
-                    int bytesToWrite = 0;
-                    do
-                    {
-                        compressor.AvailableBytesOut = outputSize;
-                        compressor.NextOut = 0;
-                        compressor.Deflate(f);
+        //        foreach (var f in new FlushType[] { FlushType.None, FlushType.Finish })
+        //        {
+        //            int bytesToWrite = 0;
+        //            do
+        //            {
+        //                compressor.AvailableBytesOut = outputSize;
+        //                compressor.NextOut = 0;
+        //                compressor.Deflate(f);
 
-                        bytesToWrite = outputSize - compressor.AvailableBytesOut;
-                        if (bytesToWrite > 0)
-                            ms.Write(output, 0, bytesToWrite);
-                    }
-                    while ((f == FlushType.None && (compressor.AvailableBytesIn != 0 || compressor.AvailableBytesOut == 0)) ||
-                           (f == FlushType.Finish && bytesToWrite != 0));
-                }
+        //                bytesToWrite = outputSize - compressor.AvailableBytesOut;
+        //                if (bytesToWrite > 0)
+        //                    ms.Write(output, 0, bytesToWrite);
+        //            }
+        //            while ((f == FlushType.None && (compressor.AvailableBytesIn != 0 || compressor.AvailableBytesOut == 0)) ||
+        //                   (f == FlushType.Finish && bytesToWrite != 0));
+        //        }
 
-                compressor.EndDeflate();
+        //        compressor.EndDeflate();
 
-                ms.Flush();
-                return ms.ToArray();
-            }
-        }
+        //        ms.Flush();
+        //        return ms.ToArray();
+        //    }
+        //}
 
         public struct BIGHeader
         {
