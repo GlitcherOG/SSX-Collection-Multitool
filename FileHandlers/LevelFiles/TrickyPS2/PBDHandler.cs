@@ -1708,6 +1708,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     materialBuilders.Add(material1);
                 }
 
+                List<MeshBuilder<VertexPositionNormal, VertexTexture1>> meshBuilders = new List<MeshBuilder<VertexPositionNormal, VertexTexture1>>();
                 for (int ax = 0; ax < PrefabData[a].PrefabObjects.Count; ax++)
                 {
                     //Create Object
@@ -1750,9 +1751,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 mesh.UsePrimitive(materialBuilders[PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets[i].MaterialBlockPos]).AddTriangle((TempPos1, TempTexture1), (TempPos2, TempTexture2), (TempPos3, TempTexture3));
                             }
                         }
+                        meshBuilders.Add(mesh);
                         scene.AddRigidMesh(mesh, Matrix4x4.CreateFromYawPitchRoll(0, 0/*-1.5708f*/, 0));
                     }
-
                 }
 
                 // save the model in different formats
@@ -1760,6 +1761,17 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 model.SaveGLB(a.ToString());
             }
         }
+
+        //public MeshBuilder<VertexPositionNormal, VertexTexture1> ParentMesh(MeshBuilder<VertexPositionNormal, VertexTexture1> Mesh, 
+        //    List<MeshBuilder<VertexPositionNormal, VertexTexture1>> meshBuilders, Prefabs prefabs, int ID)
+        //{
+        //    for (int i = 0; i < prefabs.Count; i++)
+        //    {
+        //        if(ID==)
+        //    }
+
+        //    return Mesh;
+        //}
 
 
         public void ImportMeshes(string FolderPath)
@@ -2543,6 +2555,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<int> MeshOffsetPositions;
 
         public List<MeshOffsets> MeshOffsets;
+
+        public MeshBuilder<VertexPositionNormal, VertexTexture1> GLTFMesh;
     }
 
     public struct MeshOffsets
