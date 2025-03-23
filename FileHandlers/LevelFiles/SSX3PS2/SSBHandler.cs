@@ -219,13 +219,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 9)
                             {
-                                //var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".shps");
-                                //memoryStream1.Position = 0;
-                                //memoryStream1.CopyTo(file);
-                                //memoryStream1.Dispose();
-                                //memoryStream1 = new MemoryStream();
-                                //file.Close();
-
                                 Console.WriteLine(ExtractPath + "//Textures//" + Path + ".png");
                                 WorldSSH worldOldSSH = new WorldSSH();
 
@@ -245,13 +238,17 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 14)
                             {
-                                Console.WriteLine(ExtractPath + Path + ".AIP");
-                                var file = File.Create(ExtractPath + Path + ".AIP");
-                                memoryStream1.Position = 0;
-                                memoryStream1.CopyTo(file);
-                                memoryStream1.Dispose();
-                                memoryStream1 = new MemoryStream();
-                                file.Close();
+                                //var file = File.Create(ExtractPath + Path + ".AIP");
+                                //memoryStream1.Position = 0;
+                                //memoryStream1.CopyTo(file);
+                                //memoryStream1.Dispose();
+                                //memoryStream1 = new MemoryStream();
+                                //file.Close();
+
+                                Console.WriteLine(ExtractPath + ID + "-AIP.json");
+                                WorldAIP worldAIP = new WorldAIP();
+                                worldAIP.LoadData(NewData);
+                                worldAIP.ToJson(ExtractPath + Path + "-AIP.json");
                             }
                             else if (ID == 20)
                             {

@@ -1,4 +1,5 @@
-﻿using SSXMultiTool.Utilities;
+﻿using SSXMultiTool.JsonFiles.SSX3;
+using SSXMultiTool.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -141,6 +142,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
                 u1Structs.Add(TempU1Struct);
             }
+        }
+
+        public void ToJson(string path)
+        {
+            AIPJsonHandler aIPJsonHandler = new AIPJsonHandler();
+
+
+
+
+            aIPJsonHandler.CreateJson(path);
         }
 
         public struct AIPath
