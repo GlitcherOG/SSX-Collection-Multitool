@@ -1820,7 +1820,7 @@
             // 
             BoltCharacter.DropDownStyle = ComboBoxStyle.DropDownList;
             BoltCharacter.FormattingEnabled = true;
-            BoltCharacter.Items.AddRange(new object[] { "0-Moby", "1-Kaori", "2-Allegra", "3-Mac", "4-Zoe", "5-Grommet", "6-Elise", "7-Rocco", "8-Psymon", "9-Deiter", "10-Brodi", "11-Eddie", "12-Jp", "13-Luther", "14-Marisol", "15-Marty", "16-Seeiah", "17-Hiro", "18-Jurgen", "19-luthern", "20-Stretch", "21-Bessy", "22-Bunny", "23-Churchil", "24-Skel", "25-Snowman", "26-Yeti", "27-Unkown", "28-Beaver", "29-Abom" });
+            BoltCharacter.Items.AddRange(new object[] { "0-Moby", "1-Kaori", "2-Arielle", "3-Mac", "4-Zoe", "5-Grommet", "6-Elise", "7-Rocco", "8-Psymon", "9-Deiter", "10-Brodi", "11-Eddie", "12-Jp", "13-Luther", "14-Marisol", "15-Marty", "16-Seeiah", "17-Hiro", "18-Jurgen", "19-luthern", "20-Stretch", "21-Bessy", "22-Bunny", "23-Churchil", "24-Skel", "25-Snowman", "26-Yeti", "27-Unkown", "28-Beaver", "29-Abom" });
             BoltCharacter.Location = new Point(3, 3);
             BoltCharacter.Name = "BoltCharacter";
             BoltCharacter.Size = new Size(274, 23);

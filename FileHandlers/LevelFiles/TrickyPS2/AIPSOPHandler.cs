@@ -51,21 +51,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     NewPath.U5 = StreamUtil.ReadUInt32(stream);
                     NewPath.Respawnable = StreamUtil.ReadUInt32(stream);
 
-                    NewPath.PointCount = StreamUtil.ReadUInt32(stream);
-                    NewPath.UCount = StreamUtil.ReadUInt32(stream);
+                    NewPath.NumPoints = StreamUtil.ReadUInt32(stream);
+                    NewPath.NumEvents = StreamUtil.ReadUInt32(stream);
 
                     NewPath.PathPos = StreamUtil.ReadVector3(stream);
                     NewPath.BBoxMin = StreamUtil.ReadVector3(stream);
                     NewPath.BBoxMax = StreamUtil.ReadVector3(stream);
 
                     NewPath.VectorPoints = new List<Vector4>();
-                    for (int a = 0; a < NewPath.PointCount; a++)
+                    for (int a = 0; a < NewPath.NumPoints; a++)
                     {
                         NewPath.VectorPoints.Add(StreamUtil.ReadVector4(stream));
                     }
 
                     NewPath.PathEvents = new List<PathEvent>();
-                    for (int a = 0; a < NewPath.UCount; a++)
+                    for (int a = 0; a < NewPath.NumEvents; a++)
                     {
                         var NewUStrcut = new PathEvent();
                         NewUStrcut.EventType = StreamUtil.ReadUInt32(stream);
@@ -94,21 +94,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     NewPath.U1 = StreamUtil.ReadUInt32(stream);
                     NewPath.U2 = StreamUtil.ReadFloat(stream);
 
-                    NewPath.PointCount = StreamUtil.ReadUInt32(stream);
-                    NewPath.UCount = StreamUtil.ReadUInt32(stream);
+                    NewPath.NumPoints = StreamUtil.ReadUInt32(stream);
+                    NewPath.NumEvents = StreamUtil.ReadUInt32(stream);
 
                     NewPath.PathPos = StreamUtil.ReadVector3(stream);
                     NewPath.BBoxMin = StreamUtil.ReadVector3(stream);
                     NewPath.BBoxMax = StreamUtil.ReadVector3(stream);
 
                     NewPath.VectorPoints = new List<Vector4>();
-                    for (int a = 0; a < NewPath.PointCount; a++)
+                    for (int a = 0; a < NewPath.NumPoints; a++)
                     {
                         NewPath.VectorPoints.Add(StreamUtil.ReadVector4(stream));
                     }
 
                     NewPath.PathEvents = new List<PathEvent>();
-                    for (int a = 0; a < NewPath.UCount; a++)
+                    for (int a = 0; a < NewPath.NumEvents; a++)
                     {
                         var NewUStrcut = new PathEvent();
                         NewUStrcut.EventType = StreamUtil.ReadUInt32(stream);
@@ -340,8 +340,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int U5;
             public int Respawnable;
 
-            public int PointCount;
-            public int UCount;
+            public int NumPoints;
+            public int NumEvents;
 
             public Vector3 PathPos;
             public Vector3 BBoxMin;
@@ -377,8 +377,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int U1;
             public float U2;
 
-            public int PointCount;
-            public int UCount;
+            public int NumPoints;
+            public int NumEvents;
 
             public Vector3 PathPos;
             public Vector3 BBoxMin;
