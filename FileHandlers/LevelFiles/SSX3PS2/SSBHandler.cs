@@ -20,8 +20,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         1 - Patches
         2 - WorldMDR
         3 - Instance?
-        4 - Unknown
-        5 - 
+        4 - Physics?
+        5 - Spline Segment?
         6 - Spline?
         7 -
         8 -
@@ -109,6 +109,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 PatchesJsonHandler patchesJsonHandler = new PatchesJsonHandler();
                 Bin0JsonHandler bin0JsonHandler = new Bin0JsonHandler();
                 Bin3JsonHandler bin3JsonHandler = new Bin3JsonHandler();
+                Bin4JsonHandler bin4JsonHandler = new Bin4JsonHandler();
+                Bin6JsonHandler bin6JsonHandler = new Bin6JsonHandler();
 
                 MemoryStream memoryStream = new MemoryStream();
                 List<int> ints = new List<int>();
@@ -159,13 +161,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                             if (ID == 0)
                             {
-                                //var file = File.Create(ExtractPath + Path + ".patch");
-                                //memoryStream1.Position = 0;
-                                //memoryStream1.CopyTo(file);
-                                //memoryStream1.Dispose();
-                                //memoryStream1 = new MemoryStream();
-                                //file.Close();
-
                                 WorldBin0 worldbin0 = new WorldBin0();
                                 memoryStream1.Position = 0;
                                 worldbin0.LoadData(memoryStream1, TrackID, RID);
@@ -174,13 +169,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 1)
                             {
-                                //var file = File.Create(ExtractPath + Path + ".patch");
-                                //memoryStream1.Position = 0;
-                                //memoryStream1.CopyTo(file);
-                                //memoryStream1.Dispose();
-                                //memoryStream1 = new MemoryStream();
-                                //file.Close();
-
                                 WorldPatch worldPatch = new WorldPatch();
                                 memoryStream1.Position = 0;
                                 worldPatch.LoadPatch(memoryStream1);
@@ -189,13 +177,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 2)
                             {
-                                //var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".mdr");
-                                //memoryStream1.Position = 0;
-                                //memoryStream1.CopyTo(file);
-                                //memoryStream1.Dispose();
-                                //memoryStream1 = new MemoryStream();
-                                //file.Close();
-
                                 Console.WriteLine(ExtractPath + "//Models//" + Path + ".glb");
                                 WorldMDR worldMDR = new WorldMDR();
 
@@ -204,18 +185,27 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 3)
                             {
-                                //var file = File.Create(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//" + FilePos + ".mdr");
-                                //memoryStream1.Position = 0;
-                                //memoryStream1.CopyTo(file);
-                                //memoryStream1.Dispose();
-                                //memoryStream1 = new MemoryStream();
-                                //file.Close();
-
                                 WorldBin3 worldBin3 = new WorldBin3();
                                 memoryStream1.Position = 0;
                                 worldBin3.LoadData(memoryStream1);
 
                                 bin3JsonHandler.bin3Files.Add(worldBin3.ToJSON());
+                            }
+                            else if (ID == 4)
+                            {
+                                WorldBin4 worldBin4 = new WorldBin4();
+                                memoryStream1.Position = 0;
+                                worldBin4.LoadData(memoryStream1);
+
+                                bin4JsonHandler.bin3Files.Add(worldBin4.ToJSON());
+                            }
+                            else if (ID == 6)
+                            {
+                                WorldBin6 worldBin6 = new WorldBin6();
+                                memoryStream1.Position = 0;
+                                worldBin6.LoadData(memoryStream1);
+
+                                bin6JsonHandler.bin6Files.Add(worldBin6.ToJSON());
                             }
                             else if (ID == 9)
                             {
@@ -238,13 +228,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 14)
                             {
-                                //var file = File.Create(ExtractPath + Path + ".AIP");
-                                //memoryStream1.Position = 0;
-                                //memoryStream1.CopyTo(file);
-                                //memoryStream1.Dispose();
-                                //memoryStream1 = new MemoryStream();
-                                //file.Close();
-
                                 Console.WriteLine(ExtractPath + ID + "-AIP.json");
                                 WorldAIP worldAIP = new WorldAIP();
                                 worldAIP.LoadData(NewData);
@@ -282,9 +265,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             bin0JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin0.json");
                             Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin3.json");
                             bin3JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin3.json");
+                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin6.json");
+                            bin6JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin6.json");
+
                             patchesJsonHandler = new PatchesJsonHandler();
                             bin0JsonHandler = new Bin0JsonHandler();
                             bin3JsonHandler = new Bin3JsonHandler();
+                            bin6JsonHandler = new Bin6JsonHandler();
                         }
                         a++;
                         memoryStream = new MemoryStream();
