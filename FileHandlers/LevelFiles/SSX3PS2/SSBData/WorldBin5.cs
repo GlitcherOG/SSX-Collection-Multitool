@@ -12,7 +12,7 @@ using System.Windows.Documents;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
-    public class WorldBin4
+    public class WorldBin5
     {
         public int U0;
         public int U1;
@@ -62,9 +62,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             U16 = StreamUtil.ReadInt32(stream);
         }
 
-        public Bin4JsonHandler.Bin4File ToJSON()
+        public Bin5JsonHandler.Bin5File ToJSON()
         {
-            Bin4JsonHandler.Bin4File bin3File = new Bin4JsonHandler.Bin4File();
+            Bin5JsonHandler.Bin5File bin3File = new Bin5JsonHandler.Bin5File();
 
             bin3File.U0 = U0;
             bin3File.U1 = U1;

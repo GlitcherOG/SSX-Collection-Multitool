@@ -109,7 +109,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 PatchesJsonHandler patchesJsonHandler = new PatchesJsonHandler();
                 Bin0JsonHandler bin0JsonHandler = new Bin0JsonHandler();
                 Bin3JsonHandler bin3JsonHandler = new Bin3JsonHandler();
-                Bin4JsonHandler bin4JsonHandler = new Bin4JsonHandler();
+                Bin5JsonHandler bin5JsonHandler = new Bin5JsonHandler();
                 Bin6JsonHandler bin6JsonHandler = new Bin6JsonHandler();
 
                 MemoryStream memoryStream = new MemoryStream();
@@ -191,13 +191,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                                 bin3JsonHandler.bin3Files.Add(worldBin3.ToJSON());
                             }
-                            else if (ID == 4)
+                            else if (ID == 5)
                             {
-                                WorldBin4 worldBin4 = new WorldBin4();
+                                WorldBin5 worldBin5 = new WorldBin5();
                                 memoryStream1.Position = 0;
-                                worldBin4.LoadData(memoryStream1);
+                                worldBin5.LoadData(memoryStream1);
 
-                                bin4JsonHandler.bin3Files.Add(worldBin4.ToJSON());
+                                bin5JsonHandler.bin5Files.Add(worldBin5.ToJSON());
                             }
                             else if (ID == 6)
                             {
@@ -261,16 +261,23 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                         {
                             Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Patches.json");
                             patchesJsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Patches.json");
+
                             Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin0.json");
                             bin0JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin0.json");
+
                             Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin3.json");
                             bin3JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin3.json");
+
+                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin5.json");
+                            bin5JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin5.json");
+
                             Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin6.json");
                             bin6JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin6.json");
 
                             patchesJsonHandler = new PatchesJsonHandler();
                             bin0JsonHandler = new Bin0JsonHandler();
                             bin3JsonHandler = new Bin3JsonHandler();
+                            bin5JsonHandler = new Bin5JsonHandler();
                             bin6JsonHandler = new Bin6JsonHandler();
                         }
                         a++;

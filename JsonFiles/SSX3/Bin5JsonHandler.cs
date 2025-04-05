@@ -10,9 +10,9 @@ using static SSXMultiTool.JsonFiles.SSX3.Bin0JsonHandler;
 
 namespace SSXMultiTool.JsonFiles.SSX3
 {
-    public class Bin4JsonHandler
+    public class Bin5JsonHandler
     {
-        public List<Bin4File> bin3Files = new List<Bin4File>();
+        public List<Bin5File> bin5Files = new List<Bin5File>();
 
         public void CreateJson(string path, bool Inline = false)
         {
@@ -42,7 +42,7 @@ namespace SSXMultiTool.JsonFiles.SSX3
         }
 
 
-        public struct Bin4File
+        public struct Bin5File
         {
             public int U0;
             public int U1;
