@@ -536,6 +536,7 @@ namespace SSXMultiTool
                 }
 
                 modelHandler = new SSX3PS2MPF();
+                SSX3PS2MPF.AlphaModel = true;
                 ssx3ModelCombiner = new SSX3PS2ModelCombiner();
                 modelHandler.load(openFileDialog.FileName);
                 ssx3ModelCombiner.AddFile(modelHandler);

@@ -18,6 +18,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
         public List<MPFModelHeader> ModelList = new List<MPFModelHeader>();
 
         public static float MorphScale = 4.5f;
+        public static bool AlphaModel = false;
 
         public void load(string path)
         {
@@ -168,7 +169,18 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
                         TempBoneData.Unknown6 = StreamUtil.ReadUInt32(streamMatrix);
 
                         TempBoneData.Position = StreamUtil.ReadVector4(streamMatrix);
-                        TempBoneData.Rotation = StreamUtil.ReadQuaternion(streamMatrix);
+
+                        if (!AlphaModel)
+                        {
+                            TempBoneData.Rotation = StreamUtil.ReadQuaternion(streamMatrix);
+                        }
+                        else
+                        {
+                            TempBoneData.Rotation.W = StreamUtil.ReadFloat(streamMatrix);
+                            TempBoneData.Rotation.X = StreamUtil.ReadFloat(streamMatrix);
+                            TempBoneData.Rotation.Y = StreamUtil.ReadFloat(streamMatrix);
+                            TempBoneData.Rotation.Z = StreamUtil.ReadFloat(streamMatrix);
+                        }
                         TempBoneData.Unknown = StreamUtil.ReadVector4(streamMatrix);
 
                         TempBoneData.FileID = TempModel.FileID;
@@ -694,7 +706,17 @@ namespace SSXMultiTool.FileHandlers.Models.SSX3
                     StreamUtil.WriteInt32(ModelStream, Model.BoneList[a].Unknown6);
 
                     StreamUtil.WriteVector4(ModelStream, Model.BoneList[a].Position);
-                    StreamUtil.WriteQuaternion(ModelStream, Model.BoneList[a].Rotation);
+                    if (!AlphaModel)
+                    {
+                        StreamUtil.WriteQuaternion(ModelStream, Model.BoneList[a].Rotation);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteFloat32(ModelStream, Model.BoneList[a].Rotation.W);
+                        StreamUtil.WriteFloat32(ModelStream, Model.BoneList[a].Rotation.X);
+                        StreamUtil.WriteFloat32(ModelStream, Model.BoneList[a].Rotation.Y);
+                        StreamUtil.WriteFloat32(ModelStream, Model.BoneList[a].Rotation.Z);
+                    }
                     StreamUtil.WriteVector4(ModelStream, Model.BoneList[a].Unknown);
                 }
 

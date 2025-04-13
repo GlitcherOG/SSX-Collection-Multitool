@@ -337,6 +337,7 @@
             tabPage4 = new TabPage();
             LoadLUI = new Button();
             BiglessStore = new Button();
+            AlphaCheckbox = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)charnumericUpDown5).BeginInit();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -704,7 +705,7 @@
             label4.AutoSize = true;
             label4.Location = new Point(241, 225);
             label4.Name = "label4";
-            label4.Size = new Size(65, 15);
+            label4.Size = new Size(66, 15);
             label4.TabIndex = 7;
             label4.Text = "Blood Type";
             // 
@@ -854,7 +855,7 @@
             label56.AutoSize = true;
             label56.Location = new Point(605, 226);
             label56.Name = "label56";
-            label56.Size = new Size(79, 15);
+            label56.Size = new Size(80, 15);
             label56.TabIndex = 48;
             label56.Text = "Duck To Loop";
             // 
@@ -1098,7 +1099,7 @@
             label43.AutoSize = true;
             label43.Location = new Point(461, 6);
             label43.Name = "label43";
-            label43.Size = new Size(56, 15);
+            label43.Size = new Size(57, 15);
             label43.TabIndex = 22;
             label43.Text = "AADTOFE";
             // 
@@ -1238,7 +1239,7 @@
             label38.AutoSize = true;
             label38.Location = new Point(209, 50);
             label38.Name = "label38";
-            label38.Size = new Size(29, 15);
+            label38.Size = new Size(30, 15);
             label38.TabIndex = 7;
             label38.Text = "Title";
             // 
@@ -1605,7 +1606,7 @@
             label25.AutoSize = true;
             label25.Location = new Point(409, 187);
             label25.Name = "label25";
-            label25.Size = new Size(87, 15);
+            label25.Size = new Size(88, 15);
             label25.TabIndex = 26;
             label25.Text = "Special FX Type";
             // 
@@ -1829,6 +1830,7 @@
             // 
             // tabPage5
             // 
+            tabPage5.Controls.Add(AlphaCheckbox);
             tabPage5.Controls.Add(label92);
             tabPage5.Controls.Add(MpfModelName);
             tabPage5.Controls.Add(MorphScaleLabel);
@@ -1910,7 +1912,7 @@
             label57.AutoSize = true;
             label57.Location = new Point(149, 23);
             label57.Name = "label57";
-            label57.Size = new Size(87, 15);
+            label57.Size = new Size(88, 15);
             label57.TabIndex = 3;
             label57.Text = "Tristrip Method";
             // 
@@ -2023,7 +2025,7 @@
             label77.AutoSize = true;
             label77.Location = new Point(6, 19);
             label77.Name = "label77";
-            label77.Size = new Size(78, 15);
+            label77.Size = new Size(79, 15);
             label77.TabIndex = 6;
             label77.Text = "Tristrip Count";
             // 
@@ -2561,7 +2563,7 @@
             label95.AutoSize = true;
             label95.Location = new Point(149, 23);
             label95.Name = "label95";
-            label95.Size = new Size(87, 15);
+            label95.Size = new Size(88, 15);
             label95.TabIndex = 3;
             label95.Text = "Tristrip Method";
             // 
@@ -2674,7 +2676,7 @@
             label102.AutoSize = true;
             label102.Location = new Point(6, 19);
             label102.Name = "label102";
-            label102.Size = new Size(78, 15);
+            label102.Size = new Size(79, 15);
             label102.TabIndex = 6;
             label102.Text = "Tristrip Count";
             // 
@@ -3246,7 +3248,7 @@
             label88.AutoSize = true;
             label88.Location = new Point(6, 152);
             label88.Name = "label88";
-            label88.Size = new Size(61, 15);
+            label88.Size = new Size(62, 15);
             label88.TabIndex = 10;
             label88.Text = "Entry Type";
             // 
@@ -3399,7 +3401,7 @@
             label84.AutoSize = true;
             label84.Location = new Point(182, 23);
             label84.Name = "label84";
-            label84.Size = new Size(73, 15);
+            label84.Size = new Size(74, 15);
             label84.TabIndex = 29;
             label84.Text = "Time Length";
             // 
@@ -3502,7 +3504,7 @@
             label86.AutoSize = true;
             label86.Location = new Point(272, 53);
             label86.Name = "label86";
-            label86.Size = new Size(79, 15);
+            label86.Size = new Size(80, 15);
             label86.TabIndex = 32;
             label86.Text = "Total Samples";
             // 
@@ -3567,6 +3569,16 @@
             BiglessStore.Text = "Generate Bigless Store";
             BiglessStore.UseVisualStyleBackColor = true;
             BiglessStore.Click += BiglessStore_Click;
+            // 
+            // AlphaCheckbox
+            // 
+            AlphaCheckbox.AutoSize = true;
+            AlphaCheckbox.Location = new Point(439, 505);
+            AlphaCheckbox.Name = "AlphaCheckbox";
+            AlphaCheckbox.Size = new Size(99, 19);
+            AlphaCheckbox.TabIndex = 4;
+            AlphaCheckbox.Text = "Alpha Models";
+            AlphaCheckbox.UseVisualStyleBackColor = true;
             // 
             // SSX3ToolsWindow
             // 
@@ -3977,5 +3989,6 @@
         private ListBox MNFModelList;
         private Button MNFSaveDecompressed;
         private Label label130;
+        private CheckBox AlphaCheckbox;
     }
 }
