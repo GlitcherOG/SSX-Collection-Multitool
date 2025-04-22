@@ -168,6 +168,7 @@
             label13 = new Label();
             BoltCharacter = new ComboBox();
             tabPage5 = new TabPage();
+            AlphaCheckbox = new CheckBox();
             label92 = new Label();
             MpfModelName = new TextBox();
             MorphScaleLabel = new Label();
@@ -337,7 +338,6 @@
             tabPage4 = new TabPage();
             LoadLUI = new Button();
             BiglessStore = new Button();
-            AlphaCheckbox = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)charnumericUpDown5).BeginInit();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -412,7 +412,7 @@
             // 
             // charnumericUpDown5
             // 
-            charnumericUpDown5.Location = new Point(642, 199);
+            charnumericUpDown5.Location = new Point(588, 199);
             charnumericUpDown5.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             charnumericUpDown5.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
             charnumericUpDown5.Name = "charnumericUpDown5";
@@ -550,7 +550,7 @@
             // 
             // charnumericUpDown6
             // 
-            charnumericUpDown6.Location = new Point(726, 199);
+            charnumericUpDown6.Location = new Point(672, 199);
             charnumericUpDown6.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             charnumericUpDown6.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
             charnumericUpDown6.Name = "charnumericUpDown6";
@@ -561,7 +561,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(726, 181);
+            label12.Location = new Point(672, 181);
             label12.Name = "label12";
             label12.Size = new Size(50, 15);
             label12.TabIndex = 23;
@@ -570,7 +570,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(642, 181);
+            label11.Location = new Point(588, 181);
             label11.Name = "label11";
             label11.Size = new Size(28, 15);
             label11.TabIndex = 21;
@@ -578,7 +578,7 @@
             // 
             // charnumericUpDown3
             // 
-            charnumericUpDown3.Location = new Point(560, 199);
+            charnumericUpDown3.Location = new Point(506, 199);
             charnumericUpDown3.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             charnumericUpDown3.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
             charnumericUpDown3.Name = "charnumericUpDown3";
@@ -589,7 +589,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(560, 181);
+            label10.Location = new Point(506, 181);
             label10.Name = "label10";
             label10.Size = new Size(64, 15);
             label10.TabIndex = 19;
@@ -597,7 +597,7 @@
             // 
             // charnumericUpDown4
             // 
-            charnumericUpDown4.Location = new Point(478, 199);
+            charnumericUpDown4.Location = new Point(424, 199);
             charnumericUpDown4.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             charnumericUpDown4.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
             charnumericUpDown4.Name = "charnumericUpDown4";
@@ -608,7 +608,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(478, 181);
+            label9.Location = new Point(424, 181);
             label9.Name = "label9";
             label9.Size = new Size(45, 15);
             label9.TabIndex = 17;
@@ -616,7 +616,7 @@
             // 
             // charnumericUpDown2
             // 
-            charnumericUpDown2.Location = new Point(392, 199);
+            charnumericUpDown2.Location = new Point(338, 199);
             charnumericUpDown2.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             charnumericUpDown2.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
             charnumericUpDown2.Name = "charnumericUpDown2";
@@ -627,7 +627,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(392, 181);
+            label8.Location = new Point(338, 181);
             label8.Name = "label8";
             label8.Size = new Size(42, 15);
             label8.TabIndex = 15;
@@ -639,7 +639,7 @@
             charnumericUpDown1.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             charnumericUpDown1.Minimum = new decimal(new int[] { int.MaxValue, 0, 0, int.MinValue });
             charnumericUpDown1.Name = "charnumericUpDown1";
-            charnumericUpDown1.Size = new Size(120, 23);
+            charnumericUpDown1.Size = new Size(91, 23);
             charnumericUpDown1.TabIndex = 14;
             charnumericUpDown1.ValueChanged += CharApply;
             // 
@@ -648,9 +648,9 @@
             label7.AutoSize = true;
             label7.Location = new Point(241, 181);
             label7.Name = "label7";
-            label7.Size = new Size(75, 15);
+            label7.Size = new Size(45, 15);
             label7.TabIndex = 13;
-            label7.Text = "Unknown Int";
+            label7.Text = "Weight";
             // 
             // chartextBox6
             // 
@@ -1855,6 +1855,16 @@
             tabPage5.TabIndex = 4;
             tabPage5.Text = "SSX 3 MPF(Models)";
             tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // AlphaCheckbox
+            // 
+            AlphaCheckbox.AutoSize = true;
+            AlphaCheckbox.Location = new Point(439, 505);
+            AlphaCheckbox.Name = "AlphaCheckbox";
+            AlphaCheckbox.Size = new Size(99, 19);
+            AlphaCheckbox.TabIndex = 4;
+            AlphaCheckbox.Text = "Alpha Models";
+            AlphaCheckbox.UseVisualStyleBackColor = true;
             // 
             // label92
             // 
@@ -3569,16 +3579,6 @@
             BiglessStore.Text = "Generate Bigless Store";
             BiglessStore.UseVisualStyleBackColor = true;
             BiglessStore.Click += BiglessStore_Click;
-            // 
-            // AlphaCheckbox
-            // 
-            AlphaCheckbox.AutoSize = true;
-            AlphaCheckbox.Location = new Point(439, 505);
-            AlphaCheckbox.Name = "AlphaCheckbox";
-            AlphaCheckbox.Size = new Size(99, 19);
-            AlphaCheckbox.TabIndex = 4;
-            AlphaCheckbox.Text = "Alpha Models";
-            AlphaCheckbox.UseVisualStyleBackColor = true;
             // 
             // SSX3ToolsWindow
             // 

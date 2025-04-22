@@ -31,7 +31,7 @@ namespace SSXMultiTool.FileHandlers
 
                         temp.NickName = StreamUtil.ReadString(stream, 16);
 
-                        temp.Unkown1 = StreamUtil.ReadUInt32(stream);
+                        temp.Weight = StreamUtil.ReadUInt32(stream);
 
                         temp.Stance = StreamUtil.ReadUInt32(stream);
 
@@ -59,7 +59,7 @@ namespace SSXMultiTool.FileHandlers
 
                         temp.NickName = StreamUtil.ReadString16(stream, 16);
 
-                        temp.Unkown1 = StreamUtil.ReadUInt32(stream);
+                        temp.Weight = StreamUtil.ReadUInt32(stream);
 
                         temp.Stance = StreamUtil.ReadUInt32(stream);
 
@@ -134,7 +134,7 @@ namespace SSXMultiTool.FileHandlers
 
                     StreamUtil.WriteString16(stream, charDBs[i].NickName, 16);
 
-                    StreamUtil.WriteInt32(stream, charDBs[i].Unkown1);
+                    StreamUtil.WriteInt32(stream, charDBs[i].Weight);
 
                     StreamUtil.WriteInt32(stream, charDBs[i].Stance);
 
@@ -176,7 +176,7 @@ namespace SSXMultiTool.FileHandlers
         public string LongName;
         public string FirstName;
         public string NickName;
-        public int Unkown1;
+        public int Weight;
         public int Stance;
         public int ModelSize;
         public string BloodType;
