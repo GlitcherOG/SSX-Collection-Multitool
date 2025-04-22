@@ -63,7 +63,7 @@ namespace SSXMultiTool
                     BloodType = chartextBox4.Text,
                     Height = chartextBox5.Text,
                     Nationality = chartextBox6.Text,
-                    Unkown1 = (int)charnumericUpDown1.Value,
+                    Weight = (int)charnumericUpDown1.Value,
                     Stance = (int)charnumericUpDown2.Value,
                     ModelSize = (int)charnumericUpDown3.Value,
                     Gender = (int)charnumericUpDown4.Value,
@@ -89,7 +89,7 @@ namespace SSXMultiTool
                 chartextBox4.Text = temp.BloodType;
                 chartextBox5.Text = temp.Height;
                 chartextBox6.Text = temp.Nationality;
-                charnumericUpDown1.Value = temp.Unkown1;
+                charnumericUpDown1.Value = temp.Weight;
                 charnumericUpDown2.Value = temp.Stance;
                 charnumericUpDown3.Value = temp.ModelSize;
                 charnumericUpDown4.Value = temp.Gender;

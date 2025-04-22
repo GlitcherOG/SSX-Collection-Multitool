@@ -106,7 +106,7 @@ namespace SSXMultiTool.FileHandlers
 
                     StreamUtil.WriteString(stream, charDBs[i].NickName, 16);
 
-                    StreamUtil.WriteInt32(stream, charDBs[i].Unkown1);
+                    StreamUtil.WriteInt32(stream, charDBs[i].Weight);
 
                     StreamUtil.WriteInt32(stream, charDBs[i].Stance);
 
