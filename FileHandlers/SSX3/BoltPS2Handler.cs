@@ -14,7 +14,6 @@ namespace SSXMultiTool.FileHandlers
         int ItemEntryAmmount; //Possibly Textures?
         public List<Character> characters = new List<Character>();
         int ammount2;
-        public List<Unkown2> unkown2 = new List<Unkown2>();
         int ammount3;
         public List<Unkown3> unkown3 = new List<Unkown3>();
         int ammount4;
@@ -72,6 +71,7 @@ namespace SSXMultiTool.FileHandlers
                     {
                         Character tempSlot = new Character();
                         tempSlot.entries = new List<ItemEntries>();
+                        tempSlot.unkown2s = new List<Unkown2>();
                         tempSlot.entries.Add(temp1);
                         characters.Add(tempSlot);
                     }
@@ -101,7 +101,12 @@ namespace SSXMultiTool.FileHandlers
                     temp2.UnkownInt5 = stream.ReadByte();
                     temp2.BoolInt2 = stream.ReadByte();
                     temp2.UnkownInt7 = StreamUtil.ReadInt16(stream);
-                    unkown2.Add(temp2);
+
+
+                    var tempSlot = characters[temp2.CharacterID];
+                    tempSlot.unkown2s.Add(temp2);
+                    characters[temp2.CharacterID] = tempSlot;
+
                 }
 
                 //152
@@ -267,21 +272,35 @@ namespace SSXMultiTool.FileHandlers
                 }
             }
 
-            StreamUtil.WriteInt32(stream, unkown2.Count);
+            ListCount = 0;
 
-            for (int i = 0; i < unkown2.Count; i++)
+            for (int i = 0; i < characters.Count; i++)
             {
-                var TempEntry = unkown2[i];
+                for (int a = 0; a < characters[i].unkown2s.Count; a++)
+                {
+                    ListCount++;
+                }
+            }
 
-                stream.WriteByte((byte)TempEntry.CharacterID);
-                stream.WriteByte((byte)TempEntry.BoolInt);
-                StreamUtil.WriteInt16(stream, TempEntry.UnkownInt);
-                stream.WriteByte((byte)TempEntry.UnkownInt2);
-                stream.WriteByte((byte)TempEntry.UnkownInt3);
-                StreamUtil.WriteInt16(stream, TempEntry.UnkownInt4);
-                stream.WriteByte((byte)TempEntry.UnkownInt5);
-                stream.WriteByte((byte)TempEntry.BoolInt2);
-                StreamUtil.WriteInt16(stream, TempEntry.UnkownInt7);
+            StreamUtil.WriteInt32(stream, ListCount);
+
+            for (int i = 0; i < ListCount; i++)
+            {
+                var TempCharEntry = characters[i];
+                for (global::System.Int32 j = 0; j < characters.Count; j++)
+                {
+                    var TempEntry = TempCharEntry.unkown2s[i];
+
+                    stream.WriteByte((byte)TempEntry.CharacterID);
+                    stream.WriteByte((byte)TempEntry.BoolInt);
+                    StreamUtil.WriteInt16(stream, TempEntry.UnkownInt);
+                    stream.WriteByte((byte)TempEntry.UnkownInt2);
+                    stream.WriteByte((byte)TempEntry.UnkownInt3);
+                    StreamUtil.WriteInt16(stream, TempEntry.UnkownInt4);
+                    stream.WriteByte((byte)TempEntry.UnkownInt5);
+                    stream.WriteByte((byte)TempEntry.BoolInt2);
+                    StreamUtil.WriteInt16(stream, TempEntry.UnkownInt7);
+                }
             }
 
             StreamUtil.WriteInt32(stream, unkown3.Count);
@@ -350,6 +369,7 @@ namespace SSXMultiTool.FileHandlers
     public struct Character
     {
         public List<ItemEntries> entries;
+        public List<Unkown2> unkown2s;
     }
 
     public struct ItemEntries

@@ -137,6 +137,7 @@ namespace SSXMultiTool
                 boltPS2.load(openFileDialog.FileName);
                 loaded = true;
                 BoltCharacter.SelectedIndex = 0;
+                BoltCharacter2.SelectedIndex = 0;
                 GenerateTreeview();
             }
         }
@@ -183,7 +184,12 @@ namespace SSXMultiTool
                                 else
                                 {
                                     var temp1 = BoltPS2TreeView.Nodes[a];
+                                    /*if(!*/
                                     CheckChildNode(temp1, temp.entries[i]);
+                                    /*)*/
+                                    //{
+                                    //    BoltPS2TreeView.Nodes.Add(temp.entries[i].ItemID.ToString(), temp.entries[i].ItemID.ToString() + " - " + temp.entries[i].itemName);
+                                    //}
                                 }
                             }
                         }
@@ -204,7 +210,7 @@ namespace SSXMultiTool
             }
         }
 
-        void CheckChildNode(TreeNode Parent, ItemEntries item)
+        bool CheckChildNode(TreeNode Parent, ItemEntries item)
         {
             for (int i = 0; i < Parent.Nodes.Count; i++)
             {
@@ -212,14 +218,18 @@ namespace SSXMultiTool
                 {
                     Parented[pos] = true;
                     Parent.Nodes[i].Nodes.Add(item.ItemID.ToString(), item.ItemID.ToString() + " - " + item.itemName);
-                    //return Parent;
+                    return true;
                 }
                 else
                 {
-                    CheckChildNode(Parent.Nodes[i], item);
+                    bool test = CheckChildNode(Parent.Nodes[i], item);
+                    if(test)
+                    {
+                        return true;
+                    }
                 }
             }
-            //return Parent;
+            return false;
         }
 
         private void BoltSave_Click(object sender, EventArgs e)
@@ -370,13 +380,42 @@ namespace SSXMultiTool
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+        //    for (int i = 0; i < boltPS2.unkown2.Count; i++)
+        //    {
+        //        var temp = boltPS2.unkown2[i];
+        //        temp.UnkownInt4 = 0;
+        //        boltPS2.unkown2[i] = temp;
+        //    }
+        //}
+
+        private void UnknownlistBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            for (int i = 0; i < boltPS2.unkown2.Count; i++)
+            int Index1 = BoltCharacter2.SelectedIndex;
+            if (UnknownlistBox1.SelectedIndex != -1)
             {
-                var temp = boltPS2.unkown2[i];
-                temp.UnkownInt4 = 0;
-                boltPS2.unkown2[i] = temp;
+                Bolt1Unkown1.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].BoolInt;
+                Bolt1Unkown2.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].UnkownInt;
+                Bolt1Unkown3.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].UnkownInt2;
+                Bolt1Unkown4.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].UnkownInt3;
+                Bolt1Unkown5.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].UnkownInt4;
+                Bolt1Unkown6.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].UnkownInt5;
+                Bolt1Unkown7.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].UnkownInt6;
+                Bolt1Unkown8.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].BoolInt2;
+                Bolt1Unkown9.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].UnkownInt7;
+            }
+        }
+
+        private void BoltCharacter2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(BoltCharacter2.SelectedIndex!=-1)
+            {
+                UnknownlistBox1.Items.Clear();
+                for (int i = 0; i < boltPS2.characters[BoltCharacter2.SelectedIndex].unkown2s.Count; i++)
+                {
+                    UnknownlistBox1.Items.Add(i.ToString());
+                }
             }
         }
 
