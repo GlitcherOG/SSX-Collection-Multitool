@@ -1,6 +1,4 @@
-﻿using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
-using SSXMultiTool.JsonFiles.SSX3;
-using SSXMultiTool.JsonFiles.SSXOG;
+﻿using SSXMultiTool.JsonFiles.SSX3;
 using SSXMultiTool.Utilities;
 using System;
 using System.Collections.Generic;
@@ -9,7 +7,6 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {

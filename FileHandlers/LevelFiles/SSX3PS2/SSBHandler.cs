@@ -21,13 +21,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         2 - WorldMDR
         3 - Instance?
         4 - Physics?
-        5 - Spline Segment?
-        6 - Spline?
+        5 - ?
+        6 -  ?
         7 -
         8 -
         9 - Shape
         10 - Old Shape Lightmaps
-        11 - Spline?
+        11 - Vis Curtains
         12 - Collision?
         13 - SSF
         14 - AIP
@@ -112,6 +112,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 Bin5JsonHandler bin5JsonHandler = new Bin5JsonHandler();
                 Bin6JsonHandler bin6JsonHandler = new Bin6JsonHandler();
                 SplineJsonHandler splineJsonHandler = new SplineJsonHandler();
+                Bin11JsonHandler bin11JsonHandler = new Bin11JsonHandler();
 
                 MemoryStream memoryStream = new MemoryStream();
                 List<int> ints = new List<int>();
@@ -178,11 +179,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 2)
                             {
-                                Console.WriteLine(ExtractPath + "//Models//" + Path + ".glb");
-                                WorldMDR worldMDR = new WorldMDR();
+                                //Console.WriteLine(ExtractPath + "//Models//" + Path + ".glb");
+                                //WorldMDR worldMDR = new WorldMDR();
 
-                                worldMDR.LoadData(NewData);
-                                worldMDR.SaveModel(ExtractPath + "//Models//" + Path + ".glb");
+                                //worldMDR.LoadData(NewData);
+                                //worldMDR.SaveModel(ExtractPath + "//Models//" + Path + ".glb");
                             }
                             else if (ID == 3)
                             {
@@ -235,6 +236,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 worldOldSSH.SaveImage(ExtractPath + "//Lightmaps//" + Path + ".png");
                                 worldOldSSH.SaveImage(extractPath + "//Lightmaps//" + RID.ToString().PadLeft(4, '0') + ".png");
                             }
+                            else if (ID == 11)
+                            {
+                                WorldBin11 worldBin11 = new WorldBin11();
+                                memoryStream1.Position = 0;
+                                worldBin11.LoadData(memoryStream1);
+
+                                bin11JsonHandler.bin11Files.Add(worldBin11.ToJSON());
+                            }
                             else if (ID == 14)
                             {
                                 Console.WriteLine(ExtractPath + ID + "-AIP.json");
@@ -252,16 +261,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 memoryStream1 = new MemoryStream();
                                 file.Close();
                             }
-                            else
-                            {
-                                Console.WriteLine(ExtractPath + Path + ".bin" + ID);
-                                var file = File.Create(ExtractPath + Path + ".bin" + ID);
-                                memoryStream1.Position = 0;
-                                memoryStream1.CopyTo(file);
-                                memoryStream1.Dispose();
-                                memoryStream1 = new MemoryStream();
-                                file.Close();
-                            }
+                            //else
+                            //{
+                            //    Console.WriteLine(ExtractPath + Path + ".bin" + ID);
+                            //    var file = File.Create(ExtractPath + Path + ".bin" + ID);
+                            //    memoryStream1.Position = 0;
+                            //    memoryStream1.CopyTo(file);
+                            //    memoryStream1.Dispose();
+                            //    memoryStream1 = new MemoryStream();
+                            //    file.Close();
+                            //}
 
                             FilePos++;
                         }
@@ -283,6 +292,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin6.json");
                             bin6JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin6.json");
 
+                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin11.json");
+                            bin11JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin11.json");
+
                             Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Splines.json");
                             splineJsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Splines.json");
 
@@ -291,6 +303,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             bin3JsonHandler = new Bin3JsonHandler();
                             bin5JsonHandler = new Bin5JsonHandler();
                             bin6JsonHandler = new Bin6JsonHandler();
+                            bin11JsonHandler = new Bin11JsonHandler();
                             splineJsonHandler = new SplineJsonHandler();
                         }
                         a++;
