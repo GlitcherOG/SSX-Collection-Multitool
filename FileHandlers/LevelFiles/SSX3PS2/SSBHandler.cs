@@ -111,6 +111,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 Bin3JsonHandler bin3JsonHandler = new Bin3JsonHandler();
                 Bin5JsonHandler bin5JsonHandler = new Bin5JsonHandler();
                 Bin6JsonHandler bin6JsonHandler = new Bin6JsonHandler();
+                SplineJsonHandler splineJsonHandler = new SplineJsonHandler();
 
                 MemoryStream memoryStream = new MemoryStream();
                 List<int> ints = new List<int>();
@@ -207,6 +208,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                                 bin6JsonHandler.bin6Files.Add(worldBin6.ToJSON());
                             }
+                            else if (ID == 8)
+                            {
+                                WorldSpline worldSpline = new WorldSpline();
+                                memoryStream1.Position = 0;
+                                worldSpline.LoadData(memoryStream1);
+
+                                splineJsonHandler.Splines.Add(worldSpline.ToJSON());
+                            }
                             else if (ID == 9)
                             {
                                 Console.WriteLine(ExtractPath + "//Textures//" + Path + ".png");
@@ -274,11 +283,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin6.json");
                             bin6JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin6.json");
 
+                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Splines.json");
+                            splineJsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Splines.json");
+
                             patchesJsonHandler = new PatchesJsonHandler();
                             bin0JsonHandler = new Bin0JsonHandler();
                             bin3JsonHandler = new Bin3JsonHandler();
                             bin5JsonHandler = new Bin5JsonHandler();
                             bin6JsonHandler = new Bin6JsonHandler();
+                            splineJsonHandler = new SplineJsonHandler();
                         }
                         a++;
                         memoryStream = new MemoryStream();
