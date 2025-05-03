@@ -29,15 +29,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         10 - Old Shape Lightmaps
         11 - Vis Curtains
         12 - Collision?
-        13 - SSF
+        13 - SSF?
         14 - AIP
-        15 - 
-        16 - Effects?
-        17 -
+        15 - World Painter?
+        16 - Scripts
+        17 - CameraTriggers?
         18 - 
-        19 - 
+        19 - Missions?
         20 - AudioBank
-        21 - 
+        21 - Radar?
         22 - End
          */
         public void LoadAndExtractSSB(string path, string extractPath)
@@ -112,7 +112,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 Bin5JsonHandler bin5JsonHandler = new Bin5JsonHandler();
                 Bin6JsonHandler bin6JsonHandler = new Bin6JsonHandler();
                 SplineJsonHandler splineJsonHandler = new SplineJsonHandler();
-                Bin11JsonHandler bin11JsonHandler = new Bin11JsonHandler();
+                VisCurtainJsonHandler visCurtainJsonHandler = new VisCurtainJsonHandler();
 
                 MemoryStream memoryStream = new MemoryStream();
                 List<int> ints = new List<int>();
@@ -179,11 +179,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 2)
                             {
-                                //Console.WriteLine(ExtractPath + "//Models//" + Path + ".glb");
-                                //WorldMDR worldMDR = new WorldMDR();
+                                Console.WriteLine(ExtractPath + "//Models//" + Path + ".glb");
+                                WorldMDR worldMDR = new WorldMDR();
 
-                                //worldMDR.LoadData(NewData);
-                                //worldMDR.SaveModel(ExtractPath + "//Models//" + Path + ".glb");
+                                worldMDR.LoadData(NewData);
+                                worldMDR.SaveModel(ExtractPath + "//Models//" + Path + ".glb");
                             }
                             else if (ID == 3)
                             {
@@ -238,11 +238,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 11)
                             {
-                                WorldBin11 worldBin11 = new WorldBin11();
+                                WorldVisCurtain worldBin11 = new WorldVisCurtain();
                                 memoryStream1.Position = 0;
                                 worldBin11.LoadData(memoryStream1);
 
-                                bin11JsonHandler.bin11Files.Add(worldBin11.ToJSON());
+                                visCurtainJsonHandler.VisCurtains.Add(worldBin11.ToJSON());
                             }
                             else if (ID == 14)
                             {
@@ -293,7 +293,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             bin6JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin6.json");
 
                             Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin11.json");
-                            bin11JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin11.json");
+                            visCurtainJsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//VisCurtain.json");
 
                             Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Splines.json");
                             splineJsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Splines.json");
@@ -303,7 +303,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             bin3JsonHandler = new Bin3JsonHandler();
                             bin5JsonHandler = new Bin5JsonHandler();
                             bin6JsonHandler = new Bin6JsonHandler();
-                            bin11JsonHandler = new Bin11JsonHandler();
+                            visCurtainJsonHandler = new VisCurtainJsonHandler();
                             splineJsonHandler = new SplineJsonHandler();
                         }
                         a++;

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
-    public class WorldBin11
+    public class WorldVisCurtain
     {
         public float U0;
         public float U1;
@@ -54,9 +54,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             BBoxMax = StreamUtil.ReadVector3(stream);
         }
 
-        public Bin11JsonHandler.Bin11File ToJSON()
+        public VisCurtainJsonHandler.VisCurtain ToJSON()
         {
-            Bin11JsonHandler.Bin11File bin11File = new Bin11JsonHandler.Bin11File();
+            VisCurtainJsonHandler.VisCurtain bin11File = new VisCurtainJsonHandler.VisCurtain();
 
             bin11File.U0 = U0;
             bin11File.U1 = U1;

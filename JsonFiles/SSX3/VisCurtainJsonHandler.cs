@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace SSXMultiTool.JsonFiles.SSX3
 {
-    public class Bin11JsonHandler
+    public class VisCurtainJsonHandler
     {
-        public List<Bin11File> bin11Files = new List<Bin11File>();
+        public List<VisCurtain> VisCurtains = new List<VisCurtain>();
 
         public void CreateJson(string path, bool Inline = false)
         {
@@ -25,23 +25,23 @@ namespace SSXMultiTool.JsonFiles.SSX3
             File.WriteAllText(path, serializer);
         }
 
-        public static Bin11JsonHandler Load(string path)
+        public static VisCurtainJsonHandler Load(string path)
         {
             string paths = path;
             if (File.Exists(paths))
             {
                 var stream = File.ReadAllText(paths);
-                var container = JsonConvert.DeserializeObject<Bin11JsonHandler>(stream);
+                var container = JsonConvert.DeserializeObject<VisCurtainJsonHandler>(stream);
                 return container;
             }
             else
             {
-                return new Bin11JsonHandler();
+                return new VisCurtainJsonHandler();
             }
         }
 
 
-        public struct Bin11File
+        public struct VisCurtain
         {
             public float U0;
             public float U1;
