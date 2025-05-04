@@ -21,10 +21,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         2 - WorldMDR
         3 - Instance?
         4 - Physics?
-        5 - ?
-        6 -  ?
+        5 -
+        6 -
         7 -
-        8 -
+        8 - Splines
         9 - Shape
         10 - Old Shape Lightmaps
         11 - Vis Curtains
