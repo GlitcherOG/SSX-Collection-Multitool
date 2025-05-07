@@ -16,7 +16,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         /*
             
         All IDS
-        0 - Unknown
+        0 - Materials?
         1 - Patches
         2 - WorldMDR
         3 - Instance?
@@ -32,7 +32,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         13 - SSF?
         14 - AIP
         15 - World Painter?
-        16 - Scripts
+        16 - Scripts?
         17 - CameraTriggers?
         18 - 
         19 - Missions?
@@ -261,16 +261,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 memoryStream1 = new MemoryStream();
                                 file.Close();
                             }
-                            //else
-                            //{
-                            //    Console.WriteLine(ExtractPath + Path + ".bin" + ID);
-                            //    var file = File.Create(ExtractPath + Path + ".bin" + ID);
-                            //    memoryStream1.Position = 0;
-                            //    memoryStream1.CopyTo(file);
-                            //    memoryStream1.Dispose();
-                            //    memoryStream1 = new MemoryStream();
-                            //    file.Close();
-                            //}
+                            else
+                            {
+                                Console.WriteLine(ExtractPath + Path + ".bin" + ID);
+                                var file = File.Create(ExtractPath + Path + ".bin" + ID);
+                                memoryStream1.Position = 0;
+                                memoryStream1.CopyTo(file);
+                                memoryStream1.Dispose();
+                                memoryStream1 = new MemoryStream();
+                                file.Close();
+                            }
 
                             FilePos++;
                         }
