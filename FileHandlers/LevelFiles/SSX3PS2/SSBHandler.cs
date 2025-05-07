@@ -38,7 +38,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         19 - Missions?
         20 - AudioBank
         21 - Radar?
-        22 - End
+        22 - Avalanche Animation
          */
         public void LoadAndExtractSSB(string path, string extractPath)
         {
