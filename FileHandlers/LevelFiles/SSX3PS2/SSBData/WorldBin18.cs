@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
@@ -28,36 +29,20 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
         public void LoadData(Stream stream, int TrackID, int RID)
         {
-            U0 = ObjectIDLoad(stream);
-            U1 = ObjectIDLoad(stream);
-            U2 = ObjectIDLoad(stream);
-            U3 = ObjectIDLoad(stream);
-            U4 = ObjectIDLoad(stream);
-            U5 = ObjectIDLoad(stream);
-            U6 = ObjectIDLoad(stream);
-            U7 = ObjectIDLoad(stream);
-            U8 = ObjectIDLoad(stream);
-            U9 = ObjectIDLoad(stream);
-            U10 = ObjectIDLoad(stream);
-            U11 = ObjectIDLoad(stream);
-            U12 = ObjectIDLoad(stream);
-            U13 = ObjectIDLoad(stream);
-        }
-
-        public ObjectID ObjectIDLoad(Stream stream)
-        {
-            ObjectID U = new ObjectID();
-
-            U.TrackID = StreamUtil.ReadUInt8(stream);
-            U.RID = StreamUtil.ReadInt24(stream);
-            
-            return U;
-        }
-
-        public struct ObjectID
-        {
-            public int TrackID;
-            public int RID;
+            U0 = WorldCommon.ObjectIDLoad(stream);
+            U1 = WorldCommon.ObjectIDLoad(stream);
+            U2 = WorldCommon.ObjectIDLoad(stream);
+            U3 = WorldCommon.ObjectIDLoad(stream);
+            U4 = WorldCommon.ObjectIDLoad(stream);
+            U5 = WorldCommon.ObjectIDLoad(stream);
+            U6 = WorldCommon.ObjectIDLoad(stream);
+            U7 = WorldCommon.ObjectIDLoad(stream);
+            U8 = WorldCommon.ObjectIDLoad(stream);
+            U9 = WorldCommon.ObjectIDLoad(stream);
+            U10 = WorldCommon.ObjectIDLoad(stream);
+            U11 = WorldCommon.ObjectIDLoad(stream);
+            U12 = WorldCommon.ObjectIDLoad(stream);
+            U13 = WorldCommon.ObjectIDLoad(stream);
         }
     }
 }

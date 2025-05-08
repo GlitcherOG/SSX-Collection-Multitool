@@ -11,8 +11,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
     public class WorldBin0
     {
-        public int TrackID;
-        public int RID;
+        public ObjectID objectID;
 
         public int U0;
         public int U1;

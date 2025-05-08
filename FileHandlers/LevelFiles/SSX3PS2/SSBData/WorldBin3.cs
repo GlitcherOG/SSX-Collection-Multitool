@@ -24,8 +24,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public Vector3 V1;
         public Vector3 V2;
 
-        public int TrackID;
-        public int RID;
+        public ObjectID objectID;
         public int U4;
 
         public int UTrackID;
@@ -53,8 +52,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             V1 = StreamUtil.ReadVector3(stream);
             V2 = StreamUtil.ReadVector3(stream);
 
-            TrackID = StreamUtil.ReadInt8(stream);
-            RID = StreamUtil.ReadInt24(stream);
+            objectID = WorldCommon.ObjectIDLoad(stream); 
             U4 = StreamUtil.ReadInt32(stream);
 
             UTrackID = StreamUtil.ReadInt8(stream);
