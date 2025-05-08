@@ -92,8 +92,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             bin3File.V1 = JsonUtil.Vector3ToArray(V1);
             bin3File.V2 = JsonUtil.Vector3ToArray(V2);
 
-            bin3File.TrackID = TrackID;
-            bin3File.RID = RID;
+            bin3File.TrackID = objectID.TrackID;
+            bin3File.RID = objectID.RID;
             bin3File.U4 = U4;
 
             bin3File.UTrackID = UTrackID;

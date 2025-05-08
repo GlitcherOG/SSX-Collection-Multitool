@@ -175,8 +175,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
             patchJson.U7 = JsonUtil.Vector4ToArray(U7);
 
-            patchJson.TrackID = TrackID;
-            patchJson.RID = RID;
+            patchJson.TrackID = objectID.TrackID;
+            patchJson.RID = objectID.RID;
 
             patchJson.U10 = U10;
             patchJson.U11 = U11;
