@@ -27,7 +27,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public ObjectID U12;
         public ObjectID U13;
 
-        public void LoadData(Stream stream, int TrackID, int RID)
+        public void LoadData(Stream stream)
         {
             U0 = WorldCommon.ObjectIDLoad(stream);
             U1 = WorldCommon.ObjectIDLoad(stream);
@@ -44,5 +44,30 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             U12 = WorldCommon.ObjectIDLoad(stream);
             U13 = WorldCommon.ObjectIDLoad(stream);
         }
+
+        public void ToJson(string path)
+        {
+            Bin18JsonHandler bin18JsonHandler = new Bin18JsonHandler();
+
+            bin18JsonHandler.U0 = U0;
+            bin18JsonHandler.U1 = U1;
+            bin18JsonHandler.U2 = U2;
+            bin18JsonHandler.U3 = U3;
+            bin18JsonHandler.U4 = U4;
+            bin18JsonHandler.U5 = U5;
+            bin18JsonHandler.U6 = U6;
+            bin18JsonHandler.U7 = U7;
+            bin18JsonHandler.U8 = U8;
+            bin18JsonHandler.U9 = U9;
+            bin18JsonHandler.U10 = U10;
+            bin18JsonHandler.U11 = U11;
+            bin18JsonHandler.U12 = U12;
+            bin18JsonHandler.U13 = U13;
+
+
+            bin18JsonHandler.CreateJson(path);
+
+        }
     }
 }
+

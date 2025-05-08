@@ -246,10 +246,18 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 14)
                             {
-                                Console.WriteLine(ExtractPath + ID + "-AIP.json");
+                                Console.WriteLine(ExtractPath + "AIP.json");
                                 WorldAIP worldAIP = new WorldAIP();
                                 worldAIP.LoadData(NewData);
-                                worldAIP.ToJson(ExtractPath + Path + "-AIP.json");
+                                worldAIP.ToJson(ExtractPath + "AIP.json");
+                            }
+                            else if (ID == 14)
+                            {
+                                Console.WriteLine(ExtractPath + "Bin18.json");
+                                WorldBin18 worldBin18 = new WorldBin18();
+                                worldBin18.LoadData(stream);
+
+                                worldBin18.ToJson(ExtractPath + "Bin18.json");
                             }
                             else if (ID == 20)
                             {
