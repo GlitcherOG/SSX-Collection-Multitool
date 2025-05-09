@@ -19,11 +19,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         0 - Materials?
         1 - Patches
         2 - WorldMDR
-        3 - Instance?
-        4 - Physics?
-        5 -
-        6 -
-        7 -
+        3 - Instance
+        4 - Particle Model
+        5 - Particles Instance
+        6 - Lights
+        7 - Halo
         8 - Splines
         9 - Shape
         10 - Old Shape Lightmaps
