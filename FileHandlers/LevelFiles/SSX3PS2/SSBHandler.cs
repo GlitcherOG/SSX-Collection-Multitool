@@ -34,7 +34,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         15 - World Painter?
         16 - Scripts?
         17 - CameraTriggers?
-        18 - 
+        18 - NIS Table
         19 - Missions?
         20 - AudioBank
         21 - Radar?
