@@ -29,7 +29,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         10 - Old Shape Lightmaps
         11 - Vis Curtains
         12 - Collision?
-        13 - SSF?
+        13 - Sound Triggers?
         14 - AIP
         15 - World Painter?
         16 - Scripts?
