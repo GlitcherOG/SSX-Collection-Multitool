@@ -1,7 +1,9 @@
 ﻿using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
+using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -240,6 +242,106 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             pbdHandler.SaveNew(LoadPath + ".pbd");
         }
 
+        public void ProjectScaler(string LoadPath, float Scale)
+        {
+            ConsoleWindow.GenerateConsole();
 
+            string TempPath = Application.StartupPath + "\\Temp";
+
+            Directory.CreateDirectory(TempPath);
+
+            Console.WriteLine("Begining Level Extraction...");
+            var trickyLevelInterface = new TrickyLevelInterface();
+
+            trickyLevelInterface.ExtractTrickyLevelFiles(LoadPath, TempPath);
+
+            Console.WriteLine("Scaling Level Files");
+            //Patches
+            PatchesJsonHandler patchesJsonHandler = new PatchesJsonHandler();
+            patchesJsonHandler = PatchesJsonHandler.Load(TempPath + "\\Patches.json");
+
+            for (int i = 0; i < patchesJsonHandler.Patches.Count; i++)
+            {
+                var Patch = patchesJsonHandler.Patches[i];
+
+                for (global::System.Int32 j = 0; j < 16; j++)
+                {
+                    for (global::System.Int32 k = 0; k < 3; k++)
+                    {
+                        Patch.Points[j, k] = Patch.Points[j, k] * Scale;
+                    }
+                }
+
+                patchesJsonHandler.Patches[i] = Patch;
+            }
+
+            patchesJsonHandler.CreateJson(TempPath + "\\Patches.json");
+            //Instances
+
+            //Convert points from array to vectors
+            //Scale
+            //Convert back
+
+            //Models/Prefabs
+
+            //Convert points from array to vectors
+            //Scale
+            //Convert back
+            //Read through each line of models and scale V points
+
+            //Splines
+
+            //Convert points from array to vectors
+            //Scale
+            //Convert back
+
+            //Lights
+
+            //Convert points from array to vectors
+            //Scale
+            //Convert back
+
+            //Particles
+
+            //Convert points from array to vectors
+            //Scale
+            //Convert back
+
+            //Collision
+
+            //Read through each line of models and scale V points
+
+            //Path General AI
+
+            //Convert points from array to vectors
+            //Scale
+            //Convert back
+
+            //Path General Raceline
+
+            //Convert points from array to vectors
+            //Scale
+            //Convert back
+
+            //Path Showoff AI
+
+            //Convert points from array to vectors
+            //Scale
+            //Convert back
+
+            //Path Showoff Raceline
+
+            //Convert points from array to vectors
+            //Scale
+            //Convert back
+
+            Console.WriteLine("Begining Level Rebuild...");
+
+            trickyLevelInterface = new TrickyLevelInterface();
+
+            trickyLevelInterface.BuildTrickyLevelFiles(TempPath, LoadPath);
+
+            ConsoleWindow.CloseConsole();
+        }
     }
 }
