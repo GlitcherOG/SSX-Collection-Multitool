@@ -99,6 +99,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             //INDEXED COLOUR
             if (MatrixFormat == 2 || MatrixFormat == 1)
             {
+                Matrix = Unswizzle8(Matrix, Width, Height);
+
                 int Spos = (int)stream.Position;
                 bool find = false;
                 while (!find)
@@ -267,6 +269,31 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                 MessageBox.Show("Error reading File" + MatrixFormat.ToString());
             }
 
+        }
+
+        public static byte[] Unswizzle8(byte[] buf, int width, int height)
+        {
+            byte[] output = new byte[width * height];
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    int blockLocation = (y & ~0xf) * width + (x & ~0xf) * 2;
+                    int swapSelector = (((y + 2) >> 2) & 0x1) * 4;
+                    int posY = (((y & ~3) >> 1) + (y & 1)) & 0x7;
+                    int columnLocation = posY * width * 2 + ((x + swapSelector) & 0x7) * 4;
+                    int byteNum = ((y >> 1) & 1) + ((x >> 2) & 2);
+                    int swizzleId = blockLocation + columnLocation + byteNum;
+
+                    if (swizzleId < buf.Length && y * width + x < output.Length)
+                    {
+                        output[y * width + x] = buf[swizzleId];
+                    }
+                }
+            }
+
+            return output;
         }
 
         public void SaveImage(string path)

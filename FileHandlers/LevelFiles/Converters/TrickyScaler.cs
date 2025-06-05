@@ -8,7 +8,6 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using static SSXMultiTool.FileHandlers.LevelFiles.OGPS2.WDFHandler;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 {
@@ -266,10 +265,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
                 for (global::System.Int32 j = 0; j < 16; j++)
                 {
-                    for (global::System.Int32 k = 0; k < 3; k++)
-                    {
-                        Patch.Points[j, k] = Patch.Points[j, k] * Scale;
-                    }
+                    Patch.Points[j, 0] = Patch.Points[j, 0] * Scale;
+                    Patch.Points[j, 1] = Patch.Points[j, 1] * Scale;
+                    Patch.Points[j, 2] = Patch.Points[j, 2] * Scale;
                 }
 
                 patchesJsonHandler.Patches[i] = Patch;
@@ -278,9 +276,20 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             patchesJsonHandler.CreateJson(TempPath + "\\Patches.json");
             //Instances
 
-            //Convert points from array to vectors
-            //Scale
-            //Convert back
+            InstanceJsonHandler instanceJsonHandler = new InstanceJsonHandler();
+            instanceJsonHandler = InstanceJsonHandler.Load(TempPath + "\\Instances.json");
+
+            for (int i = 0; i < instanceJsonHandler.Instances.Count; i++)
+            {
+                var Instance = instanceJsonHandler.Instances[i];
+
+                Instance.Location[0] = Instance.Location[0] * Scale;
+                Instance.Location[1] = Instance.Location[1] * Scale;
+                Instance.Location[2] = Instance.Location[2] * Scale;
+
+                instanceJsonHandler.Instances[i] = Instance;
+            }
+            instanceJsonHandler.CreateJson(TempPath + "\\Instances.json");
 
             //Models/Prefabs
 
@@ -291,21 +300,67 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
             //Splines
 
-            //Convert points from array to vectors
-            //Scale
-            //Convert back
+            SplineJsonHandler splineJsonHandler = new SplineJsonHandler();
+            splineJsonHandler = SplineJsonHandler.Load(TempPath + "\\Splines.json");
+
+            for (int i = 0; i < splineJsonHandler.Splines.Count; i++)
+            {
+                var Spline = splineJsonHandler.Splines[i];
+
+                for (int j = 0; j < Spline.Segments.Count; j++)
+                {
+                    var Segment = Spline.Segments[j];
+
+                    for (int a = 0; a < 4; a++)
+                    {
+                        Segment.Points[a, 0] = Segment.Points[a, 0] * Scale;
+                        Segment.Points[a, 1] = Segment.Points[a, 1] * Scale;
+                        Segment.Points[a, 2] = Segment.Points[a, 2] * Scale;
+                    }
+
+                    Spline.Segments[j] = Segment;
+                }
+
+                splineJsonHandler.Splines[i] = Spline;
+            }
+
+            splineJsonHandler.CreateJson(TempPath + "\\Splines.json");
 
             //Lights
 
-            //Convert points from array to vectors
-            //Scale
-            //Convert back
+            LightJsonHandler lightJsonHandler = new LightJsonHandler();
+            lightJsonHandler = LightJsonHandler.Load(TempPath + "\\lights.json");
+
+            for (int i = 0; i < lightJsonHandler.Lights.Count; i++)
+            {
+                var Light = lightJsonHandler.Lights[i];
+
+                Light.Postion[0] = Light.Postion[0] * Scale;
+                Light.Postion[1] = Light.Postion[1] * Scale;
+                Light.Postion[2] = Light.Postion[2] * Scale;
+
+                lightJsonHandler.Lights[i] = Light;
+            }
+
+            lightJsonHandler.CreateJson(TempPath + "\\lights.json");
 
             //Particles
 
-            //Convert points from array to vectors
-            //Scale
-            //Convert back
+            ParticleInstanceJsonHandler particleInstanceJsonHandler = new ParticleInstanceJsonHandler();
+            particleInstanceJsonHandler = ParticleInstanceJsonHandler.Load(TempPath + "\\Particles.json");
+
+            for (int i = 0; i < particleInstanceJsonHandler.Particles.Count; i++)
+            {
+                var Particle = particleInstanceJsonHandler.Particles[i];
+
+                Particle.Location[0] = Particle.Location[0] * Scale;
+                Particle.Location[1] = Particle.Location[1] * Scale;
+                Particle.Location[2] = Particle.Location[2] * Scale;
+
+                particleInstanceJsonHandler.Particles[i] = Particle;
+            }
+
+            particleInstanceJsonHandler.CreateJson(TempPath + "\\Particles.json");
 
             //Collision
 
