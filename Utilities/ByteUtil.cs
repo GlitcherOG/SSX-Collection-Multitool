@@ -544,6 +544,100 @@ namespace SSXMultiTool.Utilities
             return Matrix;
         }
 
+        public static byte[] Unswizzle8(byte[] buf, int width, int height)
+        {
+            byte[] output = new byte[width * height];
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    int blockLocation = (y & ~0xf) * width + (x & ~0xf) * 2;
+                    int swapSelector = (((y + 2) >> 2) & 0x1) * 4;
+                    int posY = (((y & ~3) >> 1) + (y & 1)) & 0x7;
+                    int columnLocation = posY * width * 2 + ((x + swapSelector) & 0x7) * 4;
+                    int byteNum = ((y >> 1) & 1) + ((x >> 2) & 2);
+                    int swizzleId = blockLocation + columnLocation + byteNum;
+
+                    if (swizzleId < buf.Length && y * width + x < output.Length)
+                    {
+                        output[y * width + x] = buf[swizzleId];
+                    }
+                }
+            }
+
+            return output;
+        }
+
+        public static byte[] Unswizzle4bpp(byte[] pInTexels, int width, int height)
+        {
+            byte[] pSwizTexels = new byte[width * height / 2];
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    int index = y * width + x;
+
+                    // Unswizzling calculations
+                    int pageX = x & (~0x7f);
+                    int pageY = y & (~0x7f);
+
+                    int pages_horz = (width + 127) / 128;
+                    int pages_vert = (height + 127) / 128;
+
+                    int page_number = (pageY / 128) * pages_horz + (pageX / 128);
+
+                    int page32Y = (page_number / pages_vert) * 32;
+                    int page32X = (page_number % pages_vert) * 64;
+
+                    int page_location = page32Y * height * 2 + page32X * 4;
+
+                    int locX = x & 0x7f;
+                    int locY = y & 0x7f;
+
+                    int block_location = ((locX & (~0x1f)) >> 1) * height + (locY & (~0xf)) * 2;
+                    int swap_selector = (((y + 2) >> 2) & 0x1) * 4;
+                    int posY = (((y & (~3)) >> 1) + (y & 1)) & 0x7;
+
+                    int column_location = posY * height * 2 + ((x + swap_selector) & 0x7) * 4;
+
+                    int byte_num = (x >> 3) & 3;
+                    int bits_set = (y >> 1) & 1;
+
+                    int pos = page_location + block_location + column_location + byte_num;
+
+                    if (pos < pInTexels.Length)
+                    {
+                        int uPen;
+                        if ((bits_set & 1) != 0)
+                        {
+                            uPen = (pInTexels[pos] >> 4) & 0xf;
+                        }
+                        else
+                        {
+                            uPen = pInTexels[pos] & 0xf;
+                        }
+
+                        int byteIndex = index >> 1;
+                        byte pix = pSwizTexels[byteIndex];
+
+                        if ((index & 1) != 0)
+                        {
+                            pSwizTexels[byteIndex] = (byte)(((uPen << 4) & 0xf0) | (pix & 0x0f));
+                        }
+                        else
+                        {
+                            pSwizTexels[byteIndex] = (byte)((pix & 0xf0) | (uPen & 0x0f));
+                        }
+                    }
+                }
+            }
+
+            return pSwizTexels;
+        }
+
+
         public static float UintByteToFloat(int Int)
         {
             byte[] bytes = BitConverter.GetBytes(Int);

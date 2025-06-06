@@ -80,6 +80,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             Matrix = tempByte;
 
             //Matrix = RefpackHandler.Decompress(Matrix, true, Width * Height);
+            if (MatrixFormat == 1)
+            {
+                Matrix = ByteUtil.Unswizzle4bpp(Matrix, Width, Height);
+            }
+
+            if (MatrixFormat == 2)
+            {
+                Matrix = ByteUtil.Unswizzle8(Matrix, Width, Height);
+            }
 
             //Split Image Into Proper Bytes
             if (MatrixFormat == 1)
@@ -99,18 +108,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             //INDEXED COLOUR
             if (MatrixFormat == 2 || MatrixFormat == 1)
             {
-                Matrix = Unswizzle8(Matrix, Width, Height);
+                stream.Position = Size + 0x1;
 
-                int Spos = (int)stream.Position;
-                bool find = false;
-                while (!find)
-                {
-                    if (stream.ReadByte() == 0x21)
-                    {
-                        Spos = (int)stream.Position;
-                        find = true;
-                    }
-                }
                 sshTable = new SSHColourTable();
 
                 sshTable.Size = StreamUtil.ReadInt24(stream);
@@ -125,13 +124,14 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
                 sshTable.colorTable = new List<Color>();
 
-                int tempSize = sshTable.Size / 4 - 4;
+                int tempSize = sshTable.Size - 0x80;
+
                 if (sshTable.Size == 0)
                 {
                     tempSize = sshTable.Total;
                 }
 
-                stream.Position = Spos + 0x7F;
+                stream.Position = Size + 0x80;
 
                 for (int a = 0; a < tempSize; a++)
                 {

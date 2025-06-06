@@ -49,15 +49,15 @@ namespace SSXMultiTool.FileHandlers.Textures
 
                     endingstring = StreamUtil.ReadString(stream, 4);
 
-                    try
-                    {
+                    //try
+                    //{
                         StandardToBitmap(stream);
-                    }
-                    catch
-                    {
-                        sshImages = new List<SSHImage>();
-                        MessageBox.Show("Error reading File " + MagicWord + " " + format);
-                    }
+                    //}
+                    //catch
+                    //{
+                    //    sshImages = new List<SSHImage>();
+                    //    MessageBox.Show("Error reading File " + MagicWord + " " + format);
+                    //}
                 }
                 else if (MagicWord == "ShpS")
                 {
@@ -287,7 +287,8 @@ namespace SSXMultiTool.FileHandlers.Textures
                 {
                     if (tempImageHeader.LXPos == 2)
                     {
-                        tempImage.Matrix = ByteUtil.ByteArraySwap(tempImage.Matrix, tempImageHeader);
+                        tempImage.Matrix = ByteUtil.Unswizzle8(tempImage.Matrix, tempImageHeader.Width, tempImageHeader.Height);
+                        //ByteUtil.ByteArraySwap(tempImage.Matrix, tempImageHeader);
                     }
                     for (int y = 0; y < tempImageHeader.Height; y++)
                     {
