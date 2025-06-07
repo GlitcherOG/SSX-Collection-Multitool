@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing.Imaging;
-using System.Windows.Shapes;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
@@ -133,10 +132,26 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
                 stream.Position = Size + 0x80;
 
-                for (int a = 0; a < tempSize; a++)
+                var Matrix = StreamUtil.ReadBytes(stream, tempSize * 4);
+
+                if (MatrixFormat == 2)
                 {
-                    sshTable.colorTable.Add(StreamUtil.ReadColour(stream));
+                    Matrix = ByteUtil.UnswizzlePalette(Matrix, sshTable.Total);
                 }
+
+                for (global::System.Int32 i = 0; i < tempSize; i++)
+                {
+                    int R = Matrix[i * 4];
+                    int G = Matrix[i * 4+1];
+                    int B = Matrix[i * 4+2];
+                    int A = Matrix[i * 4+3];
+                    sshTable.colorTable.Add(Color.FromArgb(A, R, G, B));
+                }
+
+                //for (int a = 0; a < tempSize; a++)
+                //{
+                //    sshTable.colorTable.Add(StreamUtil.ReadColour(stream));
+                //}
 
                 int Max = 0;
                 //Alpha Fix

@@ -637,7 +637,19 @@ namespace SSXMultiTool.Utilities
             return pSwizTexels;
         }
 
+        public static byte[] UnswizzlePalette(byte[] palBuffer, int width)
+        {
+            byte[] newPal = new byte[1024];
+            for (int p = 0; p < width; p++)
+            {
+                int pos = (p & 231) + ((p & 8) << 1) + ((p & 16) >> 1);
+                int srcIndex = p * 4;
+                int destIndex = pos * 4;
 
+                Array.Copy(palBuffer, srcIndex, newPal, destIndex, 4);
+            }
+            return newPal;
+        }
         public static float UintByteToFloat(int Int)
         {
             byte[] bytes = BitConverter.GetBytes(Int);
