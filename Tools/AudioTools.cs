@@ -49,7 +49,7 @@ namespace SSXMultiTool.Tools
                     {
                         Directory.CreateDirectory(Application.StartupPath + "/TempAudio");
                         File.Copy(openFileDialog.FileName, Application.StartupPath + "/TempAudio/Audio.bnk");
-                        File.Copy(Application.StartupPath + "/sx_2002.exe", Application.StartupPath + "/TempAudio/sx.exe");
+                        File.Copy(Application.StartupPath + "/sx.exe", Application.StartupPath + "/TempAudio/sx.exe");
 
                         Process cmd = new Process();
                         cmd.StartInfo.FileName = "cmd.exe";
