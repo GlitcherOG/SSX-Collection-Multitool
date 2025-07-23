@@ -8,9 +8,9 @@ namespace SSXMultiTool.FileHandlers.Textures
 {
     public class NewSSHHandler
     {
-        byte[] Magic; //4
-        int Size;
-        int ImageCount; //Big 4
-        int U0;
+        public byte[] Magic; //4
+        public int Size;
+        public int ImageCount; //Big 4
+        public int U0;
     }
 }
