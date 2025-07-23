@@ -173,7 +173,7 @@ namespace SSXMultiTool.Utilities
             return Number;
         }
 
-        public static byte[] ByteArraySwap(byte[] Bytes, SSHImageHeader tempImageHeader)
+        public static byte[] ByteArraySwap(byte[] Bytes, OldSSHHandler.SSHImageHeader tempImageHeader)
         {
             int x = 0;
             int oldx = 0;
@@ -350,7 +350,7 @@ namespace SSXMultiTool.Utilities
             return Buffer;
         }
 
-        public static byte[] ByteArrayReswap(byte[] Bytes, SSHImageHeader tempImageHeader)
+        public static byte[] ByteArrayReswap(byte[] Bytes, OldSSHHandler.SSHImageHeader tempImageHeader)
         {
             byte[] Matrix = new byte[tempImageHeader.Height * tempImageHeader.Width];
             byte[,] MatrixRedo = new byte[tempImageHeader.Height, tempImageHeader.Width];

@@ -1085,47 +1085,46 @@ namespace SSXMultiTool.FileHandlers.Textures
                 }
             }
         }
-    }
 
+        public struct SSHImage
+        {
+            public string shortname;
+            public string longname;
+            public int unknownEnd;
+            public int offset;
+            public SSHImageHeader sshHeader;
+            public byte[] Matrix;
+            public SSHColourTable sshTable;
+            public bool AlphaFix;
+            public bool MetalBin;
+            public Bitmap metalBitmap;
+            public Bitmap bitmap;
+        }
+        public struct SSHImageHeader
+        {
+            public byte MatrixFormat;
+            public int Size;
+            public int Width;
+            public int Height;
+            public int Xaxis;
+            public int Yaxis;
+            public int LXPos;
+            public bool flag1;
+            public bool flag2;
+            public bool flag3;
+            public bool flag4;
+            public int TYPos;
+            public int Mipmaps; //Unit4
+        }
 
-    public struct SSHImage
-    {
-        public string shortname;
-        public string longname;
-        public int unknownEnd;
-        public int offset;
-        public SSHImageHeader sshHeader;
-        public byte[] Matrix;
-        public SSHColourTable sshTable;
-        public bool AlphaFix;
-        public bool MetalBin;
-        public Bitmap metalBitmap;
-        public Bitmap bitmap;
-    }
-    public struct SSHImageHeader
-    {
-        public byte MatrixFormat;
-        public int Size;
-        public int Width;
-        public int Height;
-        public int Xaxis;
-        public int Yaxis;
-        public int LXPos;
-        public bool flag1;
-        public bool flag2;
-        public bool flag3;
-        public bool flag4;
-        public int TYPos;
-        public int Mipmaps; //Unit4
-    }
-
-    public struct SSHColourTable
-    {
-        public int Size;
-        public int Width;
-        public int Height;
-        public int Total;
-        public int Format;
-        public List<Color> colorTable;
+        public struct SSHColourTable
+        {
+            public int Size;
+            public int Width;
+            public int Height;
+            public int Total;
+            public int Format;
+            public List<Color> colorTable;
+        }
     }
 }

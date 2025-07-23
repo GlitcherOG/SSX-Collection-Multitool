@@ -82,6 +82,23 @@ namespace SSXMultiTool.FileHandlers.Textures
             public int size;
             public string name;
 
+            SSHImageHeader sshImageHeader;
+            byte[] Matrix;
+
+        }
+
+        public struct SSHImageHeader
+        {
+            public byte MatrixFormat;
+            public int U0;
+            public int Size;
+            public int U2;
+            public int U3;
+
+            public int U4;
+            public int U5;
+            public int U6;
+            public int U7;
         }
         /* 
 u32 Magic @ $;
