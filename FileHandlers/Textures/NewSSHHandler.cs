@@ -1,6 +1,9 @@
-﻿using SSXMultiTool.Utilities;
+﻿using NAudio.Gui;
+using SSXMultiTool.Utilities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -49,15 +52,7 @@ namespace SSXMultiTool.FileHandlers.Textures
 
                     //endingstring = StreamUtil.ReadString(stream, 4);
 
-                    ////try
-                    ////{
-                    //StandardToBitmap(stream);
-                    //}
-                    //catch
-                    //{
-                    //    sshImages = new List<SSHImage>();
-                    //    MessageBox.Show("Error reading File " + MagicWord + " " + format);
-                    //}
+                    StandardToBitmap(stream);
                 }
                 else
                 {
@@ -73,6 +68,59 @@ namespace SSXMultiTool.FileHandlers.Textures
             for (int i = 0; i < sshImages.Count; i++)
             {
                 NewSSHImage tempImage = sshImages[i];
+                stream.Position = tempImage.offset;
+
+                tempImage.sshImageHeader = new SSHShapeHeader();
+
+                tempImage.sshImageHeader.MatrixFormat = StreamUtil.ReadUInt8(stream);
+                tempImage.sshImageHeader.U0 = StreamUtil.ReadInt24(stream);
+                tempImage.sshImageHeader.Size = StreamUtil.ReadUInt32(stream);
+                tempImage.sshImageHeader.U2 = StreamUtil.ReadUInt32(stream);
+                tempImage.sshImageHeader.U3 = StreamUtil.ReadUInt32(stream);
+                tempImage.sshImageHeader.U4 = StreamUtil.ReadUInt32(stream);
+                tempImage.sshImageHeader.U5 = StreamUtil.ReadUInt32(stream);
+                tempImage.sshImageHeader.XSize = StreamUtil.ReadUInt32(stream);
+                tempImage.sshImageHeader.YSize = StreamUtil.ReadUInt32(stream);
+
+                tempImage.Matrix = StreamUtil.ReadBytes(stream, tempImage.sshImageHeader.Size - 32);
+
+                tempImage.sshColourHeader = new SSHShapeHeader();
+
+                tempImage.sshColourHeader.MatrixFormat = StreamUtil.ReadUInt8(stream);
+                tempImage.sshColourHeader.U0 = StreamUtil.ReadInt24(stream);
+                tempImage.sshColourHeader.Size = StreamUtil.ReadUInt32(stream);
+                tempImage.sshColourHeader.U2 = StreamUtil.ReadUInt32(stream);
+                tempImage.sshColourHeader.U3 = StreamUtil.ReadUInt32(stream);
+                tempImage.sshColourHeader.U4 = StreamUtil.ReadUInt32(stream);
+                tempImage.sshColourHeader.U5 = StreamUtil.ReadUInt32(stream);
+                tempImage.sshColourHeader.XSize = StreamUtil.ReadUInt32(stream);
+                tempImage.sshColourHeader.YSize = StreamUtil.ReadUInt32(stream);
+
+                tempImage.colorsTable = new List<Color>();
+
+                for (global::System.Int32 j = 0; j < tempImage.sshColourHeader.XSize; j++)
+                {
+                    tempImage.colorsTable.Add(StreamUtil.ReadColour(stream));
+                }
+
+                //tempImage.ColourMatrix = StreamUtil.ReadBytes(stream, tempImage.sshColourHeader.Size - 32);
+
+                //Process Image
+                tempImage.bitmap = new Bitmap(tempImage.sshImageHeader.XSize, tempImage.sshImageHeader.YSize, PixelFormat.Format32bppArgb);
+                int post = 0;
+                for (int y = 0; y < tempImage.sshImageHeader.YSize; y++)
+                {
+                    for (int x = 0; x < tempImage.sshImageHeader.XSize; x++)
+                    {
+                        int colorPos = tempImage.Matrix[post];
+                        tempImage.bitmap.SetPixel(x, y, tempImage.colorsTable[colorPos]);
+
+                        post++;
+                    }
+                }
+
+                tempImage.bitmap.Save("I:\\PS2\\SSX\\SSX On Tour\\SLED 53625\\data\\textures\\"+i+".png");
+                sshImages[i] = tempImage;
             }
         }
 
@@ -82,12 +130,15 @@ namespace SSXMultiTool.FileHandlers.Textures
             public int size;
             public string name;
 
-            SSHImageHeader sshImageHeader;
-            byte[] Matrix;
-
+            public SSHShapeHeader sshImageHeader;
+            public byte[] Matrix;
+            public SSHShapeHeader sshColourHeader;
+            public byte[] ColourMatrix;
+            public List<Color> colorsTable;
+            public Bitmap bitmap;
         }
 
-        public struct SSHImageHeader
+        public struct SSHShapeHeader
         {
             public byte MatrixFormat;
             public int U0;
@@ -97,8 +148,8 @@ namespace SSXMultiTool.FileHandlers.Textures
 
             public int U4;
             public int U5;
-            public int U6;
-            public int U7;
+            public int XSize;
+            public int YSize;
         }
         /* 
 u32 Magic @ $;

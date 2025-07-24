@@ -49,15 +49,15 @@ namespace SSXMultiTool.FileHandlers.Textures
 
                     endingstring = StreamUtil.ReadString(stream, 4);
 
-                    //try
-                    //{
+                    try
+                    {
                         StandardToBitmap(stream);
-                    //}
-                    //catch
-                    //{
-                    //    sshImages = new List<SSHImage>();
-                    //    MessageBox.Show("Error reading File " + MagicWord + " " + format);
-                    //}
+                    }
+                    catch
+                    {
+                        sshImages = new List<SSHImage>();
+                        MessageBox.Show("Error reading File " + MagicWord + " " + format);
+                    }
                 }
                 else if (MagicWord == "ShpS")
                 {
