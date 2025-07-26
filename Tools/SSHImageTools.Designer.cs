@@ -34,6 +34,7 @@
             toolStripDropDownButton1 = new ToolStripDropDownButton();
             LoadSSHButton = new ToolStripMenuItem();
             LoadPNGFolderButton = new ToolStripMenuItem();
+            toolStripMenuItem1 = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             ExportAllButton = new ToolStripMenuItem();
             SaveSSHButton = new ToolStripMenuItem();
@@ -78,7 +79,7 @@
             ImageRemoveButton = new Button();
             ReplaceImageButton = new Button();
             ExportImageButton = new Button();
-            toolStripMenuItem1 = new ToolStripMenuItem();
+            checkBox1 = new CheckBox();
             toolStrip1.SuspendLayout();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -92,7 +93,6 @@
             // 
             ImageList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             ImageList.FormattingEnabled = true;
-            ImageList.ItemHeight = 15;
             ImageList.Location = new Point(12, 28);
             ImageList.Name = "ImageList";
             ImageList.Size = new Size(174, 499);
@@ -121,33 +121,40 @@
             // LoadSSHButton
             // 
             LoadSSHButton.Name = "LoadSSHButton";
-            LoadSSHButton.Size = new Size(180, 22);
+            LoadSSHButton.Size = new Size(172, 22);
             LoadSSHButton.Text = "Load .SSH";
             LoadSSHButton.Click += LoadSSHButton_Click;
             // 
             // LoadPNGFolderButton
             // 
             LoadPNGFolderButton.Name = "LoadPNGFolderButton";
-            LoadPNGFolderButton.Size = new Size(180, 22);
+            LoadPNGFolderButton.Size = new Size(172, 22);
             LoadPNGFolderButton.Text = "Load PNG Folder";
             LoadPNGFolderButton.Click += LoadFolderButton_Click;
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(172, 22);
+            toolStripMenuItem1.Text = "Load Export Folder";
+            toolStripMenuItem1.Click += toolStripMenuItem1_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(169, 6);
             // 
             // ExportAllButton
             // 
             ExportAllButton.Name = "ExportAllButton";
-            ExportAllButton.Size = new Size(180, 22);
+            ExportAllButton.Size = new Size(172, 22);
             ExportAllButton.Text = "Export All To PNG";
             ExportAllButton.Click += ExportAllButton_Click;
             // 
             // SaveSSHButton
             // 
             SaveSSHButton.Name = "SaveSSHButton";
-            SaveSSHButton.Size = new Size(180, 22);
+            SaveSSHButton.Size = new Size(172, 22);
             SaveSSHButton.Text = "Save .SSH";
             SaveSSHButton.Click += SaveSSHButton_Click;
             // 
@@ -178,7 +185,7 @@
             label3.AutoSize = true;
             label3.Location = new Point(93, 19);
             label3.Name = "label3";
-            label3.Size = new Size(82, 15);
+            label3.Size = new Size(81, 15);
             label3.TabIndex = 2;
             label3.Text = "Gimex Version";
             // 
@@ -245,7 +252,7 @@
             ImageSizeLabel.AutoSize = true;
             ImageSizeLabel.Location = new Point(331, 82);
             ImageSizeLabel.Name = "ImageSizeLabel";
-            ImageSizeLabel.Size = new Size(31, 15);
+            ImageSizeLabel.Size = new Size(30, 15);
             ImageSizeLabel.TabIndex = 7;
             ImageSizeLabel.Text = "0 x 0";
             // 
@@ -285,7 +292,7 @@
             label8.AutoSize = true;
             label8.Location = new Point(11, 64);
             label8.Name = "label8";
-            label8.Size = new Size(79, 15);
+            label8.Size = new Size(78, 15);
             label8.TabIndex = 4;
             label8.Text = "X-Axis Centre";
             // 
@@ -294,7 +301,7 @@
             label7.AutoSize = true;
             label7.Location = new Point(129, 64);
             label7.Name = "label7";
-            label7.Size = new Size(79, 15);
+            label7.Size = new Size(78, 15);
             label7.TabIndex = 3;
             label7.Text = "Y-Axis Centre";
             // 
@@ -344,6 +351,7 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(checkBox1);
             groupBox3.Controls.Add(HalfAlphaButton);
             groupBox3.Controls.Add(DoubleAlphaButton);
             groupBox3.Controls.Add(ColourAmountLabel);
@@ -420,9 +428,9 @@
             label12.AutoSize = true;
             label12.Location = new Point(11, 19);
             label12.Name = "label12";
-            label12.Size = new Size(101, 15);
+            label12.Size = new Size(79, 15);
             label12.TabIndex = 28;
-            label12.Text = "Colour Ammount";
+            label12.Text = "Colour Count";
             // 
             // DoubleColourButton
             // 
@@ -439,7 +447,7 @@
             ColourAlphaFix.AutoSize = true;
             ColourAlphaFix.Location = new Point(11, 84);
             ColourAlphaFix.Name = "ColourAlphaFix";
-            ColourAlphaFix.Size = new Size(75, 19);
+            ColourAlphaFix.Size = new Size(74, 19);
             ColourAlphaFix.TabIndex = 7;
             ColourAlphaFix.Text = "Alpha Fix";
             ColourAlphaFix.UseVisualStyleBackColor = true;
@@ -588,12 +596,15 @@
             ExportImageButton.UseVisualStyleBackColor = true;
             ExportImageButton.Click += ExportImageButton_Click;
             // 
-            // toolStripMenuItem1
+            // checkBox1
             // 
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(180, 22);
-            toolStripMenuItem1.Text = "Load Export Folder";
-            toolStripMenuItem1.Click += toolStripMenuItem1_Click;
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(214, 141);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(97, 19);
+            checkBox1.TabIndex = 30;
+            checkBox1.Text = "Limit Colours";
+            checkBox1.UseVisualStyleBackColor = true;
             // 
             // SSHImageTools
             // 
@@ -682,5 +693,6 @@
         private NumericUpDown YAxisNum;
         private NumericUpDown XAxisNum;
         private ToolStripMenuItem toolStripMenuItem1;
+        private CheckBox checkBox1;
     }
 }

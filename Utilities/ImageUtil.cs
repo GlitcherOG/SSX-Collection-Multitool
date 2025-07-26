@@ -8,7 +8,7 @@ namespace SSXMultiTool.Utilities
 {
     public class ImageUtil
     {
-        public static Bitmap ReduceBitmapColors(Bitmap bmp, int MaxColors)
+        public static Bitmap ReduceBitmapColorsSlow(Bitmap bmp, int MaxColors)
         {
             // Step 1: Extract pixel colors
             var pixelColors = new List<Color>();

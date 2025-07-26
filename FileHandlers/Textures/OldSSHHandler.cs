@@ -360,26 +360,67 @@ namespace SSXMultiTool.FileHandlers.Textures
                     Bitmap metalBitmap = new Bitmap(sshImages[i].bitmap.Width, sshImages[i].bitmap.Height, PixelFormat.Format32bppArgb);
                     temp.metalBitmap = metalBitmap;
                 }
-            }
-            for (int y = 0; y < temp.bitmap.Height; y++)
-            {
-                for (int x = 0; x < temp.bitmap.Width; x++)
+                for (int y = 0; y < temp.bitmap.Height; y++)
                 {
-                    Color color = temp.bitmap.GetPixel(x, y);
-                    if (temp.MetalBin)
+                    for (int x = 0; x < temp.bitmap.Width; x++)
                     {
-                        color = Color.FromArgb(temp.metalBitmap.GetPixel(x, y).R, color.R, color.G, color.B);
-                    }
+                        Color color = temp.bitmap.GetPixel(x, y);
+                        if (temp.MetalBin)
+                        {
+                            color = Color.FromArgb(temp.metalBitmap.GetPixel(x, y).R, color.R, color.G, color.B);
+                        }
 
-                    if (!colourTable.colorTable.Contains(color))
-                    {
-                        colourTable.colorTable.Add(color);
+                        if (!colourTable.colorTable.Contains(color))
+                        {
+                            colourTable.colorTable.Add(color);
+                        }
                     }
                 }
             }
+            else
+            {
+                colourTable.colorTable = GetBitmapColorsFast(temp.bitmap).ToList();
+            }
+
+            colourTable.Total = colourTable.colorTable.Count;
             colourTable.Format = temp.sshTable.Format;
             temp.sshTable = colourTable;
             sshImages[i] = temp;
+        }
+
+        public static HashSet<Color> GetBitmapColorsFast(Bitmap bmp)
+        {
+            int width = bmp.Width;
+            int height = bmp.Height;
+            HashSet<Color> result = new HashSet<Color>();
+
+            BitmapData data = bmp.LockBits(
+                new Rectangle(0, 0, width, height),
+                ImageLockMode.ReadOnly,
+                PixelFormat.Format32bppArgb); // Assumes 32bppArgb
+
+            unsafe
+            {
+                byte* ptr = (byte*)data.Scan0;
+
+                for (int y = 0; y < height; y++)
+                {
+                    byte* row = ptr + (y * data.Stride);
+                    for (int x = 0; x < width; x++)
+                    {
+                        int index = y * width + x;
+                        byte b = row[x * 4];
+                        byte g = row[x * 4 + 1];
+                        byte r = row[x * 4 + 2];
+                        byte a = row[x * 4 + 3];
+
+                        result.Add(Color.FromArgb(a, r, g, b));
+                    }
+                }
+            }
+
+            bmp.UnlockBits(data);
+            return result;
         }
 
         public void BMPExtract(string path)
@@ -461,18 +502,8 @@ namespace SSXMultiTool.FileHandlers.Textures
                 temp.metalBitmap = new Bitmap(temp.bitmap.Width, temp.bitmap.Height, PixelFormat.Format32bppArgb);
             }
             SSHColourTable colourTable = new SSHColourTable();
-            colourTable.colorTable = new List<Color>();
-            for (int y = 0; y < temp.bitmap.Height; y++)
-            {
-                for (int x = 0; x < temp.bitmap.Width; x++)
-                {
-                    Color color = temp.bitmap.GetPixel(x, y);
-                    if (!colourTable.colorTable.Contains(color))
-                    {
-                        colourTable.colorTable.Add(color);
-                    }
-                }
-            }
+            colourTable.colorTable = GetBitmapColorsFast(temp.bitmap).ToList();
+            colourTable.Total = colourTable.colorTable.Count;
             colourTable.Format = sshImages[i].sshTable.Format;
             temp.sshTable = colourTable;
             sshImages[i] = temp;
@@ -688,35 +719,38 @@ namespace SSXMultiTool.FileHandlers.Textures
             sshImages.Add(NewSSHImage);
         }
 
-        public void SaveSSH(string path, bool Test)
+        public void SaveSSH(string path, bool TestImages)
         {
-            bool check = false;
             for (int i = 0; i < sshImages.Count; i++)
             {
-                if (Test)
+                if (TestImages)
                 {
+                    var sshImage = sshImages[i];
                     SSHColorCalculate(i);
-                    if (sshImages[i].sshTable.Total > 256 && (sshImages[i].sshHeader.MatrixFormat == 2 || sshImages[i].sshHeader.MatrixFormat == 130))
+
+                    //if metal bin combine images and then reduce
+
+                    if (sshImage.sshTable.colorTable.Count > 256 && (sshImages[i].sshHeader.MatrixFormat == 2 || sshImages[i].sshHeader.MatrixFormat == 130))
                     {
-                        MessageBox.Show(sshImages[i].shortname + " " + i.ToString() + " Exceeds 256 Colours");
-                        check = true;
+                        sshImage.bitmap = ImageUtil.ReduceBitmapColorsSlow(sshImage.bitmap, 256);
+                        //MessageBox.Show(sshImages[i].shortname + " " + i.ToString() + " Exceeds 256 Colours");
+                        //check = true;
                     }
-                    if (sshImages[i].sshTable.Total > 16 && sshImages[i].sshHeader.MatrixFormat == 1)
+                    if (sshImage.sshTable.colorTable.Count > 16 && sshImages[i].sshHeader.MatrixFormat == 1)
                     {
-                        MessageBox.Show(sshImages[i].shortname + " " + i.ToString() + " Exceeds 16 Colours");
-                        check = true;
+                        sshImage.bitmap = ImageUtil.ReduceBitmapColorsSlow(sshImage.bitmap, 16);
+                        //MessageBox.Show(sshImage.shortname + " " + i.ToString() + " Exceeds 16 Colours");
+                        //check = true;
                     }
+                    sshImages[i] = sshImage;
                 }
                 if (sshImages[i].sshHeader.MatrixFormat == 130)
                 {
                     MessageBox.Show("Error Unable to write to matrix 130");
-                    check = true;
+                    return;
                 }
             }
-            if (check == true)
-            {
-                return;
-            }
+
             byte[] tempByte = new byte[4];
             Stream stream = new MemoryStream();
 
