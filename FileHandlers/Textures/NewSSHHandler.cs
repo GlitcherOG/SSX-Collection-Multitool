@@ -1,14 +1,10 @@
-﻿using NAudio.Gui;
-using SSXMultiTool.Utilities;
+﻿using SSXMultiTool.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.DataFormats;
+
 
 namespace SSXMultiTool.FileHandlers.Textures
 {
@@ -45,6 +41,8 @@ namespace SSXMultiTool.FileHandlers.Textures
 
                         tempImage.name = StreamUtil.ReadNullEndString(stream);
 
+                        stream.Position++;
+
                         sshImages.Add(tempImage);
                     }
 
@@ -70,60 +68,141 @@ namespace SSXMultiTool.FileHandlers.Textures
                 NewSSHImage tempImage = sshImages[i];
                 stream.Position = tempImage.offset;
 
-                tempImage.sshImageHeader = new SSHShapeHeader();
+                tempImage.sshShapeHeader = new List<SSHShapeHeader>();
 
-                tempImage.sshImageHeader.MatrixFormat = StreamUtil.ReadUInt8(stream);
-                tempImage.sshImageHeader.U0 = StreamUtil.ReadInt24(stream);
-                tempImage.sshImageHeader.Size = StreamUtil.ReadUInt32(stream);
-                tempImage.sshImageHeader.U2 = StreamUtil.ReadUInt32(stream);
-                tempImage.sshImageHeader.U3 = StreamUtil.ReadUInt32(stream);
-                tempImage.sshImageHeader.U4 = StreamUtil.ReadUInt32(stream);
-                tempImage.sshImageHeader.U5 = StreamUtil.ReadUInt32(stream);
-                tempImage.sshImageHeader.XSize = StreamUtil.ReadUInt32(stream);
-                tempImage.sshImageHeader.YSize = StreamUtil.ReadUInt32(stream);
-
-                tempImage.Matrix = StreamUtil.ReadBytes(stream, tempImage.sshImageHeader.Size - 32);
-
-                //tempImage.Matrix = Unswizzle8(tempImage.Matrix, tempImage.sshImageHeader.XSize, tempImage.sshImageHeader.YSize);
-
-                tempImage.sshColourHeader = new SSHShapeHeader();
-
-                tempImage.sshColourHeader.MatrixFormat = StreamUtil.ReadUInt8(stream);
-                tempImage.sshColourHeader.U0 = StreamUtil.ReadInt24(stream);
-                tempImage.sshColourHeader.Size = StreamUtil.ReadUInt32(stream);
-                tempImage.sshColourHeader.U2 = StreamUtil.ReadUInt32(stream);
-                tempImage.sshColourHeader.U3 = StreamUtil.ReadUInt32(stream);
-                tempImage.sshColourHeader.U4 = StreamUtil.ReadUInt32(stream);
-                tempImage.sshColourHeader.U5 = StreamUtil.ReadUInt32(stream);
-                tempImage.sshColourHeader.XSize = StreamUtil.ReadUInt32(stream);
-                tempImage.sshColourHeader.YSize = StreamUtil.ReadUInt32(stream);
-
-                tempImage.colorsTable = new List<Color>();
-
-                for (global::System.Int32 j = 0; j < tempImage.sshColourHeader.XSize; j++)
+                while (stream.Position < tempImage.offset + tempImage.size)
                 {
-                    tempImage.colorsTable.Add(StreamUtil.ReadColour(stream));
+                    var shape = new SSHShapeHeader();
+
+                    shape.MatrixFormat = StreamUtil.ReadUInt8(stream);
+                    shape.U0 = StreamUtil.ReadUInt8(stream);
+                    shape.U1 = StreamUtil.ReadUInt8(stream);
+                    shape.U11 = StreamUtil.ReadUInt8(stream);
+                    shape.Size = StreamUtil.ReadUInt32(stream);
+                    shape.U2 = StreamUtil.ReadUInt32(stream);
+                    shape.U3 = StreamUtil.ReadUInt32(stream);
+                    shape.U4 = StreamUtil.ReadUInt32(stream);
+                    shape.U5 = StreamUtil.ReadUInt32(stream);
+                    shape.XSize = StreamUtil.ReadUInt32(stream);
+                    shape.YSize = StreamUtil.ReadUInt32(stream);
+
+                    if (shape.Size == 0)
+                    {
+                        shape.Matrix = StreamUtil.ReadBytes(stream, shape.U3);
+                    }
+                    else
+                    {
+                        shape.Matrix = StreamUtil.ReadBytes(stream, shape.Size-32);
+                    }
+
+                    tempImage.sshShapeHeader.Add(shape);
                 }
 
-                //tempImage.ColourMatrix = StreamUtil.ReadBytes(stream, tempImage.sshColourHeader.Size - 32);
+                var MatrixType = GetShapeMatrixType(tempImage);
 
-                //Process Image
-                tempImage.bitmap = new Bitmap(tempImage.sshImageHeader.XSize, tempImage.sshImageHeader.YSize, PixelFormat.Format32bppArgb);
-                int post = 0;
-                for (int y = 0; y < tempImage.sshImageHeader.YSize; y++)
+                if(MatrixType==2)
                 {
-                    for (int x = 0; x < tempImage.sshImageHeader.XSize; x++)
-                    {
-                        int colorPos = tempImage.Matrix[post];
-                        tempImage.bitmap.SetPixel(x, y, tempImage.colorsTable[colorPos]);
+                    //Process Colors
+                    tempImage.colorsTable = GetColorTable(tempImage);
 
-                        post++;
+                    //Process Matrix into Image
+                    var imageMatrix = GetMatrixType(tempImage, 2);
+
+                    if (imageMatrix.U1 == 64)
+                    {
+                        imageMatrix.Matrix = Unswizzle8(imageMatrix.Matrix, imageMatrix.XSize, imageMatrix.YSize);
+                    }
+
+                    //Process Image
+                    tempImage.bitmap = new Bitmap(imageMatrix.XSize, imageMatrix.YSize, PixelFormat.Format32bppArgb);
+
+                    for (int y = 0; y < imageMatrix.YSize; y++)
+                    {
+                        for (int x = 0; x < imageMatrix.XSize; x++)
+                        {
+                            int colorPos = imageMatrix.Matrix[x + imageMatrix.XSize * y];
+                            tempImage.bitmap.SetPixel(x, y, tempImage.colorsTable[colorPos]);
+                        }
                     }
                 }
+                if (MatrixType == 5)
+                {
+                    //Process Matrix into Image
+                    var imageMatrix = GetMatrixType(tempImage, 5);
 
+                    //Process Image
+                    tempImage.bitmap = new Bitmap(imageMatrix.XSize, imageMatrix.YSize, PixelFormat.Format32bppArgb);
+
+                    int pos = 0;
+                    for (int y = 0; y < imageMatrix.YSize; y++)
+                    {
+                        for (int x = 0; x < imageMatrix.XSize; x++)
+                        {
+                            tempImage.bitmap.SetPixel(x, y, Color.FromArgb(imageMatrix.Matrix[pos * 4 + 3], imageMatrix.Matrix[pos * 4], imageMatrix.Matrix[pos * 4 + 1], imageMatrix.Matrix[pos * 4 + 2]));
+                            pos++;
+                        }
+                    }
+                }
                 tempImage.bitmap.Save("I:\\PS2\\SSX\\SSX On Tour\\SLED 53625\\data\\textures\\"+i+".png");
                 sshImages[i] = tempImage;
             }
+        }
+        public List<Color> GetColorTable(NewSSHImage newSSHImage)
+        {
+            var colorShape = GetMatrixType(newSSHImage, 33);
+            List<Color> colors = new List<Color>();
+
+            if (colorShape.U2 != 0)
+            {
+                colorShape.Matrix = ByteUtil.UnswizzlePalette(colorShape.Matrix, colorShape.XSize);
+            }
+
+            for (int i = 0; i < colorShape.XSize * colorShape.YSize; i++)
+            {
+                colors.Add(Color.FromArgb(colorShape.Matrix[i * 4 + 3], colorShape.Matrix[i * 4], colorShape.Matrix[i * 4 + 1], colorShape.Matrix[i * 4 + 2]));
+            }
+
+            return colors;
+        }
+
+        public SSHShapeHeader GetMatrixType(NewSSHImage newSSHImage,int Type)
+        {
+            for (int i = 0; i < newSSHImage.sshShapeHeader.Count; i++)
+            {
+                if (newSSHImage.sshShapeHeader[i].MatrixFormat==Type)
+                {
+                    return newSSHImage.sshShapeHeader[i];
+                }
+            }
+            return new SSHShapeHeader();
+        }
+
+        public int GetShapeMatrixType(int ImageID)
+        {
+            var tempImage = sshImages[ImageID];
+
+            for (int i = 0; i < tempImage.sshShapeHeader.Count; i++)
+            {
+                if (tempImage.sshShapeHeader[i].MatrixFormat == 2 || tempImage.sshShapeHeader[i].MatrixFormat == 1 || tempImage.sshShapeHeader[i].MatrixFormat == 5)
+                {
+                    return tempImage.sshShapeHeader[i].MatrixFormat;
+                }
+            }
+
+            return -1;
+        }
+
+        public int GetShapeMatrixType(NewSSHImage tempImage)
+        {
+            for (int i = 0; i < tempImage.sshShapeHeader.Count; i++)
+            {
+                if (tempImage.sshShapeHeader[i].MatrixFormat == 2 || tempImage.sshShapeHeader[i].MatrixFormat == 1 || tempImage.sshShapeHeader[i].MatrixFormat == 5)
+                {
+                    return tempImage.sshShapeHeader[i].MatrixFormat;
+                }
+            }
+
+            return -1;
         }
 
         public static byte[] Unswizzle8(byte[] buf, int width, int height)
@@ -182,10 +261,8 @@ namespace SSXMultiTool.FileHandlers.Textures
             public int size;
             public string name;
 
-            public SSHShapeHeader sshImageHeader;
-            public byte[] Matrix;
-            public SSHShapeHeader sshColourHeader;
-            public byte[] ColourMatrix;
+            public List<SSHShapeHeader> sshShapeHeader;
+
             public List<Color> colorsTable;
             public Bitmap bitmap;
         }
@@ -194,6 +271,8 @@ namespace SSXMultiTool.FileHandlers.Textures
         {
             public byte MatrixFormat;
             public int U0;
+            public int U1;
+            public int U11;
             public int Size;
             public int U2;
             public int U3;
@@ -202,6 +281,8 @@ namespace SSXMultiTool.FileHandlers.Textures
             public int U5;
             public int XSize;
             public int YSize;
+
+            public byte[] Matrix;
         }
         /* 
 u32 Magic @ $;

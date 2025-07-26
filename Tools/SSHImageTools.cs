@@ -44,8 +44,8 @@ namespace SSXMultiTool
                 sshHandler.LoadSSH(openFileDialog.FileName);
                 UpdateFileText();
 
-                //var NewsshHandler = new NewSSHHandler();
-                //NewsshHandler.LoadSSH(openFileDialog.FileName);
+                var NewsshHandler = new NewSSHHandler();
+                NewsshHandler.LoadSSH(openFileDialog.FileName);
             }
         }
 
