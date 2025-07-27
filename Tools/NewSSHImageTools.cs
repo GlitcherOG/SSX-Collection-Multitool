@@ -124,15 +124,15 @@ namespace SSXMultiTool
 
                 for (int i = 0; i < MatrixTypeDropdown.Items.Count; i++)
                 {
-                    //if (MatrixTypeDropdown.Items[i].ToString().Contains(sshHandler.sshImages[a].sshShapeHeader.MatrixFormat.ToString() + " "))
-                    //{
-                    //    MatrixTypeDropdown.SelectedIndex = i;
-                    //    break;
-                    //}
-                    //else
-                    //{
-                    //    MatrixTypeDropdown.SelectedIndex = MatrixTypeDropdown.Items.Count - 1;
-                    //}
+                    if (MatrixTypeDropdown.Items[i].ToString().Contains(sshHandler.sshImages[a].MatrixType.ToString() + " "))
+                    {
+                        MatrixTypeDropdown.SelectedIndex = i;
+                        break;
+                    }
+                    else
+                    {
+                        MatrixTypeDropdown.SelectedIndex = MatrixTypeDropdown.Items.Count - 1;
+                    }
                 }
 
                 //YAxisNum.Value = SSHImage.sshHeader.Yaxis;
@@ -197,7 +197,7 @@ namespace SSXMultiTool
                 string[] tempAString = tempString.Split(' ');
                 tempString = tempAString[0];
                 int indexInt = Int32.Parse(tempString);
-                //ImageDetails.sshHeader.MatrixFormat = (byte)indexInt;
+                ImageDetails.MatrixType = (byte)indexInt;
                 ImageDetails.AlphaFix = ColourAlphaFix.Checked;
 
                 //if (ColourByteSwappedCheckbox.Checked)
@@ -218,100 +218,8 @@ namespace SSXMultiTool
                 //    ImageDetails.sshHeader.LXPos = 0;
                 //}
 
-                //ImageDetails.MetalBin = MetalAlphaCheckbox.Checked;
-                //bool tempBool = ImageDetails.MetalBin;
-                //SSHMetalExtract.Enabled = tempBool;
-                //SSHMetalImport.Enabled = tempBool;
-                //SSHBothExtract.Enabled = tempBool;
-                //SSHBothImport.Enabled = tempBool;
-
                 sshHandler.sshImages[ImageList.SelectedIndex] = ImageDetails;
                 DisableUpdate = false;
-            }
-        }
-
-        private void SSHMetalExtract_Click(object sender, EventArgs e)
-        {
-            if (ImageList.SelectedIndex != -1)
-            {
-                //if (sshHandler.sshImages[ImageList.SelectedIndex].MetalBin)
-                //{
-                //    SaveFileDialog openFileDialog = new SaveFileDialog
-                //    {
-                //        Filter = "Png File (*.png)|*.png|All files (*.*)|*.*",
-                //        FilterIndex = 1,
-                //        RestoreDirectory = false
-                //    };
-                //    if (openFileDialog.ShowDialog() == DialogResult.OK)
-                //    {
-                //        sshHandler.BMPOneExtractMetal(openFileDialog.FileName, ImageList.SelectedIndex);
-                //        GC.Collect();
-                //    }
-                //}
-            }
-        }
-
-        private void SSHMetalImport_Click(object sender, EventArgs e)
-        {
-            if (ImageList.SelectedIndex != -1)
-            {
-                //if (sshHandler.sshImages[ImageList.SelectedIndex].MetalBin)
-                //{
-                //    OpenFileDialog openFileDialog = new OpenFileDialog
-                //    {
-                //        Filter = "Png File (*.png)|*.png|All files (*.*)|*.*",
-                //        FilterIndex = 1,
-                //        RestoreDirectory = false
-                //    };
-                //    if (openFileDialog.ShowDialog() == DialogResult.OK)
-                //    {
-                //        sshHandler.LoadSingleMetal(openFileDialog.FileName, ImageList.SelectedIndex);
-                //        GC.Collect();
-                //    }
-                //}
-            }
-        }
-
-        private void SSHBothExtract_Click(object sender, EventArgs e)
-        {
-            if (ImageList.SelectedIndex != -1)
-            {
-                //if (sshHandler.sshImages[ImageList.SelectedIndex].MetalBin)
-                //{
-                //    SaveFileDialog openFileDialog = new SaveFileDialog
-                //    {
-                //        Filter = "Png File (*.png)|*.png|All files (*.*)|*.*",
-                //        FilterIndex = 1,
-                //        RestoreDirectory = false
-                //    };
-                //    if (openFileDialog.ShowDialog() == DialogResult.OK)
-                //    {
-                //        sshHandler.BMPOneBothExtract(openFileDialog.FileName, ImageList.SelectedIndex);
-                //        GC.Collect();
-                //    }
-                //}
-            }
-        }
-
-        private void SSHBothImport_Click(object sender, EventArgs e)
-        {
-            if (ImageList.SelectedIndex != -1)
-            {
-                //if (sshHandler.sshImages[ImageList.SelectedIndex].MetalBin)
-                //{
-                //    OpenFileDialog openFileDialog = new OpenFileDialog
-                //    {
-                //        Filter = "Png File (*.png)|*.png|All files (*.*)|*.*",
-                //        FilterIndex = 1,
-                //        RestoreDirectory = false
-                //    };
-                //    if (openFileDialog.ShowDialog() == DialogResult.OK)
-                //    {
-                //        sshHandler.LoadSingleBoth(openFileDialog.FileName, ImageList.SelectedIndex);
-                //        UpdateImageText(ImageList.SelectedIndex);
-                //        GC.Collect();
-                //    }
-                //}
             }
         }
 
@@ -363,7 +271,7 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    //sshHandler.LoadSingle(openFileDialog.FileName, ImageList.SelectedIndex);
+                    sshHandler.LoadSingle(openFileDialog.FileName, ImageList.SelectedIndex);
                     UpdateImageText(ImageList.SelectedIndex);
                 }
             }

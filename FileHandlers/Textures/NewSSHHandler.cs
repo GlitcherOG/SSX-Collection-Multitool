@@ -100,9 +100,9 @@ namespace SSXMultiTool.FileHandlers.Textures
                     tempImage.sshShapeHeader.Add(shape);
                 }
 
-                var MatrixType = GetShapeMatrixType(tempImage);
+                tempImage.MatrixType  = GetShapeMatrixType(tempImage);
 
-                if (MatrixType == 1)
+                if (tempImage.MatrixType == 1)
                 {
                     //Process Colors
                     tempImage.colorsTable = GetColorTable(tempImage);
@@ -139,7 +139,7 @@ namespace SSXMultiTool.FileHandlers.Textures
                         }
                     }
                 }
-                if (MatrixType==2)
+                else if(tempImage.MatrixType == 2)
                 {
                     //Process Colors
                     tempImage.colorsTable = GetColorTable(tempImage);
@@ -170,7 +170,7 @@ namespace SSXMultiTool.FileHandlers.Textures
                         }
                     }
                 }
-                if (MatrixType == 5)
+                else if(tempImage.MatrixType == 5)
                 {
                     //Process Matrix into Image
                     var imageMatrix = GetMatrixType(tempImage, 5);
@@ -302,6 +302,19 @@ namespace SSXMultiTool.FileHandlers.Textures
             sshImages[i].bitmap.Save(path, ImageFormat.Png);
         }
 
+        public void LoadSingle(string path, int i)
+        {
+            Stream stream = File.Open(path, FileMode.Open);
+
+            var ImageTemp = Image.FromStream(stream);
+            stream.Close();
+            stream.Dispose();
+            var temp = sshImages[i];
+            temp.bitmap = (Bitmap)ImageTemp;
+            temp.colorsTable = ImageUtil.GetBitmapColorsFast(temp.bitmap).ToList();
+            temp.MatrixType = sshImages[i].MatrixType;
+            sshImages[i] = temp;
+        }
 
         public struct NewSSHImage
         {

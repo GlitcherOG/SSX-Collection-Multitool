@@ -44,19 +44,14 @@
             FileNameLabel = new Label();
             label1 = new Label();
             groupBox2 = new GroupBox();
-            YAxisNum = new NumericUpDown();
-            XAxisNum = new NumericUpDown();
             ImageSizeLabel = new Label();
             label9 = new Label();
             ImageByteSwappedCheckbox = new CheckBox();
             MatrixTypeDropdown = new ComboBox();
-            label8 = new Label();
-            label7 = new Label();
             label4 = new Label();
             ImageShortNameTextbox = new TextBox();
             label6 = new Label();
             groupBox3 = new GroupBox();
-            checkBox1 = new CheckBox();
             HalfAlphaButton = new Button();
             DoubleAlphaButton = new Button();
             ColourAmountLabel = new Label();
@@ -65,11 +60,6 @@
             label12 = new Label();
             DoubleColourButton = new Button();
             ColourAlphaFix = new CheckBox();
-            MetalAlphaCheckbox = new CheckBox();
-            SSHBothImport = new Button();
-            SSHBothExtract = new Button();
-            SSHMetalExtract = new Button();
-            SSHMetalImport = new Button();
             BlackDisplayCheckBox = new CheckBox();
             PictureBox1 = new PictureBox();
             ImageMoveUpButton = new Button();
@@ -78,11 +68,12 @@
             ImageRemoveButton = new Button();
             ReplaceImageButton = new Button();
             ExportImageButton = new Button();
+            checkBox1 = new CheckBox();
+            label2 = new Label();
+            textBox1 = new TextBox();
             toolStrip1.SuspendLayout();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)YAxisNum).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)XAxisNum).BeginInit();
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBox1).BeginInit();
             SuspendLayout();
@@ -207,14 +198,13 @@
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(YAxisNum);
-            groupBox2.Controls.Add(XAxisNum);
+            groupBox2.Controls.Add(label2);
+            groupBox2.Controls.Add(textBox1);
+            groupBox2.Controls.Add(checkBox1);
             groupBox2.Controls.Add(ImageSizeLabel);
             groupBox2.Controls.Add(label9);
             groupBox2.Controls.Add(ImageByteSwappedCheckbox);
             groupBox2.Controls.Add(MatrixTypeDropdown);
-            groupBox2.Controls.Add(label8);
-            groupBox2.Controls.Add(label7);
             groupBox2.Controls.Add(label4);
             groupBox2.Controls.Add(ImageShortNameTextbox);
             groupBox2.Controls.Add(label6);
@@ -224,24 +214,6 @@
             groupBox2.TabIndex = 3;
             groupBox2.TabStop = false;
             groupBox2.Text = "Image Details";
-            // 
-            // YAxisNum
-            // 
-            YAxisNum.Location = new Point(129, 82);
-            YAxisNum.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
-            YAxisNum.Name = "YAxisNum";
-            YAxisNum.Size = new Size(112, 23);
-            YAxisNum.TabIndex = 27;
-            YAxisNum.ValueChanged += UpdateImageDetails;
-            // 
-            // XAxisNum
-            // 
-            XAxisNum.Location = new Point(11, 82);
-            XAxisNum.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
-            XAxisNum.Name = "XAxisNum";
-            XAxisNum.Size = new Size(112, 23);
-            XAxisNum.TabIndex = 26;
-            XAxisNum.ValueChanged += UpdateImageDetails;
             // 
             // ImageSizeLabel
             // 
@@ -264,11 +236,11 @@
             // ImageByteSwappedCheckbox
             // 
             ImageByteSwappedCheckbox.AutoSize = true;
-            ImageByteSwappedCheckbox.Location = new Point(415, 118);
+            ImageByteSwappedCheckbox.Location = new Point(445, 118);
             ImageByteSwappedCheckbox.Name = "ImageByteSwappedCheckbox";
-            ImageByteSwappedCheckbox.Size = new Size(100, 19);
+            ImageByteSwappedCheckbox.Size = new Size(70, 19);
             ImageByteSwappedCheckbox.TabIndex = 6;
-            ImageByteSwappedCheckbox.Text = "Byte Swapped";
+            ImageByteSwappedCheckbox.Text = "Swizzled";
             ImageByteSwappedCheckbox.UseVisualStyleBackColor = true;
             ImageByteSwappedCheckbox.CheckStateChanged += UpdateImageDetails;
             // 
@@ -282,24 +254,6 @@
             MatrixTypeDropdown.Size = new Size(184, 23);
             MatrixTypeDropdown.TabIndex = 25;
             MatrixTypeDropdown.SelectedIndexChanged += UpdateImageDetails;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Location = new Point(11, 64);
-            label8.Name = "label8";
-            label8.Size = new Size(78, 15);
-            label8.TabIndex = 4;
-            label8.Text = "X-Axis Centre";
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(129, 64);
-            label7.Name = "label7";
-            label7.Size = new Size(78, 15);
-            label7.TabIndex = 3;
-            label7.Text = "Y-Axis Centre";
             // 
             // label4
             // 
@@ -330,7 +284,6 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(checkBox1);
             groupBox3.Controls.Add(HalfAlphaButton);
             groupBox3.Controls.Add(DoubleAlphaButton);
             groupBox3.Controls.Add(ColourAmountLabel);
@@ -339,27 +292,12 @@
             groupBox3.Controls.Add(label12);
             groupBox3.Controls.Add(DoubleColourButton);
             groupBox3.Controls.Add(ColourAlphaFix);
-            groupBox3.Controls.Add(MetalAlphaCheckbox);
-            groupBox3.Controls.Add(SSHBothImport);
-            groupBox3.Controls.Add(SSHBothExtract);
-            groupBox3.Controls.Add(SSHMetalExtract);
-            groupBox3.Controls.Add(SSHMetalImport);
             groupBox3.Location = new Point(192, 252);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(521, 169);
             groupBox3.TabIndex = 3;
             groupBox3.TabStop = false;
             groupBox3.Text = "Colour Table Info";
-            // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(214, 141);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(97, 19);
-            checkBox1.TabIndex = 30;
-            checkBox1.Text = "Limit Colours";
-            checkBox1.UseVisualStyleBackColor = true;
             // 
             // HalfAlphaButton
             // 
@@ -393,11 +331,11 @@
             // ColourByteSwappedCheckbox
             // 
             ColourByteSwappedCheckbox.AutoSize = true;
-            ColourByteSwappedCheckbox.Location = new Point(415, 144);
+            ColourByteSwappedCheckbox.Location = new Point(445, 144);
             ColourByteSwappedCheckbox.Name = "ColourByteSwappedCheckbox";
-            ColourByteSwappedCheckbox.Size = new Size(100, 19);
+            ColourByteSwappedCheckbox.Size = new Size(70, 19);
             ColourByteSwappedCheckbox.TabIndex = 28;
-            ColourByteSwappedCheckbox.Text = "Byte Swapped";
+            ColourByteSwappedCheckbox.Text = "Swizzled";
             ColourByteSwappedCheckbox.UseVisualStyleBackColor = true;
             ColourByteSwappedCheckbox.CheckedChanged += UpdateImageDetails;
             ColourByteSwappedCheckbox.CheckStateChanged += UpdateImageDetails;
@@ -441,57 +379,6 @@
             ColourAlphaFix.Text = "Alpha Fix";
             ColourAlphaFix.UseVisualStyleBackColor = true;
             ColourAlphaFix.CheckStateChanged += UpdateImageDetails;
-            // 
-            // MetalAlphaCheckbox
-            // 
-            MetalAlphaCheckbox.AutoSize = true;
-            MetalAlphaCheckbox.Location = new Point(331, 18);
-            MetalAlphaCheckbox.Name = "MetalAlphaCheckbox";
-            MetalAlphaCheckbox.Size = new Size(90, 19);
-            MetalAlphaCheckbox.TabIndex = 8;
-            MetalAlphaCheckbox.Text = "Metal Alpha";
-            MetalAlphaCheckbox.UseVisualStyleBackColor = true;
-            MetalAlphaCheckbox.CheckStateChanged += UpdateImageDetails;
-            // 
-            // SSHBothImport
-            // 
-            SSHBothImport.Location = new Point(427, 66);
-            SSHBothImport.Name = "SSHBothImport";
-            SSHBothImport.Size = new Size(89, 23);
-            SSHBothImport.TabIndex = 19;
-            SSHBothImport.Text = "Both Import";
-            SSHBothImport.UseVisualStyleBackColor = true;
-            SSHBothImport.Click += SSHBothImport_Click;
-            // 
-            // SSHBothExtract
-            // 
-            SSHBothExtract.Location = new Point(331, 66);
-            SSHBothExtract.Name = "SSHBothExtract";
-            SSHBothExtract.Size = new Size(90, 23);
-            SSHBothExtract.TabIndex = 18;
-            SSHBothExtract.Text = "Both Extract";
-            SSHBothExtract.UseVisualStyleBackColor = true;
-            SSHBothExtract.Click += SSHBothExtract_Click;
-            // 
-            // SSHMetalExtract
-            // 
-            SSHMetalExtract.Location = new Point(331, 37);
-            SSHMetalExtract.Name = "SSHMetalExtract";
-            SSHMetalExtract.Size = new Size(90, 23);
-            SSHMetalExtract.TabIndex = 16;
-            SSHMetalExtract.Text = "Metal Extract";
-            SSHMetalExtract.UseVisualStyleBackColor = true;
-            SSHMetalExtract.Click += SSHMetalExtract_Click;
-            // 
-            // SSHMetalImport
-            // 
-            SSHMetalImport.Location = new Point(427, 37);
-            SSHMetalImport.Name = "SSHMetalImport";
-            SSHMetalImport.Size = new Size(89, 23);
-            SSHMetalImport.TabIndex = 17;
-            SSHMetalImport.Text = "Metal Import";
-            SSHMetalImport.UseVisualStyleBackColor = true;
-            SSHMetalImport.Click += SSHMetalImport_Click;
             // 
             // BlackDisplayCheckBox
             // 
@@ -585,6 +472,33 @@
             ExportImageButton.UseVisualStyleBackColor = true;
             ExportImageButton.Click += ExportImageButton_Click;
             // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(11, 118);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(92, 19);
+            checkBox1.TabIndex = 30;
+            checkBox1.Text = "Compressed";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(129, 19);
+            label2.Name = "label2";
+            label2.Size = new Size(105, 15);
+            label2.TabIndex = 31;
+            label2.Text = "Image Long Name";
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(132, 37);
+            textBox1.MaxLength = 4;
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(193, 23);
+            textBox1.TabIndex = 32;
+            // 
             // NewSSHImageTools
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -611,8 +525,6 @@
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)YAxisNum).EndInit();
-            ((System.ComponentModel.ISupportInitialize)XAxisNum).EndInit();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)PictureBox1).EndInit();
@@ -637,12 +549,9 @@
         private GroupBox groupBox2;
         private CheckBox ImageByteSwappedCheckbox;
         private Label label9;
-        private Label label8;
-        private Label label7;
         private Label label6;
         private Label label4;
         private GroupBox groupBox3;
-        private CheckBox MetalAlphaCheckbox;
         private CheckBox ColourAlphaFix;
         private CheckBox BlackDisplayCheckBox;
         private PictureBox PictureBox1;
@@ -650,10 +559,6 @@
         private Button ImageMoveDownButton;
         private Button IamgeAddButton;
         private Button ImageRemoveButton;
-        private Button SSHMetalExtract;
-        private Button SSHMetalImport;
-        private Button SSHBothExtract;
-        private Button SSHBothImport;
         private Button DoubleAlphaButton;
         private Button HalfAlphaButton;
         private Button HalfColourButton;
@@ -667,9 +572,9 @@
         private Label label12;
         private Button ReplaceImageButton;
         private Button ExportImageButton;
-        private NumericUpDown YAxisNum;
-        private NumericUpDown XAxisNum;
         private ToolStripMenuItem toolStripMenuItem1;
         private CheckBox checkBox1;
+        private Label label2;
+        private TextBox textBox1;
     }
 }
