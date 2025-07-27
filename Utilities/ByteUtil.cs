@@ -113,10 +113,14 @@ namespace SSXMultiTool.Utilities
                 if (b == byteSequence[i++])
                 {
                     if (i == byteSequence.Length)
+                    {
                         return stream.Position - byteSequence.Length;
+                    }
                 }
                 else
+                {
                     i = b == byteSequence[0] ? 1 : 0;
+                }
             }
             return -1;
         }
