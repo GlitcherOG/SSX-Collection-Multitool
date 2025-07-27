@@ -94,5 +94,10 @@ namespace SSXMultiTool
         {
             new SSX2012ToolsWindow().ShowDialog();
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            new NewSSHImageTools().ShowDialog();
+        }
     }
 }

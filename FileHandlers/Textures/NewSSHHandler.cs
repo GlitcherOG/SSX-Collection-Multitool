@@ -15,6 +15,8 @@ namespace SSXMultiTool.FileHandlers.Textures
         public int ImageCount; //Big 4
         public int U0;
         public List<NewSSHImage> sshImages = new List<NewSSHImage>();
+        public string group;
+        public string endingstring;
 
         public void LoadSSH(string path)
         {
@@ -46,9 +48,9 @@ namespace SSXMultiTool.FileHandlers.Textures
                         sshImages.Add(tempImage);
                     }
 
-                    //group = StreamUtil.ReadString(stream, 4);
+                    group = StreamUtil.ReadString(stream, 8);
 
-                    //endingstring = StreamUtil.ReadString(stream, 4);
+                    endingstring = StreamUtil.ReadString(stream, 8);
 
                     StandardToBitmap(stream);
                 }
@@ -75,8 +77,8 @@ namespace SSXMultiTool.FileHandlers.Textures
                     var shape = new SSHShapeHeader();
 
                     shape.MatrixFormat = StreamUtil.ReadUInt8(stream);
-                    shape.U0 = StreamUtil.ReadUInt8(stream);
-                    shape.U1 = StreamUtil.ReadUInt8(stream);
+                    shape.Flags1 = StreamUtil.ReadUInt8(stream); //Bit Flags? +1 - Image?, +2 - Compressed?,  
+                    shape.Flags2 = StreamUtil.ReadUInt8(stream); //Flags? +64 - Swizzled?,
                     shape.U11 = StreamUtil.ReadUInt8(stream);
                     shape.Size = StreamUtil.ReadUInt32(stream);
                     shape.U2 = StreamUtil.ReadUInt32(stream);
@@ -108,7 +110,12 @@ namespace SSXMultiTool.FileHandlers.Textures
                     //Process Matrix into Image
                     var imageMatrix = GetMatrixType(tempImage, 2);
 
-                    if (imageMatrix.U1 == 64)
+                    if (imageMatrix.Flags1 == 3)
+                    {
+                        imageMatrix.Matrix = RefpackHandler.Decompress(imageMatrix.Matrix);
+                    }
+
+                    if (imageMatrix.Flags2 == 64)
                     {
                         imageMatrix.Matrix = Unswizzle8(imageMatrix.Matrix, imageMatrix.XSize, imageMatrix.YSize);
                     }
@@ -230,31 +237,6 @@ namespace SSXMultiTool.FileHandlers.Textures
             return output;
         }
 
-        //public static List<Color> UnswizzleColor(List<Color> buf, int width, int height)
-        //{
-        //    List<Color> output = (new Color[width * height]).ToList();
-
-        //    for (int y = 0; y < height; y++)
-        //    {
-        //        for (int x = 0; x < width; x++)
-        //        {
-        //            int blockLocation = (y & ~0xf) * width + (x & ~0xf) * 2;
-        //            int swapSelector = (((y + 2) >> 2) & 0x1) * 4;
-        //            int posY = (((y & ~3) >> 1) + (y & 1)) & 0x7;
-        //            int columnLocation = posY * width * 2 + ((x + swapSelector) & 0x7) * 4;
-        //            int byteNum = ((y >> 1) & 1) + ((x >> 2) & 2);
-        //            int swizzleId = blockLocation + columnLocation + byteNum;
-
-        //            if (swizzleId < buf.Count && y * width + x < output.Count)
-        //            {
-        //                output[y * width + x] = buf[swizzleId];
-        //            }
-        //        }
-        //    }
-
-        //    return output;
-        //}
-
         public struct NewSSHImage
         {
             public int offset;
@@ -270,8 +252,8 @@ namespace SSXMultiTool.FileHandlers.Textures
         public struct SSHShapeHeader
         {
             public byte MatrixFormat;
-            public int U0;
-            public int U1;
+            public int Flags1;
+            public int Flags2;
             public int U11;
             public int Size;
             public int U2;

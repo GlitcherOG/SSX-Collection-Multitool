@@ -15,16 +15,16 @@ using SSXMultiTool.Utilities;
 
 namespace SSXMultiTool
 {
-    public partial class SSHImageTools : Form
+    public partial class NewSSHImageTools : Form
     {
-        OldSSHHandler sshHandler = new OldSSHHandler();
+        NewSSHHandler sshHandler = new NewSSHHandler();
         bool DisableUpdate;
-        public SSHImageTools(string OpenFile = "")
+        public NewSSHImageTools(string OpenFile = "")
         {
             InitializeComponent();
             if (File.Exists(OpenFile))
             {
-                sshHandler = new OldSSHHandler();
+                sshHandler = new NewSSHHandler();
                 sshHandler.LoadSSH(OpenFile);
                 UpdateFileText();
             }
@@ -40,7 +40,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                sshHandler = new OldSSHHandler();
+                sshHandler = new NewSSHHandler();
                 sshHandler.LoadSSH(openFileDialog.FileName);
                 UpdateFileText();
             }
@@ -54,8 +54,8 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                sshHandler = new OldSSHHandler();
-                sshHandler.LoadFolder(openFileDialog.FileName);
+                sshHandler = new NewSSHHandler();
+                //sshHandler.LoadFolder(openFileDialog.FileName);
             }
         }
 
@@ -67,7 +67,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                sshHandler.BMPExtract(openFileDialog.FileName);
+                //sshHandler.BMPExtract(openFileDialog.FileName);
                 GC.Collect();
                 //Process.Start(openFileDialog.FileName);
             }
@@ -83,7 +83,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                sshHandler.SaveSSH(openFileDialog.FileName, true);
+                //sshHandler.SaveSSH(openFileDialog.FileName, true);
             }
         }
 
@@ -93,10 +93,10 @@ namespace SSXMultiTool
             ImageList.Items.Clear();
             for (int i = 0; i < sshHandler.sshImages.Count; i++)
             {
-                ImageList.Items.Add(sshHandler.sshImages[i].shortname);
+                ImageList.Items.Add(sshHandler.sshImages[i].name);
             }
             FileNameLabel.Text = "NULL";
-            GimxVersionTextBox.Text = sshHandler.format;
+            GimxVersionTextBox.Text = sshHandler.group;
             DisableUpdate = false;
         }
 
@@ -115,53 +115,52 @@ namespace SSXMultiTool
                 DisableUpdate = true;
                 var SSHImage = sshHandler.sshImages[a];
                 PictureBox1.Image = SSHImage.bitmap;
-                ImageShortNameTextbox.Text = SSHImage.shortname;
-                ImageLongNameTextbox.Text = SSHImage.longname;
+                ImageShortNameTextbox.Text = SSHImage.name;
 
-                bool tempBool = SSHImage.MetalBin;
-                SSHMetalExtract.Enabled = tempBool;
-                SSHMetalImport.Enabled = tempBool;
-                SSHBothExtract.Enabled = tempBool;
-                SSHBothImport.Enabled = tempBool;
+                //bool tempBool = SSHImage.MetalBin;
+                //SSHMetalExtract.Enabled = tempBool;
+                //SSHMetalImport.Enabled = tempBool;
+                //SSHBothExtract.Enabled = tempBool;
+                //SSHBothImport.Enabled = tempBool;
 
                 for (int i = 0; i < MatrixTypeDropdown.Items.Count; i++)
                 {
-                    if (MatrixTypeDropdown.Items[i].ToString().Contains(sshHandler.sshImages[a].sshHeader.MatrixFormat.ToString() + " "))
-                    {
-                        MatrixTypeDropdown.SelectedIndex = i;
-                        break;
-                    }
-                    else
-                    {
-                        MatrixTypeDropdown.SelectedIndex = MatrixTypeDropdown.Items.Count - 1;
-                    }
+                    //if (MatrixTypeDropdown.Items[i].ToString().Contains(sshHandler.sshImages[a].sshShapeHeader.MatrixFormat.ToString() + " "))
+                    //{
+                    //    MatrixTypeDropdown.SelectedIndex = i;
+                    //    break;
+                    //}
+                    //else
+                    //{
+                    //    MatrixTypeDropdown.SelectedIndex = MatrixTypeDropdown.Items.Count - 1;
+                    //}
                 }
 
-                YAxisNum.Value = SSHImage.sshHeader.Yaxis;
-                XAxisNum.Value = SSHImage.sshHeader.Xaxis;
+                //YAxisNum.Value = SSHImage.sshHeader.Yaxis;
+                //XAxisNum.Value = SSHImage.sshHeader.Xaxis;
 
                 ImageSizeLabel.Text = SSHImage.bitmap.Width + " x " + SSHImage.bitmap.Height;
-                if (SSHImage.sshHeader.LXPos == 0)
-                {
-                    ImageByteSwappedCheckbox.Checked = false;
-                }
-                else
-                {
-                    ImageByteSwappedCheckbox.Checked = true;
-                }
+                //if (SSHImage.sshHeader.LXPos == 0)
+                //{
+                //    ImageByteSwappedCheckbox.Checked = false;
+                //}
+                //else
+                //{
+                //    ImageByteSwappedCheckbox.Checked = true;
+                //}
 
-                ColourAmountLabel.Text = SSHImage.sshTable.colorTable.Count.ToString();
-                MetalAlphaCheckbox.Checked = SSHImage.MetalBin;
-                ColourAlphaFix.Checked = SSHImage.AlphaFix;
+                //ColourAmountLabel.Text = SSHImage.sshTable.colorTable.Count.ToString();
+                //MetalAlphaCheckbox.Checked = SSHImage.MetalBin;
+                //ColourAlphaFix.Checked = SSHImage.AlphaFix;
 
-                if (SSHImage.sshTable.Format == 0)
-                {
-                    ColourByteSwappedCheckbox.Checked = false;
-                }
-                else
-                {
-                    ColourByteSwappedCheckbox.Checked = true;
-                }
+                //if (SSHImage.sshTable.Format == 0)
+                //{
+                //    ColourByteSwappedCheckbox.Checked = false;
+                //}
+                //else
+                //{
+                //    ColourByteSwappedCheckbox.Checked = true;
+                //}
 
 
                 DisableUpdate = false;
@@ -184,7 +183,7 @@ namespace SSXMultiTool
         {
             if (!DisableUpdate)
             {
-                sshHandler.format = GimxVersionTextBox.Text;
+                sshHandler.group = GimxVersionTextBox.Text;
             }
         }
 
@@ -194,38 +193,38 @@ namespace SSXMultiTool
             {
                 DisableUpdate = true;
                 var ImageDetails = sshHandler.sshImages[ImageList.SelectedIndex];
-                ImageDetails.shortname = ImageShortNameTextbox.Text;
-                ImageDetails.longname = ImageLongNameTextbox.Text;
+                ImageDetails.name = ImageShortNameTextbox.Text;
                 string tempString = MatrixTypeDropdown.Text;
                 string[] tempAString = tempString.Split(' ');
                 tempString = tempAString[0];
                 int indexInt = Int32.Parse(tempString);
-                ImageDetails.sshHeader.MatrixFormat = (byte)indexInt;
-                ImageDetails.AlphaFix = ColourAlphaFix.Checked;
+                //ImageDetails.sshHeader.MatrixFormat = (byte)indexInt;
+                //ImageDetails.AlphaFix = ColourAlphaFix.Checked;
 
-                if (ColourByteSwappedCheckbox.Checked)
-                {
-                    ImageDetails.sshTable.Format = 2;
-                }
-                else
-                {
-                    ImageDetails.sshTable.Format = 0;
-                }
+                //if (ColourByteSwappedCheckbox.Checked)
+                //{
+                //    ImageDetails.sshTable.Format = 2;
+                //}
+                //else
+                //{
+                //    ImageDetails.sshTable.Format = 0;
+                //}
 
-                if (ImageByteSwappedCheckbox.Checked)
-                {
-                    ImageDetails.sshHeader.LXPos = 2;
-                }
-                else
-                {
-                    ImageDetails.sshHeader.LXPos = 0;
-                }
-                ImageDetails.MetalBin = MetalAlphaCheckbox.Checked;
-                bool tempBool = ImageDetails.MetalBin;
-                SSHMetalExtract.Enabled = tempBool;
-                SSHMetalImport.Enabled = tempBool;
-                SSHBothExtract.Enabled = tempBool;
-                SSHBothImport.Enabled = tempBool;
+                //if (ImageByteSwappedCheckbox.Checked)
+                //{
+                //    ImageDetails.sshHeader.LXPos = 2;
+                //}
+                //else
+                //{
+                //    ImageDetails.sshHeader.LXPos = 0;
+                //}
+
+                //ImageDetails.MetalBin = MetalAlphaCheckbox.Checked;
+                //bool tempBool = ImageDetails.MetalBin;
+                //SSHMetalExtract.Enabled = tempBool;
+                //SSHMetalImport.Enabled = tempBool;
+                //SSHBothExtract.Enabled = tempBool;
+                //SSHBothImport.Enabled = tempBool;
 
                 sshHandler.sshImages[ImageList.SelectedIndex] = ImageDetails;
                 DisableUpdate = false;
@@ -236,20 +235,20 @@ namespace SSXMultiTool
         {
             if (ImageList.SelectedIndex != -1)
             {
-                if (sshHandler.sshImages[ImageList.SelectedIndex].MetalBin)
-                {
-                    SaveFileDialog openFileDialog = new SaveFileDialog
-                    {
-                        Filter = "Png File (*.png)|*.png|All files (*.*)|*.*",
-                        FilterIndex = 1,
-                        RestoreDirectory = false
-                    };
-                    if (openFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        sshHandler.BMPOneExtractMetal(openFileDialog.FileName, ImageList.SelectedIndex);
-                        GC.Collect();
-                    }
-                }
+                //if (sshHandler.sshImages[ImageList.SelectedIndex].MetalBin)
+                //{
+                //    SaveFileDialog openFileDialog = new SaveFileDialog
+                //    {
+                //        Filter = "Png File (*.png)|*.png|All files (*.*)|*.*",
+                //        FilterIndex = 1,
+                //        RestoreDirectory = false
+                //    };
+                //    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                //    {
+                //        sshHandler.BMPOneExtractMetal(openFileDialog.FileName, ImageList.SelectedIndex);
+                //        GC.Collect();
+                //    }
+                //}
             }
         }
 
@@ -257,20 +256,20 @@ namespace SSXMultiTool
         {
             if (ImageList.SelectedIndex != -1)
             {
-                if (sshHandler.sshImages[ImageList.SelectedIndex].MetalBin)
-                {
-                    OpenFileDialog openFileDialog = new OpenFileDialog
-                    {
-                        Filter = "Png File (*.png)|*.png|All files (*.*)|*.*",
-                        FilterIndex = 1,
-                        RestoreDirectory = false
-                    };
-                    if (openFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        sshHandler.LoadSingleMetal(openFileDialog.FileName, ImageList.SelectedIndex);
-                        GC.Collect();
-                    }
-                }
+                //if (sshHandler.sshImages[ImageList.SelectedIndex].MetalBin)
+                //{
+                //    OpenFileDialog openFileDialog = new OpenFileDialog
+                //    {
+                //        Filter = "Png File (*.png)|*.png|All files (*.*)|*.*",
+                //        FilterIndex = 1,
+                //        RestoreDirectory = false
+                //    };
+                //    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                //    {
+                //        sshHandler.LoadSingleMetal(openFileDialog.FileName, ImageList.SelectedIndex);
+                //        GC.Collect();
+                //    }
+                //}
             }
         }
 
@@ -278,20 +277,20 @@ namespace SSXMultiTool
         {
             if (ImageList.SelectedIndex != -1)
             {
-                if (sshHandler.sshImages[ImageList.SelectedIndex].MetalBin)
-                {
-                    SaveFileDialog openFileDialog = new SaveFileDialog
-                    {
-                        Filter = "Png File (*.png)|*.png|All files (*.*)|*.*",
-                        FilterIndex = 1,
-                        RestoreDirectory = false
-                    };
-                    if (openFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        sshHandler.BMPOneBothExtract(openFileDialog.FileName, ImageList.SelectedIndex);
-                        GC.Collect();
-                    }
-                }
+                //if (sshHandler.sshImages[ImageList.SelectedIndex].MetalBin)
+                //{
+                //    SaveFileDialog openFileDialog = new SaveFileDialog
+                //    {
+                //        Filter = "Png File (*.png)|*.png|All files (*.*)|*.*",
+                //        FilterIndex = 1,
+                //        RestoreDirectory = false
+                //    };
+                //    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                //    {
+                //        sshHandler.BMPOneBothExtract(openFileDialog.FileName, ImageList.SelectedIndex);
+                //        GC.Collect();
+                //    }
+                //}
             }
         }
 
@@ -299,21 +298,21 @@ namespace SSXMultiTool
         {
             if (ImageList.SelectedIndex != -1)
             {
-                if (sshHandler.sshImages[ImageList.SelectedIndex].MetalBin)
-                {
-                    OpenFileDialog openFileDialog = new OpenFileDialog
-                    {
-                        Filter = "Png File (*.png)|*.png|All files (*.*)|*.*",
-                        FilterIndex = 1,
-                        RestoreDirectory = false
-                    };
-                    if (openFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        sshHandler.LoadSingleBoth(openFileDialog.FileName, ImageList.SelectedIndex);
-                        UpdateImageText(ImageList.SelectedIndex);
-                        GC.Collect();
-                    }
-                }
+                //if (sshHandler.sshImages[ImageList.SelectedIndex].MetalBin)
+                //{
+                //    OpenFileDialog openFileDialog = new OpenFileDialog
+                //    {
+                //        Filter = "Png File (*.png)|*.png|All files (*.*)|*.*",
+                //        FilterIndex = 1,
+                //        RestoreDirectory = false
+                //    };
+                //    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                //    {
+                //        sshHandler.LoadSingleBoth(openFileDialog.FileName, ImageList.SelectedIndex);
+                //        UpdateImageText(ImageList.SelectedIndex);
+                //        GC.Collect();
+                //    }
+                //}
             }
         }
 
@@ -321,7 +320,7 @@ namespace SSXMultiTool
         {
             if (ImageList.SelectedIndex != -1)
             {
-                sshHandler.BrightenBitmap(ImageList.SelectedIndex);
+                //sshHandler.BrightenBitmap(ImageList.SelectedIndex);
                 UpdateImageText(ImageList.SelectedIndex);
             }
         }
@@ -330,7 +329,7 @@ namespace SSXMultiTool
         {
             if (ImageList.SelectedIndex != -1)
             {
-                sshHandler.DoubleAlphaImage(ImageList.SelectedIndex);
+                //sshHandler.DoubleAlphaImage(ImageList.SelectedIndex);
                 UpdateImageText(ImageList.SelectedIndex);
             }
         }
@@ -339,7 +338,7 @@ namespace SSXMultiTool
         {
             if (ImageList.SelectedIndex != -1)
             {
-                sshHandler.DarkenImage(ImageList.SelectedIndex);
+                //sshHandler.DarkenImage(ImageList.SelectedIndex);
                 UpdateImageText(ImageList.SelectedIndex);
             }
         }
@@ -348,7 +347,7 @@ namespace SSXMultiTool
         {
             if (ImageList.SelectedIndex != -1)
             {
-                sshHandler.HalfAlphaImage(ImageList.SelectedIndex);
+                //sshHandler.HalfAlphaImage(ImageList.SelectedIndex);
                 UpdateImageText(ImageList.SelectedIndex);
             }
         }
@@ -365,7 +364,7 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    sshHandler.LoadSingle(openFileDialog.FileName, ImageList.SelectedIndex);
+                    //sshHandler.LoadSingle(openFileDialog.FileName, ImageList.SelectedIndex);
                     UpdateImageText(ImageList.SelectedIndex);
                 }
             }
@@ -383,7 +382,7 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    sshHandler.BMPOneExtract(openFileDialog.FileName, ImageList.SelectedIndex);
+                    //sshHandler.BMPOneExtract(openFileDialog.FileName, ImageList.SelectedIndex);
                     GC.Collect();
                 }
             }
@@ -418,7 +417,7 @@ namespace SSXMultiTool
         private void IamgeAddButton_Click(object sender, EventArgs e)
         {
             int a = ImageList.SelectedIndex;
-            sshHandler.AddImage();
+            //sshHandler.AddImage();
             UpdateFileText();
             ImageList.SelectedIndex = a;
         }
@@ -427,7 +426,7 @@ namespace SSXMultiTool
         {
             if (ImageList.SelectedIndex != -1)
             {
-                sshHandler.RemoveImage(ImageList.SelectedIndex);
+                //sshHandler.RemoveImage(ImageList.SelectedIndex);
                 ImageList.SelectedIndex = -1;
                 UpdateFileText();
             }
@@ -440,11 +439,11 @@ namespace SSXMultiTool
                 var SSHImage = sshHandler.sshImages[ImageList.SelectedIndex];
                 if (ColourByteSwappedCheckbox.Checked)
                 {
-                    SSHImage.sshTable.Format = 1;
+                    //SSHImage.sshTable.Format = 1;
                 }
                 else
                 {
-                    SSHImage.sshTable.Format = 0;
+                    //SSHImage.sshTable.Format = 0;
                 }
                 sshHandler.sshImages[ImageList.SelectedIndex] = SSHImage;
             }
@@ -466,17 +465,18 @@ namespace SSXMultiTool
 
                     string FileName = Path.GetFileName(AllSSHFiles[i]).Replace(".ssh", "");
 
-                    sshHandler = new OldSSHHandler();
+                    sshHandler = new NewSSHHandler();
                     sshHandler.LoadSSH(AllSSHFiles[i]);
 
                     Directory.CreateDirectory(openFileDialog.FileName + "\\" + FileName);
 
-                    sshHandler.BMPExtract(openFileDialog.FileName + "\\" + FileName);
+                    //sshHandler.BMPExtract(openFileDialog.FileName + "\\" + FileName);
 
                     GC.Collect();
                 }
                 ConsoleWindow.CloseConsole();
             }
         }
+
     }
 }

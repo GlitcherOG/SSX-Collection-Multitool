@@ -48,6 +48,7 @@
             SSHImageButton = new Button();
             LocFileButton = new Button();
             BigArchiveButton = new Button();
+            button8 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -205,20 +206,21 @@
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(button8);
             groupBox4.Controls.Add(AudioWindowButton);
             groupBox4.Controls.Add(SSHImageButton);
             groupBox4.Controls.Add(LocFileButton);
             groupBox4.Controls.Add(BigArchiveButton);
             groupBox4.Location = new Point(12, 190);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(411, 83);
+            groupBox4.Size = new Size(509, 83);
             groupBox4.TabIndex = 4;
             groupBox4.TabStop = false;
             groupBox4.Text = "Misc Tools";
             // 
             // AudioWindowButton
             // 
-            AudioWindowButton.Location = new Point(306, 22);
+            AudioWindowButton.Location = new Point(406, 22);
             AudioWindowButton.Name = "AudioWindowButton";
             AudioWindowButton.Size = new Size(94, 50);
             AudioWindowButton.TabIndex = 3;
@@ -255,6 +257,16 @@
             BigArchiveButton.Text = "Big Archive";
             BigArchiveButton.UseVisualStyleBackColor = true;
             BigArchiveButton.Click += BigArchiveButton_Click;
+            // 
+            // button8
+            // 
+            button8.Location = new Point(306, 22);
+            button8.Name = "button8";
+            button8.Size = new Size(94, 50);
+            button8.TabIndex = 4;
+            button8.Text = "New SSH Image File";
+            button8.UseVisualStyleBackColor = true;
+            button8.Click += button8_Click;
             // 
             // SSXMultitoolHubpage
             // 
@@ -296,5 +308,6 @@
         private Button AudioWindowButton;
         private Button button7;
         private Button button3;
+        private Button button8;
     }
 }

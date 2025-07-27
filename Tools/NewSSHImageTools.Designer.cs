@@ -1,6 +1,6 @@
 ﻿namespace SSXMultiTool
 {
-    partial class SSHImageTools
+    partial class NewSSHImageTools
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SSHImageTools));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewSSHImageTools));
             ImageList = new ListBox();
             toolStrip1 = new ToolStrip();
             toolStripDropDownButton1 = new ToolStripDropDownButton();
@@ -53,9 +53,7 @@
             label8 = new Label();
             label7 = new Label();
             label4 = new Label();
-            ImageLongNameTextbox = new TextBox();
             ImageShortNameTextbox = new TextBox();
-            label5 = new Label();
             label6 = new Label();
             groupBox3 = new GroupBox();
             checkBox1 = new CheckBox();
@@ -218,9 +216,7 @@
             groupBox2.Controls.Add(label8);
             groupBox2.Controls.Add(label7);
             groupBox2.Controls.Add(label4);
-            groupBox2.Controls.Add(ImageLongNameTextbox);
             groupBox2.Controls.Add(ImageShortNameTextbox);
-            groupBox2.Controls.Add(label5);
             groupBox2.Controls.Add(label6);
             groupBox2.Location = new Point(192, 103);
             groupBox2.Name = "groupBox2";
@@ -314,14 +310,6 @@
             label4.TabIndex = 0;
             label4.Text = "Image Short Name";
             // 
-            // ImageLongNameTextbox
-            // 
-            ImageLongNameTextbox.Location = new Point(129, 38);
-            ImageLongNameTextbox.Name = "ImageLongNameTextbox";
-            ImageLongNameTextbox.Size = new Size(196, 23);
-            ImageLongNameTextbox.TabIndex = 24;
-            ImageLongNameTextbox.TextChanged += UpdateImageDetails;
-            // 
             // ImageShortNameTextbox
             // 
             ImageShortNameTextbox.Location = new Point(11, 38);
@@ -330,15 +318,6 @@
             ImageShortNameTextbox.Size = new Size(112, 23);
             ImageShortNameTextbox.TabIndex = 4;
             ImageShortNameTextbox.TextChanged += UpdateImageDetails;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(129, 20);
-            label5.Name = "label5";
-            label5.Size = new Size(105, 15);
-            label5.TabIndex = 1;
-            label5.Text = "Image Long Name";
             // 
             // label6
             // 
@@ -606,7 +585,7 @@
             ExportImageButton.UseVisualStyleBackColor = true;
             ExportImageButton.Click += ExportImageButton_Click;
             // 
-            // SSHImageTools
+            // NewSSHImageTools
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -624,8 +603,8 @@
             Controls.Add(groupBox1);
             Controls.Add(toolStrip1);
             Controls.Add(ImageList);
-            Name = "SSHImageTools";
-            Text = "SSH Image Editor";
+            Name = "NewSSHImageTools";
+            Text = "New SSH Image Editor";
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             groupBox1.ResumeLayout(false);
@@ -661,7 +640,6 @@
         private Label label8;
         private Label label7;
         private Label label6;
-        private Label label5;
         private Label label4;
         private GroupBox groupBox3;
         private CheckBox MetalAlphaCheckbox;
@@ -683,7 +661,6 @@
         private TextBox GimxVersionTextBox;
         private Label ImageSizeLabel;
         private TextBox ImageShortNameTextbox;
-        private TextBox ImageLongNameTextbox;
         private ComboBox MatrixTypeDropdown;
         private Label ColourAmountLabel;
         private CheckBox ColourByteSwappedCheckbox;
