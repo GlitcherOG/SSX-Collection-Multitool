@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,40 @@ namespace SSXMultiTool.Utilities
 {
     public class ImageUtil
     {
+        public static HashSet<Color> GetBitmapColorsFast(Bitmap bmp)
+        {
+            int width = bmp.Width;
+            int height = bmp.Height;
+            HashSet<Color> result = new HashSet<Color>();
+
+            BitmapData data = bmp.LockBits(
+                new Rectangle(0, 0, width, height),
+                ImageLockMode.ReadOnly,
+                PixelFormat.Format32bppArgb); // Assumes 32bppArgb
+
+            unsafe
+            {
+                byte* ptr = (byte*)data.Scan0;
+
+                for (int y = 0; y < height; y++)
+                {
+                    byte* row = ptr + (y * data.Stride);
+                    for (int x = 0; x < width; x++)
+                    {
+                        int index = y * width + x;
+                        byte b = row[x * 4];
+                        byte g = row[x * 4 + 1];
+                        byte r = row[x * 4 + 2];
+                        byte a = row[x * 4 + 3];
+
+                        result.Add(Color.FromArgb(a, r, g, b));
+                    }
+                }
+            }
+
+            bmp.UnlockBits(data);
+            return result;
+        }
         public static Bitmap ReduceBitmapColorsSlow(Bitmap bmp, int MaxColors)
         {
             // Step 1: Extract pixel colors

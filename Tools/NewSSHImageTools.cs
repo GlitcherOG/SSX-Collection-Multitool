@@ -67,9 +67,8 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                //sshHandler.BMPExtract(openFileDialog.FileName);
+                sshHandler.BMPExtract(openFileDialog.FileName);
                 GC.Collect();
-                //Process.Start(openFileDialog.FileName);
             }
         }
 
@@ -93,7 +92,7 @@ namespace SSXMultiTool
             ImageList.Items.Clear();
             for (int i = 0; i < sshHandler.sshImages.Count; i++)
             {
-                ImageList.Items.Add(sshHandler.sshImages[i].name);
+                ImageList.Items.Add(sshHandler.sshImages[i].shortname);
             }
             FileNameLabel.Text = "NULL";
             GimxVersionTextBox.Text = sshHandler.group;
@@ -115,7 +114,7 @@ namespace SSXMultiTool
                 DisableUpdate = true;
                 var SSHImage = sshHandler.sshImages[a];
                 PictureBox1.Image = SSHImage.bitmap;
-                ImageShortNameTextbox.Text = SSHImage.name;
+                ImageShortNameTextbox.Text = SSHImage.shortname;
 
                 //bool tempBool = SSHImage.MetalBin;
                 //SSHMetalExtract.Enabled = tempBool;
@@ -149,9 +148,9 @@ namespace SSXMultiTool
                 //    ImageByteSwappedCheckbox.Checked = true;
                 //}
 
-                //ColourAmountLabel.Text = SSHImage.sshTable.colorTable.Count.ToString();
+                ColourAmountLabel.Text = SSHImage.colorsTable.Count.ToString();
                 //MetalAlphaCheckbox.Checked = SSHImage.MetalBin;
-                //ColourAlphaFix.Checked = SSHImage.AlphaFix;
+                ColourAlphaFix.Checked = SSHImage.AlphaFix;
 
                 //if (SSHImage.sshTable.Format == 0)
                 //{
@@ -193,13 +192,13 @@ namespace SSXMultiTool
             {
                 DisableUpdate = true;
                 var ImageDetails = sshHandler.sshImages[ImageList.SelectedIndex];
-                ImageDetails.name = ImageShortNameTextbox.Text;
+                ImageDetails.shortname = ImageShortNameTextbox.Text;
                 string tempString = MatrixTypeDropdown.Text;
                 string[] tempAString = tempString.Split(' ');
                 tempString = tempAString[0];
                 int indexInt = Int32.Parse(tempString);
                 //ImageDetails.sshHeader.MatrixFormat = (byte)indexInt;
-                //ImageDetails.AlphaFix = ColourAlphaFix.Checked;
+                ImageDetails.AlphaFix = ColourAlphaFix.Checked;
 
                 //if (ColourByteSwappedCheckbox.Checked)
                 //{
@@ -382,7 +381,7 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    //sshHandler.BMPOneExtract(openFileDialog.FileName, ImageList.SelectedIndex);
+                    sshHandler.BMPOneExtract(openFileDialog.FileName, ImageList.SelectedIndex);
                     GC.Collect();
                 }
             }
@@ -470,7 +469,7 @@ namespace SSXMultiTool
 
                     Directory.CreateDirectory(openFileDialog.FileName + "\\" + FileName);
 
-                    //sshHandler.BMPExtract(openFileDialog.FileName + "\\" + FileName);
+                    sshHandler.BMPExtract(openFileDialog.FileName + "\\" + FileName);
 
                     GC.Collect();
                 }

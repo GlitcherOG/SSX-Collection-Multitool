@@ -186,9 +186,10 @@ namespace SSXMultiTool.FileHandlers.Textures
                     //Alpha Fix
                     for (int a = 0; a < sshTable.colorTable.Count; a++)
                     {
-                        if (Max < sshTable.colorTable[a].A)
+                        if (Max <= 128)
                         {
-                            Max = sshTable.colorTable[a].A;
+                            Max = 129;
+                            break;
                         }
                     }
                     if (Max <= 128)
@@ -379,48 +380,13 @@ namespace SSXMultiTool.FileHandlers.Textures
             }
             else
             {
-                colourTable.colorTable = GetBitmapColorsFast(temp.bitmap).ToList();
+                colourTable.colorTable = ImageUtil.GetBitmapColorsFast(temp.bitmap).ToList();
             }
 
             colourTable.Total = colourTable.colorTable.Count;
             colourTable.Format = temp.sshTable.Format;
             temp.sshTable = colourTable;
             sshImages[i] = temp;
-        }
-
-        public static HashSet<Color> GetBitmapColorsFast(Bitmap bmp)
-        {
-            int width = bmp.Width;
-            int height = bmp.Height;
-            HashSet<Color> result = new HashSet<Color>();
-
-            BitmapData data = bmp.LockBits(
-                new Rectangle(0, 0, width, height),
-                ImageLockMode.ReadOnly,
-                PixelFormat.Format32bppArgb); // Assumes 32bppArgb
-
-            unsafe
-            {
-                byte* ptr = (byte*)data.Scan0;
-
-                for (int y = 0; y < height; y++)
-                {
-                    byte* row = ptr + (y * data.Stride);
-                    for (int x = 0; x < width; x++)
-                    {
-                        int index = y * width + x;
-                        byte b = row[x * 4];
-                        byte g = row[x * 4 + 1];
-                        byte r = row[x * 4 + 2];
-                        byte a = row[x * 4 + 3];
-
-                        result.Add(Color.FromArgb(a, r, g, b));
-                    }
-                }
-            }
-
-            bmp.UnlockBits(data);
-            return result;
         }
 
         public void BMPExtract(string path)
@@ -502,7 +468,7 @@ namespace SSXMultiTool.FileHandlers.Textures
                 temp.metalBitmap = new Bitmap(temp.bitmap.Width, temp.bitmap.Height, PixelFormat.Format32bppArgb);
             }
             SSHColourTable colourTable = new SSHColourTable();
-            colourTable.colorTable = GetBitmapColorsFast(temp.bitmap).ToList();
+            colourTable.colorTable = ImageUtil.GetBitmapColorsFast(temp.bitmap).ToList();
             colourTable.Total = colourTable.colorTable.Count;
             colourTable.Format = sshImages[i].sshTable.Format;
             temp.sshTable = colourTable;

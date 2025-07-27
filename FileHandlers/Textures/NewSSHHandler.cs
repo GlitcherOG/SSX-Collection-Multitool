@@ -41,7 +41,7 @@ namespace SSXMultiTool.FileHandlers.Textures
 
                         tempImage.size = StreamUtil.ReadUInt32(stream, true);
 
-                        tempImage.name = StreamUtil.ReadNullEndString(stream);
+                        tempImage.shortname = StreamUtil.ReadNullEndString(stream);
 
                         stream.Position++;
 
@@ -77,9 +77,9 @@ namespace SSXMultiTool.FileHandlers.Textures
                     var shape = new SSHShapeHeader();
 
                     shape.MatrixFormat = StreamUtil.ReadUInt8(stream);
-                    shape.Flags1 = StreamUtil.ReadUInt8(stream); //Bit Flags? +1 - Image?, +2 - Compressed?,  
-                    shape.Flags2 = StreamUtil.ReadUInt8(stream); //Flags? +64 - Swizzled?,
-                    shape.U11 = StreamUtil.ReadUInt8(stream);
+                    shape.Flags1 = StreamUtil.ReadUInt8(stream); //Bit Flags? +1 - Image?, +2 - Compressed,  
+                    shape.Flags2 = StreamUtil.ReadUInt8(stream); //Flags? +64 - Swizzled,
+                    shape.Flags3 = StreamUtil.ReadUInt8(stream);
                     shape.Size = StreamUtil.ReadUInt32(stream);
                     shape.U2 = StreamUtil.ReadUInt32(stream);
                     shape.U3 = StreamUtil.ReadUInt32(stream);
@@ -106,13 +106,14 @@ namespace SSXMultiTool.FileHandlers.Textures
                 {
                     //Process Colors
                     tempImage.colorsTable = GetColorTable(tempImage);
+                    tempImage = AlphaFix(tempImage);
 
                     //Process Matrix into Image
                     var imageMatrix = GetMatrixType(tempImage, 1);
 
                     if (imageMatrix.Flags2 == 64)
                     {
-                        imageMatrix.Matrix = Unswizzle4Bpp(imageMatrix.Matrix, imageMatrix.XSize, imageMatrix.YSize);
+                        imageMatrix.Matrix = ByteUtil.Unswizzle4bpp(imageMatrix.Matrix, imageMatrix.XSize, imageMatrix.YSize);
                     }
 
                     byte[] tempByte = new byte[imageMatrix.Size * 2];
@@ -142,6 +143,7 @@ namespace SSXMultiTool.FileHandlers.Textures
                 {
                     //Process Colors
                     tempImage.colorsTable = GetColorTable(tempImage);
+                    tempImage = AlphaFix(tempImage);
 
                     //Process Matrix into Image
                     var imageMatrix = GetMatrixType(tempImage, 2);
@@ -153,7 +155,7 @@ namespace SSXMultiTool.FileHandlers.Textures
 
                     if (imageMatrix.Flags2 == 64)
                     {
-                        imageMatrix.Matrix = Unswizzle8(imageMatrix.Matrix, imageMatrix.XSize, imageMatrix.YSize);
+                        imageMatrix.Matrix = ByteUtil.Unswizzle8(imageMatrix.Matrix, imageMatrix.XSize, imageMatrix.YSize);
                     }
 
                     //Process Image
@@ -186,7 +188,8 @@ namespace SSXMultiTool.FileHandlers.Textures
                         }
                     }
                 }
-                tempImage.bitmap.Save("I:\\PS2\\SSX\\SSX On Tour\\SLED 53625\\data\\textures\\"+i+".png");
+
+                tempImage.colorsTable = ImageUtil.GetBitmapColorsFast(tempImage.bitmap).ToList();
                 sshImages[i] = tempImage;
             }
         }
@@ -206,6 +209,44 @@ namespace SSXMultiTool.FileHandlers.Textures
             }
 
             return colors;
+        }
+
+
+        public NewSSHImage AlphaFix(NewSSHImage newSSHImage)
+        {
+            bool TestAlpha = true;
+
+            for (int i = 0; i < newSSHImage.colorsTable.Count; i++)
+            {
+                if (newSSHImage.colorsTable[i].A>0x80)
+                {
+                    TestAlpha = false;
+                    break;
+                }
+            }
+            newSSHImage.AlphaFix = true;
+
+            if (TestAlpha)
+            {
+                for (int i = 0; i < newSSHImage.colorsTable.Count; i++)
+                {
+                    var TempColour = newSSHImage.colorsTable[i];
+                    int A = TempColour.A * 2 - 1;
+                    if (A > 255)
+                    {
+                        A = 255;
+                    }
+                    else if (A < 0)
+                    {
+                        A = 0;
+                    }
+                    TempColour = Color.FromArgb(A, TempColour.R, TempColour.G, TempColour.B);
+                    newSSHImage.colorsTable[i] = TempColour;
+                }
+            }
+
+
+            return newSSHImage;
         }
 
         public SSHShapeHeader GetMatrixType(NewSSHImage newSSHImage,int Type)
@@ -248,94 +289,17 @@ namespace SSXMultiTool.FileHandlers.Textures
             return -1;
         }
 
-        public static byte[] Unswizzle8(byte[] buf, int width, int height)
+        public void BMPExtract(string path)
         {
-            byte[] output = new byte[width * height];
-
-            for (int y = 0; y < height; y++)
+            for (int i = 0; i < sshImages.Count; i++)
             {
-                for (int x = 0; x < width; x++)
-                {
-                    int blockLocation = (y & ~0xf) * width + (x & ~0xf) * 2;
-                    int swapSelector = (((y + 2) >> 2) & 0x1) * 4;
-                    int posY = (((y & ~3) >> 1) + (y & 1)) & 0x7;
-                    int columnLocation = posY * width * 2 + ((x + swapSelector) & 0x7) * 4;
-                    int byteNum = ((y >> 1) & 1) + ((x >> 2) & 2);
-                    int swizzleId = blockLocation + columnLocation + byteNum;
-
-                    if (swizzleId < buf.Length && y * width + x < output.Length)
-                    {
-                        output[y * width + x] = buf[swizzleId];
-                    }
-                }
+                sshImages[i].bitmap.Save(path + "\\" + sshImages[i].shortname + /*"." +*/ i + ".png", ImageFormat.Png);
             }
-
-            return output;
         }
 
-        public static byte[] Unswizzle4Bpp(byte[] pInTexels, int width, int height)
+        public void BMPOneExtract(string path, int i)
         {
-            byte[] pSwizTexels = new byte[width * height / 2];
-
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    int index = y * width + x;
-
-                    // Unswizzle
-                    int pageX = x & (~0x7F);
-                    int pageY = y & (~0x7F);
-
-                    int pagesHorz = (width + 127) / 128;
-                    int pagesVert = (height + 127) / 128;
-
-                    int pageNumber = (pageY / 128) * pagesHorz + (pageX / 128);
-
-                    int page32Y = (pageNumber / pagesVert) * 32;
-                    int page32X = (pageNumber % pagesVert) * 64;
-
-                    int pageLocation = page32Y * height * 2 + page32X * 4;
-
-                    int locX = x & 0x7F;
-                    int locY = y & 0x7F;
-
-                    int blockLocation = ((locX & (~0x1F)) >> 1) * height + (locY & (~0xF)) * 2;
-
-                    int swapSelector = (((y + 2) >> 2) & 0x1) * 4;
-                    int posY = (((y & (~3)) >> 1) + (y & 1)) & 0x7;
-
-                    int columnLocation = posY * height * 2 + ((x + swapSelector) & 0x7) * 4;
-
-                    int byteNum = (x >> 3) & 3;
-                    int bitsSet = (y >> 1) & 1;
-
-                    int pos = pageLocation + blockLocation + columnLocation + byteNum;
-
-                    int uPen;
-                    int pix = pSwizTexels[index >> 1];
-
-                    if ((bitsSet & 1) != 0)
-                    {
-                        uPen = (pInTexels[pos] >> 4) & 0xF;
-                    }
-                    else
-                    {
-                        uPen = pInTexels[pos] & 0xF;
-                    }
-
-                    if ((index & 1) != 0)
-                    {
-                        pSwizTexels[index >> 1] = (byte)(((uPen << 4) & 0xF0) | (pix & 0x0F));
-                    }
-                    else
-                    {
-                        pSwizTexels[index >> 1] = (byte)((pix & 0xF0) | (uPen & 0x0F));
-                    }
-                }
-            }
-
-            return pSwizTexels;
+            sshImages[i].bitmap.Save(path, ImageFormat.Png);
         }
 
 
@@ -343,12 +307,18 @@ namespace SSXMultiTool.FileHandlers.Textures
         {
             public int offset;
             public int size;
-            public string name;
-
+            public string shortname;
+            public string longname;
             public List<SSHShapeHeader> sshShapeHeader;
 
+            //Converted
             public List<Color> colorsTable;
             public Bitmap bitmap;
+            public int MatrixType;
+            public int Compressed;
+            public int SwizzledImage;
+            public int SwizzledColours;
+            public bool AlphaFix;
         }
 
         public struct SSHShapeHeader
@@ -356,7 +326,7 @@ namespace SSXMultiTool.FileHandlers.Textures
             public byte MatrixFormat;
             public int Flags1;
             public int Flags2;
-            public int U11;
+            public int Flags3;
             public int Size;
             public int U2;
             public int U3;
