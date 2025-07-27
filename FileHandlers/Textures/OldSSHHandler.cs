@@ -186,7 +186,7 @@ namespace SSXMultiTool.FileHandlers.Textures
                     //Alpha Fix
                     for (int a = 0; a < sshTable.colorTable.Count; a++)
                     {
-                        if (Max <= 128)
+                        if (sshTable.colorTable[a].A > 128)
                         {
                             Max = 129;
                             break;
