@@ -102,7 +102,43 @@ namespace SSXMultiTool.FileHandlers.Textures
 
                 var MatrixType = GetShapeMatrixType(tempImage);
 
-                if(MatrixType==2)
+                if (MatrixType == 1)
+                {
+                    //Process Colors
+                    tempImage.colorsTable = GetColorTable(tempImage);
+
+                    //Process Matrix into Image
+                    var imageMatrix = GetMatrixType(tempImage, 1);
+
+                    if (imageMatrix.Flags2 == 64)
+                    {
+                        imageMatrix.Matrix = Unswizzle4Bpp(imageMatrix.Matrix, imageMatrix.XSize, imageMatrix.YSize);
+                    }
+
+                    byte[] tempByte = new byte[imageMatrix.Size * 2];
+                    int posPoint = 0;
+                    for (int a = 0; a < imageMatrix.Matrix.Length; a++)
+                    {
+                        tempByte[posPoint] = (byte)ByteUtil.ByteToBitConvert(imageMatrix.Matrix[a], 0, 3);
+                        posPoint++;
+                        tempByte[posPoint] = (byte)ByteUtil.ByteToBitConvert(imageMatrix.Matrix[a], 4, 7);
+                        posPoint++;
+                    }
+                    imageMatrix.Matrix = tempByte;
+
+                    //Process Image
+                    tempImage.bitmap = new Bitmap(imageMatrix.XSize, imageMatrix.YSize, PixelFormat.Format32bppArgb);
+
+                    for (int y = 0; y < imageMatrix.YSize; y++)
+                    {
+                        for (int x = 0; x < imageMatrix.XSize; x++)
+                        {
+                            int colorPos = imageMatrix.Matrix[x + imageMatrix.XSize * y];
+                            tempImage.bitmap.SetPixel(x, y, tempImage.colorsTable[colorPos]);
+                        }
+                    }
+                }
+                if (MatrixType==2)
                 {
                     //Process Colors
                     tempImage.colorsTable = GetColorTable(tempImage);
@@ -159,7 +195,7 @@ namespace SSXMultiTool.FileHandlers.Textures
             var colorShape = GetMatrixType(newSSHImage, 33);
             List<Color> colors = new List<Color>();
 
-            if (colorShape.U2 != 0)
+            if (colorShape.Flags2 == 64)
             {
                 colorShape.Matrix = ByteUtil.UnswizzlePalette(colorShape.Matrix, colorShape.XSize);
             }
@@ -236,6 +272,72 @@ namespace SSXMultiTool.FileHandlers.Textures
 
             return output;
         }
+
+        public static byte[] Unswizzle4Bpp(byte[] pInTexels, int width, int height)
+        {
+            byte[] pSwizTexels = new byte[width * height / 2];
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    int index = y * width + x;
+
+                    // Unswizzle
+                    int pageX = x & (~0x7F);
+                    int pageY = y & (~0x7F);
+
+                    int pagesHorz = (width + 127) / 128;
+                    int pagesVert = (height + 127) / 128;
+
+                    int pageNumber = (pageY / 128) * pagesHorz + (pageX / 128);
+
+                    int page32Y = (pageNumber / pagesVert) * 32;
+                    int page32X = (pageNumber % pagesVert) * 64;
+
+                    int pageLocation = page32Y * height * 2 + page32X * 4;
+
+                    int locX = x & 0x7F;
+                    int locY = y & 0x7F;
+
+                    int blockLocation = ((locX & (~0x1F)) >> 1) * height + (locY & (~0xF)) * 2;
+
+                    int swapSelector = (((y + 2) >> 2) & 0x1) * 4;
+                    int posY = (((y & (~3)) >> 1) + (y & 1)) & 0x7;
+
+                    int columnLocation = posY * height * 2 + ((x + swapSelector) & 0x7) * 4;
+
+                    int byteNum = (x >> 3) & 3;
+                    int bitsSet = (y >> 1) & 1;
+
+                    int pos = pageLocation + blockLocation + columnLocation + byteNum;
+
+                    int uPen;
+                    int pix = pSwizTexels[index >> 1];
+
+                    if ((bitsSet & 1) != 0)
+                    {
+                        uPen = (pInTexels[pos] >> 4) & 0xF;
+                    }
+                    else
+                    {
+                        uPen = pInTexels[pos] & 0xF;
+                    }
+
+                    if ((index & 1) != 0)
+                    {
+                        pSwizTexels[index >> 1] = (byte)(((uPen << 4) & 0xF0) | (pix & 0x0F));
+                    }
+                    else
+                    {
+                        pSwizTexels[index >> 1] = (byte)((pix & 0xF0) | (uPen & 0x0F));
+                    }
+                }
+            }
+
+            return pSwizTexels;
+        }
+
 
         public struct NewSSHImage
         {
