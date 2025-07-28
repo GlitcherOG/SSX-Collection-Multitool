@@ -105,11 +105,16 @@ namespace SSXMultiTool.FileHandlers.Textures
                 if (tempImage.MatrixType == 1)
                 {
                     //Process Colors
+                    var colorShape = GetMatrixType(tempImage, 33);
                     tempImage.colorsTable = GetColorTable(tempImage);
                     tempImage = AlphaFix(tempImage);
 
                     //Process Matrix into Image
                     var imageMatrix = GetMatrixType(tempImage, 1);
+
+                    tempImage.Compressed = (imageMatrix.Flags1 & 2) == 2;
+                    tempImage.SwizzledImage = (imageMatrix.Flags2 & 64) == 64;
+                    tempImage.SwizzledColours = (colorShape.Flags2 & 64) == 64;
 
                     if (imageMatrix.Flags2 == 64)
                     {
@@ -142,11 +147,16 @@ namespace SSXMultiTool.FileHandlers.Textures
                 else if(tempImage.MatrixType == 2)
                 {
                     //Process Colors
+                    var colorShape = GetMatrixType(tempImage, 33);
                     tempImage.colorsTable = GetColorTable(tempImage);
                     tempImage = AlphaFix(tempImage);
 
                     //Process Matrix into Image
                     var imageMatrix = GetMatrixType(tempImage, 2);
+
+                    tempImage.Compressed = (imageMatrix.Flags1 & 2) == 2;
+                    tempImage.SwizzledImage = (imageMatrix.Flags2 & 64) == 64;
+                    tempImage.SwizzledColours = (colorShape.Flags2 & 64) == 64;
 
                     if (imageMatrix.Flags1 == 3)
                     {
@@ -193,6 +203,7 @@ namespace SSXMultiTool.FileHandlers.Textures
                 sshImages[i] = tempImage;
             }
         }
+
         public List<Color> GetColorTable(NewSSHImage newSSHImage)
         {
             var colorShape = GetMatrixType(newSSHImage, 33);
@@ -316,6 +327,71 @@ namespace SSXMultiTool.FileHandlers.Textures
             sshImages[i] = temp;
         }
 
+        public void SaveSSH(string path, bool TestImages)
+        {
+            for (int i = 0; i < sshImages.Count; i++)
+            {
+                if (TestImages)
+                {
+                    var sshImage = sshImages[i];
+
+                    sshImage.colorsTable = ImageUtil.GetBitmapColorsFast(sshImage.bitmap).ToList();
+
+                    //if metal bin combine images and then reduce
+
+                    if (sshImage.colorsTable.Count > 256 && sshImage.MatrixType == 2)
+                    {
+                        sshImage.bitmap = ImageUtil.ReduceBitmapColorsSlow(sshImage.bitmap, 256);
+                        //MessageBox.Show(sshImages[i].shortname + " " + i.ToString() + " Exceeds 256 Colours");
+                        //check = true;
+                    }
+                    if (sshImage.colorsTable.Count > 16 && sshImage.MatrixType == 1)
+                    {
+                        sshImage.bitmap = ImageUtil.ReduceBitmapColorsSlow(sshImage.bitmap, 16);
+                        //MessageBox.Show(sshImage.shortname + " " + i.ToString() + " Exceeds 16 Colours");
+                        //check = true;
+                    }
+                    sshImages[i] = sshImage;
+                }
+            }
+
+            //Write Header
+
+            byte[] tempByte = new byte[4];
+            Stream stream = new MemoryStream();
+
+            StreamUtil.WriteString(stream, "ShpS");
+
+            long SizePos = stream.Position;
+            tempByte = new byte[4];
+            stream.Write(tempByte, 0, tempByte.Length);
+
+            StreamUtil.WriteInt32(stream, sshImages.Count);
+
+            StreamUtil.WriteInt32(stream, U0);
+
+            List<int> intPos = new List<int>();
+
+            for (int i = 0; i < sshImages.Count; i++)
+            {
+                intPos.Add((int)stream.Position);
+                tempByte = new byte[8];
+                stream.Write(tempByte, 0, tempByte.Length);
+                StreamUtil.WriteNullString(stream, sshImages[i].shortname);
+            }
+
+            StreamUtil.WriteString(stream, "Buy ERTS", 8);
+
+            StreamUtil.AlignBy16(stream);
+
+            ////Process Image to SSHShapeHeader
+            //for (int i = 0; i < length; i++)
+            //{
+                
+            //}
+
+        }
+
         public struct NewSSHImage
         {
             public int offset;
@@ -328,9 +404,9 @@ namespace SSXMultiTool.FileHandlers.Textures
             public List<Color> colorsTable;
             public Bitmap bitmap;
             public int MatrixType;
-            public int Compressed;
-            public int SwizzledImage;
-            public int SwizzledColours;
+            public bool Compressed;
+            public bool SwizzledImage;
+            public bool SwizzledColours;
             public bool AlphaFix;
         }
 

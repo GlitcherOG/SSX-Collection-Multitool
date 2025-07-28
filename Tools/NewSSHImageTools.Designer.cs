@@ -44,6 +44,9 @@
             FileNameLabel = new Label();
             label1 = new Label();
             groupBox2 = new GroupBox();
+            label2 = new Label();
+            textBox1 = new TextBox();
+            SSHCompressed = new CheckBox();
             ImageSizeLabel = new Label();
             label9 = new Label();
             ImageByteSwappedCheckbox = new CheckBox();
@@ -68,9 +71,6 @@
             ImageRemoveButton = new Button();
             ReplaceImageButton = new Button();
             ExportImageButton = new Button();
-            checkBox1 = new CheckBox();
-            label2 = new Label();
-            textBox1 = new TextBox();
             toolStrip1.SuspendLayout();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -200,7 +200,7 @@
             // 
             groupBox2.Controls.Add(label2);
             groupBox2.Controls.Add(textBox1);
-            groupBox2.Controls.Add(checkBox1);
+            groupBox2.Controls.Add(SSHCompressed);
             groupBox2.Controls.Add(ImageSizeLabel);
             groupBox2.Controls.Add(label9);
             groupBox2.Controls.Add(ImageByteSwappedCheckbox);
@@ -214,6 +214,34 @@
             groupBox2.TabIndex = 3;
             groupBox2.TabStop = false;
             groupBox2.Text = "Image Details";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(129, 19);
+            label2.Name = "label2";
+            label2.Size = new Size(105, 15);
+            label2.TabIndex = 31;
+            label2.Text = "Image Long Name";
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(132, 37);
+            textBox1.MaxLength = 4;
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(193, 23);
+            textBox1.TabIndex = 32;
+            // 
+            // SSHCompressed
+            // 
+            SSHCompressed.AutoSize = true;
+            SSHCompressed.Location = new Point(11, 118);
+            SSHCompressed.Name = "SSHCompressed";
+            SSHCompressed.Size = new Size(92, 19);
+            SSHCompressed.TabIndex = 30;
+            SSHCompressed.Text = "Compressed";
+            SSHCompressed.UseVisualStyleBackColor = true;
+            SSHCompressed.CheckedChanged += UpdateImageDetails;
             // 
             // ImageSizeLabel
             // 
@@ -242,6 +270,7 @@
             ImageByteSwappedCheckbox.TabIndex = 6;
             ImageByteSwappedCheckbox.Text = "Swizzled";
             ImageByteSwappedCheckbox.UseVisualStyleBackColor = true;
+            ImageByteSwappedCheckbox.CheckedChanged += UpdateImageDetails;
             ImageByteSwappedCheckbox.CheckStateChanged += UpdateImageDetails;
             // 
             // MatrixTypeDropdown
@@ -472,33 +501,6 @@
             ExportImageButton.UseVisualStyleBackColor = true;
             ExportImageButton.Click += ExportImageButton_Click;
             // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(11, 118);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(92, 19);
-            checkBox1.TabIndex = 30;
-            checkBox1.Text = "Compressed";
-            checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(129, 19);
-            label2.Name = "label2";
-            label2.Size = new Size(105, 15);
-            label2.TabIndex = 31;
-            label2.Text = "Image Long Name";
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(132, 37);
-            textBox1.MaxLength = 4;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(193, 23);
-            textBox1.TabIndex = 32;
-            // 
             // NewSSHImageTools
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -573,7 +575,7 @@
         private Button ReplaceImageButton;
         private Button ExportImageButton;
         private ToolStripMenuItem toolStripMenuItem1;
-        private CheckBox checkBox1;
+        private CheckBox SSHCompressed;
         private Label label2;
         private TextBox textBox1;
     }

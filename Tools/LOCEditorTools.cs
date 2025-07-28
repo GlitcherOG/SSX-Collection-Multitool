@@ -44,7 +44,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                lOCEditor.SaveLodFile(openFileDialog.FileName);
+                lOCEditor.SaveLocFile(openFileDialog.FileName);
             }
         }
 

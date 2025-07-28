@@ -81,7 +81,7 @@ namespace SSXMultiTool.FileHandlers
             }
         }
 
-        public void SaveLodFile(string path = null)
+        public void SaveLocFile(string path = null)
         {
             if(path==null)
             {

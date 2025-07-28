@@ -116,12 +116,6 @@ namespace SSXMultiTool
                 PictureBox1.Image = SSHImage.bitmap;
                 ImageShortNameTextbox.Text = SSHImage.shortname;
 
-                //bool tempBool = SSHImage.MetalBin;
-                //SSHMetalExtract.Enabled = tempBool;
-                //SSHMetalImport.Enabled = tempBool;
-                //SSHBothExtract.Enabled = tempBool;
-                //SSHBothImport.Enabled = tempBool;
-
                 for (int i = 0; i < MatrixTypeDropdown.Items.Count; i++)
                 {
                     if (MatrixTypeDropdown.Items[i].ToString().Contains(sshHandler.sshImages[a].MatrixType.ToString() + " "))
@@ -135,8 +129,9 @@ namespace SSXMultiTool
                     }
                 }
 
-                //YAxisNum.Value = SSHImage.sshHeader.Yaxis;
-                //XAxisNum.Value = SSHImage.sshHeader.Xaxis;
+                SSHCompressed.Checked = SSHImage.Compressed;
+                ImageByteSwappedCheckbox.Checked= SSHImage.SwizzledImage;
+                ColourByteSwappedCheckbox.Checked = SSHImage.SwizzledColours;
 
                 ImageSizeLabel.Text = SSHImage.bitmap.Width + " x " + SSHImage.bitmap.Height;
                 //if (SSHImage.sshHeader.LXPos == 0)
@@ -149,7 +144,6 @@ namespace SSXMultiTool
                 //}
 
                 ColourAmountLabel.Text = SSHImage.colorsTable.Count.ToString();
-                //MetalAlphaCheckbox.Checked = SSHImage.MetalBin;
                 ColourAlphaFix.Checked = SSHImage.AlphaFix;
 
                 //if (SSHImage.sshTable.Format == 0)
@@ -199,24 +193,9 @@ namespace SSXMultiTool
                 int indexInt = Int32.Parse(tempString);
                 ImageDetails.MatrixType = (byte)indexInt;
                 ImageDetails.AlphaFix = ColourAlphaFix.Checked;
-
-                //if (ColourByteSwappedCheckbox.Checked)
-                //{
-                //    ImageDetails.sshTable.Format = 2;
-                //}
-                //else
-                //{
-                //    ImageDetails.sshTable.Format = 0;
-                //}
-
-                //if (ImageByteSwappedCheckbox.Checked)
-                //{
-                //    ImageDetails.sshHeader.LXPos = 2;
-                //}
-                //else
-                //{
-                //    ImageDetails.sshHeader.LXPos = 0;
-                //}
+                ImageDetails.Compressed = SSHCompressed.Checked;
+                ImageDetails.SwizzledImage = ImageByteSwappedCheckbox.Checked;
+                ImageDetails.SwizzledColours = ColourByteSwappedCheckbox.Checked;
 
                 sshHandler.sshImages[ImageList.SelectedIndex] = ImageDetails;
                 DisableUpdate = false;
@@ -384,6 +363,5 @@ namespace SSXMultiTool
                 ConsoleWindow.CloseConsole();
             }
         }
-
     }
 }
