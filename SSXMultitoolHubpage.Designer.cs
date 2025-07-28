@@ -44,11 +44,12 @@
             SSX3LevelButton = new Button();
             TrickyLevelButton = new Button();
             groupBox4 = new GroupBox();
+            button8 = new Button();
             AudioWindowButton = new Button();
             SSHImageButton = new Button();
             LocFileButton = new Button();
             BigArchiveButton = new Button();
-            button8 = new Button();
+            button9 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -164,12 +165,13 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(button9);
             groupBox3.Controls.Add(button4);
             groupBox3.Controls.Add(SSX3LevelButton);
             groupBox3.Controls.Add(TrickyLevelButton);
             groupBox3.Location = new Point(12, 101);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(308, 83);
+            groupBox3.Size = new Size(409, 83);
             groupBox3.TabIndex = 5;
             groupBox3.TabStop = false;
             groupBox3.Text = "Game Level Tools";
@@ -218,6 +220,16 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "Misc Tools";
             // 
+            // button8
+            // 
+            button8.Location = new Point(306, 22);
+            button8.Name = "button8";
+            button8.Size = new Size(94, 50);
+            button8.TabIndex = 4;
+            button8.Text = "New SSH Image File";
+            button8.UseVisualStyleBackColor = true;
+            button8.Click += button8_Click;
+            // 
             // AudioWindowButton
             // 
             AudioWindowButton.Location = new Point(406, 22);
@@ -258,15 +270,14 @@
             BigArchiveButton.UseVisualStyleBackColor = true;
             BigArchiveButton.Click += BigArchiveButton_Click;
             // 
-            // button8
+            // button9
             // 
-            button8.Location = new Point(306, 22);
-            button8.Name = "button8";
-            button8.Size = new Size(94, 50);
-            button8.TabIndex = 4;
-            button8.Text = "New SSH Image File";
-            button8.UseVisualStyleBackColor = true;
-            button8.Click += button8_Click;
+            button9.Location = new Point(306, 22);
+            button9.Name = "button9";
+            button9.Size = new Size(94, 50);
+            button9.TabIndex = 3;
+            button9.Text = "SSX On Tour Level Files";
+            button9.UseVisualStyleBackColor = true;
             // 
             // SSXMultitoolHubpage
             // 
@@ -309,5 +320,6 @@
         private Button button7;
         private Button button3;
         private Button button8;
+        private Button button9;
     }
 }
