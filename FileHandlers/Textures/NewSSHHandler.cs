@@ -82,7 +82,7 @@ namespace SSXMultiTool.FileHandlers.Textures
                     shape.Flags3 = StreamUtil.ReadUInt8(stream);
                     shape.Size = StreamUtil.ReadUInt32(stream);
                     shape.U2 = StreamUtil.ReadUInt32(stream);
-                    shape.U3 = StreamUtil.ReadUInt32(stream);
+                    shape.DataSize = StreamUtil.ReadUInt32(stream);
                     shape.U4 = StreamUtil.ReadUInt32(stream);
                     shape.U5 = StreamUtil.ReadUInt32(stream);
                     shape.XSize = StreamUtil.ReadUInt32(stream);
@@ -90,7 +90,7 @@ namespace SSXMultiTool.FileHandlers.Textures
 
                     if (shape.Size == 0)
                     {
-                        shape.Matrix = StreamUtil.ReadBytes(stream, shape.U3);
+                        shape.Matrix = StreamUtil.ReadBytes(stream, shape.DataSize);
                     }
                     else
                     {
@@ -116,7 +116,7 @@ namespace SSXMultiTool.FileHandlers.Textures
                     tempImage.SwizzledImage = (imageMatrix.Flags2 & 64) == 64;
                     tempImage.SwizzledColours = (colorShape.Flags2 & 64) == 64;
 
-                    if (imageMatrix.Flags2 == 64)
+                    if (tempImage.SwizzledImage)
                     {
                         imageMatrix.Matrix = ByteUtil.Unswizzle4bpp(imageMatrix.Matrix, imageMatrix.XSize, imageMatrix.YSize);
                     }
@@ -158,12 +158,12 @@ namespace SSXMultiTool.FileHandlers.Textures
                     tempImage.SwizzledImage = (imageMatrix.Flags2 & 64) == 64;
                     tempImage.SwizzledColours = (colorShape.Flags2 & 64) == 64;
 
-                    if (imageMatrix.Flags1 == 3)
+                    if (tempImage.Compressed)
                     {
                         imageMatrix.Matrix = RefpackHandler.Decompress(imageMatrix.Matrix);
                     }
 
-                    if (imageMatrix.Flags2 == 64)
+                    if (tempImage.SwizzledImage)
                     {
                         imageMatrix.Matrix = ByteUtil.Unswizzle8(imageMatrix.Matrix, imageMatrix.XSize, imageMatrix.YSize);
                     }
@@ -197,6 +197,10 @@ namespace SSXMultiTool.FileHandlers.Textures
                             pos++;
                         }
                     }
+                }
+                else
+                {
+                    MessageBox.Show(tempImage.MatrixType + " Unknown Matrix");
                 }
 
                 tempImage.colorsTable = ImageUtil.GetBitmapColorsFast(tempImage.bitmap).ToList();
@@ -384,13 +388,92 @@ namespace SSXMultiTool.FileHandlers.Textures
 
             StreamUtil.AlignBy16(stream);
 
-            ////Process Image to SSHShapeHeader
-            //for (int i = 0; i < length; i++)
-            //{
-                
-            //}
+            //Process Image to SSHShapeHeader
+            for (int i = 0; i < sshImages.Count; i++)
+            {
+                var Image = sshImages[i];
+
+                Image.offset = (int)stream.Position;
+
+                if(Image.MatrixType==1)
+                {
+                    WriteMatrix1(stream, Image);
+                }
+                else if (Image.MatrixType == 2)
+                {
+                    WriteMatrix2(stream, Image);
+                }
+                else if (Image.MatrixType == 5)
+                {
+                    WriteMatrix5(stream, Image);
+                }
+                else
+                {
+                    MessageBox.Show(Image.MatrixType + " Unknown Matrix");
+                    return;
+                }
+
+                //Write Long Name
+
+
+                    sshImages[i] = Image;
+            }
 
         }
+
+        public void WriteMatrix1(Stream stream, NewSSHImage image)
+        {
+            WriteShapeHeader(stream, image);
+        }
+        public void WriteMatrix2(Stream stream, NewSSHImage image)
+        {
+            WriteShapeHeader(stream, image);
+        }
+        public void WriteMatrix5(Stream stream, NewSSHImage image)
+        {
+            WriteShapeHeader(stream, image);
+        }
+
+        public void WriteShapeHeader(Stream stream, NewSSHImage image)
+        {
+            StreamUtil.WriteUInt8(stream, image.MatrixType);
+            int Flag1 = 1 + (image.Compressed ? 2 : 0);
+            int Flag2 = (image.SwizzledImage ? 64 : 0);
+            int Flag3 = 0;
+            StreamUtil.WriteUInt8(stream, Flag1);
+            StreamUtil.WriteUInt8(stream, Flag2);
+            StreamUtil.WriteUInt8(stream, Flag3);
+
+            int ImageSize = 0;
+
+            if (image.MatrixType == 1)
+            {
+                ImageSize = (image.bitmap.Height*image.bitmap.Width)/2;
+            }
+            else if (image.MatrixType == 2)
+            {
+                ImageSize = (image.bitmap.Height * image.bitmap.Width);
+            }
+            else if (image.MatrixType == 5)
+            {
+                ImageSize = (image.bitmap.Height * image.bitmap.Width) *4;
+            }
+
+            StreamUtil.WriteInt32(stream, ImageSize + 32);
+            StreamUtil.WriteInt32(stream, 0);
+            StreamUtil.WriteInt32(stream, 0);
+
+            StreamUtil.WriteInt32(stream, ImageSize);
+            StreamUtil.WriteInt32(stream, 0);
+            StreamUtil.WriteInt32(stream, image.bitmap.Width);
+            StreamUtil.WriteInt32(stream, image.bitmap.Height);
+        }
+
+        public void WriteColourTable(Stream stream, NewSSHImage image)
+        {
+
+        }
+
 
         public struct NewSSHImage
         {
@@ -403,6 +486,7 @@ namespace SSXMultiTool.FileHandlers.Textures
             //Converted
             public List<Color> colorsTable;
             public Bitmap bitmap;
+            public int Unknown;
             public int MatrixType;
             public bool Compressed;
             public bool SwizzledImage;
@@ -418,7 +502,7 @@ namespace SSXMultiTool.FileHandlers.Textures
             public int Flags3;
             public int Size;
             public int U2;
-            public int U3;
+            public int DataSize;
 
             public int U4;
             public int U5;
