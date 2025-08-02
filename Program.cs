@@ -1,4 +1,5 @@
 using SSXMultiTool.JsonFiles.Tricky;
+using SSXMultiTool.Utilities;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -76,16 +77,17 @@ namespace SSXMultiTool
             }
             else
             {
-                if (args[1].ToLower() == "TrickyBuild")
+                if (args[1].ToLower() == "trickybuild")
                 {
                     if (Directory.Exists(args[2]))
                     {
+                        ConsoleWindow.GenerateConsole();
                         try
                         {
                             SSXTrickyConfig config = new SSXTrickyConfig();
                             config = SSXTrickyConfig.Load(args[2]+ "/ConfigTricky.ssx");
 
-                            if (args.Length < 3)
+                            if (args.Length < 4)
                             {
                                 if (config.BuildPath != "")
                                 {
@@ -109,6 +111,7 @@ namespace SSXMultiTool
                         {
                             MessageBox.Show("Unknown Error Building");
                         }
+                        ConsoleWindow.CloseConsole();
                     }
                     else
                     {
