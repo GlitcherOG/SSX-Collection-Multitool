@@ -551,7 +551,7 @@ namespace SSXMultiTool.JsonFiles
             }
 
             SSXOGConfig ssxOGConfig = new SSXOGConfig();
-            ssxOGConfig.CreateJson(ExtractPath + "\\OGConfig.ssx");
+            ssxOGConfig.CreateJson(ExtractPath + "\\ConfigOG.ssx");
         }
 
     }

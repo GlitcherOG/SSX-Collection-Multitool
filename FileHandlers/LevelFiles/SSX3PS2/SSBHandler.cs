@@ -319,6 +319,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     }
                 }
             }
+            SSX3Config ssx3Config = new SSX3Config();
+            ssx3Config.CreateJson(extractPath + "//ConfigSSX3.ssx");
             ConsoleWindow.CloseConsole();
         }
 
