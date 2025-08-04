@@ -468,7 +468,43 @@ namespace SSXMultiTool.FileHandlers.Textures
         }
         public void WriteMatrix5(Stream stream, NewSSHImage image)
         {
-            WriteImageHeader(stream, image, 0);
+            byte[] Matrix = new byte[image.bitmap.Height * image.bitmap.Width*4];
+
+            for (global::System.Int32 y = 0; y < image.bitmap.Height; y++)
+            {
+                for (global::System.Int32 x = 0; x < image.bitmap.Width; x++)
+                {
+                    var Pixel = image.bitmap.GetPixel(x, y);
+                    Matrix[(y * x) + (x * 4)] = Pixel.R;
+                    Matrix[(y * x) + (x * 4)+1] = Pixel.G;
+                    Matrix[(y * x) + (x * 4)+2] = Pixel.B;
+                    Matrix[(y * x) + (x * 4)+3] = Pixel.A;
+                }
+            }
+
+            if (image.SwizzledImage)
+            {
+                //Swizzle the Image
+            }
+
+            if (image.Compressed)
+            {
+                //Compress Image
+            }
+
+            WriteImageHeader(stream, image, Matrix.Length);
+
+            StreamUtil.WriteBytes(stream, Matrix);
+
+            //Might not be needed
+            StreamUtil.AlignBy16(stream);
+
+            if (image.longname != "")
+            {
+
+            }
+
+            StreamUtil.AlignBy16(stream);
         }
 
         public void WriteImageHeader(Stream stream, NewSSHImage image, int DataSize)
