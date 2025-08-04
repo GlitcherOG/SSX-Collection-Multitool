@@ -423,7 +423,51 @@ namespace SSXMultiTool.FileHandlers.Textures
 
         public void WriteMatrix1(Stream stream, NewSSHImage image)
         {
-            WriteImageHeader(stream, image, 0);
+            byte[] TempMatrix = new byte[image.bitmap.Height * image.bitmap.Width];
+
+            for (global::System.Int32 y = 0; y < image.bitmap.Height; y++)
+            {
+                for (global::System.Int32 x = 0; x < image.bitmap.Width; x++)
+                {
+                    TempMatrix[y * x + x] = (byte)image.colorsTable.IndexOf(image.bitmap.GetPixel(x, y));
+                }
+            }
+
+            byte[] Matrix = new byte[TempMatrix.Length/2];
+            for (int i = 0; i < TempMatrix.Length / 2; i++)
+            {
+                Matrix[i] = (byte)ByteUtil.BitConbineConvert(TempMatrix[i*2], TempMatrix[i*2+1], 0, 4, 4);
+            }
+
+
+            if (image.SwizzledImage)
+            {
+                //Swizzle the Image
+            }
+
+            if (image.Compressed)
+            {
+                //Compress Image
+            }
+
+            WriteImageHeader(stream, image, Matrix.Length);
+
+            StreamUtil.WriteBytes(stream, Matrix);
+
+            //Might not be needed
+            StreamUtil.AlignBy16(stream);
+
+            //Generate Colour Table Matrix
+            WriteColourTable(stream, image);
+
+            StreamUtil.AlignBy16(stream);
+
+            if (image.longname != "")
+            {
+
+            }
+
+            StreamUtil.AlignBy16(stream);
         }
         public void WriteMatrix2(Stream stream, NewSSHImage image)
         {
