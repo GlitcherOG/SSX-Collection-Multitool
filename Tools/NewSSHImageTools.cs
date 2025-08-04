@@ -82,7 +82,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                //sshHandler.SaveSSH(openFileDialog.FileName, true);
+                sshHandler.SaveSSH(openFileDialog.FileName, true);
             }
         }
 
@@ -115,6 +115,7 @@ namespace SSXMultiTool
                 var SSHImage = sshHandler.sshImages[a];
                 PictureBox1.Image = SSHImage.bitmap;
                 ImageShortNameTextbox.Text = SSHImage.shortname;
+                ImageLongNameTextbox.Text = SSHImage.longname;
 
                 for (int i = 0; i < MatrixTypeDropdown.Items.Count; i++)
                 {
@@ -187,6 +188,7 @@ namespace SSXMultiTool
                 DisableUpdate = true;
                 var ImageDetails = sshHandler.sshImages[ImageList.SelectedIndex];
                 ImageDetails.shortname = ImageShortNameTextbox.Text;
+                ImageDetails.longname = ImageLongNameTextbox.Text;
                 string tempString = MatrixTypeDropdown.Text;
                 string[] tempAString = tempString.Split(' ');
                 tempString = tempAString[0];
@@ -315,23 +317,6 @@ namespace SSXMultiTool
                 //sshHandler.RemoveImage(ImageList.SelectedIndex);
                 ImageList.SelectedIndex = -1;
                 UpdateFileText();
-            }
-        }
-
-        private void ColourByteSwappedCheckbox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (ImageList.SelectedIndex != -1)
-            {
-                var SSHImage = sshHandler.sshImages[ImageList.SelectedIndex];
-                if (ColourByteSwappedCheckbox.Checked)
-                {
-                    //SSHImage.sshTable.Format = 1;
-                }
-                else
-                {
-                    //SSHImage.sshTable.Format = 0;
-                }
-                sshHandler.sshImages[ImageList.SelectedIndex] = SSHImage;
             }
         }
 

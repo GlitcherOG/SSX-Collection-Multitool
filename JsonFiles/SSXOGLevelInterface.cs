@@ -15,7 +15,10 @@ namespace SSXMultiTool.JsonFiles
 {
     public class SSXOGLevelInterface
     {
-
+        //Missing
+        //unknownStruct0s
+        //unknownStruct1s
+        //Lights
         public void ExtractOGLevelFiles(string LoadPath, string ExtractPath)
         {
             WDXHandler wdxHandler = new WDXHandler();

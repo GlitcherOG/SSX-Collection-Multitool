@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Text;
 
 
 namespace SSXMultiTool.FileHandlers.Textures
@@ -77,25 +78,40 @@ namespace SSXMultiTool.FileHandlers.Textures
                     var shape = new SSHShapeHeader();
 
                     shape.MatrixFormat = StreamUtil.ReadUInt8(stream);
-                    shape.Flags1 = StreamUtil.ReadUInt8(stream); //Bit Flags? +1 - Image?, +2 - Compressed,  
-                    shape.Flags2 = StreamUtil.ReadUInt8(stream); //Flags? +64 - Swizzled,
-                    shape.Flags3 = StreamUtil.ReadUInt8(stream);
-                    shape.Size = StreamUtil.ReadUInt32(stream);
-                    shape.U2 = StreamUtil.ReadUInt32(stream);
-                    shape.DataSize = StreamUtil.ReadUInt32(stream);
-                    shape.U4 = StreamUtil.ReadUInt32(stream);
-                    shape.U5 = StreamUtil.ReadUInt32(stream);
-                    shape.XSize = StreamUtil.ReadUInt32(stream);
-                    shape.YSize = StreamUtil.ReadUInt32(stream);
-
-                    if (shape.Size == 0)
+                    if (shape.MatrixFormat != 111)
                     {
-                        shape.Matrix = StreamUtil.ReadBytes(stream, shape.DataSize);
+                        shape.Flags1 = StreamUtil.ReadUInt8(stream); //Bit Flags? +1 - Image?, +2 - Compressed,  
+                        shape.Flags2 = StreamUtil.ReadUInt8(stream); //Flags? +64 - Swizzled,
+                        shape.Flags3 = StreamUtil.ReadUInt8(stream);
+                        shape.Size = StreamUtil.ReadUInt32(stream);
+                        shape.U2 = StreamUtil.ReadUInt32(stream);
+                        shape.DataSize = StreamUtil.ReadUInt32(stream);
+                        shape.U4 = StreamUtil.ReadUInt32(stream);
+                        shape.U5 = StreamUtil.ReadUInt32(stream);
+                        shape.XSize = StreamUtil.ReadUInt32(stream);
+                        shape.YSize = StreamUtil.ReadUInt32(stream);
+
+                        if (shape.Size == 0)
+                        {
+                            shape.Matrix = StreamUtil.ReadBytes(stream, shape.DataSize);
+                        }
+                        else
+                        {
+                            shape.Matrix = StreamUtil.ReadBytes(stream, shape.Size - 32);
+                        }
                     }
                     else
                     {
-                        shape.Matrix = StreamUtil.ReadBytes(stream, shape.Size-32);
+                        shape.Flags1 = StreamUtil.ReadUInt8(stream); //Bit Flags? +1 - Image?, +2 - Compressed,  
+                        shape.Flags2 = StreamUtil.ReadUInt8(stream); //Flags? +64 - Swizzled,
+                        shape.Flags3 = StreamUtil.ReadUInt8(stream);
+                        shape.Size = StreamUtil.ReadUInt32(stream);
+                        shape.U2 = StreamUtil.ReadUInt32(stream);
+                        shape.DataSize = StreamUtil.ReadUInt32(stream);
+
+                        shape.Matrix = StreamUtil.ReadBytes(stream, shape.DataSize);
                     }
+
 
                     tempImage.sshShapeHeader.Add(shape);
                 }
@@ -201,6 +217,12 @@ namespace SSXMultiTool.FileHandlers.Textures
                 else
                 {
                     MessageBox.Show(tempImage.MatrixType + " Unknown Matrix");
+                }
+
+                var longNameShape = GetMatrixType(tempImage, 111);
+                if (longNameShape.MatrixFormat != 0)
+                {
+                    tempImage.longname = Encoding.ASCII.GetString(longNameShape.Matrix).Replace("\0", "");
                 }
 
                 tempImage.colorsTable = ImageUtil.GetBitmapColorsFast(tempImage.bitmap).ToList();
@@ -370,7 +392,7 @@ namespace SSXMultiTool.FileHandlers.Textures
             tempByte = new byte[4];
             stream.Write(tempByte, 0, tempByte.Length);
 
-            StreamUtil.WriteInt32(stream, sshImages.Count);
+            StreamUtil.WriteInt32(stream, sshImages.Count, true);
 
             StreamUtil.WriteInt32(stream, U0);
 
@@ -383,6 +405,8 @@ namespace SSXMultiTool.FileHandlers.Textures
                 stream.Write(tempByte, 0, tempByte.Length);
                 StreamUtil.WriteNullString(stream, sshImages[i].shortname);
             }
+
+            StreamUtil.WriteString(stream, group, 8);
 
             StreamUtil.WriteString(stream, "Buy ERTS", 8);
 
@@ -416,9 +440,36 @@ namespace SSXMultiTool.FileHandlers.Textures
                 //Write Long Name
 
 
+                Image.size = (int)stream.Position - Image.offset;
+
                 sshImages[i] = Image;
             }
 
+            //Go back and write headers idiot
+            int Size = (int)stream.Position;
+
+            stream.Position = SizePos;
+            StreamUtil.WriteInt32(stream, Size);
+
+            for (int i = 0; i < intPos.Count; i++)
+            {
+                stream.Position = intPos[i];
+
+                StreamUtil.WriteInt32(stream, sshImages[i].offset, true);
+                StreamUtil.WriteInt32(stream, sshImages[i].size, true);
+            }
+
+
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            var file = File.Create(path);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            stream.Dispose();
+            file.Close();
         }
 
         public void WriteMatrix1(Stream stream, NewSSHImage image)
@@ -429,7 +480,7 @@ namespace SSXMultiTool.FileHandlers.Textures
             {
                 for (global::System.Int32 x = 0; x < image.bitmap.Width; x++)
                 {
-                    TempMatrix[y * x + x] = (byte)image.colorsTable.IndexOf(image.bitmap.GetPixel(x, y));
+                    TempMatrix[y * image.bitmap.Width + x] = (byte)image.colorsTable.IndexOf(image.bitmap.GetPixel(x, y));
                 }
             }
 
@@ -461,13 +512,6 @@ namespace SSXMultiTool.FileHandlers.Textures
             WriteColourTable(stream, image);
 
             StreamUtil.AlignBy16(stream);
-
-            if (image.longname != "")
-            {
-
-            }
-
-            StreamUtil.AlignBy16(stream);
         }
         public void WriteMatrix2(Stream stream, NewSSHImage image)
         {
@@ -477,7 +521,7 @@ namespace SSXMultiTool.FileHandlers.Textures
             {
                 for (global::System.Int32 x = 0; x < image.bitmap.Width; x++)
                 {
-                    Matrix[y*x + x] = (byte)image.colorsTable.IndexOf(image.bitmap.GetPixel(x, y));
+                    Matrix[y* image.bitmap.Width + x] = (byte)image.colorsTable.IndexOf(image.bitmap.GetPixel(x, y));
                 }
             }
 
@@ -500,15 +544,6 @@ namespace SSXMultiTool.FileHandlers.Textures
 
             //Generate Colour Table Matrix
             WriteColourTable(stream, image);
-
-            StreamUtil.AlignBy16(stream);
-
-            if (image.longname != "")
-            {
-
-            }
-
-            StreamUtil.AlignBy16(stream);
         }
         public void WriteMatrix5(Stream stream, NewSSHImage image)
         {
@@ -541,13 +576,6 @@ namespace SSXMultiTool.FileHandlers.Textures
             StreamUtil.WriteBytes(stream, Matrix);
 
             //Might not be needed
-            StreamUtil.AlignBy16(stream);
-
-            if (image.longname != "")
-            {
-
-            }
-
             StreamUtil.AlignBy16(stream);
         }
 
@@ -586,7 +614,7 @@ namespace SSXMultiTool.FileHandlers.Textures
                 Matrix[i * 4 + 3] = (byte)Color.A;
                 if (image.AlphaFix)
                 {
-                    Matrix[i * 4 + 2] = (byte)(Color.A/2);
+                    Matrix[i * 4 + 3] = (byte)(Color.A/2);
                 }
             }
 
@@ -600,14 +628,16 @@ namespace SSXMultiTool.FileHandlers.Textures
 
         public void WriteColourHeader(Stream stream, NewSSHImage image)
         {
-            StreamUtil.WriteUInt8(stream, 30);
-            StreamUtil.WriteInt24(stream, 0); // Probably not right
+            StreamUtil.WriteUInt8(stream, 33);
+            StreamUtil.WriteUInt8(stream, 1); // Probably not right
+            StreamUtil.WriteUInt8(stream, 0);
+            StreamUtil.WriteUInt8(stream, 0);
+
+            StreamUtil.WriteInt32(stream, image.colorsTable.Count * 4+32);
+            StreamUtil.WriteInt32(stream, 32);
+            StreamUtil.WriteInt32(stream, image.colorsTable.Count * 4);
 
             StreamUtil.WriteInt32(stream, 0);
-            StreamUtil.WriteInt32(stream, 0);
-            StreamUtil.WriteInt32(stream, 0);
-
-            StreamUtil.WriteInt32(stream, image.colorsTable.Count*4);
             StreamUtil.WriteInt32(stream, 0);
             StreamUtil.WriteInt32(stream, image.colorsTable.Count);
             StreamUtil.WriteInt32(stream, 1);

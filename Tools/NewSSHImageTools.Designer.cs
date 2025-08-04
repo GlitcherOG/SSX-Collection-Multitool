@@ -45,7 +45,7 @@
             label1 = new Label();
             groupBox2 = new GroupBox();
             label2 = new Label();
-            textBox1 = new TextBox();
+            ImageLongNameTextbox = new TextBox();
             SSHCompressed = new CheckBox();
             ImageSizeLabel = new Label();
             label9 = new Label();
@@ -110,40 +110,40 @@
             // LoadSSHButton
             // 
             LoadSSHButton.Name = "LoadSSHButton";
-            LoadSSHButton.Size = new Size(172, 22);
+            LoadSSHButton.Size = new Size(180, 22);
             LoadSSHButton.Text = "Load .SSH";
             LoadSSHButton.Click += LoadSSHButton_Click;
             // 
             // LoadPNGFolderButton
             // 
             LoadPNGFolderButton.Name = "LoadPNGFolderButton";
-            LoadPNGFolderButton.Size = new Size(172, 22);
+            LoadPNGFolderButton.Size = new Size(180, 22);
             LoadPNGFolderButton.Text = "Load PNG Folder";
             LoadPNGFolderButton.Click += LoadFolderButton_Click;
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(172, 22);
+            toolStripMenuItem1.Size = new Size(180, 22);
             toolStripMenuItem1.Text = "Load Export Folder";
             toolStripMenuItem1.Click += toolStripMenuItem1_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(169, 6);
+            toolStripSeparator1.Size = new Size(177, 6);
             // 
             // ExportAllButton
             // 
             ExportAllButton.Name = "ExportAllButton";
-            ExportAllButton.Size = new Size(172, 22);
+            ExportAllButton.Size = new Size(180, 22);
             ExportAllButton.Text = "Export All To PNG";
             ExportAllButton.Click += ExportAllButton_Click;
             // 
             // SaveSSHButton
             // 
             SaveSSHButton.Name = "SaveSSHButton";
-            SaveSSHButton.Size = new Size(172, 22);
+            SaveSSHButton.Size = new Size(180, 22);
             SaveSSHButton.Text = "Save .SSH";
             SaveSSHButton.Click += SaveSSHButton_Click;
             // 
@@ -199,7 +199,7 @@
             // groupBox2
             // 
             groupBox2.Controls.Add(label2);
-            groupBox2.Controls.Add(textBox1);
+            groupBox2.Controls.Add(ImageLongNameTextbox);
             groupBox2.Controls.Add(SSHCompressed);
             groupBox2.Controls.Add(ImageSizeLabel);
             groupBox2.Controls.Add(label9);
@@ -224,13 +224,14 @@
             label2.TabIndex = 31;
             label2.Text = "Image Long Name";
             // 
-            // textBox1
+            // ImageLongNameTextbox
             // 
-            textBox1.Location = new Point(132, 37);
-            textBox1.MaxLength = 4;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(193, 23);
-            textBox1.TabIndex = 32;
+            ImageLongNameTextbox.Location = new Point(132, 38);
+            ImageLongNameTextbox.MaxLength = 4;
+            ImageLongNameTextbox.Name = "ImageLongNameTextbox";
+            ImageLongNameTextbox.Size = new Size(193, 23);
+            ImageLongNameTextbox.TabIndex = 32;
+            ImageLongNameTextbox.TextChanged += UpdateImageDetails;
             // 
             // SSHCompressed
             // 
@@ -577,6 +578,6 @@
         private ToolStripMenuItem toolStripMenuItem1;
         private CheckBox SSHCompressed;
         private Label label2;
-        private TextBox textBox1;
+        private TextBox ImageLongNameTextbox;
     }
 }
