@@ -416,25 +416,62 @@ namespace SSXMultiTool.FileHandlers.Textures
                 //Write Long Name
 
 
-                    sshImages[i] = Image;
+                sshImages[i] = Image;
             }
 
         }
 
         public void WriteMatrix1(Stream stream, NewSSHImage image)
         {
-            WriteShapeHeader(stream, image);
+            WriteImageHeader(stream, image, 0);
         }
         public void WriteMatrix2(Stream stream, NewSSHImage image)
         {
-            WriteShapeHeader(stream, image);
+            byte[] Matrix = new byte[image.bitmap.Height* image.bitmap.Width];
+
+            for (global::System.Int32 y = 0; y < image.bitmap.Height; y++)
+            {
+                for (global::System.Int32 x = 0; x < image.bitmap.Width; x++)
+                {
+                    Matrix[y*x + x] = (byte)image.colorsTable.IndexOf(image.bitmap.GetPixel(x, y));
+                }
+            }
+
+            if(image.SwizzledImage)
+            {
+                //Swizzle the Image
+            }
+
+            if(image.Compressed)
+            {
+                //Compress Image
+            }
+
+            WriteImageHeader(stream, image, Matrix.Length);
+
+            StreamUtil.WriteBytes(stream, Matrix);
+
+            //Might not be needed
+            StreamUtil.AlignBy16(stream);
+
+            //Generate Colour Table Matrix
+            WriteColourTable(stream, image);
+
+            StreamUtil.AlignBy16(stream);
+
+            if (image.longname != "")
+            {
+
+            }
+
+            StreamUtil.AlignBy16(stream);
         }
         public void WriteMatrix5(Stream stream, NewSSHImage image)
         {
-            WriteShapeHeader(stream, image);
+            WriteImageHeader(stream, image, 0);
         }
 
-        public void WriteShapeHeader(Stream stream, NewSSHImage image)
+        public void WriteImageHeader(Stream stream, NewSSHImage image, int DataSize)
         {
             StreamUtil.WriteUInt8(stream, image.MatrixType);
             int Flag1 = 1 + (image.Compressed ? 2 : 0);
@@ -444,26 +481,11 @@ namespace SSXMultiTool.FileHandlers.Textures
             StreamUtil.WriteUInt8(stream, Flag2);
             StreamUtil.WriteUInt8(stream, Flag3);
 
-            int ImageSize = 0;
-
-            if (image.MatrixType == 1)
-            {
-                ImageSize = (image.bitmap.Height*image.bitmap.Width)/2;
-            }
-            else if (image.MatrixType == 2)
-            {
-                ImageSize = (image.bitmap.Height * image.bitmap.Width);
-            }
-            else if (image.MatrixType == 5)
-            {
-                ImageSize = (image.bitmap.Height * image.bitmap.Width) *4;
-            }
-
-            StreamUtil.WriteInt32(stream, ImageSize + 32);
+            StreamUtil.WriteInt32(stream, DataSize + 32);
             StreamUtil.WriteInt32(stream, 0);
             StreamUtil.WriteInt32(stream, 0);
 
-            StreamUtil.WriteInt32(stream, ImageSize);
+            StreamUtil.WriteInt32(stream, DataSize);
             StreamUtil.WriteInt32(stream, 0);
             StreamUtil.WriteInt32(stream, image.bitmap.Width);
             StreamUtil.WriteInt32(stream, image.bitmap.Height);
@@ -471,7 +493,44 @@ namespace SSXMultiTool.FileHandlers.Textures
 
         public void WriteColourTable(Stream stream, NewSSHImage image)
         {
+            WriteColourHeader(stream, image);
+            byte[] Matrix = new byte[4* image.colorsTable.Count];
 
+            for (int i = 0; i < image.colorsTable.Count; i++)
+            {
+                var Color = image.colorsTable[i];
+
+                Matrix[i * 4] = (byte)Color.R;
+                Matrix[i * 4 + 1] = (byte)Color.G;
+                Matrix[i * 4 + 2] = (byte)Color.B;
+                Matrix[i * 4 + 3] = (byte)Color.A;
+                if (image.AlphaFix)
+                {
+                    Matrix[i * 4 + 2] = (byte)(Color.A/2);
+                }
+            }
+
+            if(image.SwizzledColours)
+            {
+                //Swizzle Colours
+            }
+
+            StreamUtil.WriteBytes(stream, Matrix);
+        }
+
+        public void WriteColourHeader(Stream stream, NewSSHImage image)
+        {
+            StreamUtil.WriteUInt8(stream, 30);
+            StreamUtil.WriteInt24(stream, 0); // Probably not right
+
+            StreamUtil.WriteInt32(stream, 0);
+            StreamUtil.WriteInt32(stream, 0);
+            StreamUtil.WriteInt32(stream, 0);
+
+            StreamUtil.WriteInt32(stream, image.colorsTable.Count*4);
+            StreamUtil.WriteInt32(stream, 0);
+            StreamUtil.WriteInt32(stream, image.colorsTable.Count);
+            StreamUtil.WriteInt32(stream, 1);
         }
 
 
