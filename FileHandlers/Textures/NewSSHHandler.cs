@@ -268,14 +268,10 @@ namespace SSXMultiTool.FileHandlers.Textures
                 for (int i = 0; i < newSSHImage.colorsTable.Count; i++)
                 {
                     var TempColour = newSSHImage.colorsTable[i];
-                    int A = TempColour.A * 2 - 1;
+                    int A = TempColour.A * 2;
                     if (A > 255)
                     {
                         A = 255;
-                    }
-                    else if (A < 0)
-                    {
-                        A = 0;
                     }
                     TempColour = Color.FromArgb(A, TempColour.R, TempColour.G, TempColour.B);
                     newSSHImage.colorsTable[i] = TempColour;
