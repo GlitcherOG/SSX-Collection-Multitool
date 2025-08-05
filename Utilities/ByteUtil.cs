@@ -601,6 +601,77 @@ namespace SSXMultiTool.Utilities
             return output;
         }
 
+        public static byte[] Swizzle4bpp(byte[] linearTexels, int width, int height)
+        {
+            byte[] swizzledTexels = new byte[width * height / 2];
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    int index = y * width + x;
+                    int byteIndex = index >> 1;
+
+                    // Extract 4-bit pixel from linear buffer
+                    int uPen;
+                    byte pix = linearTexels[byteIndex];
+
+                    if ((index & 1) != 0)
+                        uPen = (pix >> 4) & 0xF;
+                    else
+                        uPen = pix & 0xF;
+
+                    // Swizzle address calculation (same math as Unswizzle)
+                    int pageX = x & (~0x7f);
+                    int pageY = y & (~0x7f);
+
+                    int pages_horz = (width + 127) / 128;
+                    int pages_vert = (height + 127) / 128;
+
+                    int page_number = (pageY / 128) * pages_horz + (pageX / 128);
+
+                    int page32Y = (page_number / pages_vert) * 32;
+                    int page32X = (page_number % pages_vert) * 64;
+
+                    int page_location = page32Y * height * 2 + page32X * 4;
+
+                    int locX = x & 0x7f;
+                    int locY = y & 0x7f;
+
+                    int block_location = ((locX & (~0x1f)) >> 1) * height + (locY & (~0xf)) * 2;
+                    int swap_selector = (((y + 2) >> 2) & 0x1) * 4;
+                    int posY = (((y & (~3)) >> 1) + (y & 1)) & 0x7;
+
+                    int column_location = posY * height * 2 + ((x + swap_selector) & 0x7) * 4;
+
+                    int byte_num = (x >> 3) & 3;
+                    int bits_set = (y >> 1) & 1;
+
+                    int pos = page_location + block_location + column_location + byte_num;
+
+                    // Write to swizzled texels (pack two 4bpp pixels per byte)
+                    if (pos < swizzledTexels.Length)
+                    {
+                        byte swizzledByte = swizzledTexels[pos];
+
+                        if ((bits_set & 1) != 0)
+                        {
+                            // High nibble
+                            swizzledTexels[pos] = (byte)((swizzledByte & 0x0F) | (uPen << 4));
+                        }
+                        else
+                        {
+                            // Low nibble
+                            swizzledTexels[pos] = (byte)((swizzledByte & 0xF0) | (uPen & 0x0F));
+                        }
+                    }
+                }
+            }
+
+            return swizzledTexels;
+        }
+
+
         public static byte[] Unswizzle4bpp(byte[] pInTexels, int width, int height)
         {
             byte[] pSwizTexels = new byte[width * height / 2];

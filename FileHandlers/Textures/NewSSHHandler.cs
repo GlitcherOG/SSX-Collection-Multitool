@@ -494,7 +494,7 @@ namespace SSXMultiTool.FileHandlers.Textures
             if (image.SwizzledImage)
             {
                 //Swizzle the Image
-                //Matrix = ByteUtil.Swizzle8(Matrix, image.bitmap.Width, image.bitmap.Height);
+                Matrix = ByteUtil.Swizzle4bpp(Matrix, image.bitmap.Width, image.bitmap.Height);
             }
 
             if (image.Compressed)
@@ -631,7 +631,7 @@ namespace SSXMultiTool.FileHandlers.Textures
             if(image.SwizzledColours)
             {
                 //Swizzle Colours
-                //Matrix = ByteUtil.SwizzlePalette(Matrix, image.colorsTable.Count);
+                Matrix = ByteUtil.SwizzlePalette(Matrix, image.colorsTable.Count);
             }
 
             StreamUtil.WriteBytes(stream, Matrix);
@@ -640,9 +640,12 @@ namespace SSXMultiTool.FileHandlers.Textures
         public void WriteColourHeader(Stream stream, NewSSHImage image, int Size)
         {
             StreamUtil.WriteUInt8(stream, 33);
-            StreamUtil.WriteUInt8(stream, 1); // Probably not right
-            StreamUtil.WriteUInt8(stream, 0);
-            StreamUtil.WriteUInt8(stream, 0);
+            int Flag1 = 1;
+            int Flag2 = (image.SwizzledColours ? 64 : 0);
+            int Flag3 = 0;
+            StreamUtil.WriteUInt8(stream, Flag1); // Probably not right
+            StreamUtil.WriteUInt8(stream, Flag2);
+            StreamUtil.WriteUInt8(stream, Flag3);
 
             StreamUtil.WriteInt32(stream, Size + 32);
             StreamUtil.WriteInt32(stream, 32);
