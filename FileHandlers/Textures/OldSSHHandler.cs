@@ -985,10 +985,7 @@ namespace SSXMultiTool.FileHandlers.Textures
 
             if (sshImages[i].sshHeader.LXPos == 2)
             {
-                SSHImageHeader imageHeader = new SSHImageHeader();
-                imageHeader.Width = sshImages[i].bitmap.Width;
-                imageHeader.Height = sshImages[i].bitmap.Height;
-                Matrix = ByteUtil.ByteArrayReswap(Matrix, imageHeader);
+                Matrix = ByteUtil.Swizzle8(Matrix, sshImages[i].bitmap.Width, sshImages[i].bitmap.Height);
             }
 
             stream.Write(Matrix, 0, Matrix.Length);
