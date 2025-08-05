@@ -548,6 +548,34 @@ namespace SSXMultiTool.Utilities
             return Matrix;
         }
 
+        public static byte[] Swizzle8(byte[] buf, int width, int height)
+        {
+            byte[] output = new byte[width * height];
+
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    // Swizzle mapping math (same as in Unswizzle)
+                    int blockLocation = (y & ~0xf) * width + (x & ~0xf) * 2;
+                    int swapSelector = (((y + 2) >> 2) & 0x1) * 4;
+                    int posY = (((y & ~3) >> 1) + (y & 1)) & 0x7;
+                    int columnLocation = posY * width * 2 + ((x + swapSelector) & 0x7) * 4;
+                    int byteNum = ((y >> 1) & 1) + ((x >> 2) & 2);
+                    int swizzleId = blockLocation + columnLocation + byteNum;
+
+                    // Now swizzle: copy from linear buf into swizzled output
+                    if (swizzleId < output.Length && y * width + x < buf.Length)
+                    {
+                        output[swizzleId] = buf[y * width + x];
+                    }
+                }
+            }
+
+            return output;
+        }
+
+
         public static byte[] Unswizzle8(byte[] buf, int width, int height)
         {
             byte[] output = new byte[width * height];
@@ -640,6 +668,23 @@ namespace SSXMultiTool.Utilities
 
             return pSwizTexels;
         }
+
+        public static byte[] SwizzlePalette(byte[] palBuffer, int width)
+        {
+            byte[] swizzledPal = new byte[1024];
+
+            for (int p = 0; p < width; p++)
+            {
+                int pos = (p & 231) + ((p & 8) << 1) + ((p & 16) >> 1); // same swizzle index
+                int destIndex = p * 4;
+                int srcIndex = pos * 4;
+
+                Array.Copy(palBuffer, srcIndex, swizzledPal, destIndex, 4);
+            }
+
+            return swizzledPal;
+        }
+
 
         public static byte[] UnswizzlePalette(byte[] palBuffer, int width)
         {

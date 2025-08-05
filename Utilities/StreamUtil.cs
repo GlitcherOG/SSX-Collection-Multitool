@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Numerics;
 using System.Collections;
+using System.Runtime.InteropServices.Marshalling;
 
 namespace SSXMultiTool.Utilities
 {
@@ -538,6 +539,18 @@ namespace SSXMultiTool.Utilities
             {
                 stream.Position += Num;
             }
+        }
+
+        public static int AlignbyMath(int Pos, int Alignment)
+        {
+            int Num = Alignment - (Pos % Alignment);
+
+            if (Num != Alignment)
+            {
+                return Pos + Num;
+            }
+
+            return Pos;
         }
     }
 }

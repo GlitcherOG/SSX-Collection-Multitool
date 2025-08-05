@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
+using static BCnEncoder.Shared.HdrImage;
 
 
 namespace SSXMultiTool.FileHandlers.Textures
@@ -480,7 +481,10 @@ namespace SSXMultiTool.FileHandlers.Textures
                 }
             }
 
-            byte[] Matrix = new byte[TempMatrix.Length/2];
+            int MatrixSize = StreamUtil.AlignbyMath(TempMatrix.Length / 2, 16);
+
+            byte[] Matrix = new byte[MatrixSize];
+
             for (int i = 0; i < TempMatrix.Length / 2; i++)
             {
                 Matrix[i] = (byte)ByteUtil.BitConbineConvert(TempMatrix[i*2], TempMatrix[i*2+1], 0, 4, 4);
@@ -490,6 +494,7 @@ namespace SSXMultiTool.FileHandlers.Textures
             if (image.SwizzledImage)
             {
                 //Swizzle the Image
+                //Matrix = ByteUtil.Swizzle8(Matrix, image.bitmap.Width, image.bitmap.Height);
             }
 
             if (image.Compressed)
@@ -511,7 +516,9 @@ namespace SSXMultiTool.FileHandlers.Textures
         }
         public void WriteMatrix2(Stream stream, NewSSHImage image)
         {
-            byte[] Matrix = new byte[image.bitmap.Height* image.bitmap.Width];
+            int MatrixSize = StreamUtil.AlignbyMath(image.bitmap.Height * image.bitmap.Width, 16);
+
+            byte[] Matrix = new byte[MatrixSize];
 
             for (global::System.Int32 y = 0; y < image.bitmap.Height; y++)
             {
@@ -523,7 +530,7 @@ namespace SSXMultiTool.FileHandlers.Textures
 
             if(image.SwizzledImage)
             {
-                //Swizzle the Image
+                Matrix = ByteUtil.Swizzle8(Matrix, image.bitmap.Width, image.bitmap.Height);
             }
 
             if(image.Compressed)
@@ -543,7 +550,11 @@ namespace SSXMultiTool.FileHandlers.Textures
         }
         public void WriteMatrix5(Stream stream, NewSSHImage image)
         {
-            byte[] Matrix = new byte[image.bitmap.Height * image.bitmap.Width*4];
+            int MatrixSize = StreamUtil.AlignbyMath(image.bitmap.Height * image.bitmap.Width * 4, 16);
+
+            MatrixSize = 16 - ((int)MatrixSize % 16);
+
+            byte[] Matrix = new byte[MatrixSize];
 
             for (global::System.Int32 y = 0; y < image.bitmap.Height; y++)
             {
@@ -597,8 +608,9 @@ namespace SSXMultiTool.FileHandlers.Textures
 
         public void WriteColourTable(Stream stream, NewSSHImage image)
         {
-            WriteColourHeader(stream, image);
-            byte[] Matrix = new byte[4* image.colorsTable.Count];
+            int MatrixSize = StreamUtil.AlignbyMath(4 * image.colorsTable.Count, 16);
+
+            byte[] Matrix = new byte[MatrixSize];
 
             for (int i = 0; i < image.colorsTable.Count; i++)
             {
@@ -610,28 +622,31 @@ namespace SSXMultiTool.FileHandlers.Textures
                 Matrix[i * 4 + 3] = (byte)Color.A;
                 if (image.AlphaFix)
                 {
-                    Matrix[i * 4 + 3] = (byte)(Color.A/2);
+                    Matrix[i * 4 + 3] = (byte)(Color.A / 2);
                 }
             }
+
+            WriteColourHeader(stream, image, Matrix.Length);
 
             if(image.SwizzledColours)
             {
                 //Swizzle Colours
+                //Matrix = ByteUtil.SwizzlePalette(Matrix, image.colorsTable.Count);
             }
 
             StreamUtil.WriteBytes(stream, Matrix);
         }
 
-        public void WriteColourHeader(Stream stream, NewSSHImage image)
+        public void WriteColourHeader(Stream stream, NewSSHImage image, int Size)
         {
             StreamUtil.WriteUInt8(stream, 33);
             StreamUtil.WriteUInt8(stream, 1); // Probably not right
             StreamUtil.WriteUInt8(stream, 0);
             StreamUtil.WriteUInt8(stream, 0);
 
-            StreamUtil.WriteInt32(stream, image.colorsTable.Count * 4+32);
+            StreamUtil.WriteInt32(stream, Size + 32);
             StreamUtil.WriteInt32(stream, 32);
-            StreamUtil.WriteInt32(stream, image.colorsTable.Count * 4);
+            StreamUtil.WriteInt32(stream, Size);
 
             StreamUtil.WriteInt32(stream, 0);
             StreamUtil.WriteInt32(stream, 0);
