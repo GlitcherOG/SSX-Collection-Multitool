@@ -1,8 +1,4 @@
-﻿using SSXMultiTool.FileHandlers.LevelFiles.OGPS2;
-using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
-using SSXMultiTool.FileHandlers.SSX3;
-using SSXMultiTool.FileHandlers.Textures;
-using SSXMultiTool.JsonFiles;
+﻿using SSXMultiTool.JsonFiles;
 using SSXMultiTool.JsonFiles.SSXOG;
 using SSXMultiTool.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
@@ -19,6 +15,26 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 {
     public class SSXOGToTricky
     {
+        //Patches - Done
+        //Prefabs
+        //Instances
+        //Materials - Done
+        //Splines - Done
+        //AIP & SOP
+        //Lights
+        //SSF Logic
+        //Skybox Materials - Done
+        //Skybox Prefabs - Done
+        //Skybox Models - Done
+        //Skybox Textures - Done
+        //Collision - Done
+        //Lightmaps - Done
+        //Textures - Done
+        //Particle Instance - Done
+        //Particle Prefabs - Done
+        //Camera - Done
+
+
         public static void Convert(string LoadPath, string ExportPath)
         {
             //Create Temp Locations
@@ -40,46 +56,202 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             Directory.Move(TempPathOG + "/Skybox/Textures", TempPathTricky + "/Skybox/Textures");
             Directory.Move(TempPathOG + "/Skybox/Models", TempPathTricky + "/Skybox/Models");
 
+            //Create Camera, Particles, 
+            SSXMultiTool.JsonFiles.Tricky.CameraJSONHandler TrickyCamera = new SSXMultiTool.JsonFiles.Tricky.CameraJSONHandler();
+            TrickyCamera.CreateJson(TempPathTricky + "/Cameras.json", false);
+
+            SSXMultiTool.JsonFiles.Tricky.ParticleInstanceJsonHandler TrickyParticles = new SSXMultiTool.JsonFiles.Tricky.ParticleInstanceJsonHandler();
+            TrickyParticles.CreateJson(TempPathTricky + "/ParticleInstances.json", false);
+            SSXMultiTool.JsonFiles.Tricky.ParticleModelJsonHandler TrickyParticles1 = new SSXMultiTool.JsonFiles.Tricky.ParticleModelJsonHandler();
+            TrickyParticles1.CreateJson(TempPathTricky + "/ParticlePrefabs.json", false);
+
             //Convert Patches
             SSXMultiTool.JsonFiles.Tricky.PatchesJsonHandler TrickyPatchPoints = new SSXMultiTool.JsonFiles.Tricky.PatchesJsonHandler();
+            SSXMultiTool.JsonFiles.SSXOG.PatchesJsonHandler OGPatchPoints = SSXMultiTool.JsonFiles.SSXOG.PatchesJsonHandler.Load(TempPathOG + "/Patches.json");
 
-            TrickyPatchPoints.CreateJson(ExportPath + "/Patches.json", false);
+            TrickyPatchPoints.Patches = new List<JsonFiles.Tricky.PatchesJsonHandler.PatchJson>();
+            for (int i = 0; i < OGPatchPoints.Patches.Count; i++)
+            {
+                var Patch = new JsonFiles.Tricky.PatchesJsonHandler.PatchJson();
+
+                Patch.PatchName = OGPatchPoints.Patches[i].PatchName;
+
+                Patch.LightMapPoint = OGPatchPoints.Patches[i].LightMapPoint;
+                Patch.UVPoints = OGPatchPoints.Patches[i].UVPoints;
+                Patch.Points = OGPatchPoints.Patches[i].Points;
+
+                Patch.SurfaceType = OGPatchPoints.Patches[i].PatchStyle;
+                Patch.TexturePath = OGPatchPoints.Patches[i].TexturePath;
+                Patch.LightmapID = OGPatchPoints.Patches[i].LightmapID;
+
+                Patch.TrickOnlyPatch = false;
+
+                TrickyPatchPoints.Patches.Add(Patch);
+            }
+
+            TrickyPatchPoints.CreateJson(TempPathTricky + "/Patches.json", false);
 
             //Convert Splines
             SSXMultiTool.JsonFiles.Tricky.SplineJsonHandler TrickySpline = new SSXMultiTool.JsonFiles.Tricky.SplineJsonHandler();
+            SSXMultiTool.JsonFiles.SSXOG.SplinesJsonHandler OGSpline = SSXMultiTool.JsonFiles.SSXOG.SplinesJsonHandler.Load(TempPathOG + "/Splines.json");
 
-            TrickySpline.CreateJson(ExportPath + "/Splines.json", false);
+            TrickySpline.Splines = new List<SplineJsonHandler.SplineJson>();
+            for (int i = 0; i < OGSpline.Splines.Count; i++)
+            {
+                var TempSpline = new SplineJsonHandler.SplineJson();
+
+                TempSpline.SplineName = OGSpline.Splines[i].SplineName;
+                TempSpline.U0 = 1;
+                TempSpline.U1 = 1;
+                TempSpline.SplineStyle = 13;
+
+                TempSpline.Segments = new List<SplineJsonHandler.SegmentJson>();
+
+                for (global::System.Int32 j = 0; j < OGSpline.Splines[i].Segments.Count; j++)
+                {
+                    var TempSegment  = new SplineJsonHandler.SegmentJson();
+
+                    TempSegment.Points = OGSpline.Splines[i].Segments[j].Points;
+
+                    TempSegment.U0 = OGSpline.Splines[i].Segments[j].U0;
+                    TempSegment.U1 = OGSpline.Splines[i].Segments[j].U1;
+                    TempSegment.U2 = OGSpline.Splines[i].Segments[j].U2;
+                    TempSegment.U3 = OGSpline.Splines[i].Segments[j].U3;
+
+                    TempSpline.Segments.Add(TempSegment);
+                }
+
+                TrickySpline.Splines.Add(TempSpline);
+            }
+
+            TrickySpline.CreateJson(TempPathTricky + "/Splines.json", false);
 
             //Convert Materials
             SSXMultiTool.JsonFiles.Tricky.MaterialJsonHandler TrickyMaterialJsonHandler = new SSXMultiTool.JsonFiles.Tricky.MaterialJsonHandler();
+            SSXMultiTool.JsonFiles.SSXOG.MaterialsJsonHandler OGMaterialJsonHandler = SSXMultiTool.JsonFiles.SSXOG.MaterialsJsonHandler.Load(TempPathOG + "/Materials.json");
+            TrickyMaterialJsonHandler.Materials = new List<MaterialJsonHandler.MaterialsJson>();
+            for (int i = 0; i < OGMaterialJsonHandler.Materials.Count; i++)
+            {
+                var material = new MaterialJsonHandler.MaterialsJson();
 
-            TrickyMaterialJsonHandler.CreateJson(ExportPath + "/Materials.json", false);
+                material.MaterialName = OGMaterialJsonHandler.Materials[i].MaterialName;
+                material.TexturePath = OGMaterialJsonHandler.Materials[i].TexturePath;
+                material.UnknownInt2 = -1;
+                material.UnknownInt3 = -1;
+                material.UnknownFloat1 = 1;
+                material.UnknownFloat2 = 1;
+                material.UnknownFloat3 = 1;
+                material.UnknownFloat4 = 6.998028E-39f;
+                material.UnknownInt8 = 0;
+                material.UnknownFloat5 = 6.948417E-39f;
+                material.UnknownFloat6 = 0.5f;
+                material.UnknownFloat7 = 0.5f;
+                material.UnknownFloat8 = 0.5f;
+                material.UnknownInt13 = 0;
+                material.UnknownInt14 = 0;
+                material.UnknownInt15 = 0;
+                material.UnknownInt16 = 0;
+                material.UnknownInt17 = 0;
+                material.UnknownInt18 = 86024;
+                material.UnknownInt20 = -1;
+
+                TrickyMaterialJsonHandler.Materials.Add(material);
+            }
+
+            TrickyMaterialJsonHandler.CreateJson(TempPathTricky + "/Materials.json", false);
 
             //Convert Prefabs
             SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler TrickyPrefabJsonHandler = new SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler();
 
-            TrickyPrefabJsonHandler.CreateJson(ExportPath + "/Prefabs.json", false);
+            TrickyPrefabJsonHandler.CreateJson(TempPathTricky + "/Prefabs.json", false);
+
+            //Convert Instances
+            SSXMultiTool.JsonFiles.Tricky.InstanceJsonHandler TrickyInstanceJsonHandler = new SSXMultiTool.JsonFiles.Tricky.InstanceJsonHandler();
+
+            TrickyInstanceJsonHandler.CreateJson(TempPathTricky + "/Instances.json", false);
 
             //Convert AIP & SOP
             SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler TrickyAIPJson = new SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler();
 
-            TrickyAIPJson.CreateJson(ExportPath + "/AIP.json", false);
-            TrickyAIPJson.CreateJson(ExportPath + "/SOP.json", false);
+            TrickyAIPJson.CreateJson(TempPathTricky + "/AIP.json", false);
+            TrickyAIPJson.CreateJson(TempPathTricky + "/SOP.json", false);
             //Convert Lights
             SSXMultiTool.JsonFiles.Tricky.LightJsonHandler TrickyLightJsonHandler = new SSXMultiTool.JsonFiles.Tricky.LightJsonHandler();
 
-            TrickyLightJsonHandler.CreateJson(ExportPath + "/Lights.json", false);
+            TrickyLightJsonHandler.CreateJson(TempPathTricky + "/Lights.json", false);
             //Convert SSF Logic
 
+            #region Skybox
             //Convert Skybox Materials
             SSXMultiTool.JsonFiles.Tricky.MaterialJsonHandler TrickySkyboxMaterialJsonHandler = new SSXMultiTool.JsonFiles.Tricky.MaterialJsonHandler();
+            TrickySkyboxMaterialJsonHandler.Materials = new List<MaterialJsonHandler.MaterialsJson>();
 
-            TrickySkyboxMaterialJsonHandler.CreateJson(ExportPath + "/Skybox/Materials.json", false);
+            for (int i = 0; i < 26; i++)
+            {
+                var material = new MaterialJsonHandler.MaterialsJson();
+
+                material.MaterialName = "Materials " + i.ToString();
+                material.TexturePath = i.ToString().PadLeft(4, '0') + ".png";
+                material.UnknownInt2 = -1;
+                material.UnknownInt3 = -1;
+                material.UnknownFloat1 = 1;
+                material.UnknownFloat2 = 1;
+                material.UnknownFloat3 = 1;
+                material.UnknownFloat4 = 6.998028E-39f;
+                material.UnknownInt8 = 0;
+                material.UnknownFloat5 = 6.948417E-39f;
+                material.UnknownFloat6 = 0.5f;
+                material.UnknownFloat7 = 0.5f;
+                material.UnknownFloat8 = 0.5f;
+                material.UnknownInt13 = 0;
+                material.UnknownInt14 = 0;
+                material.UnknownInt15 = 0;
+                material.UnknownInt16 = 0;
+                material.UnknownInt17 = 0;
+                material.UnknownInt18 = 86024;
+                material.UnknownInt20 = -1;
+
+                TrickySkyboxMaterialJsonHandler.Materials.Add(material);
+            }
+
+            TrickySkyboxMaterialJsonHandler.CreateJson(TempPathTricky + "/Skybox/Materials.json", false);
 
             //Convert Skybox Prefabs
             SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler TrickySkyboxPrefabJsonHandler = new SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler();
 
-            TrickySkyboxPrefabJsonHandler.CreateJson(ExportPath + "/Skybox/Prefabs.json", false);
+            TrickySkyboxPrefabJsonHandler.Prefabs = new List<JsonFiles.Tricky.PrefabJsonHandler.PrefabJson>();
+
+            JsonFiles.Tricky.PrefabJsonHandler.PrefabJson Prefab = new JsonFiles.Tricky.PrefabJsonHandler.PrefabJson();
+
+            Prefab.PrefabName = "Skybox Prefab 0";
+            Prefab.Unknown3 = 3;
+            Prefab.PrefabObjects = new List<JsonFiles.Tricky.PrefabJsonHandler.ObjectHeader>();
+
+            var PrefabObject = new JsonFiles.Tricky.PrefabJsonHandler.ObjectHeader();
+
+            PrefabObject.ParentID = -1;
+
+            PrefabObject.MeshData = new List<JsonFiles.Tricky.PrefabJsonHandler.MeshHeader>();
+
+            for (int i = 0; i < 26; i++)
+            {
+                var MeshData = new JsonFiles.Tricky.PrefabJsonHandler.MeshHeader();
+
+                MeshData.MeshPath = i.ToString() + ".obj";
+                MeshData.MaterialID = i;
+
+                PrefabObject.MeshData.Add(MeshData);
+            }
+
+            Prefab.PrefabObjects.Add(PrefabObject);
+            TrickySkyboxPrefabJsonHandler.Prefabs.Add(Prefab);
+
+            TrickySkyboxPrefabJsonHandler.CreateJson(TempPathTricky + "/Skybox/Prefabs.json", false);
+
+            #endregion
+
+            SSXTrickyConfig trickyConfig = new SSXTrickyConfig();
+            trickyConfig.CreateJson(TempPathTricky + "/ConfigTricky.ssx");
         }
     }
 }

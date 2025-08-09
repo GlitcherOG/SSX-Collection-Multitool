@@ -42,6 +42,8 @@ namespace SSXMultiTool.JsonFiles
             WFXHandler wfxHandler = new WFXHandler();
             wfxHandler.Load(LoadPath + ".wfx");
 
+
+
             bool AIPExists = false;
             //Done
             AIPHandler aipHandler = new AIPHandler();
@@ -368,10 +370,12 @@ namespace SSXMultiTool.JsonFiles
 
                     bezierUtil.GenerateRawPoints();
 
-                    NewSegment.Point1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[0]);
-                    NewSegment.Point2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[1]);
-                    NewSegment.Point3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[2]);
-                    NewSegment.Point4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[3]);
+                    NewSegment.Points = new float[4, 3];
+
+                    for (int b = 0; b < 4; b++)
+                    {
+                        NewSegment.Points = JsonUtil.Vector3ToArray2D(NewSegment.Points, bezierUtil.RawPoints[b], b);
+                    }
 
                     NewSegment.U0 = OldSegment.U0;
                     NewSegment.U1 = OldSegment.U1;
@@ -398,7 +402,6 @@ namespace SSXMultiTool.JsonFiles
                         var OldSegment = TempChunk.SplineSegments[i];
                         if (OldSegment.Loaded == false)
                         {
-
                             SplinesJsonHandler.SplineSegment NewSegment = new SplinesJsonHandler.SplineSegment();
 
                             BezierUtil bezierUtil = new BezierUtil();
@@ -409,10 +412,12 @@ namespace SSXMultiTool.JsonFiles
 
                             bezierUtil.GenerateRawPoints();
 
-                            NewSegment.Point1 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[0]);
-                            NewSegment.Point2 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[1]);
-                            NewSegment.Point3 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[2]);
-                            NewSegment.Point4 = JsonUtil.Vector3ToArray(bezierUtil.RawPoints[3]);
+                            NewSegment.Points = new float[4, 3];
+
+                            for (int b = 0; b < 4; b++)
+                            {
+                                NewSegment.Points = JsonUtil.Vector3ToArray2D(NewSegment.Points, bezierUtil.RawPoints[b], b);
+                            }
 
                             NewSegment.U0 = OldSegment.U0;
                             NewSegment.U1 = OldSegment.U1;
@@ -435,14 +440,8 @@ namespace SSXMultiTool.JsonFiles
             if (AIPExists)
             {
                 aipJsonHandler.U2 = aipHandler.U2;
-                aipJsonHandler.U3 = aipHandler.U3;
-                aipJsonHandler.U4 = aipHandler.U4;
-                aipJsonHandler.U5 = aipHandler.U5;
-                aipJsonHandler.U6 = aipHandler.U6;
-                aipJsonHandler.U7 = aipHandler.U7;
-                aipJsonHandler.U8 = aipHandler.U8;
-                aipJsonHandler.U9 = aipHandler.U9;
-                aipJsonHandler.U10 = aipHandler.U10;
+
+                aipJsonHandler.StartPosList = aipHandler.StartPosList;
 
                 aipJsonHandler.PathAs = new List<AIPJsonHandler.PathData>();
                 aipJsonHandler.PathBs = new List<AIPJsonHandler.PathData>();
@@ -550,8 +549,16 @@ namespace SSXMultiTool.JsonFiles
                     //sshTextureLight.BrightenBitmap(i);
                     sshTextureLight.BMPOneExtract(ExtractPath + "\\Lightmaps\\" + i.ToString("0000") + ".png", i);
                 }
-                #endregion
             }
+            #endregion
+
+            #region Skybox Textures
+
+            WDRHandler SkyWDRHandler = new WDRHandler();
+            SkyWDRHandler.Load(LoadPath + "_sky.mdr");
+            SkyWDRHandler.ExportModels(ExtractPath + "\\Skybox\\Models");
+
+            #endregion
 
             SSXOGConfig ssxOGConfig = new SSXOGConfig();
             ssxOGConfig.CreateJson(ExtractPath + "\\ConfigOG.ssx");

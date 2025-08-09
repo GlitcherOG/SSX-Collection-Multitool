@@ -14,11 +14,22 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
     {
         public List<ModelHeader> modelHeaders = new List<ModelHeader>();
 
-        public void Load(string path, List<WDXHandler.ModelOffset> ModelOffsets)
+        public void Load(string path, List<WDXHandler.ModelOffset> ModelOffsets = null)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
                 int MeshID = 0;
+
+                if(ModelOffsets==null)
+                {
+                    ModelOffsets = new List<WDXHandler.ModelOffset>();
+
+                    var ModelOffsetTemp = new WDXHandler.ModelOffset();
+
+                    ModelOffsetTemp.Offset = 0;
+
+                    ModelOffsets.Add(ModelOffsetTemp);
+                }
 
                 for (int az = 0; az < ModelOffsets.Count; az++)
                 {

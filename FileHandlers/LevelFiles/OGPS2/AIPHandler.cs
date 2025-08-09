@@ -9,17 +9,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         public int PathACount;
         public int PathBCount;
         public int U2;
-        public int U3;
 
-        public int U4;
-        public int U5;
-        public int U6;
-        public int U7;
 
-        public int U8;
-        public int U9;
-        public int U10;
-
+        public List<int> StartPosList;
         public List<PathData> PathAs = new List<PathData>();
         public List<PathData> PathBs = new List<PathData>();
 
@@ -30,16 +22,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 PathACount = StreamUtil.ReadUInt32(stream);
                 PathBCount = StreamUtil.ReadUInt32(stream);
                 U2 = StreamUtil.ReadUInt32(stream);
-                U3 = StreamUtil.ReadUInt32(stream);
 
-                U4 = StreamUtil.ReadUInt32(stream);
-                U5 = StreamUtil.ReadUInt32(stream);
-                U6 = StreamUtil.ReadUInt32(stream);
-                U7 = StreamUtil.ReadUInt32(stream);
-
-                U8 = StreamUtil.ReadUInt32(stream);
-                U9 = StreamUtil.ReadUInt32(stream);
-                U10 = StreamUtil.ReadUInt32(stream);
+                StartPosList = new List<int>();
+                for (int i = 0; i < 8; i++)
+                {
+                    StartPosList.Add(StreamUtil.ReadUInt32(stream));
+                }
 
                 PathAs = new List<PathData>(); //RaceLine Path
 

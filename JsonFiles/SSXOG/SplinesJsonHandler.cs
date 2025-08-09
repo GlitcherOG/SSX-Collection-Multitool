@@ -63,10 +63,7 @@ namespace SSXMultiTool.JsonFiles.SSXOG
 
         public struct SplineSegment
         {
-            public float[] Point1;
-            public float[] Point2;
-            public float[] Point3;
-            public float[] Point4;
+            public float[,] Points;
 
             public float U0;
             public float U1;

@@ -6,17 +6,8 @@ namespace SSXMultiTool.JsonFiles.SSXOG
     public class AIPJsonHandler
     {
         public int U2;
-        public int U3;
 
-        public int U4;
-        public int U5;
-        public int U6;
-        public int U7;
-
-        public int U8;
-        public int U9;
-        public int U10;
-
+        public List<int> StartPosList = new List<int>();
         public List<PathData> PathAs = new List<PathData>();
         public List<PathData> PathBs = new List<PathData>();
         public void CreateJson(string path, bool Inline = false)
