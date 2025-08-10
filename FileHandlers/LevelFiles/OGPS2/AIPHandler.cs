@@ -6,21 +6,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 {
     public class AIPHandler
     {
-        public int PathACount;
-        public int PathBCount;
+        public int RaceLineCount;
+        public int AIPathCount;
         public int U2;
 
 
         public List<int> StartPosList;
-        public List<PathData> PathAs = new List<PathData>();
-        public List<PathData> PathBs = new List<PathData>();
+        public List<PathData> RaceLine = new List<PathData>();
+        public List<PathData> AIPath = new List<PathData>();
 
         public void Load(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
             {
-                PathACount = StreamUtil.ReadUInt32(stream);
-                PathBCount = StreamUtil.ReadUInt32(stream);
+                RaceLineCount = StreamUtil.ReadUInt32(stream);
+                AIPathCount = StreamUtil.ReadUInt32(stream);
                 U2 = StreamUtil.ReadUInt32(stream);
 
                 StartPosList = new List<int>();
@@ -29,9 +29,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     StartPosList.Add(StreamUtil.ReadUInt32(stream));
                 }
 
-                PathAs = new List<PathData>(); //RaceLine Path
+                RaceLine = new List<PathData>(); //RaceLine Path
 
-                for (int i = 0; i < PathACount; i++)
+                for (int i = 0; i < RaceLineCount; i++)
                 {
                     var TempPathData = new PathData();
 
@@ -62,12 +62,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         TempPathData.PathEvents.Add(TempEvent);
                     }
 
-                    PathAs.Add(TempPathData);
+                    RaceLine.Add(TempPathData);
                 }
 
-                PathBs = new List<PathData>(); //AI Path
+                AIPath = new List<PathData>(); //AI Path
 
-                for (int i = 0; i < PathBCount; i++)
+                for (int i = 0; i < AIPathCount; i++)
                 {
                     var TempPathData = new PathData();
 
@@ -98,7 +98,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                         TempPathData.PathEvents.Add(TempEvent);
                     }
 
-                    PathBs.Add(TempPathData);
+                    AIPath.Add(TempPathData);
                 }
 
             }

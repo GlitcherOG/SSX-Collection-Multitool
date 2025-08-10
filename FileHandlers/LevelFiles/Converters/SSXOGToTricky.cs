@@ -172,6 +172,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
             //Convert AIP & SOP
             SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler TrickyAIPJson = new SSXMultiTool.JsonFiles.Tricky.AIPSOPJsonHandler();
+            SSXMultiTool.JsonFiles.SSXOG.AIPJsonHandler OGAIPJson = SSXMultiTool.JsonFiles.SSXOG.AIPJsonHandler.Load(TempPathOG + "/AIP.json");
+
+            TrickyAIPJson.StartPosList = OGAIPJson.StartPosList;
+
+            TrickyAIPJson.AIPaths = new List<AIPSOPJsonHandler.PathA>();
+
+            //for (int i = 0; i < OGAIPJson.pa; i++)
+            //{
+                
+            //}
 
             TrickyAIPJson.CreateJson(TempPathTricky + "/AIP.json", false);
             TrickyAIPJson.CreateJson(TempPathTricky + "/SOP.json", false);

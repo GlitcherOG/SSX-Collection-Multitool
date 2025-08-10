@@ -14,8 +14,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
     {
         public byte[] MagicBytes = new byte[4] { 0x0A, 0x0A, 0x0A, 0x0A };
         public int PathTypeCount = 2;
-        public int TypeAOffset;
-        public int TypeBOffset;
+        public int AIPathOffset;
+        public int RaceLineOffset;
 
         public TypeA AIPath;
         public TypeB RaceLine;
@@ -26,8 +26,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             {
                 MagicBytes = StreamUtil.ReadBytes(stream, 4);
                 PathTypeCount = StreamUtil.ReadUInt32(stream);
-                TypeAOffset = StreamUtil.ReadUInt32(stream);
-                TypeBOffset = StreamUtil.ReadUInt32(stream);
+                AIPathOffset = StreamUtil.ReadUInt32(stream);
+                RaceLineOffset = StreamUtil.ReadUInt32(stream);
 
                 AIPath = new TypeA();
                 AIPath.PathACount = StreamUtil.ReadUInt32(stream);
@@ -78,7 +78,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     AIPath.PathAs.Add(NewPath);
                 }
 
-                stream.Position = TypeBOffset + 16;
+                stream.Position = RaceLineOffset + 16;
                 RaceLine = new TypeB();
                 RaceLine.U0 = StreamUtil.ReadUInt32(stream);
                 RaceLine.ByteSize = StreamUtil.ReadUInt32(stream);
@@ -127,7 +127,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             MemoryStream stream = new MemoryStream();
 
             stream.Position = 16;
-            TypeAOffset = 0;
+            AIPathOffset = 0;
             StreamUtil.WriteInt32(stream, AIPath.PathAs.Count);
             StreamUtil.WriteInt32(stream, AIPath.StartPosList.Count);
             for (int i = 0; i < AIPath.StartPosList.Count; i++)
@@ -166,7 +166,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
             }
 
-            TypeBOffset = (int)(stream.Position - 16);
+            RaceLineOffset = (int)(stream.Position - 16);
             StreamUtil.WriteInt32(stream, RaceLine.U0);
             long Pos= stream.Position;
             stream.Position += 4;
@@ -206,8 +206,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             stream.Position = 0;
             StreamUtil.WriteBytes(stream, MagicBytes);
             StreamUtil.WriteInt32(stream, PathTypeCount);
-            StreamUtil.WriteInt32(stream, TypeAOffset);
-            StreamUtil.WriteInt32(stream, TypeBOffset);
+            StreamUtil.WriteInt32(stream, AIPathOffset);
+            StreamUtil.WriteInt32(stream, RaceLineOffset);
 
             if (File.Exists(path))
             {

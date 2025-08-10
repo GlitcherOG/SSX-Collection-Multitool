@@ -8,8 +8,8 @@ namespace SSXMultiTool.JsonFiles.SSXOG
         public int U2;
 
         public List<int> StartPosList = new List<int>();
-        public List<PathData> PathAs = new List<PathData>();
-        public List<PathData> PathBs = new List<PathData>();
+        public List<PathData> RaceLine = new List<PathData>();
+        public List<PathData> AIPath = new List<PathData>();
         public void CreateJson(string path, bool Inline = false)
         {
             var TempFormating = Formatting.None;

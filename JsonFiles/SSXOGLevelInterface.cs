@@ -443,23 +443,23 @@ namespace SSXMultiTool.JsonFiles
 
                 aipJsonHandler.StartPosList = aipHandler.StartPosList;
 
-                aipJsonHandler.PathAs = new List<AIPJsonHandler.PathData>();
-                aipJsonHandler.PathBs = new List<AIPJsonHandler.PathData>();
+                aipJsonHandler.RaceLine = new List<AIPJsonHandler.PathData>();
+                aipJsonHandler.AIPath = new List<AIPJsonHandler.PathData>();
 
-                for (int i = 0; i < aipHandler.PathAs.Count; i++)
+                for (int i = 0; i < aipHandler.RaceLine.Count; i++)
                 {
-                    var TempPath = aipHandler.PathAs[i];
+                    var TempPath = aipHandler.RaceLine[i];
                     AIPJsonHandler.PathData NewPath = new AIPJsonHandler.PathData();
 
                     NewPath.U0 = TempPath.U0;
                     NewPath.PathPos = JsonUtil.Vector3ToArray(TempPath.PathPos);
 
-                    NewPath.PathPoints = new float[aipHandler.PathAs[i].VectorPoints.Count, 3];
-                    for (int a = 0; a < aipHandler.PathAs[i].VectorPoints.Count; a++)
+                    NewPath.PathPoints = new float[aipHandler.RaceLine[i].VectorPoints.Count, 3];
+                    for (int a = 0; a < aipHandler.RaceLine[i].VectorPoints.Count; a++)
                     {
-                        NewPath.PathPoints[a, 0] = aipHandler.PathAs[i].VectorPoints[a].X * aipHandler.PathAs[i].VectorPoints[a].W;
-                        NewPath.PathPoints[a, 1] = aipHandler.PathAs[i].VectorPoints[a].Y * aipHandler.PathAs[i].VectorPoints[a].W;
-                        NewPath.PathPoints[a, 2] = aipHandler.PathAs[i].VectorPoints[a].Z * aipHandler.PathAs[i].VectorPoints[a].W;
+                        NewPath.PathPoints[a, 0] = aipHandler.RaceLine[i].VectorPoints[a].X * aipHandler.RaceLine[i].VectorPoints[a].W;
+                        NewPath.PathPoints[a, 1] = aipHandler.RaceLine[i].VectorPoints[a].Y * aipHandler.RaceLine[i].VectorPoints[a].W;
+                        NewPath.PathPoints[a, 2] = aipHandler.RaceLine[i].VectorPoints[a].Z * aipHandler.RaceLine[i].VectorPoints[a].W;
                         if (a != 0)
                         {
                             NewPath.PathPoints[a, 0] += NewPath.PathPoints[a - 1, 0];
@@ -469,32 +469,32 @@ namespace SSXMultiTool.JsonFiles
                     }
 
                     NewPath.PathEvents = new List<AIPJsonHandler.PathEvent>();
-                    for (int a = 0; a < aipHandler.PathAs[i].PathEvents.Count; a++)
+                    for (int a = 0; a < aipHandler.RaceLine[i].PathEvents.Count; a++)
                     {
                         var NewStruct = new AIPJsonHandler.PathEvent();
-                        NewStruct.EventType = aipHandler.PathAs[i].PathEvents[a].EventType;
-                        NewStruct.EventValue = aipHandler.PathAs[i].PathEvents[a].EventValue;
-                        NewStruct.EventStart = aipHandler.PathAs[i].PathEvents[a].EventStart;
-                        NewStruct.EventEnd = aipHandler.PathAs[i].PathEvents[a].EventEnd;
+                        NewStruct.EventType = aipHandler.RaceLine[i].PathEvents[a].EventType;
+                        NewStruct.EventValue = aipHandler.RaceLine[i].PathEvents[a].EventValue;
+                        NewStruct.EventStart = aipHandler.RaceLine[i].PathEvents[a].EventStart;
+                        NewStruct.EventEnd = aipHandler.RaceLine[i].PathEvents[a].EventEnd;
                         NewPath.PathEvents.Add(NewStruct);
                     }
-                    aipJsonHandler.PathAs.Add(NewPath);
+                    aipJsonHandler.RaceLine.Add(NewPath);
                 }
 
-                for (int i = 0; i < aipHandler.PathBs.Count; i++)
+                for (int i = 0; i < aipHandler.AIPath.Count; i++)
                 {
-                    var TempPath = aipHandler.PathBs[i];
+                    var TempPath = aipHandler.AIPath[i];
                     AIPJsonHandler.PathData NewPath = new AIPJsonHandler.PathData();
 
                     NewPath.U0 = TempPath.U0;
                     NewPath.PathPos = JsonUtil.Vector3ToArray(TempPath.PathPos);
 
-                    NewPath.PathPoints = new float[aipHandler.PathBs[i].VectorPoints.Count, 3];
-                    for (int a = 0; a < aipHandler.PathBs[i].VectorPoints.Count; a++)
+                    NewPath.PathPoints = new float[aipHandler.AIPath[i].VectorPoints.Count, 3];
+                    for (int a = 0; a < aipHandler.AIPath[i].VectorPoints.Count; a++)
                     {
-                        NewPath.PathPoints[a, 0] = aipHandler.PathBs[i].VectorPoints[a].X * aipHandler.PathBs[i].VectorPoints[a].W;
-                        NewPath.PathPoints[a, 1] = aipHandler.PathBs[i].VectorPoints[a].Y * aipHandler.PathBs[i].VectorPoints[a].W;
-                        NewPath.PathPoints[a, 2] = aipHandler.PathBs[i].VectorPoints[a].Z * aipHandler.PathBs[i].VectorPoints[a].W;
+                        NewPath.PathPoints[a, 0] = aipHandler.AIPath[i].VectorPoints[a].X * aipHandler.AIPath[i].VectorPoints[a].W;
+                        NewPath.PathPoints[a, 1] = aipHandler.AIPath[i].VectorPoints[a].Y * aipHandler.AIPath[i].VectorPoints[a].W;
+                        NewPath.PathPoints[a, 2] = aipHandler.AIPath[i].VectorPoints[a].Z * aipHandler.AIPath[i].VectorPoints[a].W;
                         if (a != 0)
                         {
                             NewPath.PathPoints[a, 0] += NewPath.PathPoints[a - 1, 0];
@@ -504,16 +504,16 @@ namespace SSXMultiTool.JsonFiles
                     }
 
                     NewPath.PathEvents = new List<AIPJsonHandler.PathEvent>();
-                    for (int a = 0; a < aipHandler.PathBs[i].PathEvents.Count; a++)
+                    for (int a = 0; a < aipHandler.AIPath[i].PathEvents.Count; a++)
                     {
                         var NewStruct = new AIPJsonHandler.PathEvent();
-                        NewStruct.EventType = aipHandler.PathBs[i].PathEvents[a].EventType;
-                        NewStruct.EventValue = aipHandler.PathBs[i].PathEvents[a].EventValue;
-                        NewStruct.EventStart = aipHandler.PathBs[i].PathEvents[a].EventStart;
-                        NewStruct.EventEnd = aipHandler.PathBs[i].PathEvents[a].EventEnd;
+                        NewStruct.EventType = aipHandler.AIPath[i].PathEvents[a].EventType;
+                        NewStruct.EventValue = aipHandler.AIPath[i].PathEvents[a].EventValue;
+                        NewStruct.EventStart = aipHandler.AIPath[i].PathEvents[a].EventStart;
+                        NewStruct.EventEnd = aipHandler.AIPath[i].PathEvents[a].EventEnd;
                         NewPath.PathEvents.Add(NewStruct);
                     }
-                    aipJsonHandler.PathBs.Add(NewPath);
+                    aipJsonHandler.AIPath.Add(NewPath);
                 }
 
             }
