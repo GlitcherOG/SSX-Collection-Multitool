@@ -1806,7 +1806,7 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    SSXOGToTricky.Convert(openFileDialog.FileName.Substring(0, openFileDialog.FileName.Length - 4), openFileDialog1.FileName.Substring(0, openFileDialog1.FileName.Length - 4));
+                    SSXOGToTricky.Convert(openFileDialog.FileName.Substring(0, openFileDialog.FileName.Length - 4), openFileDialog1.FileName);
                 }
             }
         }

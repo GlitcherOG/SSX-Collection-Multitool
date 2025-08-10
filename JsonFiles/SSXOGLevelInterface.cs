@@ -460,12 +460,12 @@ namespace SSXMultiTool.JsonFiles
                         NewPath.PathPoints[a, 0] = aipHandler.RaceLine[i].VectorPoints[a].X * aipHandler.RaceLine[i].VectorPoints[a].W;
                         NewPath.PathPoints[a, 1] = aipHandler.RaceLine[i].VectorPoints[a].Y * aipHandler.RaceLine[i].VectorPoints[a].W;
                         NewPath.PathPoints[a, 2] = aipHandler.RaceLine[i].VectorPoints[a].Z * aipHandler.RaceLine[i].VectorPoints[a].W;
-                        if (a != 0)
-                        {
-                            NewPath.PathPoints[a, 0] += NewPath.PathPoints[a - 1, 0];
-                            NewPath.PathPoints[a, 1] += NewPath.PathPoints[a - 1, 1];
-                            NewPath.PathPoints[a, 2] += NewPath.PathPoints[a - 1, 2];
-                        }
+                        //if (a != 0)
+                        //{
+                        //    NewPath.PathPoints[a, 0] += NewPath.PathPoints[a - 1, 0];
+                        //    NewPath.PathPoints[a, 1] += NewPath.PathPoints[a - 1, 1];
+                        //    NewPath.PathPoints[a, 2] += NewPath.PathPoints[a - 1, 2];
+                        //}
                     }
 
                     NewPath.PathEvents = new List<AIPJsonHandler.PathEvent>();
@@ -495,12 +495,12 @@ namespace SSXMultiTool.JsonFiles
                         NewPath.PathPoints[a, 0] = aipHandler.AIPath[i].VectorPoints[a].X * aipHandler.AIPath[i].VectorPoints[a].W;
                         NewPath.PathPoints[a, 1] = aipHandler.AIPath[i].VectorPoints[a].Y * aipHandler.AIPath[i].VectorPoints[a].W;
                         NewPath.PathPoints[a, 2] = aipHandler.AIPath[i].VectorPoints[a].Z * aipHandler.AIPath[i].VectorPoints[a].W;
-                        if (a != 0)
-                        {
-                            NewPath.PathPoints[a, 0] += NewPath.PathPoints[a - 1, 0];
-                            NewPath.PathPoints[a, 1] += NewPath.PathPoints[a - 1, 1];
-                            NewPath.PathPoints[a, 2] += NewPath.PathPoints[a - 1, 2];
-                        }
+                        //if (a != 0)
+                        //{
+                        //    NewPath.PathPoints[a, 0] += NewPath.PathPoints[a - 1, 0];
+                        //    NewPath.PathPoints[a, 1] += NewPath.PathPoints[a - 1, 1];
+                        //    NewPath.PathPoints[a, 2] += NewPath.PathPoints[a - 1, 2];
+                        //}
                     }
 
                     NewPath.PathEvents = new List<AIPJsonHandler.PathEvent>();
@@ -557,6 +557,90 @@ namespace SSXMultiTool.JsonFiles
             WDRHandler SkyWDRHandler = new WDRHandler();
             SkyWDRHandler.Load(LoadPath + "_sky.mdr");
             SkyWDRHandler.ExportModels(ExtractPath + "\\Skybox\\Models");
+
+            PrefabJsonHandler skyboxPrefabJsonHandler = new PrefabJsonHandler();
+            skyboxPrefabJsonHandler.Prefabs = new List<PrefabJsonHandler.PrefabJson>();
+            for (int i = 0; i < SkyWDRHandler.modelHeaders.Count; i++)
+            {
+                var TempPrefab = new PrefabJsonHandler.PrefabJson();
+
+                TempPrefab.U1 = SkyWDRHandler.modelHeaders[i].U1;
+                TempPrefab.U2 = SkyWDRHandler.modelHeaders[i].U2;
+                TempPrefab.U3 = SkyWDRHandler.modelHeaders[i].U3;
+                TempPrefab.U4 = SkyWDRHandler.modelHeaders[i].U4;
+
+                TempPrefab.models = new List<PrefabJsonHandler.ObjectHeader>();
+
+                for (int a = 0; a < SkyWDRHandler.modelHeaders[i].models.Count; a++)
+                {
+                    var TempObjectHeader = new PrefabJsonHandler.ObjectHeader();
+
+                    TempObjectHeader.MeshPath = SkyWDRHandler.modelHeaders[i].models[a].MeshPath;
+
+                    TempObjectHeader.U10 = SkyWDRHandler.modelHeaders[i].models[a].U10;
+
+                    TempObjectHeader.U12 = SkyWDRHandler.modelHeaders[i].models[a].U12;
+                    TempObjectHeader.MaterialID = SkyWDRHandler.modelHeaders[i].models[a].MaterialID;
+                    TempObjectHeader.U14 = SkyWDRHandler.modelHeaders[i].models[a].U14;
+
+                    TempObjectHeader.U16 = SkyWDRHandler.modelHeaders[i].models[a].U16;
+
+                    if (SkyWDRHandler.modelHeaders[i].models[a].matrixData != null)
+                    {
+                        var TempMatrixData = new PrefabJsonHandler.MatrixData();
+
+                        var OldMatrixData = SkyWDRHandler.modelHeaders[i].models[a].matrixData.Value;
+
+                        Vector3 Scale;
+                        Quaternion Rotation;
+                        Vector3 Location;
+
+                        Matrix4x4.Decompose(OldMatrixData.matrix4, out Scale, out Rotation, out Location);
+                        TempMatrixData.Location = JsonUtil.Vector3ToArray(Location);
+                        TempMatrixData.Rotation = JsonUtil.QuaternionToArray(Rotation);
+                        TempMatrixData.Scale = JsonUtil.Vector3ToArray(Scale);
+
+                        TempMatrixData.U0 = OldMatrixData.U0;
+                        TempMatrixData.U2 = OldMatrixData.U2;
+                        TempMatrixData.U3 = OldMatrixData.U3;
+                        TempMatrixData.U4 = OldMatrixData.U4;
+                        TempMatrixData.U5 = OldMatrixData.U5;
+                        TempMatrixData.U6 = OldMatrixData.U6;
+                        TempMatrixData.U7 = OldMatrixData.U7;
+
+                        TempMatrixData.uStruct0s = new List<PrefabJsonHandler.UStruct0>();
+
+                        for (int b = 0; b < OldMatrixData.uStruct0s.Count; b++)
+                        {
+                            var UStruct0 = new PrefabJsonHandler.UStruct0();
+
+                            UStruct0.uStruct1s = new List<PrefabJsonHandler.UStruct1>();
+
+                            for (int c = 0; c < OldMatrixData.uStruct0s[b].uStruct1s.Count; c++)
+                            {
+                                var Ustruct1 = new PrefabJsonHandler.UStruct1();
+
+                                Ustruct1.vector30 = JsonUtil.Vector3ToArray(OldMatrixData.uStruct0s[b].uStruct1s[c].vector30);
+                                Ustruct1.vector31 = JsonUtil.Vector3ToArray(OldMatrixData.uStruct0s[b].uStruct1s[c].vector31);
+                                Ustruct1.U0 = OldMatrixData.uStruct0s[b].uStruct1s[c].U0;
+                                Ustruct1.U1 = OldMatrixData.uStruct0s[b].uStruct1s[c].U1;
+
+                                UStruct0.uStruct1s.Add(Ustruct1);
+                            }
+
+                            TempMatrixData.uStruct0s.Add(UStruct0);
+                        }
+
+                        TempObjectHeader.matrixData = TempMatrixData;
+                    }
+
+                    TempPrefab.models.Add(TempObjectHeader);
+                }
+
+                skyboxPrefabJsonHandler.Prefabs.Add(TempPrefab);
+            }
+
+            skyboxPrefabJsonHandler.CreateJson(ExtractPath + "\\Skybox\\Prefabs.json", true);
 
             #endregion
 

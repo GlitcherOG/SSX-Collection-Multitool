@@ -177,11 +177,72 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             TrickyAIPJson.StartPosList = OGAIPJson.StartPosList;
 
             TrickyAIPJson.AIPaths = new List<AIPSOPJsonHandler.PathA>();
+            TrickyAIPJson.RaceLines = new List<AIPSOPJsonHandler.PathB>();
 
-            //for (int i = 0; i < OGAIPJson.pa; i++)
-            //{
-                
-            //}
+            for (int i = 0; i < OGAIPJson.AIPath.Count; i++)
+            {
+                var TempAI = new AIPSOPJsonHandler.PathA();
+
+                TempAI.Type = 2;
+                TempAI.U1 = 100;
+                TempAI.U2 = 4;
+                TempAI.U3 = 50;
+                TempAI.U4 = 101;
+                TempAI.U5 = 4;
+                TempAI.Respawnable = 1;
+
+                TempAI.PathPos = OGAIPJson.AIPath[i].PathPos;
+
+                TempAI.PathPoints = OGAIPJson.AIPath[i].PathPoints;
+
+                TempAI.PathEvents = new List<AIPSOPJsonHandler.PathEvent>();
+
+                for (global::System.Int32 j = 0; j < OGAIPJson.AIPath[i].PathEvents.Count; j++)
+                {
+                    var TempEvent = new AIPSOPJsonHandler.PathEvent();
+
+                    TempEvent.EventType = OGAIPJson.AIPath[i].PathEvents[j].EventType;
+                    TempEvent.EventValue = OGAIPJson.AIPath[i].PathEvents[j].EventValue;
+                    TempEvent.EventStart = OGAIPJson.AIPath[i].PathEvents[j].EventStart;
+                    TempEvent.EventEnd = OGAIPJson.AIPath[i].PathEvents[j].EventEnd;
+
+                    TempAI.PathEvents.Add(TempEvent);
+                }
+
+                TrickyAIPJson.AIPaths.Add(TempAI);
+            }
+
+
+
+            for (int i = 0; i < OGAIPJson.RaceLine.Count; i++)
+            {
+                var TempRace = new AIPSOPJsonHandler.PathB();
+
+                TempRace.Type = 1;
+                TempRace.U0 = 0;
+                TempRace.U1 = 4;
+                TempRace.U2 = OGAIPJson.RaceLine[i].U0;
+
+                TempRace.PathPos = OGAIPJson.RaceLine[i].PathPos;
+
+                TempRace.PathPoints = OGAIPJson.RaceLine[i].PathPoints;
+
+                TempRace.PathEvents = new List<AIPSOPJsonHandler.PathEvent>();
+
+                for (global::System.Int32 j = 0; j < OGAIPJson.RaceLine[i].PathEvents.Count; j++)
+                {
+                    var TempEvent = new AIPSOPJsonHandler.PathEvent();
+
+                    TempEvent.EventType = OGAIPJson.RaceLine[i].PathEvents[j].EventType;
+                    TempEvent.EventValue = OGAIPJson.RaceLine[i].PathEvents[j].EventValue;
+                    TempEvent.EventStart = OGAIPJson.RaceLine[i].PathEvents[j].EventStart;
+                    TempEvent.EventEnd = OGAIPJson.RaceLine[i].PathEvents[j].EventEnd;
+
+                    TempRace.PathEvents.Add(TempEvent);
+                }
+
+                TrickyAIPJson.RaceLines.Add(TempRace);
+            }
 
             TrickyAIPJson.CreateJson(TempPathTricky + "/AIP.json", false);
             TrickyAIPJson.CreateJson(TempPathTricky + "/SOP.json", false);
@@ -196,7 +257,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             SSXMultiTool.JsonFiles.Tricky.MaterialJsonHandler TrickySkyboxMaterialJsonHandler = new SSXMultiTool.JsonFiles.Tricky.MaterialJsonHandler();
             TrickySkyboxMaterialJsonHandler.Materials = new List<MaterialJsonHandler.MaterialsJson>();
 
-            for (int i = 0; i < 26; i++)
+            for (int i = 0; i < 25; i++)
             {
                 var material = new MaterialJsonHandler.MaterialsJson();
 
@@ -228,6 +289,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
             //Convert Skybox Prefabs
             SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler TrickySkyboxPrefabJsonHandler = new SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler();
+            SSXMultiTool.JsonFiles.SSXOG.PrefabJsonHandler OGSkyboxPrefabJsonHandler = SSXMultiTool.JsonFiles.SSXOG.PrefabJsonHandler.Load(TempPathOG + "/Skybox/Prefabs.json");
 
             TrickySkyboxPrefabJsonHandler.Prefabs = new List<JsonFiles.Tricky.PrefabJsonHandler.PrefabJson>();
 
@@ -243,12 +305,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
             PrefabObject.MeshData = new List<JsonFiles.Tricky.PrefabJsonHandler.MeshHeader>();
 
-            for (int i = 0; i < 26; i++)
+            for (int i = 0; i < OGSkyboxPrefabJsonHandler.Prefabs[0].models.Count; i++)
             {
                 var MeshData = new JsonFiles.Tricky.PrefabJsonHandler.MeshHeader();
 
-                MeshData.MeshPath = i.ToString() + ".obj";
-                MeshData.MaterialID = i;
+                MeshData.MeshPath = OGSkyboxPrefabJsonHandler.Prefabs[0].models[i].MeshPath;
+                MeshData.MaterialID = OGSkyboxPrefabJsonHandler.Prefabs[0].models[i].MaterialID;
 
                 PrefabObject.MeshData.Add(MeshData);
             }
@@ -262,6 +324,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
             SSXTrickyConfig trickyConfig = new SSXTrickyConfig();
             trickyConfig.CreateJson(TempPathTricky + "/ConfigTricky.ssx");
+
+            TrickyLevelInterface trickyLevelInterface = new TrickyLevelInterface();
+            trickyLevelInterface.BuildTrickyLevelFiles(TempPathTricky, ExportPath);
         }
     }
 }

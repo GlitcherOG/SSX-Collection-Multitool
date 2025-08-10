@@ -425,7 +425,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                     }
                     for (int z = 0; z < UV.Count; z++)
                     {
-                        output += "vt " + UV[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + (-UV[z].Y).ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+                        output += "vt " + UV[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + (1 - UV[z].Y).ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
                     }
                     for (int z = 0; z < Normals.Count; z++)
                     {
