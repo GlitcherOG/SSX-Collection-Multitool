@@ -183,13 +183,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             {
                 var TempAI = new AIPSOPJsonHandler.PathA();
 
-                TempAI.Type = 2;
-                TempAI.U1 = 100;
-                TempAI.U2 = 4;
+                //TempAI.Type = 2;
+                //TempAI.U1 = 100;
+                //TempAI.U2 = 4;
                 TempAI.U3 = 50;
-                TempAI.U4 = 101;
-                TempAI.U5 = 4;
-                TempAI.Respawnable = 1;
+                //TempAI.U4 = 101;
+                //TempAI.U5 = 4;
+                TempAI.Respawnable = true;
 
                 TempAI.PathPos = OGAIPJson.AIPath[i].PathPos;
 
@@ -218,9 +218,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             {
                 var TempRace = new AIPSOPJsonHandler.PathB();
 
-                TempRace.Type = 1;
-                TempRace.U0 = 0;
-                TempRace.U1 = 4;
+                //TempRace.Type = 1;
+                //TempRace.U0 = 0;
+                //TempRace.U1 = 4;
                 TempRace.DistanceToFinish = OGAIPJson.RaceLine[i].U0;
 
                 TempRace.PathPos = OGAIPJson.RaceLine[i].PathPos;

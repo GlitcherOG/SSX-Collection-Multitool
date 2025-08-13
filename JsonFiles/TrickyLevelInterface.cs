@@ -728,12 +728,12 @@ namespace SSXMultiTool
                     {
                         NewAIPath.Respawnable = true;
                     }
-                    else
+                    else if (aip.AIPath.PathAs[i].Respawnable != 0)
                     {
                         MessageBox.Show("Archy is an idiot");
                     }
 
-                        NewAIPath.PathPoints = new float[aip.AIPath.PathAs[i].VectorPoints.Count, 3];
+                    NewAIPath.PathPoints = new float[aip.AIPath.PathAs[i].VectorPoints.Count, 3];
 
                     NewAIPath.PathPos = JsonUtil.Vector3ToArray(aip.AIPath.PathAs[i].PathPos);
 
@@ -835,7 +835,7 @@ namespace SSXMultiTool
                     {
                         NewAIPath.Respawnable = true;
                     }
-                    else
+                    else if (sop.AIPath.PathAs[i].Respawnable != 0)
                     {
                         MessageBox.Show("Archy is an idiot");
                     }
