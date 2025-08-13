@@ -712,10 +712,16 @@ namespace SSXMultiTool
                 {
                     Console.WriteLine("AI Paths: " + (i + 1) + "/" + aip.AIPath.PathAs.Count);
                     var NewAIPath = new AIPSOPJsonHandler.PathA();
+
+                    if(aip.AIPath.PathAs[i].Type!=2|| aip.AIPath.PathAs[i].U1 != 100 || aip.AIPath.PathAs[i].U4 != 101 || aip.AIPath.PathAs[i].U5 != 4)
+                    {
+                        MessageBox.Show("Archy is an idiot 1");
+                    }
+
                     //NewAIPath.Type = aip.AIPath.PathAs[i].Type;
                     //NewAIPath.U1 = aip.AIPath.PathAs[i].U1;
                     //NewAIPath.U2 = aip.AIPath.PathAs[i].U2;
-                    //NewAIPath.U3 = aip.AIPath.PathAs[i].U3;
+                    NewAIPath.U3 = aip.AIPath.PathAs[i].U3;
                     //NewAIPath.U4 = aip.AIPath.PathAs[i].U4;
                     //NewAIPath.U5 = aip.AIPath.PathAs[i].U5;
                     if (aip.AIPath.PathAs[i].Respawnable == 1)
@@ -813,10 +819,16 @@ namespace SSXMultiTool
                     Console.WriteLine("SOP AI Paths: " +(i+1)+ "/" + sop.AIPath.PathAs.Count);
 
                     var NewAIPath = new AIPSOPJsonHandler.PathA();
+
+                    if (sop.AIPath.PathAs[i].Type != 2 || sop.AIPath.PathAs[i].U1 != 100 || sop.AIPath.PathAs[i].U4 != 101 || sop.AIPath.PathAs[i].U5 != 4)
+                    {
+                        MessageBox.Show("Archy is an idiot 1");
+                    }
+
                     //NewAIPath.Type = sop.AIPath.PathAs[i].Type;
                     //NewAIPath.U1 = sop.AIPath.PathAs[i].U1;
                     //NewAIPath.U2 = sop.AIPath.PathAs[i].U2;
-                    //NewAIPath.U3 = sop.AIPath.PathAs[i].U3;
+                    NewAIPath.U3 = sop.AIPath.PathAs[i].U3;
                     //NewAIPath.U4 = sop.AIPath.PathAs[i].U4;
                     //NewAIPath.U5 = sop.AIPath.PathAs[i].U5;
                     if (sop.AIPath.PathAs[i].Respawnable == 1)
@@ -2190,7 +2202,7 @@ namespace SSXMultiTool
                     NewAIPATH.Type = 2;
                     NewAIPATH.U1 = 100;
                     NewAIPATH.U2 = 4;
-                    NewAIPATH.U3 = 50;
+                    NewAIPATH.U3 = aip.AIPaths[i].U3;
                     NewAIPATH.U4 = 101;
                     NewAIPATH.U5 = 4;
                     NewAIPATH.Respawnable = aip.AIPaths[i].Respawnable ? 1 : 0;
@@ -2296,7 +2308,7 @@ namespace SSXMultiTool
                     NewAIPATH.Type = 2;
                     NewAIPATH.U1 = 100;
                     NewAIPATH.U2 = 4;
-                    NewAIPATH.U3 = 50;
+                    NewAIPATH.U3 = sop.AIPaths[i].U3;
                     NewAIPATH.U4 = 101;
                     NewAIPATH.U5 = 4;
                     NewAIPATH.Respawnable = sop.AIPaths[i].Respawnable ? 1 : 0;
