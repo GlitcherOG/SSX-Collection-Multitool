@@ -712,15 +712,22 @@ namespace SSXMultiTool
                 {
                     Console.WriteLine("AI Paths: " + (i + 1) + "/" + aip.AIPath.PathAs.Count);
                     var NewAIPath = new AIPSOPJsonHandler.PathA();
-                    NewAIPath.Type = aip.AIPath.PathAs[i].Type;
-                    NewAIPath.U1 = aip.AIPath.PathAs[i].U1;
-                    NewAIPath.U2 = aip.AIPath.PathAs[i].U2;
-                    NewAIPath.U3 = aip.AIPath.PathAs[i].U3;
-                    NewAIPath.U4 = aip.AIPath.PathAs[i].U4;
-                    NewAIPath.U5 = aip.AIPath.PathAs[i].U5;
-                    NewAIPath.Respawnable = aip.AIPath.PathAs[i].Respawnable;
+                    //NewAIPath.Type = aip.AIPath.PathAs[i].Type;
+                    //NewAIPath.U1 = aip.AIPath.PathAs[i].U1;
+                    //NewAIPath.U2 = aip.AIPath.PathAs[i].U2;
+                    //NewAIPath.U3 = aip.AIPath.PathAs[i].U3;
+                    //NewAIPath.U4 = aip.AIPath.PathAs[i].U4;
+                    //NewAIPath.U5 = aip.AIPath.PathAs[i].U5;
+                    if (aip.AIPath.PathAs[i].Respawnable == 1)
+                    {
+                        NewAIPath.Respawnable = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Archy is an idiot");
+                    }
 
-                    NewAIPath.PathPoints = new float[aip.AIPath.PathAs[i].VectorPoints.Count, 3];
+                        NewAIPath.PathPoints = new float[aip.AIPath.PathAs[i].VectorPoints.Count, 3];
 
                     NewAIPath.PathPos = JsonUtil.Vector3ToArray(aip.AIPath.PathAs[i].PathPos);
 
@@ -756,9 +763,9 @@ namespace SSXMultiTool
                     Console.WriteLine("Race Line Paths: " + (i + 1) + "/" + aip.RaceLine.PathBs.Count);
 
                     var NewAIPath = new AIPSOPJsonHandler.PathB();
-                    NewAIPath.Type = aip.RaceLine.PathBs[i].Type;
-                    NewAIPath.U0 = aip.RaceLine.PathBs[i].U0;
-                    NewAIPath.U1 = aip.RaceLine.PathBs[i].U1;
+                    //NewAIPath.Type = aip.RaceLine.PathBs[i].Type;
+                    //NewAIPath.U0 = aip.RaceLine.PathBs[i].U0;
+                    //NewAIPath.U1 = aip.RaceLine.PathBs[i].U1;
                     NewAIPath.DistanceToFinish = aip.RaceLine.PathBs[i].DistanceToFinish;
 
                     NewAIPath.PathPoints = new float[aip.RaceLine.PathBs[i].VectorPoints.Count, 3];
@@ -806,13 +813,20 @@ namespace SSXMultiTool
                     Console.WriteLine("SOP AI Paths: " +(i+1)+ "/" + sop.AIPath.PathAs.Count);
 
                     var NewAIPath = new AIPSOPJsonHandler.PathA();
-                    NewAIPath.Type = sop.AIPath.PathAs[i].Type;
-                    NewAIPath.U1 = sop.AIPath.PathAs[i].U1;
-                    NewAIPath.U2 = sop.AIPath.PathAs[i].U2;
-                    NewAIPath.U3 = sop.AIPath.PathAs[i].U3;
-                    NewAIPath.U4 = sop.AIPath.PathAs[i].U4;
-                    NewAIPath.U5 = sop.AIPath.PathAs[i].U5;
-                    NewAIPath.Respawnable = sop.AIPath.PathAs[i].Respawnable;
+                    //NewAIPath.Type = sop.AIPath.PathAs[i].Type;
+                    //NewAIPath.U1 = sop.AIPath.PathAs[i].U1;
+                    //NewAIPath.U2 = sop.AIPath.PathAs[i].U2;
+                    //NewAIPath.U3 = sop.AIPath.PathAs[i].U3;
+                    //NewAIPath.U4 = sop.AIPath.PathAs[i].U4;
+                    //NewAIPath.U5 = sop.AIPath.PathAs[i].U5;
+                    if (sop.AIPath.PathAs[i].Respawnable == 1)
+                    {
+                        NewAIPath.Respawnable = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Archy is an idiot");
+                    }
 
                     NewAIPath.PathPoints = new float[sop.AIPath.PathAs[i].VectorPoints.Count, 3];
 
@@ -850,9 +864,9 @@ namespace SSXMultiTool
                     Console.WriteLine("SOP Race Line Paths: " + (i + 1) + "/" + sop.RaceLine.PathBs.Count);
 
                     var NewAIPath = new AIPSOPJsonHandler.PathB();
-                    NewAIPath.Type = sop.RaceLine.PathBs[i].Type;
-                    NewAIPath.U0 = sop.RaceLine.PathBs[i].U0;
-                    NewAIPath.U1 = sop.RaceLine.PathBs[i].U1;
+                    //NewAIPath.Type = sop.RaceLine.PathBs[i].Type;
+                    //NewAIPath.U0 = sop.RaceLine.PathBs[i].U0;
+                    //NewAIPath.U1 = sop.RaceLine.PathBs[i].U1;
                     NewAIPath.DistanceToFinish = sop.RaceLine.PathBs[i].DistanceToFinish;
 
                     NewAIPath.PathPoints = new float[sop.RaceLine.PathBs[i].VectorPoints.Count, 3];
@@ -2173,13 +2187,13 @@ namespace SSXMultiTool
                     Console.WriteLine("AI Paths: " +(i+1)+ "/" + aip.AIPaths.Count);
                     var NewAIPATH = new AIPSOPHandler.PathA();
 
-                    NewAIPATH.Type = aip.AIPaths[i].Type;
-                    NewAIPATH.U1 = aip.AIPaths[i].U1;
-                    NewAIPATH.U2 = aip.AIPaths[i].U2;
-                    NewAIPATH.U3 = aip.AIPaths[i].U3;
-                    NewAIPATH.U4 = aip.AIPaths[i].U4;
-                    NewAIPATH.U5 = aip.AIPaths[i].U5;
-                    NewAIPATH.Respawnable = aip.AIPaths[i].Respawnable;
+                    NewAIPATH.Type = 2;
+                    NewAIPATH.U1 = 100;
+                    NewAIPATH.U2 = 4;
+                    NewAIPATH.U3 = 50;
+                    NewAIPATH.U4 = 101;
+                    NewAIPATH.U5 = 4;
+                    NewAIPATH.Respawnable = aip.AIPaths[i].Respawnable ? 1 : 0;
 
                     NewAIPATH.PathPos = JsonUtil.ArrayToVector3(aip.AIPaths[i].PathPos);
 
@@ -2222,9 +2236,9 @@ namespace SSXMultiTool
                     Console.WriteLine("Race Line Paths: " +(i+1)+ "/" + aip.RaceLines.Count);
                     var NewAIPATH = new AIPSOPHandler.PathB();
 
-                    NewAIPATH.Type = aip.RaceLines[i].Type;
-                    NewAIPATH.U0 = aip.RaceLines[i].U0;
-                    NewAIPATH.U1 = aip.RaceLines[i].U1;
+                    NewAIPATH.Type = 1;
+                    NewAIPATH.U0 = 0;
+                    NewAIPATH.U1 = 4;
                     NewAIPATH.DistanceToFinish = aip.RaceLines[i].DistanceToFinish;
 
                     NewAIPATH.PathPos = JsonUtil.ArrayToVector3(aip.RaceLines[i].PathPos);
@@ -2279,13 +2293,13 @@ namespace SSXMultiTool
                     Console.WriteLine("SOP AI Paths: " +(i+1)+ "/" + sop.AIPaths.Count);
                     var NewAIPATH = new AIPSOPHandler.PathA();
 
-                    NewAIPATH.Type = sop.AIPaths[i].Type;
-                    NewAIPATH.U1 = sop.AIPaths[i].U1;
-                    NewAIPATH.U2 = sop.AIPaths[i].U2;
-                    NewAIPATH.U3 = sop.AIPaths[i].U3;
-                    NewAIPATH.U4 = sop.AIPaths[i].U4;
-                    NewAIPATH.U5 = sop.AIPaths[i].U5;
-                    NewAIPATH.Respawnable = sop.AIPaths[i].Respawnable;
+                    NewAIPATH.Type = 2;
+                    NewAIPATH.U1 = 100;
+                    NewAIPATH.U2 = 4;
+                    NewAIPATH.U3 = 50;
+                    NewAIPATH.U4 = 101;
+                    NewAIPATH.U5 = 4;
+                    NewAIPATH.Respawnable = sop.AIPaths[i].Respawnable ? 1 : 0;
 
                     NewAIPATH.PathPos = JsonUtil.ArrayToVector3(sop.AIPaths[i].PathPos);
 
@@ -2329,9 +2343,9 @@ namespace SSXMultiTool
 
                     var NewAIPATH = new AIPSOPHandler.PathB();
 
-                    NewAIPATH.Type = sop.RaceLines[i].Type;
-                    NewAIPATH.U0 = sop.RaceLines[i].U0;
-                    NewAIPATH.U1 = sop.RaceLines[i].U1;
+                    NewAIPATH.Type = 1;
+                    NewAIPATH.U0 = 0;
+                    NewAIPATH.U1 = 4;
                     NewAIPATH.DistanceToFinish = sop.RaceLines[i].DistanceToFinish;
 
                     NewAIPATH.PathPos = JsonUtil.ArrayToVector3(sop.RaceLines[i].PathPos);
