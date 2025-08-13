@@ -92,7 +92,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     NewPath.Type = StreamUtil.ReadUInt32(stream);
                     NewPath.U0 = StreamUtil.ReadUInt32(stream);
                     NewPath.U1 = StreamUtil.ReadUInt32(stream);
-                    NewPath.U2 = StreamUtil.ReadFloat(stream);
+                    NewPath.DistanceToFinish = StreamUtil.ReadFloat(stream);
 
                     NewPath.NumPoints = StreamUtil.ReadUInt32(stream);
                     NewPath.NumEvents = StreamUtil.ReadUInt32(stream);
@@ -177,7 +177,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].Type);
                 StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].U0);
                 StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].U1);
-                StreamUtil.WriteFloat32(stream, RaceLine.PathBs[i].U2);
+                StreamUtil.WriteFloat32(stream, RaceLine.PathBs[i].DistanceToFinish);
 
                 StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].VectorPoints.Count);
                 StreamUtil.WriteInt32(stream, RaceLine.PathBs[i].PathEvents.Count);
@@ -375,7 +375,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public int Type;
             public int U0;
             public int U1;
-            public float U2;
+            public float DistanceToFinish;
 
             public int NumPoints;
             public int NumEvents;

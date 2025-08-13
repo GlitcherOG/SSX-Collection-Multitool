@@ -77,7 +77,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int Type;
             public int U0;
             public int U1;
-            public float U2;
+            public float DistanceToFinish;
 
             public float[] PathPos;
 

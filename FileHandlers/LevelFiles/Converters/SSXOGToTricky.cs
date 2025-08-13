@@ -221,7 +221,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
                 TempRace.Type = 1;
                 TempRace.U0 = 0;
                 TempRace.U1 = 4;
-                TempRace.U2 = OGAIPJson.RaceLine[i].U0;
+                TempRace.DistanceToFinish = OGAIPJson.RaceLine[i].U0;
 
                 TempRace.PathPos = OGAIPJson.RaceLine[i].PathPos;
 

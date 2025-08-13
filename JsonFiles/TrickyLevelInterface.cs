@@ -759,7 +759,7 @@ namespace SSXMultiTool
                     NewAIPath.Type = aip.RaceLine.PathBs[i].Type;
                     NewAIPath.U0 = aip.RaceLine.PathBs[i].U0;
                     NewAIPath.U1 = aip.RaceLine.PathBs[i].U1;
-                    NewAIPath.U2 = aip.RaceLine.PathBs[i].U2;
+                    NewAIPath.DistanceToFinish = aip.RaceLine.PathBs[i].DistanceToFinish;
 
                     NewAIPath.PathPoints = new float[aip.RaceLine.PathBs[i].VectorPoints.Count, 3];
 
@@ -853,7 +853,7 @@ namespace SSXMultiTool
                     NewAIPath.Type = sop.RaceLine.PathBs[i].Type;
                     NewAIPath.U0 = sop.RaceLine.PathBs[i].U0;
                     NewAIPath.U1 = sop.RaceLine.PathBs[i].U1;
-                    NewAIPath.U2 = sop.RaceLine.PathBs[i].U2;
+                    NewAIPath.DistanceToFinish = sop.RaceLine.PathBs[i].DistanceToFinish;
 
                     NewAIPath.PathPoints = new float[sop.RaceLine.PathBs[i].VectorPoints.Count, 3];
                     NewAIPath.PathPos = JsonUtil.Vector3ToArray(sop.RaceLine.PathBs[i].PathPos);
@@ -2225,7 +2225,7 @@ namespace SSXMultiTool
                     NewAIPATH.Type = aip.RaceLines[i].Type;
                     NewAIPATH.U0 = aip.RaceLines[i].U0;
                     NewAIPATH.U1 = aip.RaceLines[i].U1;
-                    NewAIPATH.U2 = aip.RaceLines[i].U2;
+                    NewAIPATH.DistanceToFinish = aip.RaceLines[i].DistanceToFinish;
 
                     NewAIPATH.PathPos = JsonUtil.ArrayToVector3(aip.RaceLines[i].PathPos);
 
@@ -2332,7 +2332,7 @@ namespace SSXMultiTool
                     NewAIPATH.Type = sop.RaceLines[i].Type;
                     NewAIPATH.U0 = sop.RaceLines[i].U0;
                     NewAIPATH.U1 = sop.RaceLines[i].U1;
-                    NewAIPATH.U2 = sop.RaceLines[i].U2;
+                    NewAIPATH.DistanceToFinish = sop.RaceLines[i].DistanceToFinish;
 
                     NewAIPATH.PathPos = JsonUtil.ArrayToVector3(sop.RaceLines[i].PathPos);
 
