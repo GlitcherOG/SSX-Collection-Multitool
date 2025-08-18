@@ -718,6 +718,8 @@ namespace SSXMultiTool
                         MessageBox.Show("Archy is an idiot 1");
                     }
 
+                    NewAIPath.Name = "AI Path " + i;
+
                     //NewAIPath.Type = aip.AIPath.PathAs[i].Type;
                     //NewAIPath.U1 = aip.AIPath.PathAs[i].U1;
                     //NewAIPath.U2 = aip.AIPath.PathAs[i].U2;
@@ -769,6 +771,9 @@ namespace SSXMultiTool
                     Console.WriteLine("Race Line Paths: " + (i + 1) + "/" + aip.RaceLine.PathBs.Count);
 
                     var NewAIPath = new AIPSOPJsonHandler.PathB();
+
+                    NewAIPath.Name = "Race Line " + i;
+
                     //NewAIPath.Type = aip.RaceLine.PathBs[i].Type;
                     //NewAIPath.U0 = aip.RaceLine.PathBs[i].U0;
                     //NewAIPath.U1 = aip.RaceLine.PathBs[i].U1;
