@@ -17,7 +17,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public int TrackID;
         public int RID;
 
-        public int U0;
         public int U1Count;
         public int U1Offset;
         public int U3;
@@ -33,9 +32,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
         public List<int> U12 = new List<int>();
 
-        public List<UnknownS1> UnknownS1s = new List<UnknownS1>();
-
-        public int U13;
+        public List<ModelObject> ModelObjects = new List<ModelObject>();
 
         public void LoadData(Stream stream)
         {
@@ -66,13 +63,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                 U12.Add(StreamUtil.ReadUInt32(stream));
             }
 
-            UnknownS1s = new List<UnknownS1>();
+            ModelObjects = new List<ModelObject>();
 
             for (int i = 0; i < U1Count; i++)
             {
-                UnknownS1 TempS1 = new UnknownS1();
+                ModelObject TempS1 = new ModelObject();
 
-                TempS1.U0 = StreamUtil.ReadUInt32(stream);
+                TempS1.ParentID = StreamUtil.ReadUInt32(stream);
                 TempS1.U1Offset = StreamUtil.ReadUInt32(stream);
                 TempS1.U2Offset = StreamUtil.ReadUInt32(stream);
                 TempS1.MatrixOffset = StreamUtil.ReadUInt32(stream);
@@ -166,13 +163,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
                 stream.Position = TempPos;
 
-                UnknownS1s.Add(TempS1);
+                ModelObjects.Add(TempS1);
             }
 
 
-            for (int i = 0; i < UnknownS1s.Count; i++)
+            for (int i = 0; i < ModelObjects.Count; i++)
             {
-                var S1 = UnknownS1s[i];
+                var S1 = ModelObjects[i];
 
                 if (S1.U1Offset > 0)
                 {
@@ -289,16 +286,16 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                     }
                 }
 
-                UnknownS1s[i] = S1;
+                ModelObjects[i] = S1;
             }
             ConvertToModelFaces();
         }
 
         public void ConvertToModelFaces()
         {
-            for (int i = 0; i < UnknownS1s.Count; i++)
+            for (int i = 0; i < ModelObjects.Count; i++)
             {
-                var S1 = UnknownS1s[i];
+                var S1 = ModelObjects[i];
                 S1.modelFaces = new List<ModelFace>();
 
                 if (S1.U1Offset > 0)
@@ -323,7 +320,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                     }
                 }
 
-                UnknownS1s[i] = S1;
+                ModelObjects[i] = S1;
             }
 
 
@@ -426,18 +423,18 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             return face;
         }
 
-        public void SaveModel(string Path)
+        public void SaveModelGLB(string Path)
         {
-
             var scene = new SharpGLTF.Scenes.SceneBuilder();
 
                 var material1 = new MaterialBuilder("TempMat")
                 .WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
 
+            List<MeshBuilder<VertexPositionNormal, VertexTexture1>> MeshList = new List<MeshBuilder<VertexPositionNormal, VertexTexture1>>();
 
-            for (int i = 0; i < UnknownS1s.Count; i++)
+            for (int i = 0; i < ModelObjects.Count; i++)
             {
-                var s1 = UnknownS1s[i];
+                var s1 = ModelObjects[i];
                 var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1>(i.ToString());
 
                 if (s1.modelFaces == null)
@@ -472,14 +469,29 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                     mesh.UsePrimitive(material1).AddTriangle((TempPos1, TempTexture1), (TempPos2, TempTexture2), (TempPos3, TempTexture3));
                 }
 
-                if (UnknownS1s[i].MatrixOffset > 0)
+                if (ModelObjects[i].ParentID == -1)
                 {
-                    scene.AddRigidMesh(mesh, UnknownS1s[i].matrix4X4);
+                    if (ModelObjects[i].MatrixOffset > 0)
+                    {
+                        scene.AddRigidMesh(mesh, ModelObjects[i].matrix4X4);
+                    }
+                    else
+                    {
+                        scene.AddRigidMesh(mesh, Matrix4x4.CreateFromQuaternion(new Quaternion(0, 0, 0, 0)));
+                    }
                 }
                 else
                 {
-                    scene.AddRigidMesh(mesh, Matrix4x4.CreateFromQuaternion(new Quaternion(0,0,0,0)));
+                    if (ModelObjects[i].MatrixOffset > 0)
+                    {
+                        MeshList[ModelObjects[i].ParentID].AddMesh(mesh, ModelObjects[i].matrix4X4);
+                    }
+                    else
+                    {
+                        MeshList[ModelObjects[i].ParentID].AddMesh(mesh, Matrix4x4.CreateFromQuaternion(new Quaternion(0, 0, 0, 0)));
+                    }
                 }
+                MeshList.Add(mesh);
             }
 
             var model = scene.ToGltf2();
@@ -487,9 +499,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             model.SaveGLB(Path);
         }
 
-        public struct UnknownS1
+        public struct ModelObject
         {
-            public int U0;
+            public int ParentID;
             public int U1Offset;
             public int U2Offset;
             public int MatrixOffset;

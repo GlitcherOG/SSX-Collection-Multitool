@@ -183,7 +183,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 WorldMDR worldMDR = new WorldMDR();
 
                                 worldMDR.LoadData(memoryStream1);
-                                //worldMDR.SaveModel(ExtractPath + "//Models//" + RID + ".glb");
+
+ 
+                                //worldMDR.SaveModelGLB(ExtractPath + "//Models//" + RID + ".glb");
                             }
                             else if (ID == 3)
                             {
