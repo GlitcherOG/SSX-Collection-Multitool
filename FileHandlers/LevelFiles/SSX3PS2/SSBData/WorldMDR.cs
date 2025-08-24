@@ -1,14 +1,14 @@
-﻿using SharpGLTF.Geometry.VertexTypes;
-using SharpGLTF.Geometry;
+﻿using SSXMultiTool.JsonFiles.SSX3;
 using SSXMultiTool.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using SharpGLTF.Materials;
+
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
@@ -76,7 +76,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
                 long TempPos = stream.Position;
 
-                if(TempS1.U1Offset > 0)
+                if (TempS1.U1Offset > 0)
                 {
                     stream.Position = TempS1.U1Offset;
 
@@ -125,7 +125,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
                             StreamUtil.AlignBy16(stream);
 
-                            if(TempS7.U1==96)
+                            if (TempS7.U1 == 96)
                             {
                                 break;
                             }
@@ -186,7 +186,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                             {
                                 stream.Position = ModelOffsetHeader.ModelOffset + ModelDataOffset;
 
-                                if(HeaderStart==false)
+                                if (HeaderStart == false)
                                 {
                                     ModelHeader.U00 = StreamUtil.ReadInt32(stream);
                                     ModelHeader.U01 = StreamUtil.ReadInt32(stream);
@@ -304,10 +304,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                     {
                         var S5 = S1.unknownS2.ModelHeaderOffset[a];
                         Rotation = false;
-                        for (int b = 0; b < S5.ModelOffsetHeaders.Count/2; b++)
+                        for (int b = 0; b < S5.ModelOffsetHeaders.Count / 2; b++)
                         {
                             int VerticesUVID = b * 2;
-                            int NormalID = b * 2 +1;
+                            int NormalID = b * 2 + 1;
 
                             var VerticesUV = S5.ModelOffsetHeaders[VerticesUVID];
                             var Normal = S5.ModelOffsetHeaders[NormalID];
@@ -423,80 +423,368 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             return face;
         }
 
-        public void SaveModelGLB(string Path)
+        //public void SaveModelGLB(string Path)
+        //{
+        //    var scene = new SharpGLTF.Scenes.SceneBuilder();
+
+        //    var material1 = new MaterialBuilder("TempMat")
+        //    .WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
+
+        //    List<MeshBuilder<VertexPositionNormal, VertexTexture1>> MeshList = new List<MeshBuilder<VertexPositionNormal, VertexTexture1>>();
+
+        //    for (int i = 0; i < ModelObjects.Count; i++)
+        //    {
+        //        var s1 = ModelObjects[i];
+        //        var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1>(i.ToString());
+
+        //        if (s1.modelFaces == null)
+        //        {
+        //            return;
+        //        }
+
+        //        for (int a = 0; a < s1.modelFaces.Count; a++)
+        //        {
+        //            var Face = s1.modelFaces[a];
+        //            VertexPositionNormal TempPos1 = new VertexPositionNormal();
+        //            TempPos1.Position = Face.V1;
+        //            TempPos1.Normal = Face.Normal1;
+
+        //            VertexPositionNormal TempPos2 = new VertexPositionNormal();
+        //            TempPos2.Position = Face.V2;
+        //            TempPos2.Normal = Face.Normal2;
+
+        //            VertexPositionNormal TempPos3 = new VertexPositionNormal();
+        //            TempPos3.Position = Face.V3;
+        //            TempPos3.Normal = Face.Normal3;
+
+        //            VertexTexture1 TempTexture1 = new VertexTexture1();
+        //            TempTexture1.TexCoord = Face.UV1;
+
+        //            VertexTexture1 TempTexture2 = new VertexTexture1();
+        //            TempTexture2.TexCoord = Face.UV2;
+
+        //            VertexTexture1 TempTexture3 = new VertexTexture1();
+        //            TempTexture3.TexCoord = Face.UV3;
+
+        //            mesh.UsePrimitive(material1).AddTriangle((TempPos1, TempTexture1), (TempPos2, TempTexture2), (TempPos3, TempTexture3));
+        //        }
+
+        //        if (ModelObjects[i].ParentID == -1)
+        //        {
+        //            if (ModelObjects[i].MatrixOffset > 0)
+        //            {
+        //                scene.AddRigidMesh(mesh, ModelObjects[i].matrix4X4);
+        //            }
+        //            else
+        //            {
+        //                scene.AddRigidMesh(mesh, Matrix4x4.CreateFromQuaternion(new Quaternion(0, 0, 0, 0)));
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (ModelObjects[i].MatrixOffset > 0)
+        //            {
+        //                MeshList[ModelObjects[i].ParentID].AddMesh(mesh, ModelObjects[i].matrix4X4);
+        //            }
+        //            else
+        //            {
+        //                MeshList[ModelObjects[i].ParentID].AddMesh(mesh, Matrix4x4.CreateFromQuaternion(new Quaternion(0, 0, 0, 0)));
+        //            }
+        //        }
+        //        MeshList.Add(mesh);
+        //    }
+
+        //    var model = scene.ToGltf2();
+        //    //model.ApplyBasisTransform(matrix4X4);
+        //    model.SaveGLB(Path);
+        //}
+
+        public MDRJsonHandler.MainModelHeader SaveModel(string Path)
         {
-            var scene = new SharpGLTF.Scenes.SceneBuilder();
+            MDRJsonHandler.MainModelHeader JsonModelObject = new MDRJsonHandler.MainModelHeader();
 
-                var material1 = new MaterialBuilder("TempMat")
-                .WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
+            //Convert to JSON
+            JsonModelObject.TrackID = TrackID;
+            JsonModelObject.RID = RID;
 
-            List<MeshBuilder<VertexPositionNormal, VertexTexture1>> MeshList = new List<MeshBuilder<VertexPositionNormal, VertexTexture1>>();
+            JsonModelObject.U3 = U3;
+            JsonModelObject.U4 = U4;
+
+            JsonModelObject.U6 = U6;
+            JsonModelObject.U7 = U7;
+            JsonModelObject.U8 = U8;
+            JsonModelObject.U9 = U9;
+
+            JsonModelObject.U12 = U12;
+
+            JsonModelObject.ModelObjects = new List<MDRJsonHandler.ModelObject>();
 
             for (int i = 0; i < ModelObjects.Count; i++)
             {
-                var s1 = ModelObjects[i];
-                var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1>(i.ToString());
+                var modelObject = ModelObjects[i];
+                var NewObject = new MDRJsonHandler.ModelObject();
 
-                if (s1.modelFaces == null)
+                NewObject.ParentID = modelObject.ParentID;
+
+                Vector3 Scale;
+                Quaternion Rotation;
+                Vector3 Location;
+
+                Matrix4x4.Decompose(modelObject.matrix4X4, out Scale, out Rotation, out Location);
+                NewObject.Position = JsonUtil.Vector3ToArray(Location);
+                NewObject.Rotation = JsonUtil.QuaternionToArray(Rotation);
+                NewObject.Scale = JsonUtil.Vector3ToArray(Scale);
+
+                NewObject.unknownS2 = new MDRJsonHandler.UnknownS2();
+
+                NewObject.unknownS2.BboxLow = JsonUtil.Vector3ToArray(modelObject.unknownS2.BboxLow);
+                NewObject.unknownS2.BboxHigh = JsonUtil.Vector3ToArray(modelObject.unknownS2.BboxHigh);
+
+                NewObject.unknownS2.U0 = modelObject.unknownS2.U0;
+
+                if (modelObject.modelFaces != null)
                 {
-                    return;
-                }
-
-                for (int a = 0; a < s1.modelFaces.Count; a++)
-                {
-                    var Face = s1.modelFaces[a];
-                    VertexPositionNormal TempPos1 = new VertexPositionNormal();
-                    TempPos1.Position = Face.V1;
-                    TempPos1.Normal = Face.Normal1;
-
-                    VertexPositionNormal TempPos2 = new VertexPositionNormal();
-                    TempPos2.Position = Face.V2;
-                    TempPos2.Normal = Face.Normal2;
-
-                    VertexPositionNormal TempPos3 = new VertexPositionNormal();
-                    TempPos3.Position = Face.V3;
-                    TempPos3.Normal = Face.Normal3;
-
-                    VertexTexture1 TempTexture1 = new VertexTexture1();
-                    TempTexture1.TexCoord = Face.UV1;
-
-                    VertexTexture1 TempTexture2 = new VertexTexture1();
-                    TempTexture2.TexCoord = Face.UV2;
-
-                    VertexTexture1 TempTexture3 = new VertexTexture1();
-                    TempTexture3.TexCoord = Face.UV3;
-
-                    mesh.UsePrimitive(material1).AddTriangle((TempPos1, TempTexture1), (TempPos2, TempTexture2), (TempPos3, TempTexture3));
-                }
-
-                if (ModelObjects[i].ParentID == -1)
-                {
-                    if (ModelObjects[i].MatrixOffset > 0)
+                    if (modelObject.modelFaces.Count != 0)
                     {
-                        scene.AddRigidMesh(mesh, ModelObjects[i].matrix4X4);
-                    }
-                    else
-                    {
-                        scene.AddRigidMesh(mesh, Matrix4x4.CreateFromQuaternion(new Quaternion(0, 0, 0, 0)));
+                        NewObject.ModelPath = RID + "-" + i + ".obj";
                     }
                 }
-                else
+
+                NewObject.unknownS2.ModelHeaderOffset = new List<MDRJsonHandler.ModelDataHeaderStruct>();
+
+                if (modelObject.unknownS2.ModelHeaderOffset != null)
                 {
-                    if (ModelObjects[i].MatrixOffset > 0)
+                    for (global::System.Int32 j = 0; j < modelObject.unknownS2.ModelHeaderOffset.Count; j++)
                     {
-                        MeshList[ModelObjects[i].ParentID].AddMesh(mesh, ModelObjects[i].matrix4X4);
-                    }
-                    else
-                    {
-                        MeshList[ModelObjects[i].ParentID].AddMesh(mesh, Matrix4x4.CreateFromQuaternion(new Quaternion(0, 0, 0, 0)));
+                        var TempModelOffset = new MDRJsonHandler.ModelDataHeaderStruct();
+
+                        TempModelOffset.U0 = modelObject.unknownS2.ModelHeaderOffset[j].U0;
+                        TempModelOffset.U1 = modelObject.unknownS2.ModelHeaderOffset[j].U1;
+                        TempModelOffset.U4 = modelObject.unknownS2.ModelHeaderOffset[j].U4;
+
+                        TempModelOffset.U00 = modelObject.unknownS2.ModelHeaderOffset[j].U00;
+                        TempModelOffset.U01 = modelObject.unknownS2.ModelHeaderOffset[j].U01;
+                        TempModelOffset.U02 = modelObject.unknownS2.ModelHeaderOffset[j].U02;
+                        TempModelOffset.U03 = modelObject.unknownS2.ModelHeaderOffset[j].U03;
+
+                        TempModelOffset.U04 = JsonUtil.Vector4ToArray(modelObject.unknownS2.ModelHeaderOffset[j].U04);
+
+                        NewObject.unknownS2.ModelHeaderOffset.Add(TempModelOffset);
                     }
                 }
-                MeshList.Add(mesh);
+
+                NewObject.unknownS3 = new MDRJsonHandler.UnknownS3();
+
+                NewObject.unknownS3.U0 = JsonUtil.Vector3ToArray(modelObject.unknownS3.U0);
+                NewObject.unknownS3.U1 = JsonUtil.Vector3ToArray(modelObject.unknownS3.U1);
+
+                NewObject.unknownS3.U2 = modelObject.unknownS3.U2;
+                NewObject.unknownS3.U3 = modelObject.unknownS3.U3;
+                NewObject.unknownS3.U4 = modelObject.unknownS3.U4;
+                NewObject.unknownS3.U5 = modelObject.unknownS3.U5;
+                NewObject.unknownS3.U6 = modelObject.unknownS3.U6;
+
+                JsonModelObject.ModelObjects.Add(NewObject);
             }
 
-            var model = scene.ToGltf2();
-            //model.ApplyBasisTransform(matrix4X4);
-            model.SaveGLB(Path);
+            //Save OBJs
+            //glstHandler.SavePDBModelglTF(path, this);
+            for (int a = 0; a < ModelObjects.Count; a++)
+            {
+                string outputString = "";
+                string output = "# Exported From SSX Using SSX Multitool Modder by GlitcherOG \n";
+
+                List<Vector3> vertices = new List<Vector3>();
+                List<Vector3> Normals = new List<Vector3>();
+                List<Vector2> UV = new List<Vector2>();
+                outputString += "o Mesh" + a.ToString() + "\n";
+                var Data = ModelObjects[a];
+
+                if (Data.modelFaces != null)
+                {
+
+                    for (int b = 0; b < Data.modelFaces.Count; b++)
+                    {
+                        var Face = Data.modelFaces[b];
+
+                        //Vertices
+                        if (!vertices.Contains(Face.V1))
+                        {
+                            vertices.Add(Face.V1);
+                        }
+                        int VPos1 = vertices.IndexOf(Face.V1) + 1;
+
+                        if (!vertices.Contains(Face.V2))
+                        {
+                            vertices.Add(Face.V2);
+                        }
+                        int VPos2 = vertices.IndexOf(Face.V2) + 1;
+
+                        if (!vertices.Contains(Face.V3))
+                        {
+                            vertices.Add(Face.V3);
+                        }
+                        int VPos3 = vertices.IndexOf(Face.V3) + 1;
+
+                        //UVs
+                        if (!UV.Contains(Face.UV1))
+                        {
+                            UV.Add(Face.UV1);
+                        }
+                        int UPos1 = UV.IndexOf(Face.UV1) + 1;
+
+                        if (!UV.Contains(Face.UV2))
+                        {
+                            UV.Add(Face.UV2);
+                        }
+                        int UPos2 = UV.IndexOf(Face.UV2) + 1;
+
+                        if (!UV.Contains(Face.UV3))
+                        {
+                            UV.Add(Face.UV3);
+                        }
+                        int UPos3 = UV.IndexOf(Face.UV3) + 1;
+
+                        //Normals
+                        if (!Normals.Contains(Face.Normal1))
+                        {
+                            Normals.Add(Face.Normal1);
+                        }
+                        int NPos1 = Normals.IndexOf(Face.Normal1) + 1;
+
+                        if (!Normals.Contains(Face.Normal2))
+                        {
+                            Normals.Add(Face.Normal2);
+                        }
+                        int NPos2 = Normals.IndexOf(Face.Normal2) + 1;
+
+                        if (!Normals.Contains(Face.Normal3))
+                        {
+                            Normals.Add(Face.Normal3);
+                        }
+                        int NPos3 = Normals.IndexOf(Face.Normal3) + 1;
+
+                        outputString += "f " + VPos1.ToString() + "/" + UPos1.ToString() + "/" + NPos1.ToString() + " " + VPos2.ToString() + "/" + UPos2.ToString() + "/" + NPos2.ToString() + " " + VPos3.ToString() + "/" + UPos3.ToString() + "/" + NPos3.ToString() + "\n";
+                    }
+
+                    for (int z = 0; z < vertices.Count; z++)
+                    {
+                        output += "v " + vertices[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + vertices[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + vertices[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+                    }
+                    for (int z = 0; z < UV.Count; z++)
+                    {
+                        output += "vt " + UV[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + (1 - UV[z].Y).ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+                    }
+                    for (int z = 0; z < Normals.Count; z++)
+                    {
+                        output += "vn " + Normals[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Normals[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Normals[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+                    }
+                    output += outputString;
+
+                    if (Data.modelFaces.Count != 0)
+                    {
+                        File.WriteAllText(Path + "/" + RID + "-" + a + ".obj", output);
+                    }
+                }
+                //    if (ModelObjects[a].unknownS2.ModelHeaderOffset[ax].model != null)
+                //    {
+                //        for (int i = 0; i < ModelObjects[a].PrefabObjects[ax].objectData.MeshOffsets.Count; i++)
+                //        {
+                //            string outputString = "";
+                //            string output = "# Exported From SSX Using SSX Multitool Modder by GlitcherOG \n";
+
+                //            List<Vector3> vertices = new List<Vector3>();
+                //            List<Vector3> Normals = new List<Vector3>();
+                //            List<Vector2> UV = new List<Vector2>();
+                //            outputString += "o Mesh" + i.ToString() + "\n";
+                //            var Data = ModelObjects[a].PrefabObjects[ax].objectData.MeshOffsets[i].FullMesh;
+                //            for (int b = 0; b < Data.meshFaces.Count; b++)
+                //            {
+                //                var Face = Data.meshFaces[b];
+
+                //                //Vertices
+                //                if (!vertices.Contains(Face.V1))
+                //                {
+                //                    vertices.Add(Face.V1);
+                //                }
+                //                int VPos1 = vertices.IndexOf(Face.V1) + 1;
+
+                //                if (!vertices.Contains(Face.V2))
+                //                {
+                //                    vertices.Add(Face.V2);
+                //                }
+                //                int VPos2 = vertices.IndexOf(Face.V2) + 1;
+
+                //                if (!vertices.Contains(Face.V3))
+                //                {
+                //                    vertices.Add(Face.V3);
+                //                }
+                //                int VPos3 = vertices.IndexOf(Face.V3) + 1;
+
+                //                //UVs
+                //                if (!UV.Contains(Face.UV1))
+                //                {
+                //                    UV.Add(Face.UV1);
+                //                }
+                //                int UPos1 = UV.IndexOf(Face.UV1) + 1;
+
+                //                if (!UV.Contains(Face.UV2))
+                //                {
+                //                    UV.Add(Face.UV2);
+                //                }
+                //                int UPos2 = UV.IndexOf(Face.UV2) + 1;
+
+                //                if (!UV.Contains(Face.UV3))
+                //                {
+                //                    UV.Add(Face.UV3);
+                //                }
+                //                int UPos3 = UV.IndexOf(Face.UV3) + 1;
+
+                //                //Normals
+                //                if (!Normals.Contains(Face.Normal1))
+                //                {
+                //                    Normals.Add(Face.Normal1);
+                //                }
+                //                int NPos1 = Normals.IndexOf(Face.Normal1) + 1;
+
+                //                if (!Normals.Contains(Face.Normal2))
+                //                {
+                //                    Normals.Add(Face.Normal2);
+                //                }
+                //                int NPos2 = Normals.IndexOf(Face.Normal2) + 1;
+
+                //                if (!Normals.Contains(Face.Normal3))
+                //                {
+                //                    Normals.Add(Face.Normal3);
+                //                }
+                //                int NPos3 = Normals.IndexOf(Face.Normal3) + 1;
+
+                //                outputString += "f " + VPos1.ToString() + "/" + UPos1.ToString() + "/" + NPos1.ToString() + " " + VPos2.ToString() + "/" + UPos2.ToString() + "/" + NPos2.ToString() + " " + VPos3.ToString() + "/" + UPos3.ToString() + "/" + NPos3.ToString() + "\n";
+                //            }
+
+                //            for (int z = 0; z < vertices.Count; z++)
+                //            {
+                //                output += "v " + vertices[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + vertices[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + vertices[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+                //            }
+                //            for (int z = 0; z < UV.Count; z++)
+                //            {
+                //                output += "vt " + UV[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + (1 - UV[z].Y).ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+                //            }
+                //            for (int z = 0; z < Normals.Count; z++)
+                //            {
+                //                output += "vn " + Normals[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Normals[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Normals[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+                //            }
+                //            output += outputString;
+                //            File.AppendAllText(path + "/" + PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets[i].MeshID.ToString() + ".obj", output);
+                //        }
+                //    }
+
+            }
+
+
+            //Return Model
+
+            return JsonModelObject;
         }
 
         public struct ModelObject
@@ -553,7 +841,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
             public Vector4 U04;
 
-            public List <ModelData> ModelOffsetHeaders;
+            public string ModelPath;
+
+            public List<ModelData> ModelOffsetHeaders;
         }
 
         public struct ModelData
@@ -563,8 +853,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             public int ModelOffset;
             public int U2;
 
+            //Standard Models
             public ModelVandUVData modelVandUVData;
             public ModelNormalData modelNormalData;
+
+            //Non-Standard
         }
 
         public struct ModelVandUVData

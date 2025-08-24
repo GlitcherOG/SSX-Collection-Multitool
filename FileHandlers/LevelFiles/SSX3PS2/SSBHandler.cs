@@ -113,6 +113,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 Bin6JsonHandler bin6JsonHandler = new Bin6JsonHandler();
                 SplineJsonHandler splineJsonHandler = new SplineJsonHandler();
                 VisCurtainJsonHandler visCurtainJsonHandler = new VisCurtainJsonHandler();
+                MDRJsonHandler mdrJsonHandler = new MDRJsonHandler();
 
                 MemoryStream memoryStream = new MemoryStream();
                 List<int> ints = new List<int>();
@@ -184,7 +185,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                                 worldMDR.LoadData(memoryStream1);
 
- 
+                                mdrJsonHandler.mainModelHeaders.Add(worldMDR.SaveModel(ExtractPath + "//Models//"));
                                 //worldMDR.SaveModelGLB(ExtractPath + "//Models//" + RID + ".glb");
                             }
                             else if (ID == 3)
@@ -315,6 +316,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Splines.json");
                             splineJsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Splines.json");
 
+                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Prefabs.json");
+                            mdrJsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Prefabs.json");
+
                             patchesJsonHandler = new PatchesJsonHandler();
                             bin0JsonHandler = new Bin0JsonHandler();
                             bin3JsonHandler = new Bin3JsonHandler();
@@ -322,6 +326,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             bin6JsonHandler = new Bin6JsonHandler();
                             visCurtainJsonHandler = new VisCurtainJsonHandler();
                             splineJsonHandler = new SplineJsonHandler();
+                            mdrJsonHandler = new MDRJsonHandler();
                         }
                         a++;
                         memoryStream = new MemoryStream();

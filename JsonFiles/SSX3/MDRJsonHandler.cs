@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace SSXMultiTool.JsonFiles.SSX3
 {
-    internal class MDRJsonHandler
+    public class MDRJsonHandler
     {
-        public List<MainModelHeader> mainModelHeaders;
+        public List<MainModelHeader> mainModelHeaders = new List<MainModelHeader>();
 
         public void CreateJson(string path, bool Inline = false)
         {
@@ -68,12 +68,14 @@ namespace SSXMultiTool.JsonFiles.SSX3
 
             public UnknownS2 unknownS2;
             public UnknownS3 unknownS3;
+
+            public string ModelPath;
         }
 
         public struct UnknownS2
         {
-            public Vector3 BboxLow;
-            public Vector3 BboxHigh;
+            public float[] BboxLow;
+            public float[] BboxHigh;
             public int U0;
 
             public List<ModelDataHeaderStruct> ModelHeaderOffset;
@@ -81,8 +83,8 @@ namespace SSXMultiTool.JsonFiles.SSX3
 
         public struct UnknownS3
         {
-            public Vector3 U0;
-            public Vector3 U1; //?
+            public float[] U0;
+            public float[] U1; //?
 
             public int U2;
             public int U3;
@@ -103,9 +105,7 @@ namespace SSXMultiTool.JsonFiles.SSX3
             public int U02;
             public int U03;
 
-            public Vector4 U04;
-
-            public string ModelPath; 
+            public float[] U04;
         }
 
     }
