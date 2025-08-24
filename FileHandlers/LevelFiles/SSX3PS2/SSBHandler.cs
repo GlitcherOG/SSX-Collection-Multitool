@@ -40,67 +40,67 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         21 - Radar?
         22 - Avalanche Animation
          */
-        public void LoadAndExtractSSB(string path, string extractPath)
-        {
-            using (Stream stream = File.Open(path, FileMode.Open))
-            {
-                MemoryStream memoryStream = new MemoryStream();
-                List<int> ints = new List<int>();
-                int a = 0;
-                int CEND = 0;
-                int CBXS = 0;
-                while (true)
-                {
-                    if (stream.Position >= stream.Length - 1)
-                    {
-                        break;
-                    }
-                    string MagicWords = StreamUtil.ReadString(stream, 4);
+        //public void LoadAndExtractSSB(string path, string extractPath)
+        //{
+        //    using (Stream stream = File.Open(path, FileMode.Open))
+        //    {
+        //        MemoryStream memoryStream = new MemoryStream();
+        //        List<int> ints = new List<int>();
+        //        int a = 0;
+        //        int CEND = 0;
+        //        int CBXS = 0;
+        //        while (true)
+        //        {
+        //            if (stream.Position >= stream.Length - 1)
+        //            {
+        //                break;
+        //            }
+        //            string MagicWords = StreamUtil.ReadString(stream, 4);
 
-                    int Size = StreamUtil.ReadUInt32(stream);
-                    byte[] Data = new byte[Size - 8];
-                    byte[] DecompressedData = new byte[1];
-                    Data = StreamUtil.ReadBytes(stream, Size - 8);
+        //            int Size = StreamUtil.ReadUInt32(stream);
+        //            byte[] Data = new byte[Size - 8];
+        //            byte[] DecompressedData = new byte[1];
+        //            Data = StreamUtil.ReadBytes(stream, Size - 8);
 
-                    DecompressedData = RefpackHandler.Decompress(Data);
-                    StreamUtil.WriteBytes(memoryStream, DecompressedData);
+        //            DecompressedData = RefpackHandler.Decompress(Data);
+        //            StreamUtil.WriteBytes(memoryStream, DecompressedData);
 
-                    if (MagicWords.ToUpper() == "CBXS")
-                    {
-                        CBXS += 1;
-                    }
+        //            if (MagicWords.ToUpper() == "CBXS")
+        //            {
+        //                CBXS += 1;
+        //            }
 
-                    if (MagicWords.ToUpper() == "CEND")
-                    {
-                        CEND += 1;
-                        int FilePos = 0;
-                        memoryStream.Position = 0;
-                        Directory.CreateDirectory(extractPath + "//" + a);
-                        while (memoryStream.Position < memoryStream.Length)
-                        {
-                            int ID = StreamUtil.ReadUInt8(memoryStream);
-                            int ChunkSize = StreamUtil.ReadInt24(memoryStream);
-                            int TrackID = StreamUtil.ReadInt8(memoryStream);
-                            int RID = StreamUtil.ReadInt24(memoryStream);
+        //            if (MagicWords.ToUpper() == "CEND")
+        //            {
+        //                CEND += 1;
+        //                int FilePos = 0;
+        //                memoryStream.Position = 0;
+        //                Directory.CreateDirectory(extractPath + "//" + a);
+        //                while (memoryStream.Position < memoryStream.Length)
+        //                {
+        //                    int ID = StreamUtil.ReadUInt8(memoryStream);
+        //                    int ChunkSize = StreamUtil.ReadInt24(memoryStream);
+        //                    int TrackID = StreamUtil.ReadInt8(memoryStream);
+        //                    int RID = StreamUtil.ReadInt24(memoryStream);
 
-                            byte[] NewData = StreamUtil.ReadBytes(memoryStream, ChunkSize);
+        //                    byte[] NewData = StreamUtil.ReadBytes(memoryStream, ChunkSize);
 
-                            if (ID == 2)
-                            {
-                                WorldMDR worldMDR = new WorldMDR();
-                                worldMDR.LoadData(NewData);
-                            }
+        //                    if (ID == 2)
+        //                    {
+        //                        WorldMDR worldMDR = new WorldMDR();
+        //                        worldMDR.LoadData(NewData);
+        //                    }
 
-                            //var file = File.Create(extractPath + "//" + a + "//" + FilePos + "." + ID + "bin");
-                            FilePos++;
-                        }
-                        memoryStream.Dispose();
-                        memoryStream = new MemoryStream();
-                        a++;
-                    }
-                }
-            }
-        }
+        //                    //var file = File.Create(extractPath + "//" + a + "//" + FilePos + "." + ID + "bin");
+        //                    FilePos++;
+        //                }
+        //                memoryStream.Dispose();
+        //                memoryStream = new MemoryStream();
+        //                a++;
+        //            }
+        //        }
+        //    }
+        //}
         public void LoadAndExtractSSBFromSBD(string path, string extractPath, SDBHandler sdbHandler)
         {
             ConsoleWindow.GenerateConsole();
@@ -141,10 +141,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     {
                         ChunkID = sdbHandler.FindLocationChunk(a);
                         Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name);
-                        Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Textures");
+                        //Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Textures");
                         Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Models");
                         Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Sounds");
-                        Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Lightmaps");
+                        //Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Lightmaps");
                         memoryStream.Position = 0;
 
                         while (memoryStream.Position < memoryStream.Length)
@@ -179,11 +179,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 2)
                             {
-                                Console.WriteLine(ExtractPath + "//Models//" + Path + ".glb");
+                                Console.WriteLine(ExtractPath + "//Models//" + RID + ".glb");
                                 WorldMDR worldMDR = new WorldMDR();
 
-                                worldMDR.LoadData(NewData);
-                                worldMDR.SaveModel(ExtractPath + "//Models//" + Path + ".glb");
+                                worldMDR.LoadData(memoryStream1);
+                                //worldMDR.SaveModel(ExtractPath + "//Models//" + RID + ".glb");
                             }
                             else if (ID == 3)
                             {
@@ -219,22 +219,29 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 9)
                             {
-                                Console.WriteLine(ExtractPath + "//Textures//" + Path + ".png");
+                                Console.WriteLine(extractPath + "//Textures//" + Path + ".png");
                                 WorldSSH worldOldSSH = new WorldSSH();
 
                                 worldOldSSH.Load(NewData);
-                                worldOldSSH.SaveImage(ExtractPath + "//Textures//" + Path + ".png");
-                                worldOldSSH.SaveImage(extractPath + "//Textures//" + RID + ".png");
+                                //worldOldSSH.SaveImage(ExtractPath + "//Textures//" + Path + ".png");
+                                if (!File.Exists(extractPath + "//Textures//" + RID + ".png"))
+                                {
+                                    worldOldSSH.SaveImage(extractPath + "//Textures//" + RID + ".png");
+                                }
 
                             }
                             else if (ID == 10)
                             {
-                                Console.WriteLine(ExtractPath + "//Lightmaps//" + Path + ".png");
+                                Console.WriteLine(extractPath + "//Lightmaps//" + Path + ".png");
                                 WorldOldSSH worldOldSSH = new WorldOldSSH();
 
                                 worldOldSSH.Load(NewData);
-                                worldOldSSH.SaveImage(ExtractPath + "//Lightmaps//" + Path + ".png");
-                                worldOldSSH.SaveImage(extractPath + "//Lightmaps//" + RID.ToString().PadLeft(4, '0') + ".png");
+                                //worldOldSSH.SaveImage(ExtractPath + "//Lightmaps//" + Path + ".png");
+
+                                if (!File.Exists(extractPath + "//Lightmaps//" + RID.ToString().PadLeft(4, '0') + ".png"))
+                                {
+                                    worldOldSSH.SaveImage(extractPath + "//Lightmaps//" + RID.ToString().PadLeft(4, '0') + ".png");
+                                }
                             }
                             else if (ID == 11)
                             {

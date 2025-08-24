@@ -14,6 +14,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
     public class WorldMDR
     {
+        public int TrackID;
+        public int RID;
+
         public int U0;
         public int U1Count;
         public int U1Offset;
@@ -34,13 +37,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
         public int U13;
 
-        public void LoadData(byte[] bytes)
+        public void LoadData(Stream stream)
         {
-            MemoryStream stream = new MemoryStream();
-            StreamUtil.WriteBytes(stream, bytes);
             stream.Position = 0;
 
-            U0 = StreamUtil.ReadUInt32(stream);
+            var Temp = WorldCommon.ObjectIDLoad(stream);
+
+            TrackID = Temp.TrackID;
+            RID = Temp.RID;
+
             U1Count = StreamUtil.ReadUInt32(stream);
             U1Offset = StreamUtil.ReadUInt32(stream);
             U3 = StreamUtil.ReadUInt32(stream);
@@ -287,7 +292,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                 UnknownS1s[i] = S1;
             }
             ConvertToModelFaces();
-            stream.Close();
         }
 
         public void ConvertToModelFaces()

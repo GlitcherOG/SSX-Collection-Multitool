@@ -14,6 +14,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
     public class WorldBin3
     {
+        public ObjectID objectID;
+
         public int U0;
         public int U1;
         public int U2;
@@ -24,7 +26,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public Vector3 V1;
         public Vector3 V2;
 
-        public ObjectID objectID;
         public int U4;
 
         public int UTrackID;
