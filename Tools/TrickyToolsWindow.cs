@@ -1810,5 +1810,19 @@ namespace SSXMultiTool
                 }
             }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Map File (*.map)|*.map|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                TrickyScaler.ProjectScaler(openFileDialog.FileName.Substring(0, openFileDialog.FileName.Length - 4), 0.3f);
+            }
+        }
     }
 }

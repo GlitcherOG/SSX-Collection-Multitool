@@ -226,9 +226,10 @@
             label24 = new Label();
             HDRTime = new Label();
             tabPage2 = new TabPage();
+            button2 = new Button();
             button1 = new Button();
             ELFLdrSetup = new Button();
-            button2 = new Button();
+            button3 = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -403,7 +404,7 @@
             label1.AutoSize = true;
             label1.Location = new Point(6, 19);
             label1.Name = "label1";
-            label1.Size = new Size(78, 15);
+            label1.Size = new Size(79, 15);
             label1.TabIndex = 6;
             label1.Text = "Tristrip Count";
             // 
@@ -623,7 +624,6 @@
             // MaterialListMPF
             // 
             MaterialListMPF.FormattingEnabled = true;
-            MaterialListMPF.ItemHeight = 15;
             MaterialListMPF.Location = new Point(6, 22);
             MaterialListMPF.Name = "MaterialListMPF";
             MaterialListMPF.Size = new Size(70, 184);
@@ -793,7 +793,6 @@
             // CharacterPartsMpf
             // 
             CharacterPartsMpf.FormattingEnabled = true;
-            CharacterPartsMpf.ItemHeight = 15;
             CharacterPartsMpf.Location = new Point(6, 208);
             CharacterPartsMpf.Name = "CharacterPartsMpf";
             CharacterPartsMpf.Size = new Size(192, 184);
@@ -826,7 +825,6 @@
             // 
             MpfList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             MpfList.FormattingEnabled = true;
-            MpfList.ItemHeight = 15;
             MpfList.Location = new Point(6, 19);
             MpfList.Name = "MpfList";
             MpfList.Size = new Size(192, 169);
@@ -952,7 +950,7 @@
             label41.AutoSize = true;
             label41.Location = new Point(103, 19);
             label41.Name = "label41";
-            label41.Size = new Size(78, 15);
+            label41.Size = new Size(79, 15);
             label41.TabIndex = 6;
             label41.Text = "Tristrip Count";
             // 
@@ -1154,7 +1152,6 @@
             // MaterialListMXF
             // 
             MaterialListMXF.FormattingEnabled = true;
-            MaterialListMXF.ItemHeight = 15;
             MaterialListMXF.Location = new Point(6, 22);
             MaterialListMXF.Name = "MaterialListMXF";
             MaterialListMXF.Size = new Size(70, 184);
@@ -1335,7 +1332,6 @@
             // CharacterPartsMXF
             // 
             CharacterPartsMXF.FormattingEnabled = true;
-            CharacterPartsMXF.ItemHeight = 15;
             CharacterPartsMXF.Location = new Point(6, 211);
             CharacterPartsMXF.Name = "CharacterPartsMXF";
             CharacterPartsMXF.Size = new Size(192, 184);
@@ -1346,7 +1342,6 @@
             // 
             MXFList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             MXFList.FormattingEnabled = true;
-            MXFList.ItemHeight = 15;
             MXFList.Location = new Point(7, 24);
             MXFList.Name = "MXFList";
             MXFList.Size = new Size(192, 169);
@@ -1432,7 +1427,7 @@
             label42.AutoSize = true;
             label42.Location = new Point(103, 19);
             label42.Name = "label42";
-            label42.Size = new Size(78, 15);
+            label42.Size = new Size(79, 15);
             label42.TabIndex = 6;
             label42.Text = "Tristrip Count";
             // 
@@ -1634,7 +1629,6 @@
             // MaterialListMNF
             // 
             MaterialListMNF.FormattingEnabled = true;
-            MaterialListMNF.ItemHeight = 15;
             MaterialListMNF.Location = new Point(6, 22);
             MaterialListMNF.Name = "MaterialListMNF";
             MaterialListMNF.Size = new Size(70, 184);
@@ -1823,7 +1817,6 @@
             // MNFMeshPartsList
             // 
             MNFMeshPartsList.FormattingEnabled = true;
-            MNFMeshPartsList.ItemHeight = 15;
             MNFMeshPartsList.Location = new Point(6, 210);
             MNFMeshPartsList.Name = "MNFMeshPartsList";
             MNFMeshPartsList.Size = new Size(192, 184);
@@ -1856,7 +1849,6 @@
             // 
             MNFModelsList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             MNFModelsList.FormattingEnabled = true;
-            MNFModelsList.ItemHeight = 15;
             MNFModelsList.Location = new Point(6, 21);
             MNFModelsList.Name = "MNFModelsList";
             MNFModelsList.Size = new Size(192, 169);
@@ -2010,7 +2002,7 @@
             label12.AutoSize = true;
             label12.Location = new Point(6, 151);
             label12.Name = "label12";
-            label12.Size = new Size(61, 15);
+            label12.Size = new Size(62, 15);
             label12.TabIndex = 6;
             label12.Text = "Entry Type";
             // 
@@ -2071,7 +2063,6 @@
             // hdrList2
             // 
             hdrList2.FormattingEnabled = true;
-            hdrList2.ItemHeight = 15;
             hdrList2.Location = new Point(6, 22);
             hdrList2.Name = "hdrList2";
             hdrList2.Size = new Size(170, 334);
@@ -2128,7 +2119,6 @@
             // hdrFileList
             // 
             hdrFileList.FormattingEnabled = true;
-            hdrFileList.ItemHeight = 15;
             hdrFileList.Location = new Point(6, 23);
             hdrFileList.Name = "hdrFileList";
             hdrFileList.Size = new Size(170, 304);
@@ -2159,7 +2149,7 @@
             label27.AutoSize = true;
             label27.Location = new Point(182, 23);
             label27.Name = "label27";
-            label27.Size = new Size(73, 15);
+            label27.Size = new Size(74, 15);
             label27.TabIndex = 29;
             label27.Text = "Time Length";
             // 
@@ -2256,7 +2246,7 @@
             label22.AutoSize = true;
             label22.Location = new Point(272, 53);
             label22.Name = "label22";
-            label22.Size = new Size(79, 15);
+            label22.Size = new Size(80, 15);
             label22.TabIndex = 32;
             label22.Text = "Total Samples";
             // 
@@ -2290,6 +2280,7 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(button3);
             tabPage2.Controls.Add(button2);
             tabPage2.Controls.Add(button1);
             tabPage2.Controls.Add(ELFLdrSetup);
@@ -2299,6 +2290,16 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Tools";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(141, 3);
+            button2.Name = "button2";
+            button2.Size = new Size(132, 72);
+            button2.TabIndex = 2;
+            button2.Text = "OG To Tricky";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click_1;
             // 
             // button1
             // 
@@ -2322,15 +2323,15 @@
             ELFLdrSetup.UseVisualStyleBackColor = true;
             ELFLdrSetup.Click += ELFLdrSetup_Click;
             // 
-            // button2
+            // button3
             // 
-            button2.Location = new Point(318, 163);
-            button2.Name = "button2";
-            button2.Size = new Size(132, 72);
-            button2.TabIndex = 2;
-            button2.Text = "OG To Tricky";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click_1;
+            button3.Location = new Point(3, 323);
+            button3.Name = "button3";
+            button3.Size = new Size(132, 72);
+            button3.TabIndex = 3;
+            button3.Text = "Tricky Scale";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // TrickyToolsWindow
             // 
@@ -2603,5 +2604,6 @@
         private Label label79;
         private Label IKGC;
         private Button button2;
+        private Button button3;
     }
 }

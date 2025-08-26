@@ -16,7 +16,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 {
     public class TrickyScaler
     {
-        public void ProjectScaler(string LoadPath, float Scale)
+        public static void ProjectScaler(string LoadPath, float Scale)
         {
             //Patches - Done
             //Instances - Done
@@ -90,9 +90,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
                 {
                     var PrefabObject = Prefab.PrefabObjects[j];
 
-                    PrefabObject.Position[0] = PrefabObject.Position[0] * Scale;
-                    PrefabObject.Position[1] = PrefabObject.Position[1] * Scale;
-                    PrefabObject.Position[2] = PrefabObject.Position[2] * Scale;
+                    if (PrefabObject.Position != null)
+                    {
+                        PrefabObject.Position[0] = PrefabObject.Position[0] * Scale;
+                        PrefabObject.Position[1] = PrefabObject.Position[1] * Scale;
+                        PrefabObject.Position[2] = PrefabObject.Position[2] * Scale;
+                    }
 
                     Prefab.PrefabObjects[j] = PrefabObject;
                 }
@@ -192,7 +195,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             //Collision
 
             //Read through each line of models and scale V points
-            paths = Directory.GetFiles(TempPath + "\\Collison\\", "*.obj");
+            paths = Directory.GetFiles(TempPath + "\\Collision\\", "*.obj");
             for (int i = 0; i < paths.Length; i++)
             {
                 string[] Lines = File.ReadAllLines(paths[i]);
@@ -215,7 +218,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
 
             //Path General AI
-            AIPSOPJsonHandler aIPSOPJsonHandler = AIPSOPJsonHandler.Load(TempPath + "AIP.json");
+            AIPSOPJsonHandler aIPSOPJsonHandler = AIPSOPJsonHandler.Load(TempPath + "//AIP.json");
 
             //Convert points from array to vectors
             //Scale
@@ -226,7 +229,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
                 aIPSOPJsonHandler.AIPaths[i].PathPos[1] = aIPSOPJsonHandler.AIPaths[i].PathPos[1] * Scale;
                 aIPSOPJsonHandler.AIPaths[i].PathPos[2] = aIPSOPJsonHandler.AIPaths[i].PathPos[2] * Scale;
 
-                for (global::System.Int32 j = 0; j < aIPSOPJsonHandler.AIPaths[i].PathPoints.Length; j++)
+                for (global::System.Int32 j = 0; j < aIPSOPJsonHandler.AIPaths[i].PathPoints.GetLength(0); j++)
                 {
                     aIPSOPJsonHandler.AIPaths[i].PathPoints[j, 0] = aIPSOPJsonHandler.AIPaths[i].PathPoints[j, 0] * Scale;
                     aIPSOPJsonHandler.AIPaths[i].PathPoints[j, 1] = aIPSOPJsonHandler.AIPaths[i].PathPoints[j, 1] * Scale;
@@ -251,29 +254,34 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             //Path General Raceline
             for (int i = 0; i < aIPSOPJsonHandler.RaceLines.Count; i++)
             {
-                aIPSOPJsonHandler.RaceLines[i].PathPos[0] = aIPSOPJsonHandler.RaceLines[i].PathPos[0] * Scale;
-                aIPSOPJsonHandler.RaceLines[i].PathPos[1] = aIPSOPJsonHandler.RaceLines[i].PathPos[1] * Scale;
-                aIPSOPJsonHandler.RaceLines[i].PathPos[2] = aIPSOPJsonHandler.RaceLines[i].PathPos[2] * Scale;
+                var RaceLine = aIPSOPJsonHandler.RaceLines[i];
+                RaceLine.DistanceToFinish = RaceLine.DistanceToFinish * Scale;
 
-                for (global::System.Int32 j = 0; j < aIPSOPJsonHandler.RaceLines[i].PathPoints.Length; j++)
+                RaceLine.PathPos[0] = RaceLine.PathPos[0] * Scale;
+                RaceLine.PathPos[1] = RaceLine.PathPos[1] * Scale;
+                RaceLine.PathPos[2] = RaceLine.PathPos[2] * Scale;
+
+                for (global::System.Int32 j = 0; j < RaceLine.PathPoints.GetLength(0); j++)
                 {
-                    aIPSOPJsonHandler.RaceLines[i].PathPoints[j, 0] = aIPSOPJsonHandler.RaceLines[i].PathPoints[j, 0] * Scale;
-                    aIPSOPJsonHandler.RaceLines[i].PathPoints[j, 1] = aIPSOPJsonHandler.RaceLines[i].PathPoints[j, 1] * Scale;
-                    aIPSOPJsonHandler.RaceLines[i].PathPoints[j, 2] = aIPSOPJsonHandler.RaceLines[i].PathPoints[j, 2] * Scale;
+                    RaceLine.PathPoints[j, 0] = RaceLine.PathPoints[j, 0] * Scale;
+                    RaceLine.PathPoints[j, 1] = RaceLine.PathPoints[j, 1] * Scale;
+                    RaceLine.PathPoints[j, 2] = RaceLine.PathPoints[j, 2] * Scale;
                 }
 
-                for (global::System.Int32 j = 0; j < aIPSOPJsonHandler.RaceLines[i].PathEvents.Count; j++)
+                for (global::System.Int32 j = 0; j < RaceLine.PathEvents.Count; j++)
                 {
-                    var PathEvents = aIPSOPJsonHandler.RaceLines[i].PathEvents[j];
+                    var PathEvents = RaceLine.PathEvents[j];
 
                     PathEvents.EventStart = PathEvents.EventStart * Scale;
                     PathEvents.EventEnd = PathEvents.EventEnd * Scale;
 
-                    aIPSOPJsonHandler.RaceLines[i].PathEvents[j] = PathEvents;
+                    RaceLine.PathEvents[j] = PathEvents;
                 }
+
+                aIPSOPJsonHandler.RaceLines[i] = RaceLine;
             }
 
-            aIPSOPJsonHandler.CreateJson(TempPath + "AIP.json");
+            aIPSOPJsonHandler.CreateJson(TempPath + "//AIP.json");
 
             //SOP General AI
             aIPSOPJsonHandler = AIPSOPJsonHandler.Load(TempPath + "SOP.json");
@@ -287,7 +295,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
                 aIPSOPJsonHandler.AIPaths[i].PathPos[1] = aIPSOPJsonHandler.AIPaths[i].PathPos[1] * Scale;
                 aIPSOPJsonHandler.AIPaths[i].PathPos[2] = aIPSOPJsonHandler.AIPaths[i].PathPos[2] * Scale;
 
-                for (global::System.Int32 j = 0; j < aIPSOPJsonHandler.AIPaths[i].PathPoints.Length; j++)
+                for (global::System.Int32 j = 0; j < aIPSOPJsonHandler.AIPaths[i].PathPoints.GetLength(0); j++)
                 {
                     aIPSOPJsonHandler.AIPaths[i].PathPoints[j, 0] = aIPSOPJsonHandler.AIPaths[i].PathPoints[j, 0] * Scale;
                     aIPSOPJsonHandler.AIPaths[i].PathPoints[j, 1] = aIPSOPJsonHandler.AIPaths[i].PathPoints[j, 1] * Scale;
@@ -312,37 +320,44 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             //SOP General Raceline
             for (int i = 0; i < aIPSOPJsonHandler.RaceLines.Count; i++)
             {
-                aIPSOPJsonHandler.RaceLines[i].PathPos[0] = aIPSOPJsonHandler.RaceLines[i].PathPos[0] * Scale;
-                aIPSOPJsonHandler.RaceLines[i].PathPos[1] = aIPSOPJsonHandler.RaceLines[i].PathPos[1] * Scale;
-                aIPSOPJsonHandler.RaceLines[i].PathPos[2] = aIPSOPJsonHandler.RaceLines[i].PathPos[2] * Scale;
+                var RaceLine = aIPSOPJsonHandler.RaceLines[i];
+                RaceLine.DistanceToFinish = RaceLine.DistanceToFinish * Scale;
 
-                for (global::System.Int32 j = 0; j < aIPSOPJsonHandler.RaceLines[i].PathPoints.Length; j++)
+                RaceLine.PathPos[0] = RaceLine.PathPos[0] * Scale;
+                RaceLine.PathPos[1] = RaceLine.PathPos[1] * Scale;
+                RaceLine.PathPos[2] = RaceLine.PathPos[2] * Scale;
+
+                for (global::System.Int32 j = 0; j < RaceLine.PathPoints.GetLength(0); j++)
                 {
-                    aIPSOPJsonHandler.RaceLines[i].PathPoints[j, 0] = aIPSOPJsonHandler.RaceLines[i].PathPoints[j, 0] * Scale;
-                    aIPSOPJsonHandler.RaceLines[i].PathPoints[j, 1] = aIPSOPJsonHandler.RaceLines[i].PathPoints[j, 1] * Scale;
-                    aIPSOPJsonHandler.RaceLines[i].PathPoints[j, 2] = aIPSOPJsonHandler.RaceLines[i].PathPoints[j, 2] * Scale;
+                    RaceLine.PathPoints[j, 0] = RaceLine.PathPoints[j, 0] * Scale;
+                    RaceLine.PathPoints[j, 1] = RaceLine.PathPoints[j, 1] * Scale;
+                    RaceLine.PathPoints[j, 2] = RaceLine.PathPoints[j, 2] * Scale;
                 }
 
-                for (global::System.Int32 j = 0; j < aIPSOPJsonHandler.RaceLines[i].PathEvents.Count; j++)
+                for (global::System.Int32 j = 0; j < RaceLine.PathEvents.Count; j++)
                 {
-                    var PathEvents = aIPSOPJsonHandler.RaceLines[i].PathEvents[j];
+                    var PathEvents = RaceLine.PathEvents[j];
 
                     PathEvents.EventStart = PathEvents.EventStart * Scale;
                     PathEvents.EventEnd = PathEvents.EventEnd * Scale;
 
-                    aIPSOPJsonHandler.RaceLines[i].PathEvents[j] = PathEvents;
+                    RaceLine.PathEvents[j] = PathEvents;
                 }
+
+                aIPSOPJsonHandler.RaceLines[i] = RaceLine;
             }
 
-            aIPSOPJsonHandler.CreateJson(TempPath + "SOP.json");
+            aIPSOPJsonHandler.CreateJson(TempPath + "//SOP.json");
 
             Console.WriteLine("Begining Level Rebuild...");
 
             trickyLevelInterface = new TrickyLevelInterface();
 
-            trickyLevelInterface.BuildTrickyLevelFiles(TempPath, LoadPath);
+            trickyLevelInterface.BuildTrickyLevelFiles(TempPath, LoadPath + ".map");
 
             ConsoleWindow.CloseConsole();
+
+            Directory.Delete(TempPath, true);
         }
     }
 }
