@@ -16,13 +16,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
     public class SSXOGToTricky
     {
         //Patches - Done
-        //Prefabs
-        //Instances
+        //Prefabs -
+        //Instances - 
         //Materials - Done
         //Splines - Done
-        //AIP & SOP
-        //Lights
-        //SSF Logic
+        //AIP & SOP - Done but theres issues
+        //Lights - Unknown in OG
+        //SSF Logic - Unknown in OG
         //Skybox Materials - Done
         //Skybox Prefabs - Done
         //Skybox Models - Done
@@ -211,8 +211,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
                 TrickyAIPJson.AIPaths.Add(TempAI);
             }
-
-
 
             for (int i = 0; i < OGAIPJson.RaceLine.Count; i++)
             {
