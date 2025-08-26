@@ -340,7 +340,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
             {
                 var NewLevelInfo = new LevelJsonHandler.LevelInfo();
 
-                NewLevelInfo.TrackID = 0;
+                NewLevelInfo.TrackID = i;
                 NewLevelInfo.LevelName = sdbHandler.locations[i].Name;
 
                 levelJsonHandler.LevelInfoList.Add(NewLevelInfo);
