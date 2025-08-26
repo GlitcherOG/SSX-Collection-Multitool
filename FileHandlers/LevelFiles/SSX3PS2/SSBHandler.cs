@@ -123,6 +123,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                 int ChunkID = -1;
                 Directory.CreateDirectory(extractPath + "//Textures");
                 Directory.CreateDirectory(extractPath + "//Lightmaps");
+                Directory.CreateDirectory(extractPath + "//Levels");
                 while (true)
                 {
                     if (stream.Position >= stream.Length - 1)
@@ -141,11 +142,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     if (MagicWords.ToUpper() == "CEND")
                     {
                         ChunkID = sdbHandler.FindLocationChunk(a);
-                        Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name);
-                        //Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Textures");
-                        Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Models");
-                        Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Sounds");
-                        //Directory.CreateDirectory(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Lightmaps");
+                        Directory.CreateDirectory(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name);
+                        Directory.CreateDirectory(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Models");
+                        Directory.CreateDirectory(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Sounds");
                         memoryStream.Position = 0;
 
                         while (memoryStream.Position < memoryStream.Length)
@@ -159,7 +158,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             byte[] NewData = StreamUtil.ReadBytes(memoryStream, ChunkSize);
                             StreamUtil.WriteBytes(memoryStream1, NewData);
 
-                            string ExtractPath = extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//";
+                            string LevelExtractPath = extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//";
                             string Path = RID + "-" + TrackID + "-" + FilePos;
 
                             if (ID == 0)
@@ -180,12 +179,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 2)
                             {
-                                Console.WriteLine(ExtractPath + "//Models//" + RID + ".glb");
+                                Console.WriteLine(LevelExtractPath + "//Models//" + RID + ".glb");
                                 WorldMDR worldMDR = new WorldMDR();
 
                                 worldMDR.LoadData(memoryStream1);
 
-                                mdrJsonHandler.mainModelHeaders.Add(worldMDR.SaveModel(ExtractPath + "//Models//"));
+                                mdrJsonHandler.mainModelHeaders.Add(worldMDR.SaveModel(LevelExtractPath + "//Models//"));
                                 //worldMDR.SaveModelGLB(ExtractPath + "//Models//" + RID + ".glb");
                             }
                             else if (ID == 3)
@@ -256,23 +255,23 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 14)
                             {
-                                Console.WriteLine(ExtractPath + "AIP.json");
+                                Console.WriteLine(LevelExtractPath + "AIP.json");
                                 WorldAIP worldAIP = new WorldAIP();
                                 worldAIP.LoadData(NewData);
-                                worldAIP.ToJson(ExtractPath + "AIP.json");
+                                worldAIP.ToJson(LevelExtractPath + "AIP.json");
                             }
                             else if (ID == 14)
                             {
-                                Console.WriteLine(ExtractPath + "Bin18.json");
+                                Console.WriteLine(LevelExtractPath + "Bin18.json");
                                 WorldBin18 worldBin18 = new WorldBin18();
                                 worldBin18.LoadData(stream);
 
-                                worldBin18.ToJson(ExtractPath + "Bin18.json");
+                                worldBin18.ToJson(LevelExtractPath + "Bin18.json");
                             }
                             else if (ID == 20)
                             {
-                                Console.WriteLine(ExtractPath + "//Sounds//" + Path + ".bnk");
-                                var file = File.Create(ExtractPath + "//Sounds//" + Path + ".bnk");
+                                Console.WriteLine(LevelExtractPath + "//Sounds//" + Path + ".bnk");
+                                var file = File.Create(LevelExtractPath + "//Sounds//" + Path + ".bnk");
                                 memoryStream1.Position = 0;
                                 memoryStream1.CopyTo(file);
                                 memoryStream1.Dispose();
@@ -281,8 +280,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else
                             {
-                                Console.WriteLine(ExtractPath + Path + ".bin" + ID);
-                                var file = File.Create(ExtractPath + Path + ".bin" + ID);
+                                Console.WriteLine(LevelExtractPath + Path + ".bin" + ID);
+                                var file = File.Create(LevelExtractPath + Path + ".bin" + ID);
                                 memoryStream1.Position = 0;
                                 memoryStream1.CopyTo(file);
                                 memoryStream1.Dispose();
@@ -333,6 +332,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                     }
                 }
             }
+
+            //Save Info Config File
+            LevelJsonHandler levelJsonHandler = new LevelJsonHandler();
+            levelJsonHandler.LevelInfoList = new List<LevelJsonHandler.LevelInfo>();
+            for (int i = 0; i < sdbHandler.locations.Count; i++)
+            {
+                var NewLevelInfo = new LevelJsonHandler.LevelInfo();
+
+                NewLevelInfo.TrackID = 0;
+                NewLevelInfo.LevelName = sdbHandler.locations[i].Name;
+
+                levelJsonHandler.LevelInfoList.Add(NewLevelInfo);
+            }
+            levelJsonHandler.CreateJson(extractPath + "//Levels.json");
+
             SSX3Config ssx3Config = new SSX3Config();
             ssx3Config.CreateJson(extractPath + "//ConfigSSX3.ssx");
             ConsoleWindow.CloseConsole();

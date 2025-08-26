@@ -437,6 +437,7 @@ namespace SSXMultiTool.FileHandlers.Textures
                 //Write Long Name
 
 
+
                 Image.size = (int)stream.Position - Image.offset;
 
                 sshImages[i] = Image;
