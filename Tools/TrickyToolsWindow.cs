@@ -1,19 +1,10 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
-using SSXMultiTool.FileHandlers;
-using SSXMultiTool.FileHandlers.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.IO;
-using SSXMultiTool.FileHandlers.Models.Tricky;
 using NAudio.Wave;
+using SSXMultiTool.FileHandlers;
 using SSXMultiTool.FileHandlers.LevelFiles.Converters;
+using SSXMultiTool.FileHandlers.Models;
+using SSXMultiTool.FileHandlers.Models.Tricky;
+using System.IO;
 
 namespace SSXMultiTool
 {
@@ -1815,13 +1806,68 @@ namespace SSXMultiTool
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Map File (*.map)|*.map|All files (*.*)|*.*",
+                Filter = "Map File (*.map,*.big)|*.map;*.big|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                TrickyScaler.ProjectScaler(openFileDialog.FileName.Substring(0, openFileDialog.FileName.Length - 4), 0.3f);
+
+                SaveFileDialog openFileDialog1 = new SaveFileDialog
+                {
+                    Filter = "Map File (*.map,*.big)|*.map;*.big|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    string LoadPath = openFileDialog.FileName;
+                    string InputPath = openFileDialog1.FileName;
+                    string BuildPath = openFileDialog1.FileName;
+                    bool LoadBig = false;
+
+                    if (LoadPath.ToLower().Contains(".big"))
+                    {
+                        BigHandler bigHandler = new BigHandler();
+                        bigHandler.LoadBig(openFileDialog.FileName);
+                        bigHandler.ExtractBig(Application.StartupPath + "\\TempExtract");
+                        string[] strings = Directory.GetFiles(Application.StartupPath + "\\TempExtract", "*.map", SearchOption.AllDirectories);
+                        if (strings.Length == 0)
+                        {
+                            MessageBox.Show("Missing Level Files");
+                            return;
+                        }
+                        LoadPath = strings[0];
+                        LoadBig = true;
+                    }
+
+                    if (BuildPath.Contains(".big"))
+                    {
+                        if (!LoadBig)
+                        {
+                            Directory.CreateDirectory(Application.StartupPath + "\\TempExtract");
+                            Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\Data");
+                            Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\data\\models");
+                            InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(BuildPath.ToLower()).Substring(0, Path.GetFileName(BuildPath).Length - 3) + "map";
+                        }
+
+                        TrickyScaler.ProjectScaler(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4), 0.5f);
+
+                        BigHandler bigHandler = new BigHandler();
+                        bigHandler.LoadFolderC0FB(Application.StartupPath + "\\TempExtract");
+                        bigHandler.CompressBuild = true;
+                        bigHandler.BuildBig(BuildPath);
+                    }
+                    else
+                    {
+                        TrickyScaler.ProjectScaler(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4), 0.5f);
+                    }
+
+                    if(Directory.Exists(Application.StartupPath + "\\TempExtract"))
+                    {
+                        Directory.Delete(Application.StartupPath + "\\TempExtract", true);
+                    }
+                }
             }
         }
     }

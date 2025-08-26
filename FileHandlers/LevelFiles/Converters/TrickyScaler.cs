@@ -16,7 +16,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 {
     public class TrickyScaler
     {
-        public static void ProjectScaler(string LoadPath, float Scale)
+        public static void ProjectScaler(string LoadPath, string BuildPath, float Scale)
         {
             //Patches - Done
             //Instances - Done
@@ -122,7 +122,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
                         vector3.Y = float.Parse(splitLine[2], CultureInfo.InvariantCulture.NumberFormat) * Scale;
                         vector3.Z = float.Parse(splitLine[3], CultureInfo.InvariantCulture.NumberFormat) * Scale;
 
-                        Lines[j] = "v " + vector3.X + " " + vector3.Y + " " + vector3.Z;
+                        Lines[j] = "v " + vector3.X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + vector3.Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + vector3.Z.ToString(CultureInfo.InvariantCulture.NumberFormat);
                     }
                 }
                 File.WriteAllLines(paths[i], Lines);
@@ -210,7 +210,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
                         vector3.Y = float.Parse(splitLine[2], CultureInfo.InvariantCulture.NumberFormat) * Scale;
                         vector3.Z = float.Parse(splitLine[3], CultureInfo.InvariantCulture.NumberFormat) * Scale;
 
-                        Lines[j] = "v " + vector3.X + " " + vector3.Y + " " + vector3.Z;
+                        Lines[j] = "v " + vector3.X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + vector3.Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + vector3.Z.ToString(CultureInfo.InvariantCulture.NumberFormat);
                     }
                 }
                 File.WriteAllLines(paths[i], Lines);
@@ -353,7 +353,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
             trickyLevelInterface = new TrickyLevelInterface();
 
-            trickyLevelInterface.BuildTrickyLevelFiles(TempPath, LoadPath + ".map");
+            trickyLevelInterface.BuildTrickyLevelFiles(TempPath, BuildPath + ".map");
 
             ConsoleWindow.CloseConsole();
 
