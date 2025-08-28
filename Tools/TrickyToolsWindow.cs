@@ -1838,8 +1838,14 @@ namespace SSXMultiTool
                             return;
                         }
                         LoadPath = strings[0];
+                        if (BuildPath.Contains(".big"))
+                        {
+                            InputPath = strings[0];
+                        }
                         LoadBig = true;
                     }
+
+                    float Scale = 0.6f;
 
                     if (BuildPath.Contains(".big"))
                     {
@@ -1851,7 +1857,7 @@ namespace SSXMultiTool
                             InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(BuildPath.ToLower()).Substring(0, Path.GetFileName(BuildPath).Length - 3) + "map";
                         }
 
-                        TrickyScaler.ProjectScaler(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4), 0.5f);
+                        TrickyScaler.ProjectScaler(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4), Scale);
 
                         BigHandler bigHandler = new BigHandler();
                         bigHandler.LoadFolderC0FB(Application.StartupPath + "\\TempExtract");
@@ -1860,7 +1866,7 @@ namespace SSXMultiTool
                     }
                     else
                     {
-                        TrickyScaler.ProjectScaler(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4), 0.5f);
+                        TrickyScaler.ProjectScaler(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4), Scale);
                     }
 
                     if(Directory.Exists(Application.StartupPath + "\\TempExtract"))

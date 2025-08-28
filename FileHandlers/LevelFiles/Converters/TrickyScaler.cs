@@ -284,7 +284,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             aIPSOPJsonHandler.CreateJson(TempPath + "//AIP.json");
 
             //SOP General AI
-            aIPSOPJsonHandler = AIPSOPJsonHandler.Load(TempPath + "SOP.json");
+            aIPSOPJsonHandler = AIPSOPJsonHandler.Load(TempPath + "//SOP.json");
 
             //Convert points from array to vectors
             //Scale
