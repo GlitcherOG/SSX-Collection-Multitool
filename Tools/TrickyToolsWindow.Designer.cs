@@ -226,10 +226,11 @@
             label24 = new Label();
             HDRTime = new Label();
             tabPage2 = new TabPage();
+            button4 = new Button();
+            button3 = new Button();
             button2 = new Button();
             button1 = new Button();
             ELFLdrSetup = new Button();
-            button3 = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -2280,6 +2281,7 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(button4);
             tabPage2.Controls.Add(button3);
             tabPage2.Controls.Add(button2);
             tabPage2.Controls.Add(button1);
@@ -2291,9 +2293,29 @@
             tabPage2.Text = "Tools";
             tabPage2.UseVisualStyleBackColor = true;
             // 
+            // button4
+            // 
+            button4.Location = new Point(633, 3);
+            button4.Name = "button4";
+            button4.Size = new Size(132, 72);
+            button4.TabIndex = 4;
+            button4.Text = "Tricky Scale";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(495, 88);
+            button3.Name = "button3";
+            button3.Size = new Size(132, 72);
+            button3.TabIndex = 3;
+            button3.Text = "Tricky Scale";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // button2
             // 
-            button2.Location = new Point(141, 3);
+            button2.Location = new Point(495, 3);
             button2.Name = "button2";
             button2.Size = new Size(132, 72);
             button2.TabIndex = 2;
@@ -2304,7 +2326,7 @@
             // button1
             // 
             button1.Enabled = false;
-            button1.Location = new Point(174, 282);
+            button1.Location = new Point(40, 153);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 1;
@@ -2322,16 +2344,6 @@
             ELFLdrSetup.Text = "Setup For ELFLdr";
             ELFLdrSetup.UseVisualStyleBackColor = true;
             ELFLdrSetup.Click += ELFLdrSetup_Click;
-            // 
-            // button3
-            // 
-            button3.Location = new Point(3, 323);
-            button3.Name = "button3";
-            button3.Size = new Size(132, 72);
-            button3.TabIndex = 3;
-            button3.Text = "Tricky Scale";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
             // 
             // TrickyToolsWindow
             // 
@@ -2605,5 +2617,6 @@
         private Label IKGC;
         private Button button2;
         private Button button3;
+        private Button button4;
     }
 }
