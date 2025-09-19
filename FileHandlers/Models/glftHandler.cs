@@ -1295,6 +1295,7 @@ namespace SSXMultiTool.FileHandlers
             TrickyPS2ModelCombiner trickyModelCombiner = new TrickyPS2ModelCombiner();
             trickyModelCombiner.materials = new List<TrickyPS2MPF.MaterialData>();
             trickyModelCombiner.reassignedMesh = new List<TrickyPS2ModelCombiner.ReassignedMesh>();
+            ErrorUtil.Error = "Failed to Load File. (Error with GLB File)";
             var Scene = SharpGLTF.Scenes.SceneBuilder.LoadDefaultScene(Path);
             var Instances = Scene.Instances.ToArray();
 

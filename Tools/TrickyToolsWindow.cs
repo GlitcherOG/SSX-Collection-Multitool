@@ -4,6 +4,7 @@ using SSXMultiTool.FileHandlers;
 using SSXMultiTool.FileHandlers.LevelFiles.Converters;
 using SSXMultiTool.FileHandlers.Models;
 using SSXMultiTool.FileHandlers.Models.Tricky;
+using SSXMultiTool.Utilities;
 using System.IO;
 
 namespace SSXMultiTool
@@ -214,7 +215,7 @@ namespace SSXMultiTool
                         }
                         catch
                         {
-                            MessageBox.Show("Failed to Load File");
+                            MessageBox.Show(ErrorUtil.Error);
                         }
                         if (TempCombiner != null)
                         {
@@ -228,7 +229,7 @@ namespace SSXMultiTool
                             }
                             catch
                             {
-                                MessageBox.Show("Failed to Convert File");
+                                MessageBox.Show(ErrorUtil.Error);
                             }
                         }
                     }

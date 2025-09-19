@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SSXMultiTool.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using System.Numerics;
 
 namespace SSXMultiTool.FileHandlers.Models.Tricky
 {
@@ -501,6 +502,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 }
             }
 
+            ErrorUtil.Error = "Error Converting Materials From GLB to Tricky";
             for (int a = 0; a < MaterialsID.Count; a++)
             {
                 TrickyPS2MPF.MaterialData MaterialData = new TrickyPS2MPF.MaterialData();
@@ -532,6 +534,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 TempTrickyMesh.materialDatas.Add(MaterialData);
             }
 
+            ErrorUtil.Error = "Miss assigned Material";
             for (int a = 0; a < ReassignedMesh.faces.Count; a++)
             {
                 int Index = MaterialsID.IndexOf(ReassignedMesh.faces[a].MaterialID);
@@ -544,7 +547,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
             //Redo Data In Correct Formats IE make Weight List and make faces use the positions.
             TempTrickyMesh.boneWeightHeader = new List<TrickyPS2MPF.BoneWeightHeader>();
-            
+            ErrorUtil.Error = "Error Converting Weights to Tricky Format";
+
             //Load Headers into file
             for (int i = 0; i < ReassignedMesh.faces.Count; i++)
             {
@@ -575,6 +579,8 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                 ReassignedMesh.faces[i] = TempFace;
             }
+
+            ErrorUtil.Error = "Error Correcting BoneIDs";
             //Correct Bone File ID
             for (int i = 0; i < TempTrickyMesh.boneWeightHeader.Count; i++)
             {
@@ -590,10 +596,12 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 }
                 TempTrickyMesh.boneWeightHeader[i] = TempHeader;
             }
+
             //Take faces and Generate Indce faces and giant vertex list
             List<VectorPoint> VectorPoint = new List<VectorPoint>();
             List<TristripGenerator.IndiceFace> indiceFaces = new List<TristripGenerator.IndiceFace>();
 
+            ErrorUtil.Error = "Error Converting To Vertex List";
             for (int a = 0; a < ReassignedMesh.faces.Count; a++)
             {
                 TristripGenerator.IndiceFace TempFace = new TristripGenerator.IndiceFace();
@@ -789,11 +797,13 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 indiceFaces.Add(TempFace);
             }
 
+            ErrorUtil.Error = "Error Generating Tristrip";
             indiceFaces = TristripGenerator.NeighbourPriority(indiceFaces);
 
             //Send to Tristrip Generator
             List<TristripGenerator.IndiceTristrip> indiceTristrips = TristripGenerator.GenerateTristripNivda(indiceFaces);
 
+            ErrorUtil.Error = "Error Generating Static Mesh";
             //Static mesh that shit
             TempTrickyMesh.MeshGroups = new List<TrickyPS2MPF.GroupMainHeader>();
             List<TrickyPS2MPF.MeshChunk> meshList = new List<TrickyPS2MPF.MeshChunk>();
@@ -895,6 +905,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 }
             }
 
+            ErrorUtil.Error = "Error Grouping Static Mesh";
             //Group that shit MK2
             while (true)
             {
@@ -1038,7 +1049,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 }
             }
 
-
+            ErrorUtil.Error = "Error Generating UV and Weight Refrences";
             //Generate Number Ref and correct UV
             //Prephaps Move into static meshing
             TempTrickyMesh.numberListRefs = new List<TrickyPS2MPF.WeightRefList>();
@@ -1096,6 +1107,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
             }
 
             //Update IK Points
+            ErrorUtil.Error = "Error Updating IK Points";
             TempTrickyMesh.iKPoints = ReassignedMesh.IKPoints;
             Board.ModelList[Selected] = TempTrickyMesh;
             MessageBox.Show("Import Sucessful");
@@ -1268,6 +1280,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 List<int> MaterialsID = new List<int>();
                 List<int> RedoneMaterial = new List<int>();
                 //Regenerate Materials
+                ErrorUtil.Error = "Error Regenerating Materials";
                 TempTrickyMesh.materialDatas = new List<TrickyPS2MPF.MaterialData>();
                 for (int a = 0; a < TempReMesh.faces.Count; a++)
                 {
@@ -1320,6 +1333,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     TempTrickyMesh.materialDatas.Add(MaterialData);
                 }
 
+                ErrorUtil.Error = "Error Updating Material IDs";
                 for (int a = 0; a < TempReMesh.faces.Count; a++)
                 {
                     int Index = MaterialsID.IndexOf(TempReMesh.faces[a].MaterialID);
@@ -1335,6 +1349,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 TempTrickyMesh.boneWeightHeader = new List<TrickyPS2MPF.BoneWeightHeader>();
 
                 //Load Headers into file
+                ErrorUtil.Error = "Error Updating Weights";
                 for (int a = 0; a < TempReMesh.faces.Count; a++)
                 {
                     var TempFace = TempReMesh.faces[a];
@@ -1366,6 +1381,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 }
 
                 //Fix Bone ID/FileIDs
+                ErrorUtil.Error = "Error fixing BoneIDs and FileIDs";
                 for (int a = 0; a < TempTrickyMesh.boneWeightHeader.Count; a++)
                 {
                     var TempBoneHeader = TempTrickyMesh.boneWeightHeader[a];
@@ -1386,6 +1402,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 //Take faces and Generate Indce faces and giant vertex list for each material
                 List<VectorPoint> VectorPoint = new List<VectorPoint>();
                 List<TristripGenerator.IndiceFace> indiceFaces = new List<TristripGenerator.IndiceFace>();
+                ErrorUtil.Error = "Error Generating Vertex List";
                 for (int a = 0; a < TempReMesh.faces.Count; a++)
                 {
                     TristripGenerator.IndiceFace TempFace = new TristripGenerator.IndiceFace();
@@ -1581,6 +1598,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     indiceFaces.Add(TempFace);
                 }
 
+                ErrorUtil.Error = "Error Generating Tristrip";
 
                 indiceFaces = TristripGenerator.NeighbourPriority(indiceFaces);
 
@@ -1596,7 +1614,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 //Static mesh that shit
                 TempTrickyMesh.MeshGroups = new List<TrickyPS2MPF.GroupMainHeader>();
                 List<TrickyPS2MPF.MeshChunk> meshList = new List<TrickyPS2MPF.MeshChunk>();
-
+                ErrorUtil.Error = "Error Generating Mesh";
                 for (int a = 0; a < TempTrickyMesh.materialDatas.Count; a++)
                 {
                     while (true)
@@ -1695,6 +1713,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                 }
 
                 //Group that shit MK2
+                ErrorUtil.Error = "Error Generating Mesh Groups";
                 while (true)
                 {
                     bool FirstAdd = true;
