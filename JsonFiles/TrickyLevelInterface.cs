@@ -476,7 +476,7 @@ namespace SSXMultiTool
                 TempModel.PrefabName = mapHandler.Models[i].Name;
                 TempModel.Unknown3 = pbdHandler.PrefabData[i].Unknown3;
                 TempModel.AnimTime = pbdHandler.PrefabData[i].AnimTime;
-                TempModel.PrefabObjects = new();
+                TempModel.ModelObjects = new();
 
                 for (int a = 0; a < pbdHandler.PrefabData[i].PrefabObjects.Count; a++)
                 {
@@ -552,7 +552,7 @@ namespace SSXMultiTool
                         TempPrefabObject.Animation = TempAnimation;
                     }
 
-                    TempModel.PrefabObjects.Add(TempPrefabObject);
+                    TempModel.ModelObjects.Add(TempPrefabObject);
                 }
 
                 prefabJsonHandler.Models.Add(TempModel);
@@ -1124,7 +1124,7 @@ namespace SSXMultiTool
 
                     TempModel.Unknown3 = skypbdHandler.PrefabData[i].Unknown3;
                     TempModel.AnimTime = skypbdHandler.PrefabData[i].AnimTime;
-                    TempModel.PrefabObjects = new();
+                    TempModel.ModelObjects = new();
 
                     for (int a = 0; a < skypbdHandler.PrefabData[i].PrefabObjects.Count; a++)
                     {
@@ -1199,7 +1199,7 @@ namespace SSXMultiTool
                             TempPrefabObject.Animation = TempAnimation;
                         }
 
-                        TempModel.PrefabObjects.Add(TempPrefabObject);
+                        TempModel.ModelObjects.Add(TempPrefabObject);
                     }
 
                     SkyPrefabJsonHandler.Models.Add(TempModel);
@@ -1760,19 +1760,19 @@ namespace SSXMultiTool
 
                     NewMaterialBlock.ints = new List<int>();
 
-                    for (int a = 0; a < prefabJsonHandler.Models[i].PrefabObjects.Count; a++)
+                    for (int a = 0; a < prefabJsonHandler.Models[i].ModelObjects.Count; a++)
                     {
-                        var TempObject = TempPrefab.PrefabObjects[a];
-                        for (int b = 0; b < prefabJsonHandler.Models[i].PrefabObjects[a].MeshData.Count; b++)
+                        var TempObject = TempPrefab.ModelObjects[a];
+                        for (int b = 0; b < prefabJsonHandler.Models[i].ModelObjects[a].MeshData.Count; b++)
                         {
                             var TempMesh = TempObject.MeshData[b];
-                            NewMaterialBlock.ints.Add(prefabJsonHandler.Models[i].PrefabObjects[a].MeshData[b].MaterialID);
+                            NewMaterialBlock.ints.Add(prefabJsonHandler.Models[i].ModelObjects[a].MeshData[b].MaterialID);
 
                             TempMesh.MaterialID = NewMaterialBlock.ints.Count - 1;
 
                             TempObject.MeshData[b] = TempMesh;
                         }
-                        TempPrefab.PrefabObjects[a] = TempObject;
+                        TempPrefab.ModelObjects[a] = TempObject;
                     }
                     prefabJsonHandler.Models[i] = TempPrefab;
                     pbdHandler.materialBlocks.Add(NewMaterialBlock);
@@ -1797,9 +1797,9 @@ namespace SSXMultiTool
                     //NonTriCunt
 
                     NewPrefab.PrefabObjects = new List<ObjectHeader>();
-                    for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
+                    for (int a = 0; a < TempPrefab.ModelObjects.Count; a++)
                     {
-                        var TempObject = TempPrefab.PrefabObjects[a];
+                        var TempObject = TempPrefab.ModelObjects[a];
                         var NewObject = new ObjectHeader();
                         NewObject.ParentID = TempObject.ParentID;
 
@@ -2618,19 +2618,19 @@ namespace SSXMultiTool
 
                     NewMaterialBlock.ints = new List<int>();
 
-                    for (int a = 0; a < SkyPrefabJsonHandler.Models[i].PrefabObjects.Count; a++)
+                    for (int a = 0; a < SkyPrefabJsonHandler.Models[i].ModelObjects.Count; a++)
                     {
-                        var TempObject = TempPrefab.PrefabObjects[a];
-                        for (int b = 0; b < SkyPrefabJsonHandler.Models[i].PrefabObjects[a].MeshData.Count; b++)
+                        var TempObject = TempPrefab.ModelObjects[a];
+                        for (int b = 0; b < SkyPrefabJsonHandler.Models[i].ModelObjects[a].MeshData.Count; b++)
                         {
                             var TempMesh = TempObject.MeshData[b];
-                            NewMaterialBlock.ints.Add(SkyPrefabJsonHandler.Models[i].PrefabObjects[a].MeshData[b].MaterialID);
+                            NewMaterialBlock.ints.Add(SkyPrefabJsonHandler.Models[i].ModelObjects[a].MeshData[b].MaterialID);
 
                             TempMesh.MaterialID = NewMaterialBlock.ints.Count - 1;
 
                             TempObject.MeshData[b] = TempMesh;
                         }
-                        TempPrefab.PrefabObjects[a] = TempObject;
+                        TempPrefab.ModelObjects[a] = TempObject;
                     }
                     SkyPrefabJsonHandler.Models[i] = TempPrefab;
                     skyboxpbdHander.materialBlocks.Add(NewMaterialBlock);
@@ -2655,9 +2655,9 @@ namespace SSXMultiTool
                     //NonTriCunt
 
                     NewPrefab.PrefabObjects = new List<ObjectHeader>();
-                    for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
+                    for (int a = 0; a < TempPrefab.ModelObjects.Count; a++)
                     {
-                        var TempObject = TempPrefab.PrefabObjects[a];
+                        var TempObject = TempPrefab.ModelObjects[a];
                         var NewObject = new ObjectHeader();
                         NewObject.ParentID = TempObject.ParentID;
 

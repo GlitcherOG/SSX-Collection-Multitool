@@ -85,9 +85,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             {
                 var Prefab = prefabsJsonHandler.Models[i];
 
-                for (global::System.Int32 j = 0; j < Prefab.PrefabObjects.Count; j++)
+                for (global::System.Int32 j = 0; j < Prefab.ModelObjects.Count; j++)
                 {
-                    var PrefabObject = Prefab.PrefabObjects[j];
+                    var PrefabObject = Prefab.ModelObjects[j];
 
                     if (PrefabObject.Position != null)
                     {
@@ -96,7 +96,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
                         //PrefabObject.Position[2] = PrefabObject.Position[2] * Scale;
                     }
 
-                    Prefab.PrefabObjects[j] = PrefabObject;
+                    Prefab.ModelObjects[j] = PrefabObject;
                 }
 
                 prefabsJsonHandler.Models[i] = Prefab;

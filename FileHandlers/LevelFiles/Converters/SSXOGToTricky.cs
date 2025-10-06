@@ -295,7 +295,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
             Prefab.PrefabName = "Skybox Prefab 0";
             Prefab.Unknown3 = 3;
-            Prefab.PrefabObjects = new List<JsonFiles.Tricky.ModelJsonHandler.ObjectHeader>();
+            Prefab.ModelObjects = new List<JsonFiles.Tricky.ModelJsonHandler.ObjectHeader>();
 
             var PrefabObject = new JsonFiles.Tricky.ModelJsonHandler.ObjectHeader();
 
@@ -313,7 +313,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
                 PrefabObject.MeshData.Add(MeshData);
             }
 
-            Prefab.PrefabObjects.Add(PrefabObject);
+            Prefab.ModelObjects.Add(PrefabObject);
             TrickySkyboxPrefabJsonHandler.Models.Add(Prefab);
 
             TrickySkyboxPrefabJsonHandler.CreateJson(TempPathTricky + "/Skybox/Models.json", false);
