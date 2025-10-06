@@ -123,11 +123,11 @@ namespace SSXMultiTool
             MaterialLabel.Text = trickyLevelInterface.materialJson.Materials.Count.ToString();
             SplinesLabel.Text = trickyLevelInterface.splineJsonHandler.Splines.Count.ToString();
             LightLabel.Text = trickyLevelInterface.lightJsonHandler.Lights.Count.ToString();
-            ModelsLabel.Text = trickyLevelInterface.prefabJsonHandler.Prefabs.Count.ToString();
+            ModelsLabel.Text = trickyLevelInterface.prefabJsonHandler.Models.Count.ToString();
             ParticleModelLabels.Text = trickyLevelInterface.particleModelJsonHandler.ParticlePrefabs.Count.ToString();
 
             SkyMat.Text = trickyLevelInterface.SkyMaterialJson.Materials.Count.ToString();
-            SkyModel.Text = trickyLevelInterface.SkyPrefabJsonHandler.Prefabs.Count.ToString();
+            SkyModel.Text = trickyLevelInterface.SkyPrefabJsonHandler.Models.Count.ToString();
 
             if (ProjectPath != null && ProjectPath != "")
             {

@@ -161,9 +161,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             TrickyMaterialJsonHandler.CreateJson(TempPathTricky + "/Materials.json", false);
 
             //Convert Prefabs
-            SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler TrickyPrefabJsonHandler = new SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler();
+            SSXMultiTool.JsonFiles.Tricky.ModelJsonHandler TrickyPrefabJsonHandler = new SSXMultiTool.JsonFiles.Tricky.ModelJsonHandler();
 
-            TrickyPrefabJsonHandler.CreateJson(TempPathTricky + "/Prefabs.json", false);
+            TrickyPrefabJsonHandler.CreateJson(TempPathTricky + "/Models.json", false);
 
             //Convert Instances
             SSXMultiTool.JsonFiles.Tricky.InstanceJsonHandler TrickyInstanceJsonHandler = new SSXMultiTool.JsonFiles.Tricky.InstanceJsonHandler();
@@ -286,26 +286,26 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             TrickySkyboxMaterialJsonHandler.CreateJson(TempPathTricky + "/Skybox/Materials.json", false);
 
             //Convert Skybox Prefabs
-            SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler TrickySkyboxPrefabJsonHandler = new SSXMultiTool.JsonFiles.Tricky.PrefabJsonHandler();
+            SSXMultiTool.JsonFiles.Tricky.ModelJsonHandler TrickySkyboxPrefabJsonHandler = new SSXMultiTool.JsonFiles.Tricky.ModelJsonHandler();
             SSXMultiTool.JsonFiles.SSXOG.PrefabJsonHandler OGSkyboxPrefabJsonHandler = SSXMultiTool.JsonFiles.SSXOG.PrefabJsonHandler.Load(TempPathOG + "/Skybox/Prefabs.json");
 
-            TrickySkyboxPrefabJsonHandler.Prefabs = new List<JsonFiles.Tricky.PrefabJsonHandler.PrefabJson>();
+            TrickySkyboxPrefabJsonHandler.Models = new List<JsonFiles.Tricky.ModelJsonHandler.ModelJson>();
 
-            JsonFiles.Tricky.PrefabJsonHandler.PrefabJson Prefab = new JsonFiles.Tricky.PrefabJsonHandler.PrefabJson();
+            JsonFiles.Tricky.ModelJsonHandler.ModelJson Prefab = new JsonFiles.Tricky.ModelJsonHandler.ModelJson();
 
             Prefab.PrefabName = "Skybox Prefab 0";
             Prefab.Unknown3 = 3;
-            Prefab.PrefabObjects = new List<JsonFiles.Tricky.PrefabJsonHandler.ObjectHeader>();
+            Prefab.PrefabObjects = new List<JsonFiles.Tricky.ModelJsonHandler.ObjectHeader>();
 
-            var PrefabObject = new JsonFiles.Tricky.PrefabJsonHandler.ObjectHeader();
+            var PrefabObject = new JsonFiles.Tricky.ModelJsonHandler.ObjectHeader();
 
             PrefabObject.ParentID = -1;
 
-            PrefabObject.MeshData = new List<JsonFiles.Tricky.PrefabJsonHandler.MeshHeader>();
+            PrefabObject.MeshData = new List<JsonFiles.Tricky.ModelJsonHandler.MeshHeader>();
 
             for (int i = 0; i < OGSkyboxPrefabJsonHandler.Prefabs[0].models.Count; i++)
             {
-                var MeshData = new JsonFiles.Tricky.PrefabJsonHandler.MeshHeader();
+                var MeshData = new JsonFiles.Tricky.ModelJsonHandler.MeshHeader();
 
                 MeshData.MeshPath = OGSkyboxPrefabJsonHandler.Prefabs[0].models[i].MeshPath;
                 MeshData.MaterialID = OGSkyboxPrefabJsonHandler.Prefabs[0].models[i].MaterialID;
@@ -314,9 +314,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             }
 
             Prefab.PrefabObjects.Add(PrefabObject);
-            TrickySkyboxPrefabJsonHandler.Prefabs.Add(Prefab);
+            TrickySkyboxPrefabJsonHandler.Models.Add(Prefab);
 
-            TrickySkyboxPrefabJsonHandler.CreateJson(TempPathTricky + "/Skybox/Prefabs.json", false);
+            TrickySkyboxPrefabJsonHandler.CreateJson(TempPathTricky + "/Skybox/Models.json", false);
 
             #endregion
 

@@ -79,12 +79,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             instanceJsonHandler.CreateJson(TempPath + "\\Instances.json");
 
             //Models
-            PrefabJsonHandler prefabsJsonHandler = new PrefabJsonHandler();
-            prefabsJsonHandler = PrefabJsonHandler.Load(TempPath + "\\Prefabs.json");
+            ModelJsonHandler prefabsJsonHandler = new ModelJsonHandler();
+            prefabsJsonHandler = ModelJsonHandler.Load(TempPath + "\\Models.json");
 
-            for (int i = 0; i < prefabsJsonHandler.Prefabs.Count; i++)
+            for (int i = 0; i < prefabsJsonHandler.Models.Count; i++)
             {
-                var Prefab = prefabsJsonHandler.Prefabs[i];
+                var Prefab = prefabsJsonHandler.Models[i];
 
                 for (global::System.Int32 j = 0; j < Prefab.PrefabObjects.Count; j++)
                 {
@@ -100,9 +100,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
                     Prefab.PrefabObjects[j] = PrefabObject;
                 }
 
-                prefabsJsonHandler.Prefabs[i] = Prefab;
+                prefabsJsonHandler.Models[i] = Prefab;
             }
-            prefabsJsonHandler.CreateJson(TempPath + "\\Prefabs.json");
+            prefabsJsonHandler.CreateJson(TempPath + "\\Models.json");
 
             //Models
             //Get Models
