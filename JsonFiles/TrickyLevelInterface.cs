@@ -1135,6 +1135,9 @@ namespace SSXMultiTool
                     for (int a = 0; a < skypbdHandler.PrefabData[i].PrefabObjects.Count; a++)
                     {
                         var TempPrefabObject = new ModelJsonHandler.ObjectHeader();
+
+                        TempPrefabObject.ObjectName = "Skybox Object " + a.ToString();
+
                         TempPrefabObject.ParentID = skypbdHandler.PrefabData[i].PrefabObjects[a].ParentID;
                         TempPrefabObject.Flags = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.Flags;
 
@@ -1144,6 +1147,9 @@ namespace SSXMultiTool
                             for (int b = 0; b < skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets.Count; b++)
                             {
                                 var TempMeshHeader = new ModelJsonHandler.MeshHeader();
+
+                                TempMeshHeader.MeshName = "Skybox Mesh " + b.ToString();
+
                                 TempMeshHeader.MeshPath = skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID + ".obj";
                                 TempMeshHeader.MaterialID = skypbdHandler.materialBlocks[skypbdHandler.PrefabData[i].MaterialBlockID].ints[skypbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MaterialBlockPos];
 
