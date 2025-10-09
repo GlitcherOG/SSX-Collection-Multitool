@@ -43,7 +43,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
         [Serializable]
         public struct ModelJson
         {
-            public string PrefabName;
+            public string ModelName;
             public int Unknown3;
             public float AnimTime;
             public List<ObjectHeader> ModelObjects;
@@ -51,6 +51,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
         [Serializable]
         public struct ObjectHeader
         {
+            public string ObjectName;
+
             public int ParentID;
             public int Flags;
 
@@ -67,6 +69,8 @@ namespace SSXMultiTool.JsonFiles.Tricky
         [Serializable]
         public struct MeshHeader
         {
+            public string MeshName;
+
             public string MeshPath;
             public int MaterialID;
         }

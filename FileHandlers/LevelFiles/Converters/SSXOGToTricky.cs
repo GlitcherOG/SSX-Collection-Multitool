@@ -293,7 +293,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
             JsonFiles.Tricky.ModelJsonHandler.ModelJson Prefab = new JsonFiles.Tricky.ModelJsonHandler.ModelJson();
 
-            Prefab.PrefabName = "Skybox Prefab 0";
+            Prefab.ModelName = "Skybox Model 0";
             Prefab.Unknown3 = 3;
             Prefab.ModelObjects = new List<JsonFiles.Tricky.ModelJsonHandler.ObjectHeader>();
 

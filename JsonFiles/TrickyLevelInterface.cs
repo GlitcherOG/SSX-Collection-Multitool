@@ -471,9 +471,9 @@ namespace SSXMultiTool
             prefabJsonHandler = new ModelJsonHandler();
             for (int i = 0; i < pbdHandler.PrefabData.Count; i++)
             {
-                Console.WriteLine("Prefabs: " + (i + 1) + "/" + pbdHandler.PrefabData.Count + " " + mapHandler.Models[i].Name);
+                Console.WriteLine("Model: " + (i + 1) + "/" + pbdHandler.PrefabData.Count + " " + mapHandler.Models[i].Name);
                 ModelJsonHandler.ModelJson TempModel = new ModelJsonHandler.ModelJson();
-                TempModel.PrefabName = mapHandler.Models[i].Name;
+                TempModel.ModelName = mapHandler.Models[i].Name;
                 TempModel.Unknown3 = pbdHandler.PrefabData[i].Unknown3;
                 TempModel.AnimTime = pbdHandler.PrefabData[i].AnimTime;
                 TempModel.ModelObjects = new();
@@ -481,6 +481,9 @@ namespace SSXMultiTool
                 for (int a = 0; a < pbdHandler.PrefabData[i].PrefabObjects.Count; a++)
                 {
                     var TempPrefabObject = new ModelJsonHandler.ObjectHeader();
+
+                    TempPrefabObject.ObjectName = "Model Object " + a.ToString();
+
                     TempPrefabObject.ParentID = pbdHandler.PrefabData[i].PrefabObjects[a].ParentID;
                     TempPrefabObject.Flags = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.Flags;
 
@@ -490,6 +493,9 @@ namespace SSXMultiTool
                         for (int b = 0; b < pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets.Count; b++)
                         {
                             var TempMeshHeader = new ModelJsonHandler.MeshHeader();
+
+                            TempMeshHeader.MeshName = "Model Mesh " + b.ToString();
+
                             TempMeshHeader.MeshPath = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID + ".obj";
                             TempMeshHeader.MaterialID = pbdHandler.materialBlocks[pbdHandler.PrefabData[i].MaterialBlockID].ints[pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MaterialBlockPos];
 
@@ -1120,7 +1126,7 @@ namespace SSXMultiTool
                     Console.WriteLine("Skybox Prefabs: " + (i + 1) + "/" + skypbdHandler.PrefabData.Count);
                     ModelJsonHandler.ModelJson TempModel = new ModelJsonHandler.ModelJson();
 
-                    TempModel.PrefabName = "Skybox Prefab " + i;
+                    TempModel.ModelName = "Skybox Model " + i;
 
                     TempModel.Unknown3 = skypbdHandler.PrefabData[i].Unknown3;
                     TempModel.AnimTime = skypbdHandler.PrefabData[i].AnimTime;
@@ -1783,7 +1789,7 @@ namespace SSXMultiTool
                 mapHandler.Models = new List<LinkerItem>();
                 for (int i = 0; i < prefabJsonHandler.Models.Count; i++)
                 {
-                    Console.WriteLine("Prefabs: " +(i+1)+ "/" + prefabJsonHandler.Models.Count + " " + prefabJsonHandler.Models[i].PrefabName);
+                    Console.WriteLine("Models: " + (i+1)+ "/" + prefabJsonHandler.Models.Count + " " + prefabJsonHandler.Models[i].ModelName);
                     var NewPrefab = new Prefabs();
                     var TempPrefab = prefabJsonHandler.Models[i];
                     NewPrefab.MaterialBlockID = i;
@@ -1883,7 +1889,7 @@ namespace SSXMultiTool
                     LinkerItem linkerItem = new LinkerItem();
                     linkerItem.Ref = 1;
                     linkerItem.UID = i;
-                    linkerItem.Name = prefabJsonHandler.Models[i].PrefabName;
+                    linkerItem.Name = prefabJsonHandler.Models[i].ModelName;
                     linkerItem.Hashvalue = MapHandler.GenerateHash(linkerItem.Name);
                     mapHandler.Models.Add(linkerItem);
 
