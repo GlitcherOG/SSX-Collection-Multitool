@@ -1095,6 +1095,8 @@ namespace SSXMultiTool
                     Console.WriteLine("Skybox Materials: " + (i + 1) + "/" + skypbdHandler.materials.Count);
                     MaterialJsonHandler.MaterialsJson TempMaterial = new MaterialJsonHandler.MaterialsJson();
 
+                    TempMaterial.MaterialName = "Skybox Material " + i.ToString();
+
                     TempMaterial.TexturePath = SkyboxHandler.sshImages[skypbdHandler.materials[i].TextureID].shortname + ".png";
                     TempMaterial.UnknownInt2 = skypbdHandler.materials[i].UnknownInt2;
                     TempMaterial.UnknownInt3 = skypbdHandler.materials[i].UnknownInt3;
