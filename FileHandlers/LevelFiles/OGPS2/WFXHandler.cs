@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 {
-    internal class WFXHandler
+    public class WFXHandler
     {
         public float U0;
         public float U1;
@@ -398,10 +398,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         {
             var TempEffect = new Effect();
 
-            TempEffect.Type = StreamUtil.ReadUInt16(stream);
+            TempEffect.MainType = StreamUtil.ReadUInt16(stream);
             TempEffect.Size = StreamUtil.ReadUInt16(stream);
 
-            if (TempEffect.Type == 0)
+            if (TempEffect.MainType == 0)
             {
                 Type0 TempType0 = new Type0();
 
@@ -711,12 +711,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 }
                 else
                 {
-                    System.Windows.Forms.MessageBox.Show("Missing Type " + TempEffect.Type.ToString() + "," + TempType0.SubType.ToString());
+                    System.Windows.Forms.MessageBox.Show("Missing Type " + TempEffect.MainType.ToString() + "," + TempType0.SubType.ToString());
                 }
 
                 TempEffect.type0 = TempType0;
             }
-            else if (TempEffect.Type == 1)
+            else if (TempEffect.MainType == 1)
             {
                 Type1 TempType1 = new Type1();
 
@@ -818,12 +818,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
                 }
                 else
                 {
-                    System.Windows.Forms.MessageBox.Show("Missing Type " + TempEffect.Type.ToString() + "," + TempType1.SubType.ToString());
+                    System.Windows.Forms.MessageBox.Show("Missing Type " + TempEffect.MainType.ToString() + "," + TempType1.SubType.ToString());
                 }
 
                 TempEffect.type1 = TempType1;
             }
-            else if (TempEffect.Type == 2)
+            else if (TempEffect.MainType == 2)
             {
                 Type2 type2 = new Type2();
 
@@ -832,11 +832,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                 TempEffect.type2 = type2;
             }
-            else if (TempEffect.Type == 3)
+            else if (TempEffect.MainType == 3)
             {
                 TempEffect.type3 = StreamUtil.ReadFloat(stream);
             }
-            else if (TempEffect.Type == 4)
+            else if (TempEffect.MainType == 4)
             {
                 Type4 type4 = new Type4();
 
@@ -846,7 +846,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                 TempEffect.type4 = type4;
             }
-            else if (TempEffect.Type == 6)
+            else if (TempEffect.MainType == 6)
             {
                 Type6 TempType6 = new Type6();
 
@@ -856,11 +856,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                 TempEffect.type6 = TempType6;
             }
-            else if (TempEffect.Type == 7)
+            else if (TempEffect.MainType == 7)
             {
                 TempEffect.type7 = StreamUtil.ReadUInt32(stream);
             }
-            else if (TempEffect.Type == 8)
+            else if (TempEffect.MainType == 8)
             {
                 Type8 TempType8 = new Type8();
 
@@ -869,29 +869,29 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
 
                 TempEffect.type8 = TempType8;
             }
-            else if (TempEffect.Type == 9)
+            else if (TempEffect.MainType == 9)
             {
                 TempEffect.type9 = StreamUtil.ReadUInt32(stream);
             }
-            else if (TempEffect.Type == 12)
+            else if (TempEffect.MainType == 12)
             {
                 TempEffect.type12 = StreamUtil.ReadUInt32(stream);
             }
-            else if (TempEffect.Type == 13)
+            else if (TempEffect.MainType == 13)
             {
                 TempEffect.type13 = StreamUtil.ReadFloat(stream);
             }
-            else if (TempEffect.Type == 16)
+            else if (TempEffect.MainType == 16)
             {
                 TempEffect.type16 = StreamUtil.ReadFloat(stream);
             }
-            else if (TempEffect.Type == 17)
+            else if (TempEffect.MainType == 17)
             {
                 TempEffect.type17 = StreamUtil.ReadFloat(stream);
             }
             else
             {
-                System.Windows.Forms.MessageBox.Show("Missing Type " + TempEffect.Type.ToString());
+                System.Windows.Forms.MessageBox.Show("Missing Type " + TempEffect.MainType.ToString());
             }
 
             return TempEffect;
@@ -1001,7 +1001,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.OGPS2
         public struct Effect
         {
             //16
-            public int Type;
+            public int MainType;
             public int Size;
 
             public Type0? type0;

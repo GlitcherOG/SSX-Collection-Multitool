@@ -37,6 +37,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
         public static void Convert(string LoadPath, string ExportPath)
         {
+            ConsoleWindow.GenerateConsole();
+
             //Create Temp Locations
             string TempPathOG = Application.StartupPath + "/TempOG";
             string TempPathTricky = Application.StartupPath + "/TempTricky";
@@ -51,10 +53,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
             //Copy Over Textures, Models, Collison and Skyboxs
             Directory.Move(TempPathOG + "/Textures", TempPathTricky + "/Textures");
             Directory.Move(TempPathOG + "/Lightmaps", TempPathTricky + "/Lightmaps");
-            Directory.Move(TempPathOG + "/Models", TempPathTricky + "/Models");
+            Directory.Move(TempPathOG + "/Models", TempPathTricky + "/Meshes");
             Directory.Move(TempPathOG + "/Collision", TempPathTricky + "/Collision");
             Directory.Move(TempPathOG + "/Skybox/Textures", TempPathTricky + "/Skybox/Textures");
-            Directory.Move(TempPathOG + "/Skybox/Models", TempPathTricky + "/Skybox/Models");
+            Directory.Move(TempPathOG + "/Skybox/Models", TempPathTricky + "/Skybox/Meshes");
 
             //Create Camera, Particles, 
             SSXMultiTool.JsonFiles.Tricky.CameraJSONHandler TrickyCamera = new SSXMultiTool.JsonFiles.Tricky.CameraJSONHandler();
@@ -162,11 +164,97 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
             //Convert Prefabs
             SSXMultiTool.JsonFiles.Tricky.ModelJsonHandler TrickyPrefabJsonHandler = new SSXMultiTool.JsonFiles.Tricky.ModelJsonHandler();
+            SSXMultiTool.JsonFiles.SSXOG.PrefabJsonHandler prefabJsonHandler = SSXMultiTool.JsonFiles.SSXOG.PrefabJsonHandler.Load(TempPathOG + "/prefabs.json");
+            TrickyPrefabJsonHandler.Models = new List<ModelJsonHandler.ModelJson>();
+            for (int i = 0; i < prefabJsonHandler.Prefabs.Count; i++)
+            {
+                var TempPrefab = prefabJsonHandler.Prefabs[i];
+                ModelJsonHandler.ModelJson model = new ModelJsonHandler.ModelJson();
+
+                model.ModelName = "Model " + i.ToString();
+                model.ModelObjects = new List<ModelJsonHandler.ObjectHeader>();
+
+                for (global::System.Int32 j = 0; j < TempPrefab.models.Count; j++)
+                {
+                    var NewModelObjects = new ModelJsonHandler.ObjectHeader();
+
+                    NewModelObjects.ObjectName = "Object " + j.ToString();
+                    NewModelObjects.ParentID = -1;
+                    NewModelObjects.IncludeMatrix = false;
+                    NewModelObjects.IncludeAnimation = false;
+
+                    NewModelObjects.MeshData = new List<ModelJsonHandler.MeshHeader>();
+
+                    ModelJsonHandler.MeshHeader meshHeader = new ModelJsonHandler.MeshHeader();
+
+                    meshHeader.MeshName = TempPrefab.models[j].MeshPath;
+                    meshHeader.MeshPath = TempPrefab.models[j].MeshPath;
+                    meshHeader.MaterialID = TempPrefab.models[j].MaterialID;
+
+                    NewModelObjects.MeshData.Add(meshHeader);
+
+                    model.ModelObjects.Add(NewModelObjects);
+                }
+
+                TrickyPrefabJsonHandler.Models.Add(model);
+            }
 
             TrickyPrefabJsonHandler.CreateJson(TempPathTricky + "/Models.json", false);
 
             //Convert Instances
             SSXMultiTool.JsonFiles.Tricky.InstanceJsonHandler TrickyInstanceJsonHandler = new SSXMultiTool.JsonFiles.Tricky.InstanceJsonHandler();
+            SSXMultiTool.JsonFiles.SSXOG.InstanceJsonHandler instanceJsonHandler = SSXMultiTool.JsonFiles.SSXOG.InstanceJsonHandler.Load(TempPathOG + "/Instances.json");
+            TrickyInstanceJsonHandler.Instances = new List<JsonFiles.Tricky.InstanceJsonHandler.InstanceJson>();
+
+            for (int i = 0; i < instanceJsonHandler.Instances.Count; i++)
+            {
+                var TempInstance = instanceJsonHandler.Instances[i];
+                var NewInstance = new JsonFiles.Tricky.InstanceJsonHandler.InstanceJson();
+
+                NewInstance.InstanceName = TempInstance.Name;
+
+                NewInstance.Location = TempInstance.Location;
+                NewInstance.Rotation = TempInstance.Rotation;
+                NewInstance.Scale = TempInstance.Scale;
+
+                NewInstance.LightColour1 = TempInstance.LightColour1;
+                NewInstance.LightColour2 = TempInstance.LightColour2;
+                NewInstance.LightColour3 = TempInstance.LightColour3;
+                NewInstance.AmbentLightColour = TempInstance.AmbentLightColour;
+
+                NewInstance.LightVector1 = TempInstance.LightVector1;
+                NewInstance.LightVector2 = TempInstance.LightVector2;
+                NewInstance.LightVector3 = TempInstance.LightVector3;
+                NewInstance.AmbentLightVector = TempInstance.AmbentLightVector;
+
+                NewInstance.ModelID = TempInstance.PrefabID;
+                NewInstance.PrevInstance = -1;
+                NewInstance.NextInstance = -1;
+
+                NewInstance.LTGState = 0;
+
+                NewInstance.Hash = i;
+
+                NewInstance.IncludeSound = false;
+
+                NewInstance.U0 = 0f;
+                NewInstance.PlayerBounceAmmount = TempInstance.PlayerBounceValue;
+                NewInstance.U2 = 0;
+                NewInstance.Visable = TempInstance.Visable;
+                NewInstance.PlayerCollision = TempInstance.PlayerCollision;
+                NewInstance.PlayerBounce = TempInstance.PlayerBounce;
+                NewInstance.Unknown241 = false;
+                NewInstance.UVScroll = false;
+
+                NewInstance.SurfaceType = 1;
+                NewInstance.CollsionMode = TempInstance.CollsionMode;
+                NewInstance.CollsionModelPaths = TempInstance.CollsionModelPaths;
+                NewInstance.EffectSlotIndex = -1; //Swap later
+                NewInstance.PhysicsIndex = -1;// TempInstance.PhysicsIndex;
+                NewInstance.U8 = -1;
+
+                TrickyInstanceJsonHandler.Instances.Add(NewInstance);
+            }
 
             TrickyInstanceJsonHandler.CreateJson(TempPathTricky + "/Instances.json", false);
 
@@ -325,6 +413,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
             TrickyLevelInterface trickyLevelInterface = new TrickyLevelInterface();
             trickyLevelInterface.BuildTrickyLevelFiles(TempPathTricky, ExportPath);
+            ConsoleWindow.CloseConsole();
         }
     }
 }
