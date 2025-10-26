@@ -455,10 +455,10 @@ namespace SSXMultiTool
                         segmentJson.Points = JsonUtil.Vector3ToArray2D(segmentJson.Points, bezierUtil.RawPoints[b], b);
                     }
 
-                    segmentJson.U0 = pbdHandler.splinesSegments[a].U0;
-                    segmentJson.U1 = pbdHandler.splinesSegments[a].U1;
-                    segmentJson.U2 = pbdHandler.splinesSegments[a].U2;
-                    segmentJson.U3 = pbdHandler.splinesSegments[a].U3;
+                    segmentJson.U0 = pbdHandler.splinesSegments[a].Coefficient1;
+                    segmentJson.U1 = pbdHandler.splinesSegments[a].Coefficient2;
+                    segmentJson.U2 = pbdHandler.splinesSegments[a].Coefficient3;
+                    segmentJson.U3 = pbdHandler.splinesSegments[a].Coefficient4;
 
                     TempSpline.Segments.Add(segmentJson);
                 }
@@ -1433,10 +1433,10 @@ namespace SSXMultiTool
                         segments.Point3 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[2], 0);
                         segments.Point4 = JsonUtil.Vector3ToVector4(bezierUtil.ProcessedPoints[3], 0);
 
-                        segments.U0 = TempSegment.U0;
-                        segments.U1 = TempSegment.U1;
-                        segments.U2 = TempSegment.U2;
-                        segments.U3 = TempSegment.U3;
+                        segments.Coefficient1 = TempSegment.U0;
+                        segments.Coefficient2 = TempSegment.U1;
+                        segments.Coefficient3 = TempSegment.U2;
+                        segments.Coefficient4 = TempSegment.U3;
 
                         if (a == 0)
                         {
