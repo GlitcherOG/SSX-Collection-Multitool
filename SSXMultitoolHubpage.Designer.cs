@@ -40,6 +40,7 @@
             button5 = new Button();
             button6 = new Button();
             groupBox3 = new GroupBox();
+            button9 = new Button();
             button4 = new Button();
             SSX3LevelButton = new Button();
             TrickyLevelButton = new Button();
@@ -49,7 +50,6 @@
             SSHImageButton = new Button();
             LocFileButton = new Button();
             BigArchiveButton = new Button();
-            button9 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -176,6 +176,16 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Game Level Tools";
             // 
+            // button9
+            // 
+            button9.Enabled = false;
+            button9.Location = new Point(306, 22);
+            button9.Name = "button9";
+            button9.Size = new Size(94, 50);
+            button9.TabIndex = 3;
+            button9.Text = "SSX On Tour Level Files";
+            button9.UseVisualStyleBackColor = true;
+            // 
             // button4
             // 
             button4.Location = new Point(6, 22);
@@ -269,15 +279,6 @@
             BigArchiveButton.Text = "Big Archive";
             BigArchiveButton.UseVisualStyleBackColor = true;
             BigArchiveButton.Click += BigArchiveButton_Click;
-            // 
-            // button9
-            // 
-            button9.Location = new Point(306, 22);
-            button9.Name = "button9";
-            button9.Size = new Size(94, 50);
-            button9.TabIndex = 3;
-            button9.Text = "SSX On Tour Level Files";
-            button9.UseVisualStyleBackColor = true;
             // 
             // SSXMultitoolHubpage
             // 

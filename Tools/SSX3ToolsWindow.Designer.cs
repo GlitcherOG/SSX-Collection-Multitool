@@ -3357,6 +3357,7 @@
             // 
             // MnfImport
             // 
+            MnfImport.Enabled = false;
             MnfImport.Location = new Point(365, 500);
             MnfImport.Name = "MnfImport";
             MnfImport.Size = new Size(66, 23);
@@ -3366,6 +3367,7 @@
             // 
             // MnfSaveCompressed
             // 
+            MnfSaveCompressed.Enabled = false;
             MnfSaveCompressed.Location = new Point(863, 500);
             MnfSaveCompressed.Name = "MnfSaveCompressed";
             MnfSaveCompressed.Size = new Size(73, 23);

@@ -58,6 +58,7 @@
             // 
             // LoadSDB
             // 
+            LoadSDB.Enabled = false;
             LoadSDB.Location = new Point(12, 364);
             LoadSDB.Name = "LoadSDB";
             LoadSDB.Size = new Size(118, 34);
@@ -68,6 +69,7 @@
             // 
             // PSMLoad
             // 
+            PSMLoad.Enabled = false;
             PSMLoad.Location = new Point(12, 324);
             PSMLoad.Name = "PSMLoad";
             PSMLoad.Size = new Size(118, 34);
@@ -78,6 +80,7 @@
             // 
             // button1
             // 
+            button1.Enabled = false;
             button1.Location = new Point(670, 364);
             button1.Name = "button1";
             button1.Size = new Size(118, 34);

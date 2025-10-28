@@ -1858,7 +1858,7 @@ namespace SSXMultiTool
                             InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(BuildPath.ToLower()).Substring(0, Path.GetFileName(BuildPath).Length - 3) + "map";
                         }
 
-                        TrickyScaler.ProjectScaler(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4), Scale);
+                        TrickyScaler.ProjectScaler(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4), (float)numericUpDown1.Value);
 
                         BigHandler bigHandler = new BigHandler();
                         bigHandler.LoadFolderC0FB(Application.StartupPath + "\\TempExtract");
@@ -1929,8 +1929,8 @@ namespace SSXMultiTool
                         {
                             Directory.CreateDirectory(Application.StartupPath + "\\TempExtract");
                             Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\Data");
-                            Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\data\\models");
-                            InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(BuildPath.ToLower()).Substring(0, Path.GetFileName(BuildPath).Length - 3) + "map";
+                            Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\data\\meshes");
+                            InputPath = Application.StartupPath + "\\TempExtract\\data\\meshes\\" + Path.GetFileName(BuildPath.ToLower()).Substring(0, Path.GetFileName(BuildPath).Length - 3) + "map";
                         }
 
                         TrickyMirror.ProjectMirror(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4));

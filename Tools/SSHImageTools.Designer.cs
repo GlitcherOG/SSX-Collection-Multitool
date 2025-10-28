@@ -93,6 +93,7 @@
             // 
             ImageList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             ImageList.FormattingEnabled = true;
+            ImageList.ItemHeight = 15;
             ImageList.Location = new Point(12, 28);
             ImageList.Name = "ImageList";
             ImageList.Size = new Size(174, 499);
@@ -121,40 +122,40 @@
             // LoadSSHButton
             // 
             LoadSSHButton.Name = "LoadSSHButton";
-            LoadSSHButton.Size = new Size(172, 22);
+            LoadSSHButton.Size = new Size(194, 22);
             LoadSSHButton.Text = "Load .SSH";
             LoadSSHButton.Click += LoadSSHButton_Click;
             // 
             // LoadPNGFolderButton
             // 
             LoadPNGFolderButton.Name = "LoadPNGFolderButton";
-            LoadPNGFolderButton.Size = new Size(172, 22);
+            LoadPNGFolderButton.Size = new Size(194, 22);
             LoadPNGFolderButton.Text = "Load PNG Folder";
             LoadPNGFolderButton.Click += LoadFolderButton_Click;
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(172, 22);
-            toolStripMenuItem1.Text = "Load Export Folder";
+            toolStripMenuItem1.Size = new Size(194, 22);
+            toolStripMenuItem1.Text = "Export All SSH Textures";
             toolStripMenuItem1.Click += toolStripMenuItem1_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(169, 6);
+            toolStripSeparator1.Size = new Size(191, 6);
             // 
             // ExportAllButton
             // 
             ExportAllButton.Name = "ExportAllButton";
-            ExportAllButton.Size = new Size(172, 22);
+            ExportAllButton.Size = new Size(194, 22);
             ExportAllButton.Text = "Export All To PNG";
             ExportAllButton.Click += ExportAllButton_Click;
             // 
             // SaveSSHButton
             // 
             SaveSSHButton.Name = "SaveSSHButton";
-            SaveSSHButton.Size = new Size(172, 22);
+            SaveSSHButton.Size = new Size(194, 22);
             SaveSSHButton.Text = "Save .SSH";
             SaveSSHButton.Click += SaveSSHButton_Click;
             // 
