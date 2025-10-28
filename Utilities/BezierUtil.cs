@@ -168,6 +168,116 @@ namespace SSXMultiTool.Utilities
         {
             return MidTablePoints[a] - ProcessedPoints[midA] - ProcessedPoints[midB] - ProcessedPoints[midC];
         }
-        #endregion 
+        #endregion
+
+        #region Spline Coefficients
+        public Vector3 GetPoint(float t)
+        {
+            float u = 1f - t;
+            float tt = t * t;
+            float uu = u * u;
+            float uuu = uu * u;
+            float ttt = tt * t;
+
+            Vector3 point = (uuu) * RawPoints[0];            
+            point += (3f * uu * t) * RawPoints[1];          
+            point += (3f * u * tt) * RawPoints[2];           
+            point += (ttt) * RawPoints[3];                   
+
+            return point;
+        }
+
+        public float[] CalcCoefficients(int samples = 200)
+        {
+            var ts = new List<float>();
+            for (int i = 0; i < samples; i++)
+                ts.Add(i / (float)(samples - 1));
+
+            var pts = new List<Vector3>();
+            foreach (var t in ts)
+                pts.Add(GetPoint(t));
+
+            var dists = new List<float> { 0.0f };
+            float total = 0.0f;
+
+            for (int i = 1; i < samples; i++)
+            {
+                float dx = pts[i].X - pts[i - 1].X;
+                float dy = pts[i].Y - pts[i - 1].Y;
+                float dz = pts[i].Z - pts[i - 1].Z;
+                total += MathF.Sqrt(dx * dx + dy * dy + dz * dz);
+                dists.Add(total);
+            }
+
+            // Convert to meters
+            var lengths = new List<float>();
+            foreach (var d in dists)
+                lengths.Add(d * 0.01f);
+
+            // Compute sums for cubic regression
+            int n = lengths.Count;
+            float sx = 0, sx2 = 0, sx3 = 0, sx4 = 0, sx5 = 0, sx6 = 0;
+            float sy = 0, sxy = 0, sx2y = 0, sx3y = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                float x = lengths[i];
+                float y = ts[i];
+                float x2 = x * x;
+                float x3 = x2 * x;
+
+                sx += x;
+                sx2 += x2;
+                sx3 += x3;
+                sx4 += x2 * x2;
+                sx5 += x3 * x2;
+                sx6 += x3 * x3;
+
+                sy += y;
+                sxy += x * y;
+                sx2y += x2 * y;
+                sx3y += x3 * y;
+            }
+
+            // Normal equations for cubic regression
+            float[,] A =
+            {
+            { sx6, sx5, sx4, sx3 },
+            { sx5, sx4, sx3, sx2 },
+            { sx4, sx3, sx2, sx },
+            { sx3, sx2, sx, n }
+        };
+            float[] B = { sx3y, sx2y, sxy, sy };
+
+            // Gaussian elimination
+            for (int i = 0; i < 4; i++)
+            {
+                float pivot = A[i, i];
+                for (int j = i; j < 4; j++)
+                    A[i, j] /= pivot;
+                B[i] /= pivot;
+
+                for (int k = i + 1; k < 4; k++)
+                {
+                    float factor = A[k, i];
+                    for (int j = i; j < 4; j++)
+                        A[k, j] -= factor * A[i, j];
+                    B[k] -= factor * B[i];
+                }
+            }
+
+            // Back substitution
+            float[] u = new float[4];
+            for (int i = 3; i >= 0; i--)
+            {
+                float sum = 0;
+                for (int j = i + 1; j < 4; j++)
+                    sum += A[i, j] * u[j];
+                u[i] = B[i] - sum;
+            }
+
+            return u;
+        }
+        #endregion
     }
 }

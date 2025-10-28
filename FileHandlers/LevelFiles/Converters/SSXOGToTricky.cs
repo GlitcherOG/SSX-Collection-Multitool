@@ -115,10 +115,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
                     TempSegment.Points = OGSpline.Splines[i].Segments[j].Points;
 
-                    TempSegment.U0 = OGSpline.Splines[i].Segments[j].U0;
-                    TempSegment.U1 = OGSpline.Splines[i].Segments[j].U1;
-                    TempSegment.U2 = OGSpline.Splines[i].Segments[j].U2;
-                    TempSegment.U3 = OGSpline.Splines[i].Segments[j].U3;
+                    //TempSegment.U0 = OGSpline.Splines[i].Segments[j].U0;
+                    //TempSegment.U1 = OGSpline.Splines[i].Segments[j].U1;
+                    //TempSegment.U2 = OGSpline.Splines[i].Segments[j].U2;
+                    //TempSegment.U3 = OGSpline.Splines[i].Segments[j].U3;
 
                     TempSpline.Segments.Add(TempSegment);
                 }

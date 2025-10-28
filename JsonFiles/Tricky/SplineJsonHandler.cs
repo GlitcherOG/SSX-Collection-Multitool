@@ -55,11 +55,6 @@ namespace SSXMultiTool.JsonFiles.Tricky
         public struct SegmentJson
         {
             public float[,] Points;
-
-            public float U0;
-            public float U1;
-            public float U2;
-            public float U3;
         }
     }
 }
