@@ -1780,6 +1780,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             for (int ia = 0; ia < PrefabData.Count; ia++)
             {
+                Console.WriteLine("Model: " + (ia + 1) + "/" + PrefabData.Count);
                 var TempPrefab = PrefabData[ia];
                 bool Set = false;
                 Vector3 LowestXYZ = new Vector3(0,0,0);

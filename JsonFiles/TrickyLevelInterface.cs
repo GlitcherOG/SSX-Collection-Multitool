@@ -2440,6 +2440,7 @@ namespace SSXMultiTool
                     temp.AlphaFix = true;
                     TextureHandler.sshImages[i] = temp;
                 }
+                Console.WriteLine("Saving Texture File (May take some time if textures havent been processed before hand)");
                 TextureHandler.SaveSSH(ExportPath + ".ssh", true);
             }
 
@@ -2627,7 +2628,7 @@ namespace SSXMultiTool
                 skyboxpbdHander.materialBlocks = new List<MaterialBlock>();
                 for (int i = 0; i < SkyPrefabJsonHandler.Models.Count; i++)
                 {
-                    Console.WriteLine("Skybox Materials Animations: " +(i+1)+ "/" + SkyPrefabJsonHandler.Models.Count);
+                    Console.WriteLine("Skybox Materials Blocks: " +(i+1)+ "/" + SkyPrefabJsonHandler.Models.Count);
 
                     var TempPrefab = SkyPrefabJsonHandler.Models[i];
                     var NewMaterialBlock = new MaterialBlock();
@@ -2656,7 +2657,7 @@ namespace SSXMultiTool
                 skyboxpbdHander.PrefabData = new List<Prefabs>();
                 for (int i = 0; i < SkyPrefabJsonHandler.Models.Count; i++)
                 {
-                    Console.WriteLine("Skybox Prefabs: " +(i+1)+ "/" + SkyPrefabJsonHandler.Models.Count);
+                    Console.WriteLine("Skybox Models: " +(i+1)+ "/" + SkyPrefabJsonHandler.Models.Count);
 
                     var NewPrefab = new Prefabs();
                     var TempPrefab = SkyPrefabJsonHandler.Models[i];

@@ -166,7 +166,6 @@
             label6.AutoSize = true;
             label6.Location = new Point(137, 19);
             label6.Name = "label6";
-            label6.Size = new Size(45, 15);
             label6.TabIndex = 5;
             label6.Text = "Skybox";
             // 
@@ -259,7 +258,7 @@
             label18.Name = "label18";
             label18.Size = new Size(46, 15);
             label18.TabIndex = 17;
-            label18.Text = "Prefabs";
+            label18.Text = "Models";
             // 
             // ParticleModelLabels
             // 
@@ -636,7 +635,6 @@
             label5.AutoSize = true;
             label5.Location = new Point(11, 23);
             label5.Name = "label5";
-            label5.Size = new Size(102, 15);
             label5.TabIndex = 62;
             label5.Text = "LTG Rebuild Mode";
             label5.Click += label5_Click;
@@ -756,7 +754,6 @@
             GenLTG.CheckState = CheckState.Checked;
             GenLTG.Location = new Point(213, 97);
             GenLTG.Name = "GenLTG";
-            GenLTG.Size = new Size(94, 19);
             GenLTG.TabIndex = 52;
             GenLTG.Text = "Generate LTG";
             GenLTG.UseVisualStyleBackColor = true;

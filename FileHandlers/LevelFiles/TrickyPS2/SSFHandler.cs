@@ -1550,6 +1550,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         {
             for (int i = 0; i < CollisonModelPointers.Count; i++)
             {
+                Console.WriteLine("Collision " + (i+1) + "/" + CollisonModelPointers.Count);
                 var TempPath = CollisonModelPointers[i];
 
                 for (int a = 0; a < TempPath.Models.Count; a++)
