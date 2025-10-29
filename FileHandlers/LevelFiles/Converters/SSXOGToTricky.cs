@@ -187,7 +187,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
 
                     ModelJsonHandler.MeshHeader meshHeader = new ModelJsonHandler.MeshHeader();
 
-                    meshHeader.MeshName = TempPrefab.models[j].MeshPath;
                     meshHeader.MeshPath = TempPrefab.models[j].MeshPath;
                     meshHeader.MaterialID = TempPrefab.models[j].MaterialID;
 
