@@ -1791,12 +1791,12 @@ namespace SSXMultiTool
                 }
 
                 //Rebuild Prefabs
-                pbdHandler.modelData = new List<Prefabs>();
+                pbdHandler.modelData = new List<Models>();
                 mapHandler.Models = new List<LinkerItem>();
                 for (int i = 0; i < prefabJsonHandler.Models.Count; i++)
                 {
                     Console.WriteLine("Models: " + (i+1)+ "/" + prefabJsonHandler.Models.Count + " " + prefabJsonHandler.Models[i].ModelName);
-                    var NewPrefab = new Prefabs();
+                    var NewPrefab = new Models();
                     var TempPrefab = prefabJsonHandler.Models[i];
                     NewPrefab.MaterialBlockID = i;
                     NewPrefab.Unknown3 = prefabJsonHandler.Models[i].Unknown3;
@@ -2039,13 +2039,13 @@ namespace SSXMultiTool
                 //Rebuild Particle Model
                 particleModelJsonHandler = new ParticleModelJsonHandler();
                 particleModelJsonHandler = ParticleModelJsonHandler.Load(LoadPath + "/ParticleModels.json");
-                pbdHandler.particleModels = new List<ParticlePrefab>();
+                pbdHandler.particleModels = new List<ParticleModel>();
                 mapHandler.particelModels = new List<LinkerItem>();
                 for (int i = 0; i < particleModelJsonHandler.ParticlePrefabs.Count; i++)
                 {
                     Console.WriteLine("Particle Model: " +(i+1)+ "/" + particleModelJsonHandler.ParticlePrefabs.Count + " " + particleModelJsonHandler.ParticlePrefabs[i].ParticleModelName);
 
-                    var ParticleModel = new ParticlePrefab();
+                    var ParticleModel = new ParticleModel();
 
                     ParticleModel.ParticleObjectHeaders = new List<ParticleObjectHeader>();
 
@@ -2650,12 +2650,12 @@ namespace SSXMultiTool
                 }
 
                 //Rebuild Prefabs
-                skyboxpbdHander.modelData = new List<Prefabs>();
+                skyboxpbdHander.modelData = new List<Models>();
                 for (int i = 0; i < SkyPrefabJsonHandler.Models.Count; i++)
                 {
                     Console.WriteLine("Skybox Models: " +(i+1)+ "/" + SkyPrefabJsonHandler.Models.Count);
 
-                    var NewPrefab = new Prefabs();
+                    var NewPrefab = new Models();
                     var TempPrefab = SkyPrefabJsonHandler.Models[i];
                     NewPrefab.MaterialBlockID = i;
                     NewPrefab.Unknown3 = SkyPrefabJsonHandler.Models[i].Unknown3;

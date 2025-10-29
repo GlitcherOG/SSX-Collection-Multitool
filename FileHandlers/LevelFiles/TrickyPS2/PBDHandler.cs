@@ -68,9 +68,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<MaterialBlock> materialBlocks = new List<MaterialBlock>();
         public List<Light> lights = new List<Light>();
         public List<int> ModelPointers = new List<int>();
-        public List<Prefabs> modelData = new List<Prefabs>();
+        public List<Models> modelData = new List<Models>();
         public List<int> ParticleModelPointers = new List<int>();
-        public List<ParticlePrefab> particleModels = new List<ParticlePrefab>();
+        public List<ParticleModel> particleModels = new List<ParticleModel>();
         public List<int> CameraPointers = new List<int>();
         public List<CameraInstance> Cameras = new List<CameraInstance>();
         public HashData hashData = new HashData();
@@ -369,11 +369,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 //ModelHeaders
                 stream.Position = ModelsOffset;
-                modelData = new List<Prefabs>();
+                modelData = new List<Models>();
                 for (int i = 0; i < ModelPointers.Count; i++)
                 {
                     stream.Position = ModelsOffset + ModelPointers[i];
-                    var TempHeader = new Prefabs();
+                    var TempHeader = new Models();
                     TempHeader.TotalLength = StreamUtil.ReadUInt32(stream);
                     TempHeader.ObjectCount = StreamUtil.ReadUInt32(stream);
                     TempHeader.ObjectOffset = StreamUtil.ReadUInt32(stream);
@@ -523,11 +523,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
 
                 //Particle Models
-                particleModels = new List<ParticlePrefab>();
+                particleModels = new List<ParticleModel>();
                 for (int i = 0; i < NumParticleModel; i++)
                 {
                     stream.Position = ParticleModelsOffset + ParticleModelPointers[i];
-                    ParticlePrefab TempParticleModel = new ParticlePrefab();
+                    ParticleModel TempParticleModel = new ParticleModel();
                     TempParticleModel.ByteSize = StreamUtil.ReadUInt32(stream);
                     TempParticleModel.ParticleHeaderCount = StreamUtil.ReadUInt32(stream);
                     TempParticleModel.ParticleHeadersOffset = StreamUtil.ReadUInt32(stream);
@@ -2444,7 +2444,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public int TextureFlipbookID;
         public int UnknownInt20;
-
     }
 
     public struct MaterialBlock
@@ -2508,7 +2507,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<int> ImagePositions;
     }
 
-    public struct Prefabs
+    public struct Models
     {
         public int TotalLength;
         public int ObjectCount;
@@ -2618,7 +2617,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public float Value6;
     }
 
-    public struct ParticlePrefab
+    public struct ParticleModel
     {
         public int ByteSize;
         public int ParticleHeaderCount;
