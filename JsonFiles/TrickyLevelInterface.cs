@@ -494,8 +494,6 @@ namespace SSXMultiTool
                         {
                             var TempMeshHeader = new ModelJsonHandler.MeshHeader();
 
-                            TempMeshHeader.MeshName = "Model Mesh " + b.ToString();
-
                             TempMeshHeader.MeshPath = pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MeshID + ".obj";
                             TempMeshHeader.MaterialID = pbdHandler.materialBlocks[pbdHandler.PrefabData[i].MaterialBlockID].ints[pbdHandler.PrefabData[i].PrefabObjects[a].objectData.MeshOffsets[b].MaterialBlockPos];
 
@@ -602,7 +600,7 @@ namespace SSXMultiTool
 
                 particleModelJsonHandler.ParticlePrefabs.Add(TempParticleModel);
             }
-            particleModelJsonHandler.CreateJson(ExportPath + "/ParticlePrefabs.json", InlineExporting);
+            particleModelJsonHandler.CreateJson(ExportPath + "/ParticleModels.json", InlineExporting);
 
             //Create Camera Json
             cameraJSONHandler = new CameraJSONHandler();
@@ -2042,7 +2040,7 @@ namespace SSXMultiTool
 
                 //Rebuild Particle Model
                 particleModelJsonHandler = new ParticleModelJsonHandler();
-                particleModelJsonHandler = ParticleModelJsonHandler.Load(LoadPath + "/ParticlePrefabs.json");
+                particleModelJsonHandler = ParticleModelJsonHandler.Load(LoadPath + "/ParticleModels.json");
                 pbdHandler.particleModels = new List<ParticlePrefab>();
                 mapHandler.particelModels = new List<LinkerItem>();
                 for (int i = 0; i < particleModelJsonHandler.ParticlePrefabs.Count; i++)
@@ -2843,7 +2841,7 @@ namespace SSXMultiTool
             prefabJsonHandler = ModelJsonHandler.Load(LoadPath + "/Models.json");
 
             //Create Particle Model Json
-            particleModelJsonHandler = ParticleModelJsonHandler.Load(LoadPath + "/ParticleModelHeaders.json");
+            particleModelJsonHandler = ParticleModelJsonHandler.Load(LoadPath + "/ParticleModels.json");
 
             SkyMaterialJson = MaterialJsonHandler.Load(LoadPath + "/Skybox/Materials.json");
 
