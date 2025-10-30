@@ -67,10 +67,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<TrickyMaterial> materials = new List<TrickyMaterial>();
         public List<MaterialBlock> materialBlocks = new List<MaterialBlock>();
         public List<Light> lights = new List<Light>();
-        public List<int> PrefabPointers = new List<int>();
-        public List<Prefabs> PrefabData = new List<Prefabs>();
+        public List<int> ModelPointers = new List<int>();
+        public List<Models> modelData = new List<Models>();
         public List<int> ParticleModelPointers = new List<int>();
-        public List<ParticlePrefab> particleModels = new List<ParticlePrefab>();
+        public List<ParticleModel> particleModels = new List<ParticleModel>();
         public List<int> CameraPointers = new List<int>();
         public List<CameraInstance> Cameras = new List<CameraInstance>();
         public HashData hashData = new HashData();
@@ -361,19 +361,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 //ModelPointers
                 stream.Position = ModelPointerOffset;
-                PrefabPointers = new List<int>();
+                ModelPointers = new List<int>();
                 for (int i = 0; i < NumModels; i++)
                 {
-                    PrefabPointers.Add(StreamUtil.ReadUInt32(stream));
+                    ModelPointers.Add(StreamUtil.ReadUInt32(stream));
                 }
 
                 //ModelHeaders
                 stream.Position = ModelsOffset;
-                PrefabData = new List<Prefabs>();
-                for (int i = 0; i < PrefabPointers.Count; i++)
+                modelData = new List<Models>();
+                for (int i = 0; i < ModelPointers.Count; i++)
                 {
-                    stream.Position = ModelsOffset + PrefabPointers[i];
-                    var TempHeader = new Prefabs();
+                    stream.Position = ModelsOffset + ModelPointers[i];
+                    var TempHeader = new Models();
                     TempHeader.TotalLength = StreamUtil.ReadUInt32(stream);
                     TempHeader.ObjectCount = StreamUtil.ReadUInt32(stream);
                     TempHeader.ObjectOffset = StreamUtil.ReadUInt32(stream);
@@ -388,7 +388,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                     TempHeader.NonTriCount = StreamUtil.ReadUInt32(stream);
 
-                    TempHeader.PrefabObjects = new List<ObjectHeader>();
+                    TempHeader.ModelObjects = new List<ObjectHeader>();
                     for (int a = 0; a < TempHeader.ObjectCount; a++)
                     {
                         var TempPrefab = new ObjectHeader();
@@ -509,9 +509,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             TempPrefab.objectAnimation = TempAnimation;
                         }
                         stream.Position = tempPos;
-                        TempHeader.PrefabObjects.Add(TempPrefab);
+                        TempHeader.ModelObjects.Add(TempPrefab);
                     }
-                    PrefabData.Add(TempHeader);
+                    modelData.Add(TempHeader);
                 }
 
                 //Particle Model Pointers
@@ -523,11 +523,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
 
                 //Particle Models
-                particleModels = new List<ParticlePrefab>();
+                particleModels = new List<ParticleModel>();
                 for (int i = 0; i < NumParticleModel; i++)
                 {
                     stream.Position = ParticleModelsOffset + ParticleModelPointers[i];
-                    ParticlePrefab TempParticleModel = new ParticlePrefab();
+                    ParticleModel TempParticleModel = new ParticleModel();
                     TempParticleModel.ByteSize = StreamUtil.ReadUInt32(stream);
                     TempParticleModel.ParticleHeaderCount = StreamUtil.ReadUInt32(stream);
                     TempParticleModel.ParticleHeadersOffset = StreamUtil.ReadUInt32(stream);
@@ -712,9 +712,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 //Make a way to combine models
                 int MeshID = 0;
                 stream.Position = MeshDataOffset;
-                for (int i = 0; i < PrefabData.Count; i++)
+                for (int i = 0; i < modelData.Count; i++)
                 {
-                    var TempPrefabData = PrefabData[i];
+                    var TempPrefabData = modelData[i];
                     if (TempPrefabData.Scale.X == 0)
                     {
                         TempPrefabData.Scale.X = 1;
@@ -727,9 +727,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     {
                         TempPrefabData.Scale.Z = 1;
                     }
-                    for (int a = 0; a < TempPrefabData.PrefabObjects.Count; a++)
+                    for (int a = 0; a < TempPrefabData.ModelObjects.Count; a++)
                     {
-                        var TempObjects = TempPrefabData.PrefabObjects[a];
+                        var TempObjects = TempPrefabData.ModelObjects[a];
                         if (TempObjects.objectData.MeshOffsets != null && !TempObjects.objectData.MeshOffsets.Equals(new List<MeshOffsets>()))
                         {
                             for (int b = 0; b < TempObjects.objectData.MeshOffsets.Count; b++)
@@ -760,9 +760,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 MeshID++;
                             }
                         }
-                        TempPrefabData.PrefabObjects[a] = TempObjects;
+                        TempPrefabData.ModelObjects[a] = TempObjects;
                     }
-                    PrefabData[i] = TempPrefabData;
+                    modelData[i] = TempPrefabData;
                 }
 
                 stream.Position = MeshDataOffset;
@@ -1089,21 +1089,21 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             //Set Space Aside for model pointers
             ModelPointerOffset = (int)stream.Position;
-            PrefabPointers = new List<int>();
-            stream.Position += 4 * PrefabData.Count;
+            ModelPointers = new List<int>();
+            stream.Position += 4 * modelData.Count;
             StreamUtil.AlignBy16(stream);
 
             int Size;
             int TempPos;
             ModelsOffset = (int)stream.Position;
-            for (int i = 0; i < PrefabData.Count; i++)
+            for (int i = 0; i < modelData.Count; i++)
             {
-                var TempPrefab = PrefabData[i];
+                var TempPrefab = modelData[i];
 
                 int StartPos = (int)stream.Position;
-                PrefabPointers.Add((int)stream.Position - ModelsOffset);
+                ModelPointers.Add((int)stream.Position - ModelsOffset);
                 stream.Position += 4;
-                StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects.Count);
+                StreamUtil.WriteInt32(stream, TempPrefab.ModelObjects.Count);
                 StreamUtil.WriteInt32(stream, 56);
                 StreamUtil.WriteInt32(stream, TempPrefab.MaterialBlockID);
                 StreamUtil.WriteInt32(stream, TempPrefab.Unknown3);
@@ -1117,12 +1117,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
                 //Skip Over Objects and Come back to them
                 int TempObjectPos = (int)stream.Position;
-                stream.Position += 4 * 6 * TempPrefab.PrefabObjects.Count;
+                stream.Position += 4 * 6 * TempPrefab.ModelObjects.Count;
 
                 //Write Matrix4x4
-                for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
+                for (int a = 0; a < TempPrefab.ModelObjects.Count; a++)
                 {
-                    var TempObject = TempPrefab.PrefabObjects[a];
+                    var TempObject = TempPrefab.ModelObjects[a];
                     TempObject.Matrix4x4Offset = -1;
                     if (TempObject.IncludeMatrix)
                     {
@@ -1130,12 +1130,12 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         TempObject.Matrix4x4Offset = (int)stream.Position;
                         StreamUtil.WriteMatrix4x4(stream, TempObject.matrix4X4);
                     }
-                    TempPrefab.PrefabObjects[a] = TempObject;
+                    TempPrefab.ModelObjects[a] = TempObject;
                 }
                 //Write Object Data
-                for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
+                for (int a = 0; a < TempPrefab.ModelObjects.Count; a++)
                 {
-                    var TempObject = TempPrefab.PrefabObjects[a];
+                    var TempObject = TempPrefab.ModelObjects[a];
                     TempObject.ObjectHighOffset = 0;
                     TempObject.ObjectMediumOffset = 0;
                     TempObject.ObjectLowOffset = 0;
@@ -1189,13 +1189,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         stream.Position = TempPos;
                     }
 
-                    TempPrefab.PrefabObjects[a] = TempObject;
+                    TempPrefab.ModelObjects[a] = TempObject;
                 }
 
                 //Write AnimData
-                for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
+                for (int a = 0; a < TempPrefab.ModelObjects.Count; a++)
                 {
-                    var TempObject = TempPrefab.PrefabObjects[a];
+                    var TempObject = TempPrefab.ModelObjects[a];
                     TempObject.AnimOffset = 0;
                     if (TempObject.IncludeAnimation)
                     {
@@ -1249,43 +1249,43 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         stream.Position = EndAnimPos;
 
                     }
-                    TempPrefab.PrefabObjects[a] = TempObject;
+                    TempPrefab.ModelObjects[a] = TempObject;
                 }
 
                 //Go back and write ObjectOffsets
                 TempPos = (int)stream.Position;
                 stream.Position = TempObjectPos;
-                for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
+                for (int a = 0; a < TempPrefab.ModelObjects.Count; a++)
                 {
                     int StartPosObject = (int)stream.Position;
-                    StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ParentID);
-                    if (TempPrefab.PrefabObjects[a].ObjectHighOffset != 0)
+                    StreamUtil.WriteInt32(stream, TempPrefab.ModelObjects[a].ParentID);
+                    if (TempPrefab.ModelObjects[a].ObjectHighOffset != 0)
                     {
-                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectHighOffset - StartPosObject);
-                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectMediumOffset - StartPosObject);
-                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectLowOffset - StartPosObject);
+                        StreamUtil.WriteInt32(stream, TempPrefab.ModelObjects[a].ObjectHighOffset - StartPosObject);
+                        StreamUtil.WriteInt32(stream, TempPrefab.ModelObjects[a].ObjectMediumOffset - StartPosObject);
+                        StreamUtil.WriteInt32(stream, TempPrefab.ModelObjects[a].ObjectLowOffset - StartPosObject);
                     }
                     else
                     {
-                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectHighOffset);
-                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectMediumOffset);
-                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].ObjectLowOffset);
+                        StreamUtil.WriteInt32(stream, TempPrefab.ModelObjects[a].ObjectHighOffset);
+                        StreamUtil.WriteInt32(stream, TempPrefab.ModelObjects[a].ObjectMediumOffset);
+                        StreamUtil.WriteInt32(stream, TempPrefab.ModelObjects[a].ObjectLowOffset);
                     }
-                    if (TempPrefab.PrefabObjects[a].AnimOffset != 0)
+                    if (TempPrefab.ModelObjects[a].AnimOffset != 0)
                     {
-                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].AnimOffset - StartPosObject);
-                    }
-                    else
-                    {
-                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].AnimOffset);
-                    }
-                    if (TempPrefab.PrefabObjects[a].Matrix4x4Offset != -1)
-                    {
-                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].Matrix4x4Offset - StartPosObject);
+                        StreamUtil.WriteInt32(stream, TempPrefab.ModelObjects[a].AnimOffset - StartPosObject);
                     }
                     else
                     {
-                        StreamUtil.WriteInt32(stream, TempPrefab.PrefabObjects[a].Matrix4x4Offset);
+                        StreamUtil.WriteInt32(stream, TempPrefab.ModelObjects[a].AnimOffset);
+                    }
+                    if (TempPrefab.ModelObjects[a].Matrix4x4Offset != -1)
+                    {
+                        StreamUtil.WriteInt32(stream, TempPrefab.ModelObjects[a].Matrix4x4Offset - StartPosObject);
+                    }
+                    else
+                    {
+                        StreamUtil.WriteInt32(stream, TempPrefab.ModelObjects[a].Matrix4x4Offset);
                     }
                 }
                 stream.Position = TempPos;
@@ -1303,9 +1303,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
             int TempPosition = (int)stream.Position;
             stream.Position = ModelPointerOffset;
-            for (int i = 0; i < PrefabPointers.Count; i++)
+            for (int i = 0; i < ModelPointers.Count; i++)
             {
-                StreamUtil.WriteInt32(stream, PrefabPointers[i]);
+                StreamUtil.WriteInt32(stream, ModelPointers[i]);
             }
             stream.Position = TempPosition;
 
@@ -1548,7 +1548,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             StreamUtil.WriteInt32(stream, splines.Count);
             StreamUtil.WriteInt32(stream, splinesSegments.Count);
             StreamUtil.WriteInt32(stream, textureFlipbooks.Count);
-            StreamUtil.WriteInt32(stream, PrefabData.Count);
+            StreamUtil.WriteInt32(stream, modelData.Count);
             StreamUtil.WriteInt32(stream, particleModels.Count);
             StreamUtil.WriteInt32(stream, NumTextures);
             StreamUtil.WriteInt32(stream, Cameras.Count);
@@ -1588,13 +1588,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public void ExportModels(string path)
         {
             //glstHandler.SavePDBModelglTF(path, this);
-            for (int a = 0; a < PrefabData.Count; a++)
+            for (int a = 0; a < modelData.Count; a++)
             {
-                for (int ax = 0; ax < PrefabData[a].PrefabObjects.Count; ax++)
+                for (int ax = 0; ax < modelData[a].ModelObjects.Count; ax++)
                 {
-                    if (PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets != null)
+                    if (modelData[a].ModelObjects[ax].objectData.MeshOffsets != null)
                     {
-                        for (int i = 0; i < PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets.Count; i++)
+                        for (int i = 0; i < modelData[a].ModelObjects[ax].objectData.MeshOffsets.Count; i++)
                         {
                             string outputString = "";
                             string output = "# Exported From SSX Using SSX Multitool Modder by GlitcherOG \n";
@@ -1603,7 +1603,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             List<Vector3> Normals = new List<Vector3>();
                             List<Vector2> UV = new List<Vector2>();
                             outputString += "o Mesh" + i.ToString() + "\n";
-                            var Data = PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets[i].FullMesh;
+                            var Data = modelData[a].ModelObjects[ax].objectData.MeshOffsets[i].FullMesh;
                             for (int b = 0; b < Data.meshFaces.Count; b++)
                             {
                                 var Face = Data.meshFaces[b];
@@ -1681,7 +1681,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 output += "vn " + Normals[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Normals[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Normals[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
                             }
                             output += outputString;
-                            File.AppendAllText(path + "/" + PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets[i].MeshID.ToString() + ".obj", output);
+                            File.AppendAllText(path + "/" + modelData[a].ModelObjects[ax].objectData.MeshOffsets[i].MeshID.ToString() + ".obj", output);
                         }
                     }
                 }
@@ -1693,31 +1693,31 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         {
             //Create Base Object
 
-            for (int a = 0; a < PrefabData.Count; a++)
+            for (int a = 0; a < modelData.Count; a++)
             {
                 var scene = new SharpGLTF.Scenes.SceneBuilder();
                 scene.Name = mapHandler.Models[a].Name;
                 //Make Materials
                 List<MaterialBuilder> materialBuilders = new List<MaterialBuilder>();
 
-                for (int i = 0; i < materialBlocks[PrefabData[a].MaterialBlockID].ints.Count; i++)
+                for (int i = 0; i < materialBlocks[modelData[a].MaterialBlockID].ints.Count; i++)
                 {
-                    var TempVar = materialBlocks[PrefabData[a].MaterialBlockID].ints[i];
+                    var TempVar = materialBlocks[modelData[a].MaterialBlockID].ints[i];
                     var material1 = new MaterialBuilder("Mat "+TempVar)
                     .WithChannelParam(KnownChannel.BaseColor, KnownProperty.RGBA, new Vector4(1, 1, 1, 1));
                     materialBuilders.Add(material1);
                 }
 
                 List<MeshBuilder<VertexPositionNormal, VertexTexture1>> meshBuilders = new List<MeshBuilder<VertexPositionNormal, VertexTexture1>>();
-                for (int ax = 0; ax < PrefabData[a].PrefabObjects.Count; ax++)
+                for (int ax = 0; ax < modelData[a].ModelObjects.Count; ax++)
                 {
                     //Create Object
-                    if (PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets != null)
+                    if (modelData[a].ModelObjects[ax].objectData.MeshOffsets != null)
                     {
                         var mesh = new MeshBuilder<VertexPositionNormal, VertexTexture1>(ax.ToString());
-                        for (int i = 0; i < PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets.Count; i++)
+                        for (int i = 0; i < modelData[a].ModelObjects[ax].objectData.MeshOffsets.Count; i++)
                         {
-                            var TempMesh = PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets[i].FullMesh;
+                            var TempMesh = modelData[a].ModelObjects[ax].objectData.MeshOffsets[i].FullMesh;
                             for (global::System.Int32 b = 0; b < TempMesh.meshFaces.Count; b++)
                             {
                                 //Add Mesh to Object
@@ -1748,7 +1748,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                                 TempTexture3.TexCoord.Y = (float)Face.UV3.Y;
 
 
-                                mesh.UsePrimitive(materialBuilders[PrefabData[a].PrefabObjects[ax].objectData.MeshOffsets[i].MaterialBlockPos]).AddTriangle((TempPos1, TempTexture1), (TempPos2, TempTexture2), (TempPos3, TempTexture3));
+                                mesh.UsePrimitive(materialBuilders[modelData[a].ModelObjects[ax].objectData.MeshOffsets[i].MaterialBlockPos]).AddTriangle((TempPos1, TempTexture1), (TempPos2, TempTexture2), (TempPos3, TempTexture3));
                             }
                         }
                         meshBuilders.Add(mesh);
@@ -1778,19 +1778,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         {
             MemoryStream memoryStream = new MemoryStream();
 
-            for (int ia = 0; ia < PrefabData.Count; ia++)
+            for (int ia = 0; ia < modelData.Count; ia++)
             {
-                Console.WriteLine("Model: " + (ia + 1) + "/" + PrefabData.Count);
-                var TempPrefab = PrefabData[ia];
+                Console.WriteLine("Model: " + (ia + 1) + "/" + modelData.Count);
+                var TempPrefab = modelData[ia];
                 bool Set = false;
                 Vector3 LowestXYZ = new Vector3(0,0,0);
                 Vector3 HighestXYZ = new Vector3(0, 0, 0);
 
                 List<Vector3> verticeList = new List<Vector3>();
 
-                for (int az = 0; az < TempPrefab.PrefabObjects.Count; az++)
+                for (int az = 0; az < TempPrefab.ModelObjects.Count; az++)
                 {
-                    var TempObject = TempPrefab.PrefabObjects[az];
+                    var TempObject = TempPrefab.ModelObjects[az];
                     if (TempObject.objectData.MeshOffsets != null)
                     {
                         for (int bz = 0; bz < TempObject.objectData.MeshOffsets.Count; bz++)
@@ -1836,7 +1836,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         }
                     }
 
-                    TempPrefab.PrefabObjects[az] = TempObject;
+                    TempPrefab.ModelObjects[az] = TempObject;
                 }
 
                 TempPrefab.Scale = new Vector3(1, 1, 1);
@@ -1900,9 +1900,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 }
 
                 //Write Mesh
-                for (int az = 0; az < TempPrefab.PrefabObjects.Count; az++)
+                for (int az = 0; az < TempPrefab.ModelObjects.Count; az++)
                 {
-                    var TempObject = TempPrefab.PrefabObjects[az];
+                    var TempObject = TempPrefab.ModelObjects[az];
                     if (TempObject.objectData.MeshOffsets != null)
                     {
                         for (int bz = 0; bz < TempObject.objectData.MeshOffsets.Count; bz++)
@@ -2195,10 +2195,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                         }
                     }
 
-                    TempPrefab.PrefabObjects[az] = TempObject;
+                    TempPrefab.ModelObjects[az] = TempObject;
                 }
 
-                PrefabData[ia] = TempPrefab;
+                modelData[ia] = TempPrefab;
             }
             memoryStream.Position = 0;
             MeshData = StreamUtil.ReadBytes(memoryStream, (int)memoryStream.Length);
@@ -2216,32 +2216,32 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             }
 
             //Prefabs
-            for (int i = 0; i < PrefabData.Count; i++)
+            for (int i = 0; i < modelData.Count; i++)
             {
-                var TempPrefab = PrefabData[i];
-                for (int a = 0; a < TempPrefab.PrefabObjects.Count; a++)
+                var TempPrefab = modelData[i];
+                for (int a = 0; a < TempPrefab.ModelObjects.Count; a++)
                 {
-                    var TempPrefabObjects = TempPrefab.PrefabObjects[a];
-                    if (TempPrefabObjects.objectData.MeshOffsets != null)
+                    var TempModelObjects = TempPrefab.ModelObjects[a];
+                    if (TempModelObjects.objectData.MeshOffsets != null)
                     {
-                        TempPrefabObjects.objectData.HighestXYZ = TempPrefabObjects.objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0];
-                        TempPrefabObjects.objectData.LowestXYZ = TempPrefabObjects.objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0];
-                        for (int b = 0; b < TempPrefabObjects.objectData.MeshOffsets.Count; b++)
+                        TempModelObjects.objectData.HighestXYZ = TempModelObjects.objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0];
+                        TempModelObjects.objectData.LowestXYZ = TempModelObjects.objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0];
+                        for (int b = 0; b < TempModelObjects.objectData.MeshOffsets.Count; b++)
                         {
-                            for (int c = 0; c < TempPrefabObjects.objectData.MeshOffsets[b].FullMesh.meshChunk.Count; c++)
+                            for (int c = 0; c < TempModelObjects.objectData.MeshOffsets[b].FullMesh.meshChunk.Count; c++)
                             {
-                                for (int d = 0; d < TempPrefabObjects.objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices.Count; d++)
+                                for (int d = 0; d < TempModelObjects.objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices.Count; d++)
                                 {
-                                    TempPrefabObjects.objectData.LowestXYZ = MathUtil.Lowest(TempPrefabObjects.objectData.LowestXYZ, TempPrefabObjects.objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices[d]);
-                                    TempPrefabObjects.objectData.HighestXYZ = MathUtil.Highest(TempPrefabObjects.objectData.HighestXYZ, TempPrefabObjects.objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices[d]);
+                                    TempModelObjects.objectData.LowestXYZ = MathUtil.Lowest(TempModelObjects.objectData.LowestXYZ, TempModelObjects.objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices[d]);
+                                    TempModelObjects.objectData.HighestXYZ = MathUtil.Highest(TempModelObjects.objectData.HighestXYZ, TempModelObjects.objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices[d]);
                                 }
                             }
                         }
 
                     }
-                    TempPrefab.PrefabObjects[a] = TempPrefabObjects;
+                    TempPrefab.ModelObjects[a] = TempModelObjects;
                 }
-                PrefabData[i] = TempPrefab;
+                modelData[i] = TempPrefab;
             }
 
             //Instances
@@ -2249,41 +2249,41 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             {
                 var TempInstance = Instances[i];
 
-                var TempPrefabData = PrefabData[TempInstance.ModelID];
+                var TempPrefabData = modelData[TempInstance.ModelID];
                 Vector3 LowestXYZ = new Vector3(0, 0, 0);
                 Vector3 HighestXYZ = new Vector3(0, 0, 0);
-                for (int a = 0; a < TempPrefabData.PrefabObjects.Count; a++)
+                for (int a = 0; a < TempPrefabData.ModelObjects.Count; a++)
                 {
-                    if (TempPrefabData.PrefabObjects[a].objectData.MeshOffsets != null)
+                    if (TempPrefabData.ModelObjects[a].objectData.MeshOffsets != null)
                     {
-                        var Vertice = TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0];
+                        var Vertice = TempPrefabData.ModelObjects[a].objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0];
 
-                        if (TempPrefabData.PrefabObjects[a].IncludeMatrix)
+                        if (TempPrefabData.ModelObjects[a].IncludeMatrix)
                         {
-                            Vertice = Vector3.Transform(Vertice, TempPrefabData.PrefabObjects[a].matrix4X4);
+                            Vertice = Vector3.Transform(Vertice, TempPrefabData.ModelObjects[a].matrix4X4);
                         }
 
-                        Vertice = Vector3.Transform(TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0], TempInstance.matrix4X4);
+                        Vertice = Vector3.Transform(TempPrefabData.ModelObjects[a].objectData.MeshOffsets[0].FullMesh.meshChunk[0].vertices[0], TempInstance.matrix4X4);
 
                         LowestXYZ = Vertice;
                         HighestXYZ = Vertice;
                     }
                 }
-                for (int a = 0; a < TempPrefabData.PrefabObjects.Count; a++)
+                for (int a = 0; a < TempPrefabData.ModelObjects.Count; a++)
                 {
-                    if (TempPrefabData.PrefabObjects[a].objectData.MeshOffsets != null)
+                    if (TempPrefabData.ModelObjects[a].objectData.MeshOffsets != null)
                     {
-                        for (int b = 0; b < TempPrefabData.PrefabObjects[a].objectData.MeshOffsets.Count; b++)
+                        for (int b = 0; b < TempPrefabData.ModelObjects[a].objectData.MeshOffsets.Count; b++)
                         {
-                            for (int c = 0; c < TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[b].FullMesh.meshChunk.Count; c++)
+                            for (int c = 0; c < TempPrefabData.ModelObjects[a].objectData.MeshOffsets[b].FullMesh.meshChunk.Count; c++)
                             {
-                                for (int d = 0; d < TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices.Count; d++)
+                                for (int d = 0; d < TempPrefabData.ModelObjects[a].objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices.Count; d++)
                                 {
-                                    var Vertice = TempPrefabData.PrefabObjects[a].objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices[d];
+                                    var Vertice = TempPrefabData.ModelObjects[a].objectData.MeshOffsets[b].FullMesh.meshChunk[c].vertices[d];
 
-                                    if (TempPrefabData.PrefabObjects[a].IncludeMatrix)
+                                    if (TempPrefabData.ModelObjects[a].IncludeMatrix)
                                     {
-                                        Vertice = Vector3.Transform(Vertice, TempPrefabData.PrefabObjects[a].matrix4X4);
+                                        Vertice = Vector3.Transform(Vertice, TempPrefabData.ModelObjects[a].matrix4X4);
                                     }
 
                                     Vertice = Vector3.Transform(Vertice, TempInstance.matrix4X4);
@@ -2444,7 +2444,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
 
         public int TextureFlipbookID;
         public int UnknownInt20;
-
     }
 
     public struct MaterialBlock
@@ -2508,7 +2507,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public List<int> ImagePositions;
     }
 
-    public struct Prefabs
+    public struct Models
     {
         public int TotalLength;
         public int ObjectCount;
@@ -2522,7 +2521,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int TriStripCount;
         public int Unknown4;
         public int NonTriCount;
-        public List<ObjectHeader> PrefabObjects;
+        public List<ObjectHeader> ModelObjects;
     }
 
     public struct ObjectHeader
@@ -2618,7 +2617,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public float Value6;
     }
 
-    public struct ParticlePrefab
+    public struct ParticleModel
     {
         public int ByteSize;
         public int ParticleHeaderCount;
