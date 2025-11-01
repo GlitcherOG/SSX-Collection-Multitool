@@ -1279,6 +1279,7 @@ namespace SSXMultiTool
                 mapHandler.Patchs = new List<LinkerItem>();
                 for (int i = 0; i < patchPoints.Patches.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Patch (" + i + ") " + patchPoints.Patches[i].PatchName; 
                     Console.WriteLine("Patch: " +(i+1)+ "/" + patchPoints.Patches.Count + " " + patchPoints.Patches[i].PatchName);
                     Patch patch = new Patch();
                     var ImportPatch = patchPoints.Patches[i];
@@ -1400,6 +1401,7 @@ namespace SSXMultiTool
                 int SegmentPos = 0;
                 for (int i = 0; i < splineJsonHandler.Splines.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Spline (" + i + ") " + splineJsonHandler.Splines[i].SplineName;
                     Console.WriteLine("Spline: " +(i+1)+ "/" + splineJsonHandler.Splines.Count + " " + splineJsonHandler.Splines[i].SplineName);
                     var TempSpline = splineJsonHandler.Splines[i];
                     Spline spline = new Spline();
@@ -1511,6 +1513,7 @@ namespace SSXMultiTool
                 ssfHandler.InstanceState = new List<int>();
                 for (int i = 0; i < instancesJson.Instances.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Instance (" + i + ") " + instancesJson.Instances[i].InstanceName;
                     Console.WriteLine("Instance: " +(i+1)+ "/" + instancesJson.Instances.Count + " " + instancesJson.Instances[i].InstanceName);
                     var Oldinstance = instancesJson.Instances[i];
                     Instance NewInstance = new Instance();
@@ -1719,6 +1722,7 @@ namespace SSXMultiTool
 
                 if (ADLGenerate && adlHandler.HashSounds.Count !=0)
                 {
+                    ErrorUtil.Error = "Error with Sorting Instance Hash";
                     Console.WriteLine("Hash Sorting Sounds");
                     adlHandler.HashSounds.Sort((s1, s2) => s1.Hash.CompareTo(s2.Hash));
 
@@ -1732,6 +1736,7 @@ namespace SSXMultiTool
                 pbdHandler.particleInstances = new List<ParticleInstance>();
                 for (int i = 0; i < particleInstanceJson.Particles.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Particle Instance (" + i + ") " + particleInstanceJson.Particles[i].ParticleName;
                     Console.WriteLine("Particle Instance: " +(i+1)+ "/" + particleInstanceJson.Particles.Count + " " + particleInstanceJson.Particles[i].ParticleName);
                     ParticleInstance TempParticle = new ParticleInstance();
 
@@ -1766,6 +1771,7 @@ namespace SSXMultiTool
                 pbdHandler.materialBlocks = new List<MaterialBlock>();
                 for (int i = 0; i < prefabJsonHandler.Models.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Rebuilding Material Blocks (" + i + ") ";
                     Console.WriteLine("Materials Animations: " +(i+1)+ "/" + prefabJsonHandler.Models.Count);
                     var TempPrefab = prefabJsonHandler.Models[i];
                     var NewMaterialBlock = new MaterialBlock();
@@ -1795,6 +1801,7 @@ namespace SSXMultiTool
                 mapHandler.Models = new List<LinkerItem>();
                 for (int i = 0; i < prefabJsonHandler.Models.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Material Blocks (" + i + ") " + prefabJsonHandler.Models[i].ModelName;
                     Console.WriteLine("Models: " + (i+1)+ "/" + prefabJsonHandler.Models.Count + " " + prefabJsonHandler.Models[i].ModelName);
                     var NewPrefab = new Models();
                     var TempPrefab = prefabJsonHandler.Models[i];
@@ -1909,6 +1916,7 @@ namespace SSXMultiTool
                 mapHandler.Materials = new List<LinkerItem>();
                 for (int i = 0; i < materialJson.Materials.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Material (" + i + ") " + materialJson.Materials[i].MaterialName;
                     Console.WriteLine("Materials: " +(i+1)+ "/" + prefabJsonHandler.Models.Count + " " + materialJson.Materials[i].MaterialName);
 
                     var NewMaterial = new TrickyMaterial();
@@ -2002,6 +2010,7 @@ namespace SSXMultiTool
                 pbdHandler.hashData.LightsHash = new List<HashDataUnknown>();
                 for (int i = 0; i < lightJsonHandler.Lights.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Light (" + i + ") " + lightJsonHandler.Lights[i].LightName;
                     Console.WriteLine("Light: " +(i+1)+ "/" + lightJsonHandler.Lights.Count + " " + lightJsonHandler.Lights[i].LightName);
 
                     Light TempLight = new Light();
@@ -2043,6 +2052,7 @@ namespace SSXMultiTool
                 mapHandler.particelModels = new List<LinkerItem>();
                 for (int i = 0; i < particleModelJsonHandler.ParticlePrefabs.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Particle Model (" + i + ") " + particleModelJsonHandler.ParticlePrefabs[i].ParticleModelName;
                     Console.WriteLine("Particle Model: " +(i+1)+ "/" + particleModelJsonHandler.ParticlePrefabs.Count + " " + particleModelJsonHandler.ParticlePrefabs[i].ParticleModelName);
 
                     var ParticleModel = new ParticleModel();
@@ -2093,6 +2103,7 @@ namespace SSXMultiTool
                 mapHandler.Cameras = new List<LinkerItem>();
                 for (int i = 0; i < cameraJSONHandler.Cameras.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Camera (" + i + ") " + cameraJSONHandler.Cameras[i].CameraName;
                     Console.WriteLine("Camera: " +(i+1)+ "/" + cameraJSONHandler.Cameras.Count + " " + cameraJSONHandler.Cameras[i].CameraName);
 
                     var TempCamera = cameraJSONHandler.Cameras[i];
@@ -2157,26 +2168,33 @@ namespace SSXMultiTool
 
             if (MAPGenerate)
             {
+                ErrorUtil.Error = "Error with Generating .Map";
+
                 Console.WriteLine("Saving Map File");
                 mapHandler.Save(ExportPath + ".map");
             }
 
             if (PBDGenerate || LTGGenerate)
             {
+                ErrorUtil.Error = "Error with Importing Meshes";
                 Console.WriteLine("Importing Meshes");
                 pbdHandler.ImportMeshes(LoadPath + "\\Meshes");
+                ErrorUtil.Error = "Error Generating PDB BBoxes";
                 Console.WriteLine("Generating PDB BBoxes");
                 pbdHandler.RegenerateLowestAndHighest();
             }
 
             if (PBDGenerate)
             {
+                ErrorUtil.Error = "Error Saving PDB File";
                 Console.WriteLine("Saving PDB File");
                 pbdHandler.SaveNew(ExportPath + ".pbd");
             }
+
             if (LTGGenerate)
             {
                 LTGHandler ltgHandler = new LTGHandler();
+                ErrorUtil.Error = "Error Generating LTG";
                 Console.WriteLine("Generating LTG File");
                 if (LTGGenerateMode == 0)
                 {
@@ -2200,7 +2218,7 @@ namespace SSXMultiTool
                     ltgHandler.WorldBounds3 = Vector3.Lerp(BboxLower, BboxHigher, 0.5f);
                 }
 
-
+                ErrorUtil.Error = "Error Saving LTG";
                 Console.WriteLine("Saving LTG File");
                 ltgHandler.SaveLTGFile(ExportPath + ".ltg");
             }
@@ -2218,6 +2236,7 @@ namespace SSXMultiTool
                 aipHandler.AIPath.PathAs = new List<AIPSOPHandler.PathA>();
                 for (int i = 0; i < aip.AIPaths.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with AIP AI Path (" + i + ") " + aip.AIPaths[i].Name;
                     Console.WriteLine("AI Paths: " +(i+1)+ "/" + aip.AIPaths.Count);
                     var NewAIPATH = new AIPSOPHandler.PathA();
 
@@ -2267,6 +2286,7 @@ namespace SSXMultiTool
                 aipHandler.RaceLine.U0 = 1;
                 for (int i = 0; i < aip.RaceLines.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with AIP Race Line (" + i + ") " + aip.RaceLines[i].Name;
                     Console.WriteLine("Race Line Paths: " +(i+1)+ "/" + aip.RaceLines.Count);
                     var NewAIPATH = new AIPSOPHandler.PathB();
 
@@ -2324,6 +2344,7 @@ namespace SSXMultiTool
                 sopHandler.AIPath.PathAs = new List<AIPSOPHandler.PathA>();
                 for (int i = 0; i < sop.AIPaths.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with SOP AI Path (" + i + ") " + sop.AIPaths[i].Name;
                     Console.WriteLine("SOP AI Paths: " +(i+1)+ "/" + sop.AIPaths.Count);
                     var NewAIPATH = new AIPSOPHandler.PathA();
 
@@ -2373,6 +2394,7 @@ namespace SSXMultiTool
                 sopHandler.RaceLine.U0 = 1;
                 for (int i = 0; i < sop.RaceLines.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with SOP Race Line (" + i + ") " + sop.RaceLines[i].Name;
                     Console.WriteLine("SOP Race Line Paths: " +(i+1)+ "/" + sop.RaceLines.Count);
 
                     var NewAIPATH = new AIPSOPHandler.PathB();
@@ -2436,6 +2458,7 @@ namespace SSXMultiTool
                     temp.AlphaFix = true;
                     TextureHandler.sshImages[i] = temp;
                 }
+                ErrorUtil.Error = "Error with Saving SSH Texture File";
                 Console.WriteLine("Saving Texture File (May take some time if textures havent been processed before hand)");
                 TextureHandler.SaveSSH(ExportPath + ".ssh", true);
             }

@@ -181,22 +181,29 @@ namespace SSXMultiTool
                     trickyLevelInterface.LTGGenerateMode = LTGMode.SelectedIndex;
                     BuildPath = openFileDialog.FileName;
 
-                    if (openFileDialog.FileName.ToLower().Contains(".big"))
+                    try
                     {
-                        Directory.CreateDirectory(Application.StartupPath + "\\TempExtract");
-                        Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\Data");
-                        Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\data\\models");
-                        string InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(openFileDialog.FileName.ToLower()).Substring(0, Path.GetFileName(openFileDialog.FileName).Length - 3) + "map";
-                        trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, InputPath);
-                        BigHandler bigHandler = new BigHandler();
-                        bigHandler.LoadFolderC0FB(Application.StartupPath + "\\TempExtract");
-                        bigHandler.CompressBuild = true;
-                        bigHandler.BuildBig(openFileDialog.FileName);
-                        Directory.Delete(Application.StartupPath + "\\TempExtract", true);
+                        if (openFileDialog.FileName.ToLower().Contains(".big"))
+                        {
+                            Directory.CreateDirectory(Application.StartupPath + "\\TempExtract");
+                            Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\Data");
+                            Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\data\\models");
+                            string InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(openFileDialog.FileName.ToLower()).Substring(0, Path.GetFileName(openFileDialog.FileName).Length - 3) + "map";
+                            trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, InputPath);
+                            BigHandler bigHandler = new BigHandler();
+                            bigHandler.LoadFolderC0FB(Application.StartupPath + "\\TempExtract");
+                            bigHandler.CompressBuild = true;
+                            bigHandler.BuildBig(openFileDialog.FileName);
+                            Directory.Delete(Application.StartupPath + "\\TempExtract", true);
+                        }
+                        else
+                        {
+                            trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, openFileDialog.FileName);
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, openFileDialog.FileName);
+                        MessageBox.Show(ErrorUtil.Error);
                     }
                     this.Text = "Tricky Project Window (Building Done)";
                     //FlashWindow.Flash(this);
@@ -246,23 +253,29 @@ namespace SSXMultiTool
                 trickyLevelInterface.SOPGenerate = GenSOP.Checked;
                 trickyLevelInterface.LTGGenerateMode = LTGMode.SelectedIndex;
 
-
-                if (BuildPath.Contains(".big"))
+                try
                 {
-                    Directory.CreateDirectory(Application.StartupPath + "\\TempExtract");
-                    Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\Data");
-                    Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\data\\models");
-                    string InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(BuildPath.ToLower()).Substring(0, Path.GetFileName(BuildPath).Length - 3) + "map";
-                    trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, InputPath);
-                    BigHandler bigHandler = new BigHandler();
-                    bigHandler.LoadFolderC0FB(Application.StartupPath + "\\TempExtract");
-                    bigHandler.CompressBuild = true;
-                    bigHandler.BuildBig(BuildPath);
-                    Directory.Delete(Application.StartupPath + "\\TempExtract", true);
+                    if (BuildPath.Contains(".big"))
+                    {
+                        Directory.CreateDirectory(Application.StartupPath + "\\TempExtract");
+                        Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\Data");
+                        Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\data\\models");
+                        string InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(BuildPath.ToLower()).Substring(0, Path.GetFileName(BuildPath).Length - 3) + "map";
+                        trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, InputPath);
+                        BigHandler bigHandler = new BigHandler();
+                        bigHandler.LoadFolderC0FB(Application.StartupPath + "\\TempExtract");
+                        bigHandler.CompressBuild = true;
+                        bigHandler.BuildBig(BuildPath);
+                        Directory.Delete(Application.StartupPath + "\\TempExtract", true);
+                    }
+                    else
+                    {
+                        trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, BuildPath);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, BuildPath);
+                    MessageBox.Show(ErrorUtil.Error);
                 }
                 this.Text = "Tricky Project Window (Building Done)";
                 //FlashWindow.Flash(this);
