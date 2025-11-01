@@ -2471,6 +2471,7 @@ namespace SSXMultiTool
                 //Effect Slot
                 for (int i = 0; i < ssfJsonHandler.EffectSlots.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Effect Slot (" + i + ") " + ssfJsonHandler.EffectSlots[i].EffectSlotName;
                     Console.WriteLine("Effect Slots: " +(i+1)+ "/" + ssfJsonHandler.EffectSlots.Count +" " + ssfJsonHandler.EffectSlots[i].EffectSlotName);
                     var NewEffectSlot = new SSFHandler.EffectSlot();
                     NewEffectSlot.Slot1 = ssfJsonHandler.EffectSlots[i].PersistantEffectSlot;
@@ -2488,6 +2489,7 @@ namespace SSXMultiTool
                 ssfHandler.PhysicsHeaders = new List<SSFHandler.PhysicsHeader>();
                 for (int i = 0; i < ssfJsonHandler.PhysicsHeaders.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Physics (" + i + ") " + ssfJsonHandler.PhysicsHeaders[i].PhysicsName;
                     Console.WriteLine("Physics: " +(i+1)+ "/" + ssfJsonHandler.PhysicsHeaders.Count + " " + ssfJsonHandler.PhysicsHeaders[i].PhysicsName);
                     var NewPhysicsHeader = new SSFHandler.PhysicsHeader();
                     NewPhysicsHeader.PhysicsDatas = new List<SSFHandler.PhysicsData>();
@@ -2549,6 +2551,7 @@ namespace SSXMultiTool
                 ssfHandler.EffectHeaders = new List<SSFHandler.EffectHeaderStruct>();
                 for (int i = 0; i < ssfJsonHandler.EffectHeaders.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Effect Headers (" + i + ") " + ssfJsonHandler.EffectHeaders[i].EffectName;
                     Console.WriteLine("Effect Headers: " +(i+1)+ "/" + ssfJsonHandler.EffectHeaders.Count +" " + ssfJsonHandler.EffectHeaders[i].EffectName);
                     var NewEffectHeader = new SSFHandler.EffectHeaderStruct();
 
@@ -2567,6 +2570,7 @@ namespace SSXMultiTool
                 ssfHandler.Functions = new List<SSFHandler.Function>();
                 for (int i = 0; i < ssfJsonHandler.Functions.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Function (" + i + ") " + ssfJsonHandler.Functions[i].FunctionName;
                     Console.WriteLine("Effect Functions: " +(i+1)+ "/" + ssfJsonHandler.Functions.Count + " " + ssfJsonHandler.Functions[i].FunctionName);
 
                     var NewEffectHeader = new SSFHandler.Function();
@@ -2582,8 +2586,10 @@ namespace SSXMultiTool
                 }
 
                 //Load Model
+                ErrorUtil.Error = "Error with Collision Models";
                 Console.WriteLine("Importing Collision Models");
                 ssfHandler.LoadModels(LoadPath + "/Collision/");
+                ErrorUtil.Error = "Error with Saving SSF File";
                 Console.WriteLine("Saving SSF File");
                 ssfHandler.Save(ExportPath + ".ssf");
             }
@@ -2602,6 +2608,7 @@ namespace SSXMultiTool
 
                 for (int i = 0; i < SkyMaterialJson.Materials.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Skybox Material (" + i + ") " + SkyMaterialJson.Materials[i].MaterialName;
                     Console.WriteLine("Skybox Materials: " +(i+1)+ "/" + SkyMaterialJson.Materials.Count);
 
                     var NewMaterial = new TrickyMaterial();
@@ -2647,6 +2654,7 @@ namespace SSXMultiTool
                 skyboxpbdHander.materialBlocks = new List<MaterialBlock>();
                 for (int i = 0; i < SkyPrefabJsonHandler.Models.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Material Block (" + i + ")";
                     Console.WriteLine("Skybox Materials Blocks: " +(i+1)+ "/" + SkyPrefabJsonHandler.Models.Count);
 
                     var TempPrefab = SkyPrefabJsonHandler.Models[i];
@@ -2676,6 +2684,8 @@ namespace SSXMultiTool
                 skyboxpbdHander.modelData = new List<Models>();
                 for (int i = 0; i < SkyPrefabJsonHandler.Models.Count; i++)
                 {
+                    ErrorUtil.Error = "Error with Skybox Model (" + i + ") " + SkyPrefabJsonHandler.Models[i].ModelName;
+
                     Console.WriteLine("Skybox Models: " +(i+1)+ "/" + SkyPrefabJsonHandler.Models.Count);
 
                     var NewPrefab = new Models();
@@ -2833,7 +2843,7 @@ namespace SSXMultiTool
                     pbdHandler = LightmapGenerator.GenerateNewLightmapPoints(pbdHandler);
                     LightmapHandler = LightmapGenerator.GenerateUnlitLightmap(pbdHandler);
                 }
-
+                ErrorUtil.Error = "Error with Saving SSH Lightmap";
                 LightmapHandler.SaveSSH(ExportPath + "_L.ssh", true);
             }
         }
