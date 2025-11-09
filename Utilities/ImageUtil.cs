@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,51 +44,79 @@ namespace SSXMultiTool.Utilities
             bmp.UnlockBits(data);
             return result;
         }
-        public static Bitmap ReduceBitmapColorsSlow(Bitmap bmp, int MaxColors)
+        public static Bitmap ReduceBitmapColorsFast(Bitmap bmp, int maxColors)
         {
-            // Step 1: Extract pixel colors
-            var pixelColors = new List<Color>();
-            for (int y = 0; y < bmp.Height; y++)
+            int width = bmp.Width;
+            int height = bmp.Height;
+
+            // Step 1: Lock bitmap for fast access
+            var rect = new Rectangle(0, 0, width, height);
+            var bmpData = bmp.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+
+            int bytesPerPixel = 3;
+            int stride = bmpData.Stride;
+            int byteCount = stride * height;
+            byte[] pixels = new byte[byteCount];
+            Marshal.Copy(bmpData.Scan0, pixels, 0, byteCount);
+
+            // Step 2: Extract pixels (sample for speed)
+            var pixelColors = new List<Color>(width * height / 4); // sample 25% pixels
+            for (int y = 0; y < height; y += 2)
             {
-                for (int x = 0; x < bmp.Width; x++)
+                int row = y * stride;
+                for (int x = 0; x < width * bytesPerPixel; x += 6)
                 {
-                    pixelColors.Add(bmp.GetPixel(x, y));
+                    byte b = pixels[row + x + 0];
+                    byte g = pixels[row + x + 1];
+                    byte r = pixels[row + x + 2];
+                    pixelColors.Add(Color.FromArgb(r, g, b));
                 }
             }
 
-            // Step 2: Reduce colors
-            var reducedPalette = ReduceColors(pixelColors, MaxColors);
+            // Step 3: Compute reduced palette
+            var reducedPalette = ReduceColors(pixelColors, maxColors);
 
-            // Step 3: Recolor bitmap using nearest palette color
-            for (int y = 0; y < bmp.Height; y++)
+            // Step 4: Recolor bitmap using nearest palette color (parallel)
+            Parallel.For(0, height, y =>
             {
-                for (int x = 0; x < bmp.Width; x++)
+                int row = y * stride;
+                for (int x = 0; x < width * bytesPerPixel; x += 3)
                 {
-                    var original = bmp.GetPixel(x, y);
-                    var nearest = FindNearestColor(original, reducedPalette);
-                    bmp.SetPixel(x, y, nearest);
+                    byte b = pixels[row + x + 0];
+                    byte g = pixels[row + x + 1];
+                    byte r = pixels[row + x + 2];
+
+                    var nearest = FindNearestColor(Color.FromArgb(r, g, b), reducedPalette);
+
+                    pixels[row + x + 0] = nearest.B;
+                    pixels[row + x + 1] = nearest.G;
+                    pixels[row + x + 2] = nearest.R;
                 }
-            }
+            });
+
+            Marshal.Copy(pixels, 0, bmpData.Scan0, byteCount);
+            bmp.UnlockBits(bmpData);
 
             return bmp;
         }
 
-        public static List<Color> ReduceColors(List<Color> inputColors, int MaxColors)
+        // --- Helper methods below ---
+
+        public static List<Color> ReduceColors(List<Color> inputColors, int maxColors)
         {
-            if (inputColors.Count <= MaxColors)
+            if (inputColors.Count <= maxColors)
                 return inputColors.Distinct().ToList();
 
-            // Convert to vectors
             var vectors = inputColors.Select(c => new float[] { c.R, c.G, c.B }).ToList();
-
-            // K-Means clustering
-            var clusters = KMeans(vectors, MaxColors);
-
-            // Convert cluster centroids back to Colors
-            return clusters.Select(v => Color.FromArgb((int)v[0], (int)v[1], (int)v[2])).ToList();
+            var clusters = KMeans(vectors, maxColors);
+            return clusters.Select(v => Color.FromArgb(
+                (int)Math.Round(v[0]),
+                (int)Math.Round(v[1]),
+                (int)Math.Round(v[2])
+            )).ToList();
         }
 
-        private static List<float[]> KMeans(List<float[]> points, int k, int maxIterations = 100)
+        private static List<float[]> KMeans(List<float[]> points, int k, int maxIterations = 20)
         {
             var rnd = new Random();
             var centroids = points.OrderBy(_ => rnd.Next()).Take(k).ToList();
@@ -95,8 +124,7 @@ namespace SSXMultiTool.Utilities
 
             for (int iteration = 0; iteration < maxIterations; iteration++)
             {
-                // Assign points to the nearest centroid
-                for (int i = 0; i < points.Count; i++)
+                Parallel.For(0, points.Count, i =>
                 {
                     float minDist = float.MaxValue;
                     int closest = 0;
@@ -110,35 +138,34 @@ namespace SSXMultiTool.Utilities
                         }
                     }
                     assignments[i] = closest;
+                });
+
+                var newCentroids = new List<float[]>(k);
+                for (int j = 0; j < k; j++)
+                    newCentroids.Add(new float[3]);
+
+                int[] counts = new int[k];
+                for (int i = 0; i < points.Count; i++)
+                {
+                    int cluster = assignments[i];
+                    counts[cluster]++;
+                    newCentroids[cluster][0] += points[i][0];
+                    newCentroids[cluster][1] += points[i][1];
+                    newCentroids[cluster][2] += points[i][2];
                 }
 
-                // Update centroids
-                var newCentroids = new List<float[]>();
-                for (int i = 0; i < k; i++)
+                for (int j = 0; j < k; j++)
                 {
-                    var clusterPoints = points
-                        .Where((_, index) => assignments[index] == i)
-                        .ToList();
-
-                    if (clusterPoints.Count == 0)
+                    if (counts[j] > 0)
                     {
-                        newCentroids.Add(points[rnd.Next(points.Count)]);
-                        continue;
+                        newCentroids[j][0] /= counts[j];
+                        newCentroids[j][1] /= counts[j];
+                        newCentroids[j][2] /= counts[j];
                     }
-
-                    float[] mean = new float[3];
-                    foreach (var p in clusterPoints)
+                    else
                     {
-                        mean[0] += p[0];
-                        mean[1] += p[1];
-                        mean[2] += p[2];
+                        newCentroids[j] = points[rnd.Next(points.Count)];
                     }
-
-                    mean[0] /= clusterPoints.Count;
-                    mean[1] /= clusterPoints.Count;
-                    mean[2] /= clusterPoints.Count;
-
-                    newCentroids.Add(mean);
                 }
 
                 centroids = newCentroids;
@@ -157,20 +184,20 @@ namespace SSXMultiTool.Utilities
 
         private static Color FindNearestColor(Color color, List<Color> palette)
         {
+            int minDist = int.MaxValue;
             Color nearest = palette[0];
-            int minDistance = int.MaxValue;
 
-            foreach (var c in palette)
+            foreach (var p in palette)
             {
-                int dr = color.R - c.R;
-                int dg = color.G - c.G;
-                int db = color.B - c.B;
+                int dr = color.R - p.R;
+                int dg = color.G - p.G;
+                int db = color.B - p.B;
                 int dist = dr * dr + dg * dg + db * db;
 
-                if (dist < minDistance)
+                if (dist < minDist)
                 {
-                    minDistance = dist;
-                    nearest = c;
+                    minDist = dist;
+                    nearest = p;
                 }
             }
 

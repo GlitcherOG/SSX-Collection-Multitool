@@ -364,13 +364,15 @@ namespace SSXMultiTool.FileHandlers.Textures
 
                     if (sshImage.colorsTable.Count > 256 && sshImage.MatrixType == 2)
                     {
-                        sshImage.bitmap = ImageUtil.ReduceBitmapColorsSlow(sshImage.bitmap, 256);
+                        Console.WriteLine("Over 256 Colour Limit " + sshImage.shortname + " (" + i + "/" + sshImages.Count + ")");
+                        sshImage.bitmap = ImageUtil.ReduceBitmapColorsFast(sshImage.bitmap, 256);
                         //MessageBox.Show(sshImages[i].shortname + " " + i.ToString() + " Exceeds 256 Colours");
                         //check = true;
                     }
                     if (sshImage.colorsTable.Count > 16 && sshImage.MatrixType == 1)
                     {
-                        sshImage.bitmap = ImageUtil.ReduceBitmapColorsSlow(sshImage.bitmap, 16);
+                        Console.WriteLine("Over 16 Colour Limit " + sshImage.shortname + " (" + i + "/" + sshImages.Count + ")");
+                        sshImage.bitmap = ImageUtil.ReduceBitmapColorsFast(sshImage.bitmap, 16);
                         //MessageBox.Show(sshImage.shortname + " " + i.ToString() + " Exceeds 16 Colours");
                         //check = true;
                     }

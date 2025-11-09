@@ -694,13 +694,13 @@ namespace SSXMultiTool.FileHandlers.Textures
 
                     if (sshImage.sshTable.colorTable.Count > 256 && (sshImages[i].sshHeader.MatrixFormat == 2 || sshImages[i].sshHeader.MatrixFormat == 130))
                     {
-                        sshImage.bitmap = ImageUtil.ReduceBitmapColorsSlow(sshImage.bitmap, 256);
+                        sshImage.bitmap = ImageUtil.ReduceBitmapColorsFast(sshImage.bitmap, 256);
                         //MessageBox.Show(sshImages[i].shortname + " " + i.ToString() + " Exceeds 256 Colours");
                         //check = true;
                     }
                     if (sshImage.sshTable.colorTable.Count > 16 && sshImages[i].sshHeader.MatrixFormat == 1)
                     {
-                        sshImage.bitmap = ImageUtil.ReduceBitmapColorsSlow(sshImage.bitmap, 16);
+                        sshImage.bitmap = ImageUtil.ReduceBitmapColorsFast(sshImage.bitmap, 16);
                         //MessageBox.Show(sshImage.shortname + " " + i.ToString() + " Exceeds 16 Colours");
                         //check = true;
                     }
