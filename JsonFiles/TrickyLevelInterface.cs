@@ -364,7 +364,7 @@ namespace SSXMultiTool
                 TempLight.UnknownInt1 = pbdHandler.lights[i].UnknownInt1;
                 TempLight.Colour = JsonUtil.Vector3ToArray(pbdHandler.lights[i].Colour);
                 TempLight.Direction = JsonUtil.Vector3ToArray(pbdHandler.lights[i].Direction);
-                TempLight.Postion = JsonUtil.Vector3ToArray(pbdHandler.lights[i].Postion);
+                TempLight.Position = JsonUtil.Vector3ToArray(pbdHandler.lights[i].Position);
                 TempLight.LowestXYZ = JsonUtil.Vector3ToArray(pbdHandler.lights[i].LowestXYZ);
                 TempLight.HighestXYZ = JsonUtil.Vector3ToArray(pbdHandler.lights[i].HighestXYZ);
                 TempLight.UnknownFloat2 = pbdHandler.lights[i].UnknownFloat2;
@@ -2020,7 +2020,7 @@ namespace SSXMultiTool
                     TempLight.UnknownInt1 = lightJsonHandler.Lights[i].UnknownInt1;
                     TempLight.Colour = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].Colour);
                     TempLight.Direction = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].Direction);
-                    TempLight.Postion = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].Postion);
+                    TempLight.Position = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].Position);
                     TempLight.LowestXYZ = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].LowestXYZ);
                     TempLight.HighestXYZ = JsonUtil.ArrayToVector3(lightJsonHandler.Lights[i].HighestXYZ);
                     TempLight.UnknownFloat2 = lightJsonHandler.Lights[i].UnknownFloat2;

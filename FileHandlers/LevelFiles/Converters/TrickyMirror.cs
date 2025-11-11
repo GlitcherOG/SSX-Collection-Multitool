@@ -165,7 +165,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.Converters
                 var Light = lightJsonHandler.Lights[i];
 
                 //Light.Postion[0] = Light.Postion[0] * -1f;
-                Light.Postion[1] = Light.Postion[1] * -1f;
+                Light.Position[1] = Light.Position[1] * -1f;
                 //Light.Postion[2] = Light.Postion[2] * Scale;
 
                 lightJsonHandler.Lights[i] = Light;

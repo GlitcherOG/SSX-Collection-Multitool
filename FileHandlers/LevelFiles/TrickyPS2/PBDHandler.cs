@@ -289,7 +289,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempLights.UnknownInt1 = StreamUtil.ReadUInt32(stream);
                     TempLights.Colour = StreamUtil.ReadVector3(stream);
                     TempLights.Direction = StreamUtil.ReadVector3(stream);
-                    TempLights.Postion = StreamUtil.ReadVector3(stream);
+                    TempLights.Position = StreamUtil.ReadVector3(stream);
                     TempLights.LowestXYZ = StreamUtil.ReadVector3(stream);
                     TempLights.HighestXYZ = StreamUtil.ReadVector3(stream);
                     TempLights.UnknownFloat2 = StreamUtil.ReadFloat(stream);
@@ -1025,7 +1025,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                 StreamUtil.WriteInt32(stream, TempLights.UnknownInt1);
                 StreamUtil.WriteVector3(stream, TempLights.Colour);
                 StreamUtil.WriteVector3(stream, TempLights.Direction);
-                StreamUtil.WriteVector3(stream, TempLights.Postion);
+                StreamUtil.WriteVector3(stream, TempLights.Position);
                 StreamUtil.WriteVector3(stream, TempLights.LowestXYZ);
                 StreamUtil.WriteVector3(stream, TempLights.HighestXYZ);
                 StreamUtil.WriteFloat32(stream, TempLights.UnknownFloat2);
@@ -2460,7 +2460,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
         public int UnknownInt1;
         public Vector3 Colour;
         public Vector3 Direction;
-        public Vector3 Postion;
+        public Vector3 Position;
         public Vector3 LowestXYZ;
         public Vector3 HighestXYZ;
         public float UnknownFloat2;

@@ -51,7 +51,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public int UnknownInt1;
             public float[] Colour;
             public float[] Direction;
-            public float[] Postion;
+            public float[] Position;
             public float[] LowestXYZ;
             public float[] HighestXYZ;
             public float UnknownFloat2;

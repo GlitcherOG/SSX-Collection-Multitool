@@ -333,7 +333,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempMainBox.lightIndex = new List<int>();
                     for (int i = 0; i < pbdHandler.lights.Count; i++)
                     {
-                        if (JsonUtil.WithinXY(pbdHandler.lights[i].Postion, TempMainBox.WorldBounds1, TempMainBox.WorldBounds2) && !LightBools[i] && pbdHandler.lights[i].spriteRes != 0)
+                        if (JsonUtil.WithinXY(pbdHandler.lights[i].Position, TempMainBox.WorldBounds1, TempMainBox.WorldBounds2) && !LightBools[i] && pbdHandler.lights[i].spriteRes != 0)
                         {
                             TempMainBox.Modified = true;
                             LightBools[i] = true;
@@ -441,7 +441,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             TempNodeBox.LightIndex = new List<int>();
                             for (int i = 0; i < TempMainBox.lightIndex.Count; i++)
                             {
-                                if (JsonUtil.WithinXY(pbdHandler.lights[TempMainBox.lightIndex[i]].Postion, TempNodeBox.WorldBounds1, TempNodeBox.WorldBounds2) && !NodeLightBools[i])
+                                if (JsonUtil.WithinXY(pbdHandler.lights[TempMainBox.lightIndex[i]].Position, TempNodeBox.WorldBounds1, TempNodeBox.WorldBounds2) && !NodeLightBools[i])
                                 {
                                     TempNodeBox.Modified = true;
                                     NodeLightBools[i] = true;
@@ -880,7 +880,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     TempMainBox.lightIndex = new List<int>();
                     for (int i = 0; i < pbdHandler.lights.Count; i++)
                     {
-                        if (JsonUtil.WithinXY(pbdHandler.lights[i].Postion, TempMainBox.WorldBounds1, TempMainBox.WorldBounds2) && !LightBools[i] && pbdHandler.lights[i].spriteRes != 0)
+                        if (JsonUtil.WithinXY(pbdHandler.lights[i].Position, TempMainBox.WorldBounds1, TempMainBox.WorldBounds2) && !LightBools[i] && pbdHandler.lights[i].spriteRes != 0)
                         {
                             TempMainBox.Modified = true;
                             LightBools[i] = true;
@@ -988,7 +988,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                             TempNodeBox.LightIndex = new List<int>();
                             for (int i = 0; i < TempMainBox.lightIndex.Count; i++)
                             {
-                                if (JsonUtil.WithinXY(pbdHandler.lights[TempMainBox.lightIndex[i]].Postion, TempNodeBox.WorldBounds1, TempNodeBox.WorldBounds2) && !NodeLightBools[i])
+                                if (JsonUtil.WithinXY(pbdHandler.lights[TempMainBox.lightIndex[i]].Position, TempNodeBox.WorldBounds1, TempNodeBox.WorldBounds2) && !NodeLightBools[i])
                                 {
                                     TempNodeBox.Modified = true;
                                     NodeLightBools[i] = true;
