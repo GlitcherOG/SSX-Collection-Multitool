@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 using static BCnEncoder.Shared.HdrImage;
+using static SSXMultiTool.FileHandlers.Textures.OldSSHHandler;
 
 
 namespace SSXMultiTool.FileHandlers.Textures
@@ -217,7 +218,7 @@ namespace SSXMultiTool.FileHandlers.Textures
                 }
                 else
                 {
-                    MessageBox.Show(tempImage.MatrixType + " Unknown Matrix");
+                    Console.WriteLine(tempImage.MatrixType + " Unknown Matrix");
                 }
 
                 var longNameShape = GetMatrixType(tempImage, 111);
@@ -327,7 +328,7 @@ namespace SSXMultiTool.FileHandlers.Textures
         {
             for (int i = 0; i < sshImages.Count; i++)
             {
-                sshImages[i].bitmap.Save(path + "\\" + sshImages[i].shortname + /*"." +*/ i + ".png", ImageFormat.Png);
+                sshImages[i].bitmap.Save(Path.Combine(path, sshImages[i].shortname + i + ".png"), ImageFormat.Png);
             }
         }
 
@@ -432,7 +433,7 @@ namespace SSXMultiTool.FileHandlers.Textures
                 }
                 else
                 {
-                    MessageBox.Show(Image.MatrixType + " Unknown Matrix");
+                    Console.WriteLine(Image.MatrixType + " Unknown Matrix");
                     return;
                 }
 
@@ -697,41 +698,5 @@ namespace SSXMultiTool.FileHandlers.Textures
 
             public byte[] Matrix;
         }
-        /* 
-u32 Magic @ $;
-u32 Size @ $;
-be u32 imageCount @ $;
-be u32 U0 @ $;
-
-struct imageColour
-{
-
-};
-
-struct imageData
-{
-  u8 Type; 
-  u24 uimage0; 
-  u32 Size; 
-  u32 u2;
-  u32 u3;
-  u32 u4; 
-  u32 u5;
-  u32 u6;
-  u32 u7;
-  u8 Index[Size-32];
-};
-
-struct imageHeader
-{
-    be u32 Offset;
-    be u32 Size;
-    u8 Name[12];
-    imageData ImageData @ Offset;
-};
-
-imageHeader Header[imageCount] @$;
-        
-        */
     }
 }

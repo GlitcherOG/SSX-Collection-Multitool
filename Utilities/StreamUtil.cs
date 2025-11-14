@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
 using System.Numerics;
-using System.Collections;
-using System.Runtime.InteropServices.Marshalling;
 
 namespace SSXMultiTool.Utilities
 {
