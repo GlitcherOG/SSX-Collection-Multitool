@@ -1,5 +1,6 @@
 ﻿using SSXMultiTool.FileHandlers.Models.SSX2012;
 using SSXMultiTool.FileHandlers.SSX2012;
+using SSXMultiTool.FileHandlers.Textures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -71,6 +72,33 @@ namespace SSXMultiTool.Tools
                     CRSFHandler cRSFHandler = new CRSFHandler();
 
                     cRSFHandler.Load(openFileDialog.FileName);
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "GTF File|*.gtf|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            //openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                SaveFileDialog openFileDialog1 = new SaveFileDialog
+                {
+                    Filter = "DDS Texture (*.DDS)|*.DDS|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    GTFHandler gTFHandler = new GTFHandler();
+
+                    gTFHandler.GTFToDDS(openFileDialog.FileName, openFileDialog1.FileName);
                 }
             }
         }

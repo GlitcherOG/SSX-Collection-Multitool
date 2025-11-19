@@ -111,6 +111,7 @@
             button1.TabIndex = 0;
             button1.Text = "GTF > DDS";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // SSX2012ToolsWindow
             // 
