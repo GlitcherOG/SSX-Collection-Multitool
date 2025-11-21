@@ -83,7 +83,6 @@
             // 
             // button7
             // 
-            button7.Enabled = false;
             button7.Location = new Point(506, 22);
             button7.Name = "button7";
             button7.Size = new Size(94, 50);
@@ -94,13 +93,13 @@
             // 
             // button3
             // 
-            button3.Enabled = false;
             button3.Location = new Point(406, 22);
             button3.Name = "button3";
             button3.Size = new Size(94, 50);
             button3.TabIndex = 4;
             button3.Text = "SSX Blur Tools";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // button2
             // 

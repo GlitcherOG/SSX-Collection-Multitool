@@ -36,6 +36,9 @@
     <Compile Update="Tools\NewSSHImageTools.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Tools\SSXBlurToolsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
