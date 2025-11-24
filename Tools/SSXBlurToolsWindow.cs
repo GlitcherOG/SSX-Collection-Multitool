@@ -22,7 +22,7 @@ namespace SSXMultiTool.Tools
         }
 
         SSXBlurGCMNF SSXBlur = new SSXBlurGCMNF();
-        //SSXOnTourPS2ModelCombiner modelCombiner = new SSXOnTourPS2ModelCombiner();
+        SSXBlurModelCombiner modelCombiner = new SSXBlurModelCombiner();
         private void MpfLoad_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -40,17 +40,17 @@ namespace SSXMultiTool.Tools
                 //}
                 SSXBlur = new SSXBlurGCMNF();
                 SSXBlur.load(openFileDialog.FileName);
-                //modelCombiner = new SSXOnTourPS2ModelCombiner();
-                //modelCombiner.AddFile(onTourMPF);
+                modelCombiner = new SSXBlurModelCombiner();
+                modelCombiner.AddFile(SSXBlur);
 
-                //MpfWarning.Text = modelCombiner.CheckBones(0);
-                //UpdateData();
+                MpfWarning.Text = modelCombiner.CheckBones(0);
+                UpdateData();
 
-                //MpfModelList.Items.Clear();
-                //for (int i = 0; i < onTourMPF.ModelList.Count; i++)
-                //{
-                //    MpfModelList.Items.Add(onTourMPF.ModelList[i].ModelName);
-                //}
+                MpfModelList.Items.Clear();
+                for (int i = 0; i < SSXBlur.modelHeaders.Count; i++)
+                {
+                    MpfModelList.Items.Add(SSXBlur.modelHeaders[i].ModelName);
+                }
 
             }
         }
@@ -71,48 +71,48 @@ namespace SSXMultiTool.Tools
 
         private void MpfExport_Click(object sender, EventArgs e)
         {
-            //if (MpfModelList.SelectedIndex != -1)
-            //{
-            //    SaveFileDialog openFileDialog = new SaveFileDialog
-            //    {
-            //        Filter = "Model File (*.glb)|*.glb|All files (*.*)|*.*",
-            //        FilterIndex = 1,
-            //        RestoreDirectory = false
-            //    };
-            //    if (openFileDialog.ShowDialog() == DialogResult.OK)
-            //    {
-            //        modelCombiner.MeshReassigned(MpfModelList.SelectedIndex);
-            //        glftHandler.SaveSSXOnTourGlft(openFileDialog.FileName, modelCombiner);
-            //    }
-            //}
+            if (MpfModelList.SelectedIndex != -1)
+            {
+                SaveFileDialog openFileDialog = new SaveFileDialog
+                {
+                    Filter = "Model File (*.glb)|*.glb|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    modelCombiner.MeshReassigned(MpfModelList.SelectedIndex);
+                    glftHandler.SaveSSXBlurGCGlft(openFileDialog.FileName, modelCombiner);
+                }
+            }
         }
 
         private void MpfBoneLoad_Click(object sender, EventArgs e)
         {
-            //if (modelCombiner.modelHandlers != null)
-            //{
-            //    OpenFileDialog openFileDialog = new OpenFileDialog
-            //    {
-            //        Filter = "Model File (*.mpf)|*.mpf|All files (*.*)|*.*",
-            //        FilterIndex = 1,
-            //        RestoreDirectory = false
-            //    };
-            //    if (openFileDialog.ShowDialog() == DialogResult.OK)
-            //    {
-            //        if (MpfHeaderChecker.DetectFileType(openFileDialog.FileName) != 3)
-            //        {
-            //            MessageBox.Show(MpfHeaderChecker.TypeErrorMessage(MpfHeaderChecker.DetectFileType(openFileDialog.FileName)));
-            //            return;
-            //        }
+            if (modelCombiner.modelHandlers != null)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "Model File (*.mnf)|*.mnf|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //if (MpfHeaderChecker.DetectFileType(openFileDialog.FileName) != 3)
+                    //{
+                    //    MessageBox.Show(MpfHeaderChecker.TypeErrorMessage(MpfHeaderChecker.DetectFileType(openFileDialog.FileName)));
+                    //    return;
+                    //}
 
 
-            //        onTourMPF = new SSXBlurGCMNF();
-            //        onTourMPF.load(openFileDialog.FileName);
-            //        //modelCombiner.AddBones(onTourMPF);
+                    SSXBlur = new SSXBlurGCMNF();
+                    SSXBlur.load(openFileDialog.FileName);
+                    modelCombiner.AddBones(SSXBlur);
 
-            //        //MpfWarning.Text = modelCombiner.CheckBones(0);
-            //    }
-            //}
+                    MpfWarning.Text = modelCombiner.CheckBones(0);
+                }
+            }
         }
 
         private void MPFSaveDecompressed_Click(object sender, EventArgs e)
@@ -175,47 +175,47 @@ namespace SSXMultiTool.Tools
 
         void UpdateData()
         {
-            //if (MpfModelList.SelectedIndex != -1)
-            //{
-            //    var TempModel = modelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex];
+            if (MpfModelList.SelectedIndex != -1)
+            {
+                //var TempModel = modelCombiner.modelHandlers.ModelList[MpfModelList.SelectedIndex];
 
-            //    FileID.Text = TempModel.FileID.ToString();
-            //    BoneCount.Text = TempModel.BoneCount.ToString();
-            //    MaterialCount.Text = TempModel.MaterialCount.ToString();
-            //    IkCount.Text = "0";
-            //    ShapeKeyCount.Text = TempModel.MorphCount.ToString();
-            //    MpfWeights.Text = TempModel.WeightCount.ToString();
+                //FileID.Text = TempModel.FileID.ToString();
+                //BoneCount.Text = TempModel.BoneCount.ToString();
+                //MaterialCount.Text = TempModel.MaterialCount.ToString();
+                //IkCount.Text = "0";
+                //ShapeKeyCount.Text = TempModel.MorphCount.ToString();
+                //MpfWeights.Text = TempModel.WeightCount.ToString();
 
-            //    TristripCountLabel.Text = modelCombiner.TristripCount(TempModel).ToString();
-            //    VerticeCount.Text = modelCombiner.VerticeCount(TempModel).ToString();
-            //    MeshChunks.Text = modelCombiner.ChunkCount(TempModel).ToString();
-            //    MaterialGroupCount.Text = TempModel.MaterialGroupList.Count.ToString();
-            //    WeightGroupCount.Text = modelCombiner.WeigthRefCount(TempModel).ToString();
-            //    MorphGroupCount.Text = modelCombiner.MorphGroupCount(TempModel).ToString();
+                //TristripCountLabel.Text = modelCombiner.TristripCount(TempModel).ToString();
+                //VerticeCount.Text = modelCombiner.VerticeCount(TempModel).ToString();
+                //MeshChunks.Text = modelCombiner.ChunkCount(TempModel).ToString();
+                //MaterialGroupCount.Text = TempModel.MaterialGroupList.Count.ToString();
+                //WeightGroupCount.Text = modelCombiner.WeigthRefCount(TempModel).ToString();
+                //MorphGroupCount.Text = modelCombiner.MorphGroupCount(TempModel).ToString();
 
-            //    MaterialList.Items.Clear();
-            //    for (int i = 0; i < TempModel.MaterialList.Count; i++)
-            //    {
-            //        MaterialList.Items.Add(TempModel.MaterialList[i].MainTexture);
-            //    }
-            //}
-            //else
-            //{
-            //    FileID.Text = "0";
-            //    BoneCount.Text = "0";
-            //    MaterialCount.Text = "0";
-            //    IkCount.Text = "0";
-            //    ShapeKeyCount.Text = "0";
-            //    MpfWeights.Text = "0";
+                //MaterialList.Items.Clear();
+                //for (int i = 0; i < TempModel.MaterialList.Count; i++)
+                //{
+                //    MaterialList.Items.Add(TempModel.MaterialList[i].MainTexture);
+                //}
+            }
+            else
+            {
+                FileID.Text = "0";
+                BoneCount.Text = "0";
+                MaterialCount.Text = "0";
+                IkCount.Text = "0";
+                ShapeKeyCount.Text = "0";
+                MpfWeights.Text = "0";
 
-            //    TristripCountLabel.Text = "0";
-            //    VerticeCount.Text = "0";
-            //    MeshChunks.Text = "0";
-            //    MaterialGroupCount.Text = "0";
-            //    WeightGroupCount.Text = "0";
-            //    MorphGroupCount.Text = "0";
-            //    MaterialList.Items.Clear();
-            //}
+                TristripCountLabel.Text = "0";
+                VerticeCount.Text = "0";
+                MeshChunks.Text = "0";
+                MaterialGroupCount.Text = "0";
+                WeightGroupCount.Text = "0";
+                MorphGroupCount.Text = "0";
+                MaterialList.Items.Clear();
+            }
         }
 
         private void MpfModelList_SelectedIndexChanged(object sender, EventArgs e)
