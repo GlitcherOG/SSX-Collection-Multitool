@@ -29,6 +29,32 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
                     NewModelHeader.ModelName = StreamUtil.ReadString(stream, 16); //
                     NewModelHeader.ModelOffset = StreamUtil.ReadUInt32(stream, true); //
                     NewModelHeader.ModelSize = StreamUtil.ReadUInt32(stream, true); // 
+                    stream.Position += 4;
+                   
+                    NewModelHeader.OffsetBoneData = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetMorphID = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetMorphData = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.U2 = StreamUtil.ReadUInt32(stream, true);
+
+                    NewModelHeader.OffsetSkinningSection = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetTristripSection = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetVertexSection = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.OffsetMateralList = StreamUtil.ReadUInt32(stream, true);
+
+                    stream.Position += 0x1c;
+
+                    //16 int
+                    NewModelHeader.NumTristrip = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumVertices = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumBones = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumMorphs = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumWeight = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumMeshPerSkin = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.NumTristrip = StreamUtil.ReadUInt32(stream, true);
+                    NewModelHeader.NumMaterials = StreamUtil.ReadUInt16(stream, true);
+                    NewModelHeader.FileID = StreamUtil.ReadUInt16(stream, false); //?
+
+
                     //Something here
                     //stream.Position += 4;
                     //NewModelHeader.OffsetBoneData = StreamUtil.ReadUInt32(stream, true); //
