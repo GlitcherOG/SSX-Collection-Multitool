@@ -52,7 +52,8 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
                     NewModelHeader.NumWeight = StreamUtil.ReadUInt16(stream, true);
                     NewModelHeader.NumMeshPerSkin = StreamUtil.ReadUInt16(stream, true);
                     NewModelHeader.NumMaterials = StreamUtil.ReadUInt16(stream, false);
-                    NewModelHeader.FileID = StreamUtil.ReadUInt16(stream, false);
+                    NewModelHeader.FileID = StreamUtil.ReadUInt8(stream);
+                    NewModelHeader.U5 = StreamUtil.ReadUInt8(stream);
 
                     modelHeaders.Add(NewModelHeader);
                 }
@@ -275,7 +276,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
                             TempIndexGroup.MatIndex2 = StreamUtil.ReadUInt16(streamMatrix, true);
                             TempIndexGroup.MatIndex3 = StreamUtil.ReadUInt16(streamMatrix, true);
                             TempIndexGroup.MatIndex4 = StreamUtil.ReadUInt16(streamMatrix, true);
-                            streamMatrix.Position += 4;
+                            TempIndexGroup.U0 = StreamUtil.ReadUInt32(streamMatrix, true);
 
                             long TempPos1 = streamMatrix.Position;
 
@@ -533,6 +534,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
             public int NumMeshPerSkin;
             public int NumMaterials;
             public int FileID;
+            public int U5;
 
             public byte[] Matrix;
 
@@ -628,8 +630,6 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
             public int OffsetSkinIndexList;
             public int OffsetIndexGroupList;
             public int unk0;
-            public int unk1;
-            public int unk2;
 
             public List<int> WeightIndex;
             public List<IndexGroupHeader> indexGroupHeaders;
@@ -644,6 +644,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
             public int MatIndex2;
             public int MatIndex3;
             public int MatIndex4;
+            public int U0;
 
             public List<Face> faces;
 
