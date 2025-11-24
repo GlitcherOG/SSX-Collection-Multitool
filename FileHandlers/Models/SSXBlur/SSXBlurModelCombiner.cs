@@ -69,7 +69,6 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
             TempMesh.faces = ReturnFixedFaces(TempModel, boneDatas);
             TempMesh.MeshName = TempModel.ModelName;
             reassignedMesh.Add(TempMesh);
-            FixBoneParents();
         }
 
         public void ReshuffleBones()
@@ -119,26 +118,24 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
                 }
             }
 
-            boneDatas = TempBoneDatas;
-        }
-
-        public void FixBoneParents()
-        {
-            for (int i = 0; i < boneDatas.Count; i++)
+            for (int i = 0; i < TempBoneDatas.Count; i++)
             {
-                if (boneDatas[i].ParentFileID != -1 && boneDatas[i].ParentBone != -1)
+                if (TempBoneDatas[i].ParentFileID != -1 && TempBoneDatas[i].ParentBone != -1)
                 {
-                    for (int a = 0; a < boneDatas.Count; a++)
+                    for (int a = 0; a < TempBoneDatas.Count; a++)
                     {
-                        if (boneDatas[i].ParentFileID == boneDatas[a].FileID && boneDatas[i].ParentBone == boneDatas[a].BonePos)
+                        if (TempBoneDatas[i].ParentFileID == TempBoneDatas[a].FileID && TempBoneDatas[i].ParentBone == TempBoneDatas[a].BonePos)
                         {
-                            var TempBone = boneDatas[i];
+                            var TempBone = TempBoneDatas[i];
                             TempBone.ParentBone = a;
-                            boneDatas[i] = TempBone;
+                            TempBoneDatas[i] = TempBone;
+                            break;
                         }
                     }
                 }
             }
+
+            boneDatas = TempBoneDatas;
         }
 
         public List<SSXBlurGCMNF.Face> ReturnFixedFaces(SSXBlurGCMNF.ModelHeader modelHeader, List<SSXBlurGCMNF.BoneData> BoneData)

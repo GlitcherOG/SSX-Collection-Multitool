@@ -48,7 +48,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
                     NewModelHeader.NumVertices = StreamUtil.ReadUInt16(stream, true);
                     NewModelHeader.NumBones = StreamUtil.ReadUInt16(stream, true);
                     NewModelHeader.NumMorphs = StreamUtil.ReadUInt16(stream, true);
-                    stream.Position += 2;
+                    NewModelHeader.U4 = StreamUtil.ReadUInt16(stream, true);
                     NewModelHeader.NumWeight = StreamUtil.ReadUInt16(stream, true);
                     NewModelHeader.NumMeshPerSkin = StreamUtil.ReadUInt16(stream, true);
                     NewModelHeader.NumMaterials = StreamUtil.ReadUInt16(stream, false);
@@ -275,6 +275,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
                             TempIndexGroup.MatIndex2 = StreamUtil.ReadUInt16(streamMatrix, true);
                             TempIndexGroup.MatIndex3 = StreamUtil.ReadUInt16(streamMatrix, true);
                             TempIndexGroup.MatIndex4 = StreamUtil.ReadUInt16(streamMatrix, true);
+                            streamMatrix.Position += 4;
 
                             long TempPos1 = streamMatrix.Position;
 
@@ -527,6 +528,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
             public int NumVertices;
             public int NumBones;
             public int NumMorphs;
+            public int U4;
             public int NumWeight;
             public int NumMeshPerSkin;
             public int NumMaterials;
