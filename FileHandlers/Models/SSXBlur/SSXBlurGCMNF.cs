@@ -171,11 +171,14 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
                     {
                         var TempMorph = new MorphHeader();
 
+                        TempMorph.MorphName = StreamUtil.ReadString(streamMatrix, 28);
                         TempMorph.MorphID = StreamUtil.ReadUInt32(streamMatrix, true);
 
                         Model.morphHeader.Add(TempMorph);
                     }
 
+
+                    //Wrong
                     //streamMatrix.Position = Model.OffsetMorphSection;
                     for (int a = 0; a < Model.morphHeader.Count; a++)
                     {
@@ -205,9 +208,9 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
                         {
                             var TempMorphData = TempMorph.MorphDataList[b];
 
-                            TempMorphData.Morph.X = StreamUtil.ReadInt8(streamMatrix);
-                            TempMorphData.Morph.Y = StreamUtil.ReadInt8(streamMatrix);
-                            TempMorphData.Morph.Z = StreamUtil.ReadInt8(streamMatrix);
+                            TempMorphData.Morph.X = StreamUtil.ReadInt8(streamMatrix)/ 4.5f;
+                            TempMorphData.Morph.Y = StreamUtil.ReadInt8(streamMatrix)/ 4.5f;
+                            TempMorphData.Morph.Z = StreamUtil.ReadInt8(streamMatrix) / 4.5f;
 
                             TempMorph.MorphDataList[b] = TempMorphData;
                         }
@@ -251,9 +254,6 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
                         TempTriData.NumIndexGroups = StreamUtil.ReadUInt32(streamMatrix, true);
                         TempTriData.OffsetSkinIndexList = StreamUtil.ReadUInt32(streamMatrix, true);
                         TempTriData.OffsetIndexGroupList = StreamUtil.ReadUInt32(streamMatrix, true);
-                        //TempTriData.unk0 = StreamUtil.ReadInt16(streamMatrix, true);
-                        //TempTriData.unk1 = StreamUtil.ReadUInt8(streamMatrix); //Shadow or not?
-                        //TempTriData.unk2 = StreamUtil.ReadUInt8(streamMatrix);
 
                         long TempPos = streamMatrix.Position;
                         streamMatrix.Position = TempTriData.OffsetSkinIndexList;
@@ -588,6 +588,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
 
         public struct MorphHeader
         {
+            public string MorphName;
             public int MorphID;
 
             public int NumMorphData;
@@ -629,7 +630,6 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
             public int NumIndexGroups;
             public int OffsetSkinIndexList;
             public int OffsetIndexGroupList;
-            public int unk0;
 
             public List<int> WeightIndex;
             public List<IndexGroupHeader> indexGroupHeaders;

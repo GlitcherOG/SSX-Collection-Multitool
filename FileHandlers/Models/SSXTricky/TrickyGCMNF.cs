@@ -1,13 +1,6 @@
 ﻿using SSXMultiTool.Utilities;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Shapes;
-using static SSXMultiTool.FileHandlers.LevelFiles.OGPS2.WDRHandler;
 
 namespace SSXMultiTool.FileHandlers.Models.Tricky
 {
