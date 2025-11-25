@@ -179,7 +179,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
 
 
                     //Wrong
-                    //streamMatrix.Position = Model.OffsetMorphSection;
+                    streamMatrix.Position = Model.OffsetMorphData;
                     for (int a = 0; a < Model.morphHeader.Count; a++)
                     {
                         var TempMorph = Model.morphHeader[a];
@@ -208,9 +208,9 @@ namespace SSXMultiTool.FileHandlers.Models.SSXBlur
                         {
                             var TempMorphData = TempMorph.MorphDataList[b];
 
-                            TempMorphData.Morph.X = StreamUtil.ReadInt8(streamMatrix)/ 4.5f;
-                            TempMorphData.Morph.Y = StreamUtil.ReadInt8(streamMatrix)/ 4.5f;
-                            TempMorphData.Morph.Z = StreamUtil.ReadInt8(streamMatrix) / 4.5f;
+                            TempMorphData.Morph.X = StreamUtil.ReadInt16(streamMatrix,true) / 127f;
+                            TempMorphData.Morph.Y = StreamUtil.ReadInt16(streamMatrix,true) / 127f;
+                            TempMorphData.Morph.Z = StreamUtil.ReadInt16(streamMatrix, true) / 127f;
 
                             TempMorph.MorphDataList[b] = TempMorphData;
                         }
