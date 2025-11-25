@@ -1,22 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.IO;
+﻿using System.IO;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Diagnostics;
-using System.Media;
-using NAudio;
 using NAudio.Wave;
-using SSXMultiTool.FileHandlers;
-using SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2;
 using SSXMultiTool.FileHandlers.Audio;
-using Microsoft.Toolkit.HighPerformance;
 
 namespace SSXMultiTool.Tools
 {
