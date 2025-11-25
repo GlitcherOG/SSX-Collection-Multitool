@@ -84,11 +84,12 @@ namespace SSXMultiTool.FileHandlers.Textures
 
                 //96 - BCnEncoder.Shared.CompressionFormat.Bc1
                 //97 - BCnEncoder.Shared.CompressionFormat.Bc2
-                //109 - Bgra 4444 https://github.com/bartlomiejduda/EA-Graphics-Manager/blob/c9aec00c005437ddbc2752001913e1e2f46840e7/src/EA_Image/ea_image_decoder.py#L289
-                //123 - https://github.com/bartlomiejduda/EA-Graphics-Manager/blob/c9aec00c005437ddbc2752001913e1e2f46840e7/src/EA_Image/ea_image_decoder.py#L334
+                //109 - ImageFormats.BGRA4444 https://github.com/bartlomiejduda/EA-Graphics-Manager/blob/c9aec00c005437ddbc2752001913e1e2f46840e7/src/EA_Image/ea_image_decoder.py#L289
+                //120 - ImageFormats.BGR565 https://github.com/bartlomiejduda/EA-Graphics-Manager/blob/c9aec00c005437ddbc2752001913e1e2f46840e7/src/EA_Image/ea_image_decoder.py#L311
+                //123 - Indexed Image https://github.com/bartlomiejduda/EA-Graphics-Manager/blob/c9aec00c005437ddbc2752001913e1e2f46840e7/src/EA_Image/ea_image_decoder.py#L334
                 //125 - BCnEncoder.Shared.CompressionFormat.Bgra
 
-                var Temp = bcDecoder.DecodeRaw(tempImageHeader.Matrix, tempImageHeader.Width, tempImageHeader.Height, BCnEncoder.Shared.CompressionFormat.);
+                var Temp = bcDecoder.DecodeRaw(tempImageHeader.Matrix, tempImageHeader.Width, tempImageHeader.Height, BCnEncoder.Shared.CompressionFormat.Bc1);
 
                 tempImage.bitmap = new Bitmap(tempImageHeader.Width, tempImageHeader.Height);
 
