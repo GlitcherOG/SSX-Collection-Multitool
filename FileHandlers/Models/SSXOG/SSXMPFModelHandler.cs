@@ -90,12 +90,6 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
                     boneData.BoneParentFileID = StreamUtil.ReadInt16(streamMatrix);
                     boneData.BoneParentID = StreamUtil.ReadInt16(streamMatrix);
                     boneData.Position = StreamUtil.ReadVector3(streamMatrix);
-                    //boneData.Position.X = StreamUtil.ReadInt16(streamMatrix) / 4096f;
-                    //boneData.Position.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
-                    //boneData.Position.Z = StreamUtil.ReadInt16(streamMatrix) / 4096f;
-                    //boneData.Radians.X = StreamUtil.ReadInt16(streamMatrix) / 4096f;
-                    //boneData.Radians.Y = StreamUtil.ReadInt16(streamMatrix) / 4096f;
-                    //boneData.Radians.Z = StreamUtil.ReadInt16(streamMatrix) / 4096f;
                     bones.Add(boneData);
                 }
                 Model.bone = bones;
@@ -241,7 +235,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
                                 newSplit.BoneAssignment = (StreamUtil.ReadUInt32(streamMatrix)-14)/4;
                                 newSplit.VerticeCount = StreamUtil.ReadUInt32(streamMatrix);
                                 newSplit.VerticeCount2 = StreamUtil.ReadUInt32(streamMatrix);
-                                newSplit.BoneAssignment2 = (StreamUtil.ReadUInt32(streamMatrix)-114)/4;
+                                newSplit.BoneAssignment2 = (StreamUtil.ReadUInt32(streamMatrix))/*-114)/4*/;
                                 TempStrips.Add(newSplit);
                             }
                             modelSplitData.newSplits = TempStrips;
@@ -265,7 +259,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
                             //Unknown
 
 
-                            //Unknown
+                            //Unknown not normals
                             streamMatrix.Position += 46;
                             TempCount = StreamUtil.ReadUInt8(streamMatrix);
                             streamMatrix.Position += 1;
@@ -297,18 +291,14 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
                             streamMatrix.Position += 46;
                             TempCount = StreamUtil.ReadUInt8(streamMatrix);
                             streamMatrix.Position += 1;
-                            List<Vector2> TempUV = new List<Vector2>();
+                            List<int> TempVertexIndex = new List<int>();
                             for (int a = 0; a < TempCount; a++)
                             {
-                                Vector2 uv = new Vector2();
-                                uv.X = StreamUtil.ReadInt16(streamMatrix);
-                                uv.Y = StreamUtil.ReadInt16(streamMatrix);
-                                TempUV.Add(uv);
+                                TempVertexIndex.Add(StreamUtil.ReadInt32(streamMatrix));
                             }
-                            modelSplitData.uv = TempUV;
+                            modelSplitData.VertexIndex = TempVertexIndex;
                             StreamUtil.AlignBy16(streamMatrix);
                             streamMatrix.Position += 16;
-
 
                             modelSplitData = GenerateFacesFlex(modelSplitData);
 
