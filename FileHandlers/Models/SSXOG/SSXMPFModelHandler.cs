@@ -449,7 +449,7 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
             ModelData.faces = new List<FlexableFace>();
             int localIndex = 0;
             int Rotation = 0;
-            for (int b = 0; b < ModelData.vertices.Count; b++)
+            for (int b = 0; b < ModelData.VertexIndex.Count; b++)
             {
                 if (InsideSplits(b, ModelData.Strips))
                 {
@@ -482,6 +482,8 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
             int Index2 = 0;
             int Index3 = 0;
 
+            face.BoneAssignment = ModelData.newSplits[0].BoneAssignment;
+
             //Fixes the Rotation For Exporting
             //Swap When Exporting to other formats
             //1-Clockwise
@@ -499,9 +501,9 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
                 Index3 = Index;
             }
 
-            face.V1Pos = (int)ModelData.uv[Index1].X;
-            face.V2Pos = (int)ModelData.uv[Index2].X;
-            face.V3Pos = (int)ModelData.uv[Index3].X;
+            face.V1Pos = (int)ModelData.VertexIndex[Index1];
+            face.V2Pos = (int)ModelData.VertexIndex[Index2];
+            face.V3Pos = (int)ModelData.VertexIndex[Index3];
 
             face.V1 = ModelData.vertices[face.V1Pos];
             face.V2 = ModelData.vertices[face.V2Pos];
@@ -633,6 +635,8 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
 
         public struct FlexableFace
         {
+            public int BoneAssignment;
+
             public Vector3 V1;
             public Vector3 V2;
             public Vector3 V3;

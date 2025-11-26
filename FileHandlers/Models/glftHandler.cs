@@ -126,7 +126,7 @@ namespace SSXMultiTool.FileHandlers
                     for (int b = 0; b < Data.faces.Count; b++)
                     {
                         var Face = Data.faces[b];
-                        Matrix4x4 matrix4X4 = Matrix4x4.CreateScale(1.0f, 1.0f, 1.0f);
+                        Matrix4x4 matrix4X4 = bindings[Data.faces[b].BoneAssignment].WorldMatrix;
 
                         VertexPositionNormal TempPos1 = new VertexPositionNormal();
                         TempPos1.Position = Vector3.Transform(Face.V1, matrix4X4);
