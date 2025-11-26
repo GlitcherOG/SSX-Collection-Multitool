@@ -263,16 +263,21 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
                             streamMatrix.Position += 46;
                             TempCount = StreamUtil.ReadUInt8(streamMatrix);
                             streamMatrix.Position += 1;
-                            List<Vector3> Normals = new List<Vector3>();
-                            for (int a = 0; a < TempCount; a++)
+
+                            int U0 = StreamUtil.ReadInt16(streamMatrix);
+                            int U1 = StreamUtil.ReadInt16(streamMatrix);
+                            int U2Count = StreamUtil.ReadInt16(streamMatrix);
+
+                            List<Vector3> Unknown = new List<Vector3>();
+                            for (int a = 0; a < U2Count; a++)
                             {
-                                Vector3 normal = new Vector3();
-                                normal.X = StreamUtil.ReadInt16(streamMatrix);
-                                normal.Y = StreamUtil.ReadInt16(streamMatrix);
-                                normal.Z = StreamUtil.ReadInt16(streamMatrix);
-                                Normals.Add(normal);
+                                Vector3 unknown = new Vector3();
+                                unknown.X = StreamUtil.ReadInt16(streamMatrix);
+                                unknown.Y = StreamUtil.ReadInt16(streamMatrix);
+                                unknown.Z = StreamUtil.ReadInt16(streamMatrix);
+                                Unknown.Add(unknown);
                             }
-                            modelSplitData.uvNormals = Normals;
+                            modelSplitData.Unknown = Unknown;
                             StreamUtil.AlignBy16(streamMatrix);
 
                             //Tristrip
@@ -541,10 +546,11 @@ namespace SSXMultiTool.FileHandlers.Models.SSXOG
             public int StripRightTotal;
 
             public List<NewSplit> newSplits;
-            public List<Vector3> uvNormals;
-            public List<Vector2> uv;
+            //public List<Vector3> uvNormals;
+            //public List<Vector2> uv;
 
             public List<Vector3> vertices;
+            public List<Vector3> Unknown;
             public List<int> Strips;
             public List<int> VertexIndex;
 
