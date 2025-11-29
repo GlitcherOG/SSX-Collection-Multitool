@@ -20,10 +20,10 @@
   <ItemGroup>
     <PackageReference Include="BCnEncoder.Net" Version="2.2.1" />
     <PackageReference Include="Microsoft.WindowsAPICodePack-Shell" Version="1.1.0" />
-    <PackageReference Include="NAudio" Version="2.1.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="SharpGLTF.Core" Version="1.0.3" />
-    <PackageReference Include="SharpGLTF.Toolkit" Version="1.0.3" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="SharpGLTF.Core" Version="1.0.5" />
+    <PackageReference Include="SharpGLTF.Toolkit" Version="1.0.5" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
   </ItemGroup>
 
