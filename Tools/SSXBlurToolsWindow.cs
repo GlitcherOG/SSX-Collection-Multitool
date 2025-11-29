@@ -177,14 +177,14 @@ namespace SSXMultiTool.Tools
         {
             if (MpfModelList.SelectedIndex != -1)
             {
-                //var TempModel = modelCombiner.modelHandlers.modelHeaders[MpfModelList.SelectedIndex];
+                var TempModel = modelCombiner.modelHandlers.modelHeaders[MpfModelList.SelectedIndex];
 
-                //FileID.Text = TempModel.FileID.ToString();
-                //BoneCount.Text = TempModel.NumBones.ToString();
-                //MaterialCount.Text = TempModel.NumMaterials.ToString();
-                //IkCount.Text = "0";
-                //ShapeKeyCount.Text = TempModel.NumMorphs.ToString();
-                //MpfWeights.Text = TempModel.NumWeight.ToString();
+                FileID.Text = TempModel.FileID.ToString();
+                BoneCount.Text = TempModel.NumBones.ToString();
+                MaterialCount.Text = TempModel.NumMaterials.ToString();
+                IkCount.Text = "0";
+                ShapeKeyCount.Text = TempModel.NumMorphs.ToString();
+                MpfWeights.Text = TempModel.NumWeight.ToString();
 
                 //TristripCountLabel.Text = modelCombiner.TristripCount(TempModel).ToString();
                 //VerticeCount.Text = modelCombiner.VerticeCount(TempModel).ToString();
@@ -193,11 +193,11 @@ namespace SSXMultiTool.Tools
                 //WeightGroupCount.Text = modelCombiner.WeigthRefCount(TempModel).ToString();
                 //MorphGroupCount.Text = modelCombiner.MorphGroupCount(TempModel).ToString();
 
-                //MaterialList.Items.Clear();
-                //for (int i = 0; i < TempModel.materialDatas.Count; i++)
-                //{
-                //    MaterialList.Items.Add(TempModel.materialDatas[i].MainTexture);
-                //}
+                MaterialList.Items.Clear();
+                for (int i = 0; i < TempModel.materialDatas.Count; i++)
+                {
+                    MaterialList.Items.Add(TempModel.materialDatas[i].MainTexture);
+                }
             }
             else
             {

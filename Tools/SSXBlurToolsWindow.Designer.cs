@@ -658,6 +658,7 @@
             // MpfImport
             // 
             MpfImport.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            MpfImport.Enabled = false;
             MpfImport.Location = new Point(168, 433);
             MpfImport.Name = "MpfImport";
             MpfImport.Size = new Size(75, 23);
@@ -731,6 +732,7 @@
             // MpfSave
             // 
             MpfSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            MpfSave.Enabled = false;
             MpfSave.Location = new Point(817, 433);
             MpfSave.Name = "MpfSave";
             MpfSave.Size = new Size(75, 23);
