@@ -166,6 +166,7 @@
             label6.AutoSize = true;
             label6.Location = new Point(137, 19);
             label6.Name = "label6";
+            label6.Size = new Size(44, 15);
             label6.TabIndex = 5;
             label6.Text = "Skybox";
             // 
@@ -635,6 +636,7 @@
             label5.AutoSize = true;
             label5.Location = new Point(11, 23);
             label5.Name = "label5";
+            label5.Size = new Size(103, 15);
             label5.TabIndex = 62;
             label5.Text = "LTG Rebuild Mode";
             label5.Click += label5_Click;
@@ -754,6 +756,7 @@
             GenLTG.CheckState = CheckState.Checked;
             GenLTG.Location = new Point(213, 97);
             GenLTG.Name = "GenLTG";
+            GenLTG.Size = new Size(95, 19);
             GenLTG.TabIndex = 52;
             GenLTG.Text = "Generate LTG";
             GenLTG.UseVisualStyleBackColor = true;
@@ -792,6 +795,7 @@
             ConsoleLogCheck.TabIndex = 51;
             ConsoleLogCheck.Text = "Console Log";
             ConsoleLogCheck.UseVisualStyleBackColor = true;
+            ConsoleLogCheck.CheckedChanged += ConsoleLogCheck_CheckedChanged;
             // 
             // JSONInlineCheck
             // 
@@ -858,6 +862,7 @@
             Controls.Add(ExtractLevel);
             Name = "TrickyProjectWindow";
             Text = "Tricky Project Window";
+            FormClosing += TrickyProjectWindow_FormClosing;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);

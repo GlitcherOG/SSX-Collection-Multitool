@@ -15,6 +15,7 @@ namespace SSXMultiTool
     {
         public TrickyProjectWindow()
         {
+            ConsoleWindow.GenerateConsole();
             InitializeComponent();
             LTGMode.SelectedIndex = 1;
         }
@@ -37,11 +38,6 @@ namespace SSXMultiTool
                 {
                     if (Directory.GetFiles(commonDialog.FileName).Count() != 1)
                     {
-                        if (ConsoleLogCheck.Checked)
-                        {
-                            ConsoleWindow.GenerateConsole();
-
-                        }
                         this.Text = "Tricky Project Window (Extracting...)";
                         if (openFileDialog.FileName.ToLower().Contains(".big"))
                         {
@@ -67,10 +63,6 @@ namespace SSXMultiTool
                         }
                         this.Text = "Tricky Project Window (Extracting Done)";
                         //FlashWindow.Flash(this, 5);
-                        if (ConsoleLogCheck.Checked)
-                        {
-                            ConsoleWindow.CloseConsole();
-                        }
                     }
                     else
                     {
@@ -158,10 +150,6 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (ConsoleLogCheck.Checked)
-                    {
-                        ConsoleWindow.GenerateConsole();
-                    }
                     SaveConfig_Click(sender, e);
 
                     this.Text = "Tricky Project Window (Building...)";
@@ -203,15 +191,12 @@ namespace SSXMultiTool
                     }
                     catch (Exception ex)
                     {
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine(ErrorUtil.Error);
                         MessageBox.Show(ErrorUtil.Error);
                     }
                     this.Text = "Tricky Project Window (Building Done)";
                     //FlashWindow.Flash(this);
-                    //MessageBox.Show("Level Built");
-                    if (ConsoleLogCheck.Checked)
-                    {
-                        ConsoleWindow.CloseConsole();
-                    }
                 }
             }
             else
@@ -228,11 +213,6 @@ namespace SSXMultiTool
                 {
                     RebuildButton_Click(sender, e);
                     return;
-                }
-
-                if (ConsoleLogCheck.Checked)
-                {
-                    ConsoleWindow.GenerateConsole();
                 }
 
                 SaveConfig_Click(sender, e);
@@ -275,15 +255,13 @@ namespace SSXMultiTool
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ErrorUtil.Error);
                     MessageBox.Show(ErrorUtil.Error);
                 }
                 this.Text = "Tricky Project Window (Building Done)";
                 //FlashWindow.Flash(this);
                 //MessageBox.Show("Level Built");
-                if (ConsoleLogCheck.Checked)
-                {
-                    ConsoleWindow.CloseConsole();
-                }
             }
         }
 
@@ -373,7 +351,7 @@ namespace SSXMultiTool
 
         private void GenLightingCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            if(GenLightingCheckbox.Checked)
+            if (GenLightingCheckbox.Checked)
             {
                 UnlitLightmapCheckbox.Enabled = false;
                 UnlitInstancesCheckbox.Enabled = false;
@@ -383,6 +361,23 @@ namespace SSXMultiTool
                 UnlitLightmapCheckbox.Enabled = true;
                 UnlitInstancesCheckbox.Enabled = true;
             }
+        }
+
+        private void ConsoleLogCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ConsoleLogCheck.Checked)
+            {
+                ConsoleWindow.GenerateConsole();
+            }
+            else
+            {
+                ConsoleWindow.CloseConsole();
+            }
+        }
+
+        private void TrickyProjectWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ConsoleWindow.CloseConsole();
         }
     }
 }
