@@ -294,29 +294,29 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                         int TempChunkID = sdbHandler.FindLocationChunk(a+1);
                         if (TempChunkID != ChunkID || stream.Position >= stream.Length - 1)
                         {
-                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Patches.json");
-                            patchesJsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Patches.json");
+                            Console.WriteLine(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Patches.json");
+                            patchesJsonHandler.CreateJson(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Patches.json");
 
-                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin0.json");
-                            bin0JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin0.json");
+                            Console.WriteLine(extractPath + "//Levels///" + sdbHandler.locations[ChunkID].Name + "//Bin0.json");
+                            bin0JsonHandler.CreateJson(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Bin0.json");
 
-                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin3.json");
-                            bin3JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin3.json");
+                            Console.WriteLine(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Bin3.json");
+                            bin3JsonHandler.CreateJson(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Bin3.json");
 
-                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin5.json");
-                            bin5JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin5.json");
+                            Console.WriteLine(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Bin5.json");
+                            bin5JsonHandler.CreateJson(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Bin5.json");
 
-                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin6.json");
-                            bin6JsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin6.json");
+                            Console.WriteLine(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Bin6.json");
+                            bin6JsonHandler.CreateJson(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Bin6.json");
 
-                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Bin11.json");
-                            visCurtainJsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//VisCurtain.json");
+                            Console.WriteLine(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Bin11.json");
+                            visCurtainJsonHandler.CreateJson(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//VisCurtain.json");
 
-                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Splines.json");
-                            splineJsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Splines.json");
+                            Console.WriteLine(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Splines.json");
+                            splineJsonHandler.CreateJson(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Splines.json");
 
-                            Console.WriteLine(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Prefabs.json");
-                            mdrJsonHandler.CreateJson(extractPath + "//" + sdbHandler.locations[ChunkID].Name + "//Prefabs.json");
+                            Console.WriteLine(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Prefabs.json");
+                            mdrJsonHandler.CreateJson(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Prefabs.json");
 
                             patchesJsonHandler = new PatchesJsonHandler();
                             bin0JsonHandler = new Bin0JsonHandler();
