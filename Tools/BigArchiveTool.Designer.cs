@@ -39,9 +39,9 @@
             BuildBigArchive = new ToolStripMenuItem();
             BigTypeCombobox = new ToolStripComboBox();
             toolStripLabel1 = new ToolStripLabel();
-            toolStripSeparator2 = new ToolStripSeparator();
-            CompressionButton = new ToolStripButton();
             toolStripSeparator3 = new ToolStripSeparator();
+            CompressionButton = new ToolStripButton();
+            toolStripSeparator2 = new ToolStripSeparator();
             toolStripButton1 = new ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)BigDataView).BeginInit();
             toolStrip1.SuspendLayout();
@@ -59,7 +59,6 @@
             BigDataView.Location = new Point(0, 28);
             BigDataView.MultiSelect = false;
             BigDataView.Name = "BigDataView";
-            BigDataView.RowTemplate.Height = 25;
             BigDataView.Size = new Size(800, 417);
             BigDataView.TabIndex = 0;
             // 
@@ -85,33 +84,33 @@
             // LoadBigArchive
             // 
             LoadBigArchive.Name = "LoadBigArchive";
-            LoadBigArchive.Size = new Size(176, 22);
+            LoadBigArchive.Size = new Size(175, 22);
             LoadBigArchive.Text = "Load .Big Archive";
             LoadBigArchive.Click += LoadBigArchive_Click;
             // 
             // LoadFolder
             // 
             LoadFolder.Name = "LoadFolder";
-            LoadFolder.Size = new Size(176, 22);
+            LoadFolder.Size = new Size(175, 22);
             LoadFolder.Text = "Load Folder";
             LoadFolder.Click += LoadFolder_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(173, 6);
+            toolStripSeparator1.Size = new Size(172, 6);
             // 
             // ExtractBigArchive
             // 
             ExtractBigArchive.Name = "ExtractBigArchive";
-            ExtractBigArchive.Size = new Size(176, 22);
+            ExtractBigArchive.Size = new Size(175, 22);
             ExtractBigArchive.Text = "Extract .Big Archive";
             ExtractBigArchive.Click += ExtractBigArchive_Click;
             // 
             // BuildBigArchive
             // 
             BuildBigArchive.Name = "BuildBigArchive";
-            BuildBigArchive.Size = new Size(176, 22);
+            BuildBigArchive.Size = new Size(175, 22);
             BuildBigArchive.Text = "Build .Big Archive";
             BuildBigArchive.Click += BuildBigArchive_Click;
             // 
@@ -129,14 +128,14 @@
             // 
             toolStripLabel1.Alignment = ToolStripItemAlignment.Right;
             toolStripLabel1.Name = "toolStripLabel1";
-            toolStripLabel1.Size = new Size(54, 22);
+            toolStripLabel1.Size = new Size(55, 22);
             toolStripLabel1.Text = "Big Type:";
             // 
-            // toolStripSeparator2
+            // toolStripSeparator3
             // 
-            toolStripSeparator2.Alignment = ToolStripItemAlignment.Right;
-            toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(6, 25);
+            toolStripSeparator3.Alignment = ToolStripItemAlignment.Right;
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new Size(6, 25);
             // 
             // CompressionButton
             // 
@@ -149,11 +148,11 @@
             CompressionButton.Text = "Compressed Build: False";
             CompressionButton.Click += CompressionButton_Click;
             // 
-            // toolStripSeparator3
+            // toolStripSeparator2
             // 
-            toolStripSeparator3.Alignment = ToolStripItemAlignment.Right;
-            toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(6, 25);
+            toolStripSeparator2.Alignment = ToolStripItemAlignment.Right;
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new Size(6, 25);
             // 
             // toolStripButton1
             // 
@@ -164,6 +163,8 @@
             toolStripButton1.Name = "toolStripButton1";
             toolStripButton1.Size = new Size(98, 22);
             toolStripButton1.Text = "toolStripButton1";
+            toolStripButton1.Visible = false;
+            toolStripButton1.Click += toolStripButton1_Click;
             // 
             // BigArchiveTool
             // 
