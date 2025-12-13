@@ -72,7 +72,9 @@ namespace SSXMultiTool
 
         public void LoadBigPath(string path)
         {
+            bool SlashMode = bigHandler.SlashMode;
             bigHandler = new BigHandler();
+            bigHandler.SlashMode = SlashMode;
             ExtractBigArchive.Enabled = true;
             BuildBigArchive.Enabled = false;
             bigHandler.LoadBig(path);
@@ -98,11 +100,14 @@ namespace SSXMultiTool
 
         public void LoadFolderPath(string path, bool compressed = false)
         {
+            bool SlashMode = bigHandler.SlashMode;
+
             bigHandler = new BigHandler();
             if (compressed)
             {
                 bigHandler.CompressBuild = true;
             }
+            bigHandler.SlashMode = SlashMode;
             ExtractBigArchive.Enabled = false;
             BuildBigArchive.Enabled = true;
             bigHandler.LoadFolder(path);
@@ -270,7 +275,16 @@ namespace SSXMultiTool
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
+            bigHandler.SlashMode = !bigHandler.SlashMode;
 
+            if(!bigHandler.SlashMode)
+            {
+                SlashToggle.Text = "Slash: \\";
+            }
+            else
+            {
+                SlashToggle.Text = "Slash: /";
+            }
         }
     }
 }

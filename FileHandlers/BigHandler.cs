@@ -16,7 +16,7 @@ namespace SSXMultiTool.FileHandlers
         public BIGFHeader bigHeader;
         public List<BIGFFiles> bigFiles;
         public string bigPath;
-        //bool BuildMode;
+        public bool SlashMode; // \ - false, / - true
         public void LoadBig(string path)
         {
             //BuildMode = false;
@@ -57,7 +57,6 @@ namespace SSXMultiTool.FileHandlers
 
         public void ReadBigF(Stream stream)
         {
-
             bigHeader.fileSize = StreamUtil.ReadUInt32(stream);
 
             bigHeader.fileCount = StreamUtil.ReadUInt32(stream, true);
@@ -324,7 +323,14 @@ namespace SSXMultiTool.FileHandlers
 
 
                 //Write Path
-                StreamUtil.WriteNullString(stream, bigFiles[i].path.Replace("..", "../"));
+                string path = bigFiles[i].path.Replace("..", "../");
+
+                if (SlashMode)
+                {
+                    path = path.Replace("/", "\\");
+                }
+
+                StreamUtil.WriteNullString(stream, path);
             }
 
             //Write Footer
@@ -390,7 +396,14 @@ namespace SSXMultiTool.FileHandlers
                 StreamUtil.WriteInt24(stream, bigFiles[i].size, true);
 
                 //Write Path
-                StreamUtil.WriteNullString(stream, bigFiles[i].path.Replace("..", "../").Replace("\\","/"));
+                string path = bigFiles[i].path.Replace("..", "../");
+
+                if (SlashMode)
+                {
+                    path = path.Replace("/", "\\");
+                }
+
+                StreamUtil.WriteNullString(stream, path);
             }
 
             //Set File start offset

@@ -42,7 +42,7 @@
             toolStripSeparator3 = new ToolStripSeparator();
             CompressionButton = new ToolStripButton();
             toolStripSeparator2 = new ToolStripSeparator();
-            toolStripButton1 = new ToolStripButton();
+            SlashToggle = new ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)BigDataView).BeginInit();
             toolStrip1.SuspendLayout();
             SuspendLayout();
@@ -64,7 +64,7 @@
             // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButton1, BigTypeCombobox, toolStripLabel1, toolStripSeparator3, CompressionButton, toolStripSeparator2, toolStripButton1 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButton1, BigTypeCombobox, toolStripLabel1, toolStripSeparator3, CompressionButton, toolStripSeparator2, SlashToggle });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(800, 25);
@@ -154,17 +154,16 @@
             toolStripSeparator2.Name = "toolStripSeparator2";
             toolStripSeparator2.Size = new Size(6, 25);
             // 
-            // toolStripButton1
+            // SlashToggle
             // 
-            toolStripButton1.Alignment = ToolStripItemAlignment.Right;
-            toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            toolStripButton1.Image = (Image)resources.GetObject("toolStripButton1.Image");
-            toolStripButton1.ImageTransparentColor = Color.Magenta;
-            toolStripButton1.Name = "toolStripButton1";
-            toolStripButton1.Size = new Size(98, 22);
-            toolStripButton1.Text = "toolStripButton1";
-            toolStripButton1.Visible = false;
-            toolStripButton1.Click += toolStripButton1_Click;
+            SlashToggle.Alignment = ToolStripItemAlignment.Right;
+            SlashToggle.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            SlashToggle.Image = (Image)resources.GetObject("SlashToggle.Image");
+            SlashToggle.ImageTransparentColor = Color.Magenta;
+            SlashToggle.Name = "SlashToggle";
+            SlashToggle.Size = new Size(49, 22);
+            SlashToggle.Text = "Slash: \\";
+            SlashToggle.Click += toolStripButton1_Click;
             // 
             // BigArchiveTool
             // 
@@ -197,6 +196,6 @@
         private ToolStripSeparator toolStripSeparator2;
         private ToolStripButton CompressionButton;
         private ToolStripSeparator toolStripSeparator3;
-        private ToolStripButton toolStripButton1;
+        private ToolStripButton SlashToggle;
     }
 }
