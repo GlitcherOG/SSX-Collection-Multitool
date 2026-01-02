@@ -649,7 +649,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
                     Model.meshHeaders[a] = TempHeader;
                 }
 
-                StreamUtil.AlignBy(ModelStream,32,0,false);
+                StreamUtil.AlignBy(ModelStream,32,0);
                 //Write IndexGroups
                 for (int a = 0; a < Model.meshHeaders.Count; a++)
                 {
