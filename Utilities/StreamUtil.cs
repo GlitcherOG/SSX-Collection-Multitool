@@ -146,17 +146,47 @@ namespace SSXMultiTool.Utilities
             byte[] tempByte = new byte[4];
             stream.Read(tempByte, 0, 3);
 
-            if(BigEndian)
+            if (!BigEndian)
             {
-                Array.Reverse(tempByte);
-                for (int bi = 1; bi < tempByte.Length; bi++)
-                {
-                    tempByte[bi - 1] = tempByte[bi];
-                }
-                tempByte[3] = 0x00;
-            }
+                int value = tempByte[0]
+                          | (tempByte[1] << 8)
+                          | (tempByte[2] << 16);
 
-            return BitConverter.ToInt32(tempByte, 0);
+                if ((value & 0x00800000) != 0) // sign bit
+                    value |= unchecked((int)0xFF000000);
+
+                return value;
+            }
+            else
+            {
+                int value = (tempByte[0] << 16)
+                | (tempByte[1] << 8)
+                | tempByte[2];
+
+                if ((value & 0x00800000) != 0)
+                    value |= unchecked((int)0xFF000000);
+
+                return value;
+            }
+        }
+
+        public static int ReadUInt24(Stream stream, bool BigEndian = false)
+        {
+            byte[] tempByte = new byte[4];
+            stream.Read(tempByte, 0, 3);
+
+            if (!BigEndian)
+            {
+                return tempByte[0]
+                     | (tempByte[1] << 8)
+                     | (tempByte[2] << 16);
+            }
+            else
+            {
+                return (tempByte[0] << 16)
+                    | (tempByte[1] << 8)
+                    | tempByte[2];
+            }
         }
 
         public static int ReadUInt32(Stream stream, bool BigEndian = false)

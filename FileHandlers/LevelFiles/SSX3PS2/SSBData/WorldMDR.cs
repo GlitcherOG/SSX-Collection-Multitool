@@ -36,8 +36,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
         public void LoadData(Stream stream)
         {
-            stream.Position = 0;
-
             var Temp = WorldCommon.ObjectIDLoad(stream);
 
             TrackID = Temp.TrackID;

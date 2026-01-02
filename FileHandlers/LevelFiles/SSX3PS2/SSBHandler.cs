@@ -157,6 +157,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                             byte[] NewData = StreamUtil.ReadBytes(memoryStream, ChunkSize);
                             StreamUtil.WriteBytes(memoryStream1, NewData);
+                            memoryStream1.Position = 0;
 
                             string LevelExtractPath = extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//";
                             string Path = RID + "-" + TrackID + "-" + FilePos;
@@ -164,7 +165,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             if (ID == 0)
                             {
                                 WorldBin0 worldbin0 = new WorldBin0();
-                                memoryStream1.Position = 0;
                                 worldbin0.LoadData(memoryStream1, TrackID, RID);
 
                                 bin0JsonHandler.bin0Files.Add(worldbin0.ToJSON());
@@ -172,7 +172,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             else if (ID == 1)
                             {
                                 WorldPatch worldPatch = new WorldPatch();
-                                memoryStream1.Position = 0;
                                 worldPatch.LoadPatch(memoryStream1);
 
                                 patchesJsonHandler.Patches.Add(worldPatch.ToJSON());
@@ -190,7 +189,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             else if (ID == 3)
                             {
                                 WorldBin3 worldBin3 = new WorldBin3();
-                                memoryStream1.Position = 0;
                                 worldBin3.LoadData(memoryStream1);
 
                                 bin3JsonHandler.bin3Files.Add(worldBin3.ToJSON());
@@ -198,7 +196,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             else if (ID == 5)
                             {
                                 WorldBin5 worldBin5 = new WorldBin5();
-                                memoryStream1.Position = 0;
                                 worldBin5.LoadData(memoryStream1);
 
                                 bin5JsonHandler.bin5Files.Add(worldBin5.ToJSON());
@@ -206,7 +203,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             else if (ID == 6)
                             {
                                 WorldBin6 worldBin6 = new WorldBin6();
-                                memoryStream1.Position = 0;
                                 worldBin6.LoadData(memoryStream1);
 
                                 bin6JsonHandler.bin6Files.Add(worldBin6.ToJSON());
@@ -214,7 +210,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             else if (ID == 8)
                             {
                                 WorldSpline worldSpline = new WorldSpline();
-                                memoryStream1.Position = 0;
                                 worldSpline.LoadData(memoryStream1);
 
                                 splineJsonHandler.Splines.Add(worldSpline.ToJSON());
@@ -248,7 +243,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             else if (ID == 11)
                             {
                                 WorldVisCurtain worldBin11 = new WorldVisCurtain();
-                                memoryStream1.Position = 0;
                                 worldBin11.LoadData(memoryStream1);
 
                                 visCurtainJsonHandler.VisCurtains.Add(worldBin11.ToJSON());
@@ -272,7 +266,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             {
                                 Console.WriteLine(LevelExtractPath + "//Sounds//" + Path + ".bnk");
                                 var file = File.Create(LevelExtractPath + "//Sounds//" + Path + ".bnk");
-                                memoryStream1.Position = 0;
                                 memoryStream1.CopyTo(file);
                                 memoryStream1.Dispose();
                                 memoryStream1 = new MemoryStream();
@@ -282,7 +275,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             {
                                 Console.WriteLine(LevelExtractPath + Path + ".bin" + ID);
                                 var file = File.Create(LevelExtractPath + Path + ".bin" + ID);
-                                memoryStream1.Position = 0;
                                 memoryStream1.CopyTo(file);
                                 memoryStream1.Dispose();
                                 memoryStream1 = new MemoryStream();

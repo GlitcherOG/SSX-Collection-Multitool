@@ -14,7 +14,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         {
             ObjectID U = new ObjectID();
 
-            U.TrackID = StreamUtil.ReadUInt8(stream);
+            U.TrackID = StreamUtil.ReadInt8(stream);
             U.RID = StreamUtil.ReadInt24(stream);
 
             return U;

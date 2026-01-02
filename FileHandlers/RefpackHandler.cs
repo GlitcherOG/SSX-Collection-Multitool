@@ -37,7 +37,7 @@ namespace SSXMultiTool.FileHandlers
                 stream.Position += 3;
             }
 
-            DecompressSize = StreamUtil.ReadInt24(stream, true);
+            DecompressSize = StreamUtil.ReadUInt24(stream, true);
 
             return DecompressSize;
         }
