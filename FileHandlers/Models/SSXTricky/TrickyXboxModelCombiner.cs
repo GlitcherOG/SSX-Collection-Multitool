@@ -100,7 +100,7 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
             materials.AddRange(Board.modelHeaders[MeshID].materialDatas);
             bones.AddRange(Board.modelHeaders[MeshID].boneDatas);
-            TempMesh.faces.AddRange(ReturnFaces(Board.modelHeaders[MeshID]));
+            TempMesh.faces.AddRange(ReturnFixedFaces(Board.modelHeaders[MeshID], bones));
             TempMesh.MeshName = Board.modelHeaders[MeshID].ModelName;
             if (TempMesh.MeshName.ToLower().Contains("shdw"))
             {
@@ -110,13 +110,6 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
 
             reassignedMesh.Add(TempMesh);
-        }
-
-        public List<TrickyXboxMXF.Face> ReturnFaces(TrickyXboxMXF.ModelHeader modelHeader)
-        {
-            List<TrickyXboxMXF.Face> NewFaceList = new List<TrickyXboxMXF.Face>(); 
-
-            return NewFaceList;
         }
 
         public void StartReassignMeshCharacter(int MeshID)
