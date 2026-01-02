@@ -260,11 +260,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 worldAIP.LoadData(NewData);
                                 worldAIP.ToJson(LevelExtractPath + RID + "AIP.json");
                             }
-                            else if (ID == 14)
+                            else if (ID == 18)
                             {
                                 Console.WriteLine(LevelExtractPath + "Bin18.json");
                                 WorldBin18 worldBin18 = new WorldBin18();
-                                worldBin18.LoadData(stream);
+                                worldBin18.LoadData(memoryStream1);
 
                                 worldBin18.ToJson(LevelExtractPath + "Bin18.json");
                             }
