@@ -258,7 +258,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 Console.WriteLine(LevelExtractPath + "AIP.json");
                                 WorldAIP worldAIP = new WorldAIP();
                                 worldAIP.LoadData(NewData);
-                                worldAIP.ToJson(LevelExtractPath + "AIP.json");
+                                worldAIP.ToJson(LevelExtractPath + RID + "AIP.json");
                             }
                             else if (ID == 14)
                             {
