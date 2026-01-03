@@ -45,7 +45,7 @@ namespace SSXMultiTool.JsonFiles.SSX3
         [Serializable]
         public struct SplineJson
         {
-            //public string SplineName;
+            public string Name;
 
             public int U0;
             public int U1;

@@ -218,6 +218,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 WorldSpline worldSpline = new WorldSpline();
                                 worldSpline.LoadData(memoryStream1);
 
+                                worldSpline.Name = phmHandler.GetName(TrackID, RID, 3, psmHandler);
+
                                 splineJsonHandler.Splines.Add(worldSpline.ToJSON());
                             }
                             else if (ID == 9)

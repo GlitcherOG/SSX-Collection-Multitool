@@ -12,6 +12,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
     public class WorldSpline
     {
+        public string Name;
+
         public int U0;
         public Vector3 BBoxMin;
         public Vector3 BBoxMax;
@@ -66,6 +68,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public SplineJsonHandler.SplineJson ToJSON()
         {
             SplineJsonHandler.SplineJson splineJson = new SplineJsonHandler.SplineJson();
+
+            splineJson.Name = Name;
 
             splineJson.U0 = U0;
             splineJson.U1 = U1;
