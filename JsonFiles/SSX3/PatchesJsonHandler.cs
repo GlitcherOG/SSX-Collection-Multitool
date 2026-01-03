@@ -45,6 +45,8 @@ namespace SSXMultiTool.JsonFiles.SSX3
         [Serializable]
         public struct PatchJson
         {
+            public string Name;
+
             public int U0;
             public int U1;
             public int U2;

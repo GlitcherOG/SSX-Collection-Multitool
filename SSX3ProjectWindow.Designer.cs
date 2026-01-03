@@ -69,7 +69,6 @@
             // 
             // PSMLoad
             // 
-            PSMLoad.Enabled = false;
             PSMLoad.Location = new Point(12, 324);
             PSMLoad.Name = "PSMLoad";
             PSMLoad.Size = new Size(118, 34);

@@ -12,6 +12,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
     public class WorldPatch
     {
+        public string Name;
+
         public int U0;
         public int U1;
         public int U2;
@@ -122,6 +124,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         public PatchesJsonHandler.PatchJson ToJSON()
         {
             PatchesJsonHandler.PatchJson patchJson = new PatchesJsonHandler.PatchJson();
+
+            patchJson.Name = Name;
 
             patchJson.U1 = U1;
             patchJson.U2 = U2;

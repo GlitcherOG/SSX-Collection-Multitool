@@ -1,12 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using SSXMultiTool.Utilities;
 using SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData;
-using System.Diagnostics;
 using SSXMultiTool.JsonFiles.SSX3;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
@@ -101,9 +95,19 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
         //        }
         //    }
         //}
-        public void LoadAndExtractSSBFromSBD(string path, string extractPath, SDBHandler sdbHandler)
+        public void LoadAndExtractSSBFromSBD(string path, string extractPath)
         {
             ConsoleWindow.GenerateConsole();
+
+            SDBHandler sdbHandler = new SDBHandler();
+            sdbHandler.LoadSBD(path.Replace(".ssb", ".sdb"));
+
+            PHMHandler phmHandler = new PHMHandler();
+            phmHandler.LoadPHM(path.Replace(".ssb", ".phm"));
+
+            PSMHandler psmHandler = new PSMHandler();
+            psmHandler.LoadPSM(path.Replace(".ssb", ".psm"));
+
             using (Stream stream = File.Open(path, FileMode.Open))
             {
                 PatchesJsonHandler patchesJsonHandler = new PatchesJsonHandler();
@@ -173,6 +177,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             {
                                 WorldPatch worldPatch = new WorldPatch();
                                 worldPatch.LoadPatch(memoryStream1);
+
+                                worldPatch.Name = phmHandler.GetName(TrackID, RID, 0, psmHandler);
 
                                 patchesJsonHandler.Patches.Add(worldPatch.ToJSON());
                             }
@@ -344,74 +350,74 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
             ConsoleWindow.CloseConsole();
         }
 
-        public void PackSSB(string Folder, string BuildPath)
-        {
-            MemoryStream memoryStream = new MemoryStream();
-            string[] AllFiles = Directory.GetFiles(Folder, "*.BSX");
-            for (int i = 0; i < AllFiles.Length; i++)
-            {
-                using (Stream stream = File.Open(Folder +"//"+ i.ToString()+".BSX", FileMode.Open))
-                {
-                    byte[] bytes = new byte[1];
-                    while (true)
-                    {
-                        byte[] output = new byte[32768];
-                        bool End = false;
-                        int ReadLength = 40000;
-                        if (ReadLength+stream.Position>stream.Length)
-                        {
-                            ReadLength = (int)(stream.Length - stream.Position);
-                            End = true;
-                        }
-                        long StartPos = stream.Position;
-                        bool Start = true;
-                        while(output.Length> 32768-8)
-                        {
-                            if (!Start)
-                            {
-                                stream.Position = StartPos;
-                                ReadLength -= 32768 / 4;
-                                End = false;
-                            }
-                            bytes = StreamUtil.ReadBytes(stream, ReadLength);
-                            RefpackHandler.Compress(bytes, out output, CompressionLevel.Max);
-                            Start = false;
-                        }
+        //public void PackSSB(string Folder, string BuildPath)
+        //{
+        //    MemoryStream memoryStream = new MemoryStream();
+        //    string[] AllFiles = Directory.GetFiles(Folder, "*.BSX");
+        //    for (int i = 0; i < AllFiles.Length; i++)
+        //    {
+        //        using (Stream stream = File.Open(Folder +"//"+ i.ToString()+".BSX", FileMode.Open))
+        //        {
+        //            byte[] bytes = new byte[1];
+        //            while (true)
+        //            {
+        //                byte[] output = new byte[32768];
+        //                bool End = false;
+        //                int ReadLength = 40000;
+        //                if (ReadLength+stream.Position>stream.Length)
+        //                {
+        //                    ReadLength = (int)(stream.Length - stream.Position);
+        //                    End = true;
+        //                }
+        //                long StartPos = stream.Position;
+        //                bool Start = true;
+        //                while(output.Length> 32768-8)
+        //                {
+        //                    if (!Start)
+        //                    {
+        //                        stream.Position = StartPos;
+        //                        ReadLength -= 32768 / 4;
+        //                        End = false;
+        //                    }
+        //                    bytes = StreamUtil.ReadBytes(stream, ReadLength);
+        //                    RefpackHandler.Compress(bytes, out output, CompressionLevel.Max);
+        //                    Start = false;
+        //                }
                         
                         
-                        if(!End)
-                        {
-                            StreamUtil.WriteString(memoryStream,"CBSX");
-                        }
-                        else
-                        {
-                            StreamUtil.WriteString(memoryStream, "CEND");
-                        }
+        //                if(!End)
+        //                {
+        //                    StreamUtil.WriteString(memoryStream,"CBSX");
+        //                }
+        //                else
+        //                {
+        //                    StreamUtil.WriteString(memoryStream, "CEND");
+        //                }
 
-                        StreamUtil.WriteInt32(memoryStream, 32768);
+        //                StreamUtil.WriteInt32(memoryStream, 32768);
 
-                        StreamUtil.WriteBytes(memoryStream, output);
+        //                StreamUtil.WriteBytes(memoryStream, output);
 
-                        StreamUtil.AlignBy(memoryStream, 32768);
+        //                StreamUtil.AlignBy(memoryStream, 32768);
 
-                        if(End)
-                        {
-                            break;
-                        }
+        //                if(End)
+        //                {
+        //                    break;
+        //                }
 
-                    }
-                }
-            }
-            if (File.Exists(BuildPath))
-            {
-                File.Delete(BuildPath);
-            }
-            var file = File.Create(BuildPath);
-            memoryStream.Position = 0;
-            memoryStream.CopyTo(file);
-            memoryStream.Dispose();
-            file.Close();
-            GC.Collect();
-        }
+        //            }
+        //        }
+        //    }
+        //    if (File.Exists(BuildPath))
+        //    {
+        //        File.Delete(BuildPath);
+        //    }
+        //    var file = File.Create(BuildPath);
+        //    memoryStream.Position = 0;
+        //    memoryStream.CopyTo(file);
+        //    memoryStream.Dispose();
+        //    file.Close();
+        //    GC.Collect();
+        //}
     }
 }

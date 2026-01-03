@@ -39,9 +39,7 @@ namespace SSXMultiTool
                 {
                     if (Directory.GetFiles(commonDialog.FileName).Count() != 1)
                     {
-                        sdbHandler = new SDBHandler();
-                        sdbHandler.LoadSBD(openFileDialog.FileName.ToLower().Replace(".ssb",".sdb"));
-                        ssbHandler.LoadAndExtractSSBFromSBD(openFileDialog.FileName, commonDialog.FileName, sdbHandler);
+                        ssbHandler.LoadAndExtractSSBFromSBD(openFileDialog.FileName, commonDialog.FileName);
                     }
                     else
                     {
@@ -67,7 +65,7 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    ssbHandler.PackSSB(commonDialog.FileName, openFileDialog.FileName);
+                    //ssbHandler.PackSSB(commonDialog.FileName, openFileDialog.FileName);
                 }
             }
 
