@@ -54,11 +54,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                 TempAIPath.BBoxMin = StreamUtil.ReadVector3(stream);
                 TempAIPath.BBoxMax = StreamUtil.ReadVector3(stream);
 
-                TempAIPath.PathPoints = new List<Vector4>();
+                TempAIPath.VectorPoints = new List<Vector4>();
 
                 for (global::System.Int32 j = 0; j < TempAIPath.NumPoints; j++)
                 {
-                    TempAIPath.PathPoints.Add(StreamUtil.ReadVector4(stream));
+                    TempAIPath.VectorPoints.Add(StreamUtil.ReadVector4(stream));
                 }
 
                 TempAIPath.PathEvents = new List<PathEvent>();
@@ -154,6 +154,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             {
                 var newAIPath = new AIPJsonHandler.AIPath();
 
+                newAIPath.Name = "AI Path " +i.ToString();
+
                 newAIPath.U0 = aiPaths[i].U0;
                 newAIPath.U1 = aiPaths[i].U1;
                 newAIPath.U2 = aiPaths[i].U2;
@@ -163,13 +165,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                 newAIPath.U6 = aiPaths[i].U6;
 
                 newAIPath.PathPos = JsonUtil.Vector3ToArray(aiPaths[i].PathPos);
-                newAIPath.PathPoints = new float[aiPaths[i].PathPoints.Count, 3];
+                newAIPath.PathPoints = new float[aiPaths[i].VectorPoints.Count, 3];
 
-                for (int a = 0; a < aiPaths[i].PathPoints.Count; a++)
+                for (int a = 0; a < aiPaths[i].VectorPoints.Count; a++)
                 {
-                    newAIPath.PathPoints[a, 0] = aiPaths[i].PathPoints[a].X * aiPaths[i].PathPoints[a].W;
-                    newAIPath.PathPoints[a, 1] = aiPaths[i].PathPoints[a].Y * aiPaths[i].PathPoints[a].W;
-                    newAIPath.PathPoints[a, 2] = aiPaths[i].PathPoints[a].Z * aiPaths[i].PathPoints[a].W;
+                    newAIPath.PathPoints[a, 0] = aiPaths[i].VectorPoints[a].X * aiPaths[i].VectorPoints[a].W;
+                    newAIPath.PathPoints[a, 1] = aiPaths[i].VectorPoints[a].Y * aiPaths[i].VectorPoints[a].W;
+                    newAIPath.PathPoints[a, 2] = aiPaths[i].VectorPoints[a].Z * aiPaths[i].VectorPoints[a].W;
                 }
 
                 newAIPath.PathEvents = new List<AIPJsonHandler.PathEvent>();
@@ -192,29 +194,31 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             {
                 var newAIPath = new AIPJsonHandler.TrackPath();
 
+                newAIPath.Name = "Track Path " + i.ToString();
+
                 newAIPath.Type = trackPaths[i].Type;
                 newAIPath.U0 = trackPaths[i].U0;
                 newAIPath.U1 = trackPaths[i].U1;
                 newAIPath.U2 = trackPaths[i].U2;
 
-                newAIPath.PathPos = JsonUtil.Vector3ToArray(aiPaths[i].PathPos);
-                newAIPath.PathPoints = new float[aiPaths[i].PathPoints.Count, 3];
+                newAIPath.PathPos = JsonUtil.Vector3ToArray(trackPaths[i].PathPos);
+                newAIPath.PathPoints = new float[trackPaths[i].VectorPoints.Count, 3];
 
-                for (int a = 0; a < aiPaths[i].PathPoints.Count; a++)
+                for (int a = 0; a < trackPaths[i].VectorPoints.Count; a++)
                 {
-                    newAIPath.PathPoints[a, 0] = aiPaths[i].PathPoints[a].X * aiPaths[i].PathPoints[a].W;
-                    newAIPath.PathPoints[a, 1] = aiPaths[i].PathPoints[a].Y * aiPaths[i].PathPoints[a].W;
-                    newAIPath.PathPoints[a, 2] = aiPaths[i].PathPoints[a].Z * aiPaths[i].PathPoints[a].W;
+                    newAIPath.PathPoints[a, 0] = trackPaths[i].VectorPoints[a].X * trackPaths[i].VectorPoints[a].W;
+                    newAIPath.PathPoints[a, 1] = trackPaths[i].VectorPoints[a].Y * trackPaths[i].VectorPoints[a].W;
+                    newAIPath.PathPoints[a, 2] = trackPaths[i].VectorPoints[a].Z * trackPaths[i].VectorPoints[a].W;
                 }
 
                 newAIPath.PathEvents = new List<AIPJsonHandler.PathEvent>();
-                for (int a = 0; a < aiPaths[i].PathEvents.Count; a++)
+                for (int a = 0; a < trackPaths[i].PathEvents.Count; a++)
                 {
                     var NewStruct = new AIPJsonHandler.PathEvent();
-                    NewStruct.EventType = aiPaths[i].PathEvents[a].EventType;
-                    NewStruct.EventValue = aiPaths[i].PathEvents[a].EventValue;
-                    NewStruct.EventStart = aiPaths[i].PathEvents[a].EventStart;
-                    NewStruct.EventEnd = aiPaths[i].PathEvents[a].EventEnd;
+                    NewStruct.EventType = trackPaths[i].PathEvents[a].EventType;
+                    NewStruct.EventValue = trackPaths[i].PathEvents[a].EventValue;
+                    NewStruct.EventStart = trackPaths[i].PathEvents[a].EventStart;
+                    NewStruct.EventEnd = trackPaths[i].PathEvents[a].EventEnd;
                     newAIPath.PathEvents.Add(NewStruct);
                 }
 
@@ -269,7 +273,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             public Vector3 BBoxMin;
             public Vector3 BBoxMax;
 
-            public List<Vector4> PathPoints;
+            public List<Vector4> VectorPoints;
             public List<PathEvent> PathEvents;
         }
 

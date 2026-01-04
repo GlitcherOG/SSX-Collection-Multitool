@@ -259,10 +259,26 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 14)
                             {
-                                Console.WriteLine(LevelExtractPath + "AIP.json");
                                 WorldAIP worldAIP = new WorldAIP();
                                 worldAIP.LoadData(NewData);
-                                worldAIP.ToJson(LevelExtractPath + RID + "AIP.json");
+
+                                string FileName = RID + "AIP";
+
+                                if(RID==0)
+                                {
+                                    FileName = "AIP";
+                                }
+                                else if(RID==1)
+                                {
+                                    FileName = "PeakRaceAIP";
+                                }
+                                else if (RID==2)
+                                {
+                                    FileName = "PeakShowOffAIP";
+                                }
+
+                                Console.WriteLine(LevelExtractPath + FileName + ".json");
+                                worldAIP.ToJson(LevelExtractPath + FileName + ".json");
                             }
                             else if (ID == 18)
                             {
