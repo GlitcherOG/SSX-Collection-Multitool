@@ -1,19 +1,14 @@
-﻿using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
-using SSXMultiTool.JsonFiles.SSX3;
+﻿using SSXMultiTool.JsonFiles.SSX3;
 using SSXMultiTool.Utilities;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
-    public class WorldBin3
+    public class WorldInstance
     {
+        public string Name;
+
         public ObjectID objectID;
 
         public int U0;
@@ -28,8 +23,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
         public int U4;
 
-        public int UTrackID;
-        public int URID;
+        public ObjectID UObjectID;
 
         public float U5;
         public int U6;
@@ -56,8 +50,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             objectID = WorldCommon.ObjectIDLoad(stream); 
             U4 = StreamUtil.ReadInt32(stream);
 
-            UTrackID = StreamUtil.ReadInt8(stream);
-            URID = StreamUtil.ReadInt24(stream);
+            UObjectID = WorldCommon.ObjectIDLoad(stream);
+
             U5 = StreamUtil.ReadFloat(stream);
             U6 = StreamUtil.ReadInt32(stream);
             U7 = StreamUtil.ReadInt32(stream);
@@ -71,9 +65,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             //READ MODEL DATA
         }
 
-        public Bin3JsonHandler.Bin3File ToJSON()
+        public InstanceJsonHandler.Instance ToJSON()
         {
-            Bin3JsonHandler.Bin3File bin3File = new Bin3JsonHandler.Bin3File();
+            InstanceJsonHandler.Instance bin3File = new InstanceJsonHandler.Instance();
+
+            bin3File.Name = Name;
 
             bin3File.U0 = U0;
             bin3File.U1 = U1;
@@ -97,8 +93,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             bin3File.RID = objectID.RID;
             bin3File.U4 = U4;
 
-            bin3File.UTrackID = UTrackID;
-            bin3File.URID = URID;
+            bin3File.UTrackID = UObjectID.TrackID;
+            bin3File.URID = UObjectID.RID;
             bin3File.U5 = U5;
             bin3File.U6 = U6;
             bin3File.U7 = U7;

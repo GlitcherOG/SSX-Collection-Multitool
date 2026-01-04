@@ -1,12 +1,6 @@
 ﻿using SSXMultiTool.Utilities;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Shapes;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 {

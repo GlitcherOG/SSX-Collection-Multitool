@@ -112,7 +112,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
             {
                 PatchesJsonHandler patchesJsonHandler = new PatchesJsonHandler();
                 Bin0JsonHandler bin0JsonHandler = new Bin0JsonHandler();
-                Bin3JsonHandler bin3JsonHandler = new Bin3JsonHandler();
+                InstanceJsonHandler bin3JsonHandler = new InstanceJsonHandler();
                 Bin5JsonHandler bin5JsonHandler = new Bin5JsonHandler();
                 Bin6JsonHandler bin6JsonHandler = new Bin6JsonHandler();
                 SplineJsonHandler splineJsonHandler = new SplineJsonHandler();
@@ -194,10 +194,10 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 3)
                             {
-                                WorldBin3 worldBin3 = new WorldBin3();
+                                WorldInstance worldBin3 = new WorldInstance();
                                 worldBin3.LoadData(memoryStream1);
 
-                                bin3JsonHandler.bin3Files.Add(worldBin3.ToJSON());
+                                bin3JsonHandler.Instances.Add(worldBin3.ToJSON());
                             }
                             else if (ID == 5)
                             {
@@ -320,7 +320,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                             patchesJsonHandler = new PatchesJsonHandler();
                             bin0JsonHandler = new Bin0JsonHandler();
-                            bin3JsonHandler = new Bin3JsonHandler();
+                            bin3JsonHandler = new InstanceJsonHandler();
                             bin5JsonHandler = new Bin5JsonHandler();
                             bin6JsonHandler = new Bin6JsonHandler();
                             visCurtainJsonHandler = new VisCurtainJsonHandler();
