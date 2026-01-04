@@ -197,6 +197,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 WorldInstance worldBin3 = new WorldInstance();
                                 worldBin3.LoadData(memoryStream1);
 
+                                worldBin3.Name = phmHandler.GetName(TrackID, RID, 2, psmHandler);
+
                                 bin3JsonHandler.Instances.Add(worldBin3.ToJSON());
                             }
                             else if (ID == 5)
@@ -300,8 +302,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             Console.WriteLine(extractPath + "//Levels///" + sdbHandler.locations[ChunkID].Name + "//Bin0.json");
                             bin0JsonHandler.CreateJson(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Bin0.json");
 
-                            Console.WriteLine(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Bin3.json");
-                            bin3JsonHandler.CreateJson(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Bin3.json");
+                            Console.WriteLine(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Instances.json");
+                            bin3JsonHandler.CreateJson(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Instances.json");
 
                             Console.WriteLine(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Bin5.json");
                             bin5JsonHandler.CreateJson(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Bin5.json");
