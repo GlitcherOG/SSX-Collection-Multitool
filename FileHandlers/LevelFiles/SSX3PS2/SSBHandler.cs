@@ -197,7 +197,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 WorldInstance worldBin3 = new WorldInstance();
                                 worldBin3.LoadData(memoryStream1);
 
-                                worldBin3.Name = phmHandler.GetName(TrackID, RID, 2, psmHandler);
+                                worldBin3.Name = phmHandler.GetName(TrackID, RID, 1, psmHandler);
 
                                 bin3JsonHandler.Instances.Add(worldBin3.ToJSON());
                             }
@@ -226,13 +226,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 9)
                             {
-                                Console.WriteLine(extractPath + "//Textures//" + Path + ".png");
-                                WorldSSH worldOldSSH = new WorldSSH();
-
-                                worldOldSSH.Load(NewData);
-                                //worldOldSSH.SaveImage(ExtractPath + "//Textures//" + Path + ".png");
                                 if (!File.Exists(extractPath + "//Textures//" + RID + ".png"))
                                 {
+                                    Console.WriteLine(extractPath + "//Textures//" + Path + ".png");
+                                    WorldSSH worldOldSSH = new WorldSSH();
+
+                                    worldOldSSH.Load(NewData);
+
                                     worldOldSSH.SaveImage(extractPath + "//Textures//" + RID + ".png");
                                 }
 

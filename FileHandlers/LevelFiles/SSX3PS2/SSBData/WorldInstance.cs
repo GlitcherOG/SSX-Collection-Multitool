@@ -23,7 +23,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
         public int U4;
 
-        public ObjectID UObjectID;
+        public ObjectID ModelID;
 
         public float U5;
         public int U6;
@@ -50,7 +50,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             objectID = WorldCommon.ObjectIDLoad(stream); 
             U4 = StreamUtil.ReadInt32(stream);
 
-            UObjectID = WorldCommon.ObjectIDLoad(stream);
+            ModelID = WorldCommon.ObjectIDLoad(stream);
 
             U5 = StreamUtil.ReadFloat(stream);
             U6 = StreamUtil.ReadInt32(stream);
@@ -93,8 +93,8 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             bin3File.RID = objectID.RID;
             bin3File.U4 = U4;
 
-            bin3File.UTrackID = UObjectID.TrackID;
-            bin3File.URID = UObjectID.RID;
+            bin3File.ModelTrackID = ModelID.TrackID;
+            bin3File.ModelRID = ModelID.RID;
             bin3File.U5 = U5;
             bin3File.U6 = U6;
             bin3File.U7 = U7;
