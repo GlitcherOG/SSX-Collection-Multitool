@@ -14,8 +14,9 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
     public class WorldMDR
     {
-        public int TrackID;
-        public int RID;
+        public string Name;
+
+        public ObjectID objectID;
 
         public int U1Count;
         public int U1Offset;
@@ -36,10 +37,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
         public void LoadData(Stream stream)
         {
-            var Temp = WorldCommon.ObjectIDLoad(stream);
-
-            TrackID = Temp.TrackID;
-            RID = Temp.RID;
+            objectID = WorldCommon.ObjectIDLoad(stream);
 
             U1Count = StreamUtil.ReadUInt32(stream);
             U1Offset = StreamUtil.ReadUInt32(stream);
@@ -501,9 +499,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
         {
             MDRJsonHandler.MainModelHeader JsonModelObject = new MDRJsonHandler.MainModelHeader();
 
+            JsonModelObject.Name = Name;
+
             //Convert to JSON
-            JsonModelObject.TrackID = TrackID;
-            JsonModelObject.RID = RID;
+            JsonModelObject.TrackID = objectID.TrackID;
+            JsonModelObject.RID = objectID.RID;
 
             JsonModelObject.U3 = U3;
             JsonModelObject.U4 = U4;
@@ -544,7 +544,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                 {
                     if (modelObject.modelFaces.Count != 0)
                     {
-                        NewObject.ModelPath = RID + "-" + i + ".obj";
+                        NewObject.ModelPath = objectID.RID + "-" + i + ".obj";
                     }
                 }
 
@@ -600,7 +600,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
                 if (Data.modelFaces != null)
                 {
-
                     for (int b = 0; b < Data.modelFaces.Count; b++)
                     {
                         var Face = Data.modelFaces[b];
@@ -681,7 +680,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
                     if (Data.modelFaces.Count != 0)
                     {
-                        File.WriteAllText(Path + "/" + RID + "-" + a + ".obj", output);
+                        File.WriteAllText(Path + "/" + objectID.RID + "-" + a + ".obj", output);
                     }
                 }
                 //    if (ModelObjects[a].unknownS2.ModelHeaderOffset[ax].model != null)
@@ -778,8 +777,6 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
                 //    }
 
             }
-
-
             //Return Model
 
             return JsonModelObject;

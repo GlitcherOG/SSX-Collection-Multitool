@@ -42,6 +42,8 @@ namespace SSXMultiTool.JsonFiles.SSX3
 
         public struct MainModelHeader
         {
+            public string Name;
+
             public int TrackID;
             public int RID;
 

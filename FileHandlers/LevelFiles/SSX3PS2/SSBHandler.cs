@@ -184,11 +184,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID == 2)
                             {
-                                Console.WriteLine(LevelExtractPath + "//Models//" + RID + ".glb");
                                 WorldMDR worldMDR = new WorldMDR();
 
                                 worldMDR.LoadData(memoryStream1);
 
+                                worldMDR.Name = phmHandler.GetName(TrackID, RID, 2, psmHandler);
+
+                                Console.WriteLine(LevelExtractPath + "//Models//" + RID + ".obj");
                                 mdrJsonHandler.mainModelHeaders.Add(worldMDR.SaveModel(LevelExtractPath + "//Models//"));
                                 //worldMDR.SaveModelGLB(ExtractPath + "//Models//" + RID + ".glb");
                             }
@@ -297,15 +299,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                                 memoryStream1 = new MemoryStream();
                                 file.Close();
                             }
-                            else
-                            {
-                                Console.WriteLine(LevelExtractPath + Path + ".bin" + ID);
-                                var file = File.Create(LevelExtractPath + Path + ".bin" + ID);
-                                memoryStream1.CopyTo(file);
-                                memoryStream1.Dispose();
-                                memoryStream1 = new MemoryStream();
-                                file.Close();
-                            }
+                            //else
+                            //{
+                            //    Console.WriteLine(LevelExtractPath + Path + ".bin" + ID);
+                            //    var file = File.Create(LevelExtractPath + Path + ".bin" + ID);
+                            //    memoryStream1.CopyTo(file);
+                            //    memoryStream1.Dispose();
+                            //    memoryStream1 = new MemoryStream();
+                            //    file.Close();
+                            //}
 
                             FilePos++;
                         }
