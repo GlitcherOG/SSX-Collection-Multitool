@@ -1,10 +1,12 @@
-﻿using System;
+﻿using CommunityToolkit.HighPerformance;
+using SSXMultiTool.Utilities;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SSXMultiTool.Utilities;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SSXMultiTool.FileHandlers
 {
@@ -49,33 +51,21 @@ namespace SSXMultiTool.FileHandlers
                 //Using Offsets Grab Text
                 for (int i = 0; i < TextCount; i++)
                 {
-                    int Length;
-                    if (i + 1 >= TextCount)
+                    string text = "";
+                    while (true)
                     {
-                        Length = (int)(stream.Length - stream.Position);
+                        var letterBytes = new byte[2];
+                        stream.Read(letterBytes, 0, 2);
+
+                        // Check if null teminated
+                        if ((letterBytes[0] | letterBytes[1]) == 0)
+                        {
+                            StringList.Add(text);
+                            break;
+                        }
+                        string character = Encoding.Unicode.GetString(letterBytes);
+                        text += character;
                     }
-                    else
-                    {
-                        Length = StringOffsets[i + 1] - StringOffsets[i];
-                    }
-                    byte[] byteString = new byte[Length];
-                    stream.Read(byteString, 0, Length);
-                    byte[] modString;
-                    //Check If Blank Entry
-                    if (byteString.Length > 5)
-                    {
-                        modString = new byte[byteString.Length - 4];
-                    }
-                    else
-                    {
-                        modString = new byte[byteString.Length];
-                    }
-                    for (int a = 0; a < byteString.Length - 5; a++)
-                    {
-                        modString[a] = byteString[a];
-                    }
-                    string Text = System.Text.Encoding.Unicode.GetString(modString);
-                    StringList.Add(Text);
                 }
                 stream.Dispose();
             }
