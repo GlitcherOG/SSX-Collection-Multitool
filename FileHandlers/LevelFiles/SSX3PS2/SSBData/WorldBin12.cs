@@ -130,7 +130,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 
                 for (int j = 0; j < Data.Indices.Count; j++)
                 {
-                    output += "f " + Data.Indices[j].Index1.ToString() + "//" + j.ToString() + " " + Data.Indices[j].Index2.ToString() + "//" + j.ToString() + " " + Data.Indices[j].Index3.ToString() + "//" + j.ToString() + "\n";
+                    output += "f " + (Data.Indices[j].Index1+1).ToString() + "//" + (j + 1).ToString() + " " + (Data.Indices[j].Index2 + 1).ToString() + "//" + (j + 1).ToString() + " " + (Data.Indices[j].Index3 + 1).ToString() + "//" + (j + 1).ToString() + "\n";
                 }
 
                 if (Models.Count != 0)
