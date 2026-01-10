@@ -57,7 +57,7 @@ namespace SSXMultiTool.FileHandlers
                     fileIndex.Offset = StreamUtil.ReadUInt32(stream, true);
                     fileIndex.zSize = StreamUtil.ReadUInt32(stream, true);
                     fileIndex.Size = StreamUtil.ReadUInt32(stream, true);
-                    fileIndex.Hash = StreamUtil.ReadUInt32(stream, true);
+                    fileIndex.Hash = (uint)StreamUtil.ReadUInt32(stream, true);
 
                     Files.Add(fileIndex);
                 }
@@ -243,7 +243,7 @@ namespace SSXMultiTool.FileHandlers
 
                     fileIndex.FileName = DataPath;
                     fileIndex.PathIndex = Paths.IndexOf(DataFolder);
-                    fileIndex.Hash = hash(DataFolder + "/"+DataPath);
+                    fileIndex.Hash = (uint)hash(DataFolder + "/"+DataPath);
 
                     Files.Add(fileIndex);
                 }
@@ -394,7 +394,7 @@ namespace SSXMultiTool.FileHandlers
                     StreamUtil.WriteInt32(OutputStream, Files[i].Offset, true);
                     StreamUtil.WriteInt32(OutputStream, Files[i].zSize, true);
                     StreamUtil.WriteInt32(OutputStream, Files[i].Size, true);
-                    StreamUtil.WriteInt32(OutputStream, Files[i].Hash, true);
+                    StreamUtil.WriteInt32(OutputStream, (int)Files[i].Hash, true);
                 }
 
                 //Gap is file count alligned by 16
@@ -566,7 +566,7 @@ namespace SSXMultiTool.FileHandlers
             public int Offset;
             public int zSize; //Uncompressed only used for refpack
             public int Size;
-            public int Hash;
+            public uint Hash;
 
             public bool Compressed;
 

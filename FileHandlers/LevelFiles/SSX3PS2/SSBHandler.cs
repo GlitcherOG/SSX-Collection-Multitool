@@ -149,6 +149,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                         Directory.CreateDirectory(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name);
                         Directory.CreateDirectory(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Models");
                         Directory.CreateDirectory(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Sounds");
+                        Directory.CreateDirectory(extractPath + "//Levels//" + sdbHandler.locations[ChunkID].Name + "//Collision");
                         memoryStream.Position = 0;
 
                         while (memoryStream.Position < memoryStream.Length)
@@ -259,6 +260,13 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                                 visCurtainJsonHandler.VisCurtains.Add(worldBin11.ToJSON());
                             }
+                            else if (ID==12)
+                            {
+                                WorldBin12 worldBin12 = new WorldBin12();
+                                worldBin12.LoadData(memoryStream1, TrackID, RID);
+
+                                worldBin12.CollisionObjectSave(LevelExtractPath + "//Collision//");
+                            }
                             else if (ID == 14)
                             {
                                 WorldAIP worldAIP = new WorldAIP();
@@ -266,15 +274,15 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
 
                                 string FileName = RID + "AIP";
 
-                                if(RID==0)
+                                if (RID == 0)
                                 {
                                     FileName = "AIP";
                                 }
-                                else if(RID==1)
+                                else if (RID == 1)
                                 {
                                     FileName = "PeakRaceAIP";
                                 }
-                                else if (RID==2)
+                                else if (RID == 2)
                                 {
                                     FileName = "PeakShowOffAIP";
                                 }
