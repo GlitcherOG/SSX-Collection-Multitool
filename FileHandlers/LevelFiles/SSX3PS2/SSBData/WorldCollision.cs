@@ -1,19 +1,12 @@
-﻿using SSXMultiTool.JsonFiles.SSX3;
-using SSXMultiTool.Utilities;
-using System;
-using System.Collections.Generic;
+﻿using SSXMultiTool.Utilities;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using static SSXMultiTool.FileHandlers.Models.SSX2012.GEOMHandler;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Windows;
 
 namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
 {
-    public class WorldBin12
+    public class WorldCollision
     {
         public int TrackID;
         public int RID;
@@ -109,36 +102,64 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2.SSBData
             }
         }
 
-        public void CollisionObjectSave(string Path)
+        public void CollisionObjectSave(string Path, string Name)
         {
+            string output = "# Exported From SSX Using SSX Multitool Modder by GlitcherOG \n";
+
+            //Combine Lists
+            List<Vector4> Vertices = new List<Vector4>();
+            List<Vector4> Normals = new List<Vector4>();
+            List<Indexs> indices = new List<Indexs>();
+            List<int> ModelIndicesCount = new List<int>();
+            List<int> VerticesCount = new List<int>();
+            int StartPointI = 0;
+            int StartPointV = 0;
             for (int i = 0; i < Models.Count; i++)
             {
-                string output = "# Exported From SSX Using SSX Multitool Modder by GlitcherOG \n";
+                ModelIndicesCount.Add(StartPointI);
+                VerticesCount.Add(StartPointV);
 
-                output += "o Mesh" + i.ToString() + "\n";
+                Vertices.AddRange(Models[i].Vectors);
+                Normals.AddRange(Models[i].Normals);
 
-                var Data = Models[i];
-
-                for (int z = 0; z < Data.Vectors.Count; z++)
+                for (global::System.Int32 j = 0; j < Models[i].Indices.Count; j++)
                 {
-                    output += "v " + Data.Vectors[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Data.Vectors[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Data.Vectors[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
-                }
-                for (int z = 0; z < Data.Normals.Count; z++)
-                {
-                    output += "vn " + Data.Normals[z].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Data.Normals[z].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Data.Normals[z].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
-                }
+                    var TempIndices = new Indexs();
 
-                for (int j = 0; j < Data.Indices.Count; j++)
-                {
-                    output += "f " + (Data.Indices[j].Index1+1).ToString() + "//" + (j + 1).ToString() + " " + (Data.Indices[j].Index2 + 1).ToString() + "//" + (j + 1).ToString() + " " + (Data.Indices[j].Index3 + 1).ToString() + "//" + (j + 1).ToString() + "\n";
+                    TempIndices.Index1 = Models[i].Indices[j].Index1 + StartPointV;
+                    TempIndices.Index2 = Models[i].Indices[j].Index2 + StartPointV;
+                    TempIndices.Index3 = Models[i].Indices[j].Index3 + StartPointV;
+
+                    indices.Add(TempIndices);   
                 }
 
-                if (Models.Count != 0)
-                {
-                    File.WriteAllText(Path + "/" + RID.ToString() + "-" + i.ToString() + ".obj", output);
-                }
-
+                StartPointI += Models[i].Indices.Count;
+                StartPointV += Models[i].Vectors.Count;
             }
+
+
+            for (int i = 0; i < Vertices.Count; i++)
+            {
+                output += "v " + Vertices[i].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Vertices[i].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Vertices[i].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+            }
+
+            for (int i = 0; i < Normals.Count; i++)
+            {
+                output += "vn " + Normals[i].X.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Normals[i].Y.ToString(CultureInfo.InvariantCulture.NumberFormat) + " " + Normals[i].Z.ToString(CultureInfo.InvariantCulture.NumberFormat) + "\n";
+            }
+
+
+            for (int i = 0; i < indices.Count; i++)
+            {
+                if(ModelIndicesCount.Contains(i))
+                {
+                    output += "o Mesh" + ModelIndicesCount.IndexOf(i).ToString() + "\n";
+                }
+
+                output += "f " + (indices[i].Index1+1).ToString() + "//" + (i + 1).ToString() + " " + (indices[i].Index2 + 1).ToString() + "//" + (i + 1).ToString() + " " + (indices[i].Index3 + 1).ToString() + "//" + (i + 1).ToString() + "\n";
+            }
+
+            File.WriteAllText(Path + "/" + RID.ToString() + "-" + Name + ".obj", output);
         }
 
         public struct U0Struct

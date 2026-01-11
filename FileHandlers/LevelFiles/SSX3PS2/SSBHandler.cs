@@ -262,10 +262,11 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.SSX3PS2
                             }
                             else if (ID==12)
                             {
-                                WorldBin12 worldBin12 = new WorldBin12();
+                                WorldCollision worldBin12 = new WorldCollision();
                                 worldBin12.LoadData(memoryStream1, TrackID, RID);
 
-                                worldBin12.CollisionObjectSave(LevelExtractPath + "//Collision//");
+                                Console.WriteLine(extractPath + "//Collision//" + RID + ".obj");
+                                worldBin12.CollisionObjectSave(LevelExtractPath + "//Collision//", phmHandler.GetName(TrackID, RID, 4, psmHandler));
                             }
                             else if (ID == 14)
                             {
