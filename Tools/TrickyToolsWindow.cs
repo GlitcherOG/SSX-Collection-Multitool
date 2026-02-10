@@ -182,13 +182,19 @@ namespace SSXMultiTool
                 {
                     string Path = openFileDialog.FileName.Remove(openFileDialog.FileName.Length - 8, 8);
 
-                    trickyMPF = trickyPS2Model.Body;
+                    if (trickyPS2Model.Body != null)
+                    {
+                        trickyMPF = trickyPS2Model.Body;
 
-                    trickyMPF.Save(Path + "body.mpf");
+                        trickyMPF.Save(Path + "body.mpf");
+                    }
 
-                    trickyMPF = trickyPS2Model.Head;
+                    if (trickyPS2Model.Head != null)
+                    {
+                        trickyMPF = trickyPS2Model.Head;
 
-                    trickyMPF.Save(Path + "head.mpf");
+                        trickyMPF.Save(Path + "head.mpf");
+                    }
                 }
             }
         }
