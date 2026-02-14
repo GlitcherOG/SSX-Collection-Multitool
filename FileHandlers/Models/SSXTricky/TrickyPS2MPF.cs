@@ -934,9 +934,9 @@ namespace SSXMultiTool.FileHandlers.Models.Tricky
 
                                     for (int d = 0; d < TempMorphList.morphData.Count; d++)
                                     {
-                                        StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.morphData[d].X * MorphScale));
-                                        StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.morphData[d].Y * MorphScale));
-                                        StreamUtil.WriteUInt8(ModelStream, (int)(TempMorphList.morphData[d].Z * MorphScale));
+                                        StreamUtil.WriteUInt8(ModelStream, (int)(MathF.Round(TempMorphList.morphData[d].X * MorphScale)));
+                                        StreamUtil.WriteUInt8(ModelStream, (int)(MathF.Round(TempMorphList.morphData[d].Y * MorphScale)));
+                                        StreamUtil.WriteUInt8(ModelStream, (int)(MathF.Round(TempMorphList.morphData[d].Z * MorphScale)));
                                     }
                                     StreamUtil.AlignBy16(ModelStream);
 
