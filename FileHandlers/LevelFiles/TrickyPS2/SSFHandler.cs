@@ -475,7 +475,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     NewSubType.U2 = StreamUtil.ReadFloat(stream);
                     NewSubType.U3 = StreamUtil.ReadUInt32(stream);
                     NewSubType.U4 = StreamUtil.ReadUInt32(stream);
-                    NewSubType.U5 = StreamUtil.ReadUInt32(stream);
+                    NewSubType.U5 = StreamUtil.ReadFloat(stream);
                     NewSubType.U6 = StreamUtil.ReadFloat(stream);
                     NewSubType.U7 = StreamUtil.ReadFloat(stream);
                     NewSubType.U8 = StreamUtil.ReadFloat(stream);
@@ -932,7 +932,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
                     StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub20.Value.U2);
                     StreamUtil.WriteInt32(stream, Type0Temp.type0Sub20.Value.U3);
                     StreamUtil.WriteInt32(stream, Type0Temp.type0Sub20.Value.U4);
-                    StreamUtil.WriteInt32(stream, Type0Temp.type0Sub20.Value.U5);
+                    StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub20.Value.U5);
                     StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub20.Value.U6);
                     StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub20.Value.U7);
                     StreamUtil.WriteFloat32(stream, Type0Temp.type0Sub20.Value.U8);
@@ -1892,7 +1892,7 @@ namespace SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2
             public float U2;
             public int U3;
             public int U4;
-            public int U5;
+            public float U5;
             public float U6;
             public float U7;
             public float U8;

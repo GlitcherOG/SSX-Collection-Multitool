@@ -1148,7 +1148,7 @@ namespace SSXMultiTool.JsonFiles.Tricky
             public float U2;
             public int U3;
             public int U4;
-            public int U5;
+            public float U5;
             public float U6;
             public float U7;
             public float U8;
