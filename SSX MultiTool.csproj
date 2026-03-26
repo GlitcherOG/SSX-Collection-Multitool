@@ -18,6 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="SSX-Library\SSX-Library.Tests\SSX-Library.Tests.csproj" />
+    <None Include="SSX-Library\SSX-Library\SSX-Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCnEncoder.Net" Version="2.2.1" />
     <PackageReference Include="Microsoft.WindowsAPICodePack-Shell" Version="1.1.0" />
     <PackageReference Include="NAudio" Version="2.2.1" />

@@ -1,8 +1,9 @@
-using SSXMultiTool.JsonFiles.Tricky;
-using SSXMultiTool.Utilities;
 using System;
 using System.Diagnostics;
 using System.IO;
+using SSXMultiTool.Utilities;
+using SSXLibrary.JsonFiles.Tricky;
+using SSXLibrary;
 
 namespace SSXMultiTool
 {
