@@ -1,6 +1,6 @@
-﻿using SSXMultiTool.FileHandlers.Models.SSX2012;
-using SSXMultiTool.FileHandlers.SSX2012;
-using SSXMultiTool.FileHandlers.Textures;
+﻿using SSXLibrary.FileHandlers.Models.SSX2012;
+using SSXLibrary.FileHandlers.SSX2012;
+using SSXLibrary.FileHandlers.Textures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

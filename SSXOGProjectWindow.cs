@@ -1,6 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
-using SSXMultiTool.FileHandlers.LevelFiles.OGPS2;
-using SSXMultiTool.JsonFiles;
+using SSXLibrary.FileHandlers.LevelFiles.OGPS2;
+using SSXLibrary.JsonFiles;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

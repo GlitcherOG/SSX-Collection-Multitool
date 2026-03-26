@@ -1,5 +1,5 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
-using SSXMultiTool.FileHandlers;
+using SSXLibrary.FileHandlers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,8 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using SSXMultiTool.FileHandlers.Models;
-using SSXMultiTool.FileHandlers.Models.SSXOG;
+using SSXLibrary.FileHandlers.Models;
+using SSXLibrary.FileHandlers.Models.SSXOG;
+using SSX_Library;
 
 namespace SSXMultiTool
 {
@@ -76,25 +77,16 @@ namespace SSXMultiTool
             {
                 if (File.Exists(commonDialog.FileName + "\\DATA\\MODELS\\ALOHA.BIG"))
                 {
-                    BigHandler bigHandler = new BigHandler();
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\ALOHA.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\ELYSIUM.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\MEGAPLEX.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\MERQUERY.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\MESA.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\PIPE.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\SNOW.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\UNTRACK.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\WARMUP.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\ALOHA.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\ELYSIUM.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\MEGAPLEX.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\MERQUERY.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\MESA.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\PIPE.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\SNOW.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\UNTRACK.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\WARMUP.BIG", commonDialog.FileName);
+
                     File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\ALOHA.BIG");
                     File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\ELYSIUM.BIG");
                     File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\MEGAPLEX.BIG");

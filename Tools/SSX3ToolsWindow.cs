@@ -1,6 +1,6 @@
-﻿using SSXMultiTool.FileHandlers;
-using SSXMultiTool.FileHandlers.Models.SSX3;
-using SSXMultiTool.FileHandlers.Models;
+﻿using SSXLibrary.FileHandlers;
+using SSXLibrary.FileHandlers.Models.SSX3;
+using SSXLibrary.FileHandlers.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SSXMultiTool.FileHandlers.SSX3;
+using SSXLibrary.FileHandlers.SSX3;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.IO;
 using NAudio.Wave;
@@ -1020,76 +1020,75 @@ namespace SSXMultiTool
         {
             if (CheckSX())
             {
-                OpenFileDialog openFileDialog = new OpenFileDialog
-                {
-                    Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
-                    FilterIndex = 1,
-                    RestoreDirectory = false
-                };
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
-                    {
-                        IsFolderPicker = true,
-                        Title = "Select Extract Folder",
-                    };
-                    if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
-                    {
-                        datAudio = new DATAudio();
+                //OpenFileDialog openFileDialog = new OpenFileDialog
+                //{
+                //    Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
+                //    FilterIndex = 1,
+                //    RestoreDirectory = false
+                //};
+                //if (openFileDialog.ShowDialog() == DialogResult.OK)
+                //{
+                //    CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
+                //    {
+                //        IsFolderPicker = true,
+                //        Title = "Select Extract Folder",
+                //    };
+                //    if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
+                //    {
+                //        datAudio = new DATAudio();
 
-                        datAudio.ExtractGuess(openFileDialog.FileName, openFileDialog1.FileName);
+                //        datAudio.ExtractGuess(openFileDialog.FileName, openFileDialog1.FileName);
 
-                        MessageBox.Show("Audio Extracted");
+                //        MessageBox.Show("Audio Extracted");
 
-                        string[] NewFiles = Directory.GetFiles(openFileDialog1.FileName, "*.wav", SearchOption.TopDirectoryOnly);
+                //        string[] NewFiles = Directory.GetFiles(openFileDialog1.FileName, "*.wav", SearchOption.TopDirectoryOnly);
 
-                        Files = NewFiles.ToList();
+                //        Files = NewFiles.ToList();
 
-                        hdrFileList.Items.Clear();
-                        for (int i = 0; i < Files.Count; i++)
-                        {
-                            hdrFileList.Items.Add(Path.GetFileName(Files[i]));
-                        }
-                    }
-                }
-
+                //        hdrFileList.Items.Clear();
+                //        for (int i = 0; i < Files.Count; i++)
+                //        {
+                //            hdrFileList.Items.Add(Path.GetFileName(Files[i]));
+                //        }
+                //    }
+                //}
             }
         }
 
         private void hdrBuildDAT_Click(object sender, EventArgs e)
         {
-            if (CheckSX() && HDRLoaded)
-            {
-                SaveFileDialog openFileDialog1 = new SaveFileDialog
-                {
-                    Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
-                    FilterIndex = 1,
-                    RestoreDirectory = false
-                };
-                if (openFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    if (hdrHandler.fileHeaders.Count != Files.ToArray().Length)
-                    {
-                        MessageBox.Show("Incorrect Wav Count " + hdrHandler.fileHeaders.Count + "/" + Files.ToArray().Length);
-                        return;
-                    }
-                    hdrHandler = datAudio.GenerateDATAndHDR3(Files.ToArray(), openFileDialog1.FileName, hdrHandler);
-                    MessageBox.Show("File Generated");
+            //if (CheckSX() && HDRLoaded)
+            //{
+            //    SaveFileDialog openFileDialog1 = new SaveFileDialog
+            //    {
+            //        Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
+            //        FilterIndex = 1,
+            //        RestoreDirectory = false
+            //    };
+            //    if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            //    {
+            //        if (hdrHandler.fileHeaders.Count != Files.ToArray().Length)
+            //        {
+            //            MessageBox.Show("Incorrect Wav Count " + hdrHandler.fileHeaders.Count + "/" + Files.ToArray().Length);
+            //            return;
+            //        }
+            //        hdrHandler = datAudio.GenerateDATAndHDR3(Files.ToArray(), openFileDialog1.FileName, hdrHandler);
+            //        MessageBox.Show("File Generated");
 
-                    hdrList2.Items.Clear();
-                    for (int i = 0; i < hdrHandler.fileHeaders.Count; i++)
-                    {
-                        hdrList2.Items.Add("Entry " + i + " - Offset " + hdrHandler.fileHeaders[i].OffsetInt);
-                    }
-                }
-            }
-            else
-            {
-                if (!HDRLoaded)
-                {
-                    MessageBox.Show("Rebuilding Requires HDR File Loaded");
-                }
-            }
+            //        hdrList2.Items.Clear();
+            //        for (int i = 0; i < hdrHandler.fileHeaders.Count; i++)
+            //        {
+            //            hdrList2.Items.Add("Entry " + i + " - Offset " + hdrHandler.fileHeaders[i].OffsetInt);
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    if (!HDRLoaded)
+            //    {
+            //        MessageBox.Show("Rebuilding Requires HDR File Loaded");
+            //    }
+            //}
         }
 
         private void hdrList2_SelectedIndexChanged(object sender, EventArgs e)

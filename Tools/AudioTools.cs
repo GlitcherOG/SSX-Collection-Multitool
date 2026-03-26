@@ -2,7 +2,7 @@
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Diagnostics;
 using NAudio.Wave;
-using SSXMultiTool.FileHandlers.Audio;
+using SSXLibrary.FileHandlers.Audio;
 
 namespace SSXMultiTool.Tools
 {

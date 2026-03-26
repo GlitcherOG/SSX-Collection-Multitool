@@ -1,13 +1,10 @@
 using Microsoft.WindowsAPICodePack.Dialogs;
-using SSXMultiTool.FileHandlers.LevelFiles;
 using System.IO;
-using SSXMultiTool.FileHandlers;
 using System.Windows.Forms;
-using SSXMultiTool.JsonFiles;
-using SSXMultiTool.JsonFiles.Tricky;
-using SSXMultiTool.FileHandlers.Models;
-using SSXMultiTool.FileHandlers.LevelFiles.TrickyPS2;
+using SSXLibrary.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
+using SSXLibrary;
+using SSX_Library;
 
 namespace SSXMultiTool
 {
@@ -41,9 +38,7 @@ namespace SSXMultiTool
                         this.Text = "Tricky Project Window (Extracting...)";
                         if (openFileDialog.FileName.ToLower().Contains(".big"))
                         {
-                            BigHandler bigHandler = new BigHandler();
-                            bigHandler.LoadBig(openFileDialog.FileName);
-                            bigHandler.ExtractBig(Application.StartupPath + "\\TempExtract");
+                            BIG.Extract(openFileDialog.FileName, Application.StartupPath + "\\TempExtract");
                             string[] strings = Directory.GetFiles(Application.StartupPath + "\\TempExtract", "*.map", SearchOption.AllDirectories);
                             if (strings.Length != 0)
                             {
@@ -178,10 +173,7 @@ namespace SSXMultiTool
                             Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\data\\models");
                             string InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(openFileDialog.FileName.ToLower()).Substring(0, Path.GetFileName(openFileDialog.FileName).Length - 3) + "map";
                             trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, InputPath);
-                            BigHandler bigHandler = new BigHandler();
-                            bigHandler.LoadFolderC0FB(Application.StartupPath + "\\TempExtract");
-                            bigHandler.CompressBuild = true;
-                            bigHandler.BuildBig(openFileDialog.FileName);
+                            BIG.Create(BigType.C0FB, Application.StartupPath + "\\TempExtract", BuildPath, true);
                             Directory.Delete(Application.StartupPath + "\\TempExtract", true);
                         }
                         else
@@ -242,10 +234,7 @@ namespace SSXMultiTool
                         Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\data\\models");
                         string InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(BuildPath.ToLower()).Substring(0, Path.GetFileName(BuildPath).Length - 3) + "map";
                         trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, InputPath);
-                        BigHandler bigHandler = new BigHandler();
-                        bigHandler.LoadFolderC0FB(Application.StartupPath + "\\TempExtract");
-                        bigHandler.CompressBuild = true;
-                        bigHandler.BuildBig(BuildPath);
+                        BIG.Create(BigType.C0FB, Application.StartupPath + "\\TempExtract", BuildPath, true);
                         Directory.Delete(Application.StartupPath + "\\TempExtract", true);
                     }
                     else

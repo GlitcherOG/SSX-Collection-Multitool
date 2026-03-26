@@ -1,10 +1,9 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using NAudio.Wave;
-using SSXMultiTool.FileHandlers;
-using SSXMultiTool.FileHandlers.LevelFiles.Converters;
-using SSXMultiTool.FileHandlers.Models;
-using SSXMultiTool.FileHandlers.Models.Tricky;
-using SSXMultiTool.Utilities;
+using SSX_Library;
+using SSXLibrary.FileHandlers;
+using SSXLibrary.FileHandlers.Models;
+using SSXLibrary.FileHandlers.Models.Tricky;
 using System.IO;
 
 namespace SSXMultiTool
@@ -1487,78 +1486,78 @@ namespace SSXMultiTool
 
         private void hdrExtract_Click(object sender, EventArgs e)
         {
-            if (CheckSX())
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog
-                {
-                    Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
-                    FilterIndex = 1,
-                    RestoreDirectory = false
-                };
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
-                    {
-                        IsFolderPicker = true,
-                        Title = "Select Extract Folder",
-                    };
-                    if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
-                    {
-                        datAudio = new DATAudio();
+            //if (CheckSX())
+            //{
+            //    OpenFileDialog openFileDialog = new OpenFileDialog
+            //    {
+            //        Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
+            //        FilterIndex = 1,
+            //        RestoreDirectory = false
+            //    };
+            //    if (openFileDialog.ShowDialog() == DialogResult.OK)
+            //    {
+            //        CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
+            //        {
+            //            IsFolderPicker = true,
+            //            Title = "Select Extract Folder",
+            //        };
+            //        if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
+            //        {
+            //            datAudio = new DATAudio();
 
-                        datAudio.ExtractGuess(openFileDialog.FileName, openFileDialog1.FileName);
+            //            datAudio.ExtractGuess(openFileDialog.FileName, openFileDialog1.FileName);
 
-                        MessageBox.Show("Audio Extracted");
+            //            MessageBox.Show("Audio Extracted");
 
-                        string[] NewFiles = Directory.GetFiles(openFileDialog1.FileName, "*.wav", SearchOption.TopDirectoryOnly);
+            //            string[] NewFiles = Directory.GetFiles(openFileDialog1.FileName, "*.wav", SearchOption.TopDirectoryOnly);
 
-                        Files = NewFiles.ToList();
+            //            Files = NewFiles.ToList();
 
-                        hdrFileList.Items.Clear();
-                        for (int i = 0; i < Files.Count; i++)
-                        {
-                            hdrFileList.Items.Add(Path.GetFileName(Files[i]));
-                        }
-                    }
-                }
+            //            hdrFileList.Items.Clear();
+            //            for (int i = 0; i < Files.Count; i++)
+            //            {
+            //                hdrFileList.Items.Add(Path.GetFileName(Files[i]));
+            //            }
+            //        }
+            //    }
 
-            }
+            //}
         }
 
         private void hdrBuildDAT_Click(object sender, EventArgs e)
         {
-            if (CheckSX() && HDRLoaded)
-            {
-                SaveFileDialog openFileDialog1 = new SaveFileDialog
-                {
-                    Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
-                    FilterIndex = 1,
-                    RestoreDirectory = false
-                };
-                if (openFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    if (hdrHandler.fileHeaders.Count != Files.ToArray().Length)
-                    {
-                        MessageBox.Show("Incorrect Wav Count " + hdrHandler.fileHeaders.Count + "/" + Files.ToArray().Length);
-                        return;
-                    }
-                    hdrHandler = datAudio.GenerateDATAndHDR(Files.ToArray(), openFileDialog1.FileName, hdrHandler);
-                    MessageBox.Show("File Generated");
+            //if (CheckSX() && HDRLoaded)
+            //{
+            //    SaveFileDialog openFileDialog1 = new SaveFileDialog
+            //    {
+            //        Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
+            //        FilterIndex = 1,
+            //        RestoreDirectory = false
+            //    };
+            //    if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            //    {
+            //        if (hdrHandler.fileHeaders.Count != Files.ToArray().Length)
+            //        {
+            //            MessageBox.Show("Incorrect Wav Count " + hdrHandler.fileHeaders.Count + "/" + Files.ToArray().Length);
+            //            return;
+            //        }
+            //        hdrHandler = datAudio.GenerateDATAndHDR(Files.ToArray(), openFileDialog1.FileName, hdrHandler);
+            //        MessageBox.Show("File Generated");
 
-                    hdrList2.Items.Clear();
-                    for (int i = 0; i < hdrHandler.fileHeaders.Count; i++)
-                    {
-                        hdrList2.Items.Add("Entry " + i + " - Offset " + hdrHandler.fileHeaders[i].OffsetInt);
-                    }
-                }
-            }
-            else
-            {
-                if (!HDRLoaded)
-                {
-                    MessageBox.Show("Rebuilding Requires HDR File Loaded");
-                }
-            }
+            //        hdrList2.Items.Clear();
+            //        for (int i = 0; i < hdrHandler.fileHeaders.Count; i++)
+            //        {
+            //            hdrList2.Items.Add("Entry " + i + " - Offset " + hdrHandler.fileHeaders[i].OffsetInt);
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    if (!HDRLoaded)
+            //    {
+            //        MessageBox.Show("Rebuilding Requires HDR File Loaded");
+            //    }
+            //}
         }
 
         private void hdrSave_Click(object sender, EventArgs e)
@@ -1804,7 +1803,7 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    SSXOGToTricky.Convert(openFileDialog.FileName.Substring(0, openFileDialog.FileName.Length - 4), openFileDialog1.FileName);
+                    //SSXOGToTricky.Convert(openFileDialog.FileName.Substring(0, openFileDialog.FileName.Length - 4), openFileDialog1.FileName);
                 }
             }
         }
@@ -1835,9 +1834,7 @@ namespace SSXMultiTool
 
                     if (LoadPath.ToLower().Contains(".big"))
                     {
-                        BigHandler bigHandler = new BigHandler();
-                        bigHandler.LoadBig(openFileDialog.FileName);
-                        bigHandler.ExtractBig(Application.StartupPath + "\\TempExtract");
+                        BIG.Extract(openFileDialog.FileName, Application.StartupPath + "\\TempExtract");
                         string[] strings = Directory.GetFiles(Application.StartupPath + "\\TempExtract", "*.map", SearchOption.AllDirectories);
                         if (strings.Length == 0)
                         {
@@ -1864,16 +1861,13 @@ namespace SSXMultiTool
                             InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(BuildPath.ToLower()).Substring(0, Path.GetFileName(BuildPath).Length - 3) + "map";
                         }
 
-                        TrickyScaler.ProjectScaler(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4), (float)numericUpDown1.Value);
+                        //TrickyScaler.ProjectScaler(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4), (float)numericUpDown1.Value);
 
-                        BigHandler bigHandler = new BigHandler();
-                        bigHandler.LoadFolderC0FB(Application.StartupPath + "\\TempExtract");
-                        bigHandler.CompressBuild = true;
-                        bigHandler.BuildBig(BuildPath);
+                        BIG.Create(BigType.C0FB, Application.StartupPath + "\\TempExtract", BuildPath, true);
                     }
                     else
                     {
-                        TrickyScaler.ProjectScaler(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4), Scale);
+                        //TrickyScaler.ProjectScaler(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4), Scale);
                     }
 
                     if (Directory.Exists(Application.StartupPath + "\\TempExtract"))
@@ -1910,6 +1904,7 @@ namespace SSXMultiTool
 
                     if (LoadPath.ToLower().Contains(".big"))
                     {
+
                         BigHandler bigHandler = new BigHandler();
                         bigHandler.LoadBig(openFileDialog.FileName);
                         bigHandler.ExtractBig(Application.StartupPath + "\\TempExtract");
@@ -1939,7 +1934,7 @@ namespace SSXMultiTool
                             InputPath = Application.StartupPath + "\\TempExtract\\data\\meshes\\" + Path.GetFileName(BuildPath.ToLower()).Substring(0, Path.GetFileName(BuildPath).Length - 3) + "map";
                         }
 
-                        TrickyMirror.ProjectMirror(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4));
+                        //TrickyMirror.ProjectMirror(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4));
 
                         BigHandler bigHandler = new BigHandler();
                         bigHandler.LoadFolderC0FB(Application.StartupPath + "\\TempExtract");
@@ -1948,7 +1943,7 @@ namespace SSXMultiTool
                     }
                     else
                     {
-                        TrickyMirror.ProjectMirror(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4));
+                        //TrickyMirror.ProjectMirror(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4));
                     }
 
                     if (Directory.Exists(Application.StartupPath + "\\TempExtract"))

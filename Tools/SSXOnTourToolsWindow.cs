@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SSXMultiTool.FileHandlers.Models.OnTour;
-using SSXMultiTool.FileHandlers.Models;
+using SSXLibrary.FileHandlers.Models.OnTour;
+using SSXLibrary.FileHandlers.Models;
 using System.IO;
-using SSXMultiTool.FileHandlers;
+using SSXLibrary.FileHandlers;
 
 namespace SSXMultiTool.Tools
 {

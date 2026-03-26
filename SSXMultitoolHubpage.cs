@@ -1,7 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using SSXMultiTool.Tools;
-using SSXMultiTool.Utilities;
-using SSXMultiTool.FileHandlers;
+using SSXLibrary.FileHandlers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
