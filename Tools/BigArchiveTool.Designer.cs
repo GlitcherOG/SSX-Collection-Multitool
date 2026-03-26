@@ -119,7 +119,7 @@
             BigTypeCombobox.Alignment = ToolStripItemAlignment.Right;
             BigTypeCombobox.DropDownStyle = ComboBoxStyle.DropDownList;
             BigTypeCombobox.Enabled = false;
-            BigTypeCombobox.Items.AddRange(new object[] { "BIGF", "C0FB", "BIG4", "SSX 2012" });
+            BigTypeCombobox.Items.AddRange(new object[] { "BIGF", "C0FB", "BIG4", "NewBig" });
             BigTypeCombobox.Name = "BigTypeCombobox";
             BigTypeCombobox.Size = new Size(121, 25);
             BigTypeCombobox.Click += BigTypeCombobox_Click;

@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.IO;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using SSXLibrary.FileHandlers;
+using SSX_Library;
 
 namespace SSXMultiTool
 {
     public partial class BigArchiveTool : Form
     {
-        BigHandler bigHandler = new BigHandler();
-        NewBigHandler newBigHandler = new NewBigHandler();
-        string path;
+        bool Compressed;
+        bool SlashMode;
+        string FilePath;
+        string FolderPath;
+        List<MemberFileInfo> MemberFiles = new List<MemberFileInfo>();
+
         public BigArchiveTool(string OpenPath = "")
         {
             InitializeComponent();
@@ -34,98 +28,60 @@ namespace SSXMultiTool
 
         public void SetupDataView()
         {
-            BigDataView.ColumnCount = 5;
+            BigDataView.ColumnCount = 2;
             BigDataView.Columns[0].Name = "File Name";
-            BigDataView.Columns[1].Name = "Data Offset (Bytes)";
-            BigDataView.Columns[2].Name = "Current File Size (Bytes)";
-            BigDataView.Columns[3].Name = "Compressed";
-            BigDataView.Columns[4].Name = "Uncompressed File Size (Bytes)";
+            BigDataView.Columns[1].Name = "Current File Size (Bytes)";
             BigDataView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             BigDataView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            BigDataView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            BigDataView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            BigDataView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
         }
 
         public void LoadDataRows()
         {
             BigDataView.Rows.Clear();
-            if (BigTypeCombobox.SelectedIndex != 3)
+            for (int i = 0; i < MemberFiles.Count; i++)
             {
-                for (int i = 0; i < bigHandler.bigFiles.Count; i++)
-                {
-                    string[] NewRow = { bigHandler.bigFiles[i].path, bigHandler.bigFiles[i].offset.ToString(), bigHandler.bigFiles[i].size.ToString(), bigHandler.bigFiles[i].Compressed.ToString(), bigHandler.bigFiles[i].UncompressedSize.ToString() };
-                    BigDataView.Rows.Add(NewRow);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < newBigHandler.Files.Count; i++)
-                {
-                    string[] NewRow = { newBigHandler.Paths[newBigHandler.Files[i].PathIndex] + "/" + newBigHandler.Files[i].FileName, newBigHandler.Files[i].Offset.ToString(), newBigHandler.Files[i].zSize.ToString(), newBigHandler.Files[i].Compressed.ToString(), newBigHandler.Files[i].Size.ToString() };
-                    BigDataView.Rows.Add(NewRow);
-                }
+                string[] NewRow = { MemberFiles[i].Path, MemberFiles[i].Size.ToString()};
+                BigDataView.Rows.Add(NewRow);
             }
         }
 
         public void LoadBigPath(string path)
         {
-            bool SlashMode = bigHandler.SlashMode;
-            bigHandler = new BigHandler();
-            bigHandler.SlashMode = SlashMode;
+            FilePath = path;
+            MemberFiles = BIG.GetMembersInfo(FilePath);
             ExtractBigArchive.Enabled = true;
             BuildBigArchive.Enabled = false;
-            bigHandler.LoadBig(path);
             BigTypeCombobox.Enabled = false;
-            BigTypeCombobox.Text = bigHandler.bigType.ToString();
+            BigTypeCombobox.Text = BIG.GetBigType(FilePath).ToString();
             this.Text = "Big Archive (" + path + ")";
             LoadDataRows();
             GC.Collect();
         }
 
-        public void LoadBigNewPath(string path)
+        public void LoadFolderPath(string path)
         {
-            newBigHandler = new NewBigHandler();
-            ExtractBigArchive.Enabled = true;
-            BuildBigArchive.Enabled = false;
-            newBigHandler.Load(path);
-            BigTypeCombobox.Enabled = false;
-            BigTypeCombobox.SelectedIndex = 3;
-            this.Text = "Big Archive (" + path + ")";
-            LoadDataRows();
-            GC.Collect();
-        }
+            FolderPath = path;
 
-        public void LoadFolderPath(string path, bool compressed = false)
-        {
-            bool SlashMode = bigHandler.SlashMode;
-
-            bigHandler = new BigHandler();
-            if (compressed)
-            {
-                bigHandler.CompressBuild = true;
-            }
-            bigHandler.SlashMode = SlashMode;
             ExtractBigArchive.Enabled = false;
             BuildBigArchive.Enabled = true;
-            bigHandler.LoadFolder(path);
             BigTypeCombobox.Enabled = true;
             //BigTypeCombobox.SelectedIndex = 0;
+
+            //Replace with Load into Members Info
+            //bigHandler.LoadFolder(path);
+
             this.Text = "Big Archive Folder Mode (" + path + ")";
             LoadDataRows();
         }
 
         public void ExtractBigPath(string path)
         {
-            bigHandler.ExtractBig(path);
-            GC.Collect();
+            BIG.Extract(FilePath, path);
         }
 
         public void CreateBigPath(string path)
         {
-            bigHandler.bigType = (BigHandler.BigType)Enum.Parse(typeof(BigHandler.BigType), BigTypeCombobox.Text);
-            bigHandler.BuildBig(path);
+            BIG.Create((BigType)Enum.Parse(typeof(BigType), BigTypeCombobox.Text), FolderPath, path, Compressed, SlashMode);
             MessageBox.Show("Big File Created");
         }
 
@@ -139,23 +95,13 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                int Type = HeaderData(openFileDialog.FileName);
-                path = openFileDialog.FileName;
-                if (Type == 0)
+                try
                 {
-                    try
-                    {
-                        LoadBigPath(openFileDialog.FileName);
-                        GC.Collect();
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Error Loading .Big Archive");
-                    }
+                    LoadBigPath(openFileDialog.FileName);
                 }
-                else if (Type == 1)
+                catch
                 {
-                    LoadBigNewPath(openFileDialog.FileName);
+                    MessageBox.Show("Error Loading .Big Archive");
                 }
             }
         }
@@ -168,18 +114,7 @@ namespace SSXMultiTool
             };
             if (commonDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                path = commonDialog.FileName;
                 LoadFolderPath(commonDialog.FileName);
-                if (CompressionButton.Text.Contains("True"))
-                {
-                    bigHandler.CompressBuild = true;
-                    CompressionButton.Text = "Compressed Build: " + bigHandler.CompressBuild.ToString();
-                }
-                else
-                {
-                    bigHandler.CompressBuild = false;
-                    CompressionButton.Text = "Compressed Build: " + bigHandler.CompressBuild.ToString();
-                }
             }
         }
 
@@ -191,24 +126,14 @@ namespace SSXMultiTool
             };
             if (commonDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                if (BigTypeCombobox.SelectedIndex != 3)
+                try
                 {
-                    try
-                    {
-                        ExtractBigPath(commonDialog.FileName);
-                        GC.Collect();
-                        MessageBox.Show("Extracted");
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Error Extracting Big Archive");
-                    }
-                }
-                else
-                {
-                    newBigHandler.ExtractLoad(path, commonDialog.FileName);
-                    GC.Collect();
+                    ExtractBigPath(commonDialog.FileName);
                     MessageBox.Show("Extracted");
+                }
+                catch
+                {
+                    MessageBox.Show("Error Extracting Big Archive");
                 }
             }
         }
@@ -223,22 +148,8 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (BigTypeCombobox.SelectedIndex != 3)
-                {
-                    CreateBigPath(openFileDialog.FileName);
-                    GC.Collect();
-                }
-                else
-                {
-                    if (CompressionButton.Text.Contains("True"))
-                    {
-                        newBigHandler.SaveFile(openFileDialog.FileName, path, true);
-                    }
-                    else
-                    {
-                        newBigHandler.SaveFile(openFileDialog.FileName, path, false);
-                    }
-                }
+                CreateBigPath(openFileDialog.FileName);
+                GC.Collect();
             }
         }
 
@@ -247,23 +158,8 @@ namespace SSXMultiTool
             if (BigTypeCombobox.Enabled)
             {
                 //LoadFolderPath(bigHandler.bigPath, !bigHandler.CompressBuild);
-                bigHandler.CompressBuild = !bigHandler.CompressBuild;
-                CompressionButton.Text = "Compressed Build: " + bigHandler.CompressBuild.ToString();
-            }
-        }
-
-        public int HeaderData(string path)
-        {
-            using (Stream stream = File.Open(path, FileMode.Open))
-            {
-                int Output = StreamUtil.ReadUInt32(stream);
-
-                if (Output == 50348613)
-                {
-                    return 1;
-                }
-
-                return 0;
+                Compressed = !Compressed;
+                CompressionButton.Text = "Compressed Build: " + Compressed.ToString();
             }
         }
 
@@ -274,9 +170,9 @@ namespace SSXMultiTool
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            bigHandler.SlashMode = !bigHandler.SlashMode;
+            SlashMode = !SlashMode;
 
-            if(!bigHandler.SlashMode)
+            if(!SlashMode)
             {
                 SlashToggle.Text = "Slash: \\";
             }
