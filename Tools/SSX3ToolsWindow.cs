@@ -1,19 +1,11 @@
 ﻿using SSXLibrary.FileHandlers;
 using SSXLibrary.FileHandlers.Models.SSX3;
 using SSXLibrary.FileHandlers.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using SSXLibrary.FileHandlers.SSX3;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.IO;
 using NAudio.Wave;
+using SSX_Library;
 
 namespace SSXMultiTool
 {
@@ -27,7 +19,7 @@ namespace SSXMultiTool
         }
 
         #region CharDB File
-        CHARDBLHandler charHandler = new CHARDBLHandler();
+        CharDB charHandler = new CharDB();
         bool DisableUpdate;
         private void charLoad_Click(object sender, EventArgs e)
         {
@@ -42,10 +34,10 @@ namespace SSXMultiTool
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 charBox1.Items.Clear();
-                charHandler.LoadCharFile(openFileDialog.FileName, charcomboBox1.SelectedIndex);
-                for (int i = 0; i < charHandler.charDBs.Count; i++)
+                charHandler.Load(openFileDialog.FileName, (CharDB.InfoMode)charcomboBox1.SelectedIndex);
+                for (int i = 0; i < charHandler.InfoList.Count; i++)
                 {
-                    charBox1.Items.Add(charHandler.charDBs[i].LongName);
+                    charBox1.Items.Add(charHandler.InfoList[i].LongName);
                 }
             }
         }
@@ -54,7 +46,7 @@ namespace SSXMultiTool
         {
             if (!DisableUpdate && charBox1.SelectedIndex != -1)
             {
-                CharDB temp = new CharDB
+                CharDB.Info temp = new CharDB.Info
                 {
                     FirstNameEnglish = chartextBox0.Text,
                     LongName = chartextBox1.Text,
@@ -63,14 +55,14 @@ namespace SSXMultiTool
                     BloodType = chartextBox4.Text,
                     Height = chartextBox5.Text,
                     Nationality = chartextBox6.Text,
-                    Weight = (int)charnumericUpDown1.Value,
-                    Stance = (int)charnumericUpDown2.Value,
+                    Weight = (uint)charnumericUpDown1.Value,
+                    Stance = (uint)charnumericUpDown2.Value,
                     ModelSize = (int)charnumericUpDown3.Value,
-                    Gender = (int)charnumericUpDown4.Value,
-                    Age = (int)charnumericUpDown5.Value,
-                    Position = (int)charnumericUpDown6.Value
+                    Gender = (uint)charnumericUpDown4.Value,
+                    Age = (uint)charnumericUpDown5.Value,
+                    Position = (uint)charnumericUpDown6.Value
                 };
-                charHandler.charDBs[charBox1.SelectedIndex] = temp;
+                charHandler.InfoList[charBox1.SelectedIndex] = temp;
                 int temp1 = charBox1.SelectedIndex;
                 charBox1.Items[temp1] = temp.LongName;
             }
@@ -81,7 +73,7 @@ namespace SSXMultiTool
             if (charBox1.SelectedIndex != -1)
             {
                 DisableUpdate = true;
-                CharDB temp = charHandler.charDBs[charBox1.SelectedIndex];
+                CharDB.Info temp = charHandler.InfoList[charBox1.SelectedIndex];
                 chartextBox0.Text = temp.FirstNameEnglish;
                 chartextBox1.Text = temp.LongName;
                 chartextBox2.Text = temp.FirstName;
@@ -110,14 +102,10 @@ namespace SSXMultiTool
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                charHandler.SaveCharFile(openFileDialog.FileName, charcomboBox1.SelectedIndex);
+                charHandler.Save(openFileDialog.FileName);
             }
         }
 
-        private void charSave_Click(object sender, EventArgs e)
-        {
-            charHandler.SaveCharFile(null, charcomboBox1.SelectedIndex);
-        }
         #endregion
 
         #region BoltPS2 Items

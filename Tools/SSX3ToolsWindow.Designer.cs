@@ -518,7 +518,7 @@
             // label91
             // 
             label91.AutoSize = true;
-            label91.Location = new Point(494, 479);
+            label91.Location = new Point(573, 479);
             label91.Name = "label91";
             label91.Size = new Size(96, 15);
             label91.TabIndex = 32;
@@ -529,7 +529,7 @@
             charcomboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             charcomboBox1.FormattingEnabled = true;
             charcomboBox1.Items.AddRange(new object[] { "Standard", "Japanese/Korea", "Cheat Characters Japanese/Korea" });
-            charcomboBox1.Location = new Point(495, 497);
+            charcomboBox1.Location = new Point(573, 497);
             charcomboBox1.Name = "charcomboBox1";
             charcomboBox1.Size = new Size(200, 23);
             charcomboBox1.TabIndex = 31;
@@ -555,7 +555,7 @@
             // charLoad
             // 
             charLoad.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            charLoad.Location = new Point(701, 497);
+            charLoad.Location = new Point(779, 499);
             charLoad.Name = "charLoad";
             charLoad.Size = new Size(75, 23);
             charLoad.TabIndex = 27;
@@ -566,24 +566,20 @@
             // charSaveAs
             // 
             charSaveAs.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            charSaveAs.Location = new Point(779, 497);
+            charSaveAs.Location = new Point(863, 499);
             charSaveAs.Name = "charSaveAs";
             charSaveAs.Size = new Size(75, 23);
             charSaveAs.TabIndex = 26;
-            charSaveAs.Text = "Save As";
+            charSaveAs.Text = "Save";
             charSaveAs.UseVisualStyleBackColor = true;
             charSaveAs.Click += charSaveAs_Click;
             // 
             // charSave
             // 
-            charSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            charSave.Location = new Point(860, 497);
+            charSave.Location = new Point(0, 0);
             charSave.Name = "charSave";
             charSave.Size = new Size(75, 23);
-            charSave.TabIndex = 25;
-            charSave.Text = "Save";
-            charSave.UseVisualStyleBackColor = true;
-            charSave.Click += charSave_Click;
+            charSave.TabIndex = 33;
             // 
             // charnumericUpDown6
             // 
