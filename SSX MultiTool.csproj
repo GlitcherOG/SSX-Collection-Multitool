@@ -14,12 +14,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Textures\Moutain.ico" />
+    <Compile Remove="SSX-Library\**" />
+    <EmbeddedResource Remove="SSX-Library\**" />
+    <None Remove="SSX-Library\**" />
+    <Page Remove="SSX-Library\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="SSX-Library\SSX-Library.Tests\SSX-Library.Tests.csproj" />
-    <None Include="SSX-Library\SSX-Library\SSX-Library.csproj" />
+    <Content Include="Textures\Moutain.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +32,10 @@
     <PackageReference Include="SharpGLTF.Core" Version="1.0.5" />
     <PackageReference Include="SharpGLTF.Toolkit" Version="1.0.5" />
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SSX-Library\SSX-Library\SSX-Library.csproj" />
   </ItemGroup>
 
   <ItemGroup>
