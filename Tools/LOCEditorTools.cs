@@ -1,12 +1,13 @@
 ﻿using System.IO;
 using System.Windows;
+using SSX_Library;
 using SSXLibrary.FileHandlers;
 
 namespace SSXMultiTool
 {
     public partial class LOCEditorTools : Form
     {
-        LOCHandler lOCEditor = new LOCHandler();
+        LOC lOCEditor = new LOC();
         public LOCEditorTools()
         {
             InitializeComponent();
@@ -23,12 +24,12 @@ namespace SSXMultiTool
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                lOCEditor = new LOCHandler();
+                lOCEditor = new LOC();
                 ListText.Items.Clear();
-                lOCEditor.ReadLocFile(openFileDialog.FileName);
-                for (int i = 0; i < lOCEditor.StringList.Count; i++)
+                lOCEditor.Load(openFileDialog.FileName);
+                for (int i = 0; i < lOCEditor.TextCount; i++)
                 {
-                    ListText.Items.Add(lOCEditor.StringList[i]);
+                    ListText.Items.Add(lOCEditor.GetTextByID(i));
                 }
                 this.Text = "LOC Editor - " + Path.GetFileName(openFileDialog.FileName); 
             }
@@ -44,7 +45,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                lOCEditor.SaveLocFile(openFileDialog.FileName);
+                lOCEditor.Save(openFileDialog.FileName);
             }
         }
 
@@ -52,7 +53,7 @@ namespace SSXMultiTool
         {
             if (ListText.SelectedIndex != -1)
             {
-                MainTextbox.Text = lOCEditor.StringList[ListText.SelectedIndex];
+                MainTextbox.Text = lOCEditor.GetTextByID(ListText.SelectedIndex);
             }
         }
 
@@ -61,7 +62,7 @@ namespace SSXMultiTool
             if (ListText.SelectedIndex != -1)
             {
                 int pos = MainTextbox.SelectionStart;
-                lOCEditor.StringList[ListText.SelectedIndex] = MainTextbox.Text;
+                lOCEditor.SetTextByID(ListText.SelectedIndex, MainTextbox.Text);
                 ListText.Items[ListText.SelectedIndex] = MainTextbox.Text;
                 MainTextbox.SelectionStart = pos;
             }
@@ -80,7 +81,7 @@ namespace SSXMultiTool
             }
             for (int i = a; i > -1; i--)
             {
-                if (lOCEditor.StringList[i].ToLower().Contains(SearchTextBar.Text.ToLower()))
+                if (lOCEditor.GetTextByID(i).ToLower().Contains(SearchTextBar.Text.ToLower()))
                 {
                     ListText.SelectedIndex = i;
                     break;
@@ -99,9 +100,9 @@ namespace SSXMultiTool
             {
                 a++;
             }
-            for (int i = a; i < lOCEditor.StringList.Count; i++)
+            for (int i = a; i < lOCEditor.TextCount; i++)
             {
-                if (lOCEditor.StringList[i].ToLower().Contains(SearchTextBar.Text.ToLower()))
+                if (lOCEditor.GetTextByID(i).ToLower().Contains(SearchTextBar.Text.ToLower()))
                 {
                     ListText.SelectedIndex = i;
                     break;
@@ -111,7 +112,7 @@ namespace SSXMultiTool
 
         private void ExportTXT_Click(object sender, EventArgs e)
         {
-            if (lOCEditor.StringList.Count != 0)
+            if (lOCEditor.TextCount != 0)
             {
                 SaveFileDialog openFileDialog = new SaveFileDialog
                 {
@@ -128,9 +129,9 @@ namespace SSXMultiTool
 
                     var NewFile = File.CreateText(openFileDialog.FileName);
 
-                    for (int i = 0; i < lOCEditor.StringList.Count; i++)
+                    for (int i = 0; i < lOCEditor.TextCount; i++)
                     {
-                        NewFile.WriteLine(lOCEditor.StringList[i]/*.Replace("\n", "/n").Replace("\r", "/r")*/);
+                        NewFile.WriteLine(lOCEditor.GetTextByID(i)/*.Replace("\n", "/n").Replace("\r", "/r")*/);
                         NewFile.WriteLine("\n###New String###\n");
                     }
 
@@ -141,7 +142,7 @@ namespace SSXMultiTool
 
         private void ImportTXT_Click(object sender, EventArgs e)
         {
-            if (lOCEditor.StringList.Count != 0)
+            if (lOCEditor.TextCount != 0)
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog
                 {
@@ -175,23 +176,23 @@ namespace SSXMultiTool
                     //    strings.Add(TempString.Replace("/n", "\n").Replace("/r", "\r"));
                     //}
 
-                    if (strings.Count < lOCEditor.StringList.Count)
+                    if (strings.Count < lOCEditor.TextCount)
                     {
-                        System.Windows.Forms.MessageBox.Show("Error Incorrect Ammount Of Strings " + strings.Count + "/" + lOCEditor.StringList.Count);
+                        System.Windows.Forms.MessageBox.Show("Error Incorrect Amount Of Strings " + strings.Count + "/" + lOCEditor.TextCount);
                     }
 
-                    for (int i = 0; i < lOCEditor.StringList.Count; i++)
+                    for (int i = 0; i < lOCEditor.TextCount; i++)
                     {
-                        lOCEditor.StringList[i] = strings[i];
+                        lOCEditor.SetTextByID(i,strings[i]);
                     }
 
                     OldFile.Close();
 
                     ListText.Items.Clear();
 
-                    for (int i = 0; i < lOCEditor.StringList.Count; i++)
+                    for (int i = 0; i < lOCEditor.TextCount; i++)
                     {
-                        ListText.Items.Add(lOCEditor.StringList[i]);
+                        ListText.Items.Add(lOCEditor.GetTextByID(i));
                     }
 
                 }
