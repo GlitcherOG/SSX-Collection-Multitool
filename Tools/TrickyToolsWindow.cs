@@ -4,6 +4,7 @@ using SSX_Library;
 using SSXLibrary.FileHandlers;
 using SSXLibrary.FileHandlers.Models;
 using SSXLibrary.FileHandlers.Models.Tricky;
+using SSXMultiTool.Utilities;
 using System.IO;
 
 namespace SSXMultiTool
@@ -32,31 +33,19 @@ namespace SSXMultiTool
             {
                 if (File.Exists(commonDialog.FileName + "\\DATA\\MODELS\\ALASKA.BIG"))
                 {
-                    BigHandler bigHandler = new BigHandler();
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\ALASKA.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\ALOHA.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\ELYSIUM.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\GARI.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\MEGAPLE.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\MERQUER.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\MESA.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\PIPE.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\SNOW.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\SSXFE.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\TRICK.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
-                    bigHandler.LoadBig(commonDialog.FileName + "\\DATA\\MODELS\\UNTRACK.BIG");
-                    bigHandler.ExtractBig(commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\ALASKA.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\ALOHA.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\ELYSIUM.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\GARI.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\MEGAPLE.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\MERQUER.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\MESA.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\PIPE.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\SNOW.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\SSXFE.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\TRICK.BIG", commonDialog.FileName);
+                    BIG.Extract(commonDialog.FileName + "\\DATA\\MODELS\\UNTRACK.BIG", commonDialog.FileName);
+
                     File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\ALASKA.BIG");
                     File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\ALOHA.BIG");
                     File.Delete(commonDialog.FileName + "\\DATA\\MODELS\\ELYSIUM.BIG");
@@ -1904,10 +1893,7 @@ namespace SSXMultiTool
 
                     if (LoadPath.ToLower().Contains(".big"))
                     {
-
-                        BigHandler bigHandler = new BigHandler();
-                        bigHandler.LoadBig(openFileDialog.FileName);
-                        bigHandler.ExtractBig(Application.StartupPath + "\\TempExtract");
+                        BIG.Extract(openFileDialog.FileName, Application.StartupPath + "\\TempExtract");
                         string[] strings = Directory.GetFiles(Application.StartupPath + "\\TempExtract", "*.map", SearchOption.AllDirectories);
                         if (strings.Length == 0)
                         {
@@ -1936,10 +1922,7 @@ namespace SSXMultiTool
 
                         //TrickyMirror.ProjectMirror(LoadPath.Substring(0, LoadPath.Length - 4), InputPath.Substring(0, InputPath.Length - 4));
 
-                        BigHandler bigHandler = new BigHandler();
-                        bigHandler.LoadFolderC0FB(Application.StartupPath + "\\TempExtract");
-                        bigHandler.CompressBuild = true;
-                        bigHandler.BuildBig(BuildPath);
+                        BIG.Create(BigType.C0FB,Application.StartupPath + "\\TempExtract", BuildPath, true);
                     }
                     else
                     {
