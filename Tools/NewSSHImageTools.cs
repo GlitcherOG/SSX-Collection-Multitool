@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using SSXLibrary.FileHandlers.Textures;
 using SSXMultiTool.Utilities;
 
 namespace SSXMultiTool
