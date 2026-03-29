@@ -1,20 +1,21 @@
 ﻿using System.IO;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using SSX_Library.EATextureLibrary;
 using SSXMultiTool.Utilities;
 
 namespace SSXMultiTool
 {
     public partial class NewSSHImageTools : Form
     {
-        NewSSHHandler sshHandler = new NewSSHHandler();
+        NewShapeHandler sshHandler = new NewShapeHandler();
         bool DisableUpdate;
         public NewSSHImageTools(string OpenFile = "")
         {
             InitializeComponent();
             if (File.Exists(OpenFile))
             {
-                sshHandler = new NewSSHHandler();
-                sshHandler.LoadSSH(OpenFile);
+                sshHandler = new NewShapeHandler();
+                sshHandler.LoadShape(OpenFile);
                 UpdateFileText();
             }
         }
@@ -29,8 +30,8 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                sshHandler = new NewSSHHandler();
-                sshHandler.LoadSSH(openFileDialog.FileName);
+                sshHandler = new NewShapeHandler();
+                sshHandler.LoadShape(openFileDialog.FileName);
                 UpdateFileText();
             }
         }
@@ -43,7 +44,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                sshHandler = new NewSSHHandler();
+                sshHandler = new NewShapeHandler();
                 //sshHandler.LoadFolder(openFileDialog.FileName);
             }
         }
@@ -56,7 +57,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                sshHandler.BMPExtract(openFileDialog.FileName);
+                sshHandler.ExtractImage(openFileDialog.FileName);
                 GC.Collect();
             }
         }
@@ -71,7 +72,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                sshHandler.SaveSSH(openFileDialog.FileName, true);
+                sshHandler.SaveShape(openFileDialog.FileName);
             }
         }
 
@@ -79,12 +80,12 @@ namespace SSXMultiTool
         {
             DisableUpdate = true;
             ImageList.Items.Clear();
-            for (int i = 0; i < sshHandler.sshImages.Count; i++)
+            for (int i = 0; i < sshHandler.ShapeImages.Count; i++)
             {
-                ImageList.Items.Add(sshHandler.sshImages[i].shortname);
+                ImageList.Items.Add(sshHandler.ShapeImages[i].Shortname);
             }
             FileNameLabel.Text = "NULL";
-            GimxVersionTextBox.Text = sshHandler.group;
+            GimxVersionTextBox.Text = sshHandler.Group;
             DisableUpdate = false;
         }
 
@@ -101,14 +102,14 @@ namespace SSXMultiTool
             if (!DisableUpdate)
             {
                 DisableUpdate = true;
-                var SSHImage = sshHandler.sshImages[a];
-                PictureBox1.Image = SSHImage.bitmap;
-                ImageShortNameTextbox.Text = SSHImage.shortname;
-                ImageLongNameTextbox.Text = SSHImage.longname;
+                var SSHImage = sshHandler.ShapeImages[a];
+                //PictureBox1.Image = SSHImage.Image;
+                ImageShortNameTextbox.Text = SSHImage.Shortname;
+                ImageLongNameTextbox.Text = SSHImage.Longname;
 
                 for (int i = 0; i < MatrixTypeDropdown.Items.Count; i++)
                 {
-                    if (MatrixTypeDropdown.Items[i].ToString().Contains(sshHandler.sshImages[a].MatrixType.ToString() + " "))
+                    if (MatrixTypeDropdown.Items[i].ToString().Contains(sshHandler.ShapeImages[a].MatrixType.ToString() + " "))
                     {
                         MatrixTypeDropdown.SelectedIndex = i;
                         break;
@@ -123,7 +124,7 @@ namespace SSXMultiTool
                 ImageByteSwappedCheckbox.Checked= SSHImage.SwizzledImage;
                 ColourByteSwappedCheckbox.Checked = SSHImage.SwizzledColours;
 
-                ImageSizeLabel.Text = SSHImage.bitmap.Width + " x " + SSHImage.bitmap.Height;
+                ImageSizeLabel.Text = SSHImage.Image.Width + " x " + SSHImage.Image.Height;
                 //if (SSHImage.sshHeader.LXPos == 0)
                 //{
                 //    ImageByteSwappedCheckbox.Checked = false;
@@ -166,7 +167,7 @@ namespace SSXMultiTool
         {
             if (!DisableUpdate)
             {
-                sshHandler.group = GimxVersionTextBox.Text;
+                sshHandler.Group = GimxVersionTextBox.Text;
             }
         }
 
@@ -175,20 +176,20 @@ namespace SSXMultiTool
             if (!DisableUpdate && ImageList.SelectedIndex != -1)
             {
                 DisableUpdate = true;
-                var ImageDetails = sshHandler.sshImages[ImageList.SelectedIndex];
-                ImageDetails.shortname = ImageShortNameTextbox.Text;
-                ImageDetails.longname = ImageLongNameTextbox.Text;
+                var ImageDetails = sshHandler.ShapeImages[ImageList.SelectedIndex];
+                ImageDetails.Shortname = ImageShortNameTextbox.Text;
+                ImageDetails.Longname = ImageLongNameTextbox.Text;
                 string tempString = MatrixTypeDropdown.Text;
                 string[] tempAString = tempString.Split(' ');
                 tempString = tempAString[0];
                 int indexInt = Int32.Parse(tempString);
-                ImageDetails.MatrixType = (byte)indexInt;
+                ImageDetails.MatrixType = (NewShapeHandler.MatrixType)indexInt;
                 ImageDetails.AlphaFix = ColourAlphaFix.Checked;
                 ImageDetails.Compressed = SSHCompressed.Checked;
                 ImageDetails.SwizzledImage = ImageByteSwappedCheckbox.Checked;
                 ImageDetails.SwizzledColours = ColourByteSwappedCheckbox.Checked;
 
-                sshHandler.sshImages[ImageList.SelectedIndex] = ImageDetails;
+                sshHandler.ShapeImages[ImageList.SelectedIndex] = ImageDetails;
                 DisableUpdate = false;
             }
         }
@@ -241,7 +242,7 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    sshHandler.LoadSingle(openFileDialog.FileName, ImageList.SelectedIndex);
+                    sshHandler.LoadShape(openFileDialog.FileName);
                     UpdateImageText(ImageList.SelectedIndex);
                 }
             }
@@ -259,7 +260,7 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    sshHandler.BMPOneExtract(openFileDialog.FileName, ImageList.SelectedIndex);
+                    sshHandler.ExtractSingleImage(openFileDialog.FileName, ImageList.SelectedIndex);
                     GC.Collect();
                 }
             }
@@ -270,9 +271,9 @@ namespace SSXMultiTool
             if (ImageList.SelectedIndex != -1 && ImageList.SelectedIndex != 0)
             {
                 int a = ImageList.SelectedIndex;
-                var Temp = sshHandler.sshImages[ImageList.SelectedIndex];
-                sshHandler.sshImages.RemoveAt(ImageList.SelectedIndex);
-                sshHandler.sshImages.Insert(ImageList.SelectedIndex - 1, Temp);
+                var Temp = sshHandler.ShapeImages[ImageList.SelectedIndex];
+                sshHandler.ShapeImages.RemoveAt(ImageList.SelectedIndex);
+                sshHandler.ShapeImages.Insert(ImageList.SelectedIndex - 1, Temp);
                 UpdateFileText();
                 ImageList.SelectedIndex = a - 1;
             }
@@ -283,9 +284,9 @@ namespace SSXMultiTool
             if (ImageList.SelectedIndex != -1 && ImageList.Items.Count - 1 != ImageList.SelectedIndex)
             {
                 int a = ImageList.SelectedIndex;
-                var Temp = sshHandler.sshImages[ImageList.SelectedIndex];
-                sshHandler.sshImages.RemoveAt(ImageList.SelectedIndex);
-                sshHandler.sshImages.Insert(ImageList.SelectedIndex + 1, Temp);
+                var Temp = sshHandler.ShapeImages[ImageList.SelectedIndex];
+                sshHandler.ShapeImages.RemoveAt(ImageList.SelectedIndex);
+                sshHandler.ShapeImages.Insert(ImageList.SelectedIndex + 1, Temp);
                 UpdateFileText();
                 ImageList.SelectedIndex = a + 1;
             }
@@ -325,12 +326,12 @@ namespace SSXMultiTool
 
                     string FileName = Path.GetFileName(AllSSHFiles[i]).Replace(".ssh", "");
 
-                    sshHandler = new NewSSHHandler();
-                    sshHandler.LoadSSH(AllSSHFiles[i]);
+                    sshHandler = new NewShapeHandler();
+                    sshHandler.LoadShape(AllSSHFiles[i]);
 
                     Directory.CreateDirectory(openFileDialog.FileName + "\\" + FileName);
 
-                    sshHandler.BMPExtract(openFileDialog.FileName + "\\" + FileName);
+                    sshHandler.ExtractImage(openFileDialog.FileName + "\\" + FileName);
 
                     GC.Collect();
                 }
