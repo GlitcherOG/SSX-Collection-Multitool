@@ -115,7 +115,7 @@ namespace SSXMultiTool
             {
                 DisableUpdate = true;
                 var SSHImage = sshHandler.ShapeImages[a];
-                //PictureBox1.Image = SSHImage.Image;
+                PictureBox1.Image = ImageTools.ImageSharpToBitmap(SSHImage.Image);
                 ImageShortNameTextbox.Text = SSHImage.Shortname;
                 ImageLongNameTextbox.Text = SSHImage.Longname;
 

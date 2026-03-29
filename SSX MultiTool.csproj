@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SSX-Library\SSX-Library\SSX-Library.csproj" />
+    <ProjectReference Include="SSX-Library\SSX-Library\SSX-Library.csproj" />
   </ItemGroup>
 
   <ItemGroup>
