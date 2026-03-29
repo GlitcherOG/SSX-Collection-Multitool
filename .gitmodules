@@ -1,0 +1,4 @@
+[submodule "SSX-Library"]
+	path = SSX-Library
+	url = https://github.com/GlitcherOG/SSX-Library
+	branch = main
