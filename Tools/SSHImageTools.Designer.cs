@@ -58,9 +58,6 @@
             label5 = new Label();
             label6 = new Label();
             groupBox3 = new GroupBox();
-            checkBox1 = new CheckBox();
-            HalfAlphaButton = new Button();
-            DoubleAlphaButton = new Button();
             ColourAmountLabel = new Label();
             ColourByteSwappedCheckbox = new CheckBox();
             HalfColourButton = new Button();
@@ -352,9 +349,6 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(checkBox1);
-            groupBox3.Controls.Add(HalfAlphaButton);
-            groupBox3.Controls.Add(DoubleAlphaButton);
             groupBox3.Controls.Add(ColourAmountLabel);
             groupBox3.Controls.Add(ColourByteSwappedCheckbox);
             groupBox3.Controls.Add(HalfColourButton);
@@ -372,36 +366,6 @@
             groupBox3.TabIndex = 3;
             groupBox3.TabStop = false;
             groupBox3.Text = "Colour Table Info";
-            // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(214, 141);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(97, 19);
-            checkBox1.TabIndex = 30;
-            checkBox1.Text = "Limit Colours";
-            checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // HalfAlphaButton
-            // 
-            HalfAlphaButton.Location = new Point(118, 138);
-            HalfAlphaButton.Name = "HalfAlphaButton";
-            HalfAlphaButton.Size = new Size(90, 23);
-            HalfAlphaButton.TabIndex = 22;
-            HalfAlphaButton.Text = "Half Alpha";
-            HalfAlphaButton.UseVisualStyleBackColor = true;
-            HalfAlphaButton.Click += HalfAlphaButton_Click;
-            // 
-            // DoubleAlphaButton
-            // 
-            DoubleAlphaButton.Location = new Point(118, 109);
-            DoubleAlphaButton.Name = "DoubleAlphaButton";
-            DoubleAlphaButton.Size = new Size(90, 23);
-            DoubleAlphaButton.TabIndex = 23;
-            DoubleAlphaButton.Text = "Double Alpha";
-            DoubleAlphaButton.UseVisualStyleBackColor = true;
-            DoubleAlphaButton.Click += DoubleAlphaButton_Click;
             // 
             // ColourAmountLabel
             // 
@@ -677,8 +641,6 @@
         private Button SSHMetalImport;
         private Button SSHBothExtract;
         private Button SSHBothImport;
-        private Button DoubleAlphaButton;
-        private Button HalfAlphaButton;
         private Button HalfColourButton;
         private Button DoubleColourButton;
         private TextBox GimxVersionTextBox;
@@ -694,6 +656,5 @@
         private NumericUpDown YAxisNum;
         private NumericUpDown XAxisNum;
         private ToolStripMenuItem toolStripMenuItem1;
-        private CheckBox checkBox1;
     }
 }

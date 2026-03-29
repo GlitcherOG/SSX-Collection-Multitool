@@ -297,29 +297,11 @@ namespace SSXMultiTool
             }
         }
 
-        private void DoubleAlphaButton_Click(object sender, EventArgs e)
-        {
-            if (ImageList.SelectedIndex != -1)
-            {
-                //sshHandler.DoubleAlphaImage(ImageList.SelectedIndex);
-                UpdateImageText(ImageList.SelectedIndex);
-            }
-        }
-
         private void HalfColourButton_Click(object sender, EventArgs e)
         {
             if (ImageList.SelectedIndex != -1)
             {
                 sshHandler.DarkenImage(ImageList.SelectedIndex);
-                UpdateImageText(ImageList.SelectedIndex);
-            }
-        }
-
-        private void HalfAlphaButton_Click(object sender, EventArgs e)
-        {
-            if (ImageList.SelectedIndex != -1)
-            {
-                //sshHandler.HalfAlphaImage(ImageList.SelectedIndex);
                 UpdateImageText(ImageList.SelectedIndex);
             }
         }
@@ -398,7 +380,7 @@ namespace SSXMultiTool
         {
             if (ImageList.SelectedIndex != -1)
             {
-                //sshHandler.RemoveImage(ImageList.SelectedIndex);
+                sshHandler.ShapeImages.RemoveAt(ImageList.SelectedIndex);
                 ImageList.SelectedIndex = -1;
                 UpdateFileText();
             }
