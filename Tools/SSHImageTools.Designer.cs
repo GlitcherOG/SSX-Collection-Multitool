@@ -65,8 +65,6 @@
             DoubleColourButton = new Button();
             ColourAlphaFix = new CheckBox();
             MetalAlphaCheckbox = new CheckBox();
-            SSHBothImport = new Button();
-            SSHBothExtract = new Button();
             SSHMetalExtract = new Button();
             SSHMetalImport = new Button();
             BlackDisplayCheckBox = new CheckBox();
@@ -278,7 +276,7 @@
             // 
             MatrixTypeDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
             MatrixTypeDropdown.FormattingEnabled = true;
-            MatrixTypeDropdown.Items.AddRange(new object[] { "1 (4 Bit, 16 Colour Index)", "2 (8 Bit, 256 Colour Index)", "5 (Full Colour)", "130 (8 bit, 256 Colour Index Compressed)" });
+            MatrixTypeDropdown.Items.AddRange(new object[] { "1 (4 Bit, 16 Colour Index)", "2 (8 Bit, 256 Colour Index)", "5 (Full Colour RGBA)", "30 (N64)", "96 (BC1)", "97 (BC2)", "109 (BGRA444)", "120 (BGR565)", "123 (8 Bit, 256 Colour Index Xbox)", "125 (Full Colour BGRA)", "130 (8 bit, 256 Colour Index Compressed)" });
             MatrixTypeDropdown.Location = new Point(331, 38);
             MatrixTypeDropdown.Name = "MatrixTypeDropdown";
             MatrixTypeDropdown.Size = new Size(184, 23);
@@ -356,8 +354,6 @@
             groupBox3.Controls.Add(DoubleColourButton);
             groupBox3.Controls.Add(ColourAlphaFix);
             groupBox3.Controls.Add(MetalAlphaCheckbox);
-            groupBox3.Controls.Add(SSHBothImport);
-            groupBox3.Controls.Add(SSHBothExtract);
             groupBox3.Controls.Add(SSHMetalExtract);
             groupBox3.Controls.Add(SSHMetalImport);
             groupBox3.Location = new Point(192, 252);
@@ -438,26 +434,6 @@
             MetalAlphaCheckbox.Text = "Metal Alpha";
             MetalAlphaCheckbox.UseVisualStyleBackColor = true;
             MetalAlphaCheckbox.CheckStateChanged += UpdateImageDetails;
-            // 
-            // SSHBothImport
-            // 
-            SSHBothImport.Location = new Point(427, 66);
-            SSHBothImport.Name = "SSHBothImport";
-            SSHBothImport.Size = new Size(89, 23);
-            SSHBothImport.TabIndex = 19;
-            SSHBothImport.Text = "Both Import";
-            SSHBothImport.UseVisualStyleBackColor = true;
-            SSHBothImport.Click += SSHBothImport_Click;
-            // 
-            // SSHBothExtract
-            // 
-            SSHBothExtract.Location = new Point(331, 66);
-            SSHBothExtract.Name = "SSHBothExtract";
-            SSHBothExtract.Size = new Size(90, 23);
-            SSHBothExtract.TabIndex = 18;
-            SSHBothExtract.Text = "Both Extract";
-            SSHBothExtract.UseVisualStyleBackColor = true;
-            SSHBothExtract.Click += SSHBothExtract_Click;
             // 
             // SSHMetalExtract
             // 
@@ -639,8 +615,6 @@
         private Button ImageRemoveButton;
         private Button SSHMetalExtract;
         private Button SSHMetalImport;
-        private Button SSHBothExtract;
-        private Button SSHBothImport;
         private Button HalfColourButton;
         private Button DoubleColourButton;
         private TextBox GimxVersionTextBox;
