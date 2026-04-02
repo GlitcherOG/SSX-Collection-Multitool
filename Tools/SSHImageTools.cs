@@ -125,7 +125,7 @@ namespace SSXMultiTool
 
                 for (int i = 0; i < MatrixTypeDropdown.Items.Count; i++)
                 {
-                    if (MatrixTypeDropdown.Items[i].ToString().Contains(sshHandler.ShapeImages[a].MatrixType.ToString() + " "))
+                    if (MatrixTypeDropdown.Items[i].ToString().Contains(((int)sshHandler.ShapeImages[a].MatrixType).ToString() + " "))
                     {
                         MatrixTypeDropdown.SelectedIndex = i;
                         break;
