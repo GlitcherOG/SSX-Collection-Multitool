@@ -20,7 +20,7 @@ namespace SSXMultiTool.Utilities
             {
                 // Save the ImageSharp image to the stream in a compatible format (e.g., BmpFormat)
                 // The stream must be kept alive during the conversion process.
-                img.Save(stream, new SixLabors.ImageSharp.Formats.Bmp.BmpEncoder());
+                img.Save(stream, new SixLabors.ImageSharp.Formats.Png.PngEncoder());
                 stream.Position = 0;
 
                 // Create a System.Drawing.Bitmap from the stream
