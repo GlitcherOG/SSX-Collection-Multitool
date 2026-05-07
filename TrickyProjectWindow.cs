@@ -81,23 +81,6 @@ namespace SSXMultiTool
             SaveConfig.Enabled = true;
             RebuildButton.Enabled = true;
             RebuildNoPathButton.Enabled = true;
-            trickyConfig = new SSXTrickyConfig();
-
-            trickyConfig.BuildUniLightmap = UnlitLightmapCheckbox.Checked;
-            trickyConfig.BuildPBDGenerate = GenPBD.Checked;
-            trickyConfig.BuildSSHGenerate = GenSSH.Checked;
-            trickyConfig.BuildLSSHGenerate = GenLSSH.Checked;
-            trickyConfig.BuildLTGGenerate = GenLTG.Checked;
-            trickyConfig.BuildMAPGenerate = GenMAP.Checked;
-            trickyConfig.BuildSkyPBDGenerate = GenSkyPBD.Checked;
-            trickyConfig.BuildSkySSHGenerate = GenSkySSH.Checked;
-            trickyConfig.BuildADLGenerate = GenADL.Checked;
-            trickyConfig.BuildSSFGenerate = GenSSF.Checked;
-            trickyConfig.BuildAIPGenerate = GenAIP.Checked;
-            trickyConfig.BuildSOPGenerate = GenSOP.Checked;
-            trickyConfig.BuildLTGGenerateMode = LTGMode.SelectedIndex;
-
-            trickyConfig.CreateJson(ExportPath + "/ConfigTricky.ssx");
             trickyLevelInterface.LoadAndVerifyFiles(ProjectPath);
             UpdateText();
         }
