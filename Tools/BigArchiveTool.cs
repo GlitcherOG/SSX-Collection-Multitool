@@ -7,7 +7,7 @@ namespace SSXMultiTool
     public partial class BigArchiveTool : Form
     {
         bool Compressed;
-        bool SlashMode;
+        bool SlashMode = true;
         string FilePath;
         string FolderPath;
         List<MemberFileInfo> MemberFiles = new List<MemberFileInfo>();
@@ -19,6 +19,15 @@ namespace SSXMultiTool
             BigTypeCombobox.SelectedIndex = 0;
             ExtractBigArchive.Enabled = false;
             BuildBigArchive.Enabled = false;
+
+            if (SlashMode)
+            {
+                SlashToggle.Text = "Slash: \\";
+            }
+            else
+            {
+                SlashToggle.Text = "Slash: /";
+            }
 
             if (File.Exists(OpenPath))
             {
@@ -68,7 +77,7 @@ namespace SSXMultiTool
             //BigTypeCombobox.SelectedIndex = 0;
 
             //Replace with Load into Members Info
-            //bigHandler.LoadFolder(path);
+            
 
             this.Text = "Big Archive Folder Mode (" + path + ")";
             LoadDataRows();
@@ -172,7 +181,7 @@ namespace SSXMultiTool
         {
             SlashMode = !SlashMode;
 
-            if(!SlashMode)
+            if(SlashMode)
             {
                 SlashToggle.Text = "Slash: \\";
             }
