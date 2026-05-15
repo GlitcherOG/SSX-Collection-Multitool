@@ -211,7 +211,7 @@ namespace SSXMultiTool
                 else
                 {
                     bool test = CheckChildNode(Parent.Nodes[i], item);
-                    if(test)
+                    if (test)
                     {
                         return true;
                     }
@@ -397,7 +397,7 @@ namespace SSXMultiTool
 
         private void BoltCharacter2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(BoltCharacter2.SelectedIndex!=-1)
+            if (BoltCharacter2.SelectedIndex != -1)
             {
                 UnknownlistBox1.Items.Clear();
                 for (int i = 0; i < boltPS2.characters[BoltCharacter2.SelectedIndex].unkown2s.Count; i++)
@@ -1008,75 +1008,75 @@ namespace SSXMultiTool
         {
             if (CheckSX())
             {
-                //OpenFileDialog openFileDialog = new OpenFileDialog
-                //{
-                //    Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
-                //    FilterIndex = 1,
-                //    RestoreDirectory = false
-                //};
-                //if (openFileDialog.ShowDialog() == DialogResult.OK)
-                //{
-                //    CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
-                //    {
-                //        IsFolderPicker = true,
-                //        Title = "Select Extract Folder",
-                //    };
-                //    if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
-                //    {
-                //        datAudio = new DATAudio();
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
+                    {
+                        IsFolderPicker = true,
+                        Title = "Select Extract Folder",
+                    };
+                    if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
+                    {
+                        datAudio = new DATAudio();
 
-                //        datAudio.ExtractGuess(openFileDialog.FileName, openFileDialog1.FileName);
+                        datAudio.ExtractGuess(openFileDialog.FileName, openFileDialog1.FileName, Application.StartupPath, Application.StartupPath);
 
-                //        MessageBox.Show("Audio Extracted");
+                        MessageBox.Show("Audio Extracted");
 
-                //        string[] NewFiles = Directory.GetFiles(openFileDialog1.FileName, "*.wav", SearchOption.TopDirectoryOnly);
+                        string[] NewFiles = Directory.GetFiles(openFileDialog1.FileName, "*.wav", SearchOption.TopDirectoryOnly);
 
-                //        Files = NewFiles.ToList();
+                        Files = NewFiles.ToList();
 
-                //        hdrFileList.Items.Clear();
-                //        for (int i = 0; i < Files.Count; i++)
-                //        {
-                //            hdrFileList.Items.Add(Path.GetFileName(Files[i]));
-                //        }
-                //    }
-                //}
+                        hdrFileList.Items.Clear();
+                        for (int i = 0; i < Files.Count; i++)
+                        {
+                            hdrFileList.Items.Add(Path.GetFileName(Files[i]));
+                        }
+                    }
+                }
             }
         }
 
         private void hdrBuildDAT_Click(object sender, EventArgs e)
         {
-            //if (CheckSX() && HDRLoaded)
-            //{
-            //    SaveFileDialog openFileDialog1 = new SaveFileDialog
-            //    {
-            //        Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
-            //        FilterIndex = 1,
-            //        RestoreDirectory = false
-            //    };
-            //    if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            //    {
-            //        if (hdrHandler.fileHeaders.Count != Files.ToArray().Length)
-            //        {
-            //            MessageBox.Show("Incorrect Wav Count " + hdrHandler.fileHeaders.Count + "/" + Files.ToArray().Length);
-            //            return;
-            //        }
-            //        hdrHandler = datAudio.GenerateDATAndHDR3(Files.ToArray(), openFileDialog1.FileName, hdrHandler);
-            //        MessageBox.Show("File Generated");
+            if (CheckSX() && HDRLoaded)
+            {
+                SaveFileDialog openFileDialog1 = new SaveFileDialog
+                {
+                    Filter = "PS2 Audio File (*.dat)|*.dat|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    if (hdrHandler.fileHeaders.Count != Files.ToArray().Length)
+                    {
+                        MessageBox.Show("Incorrect Wav Count " + hdrHandler.fileHeaders.Count + "/" + Files.ToArray().Length);
+                        return;
+                    }
+                    hdrHandler = datAudio.GenerateDATAndHDR3(Files.ToArray(), openFileDialog1.FileName, hdrHandler, Application.StartupPath, Application.StartupPath);
+                    MessageBox.Show("File Generated");
 
-            //        hdrList2.Items.Clear();
-            //        for (int i = 0; i < hdrHandler.fileHeaders.Count; i++)
-            //        {
-            //            hdrList2.Items.Add("Entry " + i + " - Offset " + hdrHandler.fileHeaders[i].OffsetInt);
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    if (!HDRLoaded)
-            //    {
-            //        MessageBox.Show("Rebuilding Requires HDR File Loaded");
-            //    }
-            //}
+                    hdrList2.Items.Clear();
+                    for (int i = 0; i < hdrHandler.fileHeaders.Count; i++)
+                    {
+                        hdrList2.Items.Add("Entry " + i + " - Offset " + hdrHandler.fileHeaders[i].OffsetInt);
+                    }
+                }
+            }
+            else
+            {
+                if (!HDRLoaded)
+                {
+                    MessageBox.Show("Rebuilding Requires HDR File Loaded");
+                }
+            }
         }
 
         private void hdrList2_SelectedIndexChanged(object sender, EventArgs e)
@@ -1288,6 +1288,128 @@ namespace SSXMultiTool
                     SSX3GCModelCombiner.MeshReassigned(MNFModelList.SelectedIndex);
 
                     glftHandler.SaveSSX3GCGlft(openFileDialog.FileName, SSX3GCModelCombiner);
+                }
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Audio Big (*.big)|*.big|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
+                {
+                    IsFolderPicker = true,
+                    Title = "Select Extract Folder",
+                };
+                if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
+                {
+                    BIG.Extract(openFileDialog.FileName, openFileDialog1.FileName);
+
+                    var Files = Directory.GetFiles(openFileDialog1.FileName, "*.big", SearchOption.AllDirectories);
+
+                    for (int i = 0; i < Files.Length; i++)
+                    {
+                        BIG.Extract(Files[i], openFileDialog1.FileName);
+                    }
+
+                    MessageBox.Show("Audio Big Extract");
+                }
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+                Title = "Select Rebuild Folder",
+            };
+            if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                SaveFileDialog openFileDialog = new SaveFileDialog
+                {
+                    Filter = "Audio Big (*.big)|*.big|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Create Temp Directory
+                    string TempAudioDirectory = Application.StartupPath + "\\Temp";
+
+                    Directory.CreateDirectory(TempAudioDirectory);
+
+                    //Copy Over HDR Files and EVT File
+                    //Temp Remove HDR and EVT Files from Main Folder
+                    string[] HDRFiles = Directory.GetFiles(openFileDialog1.FileName, "*.hdr", SearchOption.AllDirectories);
+                    string[] EVTFiles = Directory.GetFiles(openFileDialog1.FileName, "*.evt", SearchOption.AllDirectories);
+
+                    for (int i = 0; i < HDRFiles.Length; i++)
+                    {
+                        string Converted = HDRFiles[i].Replace(openFileDialog1.FileName, TempAudioDirectory);
+
+                        string DirectoryPath = Path.GetDirectoryName(Converted);
+
+                        if (!Directory.Exists(DirectoryPath))
+                        {
+                            Directory.CreateDirectory(DirectoryPath);
+                        }
+
+                        File.Copy(HDRFiles[i], Converted);
+
+                        File.Delete(HDRFiles[i]);
+                    }
+
+
+                    for (int i = 0; i < EVTFiles.Length; i++)
+                    {
+                        string Converted = EVTFiles[i].Replace(openFileDialog1.FileName, TempAudioDirectory);
+
+                        string DirectoryPath = Path.GetDirectoryName(Converted);
+
+                        if (!Directory.Exists(DirectoryPath))
+                        {
+                            Directory.CreateDirectory(DirectoryPath);
+                        }
+
+                        File.Copy(EVTFiles[i], Converted);
+
+                        File.Delete(EVTFiles[i]);
+                    }
+
+                    //Rebuild Big into Main Folder
+                    string[] BIGFile = Directory.GetFiles(openFileDialog1.FileName, "*.big", SearchOption.AllDirectories);
+                    if(BIGFile.Length!=1)
+                    {
+                        MessageBox.Show("Error More than 1 Big");
+                        return;
+                    }
+
+                    BIG.Create(BigType.BIG4, TempAudioDirectory, BIGFile[0], false, true);
+
+                    //Rebuild Main Big
+                    BIG.Create(BigType.BIG4, openFileDialog1.FileName, openFileDialog.FileName, false, true);
+
+                    //Move Files Back
+                    string[] AllFiles = Directory.GetFiles(TempAudioDirectory, "*.*", SearchOption.AllDirectories);
+
+                    for (int i = 0; i < AllFiles.Length; i++)
+                    {
+                        string Converted = AllFiles[i].Replace(TempAudioDirectory, openFileDialog1.FileName);
+
+                        File.Copy(AllFiles[i], Converted);
+                    }
+
+                    //Delete Temp Folder
+                    Directory.Delete(TempAudioDirectory, true);
+
+                    MessageBox.Show("Audio Big Rebuilt");
                 }
             }
         }

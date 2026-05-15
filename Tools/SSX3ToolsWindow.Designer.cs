@@ -37,7 +37,6 @@
             label90 = new Label();
             charLoad = new Button();
             charSaveAs = new Button();
-            charSave = new Button();
             charnumericUpDown6 = new NumericUpDown();
             label12 = new Label();
             label11 = new Label();
@@ -361,6 +360,8 @@
             label87 = new Label();
             HDRTime = new Label();
             tabPage4 = new TabPage();
+            button5 = new Button();
+            button4 = new Button();
             LoadLUI = new Button();
             BiglessStore = new Button();
             ((System.ComponentModel.ISupportInitialize)charnumericUpDown5).BeginInit();
@@ -481,7 +482,6 @@
             tabPage1.Controls.Add(label90);
             tabPage1.Controls.Add(charLoad);
             tabPage1.Controls.Add(charSaveAs);
-            tabPage1.Controls.Add(charSave);
             tabPage1.Controls.Add(charnumericUpDown6);
             tabPage1.Controls.Add(label12);
             tabPage1.Controls.Add(charnumericUpDown5);
@@ -573,13 +573,6 @@
             charSaveAs.Text = "Save";
             charSaveAs.UseVisualStyleBackColor = true;
             charSaveAs.Click += charSaveAs_Click;
-            // 
-            // charSave
-            // 
-            charSave.Location = new Point(0, 0);
-            charSave.Name = "charSave";
-            charSave.Size = new Size(75, 23);
-            charSave.TabIndex = 33;
             // 
             // charnumericUpDown6
             // 
@@ -806,7 +799,6 @@
             // 
             charBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             charBox1.FormattingEnabled = true;
-            charBox1.ItemHeight = 15;
             charBox1.Location = new Point(6, 6);
             charBox1.Name = "charBox1";
             charBox1.Size = new Size(229, 514);
@@ -1336,7 +1328,6 @@
             // musiclistBox1
             // 
             musiclistBox1.FormattingEnabled = true;
-            musiclistBox1.ItemHeight = 15;
             musiclistBox1.Location = new Point(6, 6);
             musiclistBox1.Name = "musiclistBox1";
             musiclistBox1.Size = new Size(197, 484);
@@ -2061,7 +2052,6 @@
             // UnknownlistBox1
             // 
             UnknownlistBox1.FormattingEnabled = true;
-            UnknownlistBox1.ItemHeight = 15;
             UnknownlistBox1.Location = new Point(6, 29);
             UnknownlistBox1.Name = "UnknownlistBox1";
             UnknownlistBox1.Size = new Size(274, 424);
@@ -2545,7 +2535,6 @@
             // MPFMaterialList
             // 
             MPFMaterialList.FormattingEnabled = true;
-            MPFMaterialList.ItemHeight = 15;
             MPFMaterialList.Location = new Point(6, 22);
             MPFMaterialList.Name = "MPFMaterialList";
             MPFMaterialList.Size = new Size(70, 184);
@@ -2742,7 +2731,6 @@
             // MpfModelList
             // 
             MpfModelList.FormattingEnabled = true;
-            MpfModelList.ItemHeight = 15;
             MpfModelList.Location = new Point(7, 25);
             MpfModelList.Name = "MpfModelList";
             MpfModelList.Size = new Size(196, 499);
@@ -3188,7 +3176,6 @@
             // MNFMaterialList
             // 
             MNFMaterialList.FormattingEnabled = true;
-            MNFMaterialList.ItemHeight = 15;
             MNFMaterialList.Location = new Point(6, 22);
             MNFMaterialList.Name = "MNFMaterialList";
             MNFMaterialList.Size = new Size(70, 184);
@@ -3384,7 +3371,6 @@
             // MNFModelList
             // 
             MNFModelList.FormattingEnabled = true;
-            MNFModelList.ItemHeight = 15;
             MNFModelList.Location = new Point(5, 23);
             MNFModelList.Name = "MNFModelList";
             MNFModelList.Size = new Size(196, 499);
@@ -3611,7 +3597,6 @@
             // hdrList2
             // 
             hdrList2.FormattingEnabled = true;
-            hdrList2.ItemHeight = 15;
             hdrList2.Location = new Point(6, 22);
             hdrList2.Name = "hdrList2";
             hdrList2.Size = new Size(261, 469);
@@ -3668,7 +3653,6 @@
             // 
             hdrFileList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             hdrFileList.FormattingEnabled = true;
-            hdrFileList.ItemHeight = 15;
             hdrFileList.Location = new Point(6, 23);
             hdrFileList.Name = "hdrFileList";
             hdrFileList.Size = new Size(170, 424);
@@ -3838,6 +3822,8 @@
             // 
             // tabPage4
             // 
+            tabPage4.Controls.Add(button5);
+            tabPage4.Controls.Add(button4);
             tabPage4.Controls.Add(LoadLUI);
             tabPage4.Controls.Add(BiglessStore);
             tabPage4.Location = new Point(4, 24);
@@ -3846,6 +3832,26 @@
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Tools";
             tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            button5.Location = new Point(13, 193);
+            button5.Name = "button5";
+            button5.Size = new Size(133, 71);
+            button5.TabIndex = 3;
+            button5.Text = "Pack Audio";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(13, 116);
+            button4.Name = "button4";
+            button4.Size = new Size(133, 71);
+            button4.TabIndex = 2;
+            button4.Text = "Unpack Audio";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // LoadLUI
             // 
@@ -3986,7 +3992,6 @@
         private TabPage tabPage1;
         private Button charLoad;
         private Button charSaveAs;
-        private Button charSave;
         private NumericUpDown charnumericUpDown6;
         private Label label12;
         private Label label11;
@@ -4317,5 +4322,7 @@
         private ComboBox BoltCharacter2;
         private Label label128;
         private NumericUpDown Bolt1Unkown1;
+        private Button button5;
+        private Button button4;
     }
 }
