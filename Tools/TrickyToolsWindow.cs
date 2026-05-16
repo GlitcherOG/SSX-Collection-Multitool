@@ -1443,7 +1443,7 @@ namespace SSXMultiTool
                 DisableUpdate = true;
                 hdrU1.Value = hdrHandler.U1;
                 hdrU2.Value = hdrHandler.U2;
-                hdrAligmentMode.Value = hdrHandler.AligmentSize;
+                hdrAligmentMode.Value = hdrHandler.LongFileMode;
                 hdrEntryType.Value = hdrHandler.EntryTypes;
                 hdrUpdateActiveButtons();
                 DisableUpdate = false;
@@ -1733,7 +1733,7 @@ namespace SSXMultiTool
                 DisableUpdate = true;
                 hdrHandler.U1 = (int)hdrU1.Value;
                 hdrHandler.U2 = (int)hdrU2.Value;
-                hdrHandler.AligmentSize = (int)hdrAligmentMode.Value;
+                hdrHandler.LongFileMode = (int)hdrAligmentMode.Value;
                 hdrHandler.EntryTypes = (int)hdrEntryType.Value;
                 hdrUpdateActiveButtons();
                 DisableUpdate = false;
