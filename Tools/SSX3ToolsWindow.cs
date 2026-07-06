@@ -6,6 +6,8 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System.IO;
 using NAudio.Wave;
 using SSX_Library;
+using SSXLibrary;
+using SSXMultiTool.Utilities;
 
 namespace SSXMultiTool
 {
@@ -1385,7 +1387,7 @@ namespace SSXMultiTool
 
                     //Rebuild Big into Main Folder
                     string[] BIGFile = Directory.GetFiles(openFileDialog1.FileName, "*.big", SearchOption.AllDirectories);
-                    if(BIGFile.Length!=1)
+                    if (BIGFile.Length != 1)
                     {
                         MessageBox.Show("Error More than 1 Big");
                         return;
@@ -1410,6 +1412,57 @@ namespace SSXMultiTool
                     Directory.Delete(TempAudioDirectory, true);
 
                     MessageBox.Show("Audio Big Rebuilt");
+                }
+            }
+        }
+
+        private async void button7_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Audio Big (*.big)|*.big|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
+                {
+                    IsFolderPicker = true,
+                    Title = "Select Extract Folder",
+                };
+                if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
+                {
+                    ConsoleWindow.GenerateConsole();
+
+                    await SSX3SoundPack.FullExtractAsync(openFileDialog.FileName, openFileDialog1.FileName, Application.StartupPath);
+
+                    ConsoleWindow.CloseConsole();
+
+                    MessageBox.Show("Full Extract Done");
+                }
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+                Title = "Select Extract Folder",
+            };
+            if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                SaveFileDialog openFileDialog = new SaveFileDialog
+                {
+                    Filter = "Audio Big (*.big)|*.big|All files (*.*)|*.*",
+                    FilterIndex = 1,
+                    RestoreDirectory = false
+                };
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //SSX3SoundPack.FullRebuild(openFileDialog1.FileName, openFileDialog.FileName, Application.StartupPath);
+                    MessageBox.Show("Rebuild Done");
                 }
             }
         }

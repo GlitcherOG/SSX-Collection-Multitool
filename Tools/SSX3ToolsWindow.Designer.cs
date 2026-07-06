@@ -360,6 +360,8 @@
             label87 = new Label();
             HDRTime = new Label();
             tabPage4 = new TabPage();
+            button6 = new Button();
+            button7 = new Button();
             button5 = new Button();
             button4 = new Button();
             LoadLUI = new Button();
@@ -3822,6 +3824,8 @@
             // 
             // tabPage4
             // 
+            tabPage4.Controls.Add(button6);
+            tabPage4.Controls.Add(button7);
             tabPage4.Controls.Add(button5);
             tabPage4.Controls.Add(button4);
             tabPage4.Controls.Add(LoadLUI);
@@ -3832,6 +3836,26 @@
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Tools";
             tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            button6.Location = new Point(168, 193);
+            button6.Name = "button6";
+            button6.Size = new Size(133, 71);
+            button6.TabIndex = 5;
+            button6.Text = "Pack Audio Full";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
+            // 
+            // button7
+            // 
+            button7.Location = new Point(168, 116);
+            button7.Name = "button7";
+            button7.Size = new Size(133, 71);
+            button7.TabIndex = 4;
+            button7.Text = "Unpack Audio Full";
+            button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click;
             // 
             // button5
             // 
@@ -4324,5 +4348,7 @@
         private NumericUpDown Bolt1Unkown1;
         private Button button5;
         private Button button4;
+        private Button button6;
+        private Button button7;
     }
 }
