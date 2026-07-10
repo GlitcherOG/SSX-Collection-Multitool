@@ -40,7 +40,7 @@
             button5 = new Button();
             button6 = new Button();
             groupBox3 = new GroupBox();
-            button9 = new Button();
+            OnTourLevelButton = new Button();
             button4 = new Button();
             SSX3LevelButton = new Button();
             TrickyLevelButton = new Button();
@@ -165,7 +165,7 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(button9);
+            groupBox3.Controls.Add(OnTourLevelButton);
             groupBox3.Controls.Add(button4);
             groupBox3.Controls.Add(SSX3LevelButton);
             groupBox3.Controls.Add(TrickyLevelButton);
@@ -176,15 +176,15 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Game Level Tools";
             // 
-            // button9
+            // OnTourLevelButton
             // 
-            button9.Enabled = false;
-            button9.Location = new Point(306, 22);
-            button9.Name = "button9";
-            button9.Size = new Size(94, 50);
-            button9.TabIndex = 3;
-            button9.Text = "SSX On Tour Level Files";
-            button9.UseVisualStyleBackColor = true;
+            OnTourLevelButton.Location = new Point(306, 22);
+            OnTourLevelButton.Name = "OnTourLevelButton";
+            OnTourLevelButton.Size = new Size(94, 50);
+            OnTourLevelButton.TabIndex = 3;
+            OnTourLevelButton.Text = "SSX On Tour Level Files";
+            OnTourLevelButton.UseVisualStyleBackColor = true;
+            OnTourLevelButton.Click += OnTourLevelButton_Click;
             // 
             // button4
             // 
@@ -321,6 +321,6 @@
         private Button button7;
         private Button button3;
         private Button button8;
-        private Button button9;
+        private Button OnTourLevelButton;
     }
 }

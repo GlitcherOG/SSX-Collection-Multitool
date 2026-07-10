@@ -103,5 +103,10 @@ namespace SSXMultiTool
         {
             new SSXBlurToolsWindow().ShowDialog();
         }
+
+        private void OnTourLevelButton_Click(object sender, EventArgs e)
+        {
+            new OnTourProjectWindow().ShowDialog();
+        }
     }
 }
