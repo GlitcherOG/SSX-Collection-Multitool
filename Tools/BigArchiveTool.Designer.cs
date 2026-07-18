@@ -80,37 +80,38 @@
             toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             toolStripDropDownButton1.Size = new Size(38, 22);
             toolStripDropDownButton1.Text = "File";
+            toolStripDropDownButton1.Click += toolStripDropDownButton1_Click;
             // 
             // LoadBigArchive
             // 
             LoadBigArchive.Name = "LoadBigArchive";
-            LoadBigArchive.Size = new Size(175, 22);
+            LoadBigArchive.Size = new Size(180, 22);
             LoadBigArchive.Text = "Load .Big Archive";
             LoadBigArchive.Click += LoadBigArchive_Click;
             // 
             // LoadFolder
             // 
             LoadFolder.Name = "LoadFolder";
-            LoadFolder.Size = new Size(175, 22);
+            LoadFolder.Size = new Size(180, 22);
             LoadFolder.Text = "Load Folder";
             LoadFolder.Click += LoadFolder_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(172, 6);
+            toolStripSeparator1.Size = new Size(177, 6);
             // 
             // ExtractBigArchive
             // 
             ExtractBigArchive.Name = "ExtractBigArchive";
-            ExtractBigArchive.Size = new Size(175, 22);
+            ExtractBigArchive.Size = new Size(180, 22);
             ExtractBigArchive.Text = "Extract .Big Archive";
             ExtractBigArchive.Click += ExtractBigArchive_Click;
             // 
             // BuildBigArchive
             // 
             BuildBigArchive.Name = "BuildBigArchive";
-            BuildBigArchive.Size = new Size(175, 22);
+            BuildBigArchive.Size = new Size(180, 22);
             BuildBigArchive.Text = "Build .Big Archive";
             BuildBigArchive.Click += BuildBigArchive_Click;
             // 

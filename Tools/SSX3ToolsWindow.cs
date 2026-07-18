@@ -1435,7 +1435,7 @@ namespace SSXMultiTool
                 {
                     ConsoleWindow.GenerateConsole();
 
-                    await SSX3SoundPack.FullExtractAsync(openFileDialog.FileName, openFileDialog1.FileName, Application.StartupPath);
+                    //await SSX3SoundPack.FullExtractAsync(openFileDialog.FileName, openFileDialog1.FileName, Application.StartupPath);
 
                     ConsoleWindow.CloseConsole();
 

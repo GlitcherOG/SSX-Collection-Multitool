@@ -49,7 +49,7 @@ namespace SSXMultiTool
             BigDataView.Rows.Clear();
             for (int i = 0; i < MemberFiles.Count; i++)
             {
-                string[] NewRow = { MemberFiles[i].Path, MemberFiles[i].Size.ToString()};
+                string[] NewRow = { MemberFiles[i].Path, MemberFiles[i].Size.ToString() };
                 BigDataView.Rows.Add(NewRow);
             }
         }
@@ -76,8 +76,20 @@ namespace SSXMultiTool
             BigTypeCombobox.Enabled = true;
             //BigTypeCombobox.SelectedIndex = 0;
 
+            MemberFiles = new List<MemberFileInfo>();
+
             //Replace with Load into Members Info
-            
+            string[] Files = Directory.GetFiles(FolderPath, "*.*", SearchOption.AllDirectories);
+            for (int i = 0; i < Files.Length; i++)
+            {
+                MemberFileInfo memberFileInfo = new MemberFileInfo();
+
+                memberFileInfo.Path = Files[i].Replace(path+"\\", "");
+                memberFileInfo.Size = (uint)new System.IO.FileInfo(Files[i]).Length;
+
+                MemberFiles.Add(memberFileInfo);
+            }
+
 
             this.Text = "Big Archive Folder Mode (" + path + ")";
             LoadDataRows();
@@ -91,7 +103,6 @@ namespace SSXMultiTool
         public void CreateBigPath(string path)
         {
             BIG.Create((BigType)Enum.Parse(typeof(BigType), BigTypeCombobox.Text), FolderPath, path, Compressed, SlashMode);
-            MessageBox.Show("Big File Created");
         }
 
         private void LoadBigArchive_Click(object sender, EventArgs e)
@@ -157,8 +168,15 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                CreateBigPath(openFileDialog.FileName);
-                GC.Collect();
+                try
+                {
+                    CreateBigPath(openFileDialog.FileName);
+                    GC.Collect();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
@@ -181,7 +199,7 @@ namespace SSXMultiTool
         {
             SlashMode = !SlashMode;
 
-            if(SlashMode)
+            if (SlashMode)
             {
                 SlashToggle.Text = "Slash: \\";
             }
@@ -189,6 +207,11 @@ namespace SSXMultiTool
             {
                 SlashToggle.Text = "Slash: /";
             }
+        }
+
+        private void toolStripDropDownButton1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
