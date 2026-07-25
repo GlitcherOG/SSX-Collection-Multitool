@@ -5,66 +5,33 @@ As such, I chose to redo the entire project and improve it as I did so.
 
 ## Current Features
 ### General
-- SSH (SHPS) Texture Extractor/Maker (SSX, Tricky, SSX 3)
-- Big Decompressor and Compressor (BigF, Big4 And C0FB)
+- SSH (SHPS) Texture Extractor/Maker (SSX, Tricky, SSX 3, On Tour)
+- Big Decompressor and Compressor (New Big,BigF, Big4 And C0FB)
 - Loc (Language) Files Editor
 - SSX MPF Model Extractor/Importer (Tricky, 3, On Tour)
 - SSX MXF Model Extractor/Exporter (Tricky)
+- BNK Sound Extraction and Rebuilding
 
 ### Tricky
 - (WIP) Speech Extractor/Importer
-- (WIP) Level Project System
+- Level Project System
+- Sound Rebuilding
+- Auto Level Scaler
 
 ### SSX 3
 - Character DB Editor
 - Music Inf Editor
-- (WIP) SSX 3 Store/Item Editing
+- SSX 3 Store/Item Editing
+- Sound Pack Extractor/Importer
 
-## Current Todo
-### General
-- [ ] Fix Model Header Amination
-- [ ] Fix Normal Average, Bone Update
-- [ ] Fix Model Orientation
-- [ ] Matrix Type 3 SSH
-- [ ] Audio Exporting/Importing 
-- [ ] Character Importer Add Face Count
-- [ ] big toggle for / and \
-- [ ] Negitive one Linkz lightmap Fix
-- [ ] Fix ADL Light/Camera and ensure saving
-- [ ] 150M (150*100) Segment Warning in level editor
+## Special Thanks
+- [Erickson400/SSXTrickyModelExporter](https://github.com/Erickson400/SSXTrickyModelExporter)
+- [WouterBaeyens/Ssx3SshConverter](https://github.com/WouterBaeyens/Ssx3SshConverter)
+- [SSXModding/bigfile](https://github.com/SSXModding/bigfile)
+- [SSXModding Community](https://github.com/SSXModding/)
+- [gibbed/Gibbed.RefPack](https://github.com/gibbed/Gibbed.RefPack)
 
-### SSX Tricky
-- [ ] Normal Average Proper
-- [ ] Fix Tricky Shadow Xbox (Fix Tristrip)
-- [ ] Figure out why materials are transparent by default (Tricky Models)
-- [ ] Music Tools
-- [ ] Fix Speech Tools 
+## Support the Project
+If you find this tool useful, consider supporting it:
 
-### SSX 3
-- [ ] Normal Average Proper
-- [ ] Music Tools
-- [ ] Speech Tools 
-
-### On Tour
-- [ ] New SSH Fomrat
-- [ ] SMP Image Format 
-- [ ] Music Tools
-- [ ] Fix Speech Tools 
-
-## Todo
-- [ ] Setup ISO Handler
-- [ ] Setup Settings Page
-- [ ] Delete PAD files
-- [ ] Allow Arguments to boot certain forms at launch
-- [ ] Open File location On Big Extraction and Making/SSH Files
-
-
- ## Special Thanks
-https://github.com/Erickson400/SSXTrickyModelExporter <br>
-https://github.com/WouterBaeyens/Ssx3SshConverter <br>
-https://github.com/SSXModding/bigfile <br>
-https://github.com/SSXModding/ <br>
-https://github.com/gibbed/Gibbed.RefPack <br>
-
-## Donate
 [![Donate](https://www.paypalobjects.com/en_AU/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?business=VT6TG8KKZM98E&no_recurring=0&currency_code=AUD)

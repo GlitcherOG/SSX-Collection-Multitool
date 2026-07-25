@@ -1435,7 +1435,7 @@ namespace SSXMultiTool
                 {
                     ConsoleWindow.GenerateConsole();
 
-                    //await SSX3SoundPack.FullExtractAsync(openFileDialog.FileName, openFileDialog1.FileName, Application.StartupPath);
+                    await SSX3SoundPack.FullExtractAsync(openFileDialog.FileName, openFileDialog1.FileName, Application.StartupPath);
 
                     ConsoleWindow.CloseConsole();
 
@@ -1461,7 +1461,7 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    //SSX3SoundPack.FullRebuild(openFileDialog1.FileName, openFileDialog.FileName, Application.StartupPath);
+                    SSX3SoundPack.FullRebuild(openFileDialog1.FileName, openFileDialog.FileName, Application.StartupPath);
                     MessageBox.Show("Rebuild Done");
                 }
             }
