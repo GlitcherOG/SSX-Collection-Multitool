@@ -308,7 +308,7 @@ namespace SSXMultiTool.Tools
                     for (int a = 0; a < BNKFiles.Length; a++)
                     {
                         File.Copy(BNKFiles[a], Application.StartupPath + "/TempAudio/Audio.bnk");
-                        File.Copy(Application.StartupPath + "/sx.exe", Application.StartupPath + "/TempAudio/sx.exe");
+                        File.Copy(Application.StartupPath + "/sx_2002.exe", Application.StartupPath + "/TempAudio/sx_2002.exe");
 
                         Process cmd = new Process();
                         cmd.StartInfo.FileName = "cmd.exe";
@@ -323,14 +323,14 @@ namespace SSXMultiTool.Tools
 
                         cmd.StandardInput.WriteLine(drive);
                         cmd.StandardInput.WriteLine("cd " + Application.StartupPath + "/TempAudio");
-                        cmd.StandardInput.WriteLine("sx.exe -wave -s16l_int -playlocmaincpu Audio.bnk -onetomany -=*");
+                        cmd.StandardInput.WriteLine("sx_2002.exe -wave -s16l_int -playlocmaincpu Audio.bnk -onetomany -=*");
                         cmd.StandardInput.Flush();
                         cmd.StandardInput.Close();
                         cmd.WaitForExit();
 
                         //Run Command
 
-                        File.Delete(Application.StartupPath + "/TempAudio/sx.exe");
+                        File.Delete(Application.StartupPath + "/TempAudio/sx_2002.exe");
                         File.Delete(Application.StartupPath + "/TempAudio/Audio.bnk");
                         string[] Files = Directory.GetFiles(Application.StartupPath + "/TempAudio");
 

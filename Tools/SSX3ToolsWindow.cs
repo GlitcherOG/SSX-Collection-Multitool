@@ -1444,7 +1444,7 @@ namespace SSXMultiTool
             }
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private async void button6_Click(object sender, EventArgs e)
         {
             CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
             {
@@ -1461,7 +1461,9 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    SSX3SoundPack.FullRebuild(openFileDialog1.FileName, openFileDialog.FileName, Application.StartupPath);
+                    ConsoleWindow.GenerateConsole();
+                    await SSX3SoundPack.FullRebuild(openFileDialog1.FileName, openFileDialog.FileName, Application.StartupPath);
+                    ConsoleWindow.CloseConsole();
                     MessageBox.Show("Rebuild Done");
                 }
             }
