@@ -35,7 +35,7 @@ namespace SSXMultiTool
                         Application.Run(new BigArchiveTool(args[0]));
                     }
                 }
-                if (args[0].ToLower().Contains(".ssh"))
+                if (args[0].ToLower().Contains(".ssh") || args[0].ToLower().Contains(".xsh"))
                 {
                     if (File.Exists(args[0]))
                     {
