@@ -75,6 +75,8 @@
             ImageRemoveButton = new Button();
             ReplaceImageButton = new Button();
             ExportImageButton = new Button();
+            comboBox1 = new ComboBox();
+            label2 = new Label();
             toolStrip1.SuspendLayout();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -88,7 +90,6 @@
             // 
             ImageList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             ImageList.FormattingEnabled = true;
-            ImageList.ItemHeight = 15;
             ImageList.Location = new Point(12, 28);
             ImageList.Name = "ImageList";
             ImageList.Size = new Size(174, 499);
@@ -107,7 +108,7 @@
             // toolStripDropDownButton1
             // 
             toolStripDropDownButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { LoadSSHButton, LoadPNGFolderButton, toolStripMenuItem1, toolStripSeparator1, ExportAllButton, SaveSSHButton });
+            toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { LoadSSHButton, LoadPNGFolderButton, toolStripSeparator1, ExportAllButton, toolStripMenuItem1, SaveSSHButton });
             toolStripDropDownButton1.Image = (Image)resources.GetObject("toolStripDropDownButton1.Image");
             toolStripDropDownButton1.ImageTransparentColor = Color.Magenta;
             toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -117,46 +118,48 @@
             // LoadSSHButton
             // 
             LoadSSHButton.Name = "LoadSSHButton";
-            LoadSSHButton.Size = new Size(194, 22);
-            LoadSSHButton.Text = "Load .SSH";
+            LoadSSHButton.Size = new Size(185, 22);
+            LoadSSHButton.Text = "Load Shape Image";
             LoadSSHButton.Click += LoadSSHButton_Click;
             // 
             // LoadPNGFolderButton
             // 
             LoadPNGFolderButton.Name = "LoadPNGFolderButton";
-            LoadPNGFolderButton.Size = new Size(194, 22);
+            LoadPNGFolderButton.Size = new Size(185, 22);
             LoadPNGFolderButton.Text = "Load PNG Folder";
             LoadPNGFolderButton.Click += LoadFolderButton_Click;
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(194, 22);
-            toolStripMenuItem1.Text = "Export All SSH Textures";
+            toolStripMenuItem1.Size = new Size(185, 22);
+            toolStripMenuItem1.Text = "Export All Shape Files";
             toolStripMenuItem1.Click += toolStripMenuItem1_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(191, 6);
+            toolStripSeparator1.Size = new Size(182, 6);
             // 
             // ExportAllButton
             // 
             ExportAllButton.Name = "ExportAllButton";
-            ExportAllButton.Size = new Size(194, 22);
+            ExportAllButton.Size = new Size(185, 22);
             ExportAllButton.Text = "Export All To PNG";
             ExportAllButton.Click += ExportAllButton_Click;
             // 
             // SaveSSHButton
             // 
             SaveSSHButton.Name = "SaveSSHButton";
-            SaveSSHButton.Size = new Size(194, 22);
-            SaveSSHButton.Text = "Save .SSH";
+            SaveSSHButton.Size = new Size(185, 22);
+            SaveSSHButton.Text = "Save Shape Image";
             SaveSSHButton.Click += SaveSSHButton_Click;
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(comboBox1);
             groupBox1.Controls.Add(GimxVersionTextBox);
+            groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(FileNameLabel);
             groupBox1.Controls.Add(label1);
@@ -547,6 +550,25 @@
             ExportImageButton.UseVisualStyleBackColor = true;
             ExportImageButton.Click += ExportImageButton_Click;
             // 
+            // comboBox1
+            // 
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "PS2", "Xbox", "Gamecube" });
+            comboBox1.Location = new Point(224, 35);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(184, 23);
+            comboBox1.TabIndex = 29;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(225, 19);
+            label2.Name = "label2";
+            label2.Size = new Size(50, 15);
+            label2.TabIndex = 28;
+            label2.Text = "Console";
+            // 
             // SSHImageTools
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -566,7 +588,7 @@
             Controls.Add(toolStrip1);
             Controls.Add(ImageList);
             Name = "SSHImageTools";
-            Text = "SSH Image Editor";
+            Text = "Shape Image Editor";
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             groupBox1.ResumeLayout(false);
@@ -630,5 +652,7 @@
         private NumericUpDown YAxisNum;
         private NumericUpDown XAxisNum;
         private ToolStripMenuItem toolStripMenuItem1;
+        private ComboBox comboBox1;
+        private Label label2;
     }
 }

@@ -256,7 +256,7 @@
             SSHImageButton.Name = "SSHImageButton";
             SSHImageButton.Size = new Size(94, 50);
             SSHImageButton.TabIndex = 2;
-            SSHImageButton.Text = "SSH Image File";
+            SSHImageButton.Text = "Shape Image File";
             SSHImageButton.UseVisualStyleBackColor = true;
             SSHImageButton.Click += SSHImageButton_Click;
             // 

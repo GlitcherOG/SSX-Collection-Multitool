@@ -25,7 +25,7 @@ namespace SSXMultiTool
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "SSH Image Archive (*.ssh)|*.ssh|All files (*.*)|*.*",
+                Filter = "Shape Image Archive (*.ssh,*.gsh,*.xsh)|*.ssh;*.gsh;*.xsh|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };
@@ -68,7 +68,7 @@ namespace SSXMultiTool
         {
             SaveFileDialog openFileDialog = new SaveFileDialog
             {
-                Filter = "SSH File (*.ssh)|*.ssh|All files (*.*)|*.*",
+                Filter = "Shape Image Archive (*.ssh,*.gsh,*.xsh)|*.ssh;*.gsh;*.xsh|All files (*.*)|*.*",
                 FilterIndex = 1,
                 RestoreDirectory = false
             };
@@ -357,6 +357,11 @@ namespace SSXMultiTool
 
                     sshHandler = new OldShapeHandler();
                     sshHandler.LoadShape(AllSSHFiles[i]);
+
+                    //for (int j = 0; j < sshHandler.ShapeImages.Count; j++)
+                    //{
+                    //    sshHandler.BrightenImage(j);
+                    //}
 
                     Directory.CreateDirectory(openFileDialog.FileName + "\\" + FileName);
 
