@@ -1468,5 +1468,25 @@ namespace SSXMultiTool
                 }
             }
         }
+
+        private void MnfSaveCompressed_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog openFileDialog = new SaveFileDialog
+            {
+                Filter = "Model File (*.mnf)|*.mnf|All files (*.*)|*.*",
+                FilterIndex = 1,
+                RestoreDirectory = false
+            };
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                //MessageBox.Show("Warning Unable to be loaded in game");
+                mnfModelHandler.SaveCompressedData(openFileDialog.FileName);
+            }
+        }
+
+        private void MNFSaveDecompressed_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

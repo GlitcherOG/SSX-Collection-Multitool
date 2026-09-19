@@ -3352,13 +3352,13 @@
             // 
             // MnfSaveCompressed
             // 
-            MnfSaveCompressed.Enabled = false;
             MnfSaveCompressed.Location = new Point(863, 500);
             MnfSaveCompressed.Name = "MnfSaveCompressed";
             MnfSaveCompressed.Size = new Size(73, 23);
             MnfSaveCompressed.TabIndex = 50;
             MnfSaveCompressed.Text = "Save";
             MnfSaveCompressed.UseVisualStyleBackColor = true;
+            MnfSaveCompressed.Click += MnfSaveCompressed_Click;
             // 
             // MnfBoneLoad
             // 
@@ -3386,6 +3386,7 @@
             MNFSaveDecompressed.TabIndex = 46;
             MNFSaveDecompressed.Text = "Save Decompressed";
             MNFSaveDecompressed.UseVisualStyleBackColor = true;
+            MNFSaveDecompressed.Click += MNFSaveDecompressed_Click;
             // 
             // label130
             // 
