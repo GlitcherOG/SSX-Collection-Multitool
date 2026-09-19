@@ -88,6 +88,7 @@ namespace SSXMultiTool
             }
             FileNameLabel.Text = "NULL";
             GimxVersionTextBox.Text = sshHandler.Format;
+            ConsoleDropDown.SelectedIndex = (int)sshHandler.ConsoleVersion;
             DisableUpdate = false;
         }
 
@@ -129,10 +130,16 @@ namespace SSXMultiTool
                 YAxisNum.Value = SSHImage.Yaxis;
                 XAxisNum.Value = SSHImage.Xaxis;
 
-                ImageSizeLabel.Text = SSHImage.Image.Width + " x " + SSHImage.Image.Height;
+                if (SSHImage.Image != null)
+                {
+                    ImageSizeLabel.Text = SSHImage.Image.Width + " x " + SSHImage.Image.Height;
+                }
                 ImageByteSwappedCheckbox.Checked = SSHImage.SwizzledImage;
 
-                ColourAmountLabel.Text = SSHImage.colorsTable.Count.ToString();
+                if (SSHImage.colorsTable != null)
+                {
+                    ColourAmountLabel.Text = SSHImage.colorsTable.Count.ToString();
+                }
                 MetalAlphaCheckbox.Checked = SSHImage.MetalAlpha;
                 ColourAlphaFix.Checked = SSHImage.AlphaFix;
                 ColourByteSwappedCheckbox.Checked = SSHImage.SwizzledColours;
@@ -370,6 +377,14 @@ namespace SSXMultiTool
                     GC.Collect();
                 }
                 ConsoleWindow.CloseConsole();
+            }
+        }
+
+        private void ConsoleDropDown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!DisableUpdate)
+            {
+                sshHandler.ConsoleVersion = (SSX_Library.TextureType)ConsoleDropDown.SelectedIndex;
             }
         }
     }

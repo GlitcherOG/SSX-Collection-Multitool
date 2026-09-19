@@ -34,12 +34,14 @@
             toolStripDropDownButton1 = new ToolStripDropDownButton();
             LoadSSHButton = new ToolStripMenuItem();
             LoadPNGFolderButton = new ToolStripMenuItem();
-            toolStripMenuItem1 = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             ExportAllButton = new ToolStripMenuItem();
+            toolStripMenuItem1 = new ToolStripMenuItem();
             SaveSSHButton = new ToolStripMenuItem();
             groupBox1 = new GroupBox();
+            ConsoleDropDown = new ComboBox();
             GimxVersionTextBox = new TextBox();
+            label2 = new Label();
             label3 = new Label();
             FileNameLabel = new Label();
             label1 = new Label();
@@ -75,8 +77,6 @@
             ImageRemoveButton = new Button();
             ReplaceImageButton = new Button();
             ExportImageButton = new Button();
-            comboBox1 = new ComboBox();
-            label2 = new Label();
             toolStrip1.SuspendLayout();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -129,13 +129,6 @@
             LoadPNGFolderButton.Text = "Load PNG Folder";
             LoadPNGFolderButton.Click += LoadFolderButton_Click;
             // 
-            // toolStripMenuItem1
-            // 
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(185, 22);
-            toolStripMenuItem1.Text = "Export All Shape Files";
-            toolStripMenuItem1.Click += toolStripMenuItem1_Click;
-            // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
@@ -148,6 +141,13 @@
             ExportAllButton.Text = "Export All To PNG";
             ExportAllButton.Click += ExportAllButton_Click;
             // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(185, 22);
+            toolStripMenuItem1.Text = "Export All Shape Files";
+            toolStripMenuItem1.Click += toolStripMenuItem1_Click;
+            // 
             // SaveSSHButton
             // 
             SaveSSHButton.Name = "SaveSSHButton";
@@ -157,7 +157,7 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(comboBox1);
+            groupBox1.Controls.Add(ConsoleDropDown);
             groupBox1.Controls.Add(GimxVersionTextBox);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label3);
@@ -170,6 +170,17 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "File Details";
             // 
+            // ConsoleDropDown
+            // 
+            ConsoleDropDown.DropDownStyle = ComboBoxStyle.DropDownList;
+            ConsoleDropDown.FormattingEnabled = true;
+            ConsoleDropDown.Items.AddRange(new object[] { "PS2", "Xbox", "Gamecube" });
+            ConsoleDropDown.Location = new Point(224, 35);
+            ConsoleDropDown.Name = "ConsoleDropDown";
+            ConsoleDropDown.Size = new Size(184, 23);
+            ConsoleDropDown.TabIndex = 29;
+            ConsoleDropDown.SelectedIndexChanged += ConsoleDropDown_SelectedIndexChanged;
+            // 
             // GimxVersionTextBox
             // 
             GimxVersionTextBox.Location = new Point(93, 35);
@@ -178,6 +189,15 @@
             GimxVersionTextBox.Size = new Size(125, 23);
             GimxVersionTextBox.TabIndex = 3;
             GimxVersionTextBox.TextChanged += GimxVersionTextBox_TextChanged;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(225, 19);
+            label2.Name = "label2";
+            label2.Size = new Size(50, 15);
+            label2.TabIndex = 28;
+            label2.Text = "Console";
             // 
             // label3
             // 
@@ -279,7 +299,7 @@
             // 
             MatrixTypeDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
             MatrixTypeDropdown.FormattingEnabled = true;
-            MatrixTypeDropdown.Items.AddRange(new object[] { "1 (4 Bit, 16 Colour Index)", "2 (8 Bit, 256 Colour Index)", "5 (Full Colour RGBA)", "30 (N64)", "96 (BC1)", "97 (BC2)", "109 (BGRA444)", "120 (BGR565)", "123 (8 Bit, 256 Colour Index Xbox)", "125 (Full Colour BGRA)", "130 (8 bit, 256 Colour Index Compressed)" });
+            MatrixTypeDropdown.Items.AddRange(new object[] { "1 (4 Bit, 16 Colour Index)", "2 (8 Bit, 256 Colour Index)", "5 (Full Colour RGBA)", "30 (N64)", "96 (BC1)", "97 (BC2)", "109 (BGRA444)", "120 (BGR565)", "123 (8 Bit, 256 Colour Index Xbox)", "125 (Full Colour BGRA)", "130 (8 bit, 256 Colour Index Compressed)", "Unknown" });
             MatrixTypeDropdown.Location = new Point(331, 38);
             MatrixTypeDropdown.Name = "MatrixTypeDropdown";
             MatrixTypeDropdown.Size = new Size(184, 23);
@@ -550,25 +570,6 @@
             ExportImageButton.UseVisualStyleBackColor = true;
             ExportImageButton.Click += ExportImageButton_Click;
             // 
-            // comboBox1
-            // 
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "PS2", "Xbox", "Gamecube" });
-            comboBox1.Location = new Point(224, 35);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(184, 23);
-            comboBox1.TabIndex = 29;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(225, 19);
-            label2.Name = "label2";
-            label2.Size = new Size(50, 15);
-            label2.TabIndex = 28;
-            label2.Text = "Console";
-            // 
             // SSHImageTools
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -652,7 +653,7 @@
         private NumericUpDown YAxisNum;
         private NumericUpDown XAxisNum;
         private ToolStripMenuItem toolStripMenuItem1;
-        private ComboBox comboBox1;
+        private ComboBox ConsoleDropDown;
         private Label label2;
     }
 }
