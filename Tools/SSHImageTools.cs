@@ -210,7 +210,7 @@ namespace SSXMultiTool
                     };
                     if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        //sshHandler.BMPOneExtractMetal(openFileDialog.FileName, ImageList.SelectedIndex);
+                        sshHandler.ExtractSingleMetalImage(openFileDialog.FileName, ImageList.SelectedIndex);
                         GC.Collect();
                     }
                 }
@@ -231,7 +231,7 @@ namespace SSXMultiTool
                     };
                     if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        //sshHandler.LoadSingleMetal(openFileDialog.FileName, ImageList.SelectedIndex);
+                        sshHandler.LoadSingleMetalImage(openFileDialog.FileName, ImageList.SelectedIndex);
                         GC.Collect();
                     }
                 }
