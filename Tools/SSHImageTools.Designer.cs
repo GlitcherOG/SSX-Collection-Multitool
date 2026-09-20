@@ -299,7 +299,7 @@
             // 
             MatrixTypeDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
             MatrixTypeDropdown.FormattingEnabled = true;
-            MatrixTypeDropdown.Items.AddRange(new object[] { "1 (4 Bit, 16 Colour Index)", "2 (8 Bit, 256 Colour Index)", "5 (Full Colour RGBA)", "30 (N64)", "96 (BC1)", "97 (BC2)", "98 (BC3)", "109 (BGRA444)", "120 (BGR565)", "123 (8 Bit, 256 Colour Index Xbox)", "125 (Full Colour BGRA)", "130 (8 bit, 256 Colour Index Compressed)", "253 (Full Colour BGRA Compressed)", "Unknown" });
+            MatrixTypeDropdown.Items.AddRange(new object[] { "1 (4 Bit, 16 Colour Index)", "2 (8 Bit, 256 Colour Index)", "5 (Full Colour RGBA)", "21 (BGR5A3)", "25 (4 Bit, BGR5A3)", "30 (N64 CMPR)", "96 (BC1)", "97 (BC2)", "98 (BC3)", "109 (BGRA444)", "120 (BGR565)", "123 (8 Bit, 256 Colour Index Xbox)", "125 (Full Colour BGRA)", "130 (8 bit, 256 Colour Index Compressed)", "253 (Full Colour BGRA Compressed)", "Unknown" });
             MatrixTypeDropdown.Location = new Point(331, 38);
             MatrixTypeDropdown.Name = "MatrixTypeDropdown";
             MatrixTypeDropdown.Size = new Size(184, 23);

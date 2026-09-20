@@ -1,8 +1,8 @@
-﻿using System.Diagnostics;
-using System.IO;
-using Microsoft.WindowsAPICodePack.Dialogs;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using SSX_Library.EATextureLibrary;
 using SSXMultiTool.Utilities;
+using System.Diagnostics;
+using System.IO;
 
 namespace SSXMultiTool
 {
@@ -354,13 +354,17 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                string[] AllSSHFiles = Directory.GetFiles(openFileDialog.FileName, "*.ssh");
+                var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "*.ssh", "*.gsh", "*.xsh" };
+
+                var AllSSHFiles = Directory.EnumerateFiles(openFileDialog.FileName, "*.*", SearchOption.AllDirectories)
+                                     .Where(file => extensions.Contains(Path.GetExtension(file))).ToArray();
+
                 ConsoleWindow.GenerateConsole();
                 for (int i = 0; i < AllSSHFiles.Length; i++)
                 {
                     Console.WriteLine("Extracting " + Path.GetFileName(AllSSHFiles[i]));
 
-                    string FileName = Path.GetFileName(AllSSHFiles[i]).Replace(".ssh", "");
+                    string FileName = Path.GetFileName(AllSSHFiles[i]).Replace(".ssh", "").Replace(".gsh", "").Replace(".xsh", "");
 
                     sshHandler = new OldShapeHandler();
                     sshHandler.LoadShape(AllSSHFiles[i]);
