@@ -108,5 +108,10 @@ namespace SSXMultiTool
         {
             new OnTourProjectWindow().ShowDialog();
         }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            new BoltSSX3Tools().ShowDialog();
+        }
     }
 }

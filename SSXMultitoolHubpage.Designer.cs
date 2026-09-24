@@ -50,6 +50,7 @@
             SSHImageButton = new Button();
             LocFileButton = new Button();
             BigArchiveButton = new Button();
+            button9 = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -218,6 +219,7 @@
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(button9);
             groupBox4.Controls.Add(button8);
             groupBox4.Controls.Add(AudioWindowButton);
             groupBox4.Controls.Add(SSHImageButton);
@@ -225,7 +227,7 @@
             groupBox4.Controls.Add(BigArchiveButton);
             groupBox4.Location = new Point(12, 190);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(509, 83);
+            groupBox4.Size = new Size(617, 83);
             groupBox4.TabIndex = 4;
             groupBox4.TabStop = false;
             groupBox4.Text = "Misc Tools";
@@ -280,6 +282,16 @@
             BigArchiveButton.UseVisualStyleBackColor = true;
             BigArchiveButton.Click += BigArchiveButton_Click;
             // 
+            // button9
+            // 
+            button9.Location = new Point(506, 22);
+            button9.Name = "button9";
+            button9.Size = new Size(94, 50);
+            button9.TabIndex = 6;
+            button9.Text = "SSX 3 Bolt";
+            button9.UseVisualStyleBackColor = true;
+            button9.Click += button9_Click;
+            // 
             // SSXMultitoolHubpage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -322,5 +334,6 @@
         private Button button3;
         private Button button8;
         private Button OnTourLevelButton;
+        private Button button9;
     }
 }
