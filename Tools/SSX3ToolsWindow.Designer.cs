@@ -1537,9 +1537,9 @@
             label15.AutoSize = true;
             label15.Location = new Point(286, 54);
             label15.Name = "label15";
-            label15.Size = new Size(74, 15);
+            label15.Size = new Size(73, 15);
             label15.TabIndex = 6;
-            label15.Text = "Unkown Int2";
+            label15.Text = "Texture Type";
             // 
             // label35
             // 
@@ -1839,9 +1839,9 @@
             label24.AutoSize = true;
             label24.Location = new Point(286, 186);
             label24.Name = "label24";
-            label24.Size = new Size(39, 15);
+            label24.Size = new Size(55, 15);
             label24.TabIndex = 24;
-            label24.Text = "File ID";
+            label24.Text = "Model ID";
             // 
             // label26
             // 

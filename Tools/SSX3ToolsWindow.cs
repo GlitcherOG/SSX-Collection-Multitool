@@ -280,8 +280,8 @@ namespace SSXMultiTool
                 var tempEntry = Char.entries[Index];
 
                 tempEntry.unkownInt1 = (int)BoltUnkownOne.Value;
-                tempEntry.Unlock = (int)BoltUnlock.Value;
-                tempEntry.unkownInt2 = (int)BoltUnkownTwo.Value;
+                tempEntry.UnlockCondition = (int)BoltUnlock.Value;
+                tempEntry.TextureType = (int)BoltUnkownTwo.Value;
                 tempEntry.ItemID = (int)BoltUnkownThree.Value;
                 tempEntry.ParentID = (int)BoltUnkownFour.Value;
                 tempEntry.category = (int)BoltCat.Value;
@@ -306,7 +306,6 @@ namespace SSXMultiTool
                 tempEntry.SmallIcon = BoltIconPath.Text;
 
                 tempEntry.unkownInt6 = (int)BoltUnkown9.Value;
-
 
                 Char.entries[Index] = tempEntry;
                 boltPS2.characters[Index1] = Char;
@@ -339,10 +338,9 @@ namespace SSXMultiTool
                     }
                 }
 
-
                 BoltUnkownOne.Value = boltPS2.characters[Index1].entries[Index].unkownInt1;
-                BoltUnlock.Value = boltPS2.characters[Index1].entries[Index].Unlock;
-                BoltUnkownTwo.Value = boltPS2.characters[Index1].entries[Index].unkownInt2;
+                BoltUnlock.Value = boltPS2.characters[Index1].entries[Index].UnlockCondition;
+                BoltUnkownTwo.Value = boltPS2.characters[Index1].entries[Index].TextureType;
                 BoltUnkownThree.Value = boltPS2.characters[Index1].entries[Index].ItemID;
                 BoltUnkownFour.Value = boltPS2.characters[Index1].entries[Index].ParentID;
                 BoltCat.Value = boltPS2.characters[Index1].entries[Index].category;
@@ -385,15 +383,15 @@ namespace SSXMultiTool
             int Index1 = BoltCharacter2.SelectedIndex;
             if (UnknownlistBox1.SelectedIndex != -1)
             {
-                Bolt1Unkown1.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].BoolInt;
-                Bolt1Unkown2.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].UnkownInt;
-                Bolt1Unkown3.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].UnkownInt2;
-                Bolt1Unkown4.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].UnkownInt3;
-                Bolt1Unkown5.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].UnkownInt4;
-                Bolt1Unkown6.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].UnkownInt5;
-                Bolt1Unkown7.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].UnkownInt6;
-                Bolt1Unkown8.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].BoolInt2;
-                Bolt1Unkown9.Value = boltPS2.characters[Index1].unkown2s[UnknownlistBox1.SelectedIndex].UnkownInt7;
+                Bolt1Unkown1.Value = boltPS2.characters[Index1].equipLinks[UnknownlistBox1.SelectedIndex].MainItemEquip;
+                Bolt1Unkown2.Value = boltPS2.characters[Index1].equipLinks[UnknownlistBox1.SelectedIndex].MainItemID;
+                Bolt1Unkown3.Value = boltPS2.characters[Index1].equipLinks[UnknownlistBox1.SelectedIndex].UnkownInt2;
+                Bolt1Unkown4.Value = boltPS2.characters[Index1].equipLinks[UnknownlistBox1.SelectedIndex].IfEquipBool;
+                Bolt1Unkown5.Value = boltPS2.characters[Index1].equipLinks[UnknownlistBox1.SelectedIndex].IfEquipID;
+                Bolt1Unkown6.Value = boltPS2.characters[Index1].equipLinks[UnknownlistBox1.SelectedIndex].UnkownInt5;
+                Bolt1Unkown7.Value = boltPS2.characters[Index1].equipLinks[UnknownlistBox1.SelectedIndex].UnkownInt6;
+                Bolt1Unkown8.Value = boltPS2.characters[Index1].equipLinks[UnknownlistBox1.SelectedIndex].SecondaryItemEquip;
+                Bolt1Unkown9.Value = boltPS2.characters[Index1].equipLinks[UnknownlistBox1.SelectedIndex].SecondaryItemID;
             }
         }
 
@@ -402,7 +400,7 @@ namespace SSXMultiTool
             if (BoltCharacter2.SelectedIndex != -1)
             {
                 UnknownlistBox1.Items.Clear();
-                for (int i = 0; i < boltPS2.characters[BoltCharacter2.SelectedIndex].unkown2s.Count; i++)
+                for (int i = 0; i < boltPS2.characters[BoltCharacter2.SelectedIndex].equipLinks.Count; i++)
                 {
                     UnknownlistBox1.Items.Add(i.ToString());
                 }

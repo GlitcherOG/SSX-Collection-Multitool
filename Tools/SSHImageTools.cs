@@ -354,7 +354,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "*.ssh", "*.gsh", "*.xsh" };
+                var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".ssh", ".gsh", ".xsh" };
 
                 var AllSSHFiles = Directory.EnumerateFiles(openFileDialog.FileName, "*.*", SearchOption.AllDirectories)
                                      .Where(file => extensions.Contains(Path.GetExtension(file))).ToArray();
