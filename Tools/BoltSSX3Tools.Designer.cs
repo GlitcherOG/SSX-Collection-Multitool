@@ -53,9 +53,7 @@
             label32 = new Label();
             BoltCat = new NumericUpDown();
             BoltModelIDTwo = new TextBox();
-            label19 = new Label();
             label31 = new Label();
-            BoltBuy = new NumericUpDown();
             BoltModelID = new TextBox();
             label20 = new Label();
             label30 = new Label();
@@ -82,12 +80,13 @@
             toolStripSplitButton1 = new ToolStripSplitButton();
             loadToolStripMenuItem = new ToolStripMenuItem();
             saveToolStripMenuItem = new ToolStripMenuItem();
-            toolStripComboBox1 = new ToolStripComboBox();
+            BoltCharacter = new ToolStripComboBox();
             groupBox1 = new GroupBox();
             pictureBox1 = new PictureBox();
             groupBox2 = new GroupBox();
             button1 = new Button();
             groupBox3 = new GroupBox();
+            checkBox4 = new CheckBox();
             pictureBox2 = new PictureBox();
             groupBox4 = new GroupBox();
             groupBox5 = new GroupBox();
@@ -105,22 +104,23 @@
             checkBox2 = new CheckBox();
             comboBox2 = new ComboBox();
             checkBox1 = new CheckBox();
-            listBox1 = new ListBox();
+            EquipLinkList = new ListBox();
             label1 = new Label();
-            comboBox1 = new ComboBox();
+            DefaultOutfitItem = new ComboBox();
             groupBox7 = new GroupBox();
             button6 = new Button();
-            listBox2 = new ListBox();
+            DefaultOutfitList = new ListBox();
             button7 = new Button();
             button9 = new Button();
             button8 = new Button();
+            button10 = new Button();
+            button11 = new Button();
             ((System.ComponentModel.ISupportInitialize)BoltUnkownOne).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltUnlock).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltUnkownTwo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltUnkownThree).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltUnkownFour).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltCat).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)BoltBuy).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltMenuOrder).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltUnkown7).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltUnkown9).BeginInit();
@@ -147,7 +147,7 @@
             BoltPS2TreeView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             BoltPS2TreeView.Location = new Point(12, 28);
             BoltPS2TreeView.Name = "BoltPS2TreeView";
-            BoltPS2TreeView.Size = new Size(274, 836);
+            BoltPS2TreeView.Size = new Size(274, 820);
             BoltPS2TreeView.TabIndex = 100;
             // 
             // label13
@@ -178,7 +178,7 @@
             // label14
             // 
             label14.AutoSize = true;
-            label14.Location = new Point(259, 104);
+            label14.Location = new Point(133, 101);
             label14.Name = "label14";
             label14.Size = new Size(100, 15);
             label14.TabIndex = 54;
@@ -195,7 +195,7 @@
             // 
             // BoltUnlock
             // 
-            BoltUnlock.Location = new Point(256, 119);
+            BoltUnlock.Location = new Point(133, 119);
             BoltUnlock.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             BoltUnlock.Name = "BoltUnlock";
             BoltUnlock.Size = new Size(120, 23);
@@ -341,15 +341,6 @@
             BoltModelIDTwo.Size = new Size(120, 23);
             BoltModelIDTwo.TabIndex = 89;
             // 
-            // label19
-            // 
-            label19.AutoSize = true;
-            label19.Location = new Point(136, 104);
-            label19.Name = "label19";
-            label19.Size = new Size(49, 15);
-            label19.TabIndex = 64;
-            label19.Text = "Buyable";
-            // 
             // label31
             // 
             label31.AutoSize = true;
@@ -358,14 +349,6 @@
             label31.Size = new Size(103, 15);
             label31.TabIndex = 88;
             label31.Text = "Model Med Res ID";
-            // 
-            // BoltBuy
-            // 
-            BoltBuy.Location = new Point(133, 119);
-            BoltBuy.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            BoltBuy.Name = "BoltBuy";
-            BoltBuy.Size = new Size(120, 23);
-            BoltBuy.TabIndex = 65;
             // 
             // BoltModelID
             // 
@@ -555,7 +538,7 @@
             // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripSplitButton1, toolStripComboBox1 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripSplitButton1, BoltCharacter });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(1603, 25);
@@ -579,6 +562,7 @@
             loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             loadToolStripMenuItem.Size = new Size(100, 22);
             loadToolStripMenuItem.Text = "Load";
+            loadToolStripMenuItem.Click += loadToolStripMenuItem_Click;
             // 
             // saveToolStripMenuItem
             // 
@@ -586,14 +570,15 @@
             saveToolStripMenuItem.Size = new Size(100, 22);
             saveToolStripMenuItem.Text = "Save";
             // 
-            // toolStripComboBox1
+            // BoltCharacter
             // 
-            toolStripComboBox1.Alignment = ToolStripItemAlignment.Right;
-            toolStripComboBox1.AutoSize = false;
-            toolStripComboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            toolStripComboBox1.Items.AddRange(new object[] { "0-Moby", "1-Kaori", "2-Arielle", "3-Mac", "4-Zoe", "5-Grommet", "6-Elise", "7-Rocco", "8-Psymon", "9-Deiter", "10-Brodi", "11-Eddie", "12-Jp", "13-Luther", "14-Marisol", "15-Marty", "16-Seeiah", "17-Hiro", "18-Jurgen", "19-luthern", "20-Stretch", "21-Bessy", "22-Bunny", "23-Churchil", "24-Skel", "25-Snowman", "26-Yeti", "27-Unkown", "28-Beaver", "29-Abom" });
-            toolStripComboBox1.Name = "toolStripComboBox1";
-            toolStripComboBox1.Size = new Size(200, 23);
+            BoltCharacter.Alignment = ToolStripItemAlignment.Right;
+            BoltCharacter.AutoSize = false;
+            BoltCharacter.DropDownStyle = ComboBoxStyle.DropDownList;
+            BoltCharacter.Items.AddRange(new object[] { "0-Moby", "1-Kaori", "2-Arielle", "3-Mac", "4-Zoe", "5-Grommet", "6-Elise", "7-Rocco", "8-Psymon", "9-Deiter", "10-Brodi", "11-Eddie", "12-Jp", "13-Luther", "14-Marisol", "15-Marty", "16-Seeiah", "17-Hiro", "18-Jurgen", "19-luthern", "20-Stretch", "21-Bessy", "22-Bunny", "23-Churchil", "24-Skel", "25-Snowman", "26-Yeti", "27-Unkown", "28-Beaver", "29-Abom" });
+            BoltCharacter.Name = "BoltCharacter";
+            BoltCharacter.Size = new Size(200, 23);
+            BoltCharacter.SelectedIndexChanged += BoltCharacter_SelectedIndexChanged;
             // 
             // groupBox1
             // 
@@ -653,13 +638,12 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(checkBox4);
             groupBox3.Controls.Add(pictureBox2);
             groupBox3.Controls.Add(label23);
             groupBox3.Controls.Add(BoltCost);
             groupBox3.Controls.Add(BoltMenuOrder);
             groupBox3.Controls.Add(label20);
-            groupBox3.Controls.Add(BoltBuy);
-            groupBox3.Controls.Add(label19);
             groupBox3.Controls.Add(label18);
             groupBox3.Controls.Add(BoltIconPath);
             groupBox3.Controls.Add(BoltCat);
@@ -672,6 +656,16 @@
             groupBox3.TabIndex = 104;
             groupBox3.TabStop = false;
             groupBox3.Text = "Store Info";
+            // 
+            // checkBox4
+            // 
+            checkBox4.AutoSize = true;
+            checkBox4.Location = new Point(259, 119);
+            checkBox4.Name = "checkBox4";
+            checkBox4.Size = new Size(68, 19);
+            checkBox4.TabIndex = 16;
+            checkBox4.Text = "Buyable";
+            checkBox4.UseVisualStyleBackColor = true;
             // 
             // pictureBox2
             // 
@@ -733,7 +727,7 @@
             groupBox6.Controls.Add(checkBox2);
             groupBox6.Controls.Add(comboBox2);
             groupBox6.Controls.Add(checkBox1);
-            groupBox6.Controls.Add(listBox1);
+            groupBox6.Controls.Add(EquipLinkList);
             groupBox6.Location = new Point(1136, 28);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(455, 436);
@@ -858,13 +852,14 @@
             checkBox1.Text = "Equipped";
             checkBox1.UseVisualStyleBackColor = true;
             // 
-            // listBox1
+            // EquipLinkList
             // 
-            listBox1.FormattingEnabled = true;
-            listBox1.Location = new Point(6, 22);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(186, 349);
-            listBox1.TabIndex = 0;
+            EquipLinkList.FormattingEnabled = true;
+            EquipLinkList.Location = new Point(6, 22);
+            EquipLinkList.Name = "EquipLinkList";
+            EquipLinkList.Size = new Size(186, 349);
+            EquipLinkList.TabIndex = 0;
+            EquipLinkList.SelectedIndexChanged += EquipLinkList_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -875,23 +870,24 @@
             label1.TabIndex = 3;
             label1.Text = "Item";
             // 
-            // comboBox1
+            // DefaultOutfitItem
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(198, 37);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(251, 23);
-            comboBox1.TabIndex = 1;
+            DefaultOutfitItem.FormattingEnabled = true;
+            DefaultOutfitItem.Location = new Point(198, 37);
+            DefaultOutfitItem.Name = "DefaultOutfitItem";
+            DefaultOutfitItem.Size = new Size(251, 23);
+            DefaultOutfitItem.TabIndex = 1;
+            DefaultOutfitItem.SelectedIndexChanged += DefaultOutfitItem_SelectedIndexChanged;
             // 
             // groupBox7
             // 
             groupBox7.Controls.Add(button6);
-            groupBox7.Controls.Add(listBox2);
+            groupBox7.Controls.Add(DefaultOutfitList);
             groupBox7.Controls.Add(button7);
             groupBox7.Controls.Add(button9);
             groupBox7.Controls.Add(button8);
             groupBox7.Controls.Add(label1);
-            groupBox7.Controls.Add(comboBox1);
+            groupBox7.Controls.Add(DefaultOutfitItem);
             groupBox7.Location = new Point(1136, 470);
             groupBox7.Name = "groupBox7";
             groupBox7.Size = new Size(455, 410);
@@ -908,13 +904,14 @@
             button6.Text = "-";
             button6.UseVisualStyleBackColor = true;
             // 
-            // listBox2
+            // DefaultOutfitList
             // 
-            listBox2.FormattingEnabled = true;
-            listBox2.Location = new Point(6, 22);
-            listBox2.Name = "listBox2";
-            listBox2.Size = new Size(186, 319);
-            listBox2.TabIndex = 14;
+            DefaultOutfitList.FormattingEnabled = true;
+            DefaultOutfitList.Location = new Point(6, 22);
+            DefaultOutfitList.Name = "DefaultOutfitList";
+            DefaultOutfitList.Size = new Size(186, 319);
+            DefaultOutfitList.TabIndex = 14;
+            DefaultOutfitList.SelectedIndexChanged += DefaultOutfitList_SelectedIndexChanged;
             // 
             // button7
             // 
@@ -943,11 +940,31 @@
             button8.Text = "/\\";
             button8.UseVisualStyleBackColor = true;
             // 
+            // button10
+            // 
+            button10.Location = new Point(12, 851);
+            button10.Name = "button10";
+            button10.Size = new Size(125, 23);
+            button10.TabIndex = 110;
+            button10.Text = "-";
+            button10.UseVisualStyleBackColor = true;
+            // 
+            // button11
+            // 
+            button11.Location = new Point(158, 851);
+            button11.Name = "button11";
+            button11.Size = new Size(128, 23);
+            button11.TabIndex = 109;
+            button11.Text = "+";
+            button11.UseVisualStyleBackColor = true;
+            // 
             // BoltSSX3Tools
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1603, 892);
+            Controls.Add(button10);
+            Controls.Add(button11);
             Controls.Add(groupBox7);
             Controls.Add(groupBox6);
             Controls.Add(groupBox5);
@@ -965,7 +982,6 @@
             ((System.ComponentModel.ISupportInitialize)BoltUnkownThree).EndInit();
             ((System.ComponentModel.ISupportInitialize)BoltUnkownFour).EndInit();
             ((System.ComponentModel.ISupportInitialize)BoltCat).EndInit();
-            ((System.ComponentModel.ISupportInitialize)BoltBuy).EndInit();
             ((System.ComponentModel.ISupportInitialize)BoltMenuOrder).EndInit();
             ((System.ComponentModel.ISupportInitialize)BoltUnkown7).EndInit();
             ((System.ComponentModel.ISupportInitialize)BoltUnkown9).EndInit();
@@ -1023,9 +1039,7 @@
         private Label label32;
         private NumericUpDown BoltCat;
         private TextBox BoltModelIDTwo;
-        private Label label19;
         private Label label31;
-        private NumericUpDown BoltBuy;
         private TextBox BoltModelID;
         private Label label20;
         private Label label30;
@@ -1050,7 +1064,7 @@
         private Label label25;
         private ToolStrip toolStrip1;
         private ToolStripSplitButton toolStripSplitButton1;
-        private ToolStripComboBox toolStripComboBox1;
+        private ToolStripComboBox BoltCharacter;
         private GroupBox groupBox1;
         private PictureBox pictureBox1;
         private GroupBox groupBox2;
@@ -1067,8 +1081,8 @@
         private ComboBox comboBox2;
         private Label label1;
         private CheckBox checkBox1;
-        private ComboBox comboBox1;
-        private ListBox listBox1;
+        private ComboBox DefaultOutfitItem;
+        private ListBox EquipLinkList;
         private Button button4;
         private Button button5;
         private Button button3;
@@ -1078,11 +1092,14 @@
         private ComboBox comboBox3;
         private GroupBox groupBox7;
         private Button button6;
-        private ListBox listBox2;
+        private ListBox DefaultOutfitList;
         private Button button7;
         private Button button9;
         private Button button8;
         private Label label4;
         private ComboBox comboBox4;
+        private CheckBox checkBox4;
+        private Button button10;
+        private Button button11;
     }
 }

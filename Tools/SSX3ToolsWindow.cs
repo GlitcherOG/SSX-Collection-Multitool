@@ -285,7 +285,7 @@ namespace SSXMultiTool
                 tempEntry.ItemID = (int)BoltUnkownThree.Value;
                 tempEntry.ParentID = (int)BoltUnkownFour.Value;
                 tempEntry.category = (int)BoltCat.Value;
-                tempEntry.buyable = (int)BoltBuy.Value;
+                //tempEntry.buyable = (int)BoltBuy.Value;
                 tempEntry.menuOrder = (int)BoltMenuOrder.Value;
                 tempEntry.unkownInt5 = (int)BoltUnkown7.Value;
                 tempEntry.weight = (int)BoltFillBar.Value;
@@ -344,7 +344,7 @@ namespace SSXMultiTool
                 BoltUnkownThree.Value = boltPS2.characters[Index1].entries[Index].ItemID;
                 BoltUnkownFour.Value = boltPS2.characters[Index1].entries[Index].ParentID;
                 BoltCat.Value = boltPS2.characters[Index1].entries[Index].category;
-                BoltBuy.Value = boltPS2.characters[Index1].entries[Index].buyable;
+                //BoltBuy.Value = boltPS2.characters[Index1].entries[Index].buyable;
                 BoltMenuOrder.Value = boltPS2.characters[Index1].entries[Index].menuOrder;
                 BoltUnkown7.Value = boltPS2.characters[Index1].entries[Index].unkownInt5;
                 BoltFillBar.Value = boltPS2.characters[Index1].entries[Index].weight;
