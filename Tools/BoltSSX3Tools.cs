@@ -235,7 +235,7 @@ namespace SSXMultiTool.Tools
         private void EquipLinkList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!Wait)
-            { 
+            {
                 Wait = true;
                 if (EquipLinkList.SelectedIndex != -1)
                 {
@@ -729,6 +729,29 @@ namespace SSXMultiTool.Tools
                     BoltPS2Handler.characters[Index1] = Char;
                 }
             }
+        }
+
+        private void DefaultOutfitRemove_Click(object sender, EventArgs e)
+        {
+            if (DefaultOutfitList.SelectedIndex != -1)
+            {
+                int Index = DefaultOutfitList.SelectedIndex;
+                DefaultOutfitList.Items.RemoveAt(Index);
+                BoltPS2Handler.characters[BoltCharacter.SelectedIndex].defaultOutfits.RemoveAt(Index);
+            }
+        }
+
+        private void DefaultOutfitAdd_Click(object sender, EventArgs e)
+        {
+            var NewOutfit = new DefaultOutfit();
+
+            NewOutfit.CharID = BoltCharacter.SelectedIndex;
+            NewOutfit.ItemID = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[0].ItemID;
+            NewOutfit.CategoryID = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[0].category;
+
+            BoltPS2Handler.characters[BoltCharacter.SelectedIndex].defaultOutfits.Add(NewOutfit);
+
+            DefaultOutfitList.Items.Add(BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[0].ItemID + " - " + BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[0].itemName);
         }
     }
 }

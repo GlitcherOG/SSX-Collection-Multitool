@@ -106,11 +106,11 @@
             label1 = new Label();
             DefaultOutfitItem = new ComboBox();
             groupBox7 = new GroupBox();
-            button6 = new Button();
+            DefaultOutfitRemove = new Button();
             DefaultOutfitList = new ListBox();
-            button7 = new Button();
-            button9 = new Button();
-            button8 = new Button();
+            DefaultOutfitAdd = new Button();
+            DefaultOutfitDown = new Button();
+            DefaultOutfitUp = new Button();
             button10 = new Button();
             button11 = new Button();
             groupBox8 = new GroupBox();
@@ -908,11 +908,11 @@
             // 
             // groupBox7
             // 
-            groupBox7.Controls.Add(button6);
+            groupBox7.Controls.Add(DefaultOutfitRemove);
             groupBox7.Controls.Add(DefaultOutfitList);
-            groupBox7.Controls.Add(button7);
-            groupBox7.Controls.Add(button9);
-            groupBox7.Controls.Add(button8);
+            groupBox7.Controls.Add(DefaultOutfitAdd);
+            groupBox7.Controls.Add(DefaultOutfitDown);
+            groupBox7.Controls.Add(DefaultOutfitUp);
             groupBox7.Controls.Add(label1);
             groupBox7.Controls.Add(DefaultOutfitItem);
             groupBox7.Location = new Point(1136, 28);
@@ -922,14 +922,15 @@
             groupBox7.TabStop = false;
             groupBox7.Text = "Default Outfit";
             // 
-            // button6
+            // DefaultOutfitRemove
             // 
-            button6.Location = new Point(6, 381);
-            button6.Name = "button6";
-            button6.Size = new Size(93, 23);
-            button6.TabIndex = 18;
-            button6.Text = "-";
-            button6.UseVisualStyleBackColor = true;
+            DefaultOutfitRemove.Location = new Point(6, 381);
+            DefaultOutfitRemove.Name = "DefaultOutfitRemove";
+            DefaultOutfitRemove.Size = new Size(93, 23);
+            DefaultOutfitRemove.TabIndex = 18;
+            DefaultOutfitRemove.Text = "-";
+            DefaultOutfitRemove.UseVisualStyleBackColor = true;
+            DefaultOutfitRemove.Click += DefaultOutfitRemove_Click;
             // 
             // DefaultOutfitList
             // 
@@ -940,32 +941,33 @@
             DefaultOutfitList.TabIndex = 14;
             DefaultOutfitList.SelectedIndexChanged += DefaultOutfitList_SelectedIndexChanged;
             // 
-            // button7
+            // DefaultOutfitAdd
             // 
-            button7.Location = new Point(105, 381);
-            button7.Name = "button7";
-            button7.Size = new Size(85, 23);
-            button7.TabIndex = 17;
-            button7.Text = "+";
-            button7.UseVisualStyleBackColor = true;
+            DefaultOutfitAdd.Location = new Point(105, 381);
+            DefaultOutfitAdd.Name = "DefaultOutfitAdd";
+            DefaultOutfitAdd.Size = new Size(85, 23);
+            DefaultOutfitAdd.TabIndex = 17;
+            DefaultOutfitAdd.Text = "+";
+            DefaultOutfitAdd.UseVisualStyleBackColor = true;
+            DefaultOutfitAdd.Click += DefaultOutfitAdd_Click;
             // 
-            // button9
+            // DefaultOutfitDown
             // 
-            button9.Location = new Point(105, 355);
-            button9.Name = "button9";
-            button9.Size = new Size(85, 23);
-            button9.TabIndex = 15;
-            button9.Text = "\\/";
-            button9.UseVisualStyleBackColor = true;
+            DefaultOutfitDown.Location = new Point(105, 355);
+            DefaultOutfitDown.Name = "DefaultOutfitDown";
+            DefaultOutfitDown.Size = new Size(85, 23);
+            DefaultOutfitDown.TabIndex = 15;
+            DefaultOutfitDown.Text = "\\/";
+            DefaultOutfitDown.UseVisualStyleBackColor = true;
             // 
-            // button8
+            // DefaultOutfitUp
             // 
-            button8.Location = new Point(6, 355);
-            button8.Name = "button8";
-            button8.Size = new Size(93, 23);
-            button8.TabIndex = 16;
-            button8.Text = "/\\";
-            button8.UseVisualStyleBackColor = true;
+            DefaultOutfitUp.Location = new Point(6, 355);
+            DefaultOutfitUp.Name = "DefaultOutfitUp";
+            DefaultOutfitUp.Size = new Size(93, 23);
+            DefaultOutfitUp.TabIndex = 16;
+            DefaultOutfitUp.Text = "/\\";
+            DefaultOutfitUp.UseVisualStyleBackColor = true;
             // 
             // button10
             // 
@@ -1150,11 +1152,11 @@
         private CheckBox EquipLinkSetBool;
         private ComboBox EquipLinkSet;
         private GroupBox groupBox7;
-        private Button button6;
+        private Button DefaultOutfitRemove;
         private ListBox DefaultOutfitList;
-        private Button button7;
-        private Button button9;
-        private Button button8;
+        private Button DefaultOutfitAdd;
+        private Button DefaultOutfitDown;
+        private Button DefaultOutfitUp;
         private CheckBox BoltBuy;
         private Button button10;
         private Button button11;
