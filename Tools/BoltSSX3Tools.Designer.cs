@@ -783,6 +783,7 @@
             EquipLinksEquip.TabIndex = 14;
             EquipLinksEquip.Text = "Equip";
             EquipLinksEquip.UseVisualStyleBackColor = true;
+            EquipLinksEquip.CheckedChanged += EquipLinksUpdated;
             // 
             // button4
             // 
@@ -838,6 +839,7 @@
             EquipLinkSetBool.TabIndex = 8;
             EquipLinkSetBool.Text = "Set Equip Status";
             EquipLinkSetBool.UseVisualStyleBackColor = true;
+            EquipLinkSetBool.CheckedChanged += EquipLinksUpdated;
             // 
             // EquipLinkSet
             // 
@@ -846,6 +848,7 @@
             EquipLinkSet.Name = "EquipLinkSet";
             EquipLinkSet.Size = new Size(251, 23);
             EquipLinkSet.TabIndex = 7;
+            EquipLinkSet.TextChanged += EquipLinksUpdated;
             // 
             // label2
             // 
@@ -865,6 +868,7 @@
             EquipLinkIfBool.TabIndex = 5;
             EquipLinkIfBool.Text = "If item state is Equipped";
             EquipLinkIfBool.UseVisualStyleBackColor = true;
+            EquipLinkIfBool.CheckedChanged += EquipLinksUpdated;
             // 
             // EquipLinkIf
             // 
@@ -873,6 +877,7 @@
             EquipLinkIf.Name = "EquipLinkIf";
             EquipLinkIf.Size = new Size(251, 23);
             EquipLinkIf.TabIndex = 4;
+            EquipLinkIf.TextChanged += EquipLinksUpdated;
             // 
             // EquipLinkList
             // 

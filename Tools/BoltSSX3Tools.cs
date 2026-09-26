@@ -234,26 +234,67 @@ namespace SSXMultiTool.Tools
 
         private void EquipLinkList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (EquipLinkList.SelectedIndex != -1)
+            if (!Wait)
+            { 
+                Wait = true;
+                if (EquipLinkList.SelectedIndex != -1)
+                {
+                    int ItemIndex = int.Parse(BoltPS2TreeView.SelectedNode.Name);
+                    int EquipIndex = EquipList[EquipLinkList.SelectedIndex];
+
+                    EquipLinksEquip.Checked = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks[EquipIndex].MainItemEquip == 1;
+
+                    EquipLinkIf.SelectedIndex = BoltPS2Handler.GetItemIndex(BoltCharacter.SelectedIndex, BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks[EquipIndex].IfEquipID) + 1;
+                    EquipLinkIfBool.Checked = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks[EquipIndex].IfEquipBool == 1;
+
+                    EquipLinkSet.SelectedIndex = BoltPS2Handler.GetItemIndex(BoltCharacter.SelectedIndex, BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks[EquipIndex].SecondaryItemID);
+                    EquipLinkSetBool.Checked = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks[EquipIndex].SecondaryItemEquip == 1;
+                }
+                else
+                {
+                    EquipLinkIf.SelectedIndex = 0;
+                    EquipLinkSet.SelectedIndex = -1;
+                    EquipLinkIfBool.Checked = false;
+                    EquipLinkSetBool.Checked = false;
+                    EquipLinksEquip.Checked = false;
+                }
+                Wait = false;
+            }
+        }
+
+        private void EquipLinksUpdated(object sender, EventArgs e)
+        {
+            if (EquipLinkList.SelectedIndex != -1 && !Wait)
             {
+                Wait = true;
                 int ItemIndex = int.Parse(BoltPS2TreeView.SelectedNode.Name);
                 int EquipIndex = EquipList[EquipLinkList.SelectedIndex];
 
-                EquipLinksEquip.Checked = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks[EquipIndex].MainItemEquip == 1;
+                var EquipLink = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks[EquipIndex];
 
-                EquipLinkIf.SelectedIndex = BoltPS2Handler.GetItemIndex(BoltCharacter.SelectedIndex, BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks[EquipIndex].IfEquipID) + 1;
-                EquipLinkIfBool.Checked = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks[EquipIndex].IfEquipBool == 1;
+                EquipLink.MainItemEquip = EquipLinksEquip.Checked ? 1 : 0;
 
-                EquipLinkSet.SelectedIndex = BoltPS2Handler.GetItemIndex(BoltCharacter.SelectedIndex, BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks[EquipIndex].SecondaryItemID);
-                EquipLinkSetBool.Checked = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks[EquipIndex].SecondaryItemEquip == 1;
-            }
-            else
-            {
-                EquipLinkIf.SelectedIndex = 0;
-                EquipLinkSet.SelectedIndex = -1;
-                EquipLinkIfBool.Checked = false;
-                EquipLinkSetBool.Checked = false;
-                EquipLinksEquip.Checked = false;
+                if (EquipLinkIf.SelectedIndex > 0)
+                {
+                    EquipLink.IfEquipID = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[EquipLinkIf.SelectedIndex - 1].ItemID;
+                }
+                else
+                {
+                    EquipLink.IfEquipID = -1;
+                }
+                EquipLink.IfEquipBool = EquipLinkIfBool.Checked ? 1 : 0;
+
+                if (EquipLinkSet.SelectedIndex != -1)
+                {
+                    EquipLink.SecondaryItemID = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[EquipLinkSet.SelectedIndex].ItemID;
+
+                    EquipLinkList.Items[EquipLinkList.SelectedIndex] = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[EquipLinkSet.SelectedIndex].ItemID + " - " + BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[EquipLinkSet.SelectedIndex].itemName;
+                }
+                EquipLink.SecondaryItemEquip = EquipLinkSetBool.Checked ? 1 : 0;
+
+                BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks[EquipIndex] = EquipLink;
+
+                Wait = false;
             }
         }
 
@@ -646,11 +687,11 @@ namespace SSXMultiTool.Tools
 
         private void HandComboList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(!Wait&& HandComboList.SelectedIndex!=-1)
+            if (!Wait && HandComboList.SelectedIndex != -1)
             {
                 int Index1 = BoltCharacter.SelectedIndex;
                 int Index = int.Parse(BoltPS2TreeView.SelectedNode.Name);
-                
+
                 bool Found = false;
 
                 for (int i = 0; i < BoltPS2Handler.characters[Index1].handMatch.Count; i++)
@@ -681,7 +722,7 @@ namespace SSXMultiTool.Tools
 
                     Hand.CharID = Index1;
                     Hand.LeftHand = Char.entries[Index].ItemID;
-                    Hand.RightHand = Char.entries[HandComboList.SelectedIndex-1].ItemID;
+                    Hand.RightHand = Char.entries[HandComboList.SelectedIndex - 1].ItemID;
 
                     Char.handMatch.Add(Hand);
 
