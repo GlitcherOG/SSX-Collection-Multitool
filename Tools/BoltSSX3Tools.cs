@@ -1,13 +1,10 @@
-﻿using SSXLibrary.FileHandlers;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Png;
+using SSX_Library.EATextureLibrary;
+using SSXLibrary.FileHandlers;
 using SSXLibrary.FileHandlers.Models.SSX3;
-using SSXLibrary.FileHandlers.Models.Tricky;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+using System.IO;
 
 namespace SSXMultiTool.Tools
 {
@@ -19,6 +16,7 @@ namespace SSXMultiTool.Tools
             BoltCharacter.SelectedIndex = 0;
         }
         BoltPS2Handler BoltPS2Handler = new BoltPS2Handler();
+        public string DataPath;
         bool loaded = false;
         bool Wait = false;
 
@@ -372,6 +370,7 @@ namespace SSXMultiTool.Tools
                 BoltUnkown9.Value = BoltPS2Handler.characters[Index1].entries[Index].unkownInt6;
 
                 GenerateEquipLink();
+                //LoadImages();
 
                 HandComboList.SelectedIndex = 0;
 
@@ -674,8 +673,12 @@ namespace SSXMultiTool.Tools
                 tempEntry.ModelID3 = BoltModelIDThree.Text;
                 tempEntry.ModelID4 = BoltModelIDFour.Text;
                 tempEntry.ModelPath = BoltModelPath.Text;
-                tempEntry.TexturePath = BoltTexturePath.Text;
-                tempEntry.SmallIcon = BoltIconPath.Text;
+                if (tempEntry.SmallIcon != BoltIconPath.Text || tempEntry.TexturePath != BoltTexturePath.Text)
+                {
+                    tempEntry.TexturePath = BoltTexturePath.Text;
+                    tempEntry.SmallIcon = BoltIconPath.Text;
+                    //LoadImages();
+                }
 
                 tempEntry.unkownInt6 = (int)BoltUnkown9.Value;
 
@@ -752,6 +755,105 @@ namespace SSXMultiTool.Tools
             BoltPS2Handler.characters[BoltCharacter.SelectedIndex].defaultOutfits.Add(NewOutfit);
 
             DefaultOutfitList.Items.Add(BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[0].ItemID + " - " + BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[0].itemName);
+        }
+
+        private void CharDatatoolStripButton_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog openFileDialog1 = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+                Title = "Select Extract Folder",
+            };
+            if (openFileDialog1.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                DataPath = openFileDialog1.FileName;
+            }
+            else
+            {
+                DataPath = "";
+            }
+        }
+
+        //private void LoadImages()
+        //{
+        //    if(DataPath!="")
+        //    {
+        //        int Index1 = BoltCharacter.SelectedIndex;
+        //        int Index = int.Parse(BoltPS2TreeView.SelectedNode.Name);
+
+        //        if (BoltPS2Handler.characters[Index1].entries[Index].SmallIcon != null && BoltPS2Handler.characters[Index1].entries[Index].SmallIcon != "")
+        //        {
+        //            if (File.Exists(Path.Combine(DataPath, BoltPS2Handler.characters[Index1].entries[Index].SmallIcon)))
+        //            {
+        //                try
+        //                {
+        //                    OldShapeHandler oldShapeHandler = new OldShapeHandler();
+
+        //                    oldShapeHandler.LoadShape(Path.Combine(DataPath, BoltPS2Handler.characters[Index1].entries[Index].SmallIcon));
+
+        //                    IconImage.Image = ToDrawingImage(oldShapeHandler.ShapeImages[0].Image);
+        //                }
+        //                catch
+        //                {
+        //                    IconImage.Image = null;
+        //                }
+
+        //            }
+        //            else
+        //            {
+        //                IconImage.Image = null;
+        //            }
+        //        }
+        //    }
+        //}
+        public static System.Drawing.Image ToDrawingImage(SixLabors.ImageSharp.Image imageSharpImage)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                // Save ImageSharp image into the stream as a PNG
+                imageSharpImage.Save(memoryStream, new PngEncoder());
+                memoryStream.Position = 0;
+
+                // Load it back as a System.Drawing.Image
+                return System.Drawing.Image.FromStream(memoryStream);
+            }
+        }
+
+        private void EquipLinkAdd_Click(object sender, EventArgs e)
+        {
+            var NewEquip = new EquipLink();
+
+            NewEquip.CharacterID = BoltCharacter.SelectedIndex;
+            NewEquip.MainItemID = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[0].ItemID;
+            NewEquip.MainItemEquip = 0;
+
+            NewEquip.UnkownInt2 = 0;
+            NewEquip.IfEquipBool = 0;
+            NewEquip.IfEquipID = -1;
+
+            NewEquip.UnkownInt5 = 0;
+            NewEquip.UnkownInt6 = 0;
+
+            NewEquip.SecondaryItemID = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[0].ItemID;
+            NewEquip.SecondaryItemEquip = 0;
+
+            BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks.Add(NewEquip);
+
+            EquipList.Add(BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks.Count - 1);
+
+            EquipLinkList.Items.Add(BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[0].ItemID + " - " + BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[0].itemName);
+        }
+
+        private void EquipLinkRemove_Click(object sender, EventArgs e)
+        {
+            if (EquipLinkList.SelectedIndex != -1)
+            {
+                int Index = EquipLinkList.SelectedIndex;
+                EquipLinkList.Items.RemoveAt(Index);
+                int ID = EquipList[Index];
+                EquipList.RemoveAt(Index);
+                BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks.RemoveAt(ID);
+            }
         }
     }
 }

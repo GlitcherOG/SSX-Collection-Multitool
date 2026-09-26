@@ -77,25 +77,24 @@
             BoltSpecialOne = new NumericUpDown();
             label25 = new Label();
             toolStrip1 = new ToolStrip();
-            toolStripSplitButton1 = new ToolStripSplitButton();
+            BoltCharacter = new ToolStripComboBox();
+            toolStripDropDownButton1 = new ToolStripDropDownButton();
             loadToolStripMenuItem = new ToolStripMenuItem();
             saveToolStripMenuItem = new ToolStripMenuItem();
-            BoltCharacter = new ToolStripComboBox();
+            CharDatatoolStripButton = new ToolStripButton();
             groupBox1 = new GroupBox();
-            pictureBox1 = new PictureBox();
+            TextureData = new PictureBox();
             groupBox2 = new GroupBox();
             AutoDataGetButton = new Button();
             groupBox3 = new GroupBox();
             BoltBuy = new CheckBox();
-            pictureBox2 = new PictureBox();
+            IconImage = new PictureBox();
             groupBox4 = new GroupBox();
             groupBox5 = new GroupBox();
             groupBox6 = new GroupBox();
             EquipLinksEquip = new CheckBox();
-            button4 = new Button();
-            button5 = new Button();
-            button3 = new Button();
-            button2 = new Button();
+            EquipLinkRemove = new Button();
+            EquipLinkAdd = new Button();
             label3 = new Label();
             EquipLinkSetBool = new CheckBox();
             EquipLinkSet = new ComboBox();
@@ -133,10 +132,10 @@
             ((System.ComponentModel.ISupportInitialize)BoltSpecialOne).BeginInit();
             toolStrip1.SuspendLayout();
             groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)TextureData).BeginInit();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)IconImage).BeginInit();
             groupBox4.SuspendLayout();
             groupBox5.SuspendLayout();
             groupBox6.SuspendLayout();
@@ -150,7 +149,7 @@
             BoltPS2TreeView.HideSelection = false;
             BoltPS2TreeView.Location = new Point(12, 28);
             BoltPS2TreeView.Name = "BoltPS2TreeView";
-            BoltPS2TreeView.Size = new Size(274, 819);
+            BoltPS2TreeView.Size = new Size(356, 819);
             BoltPS2TreeView.TabIndex = 100;
             BoltPS2TreeView.AfterSelect += BoltPS2TreeView_AfterSelect;
             // 
@@ -577,24 +576,34 @@
             // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripSplitButton1, BoltCharacter });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { BoltCharacter, toolStripDropDownButton1, CharDatatoolStripButton });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(1603, 25);
             toolStrip1.TabIndex = 101;
             toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripSplitButton1
+            // BoltCharacter
             // 
-            toolStripSplitButton1.AutoSize = false;
-            toolStripSplitButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            toolStripSplitButton1.DropDownItems.AddRange(new ToolStripItem[] { loadToolStripMenuItem, saveToolStripMenuItem });
-            toolStripSplitButton1.Image = (Image)resources.GetObject("toolStripSplitButton1.Image");
-            toolStripSplitButton1.ImageTransparentColor = Color.Magenta;
-            toolStripSplitButton1.Name = "toolStripSplitButton1";
-            toolStripSplitButton1.Size = new Size(100, 22);
-            toolStripSplitButton1.Text = "File";
-            toolStripSplitButton1.TextAlign = ContentAlignment.MiddleLeft;
+            BoltCharacter.Alignment = ToolStripItemAlignment.Right;
+            BoltCharacter.AutoSize = false;
+            BoltCharacter.DropDownStyle = ComboBoxStyle.DropDownList;
+            BoltCharacter.Items.AddRange(new object[] { "0-Moby", "1-Kaori", "2-Arielle", "3-Mac", "4-Zoe", "5-Grommet", "6-Elise", "7-Rocco", "8-Psymon", "9-Deiter", "10-Brodi", "11-Eddie", "12-Jp", "13-Luther", "14-Marisol", "15-Marty", "16-Seeiah", "17-Hiro", "18-Jurgen", "19-luthern", "20-Stretch", "21-Bessy", "22-Bunny", "23-Churchil", "24-Skel", "25-Snowman", "26-Yeti", "27-Unkown", "28-Beaver", "29-Abom" });
+            BoltCharacter.Name = "BoltCharacter";
+            BoltCharacter.Size = new Size(200, 23);
+            BoltCharacter.SelectedIndexChanged += BoltCharacter_SelectedIndexChanged;
+            // 
+            // toolStripDropDownButton1
+            // 
+            toolStripDropDownButton1.AutoSize = false;
+            toolStripDropDownButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { loadToolStripMenuItem, saveToolStripMenuItem });
+            toolStripDropDownButton1.Image = (Image)resources.GetObject("toolStripDropDownButton1.Image");
+            toolStripDropDownButton1.ImageTransparentColor = Color.Magenta;
+            toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            toolStripDropDownButton1.Size = new Size(80, 22);
+            toolStripDropDownButton1.Text = "File";
+            toolStripDropDownButton1.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // loadToolStripMenuItem
             // 
@@ -608,39 +617,40 @@
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.Size = new Size(100, 22);
             saveToolStripMenuItem.Text = "Save";
+            saveToolStripMenuItem.Click += BoltSave_Click;
             // 
-            // BoltCharacter
+            // CharDatatoolStripButton
             // 
-            BoltCharacter.Alignment = ToolStripItemAlignment.Right;
-            BoltCharacter.AutoSize = false;
-            BoltCharacter.DropDownStyle = ComboBoxStyle.DropDownList;
-            BoltCharacter.Items.AddRange(new object[] { "0-Moby", "1-Kaori", "2-Arielle", "3-Mac", "4-Zoe", "5-Grommet", "6-Elise", "7-Rocco", "8-Psymon", "9-Deiter", "10-Brodi", "11-Eddie", "12-Jp", "13-Luther", "14-Marisol", "15-Marty", "16-Seeiah", "17-Hiro", "18-Jurgen", "19-luthern", "20-Stretch", "21-Bessy", "22-Bunny", "23-Churchil", "24-Skel", "25-Snowman", "26-Yeti", "27-Unkown", "28-Beaver", "29-Abom" });
-            BoltCharacter.Name = "BoltCharacter";
-            BoltCharacter.Size = new Size(200, 23);
-            BoltCharacter.SelectedIndexChanged += BoltCharacter_SelectedIndexChanged;
+            CharDatatoolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            CharDatatoolStripButton.Image = (Image)resources.GetObject("CharDatatoolStripButton.Image");
+            CharDatatoolStripButton.ImageTransparentColor = Color.Magenta;
+            CharDatatoolStripButton.Name = "CharDatatoolStripButton";
+            CharDatatoolStripButton.Size = new Size(93, 22);
+            CharDatatoolStripButton.Text = "Char Data Path:";
+            CharDatatoolStripButton.Click += CharDatatoolStripButton_Click;
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(pictureBox1);
+            groupBox1.Controls.Add(TextureData);
             groupBox1.Controls.Add(label35);
             groupBox1.Controls.Add(BoltUnkownTwo);
             groupBox1.Controls.Add(label15);
             groupBox1.Controls.Add(BoltTexturePath);
-            groupBox1.Location = new Point(826, 28);
+            groupBox1.Location = new Point(905, 28);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(304, 385);
             groupBox1.TabIndex = 102;
             groupBox1.TabStop = false;
             groupBox1.Text = "Texture Data";
             // 
-            // pictureBox1
+            // TextureData
             // 
-            pictureBox1.BackColor = SystemColors.ActiveCaptionText;
-            pictureBox1.Location = new Point(20, 108);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(263, 263);
-            pictureBox1.TabIndex = 98;
-            pictureBox1.TabStop = false;
+            TextureData.BackColor = SystemColors.ActiveCaptionText;
+            TextureData.Location = new Point(20, 108);
+            TextureData.Name = "TextureData";
+            TextureData.Size = new Size(263, 263);
+            TextureData.TabIndex = 98;
+            TextureData.TabStop = false;
             // 
             // groupBox2
             // 
@@ -659,7 +669,7 @@
             groupBox2.Controls.Add(BoltFileID);
             groupBox2.Controls.Add(label22);
             groupBox2.Controls.Add(BoltFillBar);
-            groupBox2.Location = new Point(295, 199);
+            groupBox2.Location = new Point(374, 199);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(525, 217);
             groupBox2.TabIndex = 103;
@@ -679,7 +689,7 @@
             // groupBox3
             // 
             groupBox3.Controls.Add(BoltBuy);
-            groupBox3.Controls.Add(pictureBox2);
+            groupBox3.Controls.Add(IconImage);
             groupBox3.Controls.Add(label23);
             groupBox3.Controls.Add(BoltCost);
             groupBox3.Controls.Add(BoltMenuOrder);
@@ -690,7 +700,7 @@
             groupBox3.Controls.Add(label36);
             groupBox3.Controls.Add(label14);
             groupBox3.Controls.Add(BoltUnlock);
-            groupBox3.Location = new Point(295, 419);
+            groupBox3.Location = new Point(374, 419);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(525, 158);
             groupBox3.TabIndex = 104;
@@ -708,14 +718,14 @@
             BoltBuy.UseVisualStyleBackColor = true;
             BoltBuy.CheckedChanged += GeneralApplyButton;
             // 
-            // pictureBox2
+            // IconImage
             // 
-            pictureBox2.BackColor = SystemColors.ActiveCaptionText;
-            pictureBox2.Location = new Point(392, 26);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(120, 120);
-            pictureBox2.TabIndex = 99;
-            pictureBox2.TabStop = false;
+            IconImage.BackColor = SystemColors.ActiveCaptionText;
+            IconImage.Location = new Point(392, 26);
+            IconImage.Name = "IconImage";
+            IconImage.Size = new Size(120, 120);
+            IconImage.TabIndex = 99;
+            IconImage.TabStop = false;
             // 
             // groupBox4
             // 
@@ -731,7 +741,7 @@
             groupBox4.Controls.Add(BoltUnkown9);
             groupBox4.Controls.Add(label21);
             groupBox4.Controls.Add(BoltUnkown7);
-            groupBox4.Location = new Point(295, 28);
+            groupBox4.Location = new Point(374, 28);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(525, 165);
             groupBox4.TabIndex = 105;
@@ -746,7 +756,7 @@
             groupBox5.Controls.Add(BoltSpecialTwo);
             groupBox5.Controls.Add(label27);
             groupBox5.Controls.Add(BoltSpecialThree);
-            groupBox5.Location = new Point(826, 419);
+            groupBox5.Location = new Point(905, 419);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(304, 158);
             groupBox5.TabIndex = 106;
@@ -756,10 +766,8 @@
             // groupBox6
             // 
             groupBox6.Controls.Add(EquipLinksEquip);
-            groupBox6.Controls.Add(button4);
-            groupBox6.Controls.Add(button5);
-            groupBox6.Controls.Add(button3);
-            groupBox6.Controls.Add(button2);
+            groupBox6.Controls.Add(EquipLinkRemove);
+            groupBox6.Controls.Add(EquipLinkAdd);
             groupBox6.Controls.Add(label3);
             groupBox6.Controls.Add(EquipLinkSetBool);
             groupBox6.Controls.Add(EquipLinkSet);
@@ -767,7 +775,7 @@
             groupBox6.Controls.Add(EquipLinkIfBool);
             groupBox6.Controls.Add(EquipLinkIf);
             groupBox6.Controls.Add(EquipLinkList);
-            groupBox6.Location = new Point(295, 583);
+            groupBox6.Location = new Point(374, 583);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(525, 265);
             groupBox6.TabIndex = 107;
@@ -785,41 +793,25 @@
             EquipLinksEquip.UseVisualStyleBackColor = true;
             EquipLinksEquip.CheckedChanged += EquipLinksUpdated;
             // 
-            // button4
+            // EquipLinkRemove
             // 
-            button4.Location = new Point(6, 238);
-            button4.Name = "button4";
-            button4.Size = new Size(93, 23);
-            button4.TabIndex = 13;
-            button4.Text = "-";
-            button4.UseVisualStyleBackColor = true;
+            EquipLinkRemove.Location = new Point(6, 238);
+            EquipLinkRemove.Name = "EquipLinkRemove";
+            EquipLinkRemove.Size = new Size(93, 23);
+            EquipLinkRemove.TabIndex = 13;
+            EquipLinkRemove.Text = "-";
+            EquipLinkRemove.UseVisualStyleBackColor = true;
+            EquipLinkRemove.Click += EquipLinkRemove_Click;
             // 
-            // button5
+            // EquipLinkAdd
             // 
-            button5.Location = new Point(105, 238);
-            button5.Name = "button5";
-            button5.Size = new Size(85, 23);
-            button5.TabIndex = 12;
-            button5.Text = "+";
-            button5.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            button3.Location = new Point(6, 212);
-            button3.Name = "button3";
-            button3.Size = new Size(93, 23);
-            button3.TabIndex = 11;
-            button3.Text = "/\\";
-            button3.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(105, 212);
-            button2.Name = "button2";
-            button2.Size = new Size(85, 23);
-            button2.TabIndex = 10;
-            button2.Text = "\\/";
-            button2.UseVisualStyleBackColor = true;
+            EquipLinkAdd.Location = new Point(105, 238);
+            EquipLinkAdd.Name = "EquipLinkAdd";
+            EquipLinkAdd.Size = new Size(85, 23);
+            EquipLinkAdd.TabIndex = 12;
+            EquipLinkAdd.Text = "+";
+            EquipLinkAdd.UseVisualStyleBackColor = true;
+            EquipLinkAdd.Click += EquipLinkAdd_Click;
             // 
             // label3
             // 
@@ -884,7 +876,7 @@
             EquipLinkList.FormattingEnabled = true;
             EquipLinkList.Location = new Point(6, 22);
             EquipLinkList.Name = "EquipLinkList";
-            EquipLinkList.Size = new Size(186, 184);
+            EquipLinkList.Size = new Size(186, 214);
             EquipLinkList.TabIndex = 0;
             EquipLinkList.SelectedIndexChanged += EquipLinkList_SelectedIndexChanged;
             // 
@@ -902,7 +894,7 @@
             DefaultOutfitItem.FormattingEnabled = true;
             DefaultOutfitItem.Location = new Point(198, 37);
             DefaultOutfitItem.Name = "DefaultOutfitItem";
-            DefaultOutfitItem.Size = new Size(251, 23);
+            DefaultOutfitItem.Size = new Size(171, 23);
             DefaultOutfitItem.TabIndex = 1;
             DefaultOutfitItem.SelectedIndexChanged += DefaultOutfitItem_SelectedIndexChanged;
             // 
@@ -915,9 +907,9 @@
             groupBox7.Controls.Add(DefaultOutfitUp);
             groupBox7.Controls.Add(label1);
             groupBox7.Controls.Add(DefaultOutfitItem);
-            groupBox7.Location = new Point(1136, 28);
+            groupBox7.Location = new Point(1215, 28);
             groupBox7.Name = "groupBox7";
-            groupBox7.Size = new Size(455, 410);
+            groupBox7.Size = new Size(380, 410);
             groupBox7.TabIndex = 108;
             groupBox7.TabStop = false;
             groupBox7.Text = "Default Outfit";
@@ -980,7 +972,7 @@
             // 
             // button11
             // 
-            button11.Location = new Point(158, 851);
+            button11.Location = new Point(240, 851);
             button11.Name = "button11";
             button11.Size = new Size(128, 23);
             button11.TabIndex = 109;
@@ -991,7 +983,7 @@
             // 
             groupBox8.Controls.Add(label5);
             groupBox8.Controls.Add(HandComboList);
-            groupBox8.Location = new Point(826, 583);
+            groupBox8.Location = new Point(905, 583);
             groupBox8.Name = "groupBox8";
             groupBox8.Size = new Size(525, 265);
             groupBox8.TabIndex = 108;
@@ -1055,12 +1047,12 @@
             toolStrip1.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)TextureData).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)IconImage).EndInit();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
             groupBox5.ResumeLayout(false);
@@ -1125,18 +1117,15 @@
         private NumericUpDown BoltSpecialOne;
         private Label label25;
         private ToolStrip toolStrip1;
-        private ToolStripSplitButton toolStripSplitButton1;
         private ToolStripComboBox BoltCharacter;
         private GroupBox groupBox1;
-        private PictureBox pictureBox1;
+        private PictureBox TextureData;
         private GroupBox groupBox2;
         private Button AutoDataGetButton;
         private GroupBox groupBox3;
-        private PictureBox pictureBox2;
+        private PictureBox IconImage;
         private GroupBox groupBox4;
         private GroupBox groupBox5;
-        private ToolStripMenuItem loadToolStripMenuItem;
-        private ToolStripMenuItem saveToolStripMenuItem;
         private GroupBox groupBox6;
         private Label label2;
         private CheckBox EquipLinkIfBool;
@@ -1144,10 +1133,8 @@
         private Label label1;
         private ComboBox DefaultOutfitItem;
         private ListBox EquipLinkList;
-        private Button button4;
-        private Button button5;
-        private Button button3;
-        private Button button2;
+        private Button EquipLinkRemove;
+        private Button EquipLinkAdd;
         private Label label3;
         private CheckBox EquipLinkSetBool;
         private ComboBox EquipLinkSet;
@@ -1164,5 +1151,9 @@
         private GroupBox groupBox8;
         private Label label5;
         private ComboBox HandComboList;
+        private ToolStripDropDownButton toolStripDropDownButton1;
+        private ToolStripMenuItem loadToolStripMenuItem;
+        private ToolStripMenuItem saveToolStripMenuItem;
+        private ToolStripButton CharDatatoolStripButton;
     }
 }
