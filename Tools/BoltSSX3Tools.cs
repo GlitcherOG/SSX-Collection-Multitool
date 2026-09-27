@@ -318,7 +318,7 @@ namespace SSXMultiTool.Tools
         {
             if (DefaultOutfitList.SelectedIndex != -1 && DefaultOutfitItem.SelectedIndex != -1)
             {
-                int ItemID = int.Parse(DefaultOutfitItem.GetItemText(DefaultOutfitItem.SelectedIndex).Split(" ")[0]);
+                int ItemID = int.Parse(DefaultOutfitItem.GetItemText(DefaultOutfitItem.Items[DefaultOutfitItem.SelectedIndex]).Split(" ")[0]);
 
                 var Item = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].defaultOutfits[DefaultOutfitList.SelectedIndex];
 
@@ -569,7 +569,7 @@ namespace SSXMultiTool.Tools
                 //Update Text
                 BoltPS2TreeView.SelectedNode.Text = tempEntry.ItemID + " - " + Char.entries[Index].itemName;
 
-                if (OldParentID!=NewParentID)
+                if (OldParentID != NewParentID)
                 {
                     bool StartOfItem = false;
                     bool Found = false;
