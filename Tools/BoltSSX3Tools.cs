@@ -118,7 +118,7 @@ namespace SSXMultiTool.Tools
                     }
                 }
 
-                if(Testing==50)
+                if(Testing==100)
                 {
                     throw new Exception("Bad Bolt File, Unable to generate Tree");
                 }
@@ -352,7 +352,14 @@ namespace SSXMultiTool.Tools
                 BoltUnkownTwo.Value = BoltPS2Handler.characters[Index1].entries[Index].TextureType;
                 BoltUnkownThree.Value = BoltPS2Handler.characters[Index1].entries[Index].ItemID;
                 BoltUnkownFour.Value = BoltPS2Handler.characters[Index1].entries[Index].ParentID;
-                BoltCat.Value = BoltPS2Handler.characters[Index1].entries[Index].category;
+                try 
+                {
+                    BoltCat.Value = BoltPS2Handler.characters[Index1].entries[Index].category;
+                }
+                catch
+                {
+                    BoltCat.Value = -1;
+                }
                 BoltBuy.Checked = BoltPS2Handler.characters[Index1].entries[Index].buyable;
                 BoltMenuOrder.Value = BoltPS2Handler.characters[Index1].entries[Index].menuOrder;
                 BoltUnkown7.Value = BoltPS2Handler.characters[Index1].entries[Index].unkownInt5;
@@ -562,68 +569,57 @@ namespace SSXMultiTool.Tools
                 //Update Text
                 BoltPS2TreeView.SelectedNode.Text = tempEntry.ItemID + " - " + Char.entries[Index].itemName;
 
-                //if (tempEntry.ParentID != -1)
-                //{
-                //    var Node = BoltPS2TreeView.SelectedNode;
+                if (OldParentID!=NewParentID)
+                {
+                    bool StartOfItem = false;
+                    bool Found = false;
 
-                //    Node.Remove();
+                    var TempEntry = Char.entries[Index];
+                    Char.entries.RemoveAt(Index);
 
-                //    var ParentIDIndex = BoltPS2Handler.GetItemIndex(Index1, tempEntry.ParentID);
+                    for (int i = 0; i < BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries.Count; i++)
+                    {
+                        if (StartOfItem)
+                        {
+                            if (BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[i].ParentID != NewParentID)
+                            {
+                                Found = true;
+                                BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries.Insert(i, TempEntry);
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[i].ParentID == NewParentID)
+                            {
+                                StartOfItem = true;
+                            }
+                        }
+                    }
 
-                //    var NodeParentList = BoltPS2TreeView.Nodes.Find(ParentIDIndex.ToString(), true);
-
-                //    var NodeParent = NodeParentList[0];
-
-                //    bool NodeIDFound=false;
-                //    for (int i = 0; i < NodeParent.Nodes.Count; i++)
-                //    {
-                //        int NodeID = int.Parse(NodeParent.Nodes[i].Name);
-
-                //        if(NodeID< Index)
-                //        {
-                //            NodeIDFound = true;
-                //            NodeParent.Nodes.Insert(i,Node);
-                //        }
-                //    }
-
-                //    if (!NodeIDFound)
-                //    {
-                //        NodeParent.Nodes.Add(Node);
-                //    }
-
-                //    BoltPS2TreeView.SelectedNode = Node;
-                //}
-                //else
-                //{
-                //    if (BoltPS2TreeView.SelectedNode.Parent != null)
-                //    {
-                //        var Node = BoltPS2TreeView.SelectedNode;
-
-                //        Node.Remove();
-
-                //        bool NodeIDFound = false;
-                //        for (int i = 0; i < BoltPS2TreeView.Nodes.Count; i++)
-                //        {
-                //            int NodeID = int.Parse(BoltPS2TreeView.Nodes[i].Name);
-
-                //            if (NodeID < Index)
-                //            {
-                //                NodeIDFound = true;
-                //                BoltPS2TreeView.Nodes.Insert(i, Node);
-                //            }
-                //        }
-
-                //        if (!NodeIDFound)
-                //        {
-                //            BoltPS2TreeView.Nodes.Add(Node);
-                //        }
-
-                //        BoltPS2TreeView.SelectedNode = Node;
-                //    }
-                //}
-
+                    if (!Found)
+                    {
+                        BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries.Add(TempEntry);
+                    }
+                }
 
                 //Update All Item Details
+                for (int i = 0; i < Char.entries.Count; i++)
+                {
+                    var TempEntry = Char.entries[i];
+
+                    if(tempEntry.category==OldEntryID)
+                    {
+                        TempEntry.category = NewEntryID;
+                    }
+
+                    if (tempEntry.ParentID == OldEntryID)
+                    {
+                        TempEntry.ParentID = NewEntryID;
+                    }
+
+                    Char.entries[i] = TempEntry;
+                }
 
                 //Update All Default Items
                 for (int i = 0; i < Char.defaultOutfits.Count; i++)
