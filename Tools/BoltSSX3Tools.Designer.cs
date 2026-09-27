@@ -110,8 +110,8 @@
             DefaultOutfitAdd = new Button();
             DefaultOutfitDown = new Button();
             DefaultOutfitUp = new Button();
-            button10 = new Button();
-            button11 = new Button();
+            TreeViewRemove = new Button();
+            TreeViewAdd = new Button();
             groupBox8 = new GroupBox();
             label5 = new Label();
             HandComboList = new ComboBox();
@@ -961,23 +961,25 @@
             DefaultOutfitUp.Text = "/\\";
             DefaultOutfitUp.UseVisualStyleBackColor = true;
             // 
-            // button10
+            // TreeViewRemove
             // 
-            button10.Location = new Point(12, 851);
-            button10.Name = "button10";
-            button10.Size = new Size(125, 23);
-            button10.TabIndex = 110;
-            button10.Text = "-";
-            button10.UseVisualStyleBackColor = true;
+            TreeViewRemove.Location = new Point(12, 851);
+            TreeViewRemove.Name = "TreeViewRemove";
+            TreeViewRemove.Size = new Size(125, 23);
+            TreeViewRemove.TabIndex = 110;
+            TreeViewRemove.Text = "-";
+            TreeViewRemove.UseVisualStyleBackColor = true;
+            TreeViewRemove.Click += TreeViewRemove_Click;
             // 
-            // button11
+            // TreeViewAdd
             // 
-            button11.Location = new Point(240, 851);
-            button11.Name = "button11";
-            button11.Size = new Size(128, 23);
-            button11.TabIndex = 109;
-            button11.Text = "+";
-            button11.UseVisualStyleBackColor = true;
+            TreeViewAdd.Location = new Point(240, 851);
+            TreeViewAdd.Name = "TreeViewAdd";
+            TreeViewAdd.Size = new Size(128, 23);
+            TreeViewAdd.TabIndex = 109;
+            TreeViewAdd.Text = "+";
+            TreeViewAdd.UseVisualStyleBackColor = true;
+            TreeViewAdd.Click += TreeViewAdd_Click;
             // 
             // groupBox8
             // 
@@ -985,7 +987,7 @@
             groupBox8.Controls.Add(HandComboList);
             groupBox8.Location = new Point(905, 583);
             groupBox8.Name = "groupBox8";
-            groupBox8.Size = new Size(525, 265);
+            groupBox8.Size = new Size(304, 265);
             groupBox8.TabIndex = 108;
             groupBox8.TabStop = false;
             groupBox8.Text = "NIS Data";
@@ -1005,7 +1007,7 @@
             HandComboList.Items.AddRange(new object[] { "None" });
             HandComboList.Location = new Point(6, 40);
             HandComboList.Name = "HandComboList";
-            HandComboList.Size = new Size(251, 23);
+            HandComboList.Size = new Size(277, 23);
             HandComboList.TabIndex = 4;
             HandComboList.SelectedIndexChanged += HandComboList_SelectedIndexChanged;
             // 
@@ -1015,8 +1017,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1603, 891);
             Controls.Add(groupBox8);
-            Controls.Add(button10);
-            Controls.Add(button11);
+            Controls.Add(TreeViewRemove);
+            Controls.Add(TreeViewAdd);
             Controls.Add(groupBox7);
             Controls.Add(groupBox6);
             Controls.Add(groupBox5);
@@ -1145,8 +1147,8 @@
         private Button DefaultOutfitDown;
         private Button DefaultOutfitUp;
         private CheckBox BoltBuy;
-        private Button button10;
-        private Button button11;
+        private Button TreeViewRemove;
+        private Button TreeViewAdd;
         private CheckBox EquipLinksEquip;
         private GroupBox groupBox8;
         private Label label5;

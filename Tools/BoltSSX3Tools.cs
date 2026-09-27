@@ -4,6 +4,7 @@ using SixLabors.ImageSharp.Formats.Png;
 using SSX_Library.EATextureLibrary;
 using SSXLibrary.FileHandlers;
 using SSXLibrary.FileHandlers.Models.SSX3;
+using System.CodeDom;
 using System.IO;
 
 namespace SSXMultiTool.Tools
@@ -73,9 +74,9 @@ namespace SSXMultiTool.Tools
             int Testing = 0;
             while (!test)
             {
+                Testing++;
                 for (int i = 0; i < temp.entries.Count; i++)
                 {
-                    Testing++;
                     if (!Parented[i])
                     {
                         pos = i;
@@ -115,6 +116,11 @@ namespace SSXMultiTool.Tools
                         test = false;
                         break;
                     }
+                }
+
+                if(Testing==50)
+                {
+                    throw new Exception("Bad Bolt File, Unable to generate Tree");
                 }
             }
         }
@@ -425,6 +431,42 @@ namespace SSXMultiTool.Tools
             }
         }
 
+        public void UpdateListBoxOneEntry(int CharID, int IndexID)
+        {
+            DefaultOutfitItem.Items[IndexID] = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[IndexID].ItemID + " - " + BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[IndexID].itemName;
+            EquipLinkIf.Items[IndexID+1] = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[IndexID].ItemID + " - " + BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[IndexID].itemName;
+            EquipLinkSet.Items[IndexID] = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[IndexID].ItemID + " - " + BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[IndexID].itemName;
+            HandComboList.Items[IndexID+1] = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[IndexID].ItemID + " - " + BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[IndexID].itemName;
+
+            //DefaultOutfitItem.Items.Clear();
+
+            //for (int i = 0; i < BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries.Count; i++)
+            //{
+            //    DefaultOutfitItem.Items.Add(BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[i].ItemID + " - " + BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[i].itemName);
+            //}
+
+            //EquipLinkIf.Items.Clear();
+            //EquipLinkIf.Items.Add("None");
+            //for (int i = 0; i < BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries.Count; i++)
+            //{
+            //    EquipLinkIf.Items.Add(BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[i].ItemID + " - " + BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[i].itemName);
+            //}
+
+            //EquipLinkSet.Items.Clear();
+
+            //for (int i = 0; i < BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries.Count; i++)
+            //{
+            //    EquipLinkSet.Items.Add(BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[i].ItemID + " - " + BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[i].itemName);
+            //}
+
+            //HandComboList.Items.Clear();
+            //HandComboList.Items.Add("None");
+            //for (int i = 0; i < BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries.Count; i++)
+            //{
+            //    HandComboList.Items.Add(BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[i].ItemID + " - " + BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[i].itemName);
+            //}
+        }
+
         public void UpdateTreeBasic(object sender, EventArgs e)
         {
             int Index1 = BoltCharacter.SelectedIndex;
@@ -436,6 +478,7 @@ namespace SSXMultiTool.Tools
             var tempEntry = Char.entries[Index];
 
             BoltPS2TreeView.SelectedNode.Text = tempEntry.ItemID + " - " + tempEntry.itemName;
+            UpdateListBoxOneEntry(Index1, Index);
         }
 
         public void UpdateTreeFull(object sender, EventArgs e)
@@ -480,6 +523,7 @@ namespace SSXMultiTool.Tools
                     }
                     //Update Data
                     tempEntry.ItemID = (int)BoltUnkownThree.Value;
+                    UpdateListBoxOneEntry(Index1, Index);
                 }
                 else if (OldParentID != NewParentID || (OldParentID != -1 && NewParentID == -1))
                 {
@@ -822,9 +866,9 @@ namespace SSXMultiTool.Tools
         private void EquipLinkAdd_Click(object sender, EventArgs e)
         {
             var NewEquip = new EquipLink();
-
+            int Index = int.Parse(BoltPS2TreeView.SelectedNode.Name);
             NewEquip.CharacterID = BoltCharacter.SelectedIndex;
-            NewEquip.MainItemID = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[0].ItemID;
+            NewEquip.MainItemID = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[Index].ItemID;
             NewEquip.MainItemEquip = 0;
 
             NewEquip.UnkownInt2 = 0;
@@ -837,9 +881,36 @@ namespace SSXMultiTool.Tools
             NewEquip.SecondaryItemID = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[0].ItemID;
             NewEquip.SecondaryItemEquip = 0;
 
-            BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks.Add(NewEquip);
+            //Set it at the end of this items equip link list
+            bool StartOfItem = false;
+            bool Found = false;
 
-            EquipList.Add(BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks.Count - 1);
+            for (int i = 0; i < BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks.Count; i++)
+            {
+                if(StartOfItem)
+                {
+                    if (BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks[i].MainItemID != NewEquip.MainItemID)
+                    {
+                        Found = true;
+                        BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks.Insert(i,NewEquip);
+                        break;
+                    }
+                }
+                else
+                {
+                    if (BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks[i].MainItemID == NewEquip.MainItemID)
+                    {
+                        StartOfItem = true;
+                    }
+                }
+            }
+
+            if(!Found)
+            {
+                BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks.Add(NewEquip);
+            }
+
+            EquipList.Add(BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks.IndexOf(NewEquip));
 
             EquipLinkList.Items.Add(BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[0].ItemID + " - " + BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[0].itemName);
         }
@@ -849,11 +920,142 @@ namespace SSXMultiTool.Tools
             if (EquipLinkList.SelectedIndex != -1)
             {
                 int Index = EquipLinkList.SelectedIndex;
-                EquipLinkList.Items.RemoveAt(Index);
                 int ID = EquipList[Index];
-                EquipList.RemoveAt(Index);
                 BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks.RemoveAt(ID);
+                GenerateEquipLink();
             }
+        }
+
+        private void TreeViewRemove_Click(object sender, EventArgs e)
+        {
+            if (BoltPS2TreeView.SelectedNode != null)
+            {
+                Wait = true;
+                //Get IDs
+                int Index1 = BoltCharacter.SelectedIndex;
+                int Index = int.Parse(BoltPS2TreeView.SelectedNode.Name);
+                int OldItemID = BoltPS2Handler.characters[Index1].entries[Index].ItemID;
+                //Remove from Entries List
+                BoltPS2Handler.characters[Index1].entries.RemoveAt(Index);
+
+                //Go through all details and remove from category, parent, equip links, default outfit, nis link
+                //Parent
+                //Category
+                for (int i = 0; i < BoltPS2Handler.characters[Index1].entries.Count; i++)
+                {
+                    var Entry = BoltPS2Handler.characters[Index1].entries[i];
+
+                    if (Entry.ParentID== OldItemID)
+                    {
+                        Entry.ParentID = -1;
+                    }
+                    if (Entry.category == OldItemID)
+                    {
+                        Entry.category = -1;
+                    }
+
+                    BoltPS2Handler.characters[Index1].entries[i] = Entry;
+                }
+
+                //EquipLinks
+                for (int i = 0; i < BoltPS2Handler.characters[Index1].equipLinks.Count; i++)
+                {
+                    if (BoltPS2Handler.characters[Index1].equipLinks[i].IfEquipID == OldItemID)
+                    {
+                        var EquipEntry = BoltPS2Handler.characters[Index1].equipLinks[i];
+
+                        EquipEntry.IfEquipID = -1;
+
+                        BoltPS2Handler.characters[Index1].equipLinks[i] = EquipEntry;
+                    }
+
+                    if(BoltPS2Handler.characters[Index1].equipLinks[i].SecondaryItemEquip == OldItemID || BoltPS2Handler.characters[Index1].equipLinks[i].MainItemID == OldItemID)
+                    {
+                        BoltPS2Handler.characters[Index1].equipLinks.RemoveAt(i);
+                        i--;
+                    }
+                }
+
+                //DefaultOutfit
+                for (int i = 0; i < BoltPS2Handler.characters[Index1].defaultOutfits.Count; i++)
+                {
+                    if (BoltPS2Handler.characters[Index1].defaultOutfits[i].ItemID == OldItemID)
+                    {
+                        BoltPS2Handler.characters[Index1].defaultOutfits.RemoveAt(i);
+                        i--;
+                    }
+                }
+
+                //NisLink
+                for (int i = 0; i < BoltPS2Handler.characters[Index1].handMatch.Count; i++)
+                {
+                    if (BoltPS2Handler.characters[Index1].handMatch[i].LeftHand == OldItemID || BoltPS2Handler.characters[Index1].handMatch[i].RightHand == OldItemID)
+                    {
+                        BoltPS2Handler.characters[Index1].handMatch.RemoveAt(i);
+                        i--;
+                    }
+                }
+
+                //Update TreeView
+                //Update ListBoxes
+                GenerateTreeview();
+                GenerateListBoxes();
+                Wait = false;
+            }
+
+        }
+
+        private void TreeViewAdd_Click(object sender, EventArgs e)
+        {
+            ItemEntries itemEntries = new ItemEntries();
+
+            itemEntries.CharacterID = BoltCharacter.SelectedIndex;
+            itemEntries.unkownInt1 = -1;
+            itemEntries.UnlockCondition = 0;
+            itemEntries.TextureType = -1;
+
+            //Do a check and take the next free id
+            int Highest = -1;
+
+            itemEntries.ItemID = -1;
+            for (int i = 0; i < BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries.Count; i++)
+            {
+                if(Highest <= BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[i].ItemID)
+                {
+                    Highest = BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries[i].ItemID + 1;
+                }
+            }
+            itemEntries.ItemID = Highest;
+
+
+            itemEntries.ParentID = -1;
+            itemEntries.category = -1;
+            itemEntries.buyable = false;
+            itemEntries.menuOrder = 0;
+            itemEntries.unkownInt5 = 117;
+            itemEntries.weight = 0;
+            itemEntries.Cost = 0;
+            itemEntries.FileID = -1;
+
+            itemEntries.SpecialID = -1;
+            itemEntries.SpecialID2 = -1;
+            itemEntries.SpecialID3 = -1;
+
+            itemEntries.itemName = "New Item";
+            itemEntries.ModelID = "";
+            itemEntries.ModelID2 = "";
+            itemEntries.ModelID3 = "";
+            itemEntries.ModelID4 = "";
+            itemEntries.ModelPath = "";
+            itemEntries.TexturePath = "";
+            itemEntries.SmallIcon = "";
+
+            itemEntries.unkownInt6 = 0;
+
+            BoltPS2Handler.characters[BoltCharacter.SelectedIndex].entries.Add(itemEntries);
+
+            GenerateTreeview();
+            GenerateListBoxes();
         }
     }
 }
