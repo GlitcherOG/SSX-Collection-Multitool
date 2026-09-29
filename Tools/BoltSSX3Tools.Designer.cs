@@ -115,6 +115,7 @@
             groupBox8 = new GroupBox();
             label5 = new Label();
             HandComboList = new ComboBox();
+            GCToggleButton = new ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)BoltUnkownOne).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltUnlock).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltUnkownTwo).BeginInit();
@@ -576,7 +577,7 @@
             // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { BoltCharacter, toolStripDropDownButton1, CharDatatoolStripButton });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { BoltCharacter, toolStripDropDownButton1, CharDatatoolStripButton, GCToggleButton });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(1603, 25);
@@ -1011,6 +1012,17 @@
             HandComboList.TabIndex = 4;
             HandComboList.SelectedIndexChanged += HandComboList_SelectedIndexChanged;
             // 
+            // GCToggleButton
+            // 
+            GCToggleButton.Alignment = ToolStripItemAlignment.Right;
+            GCToggleButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            GCToggleButton.Image = (Image)resources.GetObject("GCToggleButton.Image");
+            GCToggleButton.ImageTransparentColor = Color.Magenta;
+            GCToggleButton.Name = "GCToggleButton";
+            GCToggleButton.Size = new Size(98, 22);
+            GCToggleButton.Text = "GC Toggle: False";
+            GCToggleButton.Click += GCToggleButton_Click;
+            // 
             // BoltSSX3Tools
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1157,5 +1169,6 @@
         private ToolStripMenuItem loadToolStripMenuItem;
         private ToolStripMenuItem saveToolStripMenuItem;
         private ToolStripButton CharDatatoolStripButton;
+        private ToolStripButton GCToggleButton;
     }
 }

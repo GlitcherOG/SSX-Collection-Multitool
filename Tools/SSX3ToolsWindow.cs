@@ -465,7 +465,7 @@ namespace SSXMultiTool
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                var TempboltPS2 = new BoltPS2Handler();
+                var TempboltPS2 = new BoltHandler();
                 TempboltPS2.load(openFileDialog.FileName);
                 for (int i = 0; i < TempboltPS2.characters.Count; i++)
                 {
