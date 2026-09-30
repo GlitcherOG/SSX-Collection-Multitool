@@ -82,6 +82,7 @@
             loadToolStripMenuItem = new ToolStripMenuItem();
             saveToolStripMenuItem = new ToolStripMenuItem();
             CharDatatoolStripButton = new ToolStripButton();
+            GCToggleButton = new ToolStripButton();
             groupBox1 = new GroupBox();
             TextureData = new PictureBox();
             groupBox2 = new GroupBox();
@@ -115,7 +116,6 @@
             groupBox8 = new GroupBox();
             label5 = new Label();
             HandComboList = new ComboBox();
-            GCToggleButton = new ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)BoltUnkownOne).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltUnlock).BeginInit();
             ((System.ComponentModel.ISupportInitialize)BoltUnkownTwo).BeginInit();
@@ -150,14 +150,14 @@
             BoltPS2TreeView.HideSelection = false;
             BoltPS2TreeView.Location = new Point(12, 28);
             BoltPS2TreeView.Name = "BoltPS2TreeView";
-            BoltPS2TreeView.Size = new Size(356, 819);
+            BoltPS2TreeView.Size = new Size(356, 702);
             BoltPS2TreeView.TabIndex = 100;
             BoltPS2TreeView.AfterSelect += BoltPS2TreeView_AfterSelect;
             // 
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(13, 106);
+            label13.Location = new Point(16, 61);
             label13.Name = "label13";
             label13.Size = new Size(74, 15);
             label13.TabIndex = 52;
@@ -165,7 +165,7 @@
             // 
             // BoltUnkownOne
             // 
-            BoltUnkownOne.Location = new Point(10, 121);
+            BoltUnkownOne.Location = new Point(13, 76);
             BoltUnkownOne.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             BoltUnkownOne.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
             BoltUnkownOne.Name = "BoltUnkownOne";
@@ -256,7 +256,7 @@
             // ItemIDLabel
             // 
             ItemIDLabel.AutoSize = true;
-            ItemIDLabel.Location = new Point(16, 65);
+            ItemIDLabel.Location = new Point(232, 19);
             ItemIDLabel.Name = "ItemIDLabel";
             ItemIDLabel.Size = new Size(45, 15);
             ItemIDLabel.TabIndex = 58;
@@ -273,7 +273,7 @@
             // 
             // BoltUnkownThree
             // 
-            BoltUnkownThree.Location = new Point(13, 80);
+            BoltUnkownThree.Location = new Point(229, 34);
             BoltUnkownThree.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             BoltUnkownThree.Name = "BoltUnkownThree";
             BoltUnkownThree.Size = new Size(120, 23);
@@ -282,7 +282,7 @@
             // 
             // BoltModelIDFour
             // 
-            BoltModelIDFour.Location = new Point(392, 124);
+            BoltModelIDFour.Location = new Point(393, 109);
             BoltModelIDFour.Name = "BoltModelIDFour";
             BoltModelIDFour.Size = new Size(120, 23);
             BoltModelIDFour.TabIndex = 93;
@@ -291,7 +291,7 @@
             // ParentItemIDLabel
             // 
             ParentItemIDLabel.AutoSize = true;
-            ParentItemIDLabel.Location = new Point(142, 65);
+            ParentItemIDLabel.Location = new Point(358, 19);
             ParentItemIDLabel.Name = "ParentItemIDLabel";
             ParentItemIDLabel.Size = new Size(82, 15);
             ParentItemIDLabel.TabIndex = 60;
@@ -300,7 +300,7 @@
             // label33
             // 
             label33.AutoSize = true;
-            label33.Location = new Point(395, 109);
+            label33.Location = new Point(396, 94);
             label33.Name = "label33";
             label33.Size = new Size(100, 15);
             label33.TabIndex = 92;
@@ -308,7 +308,7 @@
             // 
             // BoltUnkownFour
             // 
-            BoltUnkownFour.Location = new Point(139, 80);
+            BoltUnkownFour.Location = new Point(355, 34);
             BoltUnkownFour.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             BoltUnkownFour.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
             BoltUnkownFour.Name = "BoltUnkownFour";
@@ -318,7 +318,7 @@
             // 
             // BoltModelIDThree
             // 
-            BoltModelIDThree.Location = new Point(266, 124);
+            BoltModelIDThree.Location = new Point(267, 109);
             BoltModelIDThree.Name = "BoltModelIDThree";
             BoltModelIDThree.Size = new Size(120, 23);
             BoltModelIDThree.TabIndex = 91;
@@ -336,7 +336,7 @@
             // label32
             // 
             label32.AutoSize = true;
-            label32.Location = new Point(269, 109);
+            label32.Location = new Point(270, 94);
             label32.Name = "label32";
             label32.Size = new Size(101, 15);
             label32.TabIndex = 90;
@@ -355,7 +355,7 @@
             // 
             // BoltModelIDTwo
             // 
-            BoltModelIDTwo.Location = new Point(140, 124);
+            BoltModelIDTwo.Location = new Point(141, 109);
             BoltModelIDTwo.Name = "BoltModelIDTwo";
             BoltModelIDTwo.Size = new Size(120, 23);
             BoltModelIDTwo.TabIndex = 89;
@@ -364,7 +364,7 @@
             // label31
             // 
             label31.AutoSize = true;
-            label31.Location = new Point(143, 109);
+            label31.Location = new Point(144, 94);
             label31.Name = "label31";
             label31.Size = new Size(103, 15);
             label31.TabIndex = 88;
@@ -372,7 +372,7 @@
             // 
             // BoltModelID
             // 
-            BoltModelID.Location = new Point(14, 124);
+            BoltModelID.Location = new Point(15, 109);
             BoltModelID.Name = "BoltModelID";
             BoltModelID.Size = new Size(120, 23);
             BoltModelID.TabIndex = 87;
@@ -390,7 +390,7 @@
             // label30
             // 
             label30.AutoSize = true;
-            label30.Location = new Point(14, 109);
+            label30.Location = new Point(15, 94);
             label30.Name = "label30";
             label30.Size = new Size(105, 15);
             label30.TabIndex = 86;
@@ -416,7 +416,7 @@
             // label21
             // 
             label21.AutoSize = true;
-            label21.Location = new Point(139, 106);
+            label21.Location = new Point(142, 61);
             label21.Name = "label21";
             label21.Size = new Size(74, 15);
             label21.TabIndex = 68;
@@ -433,7 +433,7 @@
             // 
             // BoltUnkown7
             // 
-            BoltUnkown7.Location = new Point(136, 121);
+            BoltUnkown7.Location = new Point(139, 76);
             BoltUnkown7.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             BoltUnkown7.Name = "BoltUnkown7";
             BoltUnkown7.Size = new Size(120, 23);
@@ -442,7 +442,7 @@
             // 
             // BoltUnkown9
             // 
-            BoltUnkown9.Location = new Point(262, 121);
+            BoltUnkown9.Location = new Point(265, 76);
             BoltUnkown9.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             BoltUnkown9.Name = "BoltUnkown9";
             BoltUnkown9.Size = new Size(120, 23);
@@ -452,7 +452,7 @@
             // label22
             // 
             label22.AutoSize = true;
-            label22.Location = new Point(143, 160);
+            label22.Location = new Point(143, 142);
             label22.Name = "label22";
             label22.Size = new Size(63, 15);
             label22.TabIndex = 70;
@@ -461,7 +461,7 @@
             // label28
             // 
             label28.AutoSize = true;
-            label28.Location = new Point(265, 106);
+            label28.Location = new Point(268, 61);
             label28.Name = "label28";
             label28.Size = new Size(74, 15);
             label28.TabIndex = 82;
@@ -469,7 +469,7 @@
             // 
             // BoltFillBar
             // 
-            BoltFillBar.Location = new Point(140, 175);
+            BoltFillBar.Location = new Point(140, 157);
             BoltFillBar.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             BoltFillBar.Name = "BoltFillBar";
             BoltFillBar.Size = new Size(120, 23);
@@ -529,7 +529,7 @@
             // label24
             // 
             label24.AutoSize = true;
-            label24.Location = new Point(17, 160);
+            label24.Location = new Point(17, 142);
             label24.Name = "label24";
             label24.Size = new Size(55, 15);
             label24.TabIndex = 74;
@@ -546,7 +546,7 @@
             // 
             // BoltFileID
             // 
-            BoltFileID.Location = new Point(14, 175);
+            BoltFileID.Location = new Point(14, 157);
             BoltFileID.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             BoltFileID.Minimum = new decimal(new int[] { 1, 0, 0, int.MinValue });
             BoltFileID.Name = "BoltFileID";
@@ -580,7 +580,7 @@
             toolStrip1.Items.AddRange(new ToolStripItem[] { BoltCharacter, toolStripDropDownButton1, CharDatatoolStripButton, GCToggleButton });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(1603, 25);
+            toolStrip1.Size = new Size(1422, 25);
             toolStrip1.TabIndex = 101;
             toolStrip1.Text = "toolStrip1";
             // 
@@ -623,12 +623,24 @@
             // CharDatatoolStripButton
             // 
             CharDatatoolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            CharDatatoolStripButton.Enabled = false;
             CharDatatoolStripButton.Image = (Image)resources.GetObject("CharDatatoolStripButton.Image");
             CharDatatoolStripButton.ImageTransparentColor = Color.Magenta;
             CharDatatoolStripButton.Name = "CharDatatoolStripButton";
             CharDatatoolStripButton.Size = new Size(93, 22);
             CharDatatoolStripButton.Text = "Char Data Path:";
             CharDatatoolStripButton.Click += CharDatatoolStripButton_Click;
+            // 
+            // GCToggleButton
+            // 
+            GCToggleButton.Alignment = ToolStripItemAlignment.Right;
+            GCToggleButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            GCToggleButton.Image = (Image)resources.GetObject("GCToggleButton.Image");
+            GCToggleButton.ImageTransparentColor = Color.Magenta;
+            GCToggleButton.Name = "GCToggleButton";
+            GCToggleButton.Size = new Size(98, 22);
+            GCToggleButton.Text = "GC Toggle: False";
+            GCToggleButton.Click += GCToggleButton_Click;
             // 
             // groupBox1
             // 
@@ -670,9 +682,9 @@
             groupBox2.Controls.Add(BoltFileID);
             groupBox2.Controls.Add(label22);
             groupBox2.Controls.Add(BoltFillBar);
-            groupBox2.Location = new Point(374, 199);
+            groupBox2.Location = new Point(374, 152);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(525, 217);
+            groupBox2.Size = new Size(525, 201);
             groupBox2.TabIndex = 103;
             groupBox2.TabStop = false;
             groupBox2.Text = "Model Info";
@@ -701,7 +713,7 @@
             groupBox3.Controls.Add(label36);
             groupBox3.Controls.Add(label14);
             groupBox3.Controls.Add(BoltUnlock);
-            groupBox3.Location = new Point(374, 419);
+            groupBox3.Location = new Point(374, 359);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(525, 158);
             groupBox3.TabIndex = 104;
@@ -744,7 +756,7 @@
             groupBox4.Controls.Add(BoltUnkown7);
             groupBox4.Location = new Point(374, 28);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(525, 165);
+            groupBox4.Size = new Size(525, 117);
             groupBox4.TabIndex = 105;
             groupBox4.TabStop = false;
             groupBox4.Text = "Internal Info";
@@ -759,7 +771,7 @@
             groupBox5.Controls.Add(BoltSpecialThree);
             groupBox5.Location = new Point(905, 419);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(304, 158);
+            groupBox5.Size = new Size(304, 119);
             groupBox5.TabIndex = 106;
             groupBox5.TabStop = false;
             groupBox5.Text = "Special Info";
@@ -776,9 +788,9 @@
             groupBox6.Controls.Add(EquipLinkIfBool);
             groupBox6.Controls.Add(EquipLinkIf);
             groupBox6.Controls.Add(EquipLinkList);
-            groupBox6.Location = new Point(374, 583);
+            groupBox6.Location = new Point(374, 523);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(525, 265);
+            groupBox6.Size = new Size(525, 245);
             groupBox6.TabIndex = 107;
             groupBox6.TabStop = false;
             groupBox6.Text = "Equip Links";
@@ -796,7 +808,7 @@
             // 
             // EquipLinkRemove
             // 
-            EquipLinkRemove.Location = new Point(6, 238);
+            EquipLinkRemove.Location = new Point(6, 213);
             EquipLinkRemove.Name = "EquipLinkRemove";
             EquipLinkRemove.Size = new Size(93, 23);
             EquipLinkRemove.TabIndex = 13;
@@ -806,7 +818,7 @@
             // 
             // EquipLinkAdd
             // 
-            EquipLinkAdd.Location = new Point(105, 238);
+            EquipLinkAdd.Location = new Point(105, 213);
             EquipLinkAdd.Name = "EquipLinkAdd";
             EquipLinkAdd.Size = new Size(85, 23);
             EquipLinkAdd.TabIndex = 12;
@@ -877,14 +889,14 @@
             EquipLinkList.FormattingEnabled = true;
             EquipLinkList.Location = new Point(6, 22);
             EquipLinkList.Name = "EquipLinkList";
-            EquipLinkList.Size = new Size(186, 214);
+            EquipLinkList.Size = new Size(186, 184);
             EquipLinkList.TabIndex = 0;
             EquipLinkList.SelectedIndexChanged += EquipLinkList_SelectedIndexChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(198, 19);
+            label1.Location = new Point(6, 284);
             label1.Name = "label1";
             label1.Size = new Size(31, 15);
             label1.TabIndex = 3;
@@ -893,9 +905,9 @@
             // DefaultOutfitItem
             // 
             DefaultOutfitItem.FormattingEnabled = true;
-            DefaultOutfitItem.Location = new Point(198, 37);
+            DefaultOutfitItem.Location = new Point(6, 302);
             DefaultOutfitItem.Name = "DefaultOutfitItem";
-            DefaultOutfitItem.Size = new Size(171, 23);
+            DefaultOutfitItem.Size = new Size(186, 23);
             DefaultOutfitItem.TabIndex = 1;
             DefaultOutfitItem.SelectedIndexChanged += DefaultOutfitItem_SelectedIndexChanged;
             // 
@@ -910,14 +922,14 @@
             groupBox7.Controls.Add(DefaultOutfitItem);
             groupBox7.Location = new Point(1215, 28);
             groupBox7.Name = "groupBox7";
-            groupBox7.Size = new Size(380, 410);
+            groupBox7.Size = new Size(200, 388);
             groupBox7.TabIndex = 108;
             groupBox7.TabStop = false;
             groupBox7.Text = "Default Outfit";
             // 
             // DefaultOutfitRemove
             // 
-            DefaultOutfitRemove.Location = new Point(6, 381);
+            DefaultOutfitRemove.Location = new Point(6, 357);
             DefaultOutfitRemove.Name = "DefaultOutfitRemove";
             DefaultOutfitRemove.Size = new Size(93, 23);
             DefaultOutfitRemove.TabIndex = 18;
@@ -930,13 +942,13 @@
             DefaultOutfitList.FormattingEnabled = true;
             DefaultOutfitList.Location = new Point(6, 22);
             DefaultOutfitList.Name = "DefaultOutfitList";
-            DefaultOutfitList.Size = new Size(186, 319);
+            DefaultOutfitList.Size = new Size(186, 259);
             DefaultOutfitList.TabIndex = 14;
             DefaultOutfitList.SelectedIndexChanged += DefaultOutfitList_SelectedIndexChanged;
             // 
             // DefaultOutfitAdd
             // 
-            DefaultOutfitAdd.Location = new Point(105, 381);
+            DefaultOutfitAdd.Location = new Point(105, 357);
             DefaultOutfitAdd.Name = "DefaultOutfitAdd";
             DefaultOutfitAdd.Size = new Size(85, 23);
             DefaultOutfitAdd.TabIndex = 17;
@@ -946,7 +958,7 @@
             // 
             // DefaultOutfitDown
             // 
-            DefaultOutfitDown.Location = new Point(105, 355);
+            DefaultOutfitDown.Location = new Point(105, 331);
             DefaultOutfitDown.Name = "DefaultOutfitDown";
             DefaultOutfitDown.Size = new Size(85, 23);
             DefaultOutfitDown.TabIndex = 15;
@@ -955,7 +967,7 @@
             // 
             // DefaultOutfitUp
             // 
-            DefaultOutfitUp.Location = new Point(6, 355);
+            DefaultOutfitUp.Location = new Point(6, 331);
             DefaultOutfitUp.Name = "DefaultOutfitUp";
             DefaultOutfitUp.Size = new Size(93, 23);
             DefaultOutfitUp.TabIndex = 16;
@@ -964,7 +976,7 @@
             // 
             // TreeViewRemove
             // 
-            TreeViewRemove.Location = new Point(12, 851);
+            TreeViewRemove.Location = new Point(12, 736);
             TreeViewRemove.Name = "TreeViewRemove";
             TreeViewRemove.Size = new Size(125, 23);
             TreeViewRemove.TabIndex = 110;
@@ -974,7 +986,7 @@
             // 
             // TreeViewAdd
             // 
-            TreeViewAdd.Location = new Point(240, 851);
+            TreeViewAdd.Location = new Point(240, 736);
             TreeViewAdd.Name = "TreeViewAdd";
             TreeViewAdd.Size = new Size(128, 23);
             TreeViewAdd.TabIndex = 109;
@@ -986,9 +998,9 @@
             // 
             groupBox8.Controls.Add(label5);
             groupBox8.Controls.Add(HandComboList);
-            groupBox8.Location = new Point(905, 583);
+            groupBox8.Location = new Point(905, 544);
             groupBox8.Name = "groupBox8";
-            groupBox8.Size = new Size(304, 265);
+            groupBox8.Size = new Size(304, 85);
             groupBox8.TabIndex = 108;
             groupBox8.TabStop = false;
             groupBox8.Text = "NIS Data";
@@ -1012,22 +1024,11 @@
             HandComboList.TabIndex = 4;
             HandComboList.SelectedIndexChanged += HandComboList_SelectedIndexChanged;
             // 
-            // GCToggleButton
-            // 
-            GCToggleButton.Alignment = ToolStripItemAlignment.Right;
-            GCToggleButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            GCToggleButton.Image = (Image)resources.GetObject("GCToggleButton.Image");
-            GCToggleButton.ImageTransparentColor = Color.Magenta;
-            GCToggleButton.Name = "GCToggleButton";
-            GCToggleButton.Size = new Size(98, 22);
-            GCToggleButton.Text = "GC Toggle: False";
-            GCToggleButton.Click += GCToggleButton_Click;
-            // 
             // BoltSSX3Tools
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1603, 891);
+            ClientSize = new Size(1422, 778);
             Controls.Add(groupBox8);
             Controls.Add(TreeViewRemove);
             Controls.Add(TreeViewAdd);
