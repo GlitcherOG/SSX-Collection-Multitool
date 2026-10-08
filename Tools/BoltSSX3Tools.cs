@@ -923,10 +923,12 @@ namespace SSXMultiTool.Tools
         {
             if (EquipLinkList.SelectedIndex != -1)
             {
+                Wait = true;
                 int Index = EquipLinkList.SelectedIndex;
                 int ID = EquipList[Index];
                 BoltPS2Handler.characters[BoltCharacter.SelectedIndex].equipLinks.RemoveAt(ID);
                 GenerateEquipLink();
+                Wait = false;
             }
         }
 

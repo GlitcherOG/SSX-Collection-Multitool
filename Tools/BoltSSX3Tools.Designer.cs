@@ -976,6 +976,7 @@
             // 
             // TreeViewRemove
             // 
+            TreeViewRemove.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             TreeViewRemove.Location = new Point(12, 736);
             TreeViewRemove.Name = "TreeViewRemove";
             TreeViewRemove.Size = new Size(125, 23);
@@ -986,6 +987,7 @@
             // 
             // TreeViewAdd
             // 
+            TreeViewAdd.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             TreeViewAdd.Location = new Point(240, 736);
             TreeViewAdd.Name = "TreeViewAdd";
             TreeViewAdd.Size = new Size(128, 23);
