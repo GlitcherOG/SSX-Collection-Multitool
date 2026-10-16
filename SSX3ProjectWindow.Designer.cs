@@ -47,7 +47,6 @@
             // 
             // PackSSB
             // 
-            PackSSB.Enabled = false;
             PackSSB.Location = new Point(670, 404);
             PackSSB.Name = "PackSSB";
             PackSSB.Size = new Size(118, 34);

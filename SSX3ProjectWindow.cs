@@ -10,6 +10,7 @@ using System.IO;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using SSXLibrary.FileHandlers.LevelFiles.SSX3PS2;
+using SSXMultiTool.Utilities;
 
 namespace SSXMultiTool
 {
@@ -20,7 +21,7 @@ namespace SSXMultiTool
             InitializeComponent();
         }
 
-        SSBHandler ssbHandler = new SSBHandler();
+        SSBExtractingHandler ssbHandler = new SSBExtractingHandler();
         private void LevelExtract_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -39,6 +40,7 @@ namespace SSXMultiTool
                 {
                     if (Directory.GetFiles(commonDialog.FileName).Count() != 1)
                     {
+                        ConsoleWindow.GenerateConsole();
                         ssbHandler.LoadAndExtractSSBFromSBD(openFileDialog.FileName, commonDialog.FileName);
                     }
                     else
