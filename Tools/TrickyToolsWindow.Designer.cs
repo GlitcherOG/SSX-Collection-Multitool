@@ -226,12 +226,12 @@
             label24 = new Label();
             HDRTime = new Label();
             tabPage2 = new TabPage();
+            numericUpDown1 = new NumericUpDown();
             button4 = new Button();
             button3 = new Button();
             button2 = new Button();
             button1 = new Button();
             ELFLdrSetup = new Button();
-            numericUpDown1 = new NumericUpDown();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -627,7 +627,6 @@
             // MaterialListMPF
             // 
             MaterialListMPF.FormattingEnabled = true;
-            MaterialListMPF.ItemHeight = 15;
             MaterialListMPF.Location = new Point(6, 22);
             MaterialListMPF.Name = "MaterialListMPF";
             MaterialListMPF.Size = new Size(70, 184);
@@ -797,7 +796,6 @@
             // CharacterPartsMpf
             // 
             CharacterPartsMpf.FormattingEnabled = true;
-            CharacterPartsMpf.ItemHeight = 15;
             CharacterPartsMpf.Location = new Point(6, 208);
             CharacterPartsMpf.Name = "CharacterPartsMpf";
             CharacterPartsMpf.Size = new Size(192, 184);
@@ -830,7 +828,6 @@
             // 
             MpfList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             MpfList.FormattingEnabled = true;
-            MpfList.ItemHeight = 15;
             MpfList.Location = new Point(6, 19);
             MpfList.Name = "MpfList";
             MpfList.Size = new Size(192, 169);
@@ -1158,7 +1155,6 @@
             // MaterialListMXF
             // 
             MaterialListMXF.FormattingEnabled = true;
-            MaterialListMXF.ItemHeight = 15;
             MaterialListMXF.Location = new Point(6, 22);
             MaterialListMXF.Name = "MaterialListMXF";
             MaterialListMXF.Size = new Size(70, 184);
@@ -1339,7 +1335,6 @@
             // CharacterPartsMXF
             // 
             CharacterPartsMXF.FormattingEnabled = true;
-            CharacterPartsMXF.ItemHeight = 15;
             CharacterPartsMXF.Location = new Point(6, 211);
             CharacterPartsMXF.Name = "CharacterPartsMXF";
             CharacterPartsMXF.Size = new Size(192, 184);
@@ -1350,7 +1345,6 @@
             // 
             MXFList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             MXFList.FormattingEnabled = true;
-            MXFList.ItemHeight = 15;
             MXFList.Location = new Point(7, 24);
             MXFList.Name = "MXFList";
             MXFList.Size = new Size(192, 169);
@@ -1638,7 +1632,6 @@
             // MaterialListMNF
             // 
             MaterialListMNF.FormattingEnabled = true;
-            MaterialListMNF.ItemHeight = 15;
             MaterialListMNF.Location = new Point(6, 22);
             MaterialListMNF.Name = "MaterialListMNF";
             MaterialListMNF.Size = new Size(70, 184);
@@ -1827,7 +1820,6 @@
             // MNFMeshPartsList
             // 
             MNFMeshPartsList.FormattingEnabled = true;
-            MNFMeshPartsList.ItemHeight = 15;
             MNFMeshPartsList.Location = new Point(6, 210);
             MNFMeshPartsList.Name = "MNFMeshPartsList";
             MNFMeshPartsList.Size = new Size(192, 184);
@@ -1837,7 +1829,6 @@
             // MNFImport
             // 
             MNFImport.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            MNFImport.Enabled = false;
             MNFImport.Location = new Point(285, 368);
             MNFImport.Name = "MNFImport";
             MNFImport.Size = new Size(75, 23);
@@ -1849,7 +1840,6 @@
             // MNFSave
             // 
             MNFSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            MNFSave.Enabled = false;
             MNFSave.Location = new Point(687, 368);
             MNFSave.Name = "MNFSave";
             MNFSave.Size = new Size(75, 23);
@@ -1862,7 +1852,6 @@
             // 
             MNFModelsList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             MNFModelsList.FormattingEnabled = true;
-            MNFModelsList.ItemHeight = 15;
             MNFModelsList.Location = new Point(6, 21);
             MNFModelsList.Name = "MNFModelsList";
             MNFModelsList.Size = new Size(192, 169);
@@ -2077,7 +2066,6 @@
             // hdrList2
             // 
             hdrList2.FormattingEnabled = true;
-            hdrList2.ItemHeight = 15;
             hdrList2.Location = new Point(6, 22);
             hdrList2.Name = "hdrList2";
             hdrList2.Size = new Size(170, 334);
@@ -2134,7 +2122,6 @@
             // hdrFileList
             // 
             hdrFileList.FormattingEnabled = true;
-            hdrFileList.ItemHeight = 15;
             hdrFileList.Location = new Point(6, 23);
             hdrFileList.Name = "hdrFileList";
             hdrFileList.Size = new Size(170, 304);
@@ -2309,6 +2296,16 @@
             tabPage2.Text = "Tools";
             tabPage2.UseVisualStyleBackColor = true;
             // 
+            // numericUpDown1
+            // 
+            numericUpDown1.DecimalPlaces = 2;
+            numericUpDown1.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            numericUpDown1.Location = new Point(633, 81);
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new Size(132, 23);
+            numericUpDown1.TabIndex = 5;
+            numericUpDown1.Value = new decimal(new int[] { 2, 0, 0, 0 });
+            // 
             // button4
             // 
             button4.Location = new Point(633, 3);
@@ -2364,16 +2361,6 @@
             ELFLdrSetup.Text = "Setup For ELFLdr";
             ELFLdrSetup.UseVisualStyleBackColor = true;
             ELFLdrSetup.Click += ELFLdrSetup_Click;
-            // 
-            // numericUpDown1
-            // 
-            numericUpDown1.DecimalPlaces = 2;
-            numericUpDown1.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
-            numericUpDown1.Location = new Point(633, 81);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(132, 23);
-            numericUpDown1.TabIndex = 5;
-            numericUpDown1.Value = new decimal(new int[] { 2, 0, 0, 0 });
             // 
             // TrickyToolsWindow
             // 

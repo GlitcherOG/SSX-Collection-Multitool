@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using System.IO;
 using SSXLibrary.FileHandlers.Models;
 using SSXLibrary.FileHandlers.Models.SSXOG;
-using SSX_Library;
+using SSXLibrary;
 
 namespace SSXMultiTool
 {
@@ -61,7 +61,9 @@ namespace SSXMultiTool
                 };
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    modelHandler.SaveModel(openFileDialog.FileName, MPFList.SelectedIndex);
+
+
+                    //modelHandler.SaveModel(openFileDialog.FileName, MPFList.SelectedIndex);
                     MessageBox.Show("File Extracted");
                 }
             }

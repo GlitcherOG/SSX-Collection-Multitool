@@ -1,7 +1,7 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Formats.Png;
-using SSX_Library.EATextureLibrary;
+using SSXLibrary.EATextureLibrary;
 using SSXLibrary.FileHandlers;
 using SSXLibrary.FileHandlers.Models.SSX3;
 using System.CodeDom;

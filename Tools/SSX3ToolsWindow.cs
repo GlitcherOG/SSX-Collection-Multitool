@@ -5,7 +5,6 @@ using SSXLibrary.FileHandlers.SSX3;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.IO;
 using NAudio.Wave;
-using SSX_Library;
 using SSXLibrary;
 using SSXMultiTool.Utilities;
 

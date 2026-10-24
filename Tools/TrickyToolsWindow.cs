@@ -1,6 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using NAudio.Wave;
-using SSX_Library;
+using SSXLibrary;
 using SSXLibrary.FileHandlers;
 using SSXLibrary.FileHandlers.Models;
 using SSXLibrary.FileHandlers.Models.Tricky;

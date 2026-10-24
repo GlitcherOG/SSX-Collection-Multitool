@@ -1,5 +1,5 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
-using SSX_Library.EATextureLibrary;
+using SSXLibrary.EATextureLibrary;
 using SSXMultiTool.Utilities;
 using System.Diagnostics;
 using System.IO;
@@ -388,7 +388,7 @@ namespace SSXMultiTool
         {
             if (!DisableUpdate)
             {
-                sshHandler.ConsoleVersion = (SSX_Library.TextureType)ConsoleDropDown.SelectedIndex;
+                sshHandler.ConsoleVersion = (SSXLibrary.TextureType)ConsoleDropDown.SelectedIndex;
             }
         }
     }

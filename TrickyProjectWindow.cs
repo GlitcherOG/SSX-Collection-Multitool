@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using SSXLibrary.JsonFiles.Tricky;
 using SSXMultiTool.Utilities;
 using SSXLibrary;
-using SSX_Library;
 
 namespace SSXMultiTool
 {

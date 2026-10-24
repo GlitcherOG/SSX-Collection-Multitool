@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
-using SSX_Library;
+using SSXLibrary;
 using SSXLibrary.FileHandlers;
 
 namespace SSXMultiTool

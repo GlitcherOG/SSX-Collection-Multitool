@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using SSX_Library;
+using SSXLibrary;
 
 namespace SSXMultiTool
 {

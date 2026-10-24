@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using SSX_Library.EATextureLibrary;
+using SSXLibrary.EATextureLibrary;
 using SSXMultiTool.Utilities;
 
 namespace SSXMultiTool
