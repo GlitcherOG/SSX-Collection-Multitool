@@ -154,13 +154,13 @@ namespace SSXMultiTool
                             Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\Data");
                             Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\data\\models");
                             string InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(openFileDialog.FileName.ToLower()).Substring(0, Path.GetFileName(openFileDialog.FileName).Length - 3) + "map";
-                            trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, InputPath);
+                            trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, InputPath, SSXLibrary.FileHandlers.LevelFiles.Tricky.ConsoleVersion.PS2);
                             BIG.Create(BigType.C0FB, Application.StartupPath + "\\TempExtract", BuildPath, true);
                             Directory.Delete(Application.StartupPath + "\\TempExtract", true);
                         }
                         else
                         {
-                            trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, openFileDialog.FileName);
+                            trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, openFileDialog.FileName, SSXLibrary.FileHandlers.LevelFiles.Tricky.ConsoleVersion.PS2);
                         }
                     }
                     catch (Exception ex)
@@ -215,13 +215,13 @@ namespace SSXMultiTool
                         Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\Data");
                         Directory.CreateDirectory(Application.StartupPath + "\\TempExtract\\data\\models");
                         string InputPath = Application.StartupPath + "\\TempExtract\\data\\models\\" + Path.GetFileName(BuildPath.ToLower()).Substring(0, Path.GetFileName(BuildPath).Length - 3) + "map";
-                        trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, InputPath);
+                        trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, InputPath, SSXLibrary.FileHandlers.LevelFiles.Tricky.ConsoleVersion.PS2);
                         BIG.Create(BigType.C0FB, Application.StartupPath + "\\TempExtract", BuildPath, true);
                         Directory.Delete(Application.StartupPath + "\\TempExtract", true);
                     }
                     else
                     {
-                        trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, BuildPath);
+                        trickyLevelInterface.BuildTrickyLevelFiles(ProjectPath, BuildPath, SSXLibrary.FileHandlers.LevelFiles.Tricky.ConsoleVersion.PS2);
                     }
                 }
                 catch (Exception ex)

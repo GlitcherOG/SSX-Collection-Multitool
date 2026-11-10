@@ -93,7 +93,7 @@ namespace SSXMultiTool
                                 if (config.BuildPath != "")
                                 {
                                     TrickyLevelInterface trickyLevelInterface = new TrickyLevelInterface();
-                                    trickyLevelInterface.BuildTrickyLevelFiles(args[2], config.BuildPath);
+                                    trickyLevelInterface.BuildTrickyLevelFiles(args[2], config.BuildPath, SSXLibrary.FileHandlers.LevelFiles.Tricky.ConsoleVersion.PS2);
                                     MessageBox.Show("Level Built");
                                 }
                                 else
@@ -104,7 +104,7 @@ namespace SSXMultiTool
                             else
                             {
                                 TrickyLevelInterface trickyLevelInterface = new TrickyLevelInterface();
-                                trickyLevelInterface.BuildTrickyLevelFiles(args[2], args[3]);
+                                trickyLevelInterface.BuildTrickyLevelFiles(args[2], args[3], SSXLibrary.FileHandlers.LevelFiles.Tricky.ConsoleVersion.PS2);
                                 MessageBox.Show("Level Built");
                             }
                         }
